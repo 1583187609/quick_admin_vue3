@@ -1,14 +1,17 @@
-<!-- 页面 - 测试 -->
+<!-- 页面-简介 -->
 <template>
-  <div class="page-view">demo-7</div>
+  <div class="demo-7">demo-7</div>
 </template>
-<script lang="ts" name="TestSeven" setup>
-//form-create地址： http://www.form-create.com/v3/element-ui/
+<script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/BaseFormItem";
-import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
-const genderOpts = getOpts("Gender");
+import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+const props = withDefaults(
+  defineProps<{
+    _example_prop?: CommonObj;
+  }>(),
+  {
+    _example_prop: () => ({}),
+  }
+);
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" name="" scoped></style>
