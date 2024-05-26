@@ -45,6 +45,9 @@ lint-stated 就是针对 Git 暂存区的文件做校验的一个工具。由于
 
 在 package.json 中增加 prepare 钩子，用于在 npm install 之后自动初始化 Husky
 
+如果执行 `npx husky add .husky/commit-msg 'npx --no -- commitlint --edit ${1}'` 抛出错误 `add command is deprecated`，则换用命令
+`echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg`
+
 ```json
 {
   "scripts": {
