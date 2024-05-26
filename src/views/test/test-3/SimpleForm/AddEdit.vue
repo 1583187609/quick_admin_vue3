@@ -75,8 +75,10 @@ const fields = computed<FormField[]>(() => {
             prop: "ts",
             label: "天数",
             type: "input-number",
-            after: "天",
             attrs: { min: 0 },
+            extra: {
+              after: "天",
+            },
           },
           {
             prop: "jygz",

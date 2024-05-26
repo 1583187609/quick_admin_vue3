@@ -313,7 +313,9 @@ export const defaultValidTypes: CommonObj = getExportData(
         min: 0,
         max: 100,
       },
-      after: "岁",
+      extra: {
+        after: "岁",
+      },
     },
   },
   formCfg?.defaultValidTypes

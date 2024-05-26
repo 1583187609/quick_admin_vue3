@@ -1,24 +1,67 @@
-<!-- 组件 - 生成表单 -->
+<!-- 页面-基础配置 -->
 <template>
-  <div class="test-six f-fs-s-c">
-    <el-tabs class="f-0" v-model="activeName" @tab-click="(tab:CommonObj) => (activeName = tab.paneName)">
-      <el-tab-pane label="基础表单" name="base-form"></el-tab-pane>
-      <el-tab-pane label="分块表单" name="section-form"></el-tab-pane>
+  <div class="page-view four f-fs-s-c">
+    <el-tabs class="f-0" v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane :label="tItem.label" :name="tItem.value" v-for="(tItem, tInd) in tabs" :key="tInd"></el-tab-pane>
     </el-tabs>
-    <CreateBaseForm class="f-1" v-if="activeName === 'base-form'"></CreateBaseForm>
-    <CreateSectionForm class="f-1" v-if="activeName === 'section-form'"></CreateSectionForm>
+    <!-- 下面这样是为了避免加载时一次性加载所有组件，并请求所有接口 -->
+    <Coin class="f-1" v-if="activeName === 'coin'" />
+    <RewardsTask class="wrap f-1" v-else-if="activeName === 'rewards-task'" />
+    <!-- <EducationAuth
+      class="wrap f-1"
+      v-else-if="activeName === 'education-auth'"
+    /> -->
+    <RealnameWhiteList class="wrap f-1" v-else-if="activeName === 'realname-white-list'" />
+    <CompanyAuth class="wrap f-1" v-else-if="activeName === 'company-auth'" />
+    <ShareUserRole class="wrap f-1" v-else-if="activeName === 'share-user-role'" />
+    <HeartbeatRatio class="wrap f-1" v-else-if="activeName === 'heartbeat-ratio'" />
+    <!-- <DayLimit class="wrap f-1" v-else-if="activeName === 'day-limit'" /> -->
+    <!-- <ContentSecure
+      class="wrap f-1"
+      v-else-if="activeName === 'content-secure'"
+    /> -->
   </div>
 </template>
-<script lang="ts" name="TestCreateForm" setup>
+<script lang="ts" name="TestFour" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import CreateBaseForm from "./CreateBaseForm.vue";
-import CreateSectionForm from "./CreateSectionForm.vue";
-export type TabName = "base-form" | "section-form";
-const activeName = ref("base-form");
+import Coin from "./Coin.vue";
+import RewardsTask from "./RewardsTask.vue";
+import EducationAuth from "./EducationAuth.vue";
+import RealnameWhiteList from "./RealnameWhiteList.vue";
+import CompanyAuth from "./CompanyAuth.vue";
+import ShareUserRole from "./ShareUserRole.vue";
+import HeartbeatRatio from "./HeartbeatRatio.vue";
+import DayLimit from "./DayLimit.vue";
+import ContentSecure from "./ContentSecure.vue";
+import { BtnName } from "@/components/BaseBtn";
+import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
+import { TabsPaneContext } from "element-plus";
+const tabs: OptionItem[] = [
+  { label: "代币配置", value: "coin" },
+  { label: "奖励及任务配置", value: "rewards-task" },
+  // { label: "学历认证配置", value: "education-auth" },
+  { label: "实名白名单配置", value: "realname-white-list" },
+  { label: "公司认证审核员配置", value: "company-auth" },
+  { label: "分享嘉宾角色配置", value: "share-user-role" },
+  { label: "心动嘉宾比例配置", value: "heartbeat-ratio" },
+  // { label: "每日嘉宾额度配置", value: "day-limit" },
+  // { label: "内容安全配置", value: "content-secure" },
+];
+const props = withDefaults(
+  defineProps<{
+    _example_prop?: CommonObj;
+  }>(),
+  {
+    _example_prop: () => ({}),
+  }
+);
+const activeName = ref<any>("rewards-task");
+function handleClick(tab: TabsPaneContext, event: Event) {
+  activeName.value = tab.paneName;
+}
 </script>
 <style lang="scss" scoped>
-.test-six {
-  height: 100%;
+.wrap {
+  overflow: auto;
 }
 </style>

@@ -48,23 +48,44 @@ const fields = computed<FormField[]>(() => {
       required: true,
       type: "select",
       options: genderOpts,
+      extra: {
+        span: 12,
+      },
     },
-    { prop: "nl", label: "年龄", valid: "age" },
-    { prop: "dhhm", label: "电话号码", valid: "phone" },
+    {
+      prop: "nl",
+      label: "年龄",
+      type: "input-number",
+      extra: {
+        span: 12,
+        valid: "age",
+      },
+    },
+    {
+      prop: "dhhm",
+      label: "电话号码",
+      extra: {
+        valid: "phone",
+      },
+    },
     {
       prop: "sfqy",
       label: "是否启用",
-      popover: "这是popover示例",
       type: "switch",
+      extra: {
+        popover: "这是popover示例",
+      },
     },
     { prop: "cflx", label: "处罚类型", type: "radio-group", options: cflxOpts },
     model.cflx === 1 && {
       prop: "jgnr",
       label: "警告内容",
-      tips: "这是tips示例",
       attrs: {
         type: "textarea",
         maxlength: 100,
+      },
+      extra: {
+        tips: "这是tips示例",
       },
     },
     ...(model.cflx === 2
@@ -73,8 +94,10 @@ const fields = computed<FormField[]>(() => {
             prop: "ts",
             label: "天数",
             type: "input-number",
-            after: "天",
             attrs: { min: 0 },
+            extra: {
+              after: "天",
+            },
           },
           {
             prop: "jygz",
@@ -89,10 +112,12 @@ const fields = computed<FormField[]>(() => {
     model.cflx === 3 && {
       prop: "fjgz",
       label: "封禁告知",
-      tips: "这是tips示例",
       attrs: {
         type: "textarea",
         maxlength: 100,
+      },
+      extra: {
+        tips: "这是tips示例",
       },
     },
   ];

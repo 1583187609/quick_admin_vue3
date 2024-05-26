@@ -486,7 +486,7 @@ export default [
       },
       {
         id: "41-6",
-        label: "生成表单",
+        label: "复杂表单",
         icon: "Position",
         path: "/test/6",
         type: 1,
@@ -528,7 +528,7 @@ export default [
       },
       {
         id: "41-9",
-        label: "测试9",
+        label: "生成表单",
         icon: "Position",
         path: "/test/9",
         type: 1,

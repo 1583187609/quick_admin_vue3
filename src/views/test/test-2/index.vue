@@ -93,8 +93,8 @@ const sections = computed<SectionFormItem[]>(() => {
           // attrs: {
           //   style: "50%",
           // },
-          // before: "第",
           extra: {
+            // before: "第",
             after: {
               component: AddDelBtn,
               attrs: {

@@ -69,7 +69,9 @@ const fields: FormFieldAttrs[] = [
       min: 0,
       max: 10,
     },
-    after: "位小数",
+    extra: {
+      after: "位小数",
+    },
   },
   {
     prop: "qzfs",

@@ -21,7 +21,14 @@ import { CommonObj } from "@/vite-env";
 // );
 let model = reactive<CommonObj>({});
 const fields = [
-  { prop: "pheon", label: "电话", valid: "phone", required: true },
+  {
+    prop: "pheon",
+    label: "电话",
+    required: true,
+    extra: {
+      valid: "phone",
+    },
+  },
   {
     prop: "captcha",
     label: "验证码",

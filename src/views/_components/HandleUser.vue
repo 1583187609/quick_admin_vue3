@@ -77,7 +77,9 @@ const fields = computed<FormField[]>(() => {
               min: 1,
               style: { width: "180px" },
             },
-            after: "天",
+            extra: {
+              after: "天",
+            },
           },
           scene !== "login" && {
             prop: "fromMsg",

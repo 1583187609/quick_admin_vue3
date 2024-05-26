@@ -78,7 +78,9 @@ const sections: SectionFormItemAttrs[] = [
         label: "扣款比例",
         type: "input-number",
         attrs: { min: 0, max: 100 },
-        after: "%",
+        extra: {
+          after: "%",
+        },
       },
       {
         prop: "kkbllx",
@@ -103,15 +105,20 @@ const sections: SectionFormItemAttrs[] = [
         label: "工作日比例",
         type: "input-number",
         attrs: { style: "width: 200px", min: 0, max: 100 },
-        span: 12,
-        after: "%",
+        extra: {
+          span: 12,
+          after: "%",
+        },
       },
       {
         prop: "xxrbl",
         label: "休息日比例",
-        span: 12,
         type: "input-number",
         attrs: { style: "width: 200px", min: 0, max: 100 },
+        extra: {
+          span: 12,
+          after: "%",
+        },
       },
       {
         prop: "jjrbl",
@@ -174,7 +181,9 @@ const sections: SectionFormItemAttrs[] = [
       {
         prop: "qqj",
         label: "全勤奖",
-        after: "元",
+        extra: {
+          after: "元",
+        },
       },
       {
         prop: "qqjsfqy",

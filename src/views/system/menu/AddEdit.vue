@@ -59,9 +59,9 @@ const fields = computed(() => {
       required: true,
       type: "radio-group",
       options: menuTypeOpts,
-      extra:{
+      extra: {
         popover: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
-      }
+      },
       attrs: {
         type: "button",
       },
@@ -70,9 +70,9 @@ const fields = computed(() => {
       prop: "parent_id",
       label: "上级菜单",
       type: "custom",
-      extra:{
+      extra: {
         popover: "上级菜单",
-      }
+      },
     },
     {
       prop: "name",
@@ -104,9 +104,9 @@ const fields = computed(() => {
       label: "排序",
       required: true,
       type: "input-number",
-      extra:{
+      extra: {
         popover: "数值越大越靠后",
-      }
+      },
       attrs: {
         style: "width: 205px",
         placeholder: "数值越小，越靠前",
@@ -118,16 +118,18 @@ const fields = computed(() => {
             prop: "component_path",
             label: "组件路径",
             required: true,
-            extra:{
+            extra: {
               popover: "仅输入src/views后面的路径即可",
-            }
+            },
           },
           {
             prop: "menu_path",
             label: "路由地址",
             required: true,
-            example: "/auth",
-            tips: "建议跟组件路径保持一致",
+            extra: {
+              example: "/auth",
+              tips: "建议跟组件路径保持一致",
+            },
           },
           {
             prop: "is_cache",
@@ -135,10 +137,10 @@ const fields = computed(() => {
             type: "radio-group",
             required: true,
             options: yesNoStatusOpts,
-            extra:{
+            extra: {
               span: 12,
               popover: "是否缓存该页面",
-            }
+            },
           },
           {
             prop: "is_show",
@@ -146,10 +148,10 @@ const fields = computed(() => {
             type: "radio-group",
             required: true,
             options: yesNoStatusOpts,
-            extra:{
+            extra: {
               span: 12,
               popover: "在菜单目录中是否可见",
-            }
+            },
           },
           {
             prop: "is_link",
@@ -157,7 +159,7 @@ const fields = computed(() => {
             required: true,
             type: "radio-group",
             options: yesNoStatusOpts,
-            extra:{
+            extra: {
               span: 12,
             },
           },
@@ -167,9 +169,9 @@ const fields = computed(() => {
             required: true,
             type: "radio-group",
             options: yesNoStatusOpts,
-            extra:{
+            extra: {
               span: 12,
-            }
+            },
           },
         ]
       : []),
@@ -179,10 +181,10 @@ const fields = computed(() => {
       required: true,
       type: "radio-group",
       options: enableStatusOpts,
-      extra:{
+      extra: {
         span: 12,
         popover: "启用后，在菜单中可见，否则不可见",
-      }
+      },
     },
   ];
 });

@@ -21,13 +21,17 @@ const fields: FormField[] = [
     prop: "jnjs",
     label: "缴纳基数",
     required: true,
-    after: "元",
+    extra: {
+      after: "元",
+    },
   },
   props.type === "payRatio" && {
     prop: "grjcbl",
     label: "个人缴存比例",
     required: true,
-    after: "元",
+    extra: {
+      after: "元",
+    },
   },
 ];
 </script>

@@ -21,17 +21,21 @@ const fields = [
   {
     prop: "psd",
     label: "密码",
-    valid: "password",
     required: true,
     attrs: { type: "password" },
+    extra: {
+      valid: "password",
+    },
   },
   {
     prop: "confirm_psd",
     label: "确认密码",
-    valid: "password",
     required: true,
     rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
     attrs: { type: "password" },
+    extra: {
+      valid: "password",
+    },
   },
 ];
 //校验两次输入的密码是否一致
