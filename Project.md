@@ -33,9 +33,9 @@ ignore:
 ## 2、husky 和 lint-staged 配置
 
 Husky 就是 Git 的生命周期工具，在安装它之后，它能够自动的在项目的.git 目录下增加相应的钩子，让你可以监听到 Git 的各个生命周期，并且配置对应的的 shell 命令
-我们通过这个工具来监听 Git 的 commit 动作，让 ESLint 在 commit 之前自动检查一下我们的代码。高版本 husky 会对 Git 有兼容问题，Git 不会触发 pre-commit。
+我们通过这个工具来监听 Git 的 commit 动作，让 ESLint 在 commit 之前自动检查一下我们的代码。高版本 husky 会对 Git 有兼容问题，Git 不会触发 pre-commit
 
-lint-stated 就是针对 Git 暂存区的文件做校验的一个工具。由于在 commit 之前，我们要提交的文件是在暂存区的，我们可以利用这个工具来校验我们即将 commit 的文件，而不会校验其它的文件。
+lint-stated 就是针对 Git 暂存区的文件做校验的一个工具。由于在 commit 之前，我们要提交的文件是在暂存区的，我们可以利用这个工具来校验我们即将 commit 的文件，而不会校验其它的文件
 
 `npm i husky -D`
 `npm i lint-staged -D`
