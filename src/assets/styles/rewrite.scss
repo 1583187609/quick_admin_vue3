@@ -1,0 +1,126 @@
+/**
+* 覆盖重写element-plus样式（后面添加的）
+*/
+
+.el-overlay-dialog {
+  overflow: hidden;
+}
+.basic-dialog {
+  padding: 0;
+  &.top-compact {
+    margin: $dialog-top auto;
+  }
+  .section-form,
+  .base-form,
+  .base-crud,
+  .cell-form {
+    height: 100%;
+    max-height: calc(100vh - $dialog-top * 2 - 90px);
+  }
+  .el-dialog__body {
+    padding: $gap;
+    max-height: calc(100vh - $dialog-top * 2 - 58px);
+    // 当在dialog中，出现垂直滚动条时，才让此属性生效，这样能避免展示条数最多（此时有额外按钮，筛选条件）时，最后一条看不到的问题
+    // height: calc(100vh - $dialog-top * 2 - 58px);
+    overflow: auto;
+  }
+  //对话框（dialog）
+  .el-dialog__header {
+    padding: $gap;
+    border-bottom: $border-main;
+    margin: 0;
+  }
+}
+.base-empty {
+  .el-empty__description {
+    margin-top: 0;
+    line-height: 2;
+  }
+}
+.basic-drawer {
+  // 抽屉（drawer)
+  .el-drawer__header {
+    // font-weight: 600;
+    margin-bottom: 0;
+    padding-bottom: $gap-half;
+    // background: $color-bg-light;
+    border-bottom: $border-main;
+  }
+  .el-drawer__title {
+    font-size: $font-size-heavyer;
+  }
+}
+
+// 菜单（menu)
+.el-menu-item.is-active {
+  color: $color-primary;
+}
+.el-menu--horizontal > .el-menu-item.is-active {
+  color: $color-primary !important;
+  border-bottom: 2px solid $color-primary;
+}
+
+//表格（form)
+$thead-bg: $color-bg-light;
+.el-table th.el-table__cell {
+  background: $thead-bg;
+}
+.el-table.is-scrolling-none th.el-table-fixed-column--left,
+.el-table.is-scrolling-none th.el-table-fixed-column--right {
+  background: $thead-bg;
+}
+.el-table__header-wrapper tr th.el-table-fixed-column--right {
+  background: $thead-bg;
+}
+.el-table.is-scrolling-left th.el-table-fixed-column--left {
+  background: $thead-bg;
+}
+.el-table.is-scrolling-right th.el-table-fixed-column--right {
+  background: $thead-bg;
+}
+.el-table__header-wrapper tr th.el-table-fixed-column--left,
+.el-table__header-wrapper tr th.el-table-fixed-column--right {
+  background: $thead-bg;
+}
+
+.el-table {
+  .el-table__cell.sort-cell {
+    cursor: move;
+  }
+}
+
+// ::v-deep .node-none {
+//   display: none;
+// }
+// :deep(.node-none) {
+//   display: none;
+// }
+
+.el-popconfirm__main {
+  width: max-content;
+}
+
+.color-primary {
+  color: $color-primary;
+}
+.color-success {
+  color: $color-success;
+}
+.color-danger {
+  color: $color-danger;
+}
+.color-warning {
+  color: $color-warning;
+}
+.color-info {
+  color: $color-info;
+}
+
+.page-view {
+  height: 100%;
+  width: 100%;
+  padding: $gap-half;
+  background: #fff;
+  overflow: auto;
+  border-radius: $radius-main;
+}

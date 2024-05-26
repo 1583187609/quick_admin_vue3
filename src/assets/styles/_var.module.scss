@@ -1,0 +1,49 @@
+// 供 css 中使用
+@import "./var";
+
+:export {
+  // dialog 相关
+  dialogTop: $dialog-top; // 距离浏览器顶部的距离
+
+  //layout颜色
+  navBgDark: $nav-bg-dark;
+  navBgDark-heavy: $nav-bg-dark-heavy;
+  navBgLight: $nav-bg-light;
+  navTextColorLight: $nav-text-color-light;
+  navTextColorDark: $nav-text-color-dark;
+
+  //主题颜色;
+  colorPrimary: $color-primary;
+  colorDanger: $color-danger;
+  colorInfo: $color-info;
+  colorSuccess: $color-success;
+  colorWarning: $color-warning;
+
+  // //文字颜色
+  // colorTextHeavyer: $color-text-heavyer;
+  // colorTextHeavy: $color-text-heavy;
+  // colorTextMain: $color-text-main;
+  // colorTextLight: $color-text-light;
+  // colorTextLighter: $color-text-lighter;
+
+  // //背景颜色
+  // colorBgHeavyer: $color-bg-heavyest;
+  // colorBgHeavy: $color-bg-heavyer;
+  // colorBgMain: $color-bg-heavy;
+  // colorBgLight: $color-bg-light;
+  // colorBgLighter: $color-bg-lighter;
+  colorBgWhite: $color-bg-white;
+
+  // //边框圆角
+  // radiusHeavyer: $radius-heavyer;
+  // radiusHeavy: $radius-heavy;
+  // radiusMain: $radius-main;
+  // radiusLight: $radius-light;
+  // radiusLighter: $radius-lighter;
+  // //高度
+  // heightHeavyer: $height-heavyer;
+  // heightHeavy: $height-heavy;
+  // heightMain: $height-main;
+  // heightLight: $height-light;
+  // heightLighter: $height-lighter;
+}

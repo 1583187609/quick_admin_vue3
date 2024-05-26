@@ -1,0 +1,87 @@
+<!-- 页面-简介 -->
+<template>
+  <el-breadcrumb
+    id="breadcrumb"
+    class="path-breadcrumb"
+    :class="['columns', 'classics'].includes(setStore.layout.type) ? 'dark' : 'light'"
+    :separator-icon="ArrowRight"
+    v-if="breadcrumbs.length"
+  >
+    <el-breadcrumb-item
+      :to="ind === breadcrumbs.length - 1 ? undefined : item.path"
+      @click="menuStore.toFirstPath(item)"
+      v-for="(item, ind) in breadcrumbs"
+      :key="ind"
+    >
+      <div class="f-c-c">
+        <BaseIcon size="1.2em" class="mr-q" :name="item.icon" v-if="setStore.breadcrumb.showIcon" />
+        <span>{{ item.label }}</span>
+      </div>
+    </el-breadcrumb-item>
+  </el-breadcrumb>
+</template>
+<script lang="ts" setup>
+import { ref, reactive, watch, computed } from "vue";
+import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { ArrowRight } from "@element-plus/icons-vue";
+import { useRoute } from "vue-router";
+import { useMenuStore, useSetStore } from "@/store";
+import { MenusItem } from "../../SideMenu/Index.vue";
+import { defaultHomePath } from "@/utils";
+
+const props = withDefaults(
+  defineProps<{
+    _example_prop?: CommonObj;
+  }>(),
+  {
+    _example_prop: () => ({}),
+  }
+);
+const route = useRoute();
+const menuStore = useMenuStore();
+const setStore = useSetStore();
+const breadcrumbs = ref<MenusItem[]>([
+  {
+    id: "0",
+    icon: "House",
+    path: defaultHomePath,
+    label: "首页",
+    type: 0,
+    status: 1,
+  },
+]);
+watch(
+  route,
+  newVal => {
+    const list = breadcrumbs.value.slice(0, 1);
+    if (newVal.path !== defaultHomePath) {
+      list.push(...(getAllBreadcrumbs(menuStore.allMenus)[newVal.path] ?? []));
+    }
+    breadcrumbs.value = list;
+  },
+  { immediate: true }
+);
+function getAllBreadcrumbs(menus: MenusItem[], parent = [], result: CommonObj = {}) {
+  for (const item of menus) {
+    result[item.path] = [...parent, item];
+    if (item.children) getAllBreadcrumbs(item.children, result[item.path], result);
+  }
+  return result;
+}
+</script>
+<style lang="scss" name="" scoped>
+.path-breadcrumb {
+  &.dark {
+    :deep(.el-breadcrumb__inner) {
+      &.is-link {
+        color: $nav-text-color-light;
+        &:hover {
+          color: $color-primary;
+        }
+      }
+    }
+  }
+  &.light {
+  }
+}
+</style>

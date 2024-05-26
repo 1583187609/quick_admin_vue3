@@ -1,0 +1,679 @@
+@use "sass:math";
+@import "./_var.scss";
+@import "./_animation.scss";
+
+/**
+* 基础css变量
+*/
+:root {
+  /* dialog 相关 */
+  --dialog-top: $dialog-top;
+
+  /* layout相关 */
+  --nav-bg-dark-heavy: $nav-bg-dark-heavy;
+  --nav-bg-dark: $nav-bg-dark;
+  --nav-bg-light: $nav-bg-light;
+  --nav-text-color-light: $nav-text-color-light;
+  --nav-text-color-dark: $nav-text-color-dark;
+  --header-height: $header-height;
+  --asider-width: $asider-width;
+  --main-menu-width: $main-menu-width;
+
+  /* 间距相关 */
+  --gap-qtr: $gap-qtr;
+  --gap-half: $gap-half;
+  --gap: $gap;
+  --gap-one-half: $gap-one-half;
+  --gap-two: $gap-two;
+
+  /* 主题颜色 */
+  --color-primary: $color-primary;
+  --color-danger: $color-danger;
+  --color-info: $color-info;
+  --color-success: $color-success;
+  --color-warning: $color-warning;
+
+  /* 文字颜色 */
+  --color-text-heavyer: $color-text-heavyer;
+  --color-text-heavy: $color-text-heavy;
+  --color-text-main: $color-text-main;
+  --color-text-light: $color-text-light;
+  --color-text-lighter: $color-text-lighter;
+
+  /* 背景颜色 */
+  --color-bg-heavyest: $color-bg-heavyest;
+  --color-bg-heavyer: $color-bg-heavyer;
+  --color-bg-heavy: $color-bg-heavy;
+  --color-bg-main: $color-bg-main;
+  --color-bg-light: $color-bg-light;
+  --color-bg-lighter: $color-bg-lighter;
+  --color-bg-white: $color-bg-white;
+
+  /* 边框颜色 */
+  --color-border-heavyer: $color-border-heavyer;
+  --color-border-heavy: $color-border-heavy;
+  --color-border-main: $color-border-main;
+  --color-border-light: $color-border-light;
+  --color-border-lighter: $color-border-lighter;
+
+  /* 边框简写 */
+  --border-heavyer: $border-heavyer;
+  --border-heavy: $border-heavy;
+  --border-main: $border-main;
+  --border-light: $border-light;
+  --border-lighter: $border-lighter;
+
+  /* 边框圆角 */
+  --radius-heavyer: $radius-heavyer;
+  --radius-heavy: $radius-heavy;
+  --radius-main: $radius-main;
+  --radius-light: $radius-light;
+  --radius-lighter: $radius-lighter;
+
+  /* 盒子高度 */
+  --height-heavyester: $height-heavyester;
+  --height-heavyest: $height-heavyest;
+  --height-heavyer: $height-heavyer;
+  --height-heavy: $height-heavy;
+  --height-main: $height-main;
+  --height-light: $height-light;
+  --height-lighter: $height-lighter;
+  --height-lightest: $height-lightest;
+  --height-lightester: $height-lightester;
+
+  /* 文本行高 */
+  --line-height-heavyest: $line-height-heavyest;
+  --line-height-heavyer: $line-height-heavyer;
+  --line-height-heavy: $line-height-heavy;
+  --line-height-main: $line-height-main;
+  --line-height-light: $line-height-light;
+  --line-height-lighter: $line-height-lighter;
+  --line-height-lightest: $line-height-lightest;
+
+  /* 字体大小 */
+  --font-size-heavyester: $font-size-heavyester;
+  --font-size-heavyest: $font-size-heavyest;
+  --font-size-heavyer: $font-size-heavyer;
+  --font-size-heavy: $font-size-heavy;
+  --font-size-main: $font-size-main;
+  --font-size-light: $font-size-light;
+  --font-size-lighter: $font-size-lighter;
+
+  /* 盒子阴影 */
+  --shadow-heavy: $shadow-heavy;
+  --shadow-main: $shadow-main;
+  --shadow-light: $shadow-light;
+
+  /* 动画过渡 */
+  --transition-time-main: $transition-time-main;
+}
+
+/*
+* 重置样式
+* 1、使用阿里 reset.css
+* 2、尽量不要使用通配符*，影响性能
+* width: auto;  //fill-available()、max-content()、min-content()、fit-content();
+**/
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  color: $color-text-main;
+  font-size: $font-size-main; //所有字体大小、行高的参照基准(一般是14px）
+  font-family: "PingFang SC", "Microsoft YaHei", "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS", sans-serif; //根据情况设置多个字体，依次选择字体显示
+  //英文自动换行，下面两个属性都会继承
+  word-wrap: break-word;
+  word-break: break-all;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* 用于移动端。touch：当手指从触摸屏上移开，会保持一段时间的滚动；auto：当手指从触摸屏上移开，滚动会立即停止。touch解决IOS端，经常遇到元素滚动时卡顿的问题 */
+}
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  // font-size: 100%;
+  box-sizing: border-box;
+  vertical-align: baseline;
+  overscroll-behavior: none; //none 当在子盒子内滚动到底部时，不触发父盒子的滚动
+  outline: none; //去掉谷歌浏览器的某些标签难看的外边框
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+canvas,
+img,
+iframe {
+  display: block; //兼容老浏览器，还可以解决图片底部多出来5px的间距（因为img标签默认是inline-block类型）display: block;vertical-align: bottom;两种方式均可
+}
+body {
+  line-height: 1.4; //是继承属性
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+input,
+textarea {
+  caret-color: $color-primary; //修改闪烁的光标的颜色
+  outline: none; //某些版本谷歌浏览器会有难看的黑色的外边框
+}
+a {
+  color: $color-text-main;
+  text-decoration: none;
+}
+button,
+a {
+  cursor: pointer;
+}
+button {
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+svg,
+button {
+  outline: none;
+}
+//去除 Chrome 记住密码后自动填充表单的背景
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+// input type=number 去除掉右侧的上下箭头
+::-webkit-outer-spin-button,
+::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+//输入框placeholder样式
+::-webkit-input-placeholder {
+  color: $color-text-light;
+}
+//选中文本的背景色
+::selection {
+  color: #fff;
+  background-color: $color-primary;
+}
+
+/**
+* 滚动条
+*/
+//滚动条整体样式，高宽分别对应横竖滚动条的尺寸
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+//滚动条里面小方块
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #ddd;
+}
+//滚动条里面轨道
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: #f8f8f8;
+}
+//当鼠标放上去时才显示滚动条，否则隐藏滚动条
+.hover-show-scroll {
+  &::-webkit-scrollbar-thumb {
+    box-shadow: none;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: none;
+    background: transparent;
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #ddd;
+    }
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #eee;
+    }
+  }
+}
+//总是隐藏滚动条
+.all-hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/**
+* 常用类
+*/
+//清除浮动
+.clear::after {
+  display: block;
+  clear: both;
+  content: "";
+  visibility: hidden;
+  height: 0;
+}
+//黑白模式（不是彩色的）
+.un-colorful {
+  filter: grayscale(1);
+}
+//禁止选择文本
+.no-select {
+  user-select: none;
+}
+//禁止换行
+.no-wrap {
+  word-break: keep-all;
+  white-space: nowrap;
+}
+//按钮（鼠标变成手型，暗示可点击）、链接
+// .btn,
+// .link {
+//   cursor: pointer;
+// }
+// .btn:hover {
+//   opacity: 0.8;
+// }
+// .link:hover {
+//   color: $color-primary;
+//   text-decoration: underline;
+// }
+// :hover {
+//   // transition: all 0.3s;
+// }
+
+//多行文本省略(下面的注释不能删除，否则中间的那行代码将不会被保存编译到css文件里面）
+@for $i from 1 through 5 {
+  .line-#{$i} {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // 当英文单词很长时的换行处理
+    // word-wrap: break-word;
+    // word-break: break-all;
+    /*! autoprefixer: ignore next */
+    display: -webkit-box;
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $i;
+  }
+}
+
+/**
+* 弹性布局类
+*/
+$justifyContent: (
+  fs: flex-start,
+  fe: flex-end,
+  c: center,
+  sb: space-between,
+  sa: space-around,
+  // se: space-evenly //space-evenly的兼容性不太好
+);
+$alignItems: (
+  fs: flex-start,
+  fe: flex-end,
+  c: center,
+  b: baseline,
+  s: stretch,
+);
+$flexDirection: (
+  c: column,
+  // r: row,
+  // rr: row-reverse,
+  // cr: column-reverse,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+);
+$flexWrap: (
+  w: wrap,
+  // n: nowrap,
+  // wr: wrap-reverse,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+);
+//下面的太多了，且用的少，故不生成
+// $alignContent: (
+//   fs: flex-start,
+//   fe: flex-end,
+//   c: center,
+//   sb: space-between,
+//   sa: space-around,
+//   s: stretch,
+// );
+@each $jKey, $jVal in $justifyContent {
+  @each $aKey, $aVal in $alignItems {
+    .f-#{$jKey}-#{$aKey} {
+      display: flex;
+      justify-content: $jVal;
+      align-items: $aVal;
+    }
+    @each $dKey, $dVal in $flexDirection {
+      .f-#{$jKey}-#{$aKey}-#{$dKey} {
+        display: flex;
+        justify-content: $jVal;
+        align-items: $aVal;
+        flex-direction: $dVal;
+      }
+    }
+    @each $wKey, $wVal in $flexWrap {
+      .f-#{$jKey}-#{$aKey}-#{$wKey} {
+        display: flex;
+        justify-content: $jVal;
+        align-items: $aVal;
+        flex-wrap: $wVal;
+        align-content: flex-start;
+      }
+      // @each $cKey, $cVal in $alignContent {
+      //   .f-#{$jKey}-#{$aKey}-#{$wKey}-#{$cKey} {
+      //     display: flex;
+      //     justify-content: $jVal;
+      //     align-items: $aVal;
+      //     flex-wrap: $wVal;
+      //     align-content: $cVal;
+      //   }
+      // }
+    }
+  }
+}
+
+//弹性布局 justify-content: space-evenly; 的兼容性处理方案
+.f-se {
+  justify-content: space-between;
+  &::before,
+  &::after {
+    content: "";
+    width: 0;
+    height: 0;
+    display: block;
+  }
+}
+
+/**
+* 当呈多行多列排列且最后一行凑不满一行时，为了行列对齐好看，需要使用额外的空盒子填充占满（需加这个类）
+*/
+.f-empty {
+  height: 0 !important;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+/**
+*.flex-0要单独处理
+*{flex: 0;}  =>  {flex-grow: 0; flex-shrink: 1; flex-basis: 0%;};
+*{flex: 1;}  =>  {flex-grow: 1; flex-shrink: 1; flex-basis: 0%;};  -->宽度等比例伸长或缩小
+*{flex: auto;}  =>  {flex-grow: 1; flex-shrink: 1; flex-basis: auto;};  -->适用于元素充分利用剩余空间，比如头部导航文字多少不一致时使用
+*{flex: none;}  =>  {flex-grow: 0; flex-shrink: 0; flex-basis: auto;};
+*/
+//f-0 ~ f-3
+.f-0 {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+@for $i from 1 through 3 {
+  .f-#{$i} {
+    flex: $i;
+  }
+}
+// .f-auto {
+//   flex: auto;
+// }
+// .f-none {
+//   flex: none;
+// }
+
+/**
+* 只对于弹性布局（flex）和栅格布局（grid）适用
+* 注意：gap兼容性不是特别好
+*/
+// g-2 ~ g-32（只允许偶数）
+// @for $i from 1 through 16 {
+//   $num: $i * 2;
+//   .g-#{$num} {
+//     gap: #{$num}px;
+//   }
+// }
+.g-qtr {
+  gap: $gap-qtr;
+}
+.g-half {
+  gap: $gap-half;
+}
+.g-one {
+  gap: $gap;
+}
+.g-one-half {
+  gap: $gap-one-half;
+}
+.g-two {
+  gap: $gap-two;
+}
+
+/**
+* padding、margin间距
+* p-qtr ~ ml-two
+* p-0 ~ ml-32
+*/
+$gapTypes: (
+  p: padding,
+  m: margin,
+);
+$gapDirections: (
+  a: all,
+  t: top,
+  r: right,
+  b: bottom,
+  l: left,
+);
+$gapSizes: (
+  q: $gap-qtr,
+  h: $gap-half,
+  o: $gap,
+  oh: $gap-one-half,
+  t: $gap-two,
+);
+$gapNumMax: 16;
+@each $tKey, $tVal in $gapTypes {
+  @each $dKey, $dVal in $gapDirections {
+    //根据字符串生成：p-qtr ~ ml-two
+    @each $sKey, $sVal in $gapSizes {
+      @if $dKey == a {
+        .#{$tKey}-#{$sKey} {
+          #{$tVal}: $sVal;
+        }
+      } @else {
+        .#{$tKey}#{$dKey}-#{$sKey} {
+          #{$tVal}-#{$dVal}: $sVal;
+        }
+      }
+    }
+    //根据数字生成 p-0 ~ ml-32
+    @for $i from 0 through $gapNumMax {
+      $num: $i * 2;
+      @if $dKey == a {
+        .#{$tKey}-#{$num} {
+          #{$tVal}: #{$num}px;
+        }
+      } @else {
+        .#{$tKey}#{$dKey}-#{$num} {
+          #{$tVal}-#{$dVal}: #{$num}px;
+        }
+      }
+    }
+  }
+}
+.ml-a {
+  margin-left: auto;
+}
+.mr-a {
+  margin-right: auto;
+}
+
+/**
+* flex-basis 
+* f-span-1 ~ f-span-24
+*/
+@for $i from 1 through 24 {
+  .f-span-#{$i} {
+    flex-basis: calc(100% * ($i / 24));
+  }
+}
+
+/**
+* 字体大小
+*/
+// @for $i from 6 through 15 {
+//   $num: $i * 2;
+
+//   .fs-#{$num} {
+//     font-size: #{$num}px;
+//   }
+// }
+
+// .fs {
+//   font-size: 1rem;
+// }
+
+/**
+* 字体粗细
+*/
+// @for $i from 1 through 9 {
+//   $num: $i * 100;
+//   .fw-#{$num} {
+//     font-weight: $num;
+//   }
+// }
+
+/**
+* gap类（用来取代margin、padding、gap属性）
+* 注意：gap兼容性不是特别好
+*/
+
+/**
+* 基于flex-basis的响应式布局
+* xs <768px 响应式栅格数或者栅格属性对象
+* sm ≥768px 响应式栅格数或者栅格属性对象
+* md ≥992px 响应式栅格数或者栅格属性对象
+* lg ≥1200px 响应式栅格数或者栅格属性对象
+* xl ≥1920px 响应式栅格数或者栅格属性对象
+*/
+// $allCols: 24;
+
+// $screenSizes: (
+//   xs: 0,
+//   sm: 768px,
+//   md: 992px,
+//   lg: 1200px,
+//   xl: 1920px,
+// );
+
+// @each $key, $val in $screenSizes {
+//   @media only screen and (min-width: $val) {
+//     @for $i from 1 through $allCols {
+//       $cols: math.div($allCols, $i);
+//       .fb-#{$key}-#{$i} {
+//         flex: 1;
+//         flex-basis: math.div(100%, ($cols + 1)) + 0.1%;
+//         max-width: math.div(100%, $cols);
+//       }
+//     }
+//   }
+// } ;
