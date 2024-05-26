@@ -118,3 +118,8 @@ module.exports = {
     // }
   },
 ```
+
+## Git 提交注意事项
+
+git --no-verify 是 Git 命令的一个选项，用于在提交代码时绕过 Git 钩子（hook）的校验。
+`git commit -m "xxx" --no-verify`
