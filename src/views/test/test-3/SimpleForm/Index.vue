@@ -28,11 +28,20 @@ const props = withDefaults(
 );
 const fields: FormField[] = [
   { prop: "tx", label: "头像", type: "BaseUpload" },
-  { prop: "dhhm", label: "电话号码", valid: "phone", required: true },
+  {
+    prop: "dhhm",
+    label: "电话号码",
+    required: true,
+    extra: {
+      valid: "phone",
+    },
+  },
   {
     prop: "xm",
     label: "姓名",
-    popover: "请注意输入真实姓名",
+    extra: {
+      popover: "请注意输入真实姓名",
+    },
     attrs: {
       maxlength: 6,
     },

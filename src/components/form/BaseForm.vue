@@ -5,13 +5,13 @@
       <template v-if="newFields.length">
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <BaseFormItem
-          :className="`f-span-${field.span || span}`"
+          :className="`f-span-${field.extra?.span || span}`"
           :field="field"
-          :pureText="field.pureText || pureText"
+          :pureText="field.extra?.pureText || pureText"
           v-model="formData[field.prop as string]"
           @change="(prop:any,val:any)=>emits('change',prop,val)"
           v-for="(field, ind) in newFields"
-          :key="field.key === undefined ? ind : field.key"
+          :key="field.key ?? ind"
         >
           <template #custom="{ field }">
             <slot :name="field.prop" :field="field" :form="formData"></slot>

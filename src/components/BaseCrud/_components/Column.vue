@@ -144,8 +144,9 @@ function getCellText(row: CommonObj, type: string) {
   return emptyVals.includes(row[type]) ? "-" : row[type];
 }
 function getNewCol(col: TableFieldAttrs) {
-  popoverAttrs = getPopoverAttrs(col.popover);
-  delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
+  popoverAttrs = getPopoverAttrs(col.extra?.popover);
+  // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
+  delete col.extra; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
 // 此功能后续可能会移除

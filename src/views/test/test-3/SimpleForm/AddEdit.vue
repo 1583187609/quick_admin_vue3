@@ -54,8 +54,10 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "sfqy",
       label: "是否启用",
-      popover: "这是popover示例",
       type: "switch",
+      extra: {
+        popover: "这是popover示例",
+      },
     },
     { prop: "cflx", label: "处罚类型", type: "radio-group", options: cflxOpts },
     model.cflx === 1 && {

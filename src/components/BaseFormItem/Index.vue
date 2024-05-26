@@ -1,7 +1,7 @@
 <template>
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
-  <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.labelHide ? 'label-hide' : '']">
+  <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.labelHide ? 'label-hide' : '']">
     <template #label>
       <BaseRender :data="newField.label" />
       <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
@@ -10,16 +10,16 @@
         </template>
       </el-popover>
     </template>
-    <div class="mr-h" v-if="newField.before">
-      <BaseRender :data="newField.before" />
+    <div class="mr-h" v-if="newField.extra?.before">
+      <BaseRender :data="newField.extra.before" />
     </div>
     <!-- children -->
     <template v-if="!subFields.length">
-      <template v-if="newField.pureText || pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
+      <template v-if="newField.extra?.pureText || pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
       <template v-else>
         <!-- 以下按照使用频率高低排序 -->
         <el-input
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           v-debounce:input="(e:any)=>handleInput(e, newField.prop as string)"
           @clear="(val:any)=> emits('change', newField.prop, '')"
           v-model.trim="newVal"
@@ -31,7 +31,7 @@
           </template>
         </el-input>
         <el-select
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -43,18 +43,18 @@
             </el-option>
             <el-option v-bind="opt" v-else />
           </template>
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-select>
         <el-date-picker
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'date-picker'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-date-picker>
@@ -106,7 +106,7 @@
           v-else-if="newField.type === 'switch'"
         />
         <el-cascader
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           :options="newField.options"
@@ -121,7 +121,7 @@
           <div class="err">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
         </slot>
         <BaseNumberRange
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           @change="(prop:string, val:any)=> emits('change', prop, val ?? '')"
           :size="size"
           v-model="newVal"
@@ -141,7 +141,7 @@
           v-else-if="newField.type === 'BaseEditor'"
         ></BaseEditor> -->
         <el-autocomplete
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -152,7 +152,7 @@
           </template>
         </el-autocomplete>
         <el-slider
-          :class="{ 'f-1': newField.before || newField.after }"
+          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -182,12 +182,12 @@
     /> -->
         <div class="empty" v-bind="newField.attrs" v-else-if="newField.type === 'empty'"></div>
         <div class="err" v-else>【不存在】{{ newField.type }}</div>
-        <div class="ml-h" v-if="newField.after">
-          <BaseRender :data="newField.after" />
+        <div class="ml-h" v-if="newField.extra?.after">
+          <BaseRender :data="newField.extra?.after" />
         </div>
       </template>
-      <template v-if="newField.tips">
-        <div class="show-tips" v-html="'注：' + newField.tips"></div>
+      <template v-if="newField.extra?.tips">
+        <div class="show-tips" v-html="'注：' + newField.extra.tips"></div>
       </template>
     </template>
     <!-- 当有子项表单时 -->
@@ -200,21 +200,21 @@
         v-if="newField.type === 'addDel'"
       ></GroupList>
       <div class="f-fs-fs-w" v-else>
-        <!-- <div class="mr-h" v-if="newField.before">
-        <BaseRender :data="newField.before" />
+        <!-- <div class="mr-h" v-if="newField.extra?.before">
+        <BaseRender :data="newField.extra.before" />
       </div> -->
-        <!-- :class="{ 'f-1': newField.before || newField.after }" -->
+        <!-- :class="{ 'f-1': newField.extra?.before || newField.extra?.after }" -->
         <BaseFormItem
           :prefixProp="newField.prop + '.'"
           :field="cField"
-          :pureText="cField.pureText || pureText"
+          :pureText="cField.extra?.pureText || pureText"
           v-model="newVal[cField.prop as string]"
           v-bind="cField"
           v-for="(cField, cInd) in subFields"
           :key="cInd"
         />
-        <!-- <div class="ml-h" v-if="newField.after">
-          <BaseRender :data="newField.after" />
+        <!-- <div class="ml-h" v-if="newField.extra?.after">
+          <BaseRender :data="newField.extra.after" />
         </div> -->
       </div>
     </template>
@@ -283,7 +283,8 @@ let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
-  const { type: fType, label, valid = "", children } = field;
+  const { type: fType, label, extra = {}, children } = field;
+  const { valid = "" } = extra;
   const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
   const { type: vType } = validField;
   const type = fType || vType || defaultFormItemType;
@@ -291,26 +292,28 @@ const newField = computed<FormFieldAttrs>(() => {
   const tempField: FormFieldAttrs = merge({ type }, defField, validField, field);
   const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
   merge(tempField, { attrs: autoAttrs }, field);
-  popoverAttrs = getPopoverAttrs(tempField.popover);
+  popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
   tempField.prop = `${prefixProp}${field.prop}`;
   children?.length && (subFields.value = children as FormFieldAttrs[]);
   tempField.rules = getRules(tempField, field.rules);
   tempField.attrs!.placeholder = getPlaceholder(tempField);
-  const { slots } = tempField.attrs;
+  const { slots } = tempField.attrs!;
   if (typeOf(slots) === "String") {
-    tempField.attrs.slots = {
+    tempField.attrs!.slots = {
       default: slots,
     };
   }
   if (size === "small" && type === "date-picker") {
     tempField.labelWidth = label.length + 0.5 + "em";
   }
-  delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
+  // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
+  // delete tempField.extra; //此处不能删除
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   return tempField;
 });
 function getPlaceholder(field: FormFieldAttrs) {
-  const { label = "", example } = field;
+  const { label = "", extra = {} } = field;
+  const { example } = extra;
   let phr = field?.attrs?.placeholder ?? "";
   phr = phr.replace("${label}", label);
   if (example) {
@@ -323,7 +326,8 @@ function getPlaceholder(field: FormFieldAttrs) {
  * @params rules 不能取 合并之后的tempField上的rules
  */
 function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
-  const { label = "", valid, required, children } = field;
+  const { label = "", required, extra = {} } = field;
+  const { valid } = extra;
   const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
   const newRules: FormItemRule[] = [
     ...(validField.rules || []),
@@ -372,7 +376,8 @@ function mergeRules(rules: FormItemRule[] = []) {
 // );
 //获取表单键值对的值
 function getKeyVal(field: FormFieldAttrs, val: any) {
-  const { type = defaultFormItemType, label, attrs = {}, options = [], after = "" } = field;
+  const { type = defaultFormItemType, label, attrs = {}, options = [], extra = {} } = field;
+  const { after = "" } = extra;
   if (["select", "radio-group"].includes(type)) {
     val = options?.find(it => it.value === val)?.label;
   } else if (type.includes("Time") || type.includes("date")) {

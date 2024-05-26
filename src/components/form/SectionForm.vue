@@ -33,11 +33,11 @@
           <div class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
             <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
             <template v-else>
-              <template v-for="(field, ind) in sItem.fields" :key="field.key || ind">
+              <template v-for="(field, ind) in sItem.fields" :key="field.key ?? ind">
                 <!-- <BaseFormItem
-                :className="`f-span-${field.span || span}`"
+                :className="`f-span-${field.extra?.span || span}`"
                 :field="field"
-                :pureText="field.pureText || sItem.pureText || pureText"
+                :pureText="field.extra?.pureText || sItem.extra?.pureText || pureText"
                 v-model="modelFormItem(sItem.prop, field.prop)"
               >
                 <template #custom="{ field }">
@@ -49,9 +49,9 @@
                 </template>
               </BaseFormItem> -->
                 <BaseFormItem
-                  :className="`f-span-${field.span || span}`"
+                  :className="`f-span-${field.extra?.span || span}`"
                   :field="field"
-                  :pureText="field.pureText || sItem.pureText || pureText"
+                  :pureText="field?.extra?.pureText || sItem.pureText || pureText"
                   v-model="formData[sItem.prop][field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
                   v-if="sItem.prop"
@@ -64,9 +64,9 @@
                   </template>
                 </BaseFormItem>
                 <BaseFormItem
-                  :className="`f-span-${field.span || span}`"
+                  :className="`f-span-${field?.extra?.span || span}`"
                   :field="field"
-                  :pureText="field.pureText || sItem.pureText || pureText"
+                  :pureText="field?.extra?.pureText || sItem?.extra?.pureText || pureText"
                   v-model="formData[field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
                   v-else

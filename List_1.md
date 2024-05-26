@@ -103,6 +103,7 @@
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721
 56、借助文件指令优化打包速度（使得不用每次都生成一大堆文件指令改变了的新文件）
 57、给 BaseCrud 导入/导出按钮添加 customRules 自定义规则功能并自测
+58、进入某个页面没有权限时，跳转到没有权限页面
 
 # 二、优化清单
 
@@ -142,6 +143,7 @@
 26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件
 ~~27、全局 drawer、modal 区分关闭之后是否销毁弹出层~~
 28、看浏览器面板，做好细致性能分析
+29、大屏数据页面用统一的基础 Echarts 组件
 
 # 三、Bug 清单
 
@@ -299,4 +301,5 @@ const emit = defineEmits<{
 42、useEvent hooks 增加防抖可选参数
 
 # 一些参照链接地址
-1、配置husky：https://juejin.cn/post/7261862616095146042
+
+1、配置 husky：https://juejin.cn/post/7261862616095146042

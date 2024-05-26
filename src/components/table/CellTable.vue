@@ -33,7 +33,9 @@ export interface CellTableFieldItem {
   label: string;
   value?: string | number | CommonObj;
   type?: CellTableFieldType;
-  popover?: string | CommonObj;
+  extra?: {
+    popover?: string | CommonObj;
+  };
   attrs?: CommonObj;
   colAttrs?: ColSpanAttrs;
   vertical?: boolean;

@@ -1,7 +1,7 @@
 import { CommonObj } from "@/vite-env";
 import { CustomSpecialColType } from "@/config/_components/CustomSpecialTableCols.vue";
 import { TableColumnCtx } from "element-plus";
-import { RendererNode } from "vue";
+import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { PopoverAttrs } from "@/components/BaseFormItem";
 
@@ -43,7 +43,9 @@ export interface TableFieldAttrs {
   type?: ColItemType;
   attrs?: CommonObj;
   sortable?: boolean | "custom"; //是否启用排序
-  popover?: string | PopoverAttrs;
+  extra?: {
+    popover?: string | PopoverAttrs;
+  };
   formatter?: (
     row: any,
     column?: TableColumnCtx<any>,

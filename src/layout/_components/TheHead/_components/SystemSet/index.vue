@@ -97,35 +97,45 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "bread",
           label: "面包屑",
           type: "switch",
-          span: model.bread === 1 ? 8 : undefined,
+          extra: {
+            span: model.bread === 1 ? 8 : undefined,
+          },
           attrs: showHideSwitchAttrs,
         },
         model.bread === 1 && {
           prop: "bread_icon",
           label: "图标",
           type: "switch",
-          span: 12,
+          extra: {
+            span: 12,
+          },
           attrs: showHideSwitchAttrs,
         },
         {
           prop: "page_tag",
           label: "页签栏",
           type: "switch",
-          span: model.page_tag === 1 ? 8 : undefined,
+          extra: {
+            span: model.page_tag === 1 ? 8 : undefined,
+          },
           attrs: showHideSwitchAttrs,
         },
         model.page_tag === 1 && {
           prop: "page_tag_icon",
           label: "图标",
           type: "switch",
-          span: 12,
+          extra: {
+            span: 12,
+          },
           attrs: showHideSwitchAttrs,
         },
         {
           prop: "footer",
           label: "页脚",
           type: "switch",
-          popover: "页面底部的专利许可",
+          extra: {
+            popover: "页面底部的专利许可",
+          },
           attrs: { ...showHideSwitchAttrs, disabled: true },
         },
       ],
@@ -151,7 +161,9 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "unique_opened",
           label: "手风琴",
           type: "switch",
-          popover: "启用后，只保持一个子菜单的展开",
+          extra: {
+            popover: "启用后，只保持一个子菜单的展开",
+          },
         },
       ],
     },

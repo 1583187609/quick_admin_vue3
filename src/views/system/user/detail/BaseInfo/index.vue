@@ -342,9 +342,11 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     label: "最近登录时间",
     // style: "flex-basis: 400px;",
     // colAttrs: baseInfoColAttrs,
-    popover: "最近登录时间",
     required: true,
     attrs: {},
+    extra: {
+      popover: "最近登录时间",
+    },
   },
 ];
 const baseInfoForm = reactive({ yhid: 1, nc: 12233 });

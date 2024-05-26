@@ -112,77 +112,109 @@ watch(
 function getFields(isChildren = false): FormFieldAttrs[] {
   const showOpts = ["select", "cascader", "checkbox-group"].includes(model.type);
   return [
-    { prop: "label", label: "标签名", span: 6, required: false },
-    { prop: "prop", label: "属性名", span: 6, required: false },
+    {
+      prop: "label",
+      label: "标签名",
+      required: false,
+      extra: {
+        span: 6,
+      },
+    },
+    {
+      prop: "prop",
+      label: "属性名",
+      required: false,
+      extra: {
+        span: 6,
+      },
+    },
     {
       prop: "type",
       label: "控件类型",
       type: "select",
-      span: 6,
-      popover: "表单控件类型",
       options: widgetTypeOpts,
+      extra: {
+        span: 6,
+        popover: "表单控件类型",
+      },
     },
     {
       prop: "required",
       label: "是否必填",
       type: "select",
-      span: 6,
       options: yesNoOpts,
+      extra: {
+        span: 6,
+      },
     },
     {
       prop: "defaultValue",
       label: "默认值",
-      span: 6,
-      popover: "默认值",
+      extra: {
+        span: 6,
+        popover: "默认值",
+      },
     },
     {
       prop: "example",
       label: "例如文案",
-      span: 6,
-      popover: "placeholder中的文字，会直接拼在placeholder文字后面",
+      extra: {
+        span: 6,
+        popover: "placeholder中的文字，会直接拼在placeholder文字后面",
+      },
     },
     {
       prop: "valid",
       label: "校验类型",
       type: "select",
-      span: 6,
-      popover: "内置的几种常用校验类型，含表单校验规则、属性等",
       options: validOpts,
+      extra: {
+        span: 6,
+        popover: "内置的几种常用校验类型，含表单校验规则、属性等",
+      },
     },
     {
       prop: "span",
       label: "列宽占位",
       type: "input-number",
-      span: 6,
-      popover: "每个表单项占位宽度，最小为1，最大,为24",
       attrs: {
         style: "width:100%;",
         min: 1,
         max: 24,
+      },
+      extra: {
+        span: 6,
+        popover: "每个表单项占位宽度，最小为1，最大,为24",
       },
     },
     {
       prop: "pureText",
       label: "是否纯文本",
       type: "select",
-      span: 6,
-      popover: "展示时，将不会看到输入框等边框，而是以纯文本展示",
       options: yesNoOpts,
+      extra: {
+        span: 6,
+        popover: "展示时，将不会看到输入框等边框，而是以纯文本展示",
+      },
     },
     {
       prop: "labelWidth",
       label: "标签宽度",
-      span: 6,
-      popover: "手动指定标签宽度",
-      example: exampleMap.labelWidth,
+      extra: {
+        span: 6,
+        popover: "手动指定标签宽度",
+        example: exampleMap.labelWidth,
+      },
     },
     {
       prop: "labelHide",
       label: "隐藏标签",
       type: "select",
-      span: 6,
-      popover: "手动指定标签宽度",
       options: yesNoOpts,
+      extra: {
+        span: 6,
+        popover: "手动指定标签宽度",
+      },
     },
     showOpts && {
       prop: "options",
@@ -197,71 +229,85 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "attrs",
       label: "属性集",
-      span: 12,
       attrs: {
         type: "textarea",
         readonly: true,
         onClick: () => openConfigPopup("attrs"),
       },
-      example: exampleMap.attrs,
-      popover: "属性参见ElementPlus官方文档：https://element-plus.org/zh-CN/component/button.html",
+      extra: {
+        span: 12,
+        example: exampleMap.attrs,
+        popover: "属性参见ElementPlus官方文档：https://element-plus.org/zh-CN/component/button.html",
+      },
     },
     {
       prop: "rules",
       label: "规则集",
-      span: 12,
       attrs: {
         type: "textarea",
         readonly: true,
         onClick: () => openConfigPopup("rules"),
       },
-      popover: "属性参见ElementPlus官方文档：https://element-plus.org/zh-CN/component/form.html#form-attributes",
-      example: exampleMap.rules,
+      extra: {
+        span: 12,
+        popover: "属性参见ElementPlus官方文档：https://element-plus.org/zh-CN/component/form.html#form-attributes",
+        example: exampleMap.rules,
+      },
     },
     {
       prop: "tips",
       label: "提示文案",
-      span: 12,
-      popover: "控价下方的提示性文字",
+      extra: {
+        span: 12,
+        popover: "控价下方的提示性文字",
+      },
     },
     {
       prop: "tips",
       label: "疑问文案",
-      span: 12,
-      popover: "鼠标放到标签文字右侧问号图标上时，出现的提示性文字",
+      extra: {
+        span: 12,
+        popover: "鼠标放到标签文字右侧问号图标上时，出现的提示性文字",
+      },
     },
     {
       prop: "before",
       label: "前置元素",
-      span: 12,
-      popover: "每个表单项前面的元素，可以是文本或自定义组件",
       attrs: {
         type: "textarea",
         readonly: true,
         rows: 1,
         onClick: () => openConfigPopup("before"),
       },
+      extra: {
+        span: 12,
+        popover: "每个表单项前面的元素，可以是文本或自定义组件",
+      },
     },
     {
       prop: "after",
       label: "后置元素",
-      span: 12,
-      popover: "每个表单项后面的元素，可以是文本或自定义组件",
       attrs: {
         type: "textarea",
         readonly: true,
         rows: 1,
         onClick: () => openConfigPopup("after"),
       },
+      extra: {
+        span: 12,
+        popover: "每个表单项后面的元素，可以是文本或自定义组件",
+      },
     },
     {
       prop: "children",
       label: "子级元素",
-      popover: "表单项后面的子元素",
       attrs: {
         type: "textarea",
         readonly: true,
         onClick: () => openConfigPopup("children"),
+      },
+      extra: {
+        popover: "表单项后面的子元素",
       },
     },
   ].filter((it: FormField) => typeOf(it) === "Object") as FormFieldAttrs[];

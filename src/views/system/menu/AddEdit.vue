@@ -59,7 +59,9 @@ const fields = computed(() => {
       required: true,
       type: "radio-group",
       options: menuTypeOpts,
-      popover: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
+      extra:{
+        popover: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
+      }
       attrs: {
         type: "button",
       },
@@ -68,7 +70,9 @@ const fields = computed(() => {
       prop: "parent_id",
       label: "上级菜单",
       type: "custom",
-      popover: "上级菜单",
+      extra:{
+        popover: "上级菜单",
+      }
     },
     {
       prop: "name",
@@ -100,7 +104,9 @@ const fields = computed(() => {
       label: "排序",
       required: true,
       type: "input-number",
-      popover: "数值越大越靠后",
+      extra:{
+        popover: "数值越大越靠后",
+      }
       attrs: {
         style: "width: 205px",
         placeholder: "数值越小，越靠前",
@@ -112,7 +118,9 @@ const fields = computed(() => {
             prop: "component_path",
             label: "组件路径",
             required: true,
-            popover: "仅输入src/views后面的路径即可",
+            extra:{
+              popover: "仅输入src/views后面的路径即可",
+            }
           },
           {
             prop: "menu_path",
@@ -126,34 +134,42 @@ const fields = computed(() => {
             label: "是否缓存",
             type: "radio-group",
             required: true,
-            span: 12,
             options: yesNoStatusOpts,
-            popover: "是否缓存该页面",
+            extra:{
+              span: 12,
+              popover: "是否缓存该页面",
+            }
           },
           {
             prop: "is_show",
             label: "是否显示",
             type: "radio-group",
             required: true,
-            span: 12,
             options: yesNoStatusOpts,
-            popover: "在菜单目录中是否可见",
+            extra:{
+              span: 12,
+              popover: "在菜单目录中是否可见",
+            }
           },
           {
             prop: "is_link",
             label: "是否外链",
             required: true,
             type: "radio-group",
-            span: 12,
             options: yesNoStatusOpts,
+            extra:{
+              span: 12,
+            },
           },
           model.is_link === 1 && {
             prop: "is_blank_open",
             label: "新窗口打开",
             required: true,
             type: "radio-group",
-            span: 12,
             options: yesNoStatusOpts,
+            extra:{
+              span: 12,
+            }
           },
         ]
       : []),
@@ -162,9 +178,11 @@ const fields = computed(() => {
       label: "状态",
       required: true,
       type: "radio-group",
-      span: 12,
       options: enableStatusOpts,
-      popover: "启用后，在菜单中可见，否则不可见",
+      extra:{
+        span: 12,
+        popover: "启用后，在菜单中可见，否则不可见",
+      }
     },
   ];
 });

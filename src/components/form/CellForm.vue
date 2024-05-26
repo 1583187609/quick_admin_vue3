@@ -10,7 +10,7 @@
         >
           <BaseFormItem
             :field="field"
-            :pureText="field.pureText || pureText"
+            :pureText="field.extra?.pureText || pureText"
             v-model="formData[field.prop as string]"
             @change="(prop:any,val:any)=>emits('change',prop,val)"
           >

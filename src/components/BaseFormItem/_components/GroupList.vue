@@ -5,7 +5,7 @@
     <BaseFormItem
       :prefixProp="`${parentProp}[${ind}].`"
       :field="field"
-      :pureText="field.pureText || pureText"
+      :pureText="field.extra?.pureText || pureText"
       v-model="newList[ind][field.prop as string]"
       v-bind="field"
       v-for="(field, fInd) in newFields"
