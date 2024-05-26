@@ -18,8 +18,9 @@
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx,.vue,.js,.jsx",
     "lint:fix": "eslint src --fix --ext .ts,.tsx,.vue,.js,.jsx",
+    "lint:ls": "ls-lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,vue}\"",
-    "ls-lint": "ls-lint",
+    "prepare": "husky install",
     "api": "node ./scripts/api/index.js",
     "apisya": "node ./scripts/api/ya.js",
     "vue": "node ./scripts/test/index.js",
@@ -77,5 +78,6 @@
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-imagemin": "^0.6.1",
     "vue-tsc": "^1.0.24"
-  }
+  },
+  "lint-staged": {}
 }
