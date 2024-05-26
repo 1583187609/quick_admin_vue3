@@ -85,6 +85,9 @@
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,less,md,vue}": [
       "eslint --fix"
-    ]
+    ],
+    "*.{css,scss,sass}": "stylelint --fix",
+    "**/*": "prettier --write",
+    "src/**": "ls-lint"
   }
 }
