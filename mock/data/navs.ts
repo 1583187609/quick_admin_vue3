@@ -1,6 +1,6 @@
 import { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
 import Mock from "mockjs";
-import { getHostPath } from "../utils";
+import { getBasePath } from "../utils";
 const { Random } = Mock;
 
 export default [
@@ -617,7 +617,7 @@ export default [
         id: "45-2",
         label: "文件体积分析(内链)",
         icon: "Position",
-        path: `${getHostPath()}/stats.html`,
+        path: `${getBasePath()}/stats.html`,
         type: 1,
         auth_codes: null,
         status: 1,
@@ -631,7 +631,7 @@ export default [
         id: "45-3",
         label: "文件体积分析(外链)",
         icon: "Position",
-        path: `${getHostPath()}/stats.html?outer`,
+        path: `${getBasePath()}/stats.html?outer`,
         type: 1,
         auth_codes: null,
         status: 1,

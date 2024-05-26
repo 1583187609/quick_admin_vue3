@@ -11,7 +11,7 @@ import viteCompression from "vite-plugin-compression"; //可进一步压缩js、
 // import { autoComplete, Plugin as importToCDN } from "vite-plugin-cdn-import";
 // import { createHtmlPlugin } from "vite-plugin-html";
 
-const outDirPath = path.resolve(__dirname, "../online-preview/vue");
+// const outDirPath = path.resolve(__dirname, "../online-preview/vue");
 /**
  * 根据地址获取文件名称
  * @param path 地址路径
@@ -42,18 +42,17 @@ export default ({ mode, command }) => {
           //全局的基础组件的命名规则：根据文件或父级文件夹名称命名
           {
             include: ["src/components/**/*.vue"],
-            genComponentName: (res) => {
+            genComponentName: res => {
               const { attrName, dirname, originalName } = res;
               if (attrName) return attrName;
-              if (originalName === "Index" || originalName === "index")
-                return toCamelCase(dirname, true);
+              if (originalName === "Index" || originalName === "index") return toCamelCase(dirname, true);
               return originalName;
             },
           },
           //页面组件的命名规则：根据路径来命名(以index.vue作为文件名的)
           {
             include: ["src/views/**/index.vue"],
-            genComponentName: (res) => {
+            genComponentName: res => {
               const { attrName, filePath, originalName, dirname } = res;
               if (attrName) return attrName;
               const name = filePath.split("/views/")[1].slice(0, -10);
@@ -64,7 +63,7 @@ export default ({ mode, command }) => {
           {
             exclude: ["src/views/**/index.vue"],
             include: ["src/views/**/*.vue"],
-            genComponentName: (res) => {
+            genComponentName: res => {
               const { attrName, filePath, originalName, dirname } = res;
               if (attrName) return attrName;
               const afterPath = filePath.split("/views/")[1];
@@ -273,8 +272,8 @@ export default ({ mode, command }) => {
     },
     //vite构建时默认使用Esbuild，打包速度是其他打包工具的十几倍，但是缺点也很明显，不具备操作AST的能力，所以需要通过terser去除console.log
     build: {
-      // outDir: mode === "production" ? "dist" : `dist-${mode}`,
-      outDir: outDirPath,
+      outDir: mode === "production" ? "dist" : `dist-${mode}`,
+      // outDir: outDirPath,
       // 压缩和混淆代码：使用 Vite 的内置压缩工具（例如 Terser）对打包后的代码进行压缩和混淆，以减小文件大小并提高加载速度。可以通过在 vite.config.js 中设置 build.minify 选项来启用压缩
       minify: "terser",
       terserOptions: {
@@ -316,23 +315,19 @@ export default ({ mode, command }) => {
             const ext = path.extname(name).slice(1);
             if (["css", "js", "vue"].includes(ext)) {
               //wangEditor包的名字中带有/，所以需要处理下
-              const packages = Object.keys(pkg.dependencies).map(
-                (key) => key.split("/")[0]
-              );
+              const packages = Object.keys(pkg.dependencies).map(key => key.split("/")[0]);
               // if (ext === "vue" || ext === "js") {
               //   console.log(info, packages, "info-------------------------");
               // }
-              const isNodeModule = packages.some((it) => name.startsWith(it));
+              const isNodeModule = packages.some(it => name.startsWith(it));
               const subPath = isNodeModule ? "package/" : "";
               const _name = getFileNameByPath(name);
               return `assets/[ext]/${subPath}${_name}-[hash].[ext]`;
             }
             const imgExts = ["png", "jpg", "jpeg", "webp", "svg", "gif", "ico"];
-            if (imgExts.includes(ext))
-              return "assets/imgs/[ext]/[name]-[hash].[ext]";
+            if (imgExts.includes(ext)) return "assets/imgs/[ext]/[name]-[hash].[ext]";
             const fontExts = ["otf", "ttf"];
-            if (fontExts.includes(ext))
-              return "assets/font/[name]-[hash].[ext]";
+            if (fontExts.includes(ext)) return "assets/font/[name]-[hash].[ext]";
             return "assets/[ext]/[name]-[hash].[ext]";
           },
         },

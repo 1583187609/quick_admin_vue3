@@ -294,15 +294,15 @@ export function findTreeNode(arr: any[], byId: string, propsMap: CommonObj = { i
 
 /**
  * 获取域名+pathname
- * @example 发布到gitee上的有效地址：https://fanlichuan.gitee.io/management/vue/static/imgs/girl-1.jpg
- * @example VsCode Live Sever打开的有效地址：http://127.0.0.1:5500/vue/static/imgs/boy-6.jpg
+ * @example 发布到gitee上的有效地址：https://fanlichuan.gitee.io/quick_admin_vue3/dist/static/imgs/girl-1.jpg
+ * @example VsCode Live Sever打开的有效地址：http://127.0.0.1:5500/dist/static/imgs/boy-6.jpg
  */
-export function getHostPath() {
+export function getBasePath(projectName = "quick_admin_vue3", rootPath = "/dist") {
   const isDev = process.env.NODE_ENV === "development";
   if (isDev) return ""; //开发模式
   const { origin, host } = location;
   const isLiveSever = host.startsWith("127");
-  return `${origin}/${isLiveSever ? "" : "management"}/vue`;
+  return `${origin}/${isLiveSever ? "" : projectName}${rootPath}`;
 }
 
 /**
@@ -319,5 +319,5 @@ export function getAvatarUrl(gender: 0 | 1 | 2, maxNum = 6) {
     2: "girl",
   };
   if (gender === 0) return "";
-  return `${getHostPath()}/static/imgs/${genderMap[gender]}-${ind}.jpg`;
+  return `${getBasePath()}/static/imgs/${genderMap[gender]}-${ind}.jpg`;
 }
