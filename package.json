@@ -19,7 +19,7 @@
     "lint": "eslint src --ext .ts,.tsx,.vue,.js,.jsx",
     "lint:fix": "eslint src --fix --ext .ts,.tsx,.vue,.js,.jsx",
     "lint:ls": "ls-lint",
-    "lint-staged": "lint-staged",
+    "lint:staged": "lint-staged",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,vue}\"",
     "prepare": "husky install",
     "api": "node ./scripts/api/index.js",
