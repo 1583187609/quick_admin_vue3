@@ -83,6 +83,12 @@
     "vite-plugin-imagemin": "^0.6.1",
     "vue-tsc": "^1.0.24"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
   "lint-staged": {
     "*.{js,ts,vue}": [
       "eslint --fix"
