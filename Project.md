@@ -82,7 +82,7 @@ commit message 的格式，采用 Angular 规范如下
 其中，Header 是必填，Body 和 Footer 是选填。
 每个团队对提交的 commit message 格式有约定俗称的要求，但是没有一个统一的规范，导致大家提交的 commit message 或多或少不太一样。因此，需要一个工具来帮助大家统一 commit message 的格式，也方便后续的分析和拓展。
 
-`npm i commitizen @commitlint/cli @commitlint/config-conventional -D`
+`npm i @commitlint/cli @commitlint/config-conventional -D`
 
 在项目根目录添加.commitlintrc.js 配置文件
 
