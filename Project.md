@@ -109,9 +109,9 @@ module.exports = {
 
 ```json
   "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
-    }
+    // "hooks": {
+    //   "pre-commit": "lint-staged",
+    //   "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    // }
   },
 ```
