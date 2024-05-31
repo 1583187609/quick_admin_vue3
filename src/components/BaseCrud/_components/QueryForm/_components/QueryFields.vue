@@ -8,7 +8,7 @@
       :inputDebounce="inputDebounce"
       :size="size"
       @change="(key:string, val:any)=>emits('change', key,val)"
-      v-model="model[field.prop as string]"
+      v-model="model[field!.prop as string]"
     >
       <template #custom="{ field }">
         <slot name="custom" :field="field"></slot>
@@ -48,5 +48,8 @@ let model = computed<CommonObj>({
 }
 .mb-qtr {
   margin-bottom: $gap-qtr;
+}
+:deep(.el-form-item__label) {
+  margin-left: $gap-half;
 }
 </style>

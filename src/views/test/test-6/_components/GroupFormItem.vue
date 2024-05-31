@@ -12,7 +12,7 @@
           required: false,
           options: userOpts,
           extra: {
-            labelHide: true,
+            noStyle: true,
           },
         }"
       />
@@ -25,7 +25,7 @@
           required: false,
           type: 'input-number',
           extra: {
-            labelHide: true,
+            noStyle: true,
           },
         }"
       />

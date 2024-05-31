@@ -77,7 +77,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "dhhm",
           label: "电话",
           extra: {
-            span: 11,
+            span: 12,
             valid: "phone",
           },
         },

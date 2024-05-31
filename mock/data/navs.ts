@@ -572,7 +572,7 @@ export default [
       },
       {
         id: "41-7",
-        label: "测试7",
+        label: "多类型表单",
         icon: "Position",
         path: "/test/7",
         type: 1,

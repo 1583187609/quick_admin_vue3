@@ -1,6 +1,6 @@
 <!-- 分块（组）表单 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :model="formData" v-bind="newAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form class="section-form f-fs-s-c" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section
@@ -33,7 +33,7 @@
           <div class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
             <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
             <template v-else>
-              <template v-for="(field, ind) in sItem.fields" :key="field.key ?? ind">
+              <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <!-- <BaseFormItem
                 :className="`f-span-${field.extra?.span || span}`"
                 :field="field"
@@ -158,25 +158,25 @@ const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"])
 const footerBtnsRef = ref<any>(null);
 const folds = ref<boolean[]>([]);
 const formRef = ref<FormInstance>();
-const newAttrs = computed(() => {
-  const maxLen = Math.max(
-    ...props.sections.map((sItem: SectionFormItem, sInd: number) => {
-      if (typeOf(sItem) !== "Object") return 0;
-      const item: SectionFormItemAttrs = sItem as SectionFormItemAttrs;
-      const { fold = false } = item;
-      folds.value[sInd] = fold;
-      item.fields?.map((fIt: FormField) => {
-        if (typeOf(fIt) !== "Object") return fIt;
-        const it: FormFieldAttrs = fIt as FormFieldAttrs;
-        //子级的属性影响父级的属性
-        it.attrs = merge({}, item.attrs, it.attrs);
-        return it;
-      });
-      return getMaxLength(item?.fields);
-    })
-  );
-  return merge({ labelWidth: maxLen + "em" }, defaultFormAttrs);
-});
+// const newAttrs = computed(() => {
+//   const maxLen = Math.max(
+//     ...props.sections.map((sItem: SectionFormItem, sInd: number) => {
+//       if (typeOf(sItem) !== "Object") return 0;
+//       const item: SectionFormItemAttrs = sItem as SectionFormItemAttrs;
+//       const { fold = false } = item;
+//       folds.value[sInd] = fold;
+//       item.fields?.map((fIt: FormField) => {
+//         if (typeOf(fIt) !== "Object") return fIt;
+//         const it: FormFieldAttrs = fIt as FormFieldAttrs;
+//         //子级的属性影响父级的属性
+//         it.attrs = merge({}, item.attrs, it.attrs);
+//         return it;
+//       });
+//       return getMaxLength(item?.fields);
+//     })
+//   );
+//   return merge({ labelWidth: maxLen + "em" }, defaultFormAttrs);
+// });
 const newSections = ref<SectionFormItemAttrs[]>([]);
 // const formData = reactive<CommonObj>({});
 // const params = computed(() => merge({}, formData, props.extraParams));

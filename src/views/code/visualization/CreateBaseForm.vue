@@ -207,7 +207,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       },
     },
     {
-      prop: "labelHide",
+      prop: "noStyle",
       label: "隐藏标签",
       type: "select",
       options: yesNoOpts,

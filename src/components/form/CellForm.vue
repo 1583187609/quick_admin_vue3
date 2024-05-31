@@ -1,6 +1,6 @@
 <!-- 单元格表单 -->
 <template>
-  <el-form class="cell-form f-fs-s-c f-1" :model="formData" v-bind="newAttrs" ref="formRef">
+  <el-form class="cell-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" ref="formRef">
     <div class="box all-hide-scroll" :class="[fields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="fields.length">
         <el-col
@@ -106,7 +106,7 @@ const props = withDefaults(
 );
 const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const formRef = ref<FormInstance>();
-const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
+// const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
 const newFields = ref<FormFieldAttrs[]>([]);
 // const formData = reactive<CommonObj>({});
 // watch(

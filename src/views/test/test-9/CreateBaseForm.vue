@@ -191,7 +191,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       example: exampleMap.labelWidth,
     },
     {
-      prop: "labelHide",
+      prop: "noStyle",
       label: "隐藏标签",
       type: "select",
       extra: {

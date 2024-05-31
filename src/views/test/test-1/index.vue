@@ -1,11 +1,13 @@
 <!-- 页面-简介 -->
 <template>
-  <div class="page-view one f-sb-s">
+  <div class="page-view one f-sb-s f-1">
     <BaseForm
       @change="handleChange"
       v-model="model"
       :fields="fields"
       :fetch="PostUserList"
+      :size="model.widget_size"
+      :labelPosition="model.label_position"
       :moreBtns="[
         { name: 'reject', popconfirm: false },
         {
@@ -103,15 +105,10 @@ const supportSwitchAttrs: CommonObj = {
   inlinePrompt: true,
   style: "width: 5em",
 };
-const props = withDefaults(
-  defineProps<{
-    _example_prop?: CommonObj;
-  }>(),
-  {
-    _example_prop: () => ({}),
-  }
-);
+
 let model = reactive<CommonObj>({
+  widget_size: "default",
+  label_position: "left",
   inner_obj: {
     one: "嵌套对象必填项一",
     two: "嵌套对象必填项二",
@@ -134,6 +131,26 @@ const fields = computed<FormField[]>(() => {
   const { cyxslx } = model;
   return [
     {
+      label: "组件尺寸",
+      prop: "widget_size",
+      type: "radio-group",
+      options: [
+        { label: "大型", value: "large" },
+        { label: "默认", value: "default" },
+        { label: "小型", value: "small" },
+      ],
+    },
+    {
+      label: "标签所处位置",
+      prop: "label_position",
+      type: "radio-group",
+      options: [
+        { label: "左侧", value: "left" },
+        { label: "右侧", value: "right" },
+        { label: "上方", value: "top" },
+      ],
+    },
+    {
       label: "嵌套的校验（对象）",
       prop: "inner_obj",
       required: true,
@@ -141,21 +158,19 @@ const fields = computed<FormField[]>(() => {
         {
           prop: "one",
           label: "一",
-          value: 1,
           required: true,
           labelWidth: "0",
           extra: {
-            labelHide: true,
+            noStyle: true,
           },
         },
         {
           prop: "two",
           label: "二",
-          value: 2,
           required: true,
           labelWidth: "0",
           extra: {
-            labelHide: true,
+            noStyle: true,
           },
         },
       ],
@@ -169,21 +184,19 @@ const fields = computed<FormField[]>(() => {
         {
           prop: "one",
           label: "一",
-          value: 1,
           required: true,
           labelWidth: "0",
           extra: {
-            labelHide: true,
+            noStyle: true,
           },
         },
         {
           prop: "two",
           label: "二",
-          value: 2,
           required: true,
           labelWidth: "0",
           extra: {
-            labelHide: true,
+            noStyle: true,
           },
         },
       ],

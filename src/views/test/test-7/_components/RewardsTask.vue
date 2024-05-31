@@ -8,7 +8,7 @@
       <div class="item">奖励明细</div>
       <div class="item">领取方式</div>
     </div>
-    <SectionForm style="width: 800px" :sections="sections" v-model="model" class="rewards-task f-1"></SectionForm>
+    <SectionForm :sections="sections" v-model="model" class="rewards-task f-1"></SectionForm>
   </div>
 </template>
 <script lang="ts" setup>
@@ -21,14 +21,6 @@ import { useDictStore } from "@/store";
 const { getOpts, getText } = useDictStore();
 const taskRewardsOpts = getOpts("TaskRewards");
 const getRewardWayOpts = getOpts("GetRewardWay");
-const props = withDefaults(
-  defineProps<{
-    _example_prop?: CommonObj;
-  }>(),
-  {
-    _example_prop: () => ({}),
-  }
-);
 let model = reactive<CommonObj>({
   //kpi-1
   // wszl: { zt: 0, jllx: 1, jlmx: 10, lqfs: 1 },
@@ -55,46 +47,46 @@ const childrenFields: FormField[] = [
     prop: "zt",
     label: "状态",
     type: "switch",
-    labelWidth: "0",
+    // labelWidth: "0",
+    // required: true,
     extra: {
       noStyle: true,
     },
-    // required: true,
   },
   {
     prop: "jllx",
     label: "奖励类型",
-    labelWidth: "1em",
-    extra: {
-      noStyle: true,
-    },
+    // labelWidth: "1em",
     // required: true,
     type: "select",
     options: taskRewardsOpts,
+    extra: {
+      noStyle: true,
+    },
   },
   {
     prop: "jlmx",
     label: "奖励明细",
-    labelWidth: "1em",
-    extra: {
-      noStyle: true,
-    },
+    // labelWidth: "1em",
     type: "input-number",
     // required: true,
     attrs: {
       min: 0,
     },
+    extra: {
+      noStyle: true,
+    },
   },
   {
     prop: "lqfs",
     label: "领取方式",
-    labelWidth: "1em",
-    extra: {
-      noStyle: true,
-    },
+    // labelWidth: "1em",
     type: "radio-group",
     // required: true,
     options: getRewardWayOpts,
+    extra: {
+      noStyle: true,
+    },
   },
 ];
 //如果在SectionFormItem中添加 prop 属性，则提交时的数据会包裹在对应的prop名称下

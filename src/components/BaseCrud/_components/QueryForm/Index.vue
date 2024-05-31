@@ -3,7 +3,7 @@
     class="query-form"
     :class="{ compact, small: isSmall }"
     :model="formData"
-    v-bind="getFormAttrs()"
+    v-bind="defaultFormAttrs"
     @keyup.enter="handleSubmit"
     ref="formRef"
     v-if="!noFieldsHide || newFields.length || newSections.length"
@@ -212,19 +212,19 @@ function getMaxHeight() {
   return rows * (isSmall ? 28 : 40) + "px";
 }
 //获取表单的属性
-function getFormAttrs() {
-  const { fields, compact, sections } = props;
-  let maxLen = 1; //label的最大字符长度
-  if (sections) {
-    const lens = sections.map((item: SectionFieldsItemAttrs) => {
-      return getMaxLength(item.fields, isSmall ? 0.5 : compact ? 1 : undefined);
-    });
-    maxLen = Math.max(...lens);
-  } else {
-    maxLen = getMaxLength(fields, isSmall ? 0.5 : compact ? 1 : undefined);
-  }
-  return Object.assign({ labelWidth: maxLen + "em" }, defaultFormAttrs);
-}
+// function getFormAttrs() {
+//   const { fields, compact, sections } = props;
+//   let maxLen = 1; //label的最大字符长度
+//   if (sections) {
+//     const lens = sections.map((item: SectionFieldsItemAttrs) => {
+//       return getMaxLength(item.fields, isSmall ? 0.5 : compact ? 1 : undefined);
+//     });
+//     maxLen = Math.max(...lens);
+//   } else {
+//     maxLen = getMaxLength(fields, isSmall ? 0.5 : compact ? 1 : undefined);
+//   }
+//   return Object.assign({ labelWidth: maxLen + "em" }, defaultFormAttrs);
+// }
 //设置屏幕宽度类型
 function getColNum() {
   const { colSpanAttrs } = props;

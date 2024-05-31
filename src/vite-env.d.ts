@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { RenderComponent } from "./components/BaseRender.vue";
 import type { MessageParams, messageType } from "element-plus";
+import { EpPropMergeType } from "element-plus/es/utils";
 
 declare module "qs";
 declare module "lodash";
@@ -46,6 +47,12 @@ interface OptionItem {
   disabled?: boolean;
   customOption?: RenderComponent;
   children?: OptionItem[];
+}
+
+// el-tab-pane 的 props 属性
+interface TabItem {
+  label: string;
+  name: EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown> | undefined;
 }
 
 // 以下是测试部分，待验证

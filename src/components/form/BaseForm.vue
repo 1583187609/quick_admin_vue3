@@ -1,6 +1,6 @@
 <!-- 基础表单 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="newAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
@@ -91,7 +91,7 @@ const props = withDefaults(
 const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
-const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
+// const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
 const newFields = ref<FormFieldAttrs[]>([]);
 // const formData = ref<CommonObj>({});
 // const params = computed(() => merge({}, formData.value, props.extraParams));

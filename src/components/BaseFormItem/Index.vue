@@ -1,7 +1,7 @@
 <template>
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
-  <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.labelHide ? 'label-hide' : '']">
+  <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.noStyle ? 'label-hide' : '']">
     <template #label>
       <BaseRender :data="newField.label" />
       <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
@@ -21,7 +21,7 @@
         <el-input
           :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
           v-debounce:input="(e:any)=>handleInput(e, newField.prop as string)"
-          @clear="(val:any)=> emits('change', newField.prop, '')"
+          @clear="() => emits('change', newField.prop, '')"
           v-model.trim="newVal"
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
