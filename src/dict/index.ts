@@ -1,5 +1,3 @@
-import htbTags, { HtbTagsType } from "@/views/salary/tags";
-
 export { default as colors } from "./colors";
 export * from "./cascader";
 export * from "./_types";
@@ -8,7 +6,6 @@ export * from "./_types";
  * type 为 '' 即是primary的效果，如果写成 primary ，会触发ElementPlus 警告
  */
 export default {
-  ...htbTags,
   //学历类型: 0未知 1大专 2本科 3研究生 4博士
   EducationType: {
     "0": {

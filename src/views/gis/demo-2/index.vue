@@ -1,16 +1,17 @@
 <!-- 页面-简介 -->
 <template>
-  <div class="example-vue">example-vue</div>
+  <div>GIS-示例2</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
-    data?: CommonObj;
-    refreshList: FinallyNext;
+    _example_prop?: CommonObj;
   }>(),
-  {}
+  {
+    _example_prop: () => ({}),
+  }
 );
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" name="" scoped></style>
