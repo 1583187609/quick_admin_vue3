@@ -106,13 +106,13 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
     handleAttrsInherit(field as FormFieldAttrs, inheritAttrs);
     //让子级元素的label宽度自动统一
     if (children?.length) {
-      const maxLabelLen = getMaxLength(children);
+      // const maxLabelLen = getMaxLength(children);
       children?.forEach((field: FormField) => {
         if (typeOf(field) !== "Object") return false;
-        const _field = field as FormFieldAttrs;
-        if (_field.labelWidth === undefined) {
-          _field.labelWidth = maxLabelLen + "em";
-        }
+        // const _field = field as FormFieldAttrs;
+        // if (_field.labelWidth === undefined) {
+        //   _field.labelWidth = maxLabelLen + "em";
+        // }
       });
     }
     resObj.fields.push(field as FormFieldAttrs);

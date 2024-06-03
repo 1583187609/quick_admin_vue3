@@ -1,9 +1,15 @@
 <template>
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
-  <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.noStyle ? 'label-hide' : '']">
+  <!-- <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.noStyle ? 'label-hide' : '']"> -->
+  <el-form-item class="base-form-item" v-bind="newField" :class="className">
     <template #label>
-      <BaseRender :data="newField.label" />
+      <template v-if="prefixProp">
+        <!-- 下方为true时，不会展示label文字，否则会展示 -->
+        <template v-if="true">{{}}</template>
+        <template v-else></template>
+      </template>
+      <BaseRender :data="newField.label" v-else />
       <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
         <template #reference>
           <BaseIcon :color="cssVars.colorInfo" class="icon-popover" :class="size" name="QuestionFilled"></BaseIcon>
@@ -13,7 +19,6 @@
     <div class="mr-h" v-if="newField.extra?.before">
       <BaseRender :data="newField.extra.before" />
     </div>
-    <!-- children -->
     <template v-if="!subFields.length">
       <template v-if="newField.extra?.pureText || pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
       <template v-else>
@@ -198,25 +203,17 @@
         :pureText="pureText"
         v-model="newVal"
         v-if="newField.type === 'addDel'"
-      ></GroupList>
-      <div class="f-fs-fs-w" v-else>
-        <!-- <div class="mr-h" v-if="newField.extra?.before">
-        <BaseRender :data="newField.extra.before" />
-      </div> -->
-        <!-- :class="{ 'f-1': newField.extra?.before || newField.extra?.after }" -->
+      />
+      <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
+        <!-- :field="deleteAttrs(cField, ['label'])" -->
         <BaseFormItem
-          :prefixProp="newField.prop + '.'"
+          :prefixProp="newField.prop as string"
           :field="cField"
           :pureText="cField.extra?.pureText || pureText"
           v-model="newVal[cField.prop as string]"
           v-bind="cField"
-          v-for="(cField, cInd) in subFields"
-          :key="cInd"
         />
-        <!-- <div class="ml-h" v-if="newField.extra?.after">
-          <BaseRender :data="newField.extra.after" />
-        </div> -->
-      </div>
+      </template>
     </template>
   </el-form-item>
 </template>
@@ -266,9 +263,7 @@ const props = withDefaults(
     inputDebounce?: boolean;
     size?: CommonSize;
   }>(),
-  {
-    prefixProp: "",
-  }
+  {}
 );
 const emits = defineEmits(["update:modelValue", "change"]);
 const newVal = computed({
@@ -283,7 +278,7 @@ let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
-  const { type: fType, label, extra = {}, children } = field;
+  const { type: fType, label, extra = {}, children, required } = field;
   const { valid = "" } = extra;
   const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
   const { type: vType } = validField;
@@ -293,21 +288,32 @@ const newField = computed<FormFieldAttrs>(() => {
   const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
   merge(tempField, { attrs: autoAttrs }, field);
   popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
-  tempField.prop = `${prefixProp}${field.prop}`;
-  children?.length && (subFields.value = children as FormFieldAttrs[]);
+  tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
   tempField.rules = getRules(tempField, field.rules);
+  if (children?.length) {
+    subFields.value = children as FormFieldAttrs[];
+    // 当子项有一个必填项时，父级自动变为必填项
+    // if (!required) {
+    //   children.some(item => {
+    //     console.log(getRules(merge({ type }, defField, validField, field), item.rules), "item---------");
+    //   });
+    //   // console.log(tempField.rules, "tempField.rules----------");
+    // }
+  }
   tempField.attrs!.placeholder = getPlaceholder(tempField);
+  // tempField.required = true;
   const { slots } = tempField.attrs!;
   if (typeOf(slots) === "String") {
     tempField.attrs!.slots = {
       default: slots,
     };
   }
-  if (size === "small" && type === "date-picker") {
-    tempField.labelWidth = label.length + 0.5 + "em";
-  }
+  // if (size === "small" && type === "date-picker") {
+  //   tempField.labelWidth = label.length + 0.5 + "em";
+  // }
   // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
   // delete tempField.extra; //此处不能删除
+  if (prefixProp) delete tempField.required;
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   return tempField;
 });
@@ -316,9 +322,7 @@ function getPlaceholder(field: FormFieldAttrs) {
   const { example } = extra;
   let phr = field?.attrs?.placeholder ?? "";
   phr = phr.replace("${label}", label);
-  if (example) {
-    phr += `，例：${example}`;
-  }
+  if (example) phr += `，例：${example}`;
   return phr;
 }
 /**
@@ -340,7 +344,7 @@ function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
   let arr: FormItemRule[] = [];
-  rules.forEach((item: CommonObj, ind) => {
+  rules.forEach((item: CommonObj) => {
     const keys: string[] = ["required", "min", "max", "pattern", "validator"];
     const { type } = item;
     const findInd = arr.findIndex((it: CommonObj, i) => {
@@ -348,9 +352,7 @@ function mergeRules(rules: FormItemRule[] = []) {
       if (type) {
         isFind = it.type === type;
       } else {
-        isFind = !!keys.find((k, j) => {
-          return item[k] !== undefined && it[k] !== undefined;
-        });
+        isFind = !!keys.find((k, j) => item[k] !== undefined && it[k] !== undefined);
       }
       return isFind;
     });
@@ -426,12 +428,12 @@ function handleInput(e: any, prop: string) {
 </script>
 <style lang="scss" scoped>
 .base-form-item {
-  &.label-hide {
-    :deep(.el-form-item__label) {
-      visibility: hidden;
-      overflow: hidden;
-    }
-  }
+  //&.label-hide {
+  //  :deep(.el-form-item__label) {
+  //    visibility: hidden;
+  //    overflow: hidden;
+  //  }
+  //}
 }
 .err {
   color: $color-danger;

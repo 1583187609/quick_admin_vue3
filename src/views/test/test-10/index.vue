@@ -13,14 +13,7 @@
       </el-radio-group>
     </div>
     <br />
-    <el-form
-      ref="ruleFormRef"
-      style="max-width: 600px"
-      :model="sizeForm"
-      label-width="auto"
-      :label-position="labelPosition"
-      :size="size"
-    >
+    <el-form ref="ruleFormRef" :model="sizeForm" label-width="auto" :label-position="labelPosition" :size="size">
       <el-form-item label="姓名" prop="name" :rules="[{ required: true, message: '请输入姓名' }]" required>
         <el-input v-model="sizeForm.name" placeholder="请输入姓名" />
       </el-form-item>
@@ -28,11 +21,11 @@
       <el-form-item label="计费" required>
         每
         <el-form-item prop="hour" required :rules="[{ required: true, message: '请输入小时' }]">
-          <el-input label="小时" v-model="sizeForm.hour" placeholder="请输入小时" />
+          <el-input v-model="sizeForm.hour" placeholder="请输入小时" />
         </el-form-item>
         花
         <el-form-item prop="money" required :rules="[{ required: true, message: '请输入金额' }]">
-          <el-input label="金额" v-model="sizeForm.money" placeholder="请输入金额" />
+          <el-input v-model="sizeForm.money" placeholder="请输入金额" />
         </el-form-item>
         元
       </el-form-item>
@@ -40,11 +33,11 @@
       <el-form-item label="花费" prop="cost" required>
         每
         <el-form-item prop="cost.hour" required :rules="[{ required: true, message: '请输入小时' }]">
-          <el-input label="小时" v-model="sizeForm.cost.hour" placeholder="请输入小时" />
+          <el-input v-model="sizeForm.cost.hour" placeholder="请输入小时" />
         </el-form-item>
         花
         <el-form-item prop="cost.money" required :rules="[{ required: true, message: '请输入金额' }]">
-          <el-input label="金额" v-model="sizeForm.cost.money" placeholder="请输入金额" />
+          <el-input v-model="sizeForm.cost.money" placeholder="请输入金额" />
         </el-form-item>
         元
       </el-form-item>
@@ -52,7 +45,7 @@
       <el-form-item label="列表" prop="list" required :rules="[{ required: true, message: '请输入列表' }]">
         <el-form-item style="margin-bottom: 18px" v-for="(item, ind) in sizeForm.list" :key="ind">
           <el-form-item :prop="'list.' + ind + '.hour'" required :rules="[{ required: true, message: '请输入小时' }]">
-            <el-input label="小时" v-model="sizeForm.list[ind].hour" placeholder="请输入小时" clearable />
+            <el-input v-model="sizeForm.list[ind].hour" placeholder="请输入小时" clearable />
           </el-form-item>
           <el-form-item
             class="ml-h"
@@ -60,7 +53,24 @@
             required
             :rules="[{ required: true, message: '请输入小时' }]"
           >
-            <el-input label="金额" v-model="sizeForm.list[ind].money" placeholder="请输入金额" />
+            <el-input v-model="sizeForm.list[ind].money" placeholder="请输入金额" />
+          </el-form-item>
+          <el-form-item
+            class="ml-h"
+            :prop="'list.' + ind + '.money'"
+            required
+            :rules="[{ required: true, message: '请输入小时' }]"
+          >
+            <el-select
+              v-model="sizeForm.list[ind].type"
+              style="min-width: 120px"
+              placeholder="请输入金额"
+              :options="[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+                { label: '选项3', value: 3 },
+              ]"
+            />
           </el-form-item>
           <el-button
             class="ml-h"
@@ -96,13 +106,13 @@ const sizeForm = reactive({
     hour: 2,
     money: 4,
   },
-  list: [{ hour: undefined, money: undefined }],
+  list: [{ hour: undefined, money: undefined, type: undefined }],
 });
 
 function handleAddDel(type: "add" | "del", required = false) {
   if (type === "add") {
     if (required && true) {
-      sizeForm.list.push({ hour: undefined, money: undefined });
+      sizeForm.list.push({ hour: undefined, money: undefined, type: undefined });
     } else {
     }
   }

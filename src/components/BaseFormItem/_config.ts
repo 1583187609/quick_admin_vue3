@@ -81,7 +81,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     select: {
       attrs: {
-        style: { width: "100%" },
+        style: { width: "100%", minWidth: "150px" }, // minWidth 在作为表单子项时，是需要设置的，不然宽度会塌陷
         // placeholder: "请选择${label}",
         clearable: true,
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary

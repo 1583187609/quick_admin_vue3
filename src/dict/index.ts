@@ -117,15 +117,15 @@ export default {
       },
     },
   },
-  //奖励类型: coin 金币， task-heart-package：心动
+  //奖励类型: 1 金币， 2 心动嘉宾
   TaskRewards: {
-    coin: {
+    1: {
       text: "金币",
       attrs: {
         type: "warning",
       },
     },
-    "task-heart-package": {
+    2: {
       text: "心动嘉宾",
       attrs: {
         type: "danger",
