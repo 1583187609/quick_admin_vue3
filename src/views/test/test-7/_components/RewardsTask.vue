@@ -47,12 +47,12 @@ const childrenFields: FormField[] = [
     prop: "zt",
     label: "状态",
     type: "switch",
-    required: true,
+    // required: true,
   },
   {
     prop: "jllx",
     label: "奖励类型",
-    required: true,
+    // required: true,
     type: "select",
     options: taskRewardsOpts,
   },
@@ -160,5 +160,6 @@ const sections: SectionFormItem[] = [
 }
 .rewards-task {
   overflow: auto;
+  width: 750px;
 }
 </style>

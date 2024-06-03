@@ -11,7 +11,8 @@
           v-for="(sItem, sInd) in newSections"
           :key="sInd"
         >
-          <div @click="toggleFold($event, sInd)" class="head f-sb-c">
+          <!-- @click="toggleFold($event, sInd)" -->
+          <div class="head f-sb-c">
             <div class="title f-fs-c">
               <span class="line-1">{{ sItem.title }}</span>
               <el-popover v-bind="getPopoverAttrs(sItem.popover)" v-if="sItem.popover">
@@ -262,11 +263,11 @@ watch(
   },
   { immediate: true, deep: true }
 );
-function toggleFold(e: any, ind: number) {
-  if (e.target?.classList?.contains("head")) {
-    folds.value[ind] = !folds.value[ind];
-  }
-}
+// function toggleFold(e: any, ind: number) {
+//   if (e.target?.classList?.contains("head")) {
+//     folds.value[ind] = !folds.value[ind];
+//   }
+// }
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) {

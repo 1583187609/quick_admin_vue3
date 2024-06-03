@@ -10,6 +10,7 @@
           :pureText="field.extra?.pureText || pureText"
           v-model="formData[field.prop as string]"
           @change="(prop:any,val:any)=>emits('change',prop,val)"
+          :validate="footerBtnsRef?.formValidate"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
         >

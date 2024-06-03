@@ -33,6 +33,7 @@
       <el-form-item label="花费" prop="cost" required>
         每
         <el-form-item prop="cost.hour" required :rules="[{ required: true, message: '请输入小时' }]">
+          <!-- <template #label></template> -->
           <el-input v-model="sizeForm.cost.hour" placeholder="请输入小时" />
         </el-form-item>
         花
@@ -59,16 +60,16 @@
             class="ml-h"
             :prop="'list.' + ind + '.money'"
             required
-            :rules="[{ required: true, message: '请输入小时' }]"
+            :rules="[{ required: true, message: '请选择类型' }]"
           >
             <el-select
               v-model="sizeForm.list[ind].type"
               style="min-width: 120px"
-              placeholder="请输入金额"
+              placeholder="请选择类型"
               :options="[
-                { label: '选项1', value: 1 },
-                { label: '选项2', value: 2 },
-                { label: '选项3', value: 3 },
+                { label: '类型1', value: 1 },
+                { label: '类型2', value: 2 },
+                { label: '类型3', value: 3 },
               ]"
             />
           </el-form-item>

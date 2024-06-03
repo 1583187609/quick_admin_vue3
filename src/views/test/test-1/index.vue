@@ -108,7 +108,7 @@ const supportSwitchAttrs: CommonObj = {
 
 let model = reactive<CommonObj>({
   widget_size: "default",
-  label_position: "left",
+  label_position: "right",
   inner_obj: {
     one: "嵌套对象必填项一",
     two: "嵌套对象必填项二",

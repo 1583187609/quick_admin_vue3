@@ -23,7 +23,7 @@ import CompanyAuth from "./_components/CompanyAuth.vue";
 import ShareUserRole from "./_components/ShareUserRole.vue";
 import HeartbeatRatio from "./_components/HeartbeatRatio.vue";
 
-const activeName = ref<any>("rewards-task");
+const activeName = ref<any>("share-user-role");
 
 const tabs: TabItem[] = [
   { label: "奖励及任务配置", name: "rewards-task" },

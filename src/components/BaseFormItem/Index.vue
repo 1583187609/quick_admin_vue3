@@ -2,14 +2,13 @@
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
   <!-- <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.noStyle ? 'label-hide' : '']"> -->
-  <el-form-item class="base-form-item" v-bind="newField" :class="className">
-    <template #label>
-      <template v-if="prefixProp">
-        <!-- 下方为true时，不会展示label文字，否则会展示 -->
-        <template v-if="true">{{}}</template>
-        <template v-else></template>
-      </template>
-      <BaseRender :data="newField.label" v-else />
+  <el-form-item
+    class="base-form-item"
+    v-bind="prefixProp && !newField.labelWidth ? deleteAttrs(newField, ['label']) : newField"
+    :class="className"
+  >
+    <template #label v-if="!prefixProp || newField.labelWidth">
+      <BaseRender :data="newField.label" />
       <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
         <template #reference>
           <BaseIcon :color="cssVars.colorInfo" class="icon-popover" :class="size" name="QuestionFilled"></BaseIcon>
@@ -24,7 +23,7 @@
       <template v-else>
         <!-- 以下按照使用频率高低排序 -->
         <el-input
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           v-debounce:input="(e:any)=>handleInput(e, newField.prop as string)"
           @clear="() => emits('change', newField.prop, '')"
           v-model.trim="newVal"
@@ -36,7 +35,7 @@
           </template>
         </el-input>
         <el-select
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -53,7 +52,7 @@
           </template>
         </el-select>
         <el-date-picker
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -111,7 +110,7 @@
           v-else-if="newField.type === 'switch'"
         />
         <el-cascader
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           :options="newField.options"
@@ -126,7 +125,7 @@
           <div class="err">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
         </slot>
         <BaseNumberRange
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           @change="(prop:string, val:any)=> emits('change', prop, val ?? '')"
           :size="size"
           v-model="newVal"
@@ -146,7 +145,7 @@
           v-else-if="newField.type === 'BaseEditor'"
         ></BaseEditor> -->
         <el-autocomplete
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -157,7 +156,7 @@
           </template>
         </el-autocomplete>
         <el-slider
-          :class="{ 'f-1': newField.extra?.before || newField.extra?.after }"
+          :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
@@ -174,17 +173,17 @@
           /> -->
         </el-checkbox>
         <!-- <el-time-picker
-      @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-      v-model="newVal"
-      v-bind="newField.attrs"
-      v-else-if="newField.type === 'time-picker'"
-    />
-    <el-time-select
-      @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-      v-model="newVal"
-      v-bind="newField.attrs"
-      v-else-if="newField.type === 'time-select'"
-    /> -->
+          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          v-model="newVal"
+          v-bind="newField.attrs"
+          v-else-if="newField.type === 'time-picker'"
+        />
+        <el-time-select
+          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          v-model="newVal"
+          v-bind="newField.attrs"
+          v-else-if="newField.type === 'time-select'"
+        /> -->
         <div class="empty" v-bind="newField.attrs" v-else-if="newField.type === 'empty'"></div>
         <div class="err" v-else>【不存在】{{ newField.type }}</div>
         <div class="ml-h" v-if="newField.extra?.after">
@@ -202,6 +201,7 @@
         :fields="subFields"
         :pureText="pureText"
         v-model="newVal"
+        :validate="validate"
         v-if="newField.type === 'addDel'"
       />
       <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
@@ -211,6 +211,7 @@
           :field="cField"
           :pureText="cField.extra?.pureText || pureText"
           v-model="newVal[cField.prop as string]"
+          className="mr-o"
           v-bind="cField"
         />
       </template>
@@ -230,7 +231,7 @@ import { merge, cloneDeep } from "lodash";
 import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
-import { FormFieldAttrs, PopoverAttrs } from "./index";
+import { FormField, FormFieldAttrs, PopoverAttrs } from "./index";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import GroupList from "./_components/GroupList.vue";
@@ -262,6 +263,7 @@ const props = withDefaults(
     className?: any;
     inputDebounce?: boolean;
     size?: CommonSize;
+    validate?: () => Promise<any>;
   }>(),
   {}
 );
@@ -278,45 +280,52 @@ let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
-  const { type: fType, label, extra = {}, children, required } = field;
-  const { valid = "" } = extra;
-  const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
-  const { type: vType } = validField;
-  const type = fType || vType || defaultFormItemType;
-  const defField = defaultFieldAttrs[type];
-  const tempField: FormFieldAttrs = merge({ type }, defField, validField, field);
-  const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
-  merge(tempField, { attrs: autoAttrs }, field);
-  popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
-  tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
-  tempField.rules = getRules(tempField, field.rules);
+  const { type: fType, label, extra = {}, children } = field;
+  // const required = field.required ?? prefixProp ? true : false;
+  let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   if (children?.length) {
+    const { required } = field;
     subFields.value = children as FormFieldAttrs[];
     // 当子项有一个必填项时，父级自动变为必填项
-    // if (!required) {
-    //   children.some(item => {
-    //     console.log(getRules(merge({ type }, defField, validField, field), item.rules), "item---------");
-    //   });
-    //   // console.log(tempField.rules, "tempField.rules----------");
-    // }
-  }
-  tempField.attrs!.placeholder = getPlaceholder(tempField);
-  // tempField.required = true;
-  const { slots } = tempField.attrs!;
-  if (typeOf(slots) === "String") {
-    tempField.attrs!.slots = {
-      default: slots,
-    };
+    if (!required) {
+      const someRequired = children.some((item: FormField) => {
+        if (typeof item === "object") return item?.required ?? false;
+        return false;
+      });
+      if (someRequired) tempField.required = true;
+    }
+  } else {
+    // const { required = prefixProp ? true : false } = field;
+    const { valid = "" } = extra;
+    const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
+    const { type: vType } = validField;
+    const type = fType || vType || defaultFormItemType;
+    const defField = defaultFieldAttrs[type];
+    tempField = merge({ type, required: prefixProp ? true : false }, defField, validField, field);
+    const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
+    merge(tempField, { attrs: autoAttrs }, field);
+    popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
+    tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
+    tempField.rules = getRules(tempField, field.rules);
+    tempField.attrs!.placeholder = getPlaceholder(tempField);
+    const { slots } = tempField.attrs!;
+    if (typeOf(slots) === "String") {
+      tempField.attrs!.slots = {
+        default: slots,
+      };
+    }
+    console.log(tempField, "tempField------------");
   }
   // if (size === "small" && type === "date-picker") {
   //   tempField.labelWidth = label.length + 0.5 + "em";
   // }
   // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
   // delete tempField.extra; //此处不能删除
-  if (prefixProp) delete tempField.required;
+  // if (prefixProp) delete tempField.required;
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   return tempField;
 });
+const flexClass = { "f-1": newField.value.extra?.before || newField.value.extra?.after };
 function getPlaceholder(field: FormFieldAttrs) {
   const { label = "", extra = {} } = field;
   const { example } = extra;
@@ -344,10 +353,11 @@ function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
   let arr: FormItemRule[] = [];
-  rules.forEach((item: CommonObj) => {
+  rules.forEach((item: CommonObj, ind: number) => {
     const keys: string[] = ["required", "min", "max", "pattern", "validator"];
     const { type } = item;
-    const findInd = arr.findIndex((it: CommonObj, i) => {
+    const findInd = rules.findIndex((it: CommonObj, i: number) => {
+      // if (i < ind) return false;
       let isFind = false;
       if (type) {
         isFind = it.type === type;
@@ -365,6 +375,7 @@ function mergeRules(rules: FormItemRule[] = []) {
   return arr;
 }
 // console.log(
+//   "mergeRules----------",
 //   mergeRules([
 //     { required: true, message: "必填1" },
 //     { max: 10, message: "最大10" },
@@ -372,7 +383,7 @@ function mergeRules(rules: FormItemRule[] = []) {
 //     { pattern: /1/, message: "正则1" },
 //     { max: 20, message: "最大20" },
 //     { pattern: /2/, message: "正则2" },
-//     // { required: true, message: "必填2" },
+//     { required: true, message: "必填2" },
 //     { min: 20, message: "最小20" },
 //   ])
 // );
