@@ -268,6 +268,7 @@ const props = withDefaults(
   {}
 );
 const emits = defineEmits(["update:modelValue", "change"]);
+// const formItemRef = ref<any>(null);
 const newVal = computed({
   get() {
     return props.modelValue;
@@ -286,13 +287,24 @@ const newField = computed<FormFieldAttrs>(() => {
   if (children?.length) {
     const { required } = field;
     subFields.value = children as FormFieldAttrs[];
-    // 当子项有一个必填项时，父级自动变为必填项
-    if (!required) {
-      const someRequired = children.some((item: FormField) => {
-        if (typeof item === "object") return item?.required ?? false;
+    // 当是 addDel 类型的子项时，如果子项都未设置 required，则默认父级需显示必传红星符号
+    if (fType === "addDel") {
+      const someRequired = children.some((item: FormField, ind: number) => {
+        const isLast = ind === children.length - 1;
+        if (typeof item === "object") return item?.required ?? (isLast ? true : false);
         return false;
       });
       if (someRequired) tempField.required = true;
+    } else {
+      // 当子项有一个必填项时，父级自动变为必填项
+      if (!required) {
+        console.log(fType, "fType----------");
+        const someRequired = children.some((item: FormField) => {
+          if (typeof item === "object") return item?.required ?? false;
+          return false;
+        });
+        if (someRequired) tempField.required = true;
+      }
     }
   } else {
     // const { required = prefixProp ? true : false } = field;
@@ -314,7 +326,6 @@ const newField = computed<FormFieldAttrs>(() => {
         default: slots,
       };
     }
-    console.log(tempField, "tempField------------");
   }
   // if (size === "small" && type === "date-picker") {
   //   tempField.labelWidth = label.length + 0.5 + "em";
@@ -436,6 +447,9 @@ function handleInput(e: any, prop: string) {
     emits("change", prop, val);
   }
 }
+defineExpose({
+  // formItemRef,
+});
 </script>
 <style lang="scss" scoped>
 .base-form-item {

@@ -10,6 +10,7 @@
     <CompanyAuth class="wrap f-1" v-else-if="activeName === 'company-auth'" />
     <ShareUserRole class="wrap f-1" v-else-if="activeName === 'share-user-role'" />
     <HeartbeatRatio class="wrap f-1" v-else-if="activeName === 'heartbeat-ratio'" />
+    <SectionHeartbeatRatio class="wrap f-1" v-else-if="activeName === 'section-heartbeat-ratio'" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -22,6 +23,7 @@ import RealnameWhiteList from "./_components/RealnameWhiteList.vue";
 import CompanyAuth from "./_components/CompanyAuth.vue";
 import ShareUserRole from "./_components/ShareUserRole.vue";
 import HeartbeatRatio from "./_components/HeartbeatRatio.vue";
+import SectionHeartbeatRatio from "./_components/SectionHeartbeatRatio.vue";
 
 const activeName = ref<any>("share-user-role");
 
@@ -31,6 +33,7 @@ const tabs: TabItem[] = [
   { label: "公司认证审核员配置", name: "company-auth" },
   { label: "分享嘉宾角色配置", name: "share-user-role" },
   { label: "心动嘉宾比例配置", name: "heartbeat-ratio" },
+  { label: "分块心动嘉宾比例配置", name: "section-heartbeat-ratio" },
 ];
 function handleClick(tab: TabsPaneContext, event: Event) {
   activeName.value = tab.paneName;

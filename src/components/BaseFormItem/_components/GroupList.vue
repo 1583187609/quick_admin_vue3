@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <el-form-item style="margin-bottom: 18px" v-for="(item, ind) in newList" :key="ind">
+  <el-form-item style="margin-bottom: 18px; width: 100%" v-for="(item, ind) in newList" :key="ind">
     <!-- <el-space> -->
     <BaseFormItem
       :prefixProp="`${parentProp}[${ind}]`"
@@ -9,6 +9,7 @@
       v-model="newList[ind][field.prop as string]"
       className="mr-o"
       v-bind="field"
+      :ref="el => initRefsList(el, ind)"
       v-for="(field, fInd) in newFields"
       :key="fInd"
     />
@@ -37,6 +38,11 @@ const props = withDefaults(
   }
 );
 const emits = defineEmits(["update:modelValue", "change"]);
+
+const refsList = ref<HTMLElement[]>([]);
+const initRefsList = (el, ind) => {
+  if (el) refsList.value[ind] = el;
+};
 const listItem = getAddDelItem(props.fields);
 const newList = computed({
   get() {
@@ -80,12 +86,17 @@ watch(
 function handleAddDel(type: AddDelBtnType, ind: number) {
   if (type === "add") {
     const { validate } = props;
-    if (validate) {
-      validate().then((params: CommonObj) => {
-        newList.value.push(JSON.parse(JSON.stringify(listItem)));
-      });
-    } else {
+    function handle() {
       newList.value.push(JSON.parse(JSON.stringify(listItem)));
+      //让第一个元素聚焦
+      setTimeout(() => {
+        console.log(refsList.value.at(-1), "让第一个元素聚焦暂未处理-------------");
+      }, 500);
+    }
+    if (validate) {
+      validate().then((params: CommonObj) => handle());
+    } else {
+      handle();
     }
   } else if (type === "del") {
     newList.value.splice(ind, 1);
