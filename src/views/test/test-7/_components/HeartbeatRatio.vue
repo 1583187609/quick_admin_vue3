@@ -20,7 +20,7 @@ let model = reactive<CommonObj>({
   ptyh: [{ jblx: undefined, zb: undefined }],
 });
 const childrenFields: FormField[] = [
-  { prop: "jblx", label: "嘉宾类型", type: "select", options: userOpts },
+  { prop: "jblx", label: "嘉宾类型", type: "select", options: userOpts, required: false },
   { prop: "zb", label: "占比", type: "input-number" },
 ];
 const fields: FormField[] = [

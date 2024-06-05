@@ -24,13 +24,15 @@ import AddDelBtn, { AddDelBtnType } from "@/components/AddDelBtn.vue";
 import { merge } from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";
 import { CommonObj } from "@/vite-env";
+import { showMessage } from "@/utils";
+import { typeOf } from "#/mock/utils";
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
     parentProp: string;
     fields: FormField[];
     pureText?: boolean;
-    validate?: () => Promise<any>;
+    formRef?: any;
   }>(),
   {
     parentProp: "",
@@ -52,8 +54,8 @@ const newList = computed({
     emits("update:modelValue", val);
   },
 });
-const formData = reactive<CommonObj>({});
 const newFields = ref<FormFieldAttrs[]>([]);
+const formData = reactive<CommonObj>({});
 watch(
   () => props.fields,
   newVal => {
@@ -70,7 +72,14 @@ watch(
 watch(
   () => props.modelValue,
   newVal => {
-    merge(formData, newVal);
+    // 用 isDel 标记是为了处理点击删除时，删除不掉的bug
+    const isDel = newVal.length < Object.keys(formData).length;
+    if (isDel) {
+      Object.keys(formData).forEach(key => delete formData[key]); //是为了清空对象属性，然后重新赋值
+      merge(formData, newVal);
+    } else {
+      merge(formData, newVal);
+    }
   },
   { immediate: false, deep: true }
 );
@@ -85,16 +94,24 @@ watch(
 //处理新增/删除按钮的逻辑
 function handleAddDel(type: AddDelBtnType, ind: number) {
   if (type === "add") {
-    const { validate } = props;
+    const { formRef } = props;
     function handle() {
       newList.value.push(JSON.parse(JSON.stringify(listItem)));
-      //让第一个元素聚焦
-      setTimeout(() => {
-        console.log(refsList.value.at(-1), "让第一个元素聚焦暂未处理-------------");
-      }, 500);
+      // //让第一个元素聚焦
+      // setTimeout(() => {
+      //   console.log(refsList.value.at(-1), "让第一个元素聚焦暂未处理-------------");
+      // }, 500);
     }
-    if (validate) {
-      validate().then((params: CommonObj) => handle());
+    if (formRef) {
+      const propsArr = Object.keys(newList.value[0]).map((key: string) => `${props.parentProp}[${ind}].${key}`);
+      formRef.validateField(propsArr, (isValid, inValidFields: CommonObj) => {
+        if (isValid) {
+          handle();
+        } else {
+          const target = Object.values(inValidFields)[0][0];
+          showMessage(target.message, "error");
+        }
+      });
     } else {
       handle();
     }

@@ -56,18 +56,14 @@ const childrenFields: FormField[] = [
     label: "状态",
     type: "switch",
     labelWidth: "0",
-    extra: {
-      noStyle: true,
-    },
+    extra: {},
     // required: true,
   },
   {
     prop: "jllx",
     label: "奖励类型",
     labelWidth: "1em",
-    extra: {
-      noStyle: true,
-    },
+    extra: {},
     // required: true,
     type: "select",
     options: taskRewardsOpts,
@@ -76,9 +72,7 @@ const childrenFields: FormField[] = [
     prop: "jlmx",
     label: "奖励明细",
     labelWidth: "1em",
-    extra: {
-      noStyle: true,
-    },
+    extra: {},
     type: "input-number",
     // required: true,
     attrs: {
@@ -89,9 +83,7 @@ const childrenFields: FormField[] = [
     prop: "lqfs",
     label: "领取方式",
     labelWidth: "1em",
-    extra: {
-      noStyle: true,
-    },
+    extra: {},
     type: "radio-group",
     // required: true,
     options: getRewardWayOpts,

@@ -190,16 +190,6 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       },
       example: exampleMap.labelWidth,
     },
-    {
-      prop: "noStyle",
-      label: "隐藏标签",
-      type: "select",
-      extra: {
-        span: 6,
-        popover: "手动指定标签宽度",
-      },
-      options: yesNoOpts,
-    },
     showOpts && {
       prop: "options",
       label: "下拉项",

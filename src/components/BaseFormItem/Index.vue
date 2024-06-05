@@ -1,7 +1,6 @@
 <template>
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
-  <!-- <el-form-item class="base-form-item" v-bind="newField" :class="[className, newField.extra?.noStyle ? 'label-hide' : '']"> -->
   <el-form-item
     class="base-form-item"
     v-bind="prefixProp && !newField.labelWidth ? deleteAttrs(newField, ['label']) : newField"
@@ -196,12 +195,12 @@
     </template>
     <!-- 当有子项表单时 -->
     <template v-else>
-      <GroupList
+      <AddDelList
         :parentProp="newField.prop"
         :fields="subFields"
         :pureText="pureText"
         v-model="newVal"
-        :validate="validate"
+        :formRef="formRef"
         v-if="newField.type === 'addDel'"
       />
       <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
@@ -228,13 +227,13 @@ export default {
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, reactive, watch, useAttrs, computed } from "vue";
 import { merge, cloneDeep } from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/utils";
+import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType, showMessage } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
 import { FormField, FormFieldAttrs, PopoverAttrs } from "./index";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
-import GroupList from "./_components/GroupList.vue";
+import AddDelList from "./_components/AddDelList.vue";
 import { rangeJoinChar } from "@/utils";
 
 export interface RuleItem {
@@ -257,13 +256,14 @@ export interface RuleItem {
 const props = withDefaults(
   defineProps<{
     prefixProp?: string; //前置prop属性
+    // isLastChild?: boolean; // 是否是 addDel 列表中的最后一个 child
     field: FormFieldAttrs;
     pureText?: boolean; //是否展示纯文本
     modelValue?: any;
     className?: any;
     inputDebounce?: boolean;
     size?: CommonSize;
-    validate?: () => Promise<any>;
+    formRef?: any;
   }>(),
   {}
 );
@@ -282,38 +282,36 @@ const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
   const { type: fType, label, extra = {}, children } = field;
-  // const required = field.required ?? prefixProp ? true : false;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   if (children?.length) {
     const { required } = field;
     subFields.value = children as FormFieldAttrs[];
-    // 当是 addDel 类型的子项时，如果子项都未设置 required，则默认父级需显示必传红星符号
-    if (fType === "addDel") {
-      const someRequired = children.some((item: FormField, ind: number) => {
-        const isLast = ind === children.length - 1;
-        if (typeof item === "object") return item?.required ?? (isLast ? true : false);
+    // // 当是 addDel 类型的子项时，如果子项都未设置 required，则默认父级需显示必传红星符号
+    // if (fType === "addDel") {
+    //   const someRequired = children.some((item: FormField, ind: number) => {
+    //     const isLast = ind === children.length - 1;
+    //     if (typeof item === "object") return item?.required ?? (isLast ? true : false);
+    //     return false;
+    //   });
+    //   if (someRequired) tempField.required = true;
+    // } else {
+    // 当子项有一个必填项时，父级自动变为必填项
+    if (!required) {
+      const someRequired = children.some((item: FormField) => {
+        if (typeof item === "object") return item?.required ?? false;
         return false;
       });
       if (someRequired) tempField.required = true;
-    } else {
-      // 当子项有一个必填项时，父级自动变为必填项
-      if (!required) {
-        console.log(fType, "fType----------");
-        const someRequired = children.some((item: FormField) => {
-          if (typeof item === "object") return item?.required ?? false;
-          return false;
-        });
-        if (someRequired) tempField.required = true;
-      }
     }
+    // }
   } else {
-    // const { required = prefixProp ? true : false } = field;
     const { valid = "" } = extra;
     const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
     const { type: vType } = validField;
     const type = fType || vType || defaultFormItemType;
     const defField = defaultFieldAttrs[type];
-    tempField = merge({ type, required: prefixProp ? true : false }, defField, validField, field);
+    // tempField = merge({ type, required: prefixProp ? true : false }, defField, validField, field);
+    tempField = merge({ type }, defField, validField, field);
     const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
     merge(tempField, { attrs: autoAttrs }, field);
     popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
@@ -332,7 +330,6 @@ const newField = computed<FormFieldAttrs>(() => {
   // }
   // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
   // delete tempField.extra; //此处不能删除
-  // if (prefixProp) delete tempField.required;
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   return tempField;
 });
@@ -453,12 +450,6 @@ defineExpose({
 </script>
 <style lang="scss" scoped>
 .base-form-item {
-  //&.label-hide {
-  //  :deep(.el-form-item__label) {
-  //    visibility: hidden;
-  //    overflow: hidden;
-  //  }
-  //}
 }
 .err {
   color: $color-danger;

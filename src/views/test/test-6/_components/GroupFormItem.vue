@@ -11,9 +11,7 @@
           labelWidth: '0',
           required: false,
           options: userOpts,
-          extra: {
-            noStyle: true,
-          },
+          extra: {},
         }"
       />
       <BaseFormItem
@@ -24,9 +22,7 @@
           labelWidth: '0',
           required: false,
           type: 'input-number',
-          extra: {
-            noStyle: true,
-          },
+          extra: {},
         }"
       />
       <!-- <el-select v-model="item.jblx" placeholder="请选择嘉宾类型" clearable>

@@ -160,18 +160,14 @@ const fields = computed<FormField[]>(() => {
           label: "一",
           required: true,
           labelWidth: "0",
-          extra: {
-            noStyle: true,
-          },
+          extra: {},
         },
         {
           prop: "two",
           label: "二",
           required: true,
           labelWidth: "0",
-          extra: {
-            noStyle: true,
-          },
+          extra: {},
         },
       ],
     },
@@ -186,18 +182,14 @@ const fields = computed<FormField[]>(() => {
           label: "一",
           required: true,
           labelWidth: "0",
-          extra: {
-            noStyle: true,
-          },
+          extra: {},
         },
         {
           prop: "two",
           label: "二",
           required: true,
           labelWidth: "0",
-          extra: {
-            noStyle: true,
-          },
+          extra: {},
         },
       ],
     },

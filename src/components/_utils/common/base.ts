@@ -340,3 +340,20 @@ export function copyText(text = "") {
   }
   document.body.removeChild(input);
 }
+
+/**
+ * 是否是数组元素的删除
+ */
+// export function isArrDel(fObj: CommonObj, tObj: CommonObj) {
+//   for (const key in fObj) {
+//     const type = typeOf(fObj[key]);
+//     if (type === "Array") {
+//       const isDel = fObj[key].length > tObj[key]?.length;
+//       if (isDel) return true;
+//     } else if (type === "Object") {
+//       const isDel = isArrDel(fObj[key], tObj[key]);
+//       if (isDel) return true;
+//     }
+//   }
+//   return false;
+// }

@@ -13,6 +13,7 @@
             :pureText="field.extra?.pureText || pureText"
             v-model="formData[field.prop as string]"
             @change="(prop:any,val:any)=>emits('change',prop,val)"
+            :formRef="formRef"
           >
             <template #custom="{ field }">
               <slot :name="field.prop" :field="field" :form="formData"></slot>
@@ -40,6 +41,7 @@
       :disabled="!newFields.length"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
       @submit="(args:CommonObj)=>emits('submit', args)"
+      ref="footerBtnsRef"
       v-if="!pureText && footer"
     />
   </el-form>
@@ -106,6 +108,7 @@ const props = withDefaults(
 );
 const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const formRef = ref<FormInstance>();
+const footerBtnsRef = ref<any>(null);
 // const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
 const newFields = ref<FormFieldAttrs[]>([]);
 // const formData = reactive<CommonObj>({});

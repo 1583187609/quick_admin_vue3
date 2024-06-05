@@ -35,31 +35,15 @@
             <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
-                <!-- <BaseFormItem
-                :className="`f-span-${field.extra?.span || span}`"
-                :field="field"
-                :pureText="field.extra?.pureText || sItem.extra?.pureText || pureText"
-                v-model="modelFormItem(sItem.prop, field.prop)"
-              >
-                <template #custom="{ field }">
-                  <slot
-                    :name="field.prop"
-                    :field="field"
-                    :form="formData"
-                  ></slot>
-                </template>
-              </BaseFormItem> -->
                 <BaseFormItem
                   :className="`f-span-${field.extra?.span || span}`"
                   :field="field"
                   :pureText="field?.extra?.pureText || sItem.pureText || pureText"
                   v-model="formData[sItem.prop][field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
+                  :formRef="formRef"
                   v-if="sItem.prop"
                 >
-                  <!-- formData[sItem.prop ? `${sItem.prop}.${field.prop}` : field.prop] -->
-                  <!-- formData[sItem.prop][field.prop] -->
-                  <!-- formData[field.prop] -->
                   <template #custom="{ field }">
                     <slot :name="field.prop" :field="field" :form="formData"></slot>
                   </template>
@@ -70,6 +54,7 @@
                   :pureText="field?.extra?.pureText || sItem?.extra?.pureText || pureText"
                   v-model="formData[field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
+                  :formRef="formRef"
                   v-else
                 >
                   <template #custom="{ field }">

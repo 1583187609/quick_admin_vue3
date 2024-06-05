@@ -53,7 +53,6 @@ export interface FormFieldAttrs {
     example?: string; //示例，写在placeholder中的示例文本
     popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
     tips?: string; //注意提示语，位于字段的下方
-    noStyle?: boolean; //是否隐藏标签文字
     pureText?: boolean; //是否纯文本展示
     valid?: ValidType; //校验类型
     before?: any; //字段前面拼接的内容，可以是文本、组件等
