@@ -1,0 +1,1 @@
+@charset "UTF-8";.query-btns{display:flex;margin-left:auto}.query-btns.compact .el-button{padding:0 8px}.query-btns.small .el-button{padding:0 4px}.query-btns.small .el-button+.el-button{margin-left:4px}

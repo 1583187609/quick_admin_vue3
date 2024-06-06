@@ -1,0 +1,1 @@
+import{d as e,o as a,c as s}from"./@vue-2b5461a3.js";const n=e({name:"ThreeDimensionalChina",__name:"index",props:{_example_prop:{default:()=>({})}},setup:e=>(e,n)=>(a(),s("div",null,"中国地图"))});export{n as default};

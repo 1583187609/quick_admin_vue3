@@ -1,0 +1,1 @@
+import{d as e,o as a,c as p}from"./@vue-2b5461a3.js";const s=e({name:"SystemDepartment",__name:"index",props:{_example_prop:{default:()=>({})}},setup:e=>(e,s)=>(a(),p("div",null,"部门管理"))});export{s as default};
