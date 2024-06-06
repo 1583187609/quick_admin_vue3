@@ -1,0 +1,1 @@
+import{d as e,o as a,c as s}from"./@vue-2b5461a3.js";const p=e({name:"SystemSchedule",__name:"index",props:{_example_prop:{default:()=>({})}},setup:e=>(e,p)=>(a(),s("div",null,"定时任务"))});export{p as default};

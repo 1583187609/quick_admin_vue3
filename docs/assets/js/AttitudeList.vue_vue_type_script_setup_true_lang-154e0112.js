@@ -1,0 +1,1 @@
+import{d as t,o as s,c as e}from"./@vue-2b5461a3.js";const a={class:"attitude-list"},i=t({name:"SystemUserDetailInteractiveInfo_componentsAttitudeList",__name:"AttitudeList",props:{data:{default:()=>({})}},setup:t=>(t,i)=>(s(),e("div",a,"attitude-list"))});export{i as _};
