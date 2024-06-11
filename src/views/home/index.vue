@@ -58,6 +58,9 @@
         <ChartBars :datas="chartData.zztdg" />
       </BaseSection>
     </div>
+    <BaseSection class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
+      <MultiCharts />
+    </BaseSection>
   </div>
 </template>
 <script lang="ts" name="WorkbenchStatistics" setup>
@@ -68,6 +71,7 @@ import ChartLine from "@/components/chart/ChartLine.vue";
 import ChartBar from "@/components/chart/ChartBar.vue";
 import ChartPie from "@/components/chart/ChartPie.vue";
 import ChartBars from "@/components/chart/ChartBars.vue";
+import MultiCharts from "@/components/chart/MultiCharts.vue";
 import Setting from "./_components/Setting.vue";
 import { CommonObj } from "@/vite-env";
 
