@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <Chart :option="options" height="500px" />
+  <Chart :option="options" />
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
@@ -82,7 +82,7 @@ const options = {
     {
       trigger: "axis",
     },
-    {},
+    { trigger: "item" },
     {
       trigger: "axis",
     },
@@ -94,19 +94,16 @@ const options = {
     // 用来配置横坐标的信息，gridIndex是标识针对的那个表格
     { type: "category", gridIndex: 0, name: "日期", ...axisCfg, axisTick: { alignWithLabel: true } },
     { type: "category", gridIndex: 1, name: "日期", ...axisCfg, axisTick: { alignWithLabel: true } },
-    { type: "category", gridIndex: 2, name: "日期", ...axisCfg, axisTick: { alignWithLabel: true } },
+    { show: false, gridIndex: 2 },
     { type: "category", gridIndex: 3, name: "日期", ...axisCfg, axisTick: { alignWithLabel: true } },
   ],
   yAxis: [
     { type: "value", gridIndex: 0, name: "金额($)", ...axisCfg },
     { type: "value", gridIndex: 1, name: "数量", ...axisCfg },
-    { type: "value", gridIndex: 2, name: "金额($)", ...axisCfg },
+    { show: false, gridIndex: 2 },
     { type: "value", gridIndex: 3, name: "%", ...axisCfg },
   ],
   series: [
-    // 配置数据关系
-    // stack用来做分组标记，同标记的数据，会在同一个表格显示
-    // seriesLayoutBy 设置如何从dateset里面获取数据，这里按照列获取
     { type: "line", smooth: true, xAxisIndex: 0, yAxisIndex: 0, datasetIndex: 0 },
     { type: "line", smooth: true, xAxisIndex: 0, yAxisIndex: 0, datasetIndex: 0 },
     { type: "line", smooth: true, xAxisIndex: 0, yAxisIndex: 0, datasetIndex: 0 },
@@ -151,8 +148,8 @@ const options = {
         borderRadius: [8, 8, 0, 0],
       },
     },
-    { type: "pie", radius: 55, center: ["12.5%", "72%"], datasetIndex: 2 },
-    { type: "pie", hollow: true, radius: [32, 55], center: ["37.5%", "72%"], datasetIndex: 2 },
+    { type: "pie", radius: 70, center: ["12.5%", "75%"], datasetIndex: 2 },
+    { type: "pie", radius: [45, 70], center: ["37.5%", "75%"], datasetIndex: 2 },
     {
       type: "line",
       smooth: true,

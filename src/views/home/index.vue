@@ -43,6 +43,9 @@
       <BaseSection class="section f-1" title="饼图 - ChartPie">
         <ChartPie :data="chartData.bt" />
       </BaseSection>
+      <BaseSection class="section f-1" title="雷达图 - ChartRadar（后续完善）">
+        <ChartRadar />
+      </BaseSection>
     </div>
     <div class="row f-sb-s">
       <BaseSection class="section f-1" title="自定义option - Chart">
@@ -59,7 +62,7 @@
       </BaseSection>
     </div>
     <BaseSection class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
-      <MultiCharts />
+      <MultiCharts height="500px" />
     </BaseSection>
   </div>
 </template>
@@ -70,6 +73,7 @@ import Chart from "@/components/chart/Chart.vue";
 import ChartLine from "@/components/chart/ChartLine.vue";
 import ChartBar from "@/components/chart/ChartBar.vue";
 import ChartPie from "@/components/chart/ChartPie.vue";
+import ChartRadar from "@/components/chart/ChartRadar.vue";
 import ChartBars from "@/components/chart/ChartBars.vue";
 import MultiCharts from "@/components/chart/MultiCharts.vue";
 import Setting from "./_components/Setting.vue";
