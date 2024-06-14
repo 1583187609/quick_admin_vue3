@@ -163,3 +163,10 @@ export const filterTreeByKeywords = (val: string, tree: CommonObj[], newArr: Com
   });
   return newArr;
 };
+
+/**
+ * 给数字每隔 3 位就增加一个逗号
+ * @param num 要转化的数字
+ * @returns
+ */
+export const addCommasToNumber = (num: string | number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

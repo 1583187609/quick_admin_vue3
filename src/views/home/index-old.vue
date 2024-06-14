@@ -13,7 +13,6 @@ import { useRouter } from "vue-router";
 import { Top } from "@element-plus/icons-vue";
 const router = useRouter();
 const userInfo = getUserInfo();
-const timeAlias = ref(getTimePeriodAlias());
 function getTimePeriodAlias() {
   const hours = new Date().getHours();
   let alias = "";
@@ -36,6 +35,7 @@ function getTimePeriodAlias() {
   }
   return alias;
 }
+const timeAlias = ref(getTimePeriodAlias());
 </script>
 <style lang="scss" scoped>
 .home {

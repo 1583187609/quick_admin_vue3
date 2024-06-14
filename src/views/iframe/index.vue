@@ -19,7 +19,7 @@ const { url } = route.query;
 const iframeSrc = (url as string) ?? "";
 </script>
 <style lang="scss" name="" scoped>
-.inner-link {
-  //padding: 0;
-}
+// .inner-link {
+//   //padding: 0;
+// }
 </style>

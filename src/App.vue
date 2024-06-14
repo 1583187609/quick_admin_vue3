@@ -33,6 +33,7 @@ import { useRoute } from "vue-router";
 export type PopupType = "drawer" | "dialog"; //弹窗类型
 export type DialogId = `dialog-${number}`; //id必须大于等于0，示例："dialog-1"
 export type DrawerId = `drawer-${number}`; //id必须大于等于0，示例："drawer-1"
+export type FootRenderData = false | BaseRenderData;
 export interface DialogPopup {
   id: number;
   name: "dialog";
@@ -73,7 +74,6 @@ export type CloseDialogType = DialogPopup | DialogId | "all";
 export type CloseDrawerType = DrawerPopup | DrawerId | "all";
 export type DialogHeadTypes = string | DialogHeadAttrs;
 export type DrawerHeadTypes = string | DrawerHeadAttrs;
-export type FootRenderData = false | BaseRenderData;
 
 const route = useRoute();
 const showWaterMask = ref(false);
@@ -297,14 +297,14 @@ provide("getPopups", getPopups);
     font-size: 26px;
     line-height: 1;
   }
-  .driver-popover-footer {
-  }
-  .driver-popover-progress-text {
-  }
-  .driver-popover-prev-btn {
-  }
-  .driver-popover-next-btn {
-    // background: $color-primary;
-  }
+  //.driver-popover-footer {
+  //}
+  //.driver-popover-progress-text {
+  //}
+  //.driver-popover-prev-btn {
+  //}
+  //.driver-popover-next-btn {
+  //  // background: $color-primary;
+  //}
 }
 </style>

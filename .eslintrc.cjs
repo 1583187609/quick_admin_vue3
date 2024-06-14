@@ -5,7 +5,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    es6: true
+    es6: true,
   },
   // 指定如何解析语法
   parser: "vue-eslint-parser",
@@ -16,8 +16,8 @@ module.exports = {
     sourceType: "module",
     jsxPragma: "React",
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   // 继承某些已有的规则
   extends: ["plugin:vue/vue3-recommended", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
@@ -30,12 +30,12 @@ module.exports = {
     // eslint (http://eslint.cn/docs/rules)
     "no-var": "error", // 要求使用 let 或 const 而不是 var
     "no-multiple-empty-lines": ["error", { max: 1 }], // 不允许多个空行
-    "prefer-const": "off", // 使用 let 关键字声明但在初始分配后从未重新分配的变量，要求使用 const
-    "no-use-before-define": "off", // 禁止在 函数/类/变量 定义之前使用它们
+    "prefer-const": "error", // 使用 let 关键字声明但在初始分配后从未重新分配的变量，要求使用 const
+    "no-use-before-define": "warn", // 禁止在 函数/类/变量 定义之前使用它们
 
     // typeScript (https://typescript-eslint.io/rules)
-    "@typescript-eslint/no-unused-vars": "error", // 禁止定义未使用的变量
-    "@typescript-eslint/no-empty-function": "error", // 禁止空函数
+    "@typescript-eslint/no-unused-vars": "off", // 禁止定义未使用的变量
+    "@typescript-eslint/no-empty-function": "warn", // 禁止空函数
     "@typescript-eslint/prefer-ts-expect-error": "error", // 禁止使用 @ts-ignore
     "@typescript-eslint/ban-ts-comment": "error", // 禁止 @ts-<directive> 使用注释或要求在指令后进行描述
     "@typescript-eslint/no-inferrable-types": "off", // 可以轻松推断的显式类型可能会增加不必要的冗长
@@ -51,11 +51,12 @@ module.exports = {
     "vue/no-mutating-props": "error", // 不允许改变组件 prop
     "vue/custom-event-name-casing": "error", // 为自定义事件名称强制使用特定大小写
     "vue/html-closing-bracket-newline": "error", // 在标签的右括号之前要求或禁止换行
-    "vue/attribute-hyphenation": "error", // 对模板中的自定义组件强制执行属性命名样式：my-prop="prop"
+    "vue/attribute-hyphenation": "off", // 对模板中的自定义组件强制执行属性命名样式：my-prop="prop"
     "vue/attributes-order": "off", // vue api使用顺序，强制执行属性顺序
     "vue/no-v-html": "off", // 禁止使用 v-html
-    "vue/require-default-prop": "off", // 此规则要求为每个 prop 为必填时，必须提供默认值
-    "vue/multi-word-component-names": "off", // 要求组件名称始终为 “-” 链接的单词
-    "vue/no-setup-props-destructure": "off" // 禁止解构 props 传递给 setup
-  }
+    "vue/require-default-prop": "warn", // 此规则要求为每个 prop 为必填时，必须提供默认值
+    "vue/multi-word-component-names": "off", // 要求组件名称始终为多个单词命名的
+    "vue/v-on-event-hyphenation": "off", // v-on事件名必须使用连字符
+    "vue/no-setup-props-destructure": "off", // 禁止解构 props 传递给 setup
+  },
 };

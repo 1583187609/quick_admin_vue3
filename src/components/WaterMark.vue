@@ -13,13 +13,13 @@ const props = withDefaults(
     destroy?: boolean; //是否在销毁组件时去除水印节点（前提是允许用户修改DOM，否则去除后会再次自动生成）,true会
   }>(),
   {
+    text: `姓名 00001 ${dayjs(new Date()).format("YYYY-MM-DD")}`,
     allowUpdate: false,
     destroy: true,
     rotate: 30,
   }
 );
 let maskDiv = reactive<any>({}); // 当前显示的水印div节点DOM对象
-const tempText = `姓名 00001 ${dayjs(new Date()).format("YYYY-MM-DD")}`;
 function init() {
   const canvas: any = document.createElement("canvas");
   canvas.id = "canvas";
@@ -30,7 +30,7 @@ function init() {
   ctx.font = "normal 14px Microsoft Yahei"; //设置样式
   ctx.fillStyle = "rgb(112, 113, 114, 0.1)"; //水印字体颜色
   ctx.rotate((props.rotate * Math.PI) / 180); //水印偏转角度
-  ctx.fillText(props.text || tempText, 30, 20);
+  ctx.fillText(props.text, 30, 20);
   const src = canvas.toDataURL("image/png");
   maskDiv.style.position = "fixed";
   maskDiv.style.zIndex = "9999";
@@ -42,6 +42,12 @@ function init() {
   maskDiv.style.pointerEvents = "none";
   maskDiv.style.backgroundImage = "URL(" + src + ")";
   document.body.appendChild(maskDiv); // 水印节点插到body下
+}
+
+/* public */
+//手动销毁水印DOM
+function remove() {
+  document.body.removeChild(maskDiv);
 }
 
 //监听body节点
@@ -65,11 +71,6 @@ function monitor() {
   observer.observe(body, options);
 }
 
-/* public */
-//手动销毁水印DOM
-function remove() {
-  document.body.removeChild(maskDiv);
-}
 onMounted(() => {
   init();
   nextTick(() => {

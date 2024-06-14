@@ -205,13 +205,13 @@ const chartData = reactive<CommonObj>({
   zztdwd: [],
   zztdg: [],
 });
-init();
 function init() {
   //模拟请求
   setTimeout(() => {
     Object.assign(chartData, mockChartData);
   }, 100);
 }
+init();
 </script>
 <style lang="scss" scoped>
 .page {

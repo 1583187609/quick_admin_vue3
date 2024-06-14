@@ -152,8 +152,8 @@ export function handleFormInitData(field: FormFieldAttrs, modelValue?: CommonObj
 
 /**
  * 计算弹性布局时，末尾需要的空盒子个数
- * @param total {number} 总共多少个元素
- * @param cols  {number} 多少列布局
+ * @param {number} total  总共多少个元素
+ * @param {number} cols   多少列布局
  * @returns
  */
 export function getEmptyNum(total: number, cols: number) {
@@ -190,7 +190,7 @@ export const getImgUrl = (path: string) => {
 /**
  * 从树形数组中根据id获取菜单文本
  * @param tree {}[] 树形数据
- * @param id string | number id
+ * @param {string | number} id  id
  * @param key 要获取的文本的键名
  * @param keyMap 键名映射
  */
@@ -284,8 +284,8 @@ export function getLabelFromOptionsByAllValues(
 
 /**
  * 根据url地址下载文件
- * @param url string 下载地址
- * @param name string 文件名称
+ * @param {string} url  下载地址
+ * @param {string} name  文件名称
  */
 export function downloadByUrl(url: string, name: string = dayjs().format("YYYY-MM-DD")) {
   const a = document.createElement("a");
@@ -294,4 +294,15 @@ export function downloadByUrl(url: string, name: string = dayjs().format("YYYY-M
   a.style.display = "none";
   a.click();
   a.remove();
+}
+
+/**
+ * 根据 bufferData 下载文件
+ * @param {string} buffer  Buffer数据
+ * @param {string} name  文件名称
+ */
+export function downloadByBuffer(buffer, name?: string) {
+  const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  const url = window.URL.createObjectURL(blob);
+  downloadByUrl(url, name);
 }
