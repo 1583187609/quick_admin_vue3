@@ -16,7 +16,7 @@
         :disabled="disabled"
         v-for="(subCol, subInd) in newCol?.children"
         :key="subInd"
-      ></Column>
+      />
     </el-table-column>
     <template v-else>
       <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
@@ -40,66 +40,69 @@
           </el-popover>
         </template>
         <template #default="{ row, column, $index }">
-          <template v-if="!newCol.type">
-            <BaseRender :data="devErrorTips('未联调')" v-if="row[newCol.prop] === undefined" />
-            <template v-else>
-              {{ getCellText(row, newCol.prop) }}
+          <BaseRender
+            :data="devErrorTips(newCol.prop as string)"
+            v-if="!(newCol.prop as string).startsWith('$') && row[newCol.prop as string] === undefined"
+          />
+          <template v-else>
+            <template v-if="!newCol.type">
+              {{ getCellText(row, newCol.prop as string) }}
             </template>
-          </template>
-          <GroupBtns
-            :row="{ ...row, $index }"
-            :btns="getGroupBtnsOfRow?.(row, $index)"
-            v-bind="groupBtnsAttrs"
-            @click="(btnObj, next) => onGroupBtn(btnObj, { row, col: newCol, $index }, next)"
-            v-else-if="newCol.type === 'operate'"
-          >
-          </GroupBtns>
-          <BaseIcon name="Sort" size="1.2em" v-else-if="newCol.type === 'sort'" />
-          <!-- id和备注列 -->
-          <template v-else-if="['id', 'remark'].includes(newCol.type)">
-            {{ row?.[newCol.prop as string] || "-" }}
-          </template>
-          <!-- 自定义列 -->
-          <slot name="custom" v-bind="{ row, col: newCol, ind: $index }" v-else-if="newCol.type === 'custom'"></slot>
-          <!-- 创建和修改列（后面再考虑优化） -->
-          <template v-else-if="['create', 'update'].includes(newCol.type)">
-            <!-- {{ getSplitPropsVal(row, newCol.prop) }} -->
-            <template v-if="newCol.prop?.includes(propsJoinChar)">
-              <div>
-                <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 0) " />
-              </div>
-              <div>
-                <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 1) " />
-              </div>
-            </template>
-            <template v-else>
+            <GroupBtns
+              :row="{ ...row, $index }"
+              :btns="getGroupBtnsOfRow?.(row, $index)"
+              v-bind="groupBtnsAttrs"
+              @click="(btnObj, next) => onGroupBtn(btnObj, { row, col: newCol, $index }, next)"
+              v-else-if="newCol.type === 'operate'"
+            >
+            </GroupBtns>
+            <BaseIcon name="Sort" size="1.2em" v-else-if="newCol.type === 'sort'" />
+            <!-- id和备注列 -->
+            <template v-else-if="['id', 'remark'].includes(newCol.type)">
               {{ row?.[newCol.prop as string] || "-" }}
             </template>
+            <!-- 自定义列 -->
+            <slot name="custom" v-bind="{ row, col: newCol, ind: $index }" v-else-if="newCol.type === 'custom'"></slot>
+            <!-- 创建和修改列（后面再考虑优化） -->
+            <template v-else-if="['create', 'update'].includes(newCol.type)">
+              <!-- {{ getSplitPropsVal(row, newCol.prop) }} -->
+              <template v-if="newCol.prop?.includes(propsJoinChar)">
+                <div>
+                  <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 0) " />
+                </div>
+                <div>
+                  <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 1) " />
+                </div>
+              </template>
+              <template v-else>
+                {{ row?.[newCol.prop as string] || "-" }}
+              </template>
+            </template>
+            <template v-else-if="newCol.type === 'switch'">
+              <el-switch
+                :modelValue="row[newCol.prop as string]"
+                v-bind="deleteAttrs(newCol.attrs, ['onChange'])"
+                @change="(val:StrNum | boolean)=>handleSwitchChange(newCol, row, $index)"
+                v-if="newCol?.attrs?.fetch"
+              />
+              <el-switch v-model="row[newCol.prop as string]" v-bind="newCol.attrs" v-else />
+            </template>
+            <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
+            <template v-else-if="newCol.type === 'BaseImg'">
+              <BaseImg
+                style="margin: 0 auto"
+                :src="row[newCol.prop as string]"
+                v-bind="newCol.attrs"
+                v-if="row[newCol.prop as string]"
+              />
+              <template v-else>-</template>
+            </template>
+            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
+              {{ row[newCol.prop as string] || "-" }}
+            </BaseText>
+            <BaseCopy :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
+            <CustomSpecialTableCols :row="row" :col="newCol" v-else />
           </template>
-          <template v-else-if="newCol.type === 'switch'">
-            <el-switch
-              :modelValue="row[newCol.prop as string]"
-              v-bind="deleteAttrs(newCol.attrs, ['onChange'])"
-              @change="(val:StrNum | boolean)=>handleSwitchChange(newCol, row, $index)"
-              v-if="newCol?.attrs?.fetch"
-            />
-            <el-switch v-model="row[newCol.prop as string]" v-bind="newCol.attrs" v-else />
-          </template>
-          <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
-          <template v-else-if="newCol.type === 'BaseImg'">
-            <BaseImg
-              style="margin: 0 auto"
-              :src="row[newCol.prop as string]"
-              v-bind="newCol.attrs"
-              v-if="row[newCol.prop as string]"
-            />
-            <template v-else>-</template>
-          </template>
-          <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
-            {{ row[newCol.prop as string] || "-" }}
-          </BaseText>
-          <BaseCopy :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
-          <CustomSpecialTableCols :row="row" :col="newCol" v-else />
         </template>
       </el-table-column>
     </template>
@@ -196,7 +199,7 @@ function handleSwitchChange(col: TableFieldAttrs, row: CommonObj, ind: number) {
 function getCreateOrUpdateText(row: CommonObj, prop: string, ind: number = 0) {
   const keys = prop.split(propsJoinChar);
   const val = row?.[keys?.[ind]];
-  if (val === undefined) return devErrorTips("未联调");
+  if (val === undefined) return devErrorTips(keys?.[ind]);
   return emptyVals.includes(val) ? "-" : val;
 }
 </script>

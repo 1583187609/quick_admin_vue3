@@ -12,7 +12,7 @@
   >
   </BaseCrud>
 </template>
-<script lang="ts" name="Tpl" setup>
+<script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { PostUserList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
@@ -27,12 +27,13 @@ const openPopup: any = inject("openPopup");
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
 const cols: TableField[] = [
   {
-    prop: "ffcgyhid",
+    prop: "zdlx",
     label: "字典类型",
     minWidth: 210,
   },
   {
     type: "remark",
+    // prop: "produce",
   },
   {
     type: "create",

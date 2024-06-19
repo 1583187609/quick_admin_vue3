@@ -151,7 +151,7 @@ const fields = computed<FormField[]>(() => {
       ],
     },
     {
-      label: "嵌套的校验（对象）",
+      label: "嵌套（对象）",
       prop: "inner_obj",
       required: true,
       children: [
@@ -172,7 +172,7 @@ const fields = computed<FormField[]>(() => {
       ],
     },
     {
-      label: "嵌套的校验（数组）",
+      label: "嵌套（数组）",
       prop: "inner_arr",
       required: true,
       type: "addDel",

@@ -11,7 +11,7 @@
   >
   </BaseCrud>
 </template>
-<script lang="ts" name="Tpl" setup>
+<script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { PostUserList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";

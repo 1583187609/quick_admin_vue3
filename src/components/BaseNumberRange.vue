@@ -91,7 +91,7 @@ function handleClear(type: InputType) {
 </script>
 <style lang="scss" scoped>
 .base-number-range {
-  width: 100%;
+  width: 200px;
   .separator {
     line-height: 32px;
     margin: 0 $gap-half;

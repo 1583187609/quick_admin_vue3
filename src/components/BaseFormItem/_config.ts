@@ -81,7 +81,10 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     select: {
       attrs: {
-        style: { width: "100%", minWidth: "150px" }, // minWidth 在作为表单子项时，是需要设置的，不然宽度会塌陷
+        style: {
+          // width: "100%",
+          minWidth: "150px", // minWidth 在作为表单子项时，是需要设置的，不然宽度会塌陷
+        },
         // placeholder: "请选择${label}",
         clearable: true,
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary
@@ -105,14 +108,14 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     cascader: {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
     },
     "date-picker": {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         type: "daterange", // year/month/date/dates/datetime/ week/datetimerange/daterange/monthrange
         rangeSeparator: rangeJoinChar,
         valueFormat: "YYYY-MM-DD",
@@ -186,7 +189,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     autocomplete: {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         placeholder: "请输入${label}",
         // maxlength: 30,
         clearable: true,
@@ -201,7 +204,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     "time-picker": {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         placeholder: "请选择${label}",
         rangeSeparator: rangeJoinChar,
         clearable: true,
@@ -209,14 +212,14 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     "time-select": {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
     },
     BaseNumberRange: {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
       },
     },
     // BaseUpload: {
