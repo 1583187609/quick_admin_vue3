@@ -66,7 +66,7 @@ const props = withDefaults(
   }
 );
 const defaultModel = getDefaultModel(defaultSet);
-let model = reactive<CommonObj>(getDefaultModel(setStore));
+const model = reactive<CommonObj>(getDefaultModel(setStore));
 const hasUpdated = computed(() => getIsUpdated(model, defaultModel)); //是否修改过
 const formKey = ref(Date.now());
 const sections = computed<SectionFormItemAttrs[]>(() => {

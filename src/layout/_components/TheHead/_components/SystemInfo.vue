@@ -19,12 +19,27 @@
 import pkg from "#/package.json";
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
+import { reactive } from "vue";
 const { version, dependencies, devDependencies } = pkg;
 const { VITE_APP_NAME } = import.meta.env;
 const env = import.meta.env.MODE;
 const fields: FormFieldAttrs[] = [
-  { prop: "name", label: "系统名称", class: "mb-h", pureText: true },
-  { prop: "description", label: "系统介绍", class: "mb-h", pureText: true },
+  {
+    prop: "name",
+    label: "系统名称",
+    class: "mb-h",
+    extra: {
+      pureText: true,
+    },
+  },
+  {
+    prop: "description",
+    label: "系统介绍",
+    class: "mb-h",
+    extra: {
+      pureText: true,
+    },
+  },
   {
     prop: "version",
     label: "版本号",
@@ -44,13 +59,13 @@ const fields: FormFieldAttrs[] = [
     class: "mb-h",
   },
 ];
-let model: CommonObj = {
+const model = reactive<CommonObj>({
   name: VITE_APP_NAME,
   description:
     "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
   version: `${env} - ${version}`,
   depends: Object.entries(dependencies),
   devDepends: Object.entries(devDependencies),
-};
+});
 </script>
 <style lang="scss" scoped></style>

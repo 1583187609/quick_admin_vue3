@@ -87,6 +87,9 @@
         <el-button @click="handleReset(ruleFormRef)">重置</el-button>
       </el-form-item>
     </el-form>
+    <div>
+      <el-button type="primary" @click="testSubmitCancel">点击测试</el-button>
+    </div>
   </div>
 </template>
 
@@ -94,6 +97,8 @@
 import { reactive, ref } from "vue";
 import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
+import { PostUserList } from "@/api-mock";
+import { CommonObj } from "@/vite-env";
 
 const size = ref<ComponentSize>("default");
 const labelPosition = ref<FormProps["labelPosition"]>("right");
@@ -131,6 +136,11 @@ function onSubmit(formEl?: FormInstance) {
 function handleReset(formEl?: FormInstance) {
   if (!formEl) return;
   formEl.resetFields();
+}
+function testSubmitCancel() {
+  PostUserList({}).then((res: CommonObj) => {
+    console.log(res, "res---------------------");
+  });
 }
 </script>
 
