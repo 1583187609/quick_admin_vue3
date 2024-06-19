@@ -9,10 +9,10 @@ import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { showMessage } from "@/utils";
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const fields: FormFieldAttrs[] = [

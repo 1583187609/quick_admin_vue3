@@ -116,14 +116,14 @@ const resize = () => {
 
 // 根据浏览器大小推断缩放比例
 const getScale = (width = 1920, height = 1080) => {
-  let ww = window.innerWidth / width;
-  let wh = window.innerHeight / height;
+  const ww = window.innerWidth / width;
+  const wh = window.innerHeight / height;
   return ww < wh ? ww : wh;
 };
 
 // 获取当前时间
 let timer: NodeJS.Timer | null = null;
-let time = ref<string>(dayjs().format("YYYY年MM月DD HH:mm:ss"));
+const time = ref<string>(dayjs().format("YYYY年MM月DD HH:mm:ss"));
 timer = setInterval(() => {
   time.value = dayjs().format("YYYY年MM月DD HH:mm:ss");
 }, 1000);

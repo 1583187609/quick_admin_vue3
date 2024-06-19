@@ -24,10 +24,10 @@
     <div class="f-1 f-sb-s-c" style="width: 1px">
       <TheHead class="f-0" />
       <div class="container f-1 all-hide-scroll">
-        <RouterView v-slot="{ Component, route }">
+        <RouterView v-slot="{ Component, route: currRoute }">
           <Transition name="main" mode="out-in" appear>
             <KeepAlive :include="keepAliveStore.list" :max="20">
-              <component :is="formatComponentInstance(Component, route)" :key="aliveCompKey || route.fullPath" />
+              <component :is="formatComponentInstance(Component, currRoute)" :key="aliveCompKey || currRoute.fullPath" />
             </KeepAlive>
           </Transition>
         </RouterView>

@@ -14,8 +14,8 @@
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
         >
-          <template #custom="{ field }">
-            <slot :name="field.prop" :field="field" :form="formData"></slot>
+          <template #custom="{ field: currField }">
+            <slot :name="currField.prop" :field="currField" :form="formData"></slot>
           </template>
         </BaseFormItem>
       </template>

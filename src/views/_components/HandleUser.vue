@@ -35,7 +35,7 @@ const props = withDefaults(
   {}
 );
 const reportHandleOpts = getOpts("ReportHandle", [0, 2], true);
-let model = reactive<CommonObj>(
+const model = reactive<CommonObj>(
   Object.assign(
     {
       // userId: props?.data?.userId,

@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" />
+      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" :key="ind" />
     </div>
   </div>
 </template>

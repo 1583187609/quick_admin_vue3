@@ -36,7 +36,7 @@ const props = withDefaults(
   {}
 );
 const { id } = props;
-let model = reactive<CommonObj>(props.id ? {} : { gender: 0, status: 1 });
+const model = reactive<CommonObj>(props.id ? {} : { gender: 0, status: 1 });
 const fields = ref<FormField[]>([
   {
     prop: "avatar",

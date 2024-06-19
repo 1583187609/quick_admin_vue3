@@ -9,8 +9,9 @@
           :disabled="getDisabled(item.type)"
           v-for="(item, ind) in dropdowns"
           :key="ind"
-          >{{ item.text }}</el-dropdown-item
         >
+          {{ item.text }}
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

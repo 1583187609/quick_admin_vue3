@@ -44,8 +44,8 @@
                   :formRef="formRef"
                   v-if="sItem.prop"
                 >
-                  <template #custom="{ field }">
-                    <slot :name="field.prop" :field="field" :form="formData"></slot>
+                  <template #custom="{ field: currField }">
+                    <slot :name="currField.prop" :field="currField" :form="formData"></slot>
                   </template>
                 </BaseFormItem>
                 <BaseFormItem
@@ -57,8 +57,8 @@
                   :formRef="formRef"
                   v-else
                 >
-                  <template #custom="{ field }">
-                    <slot :name="field.prop" :field="field" :form="formData"></slot>
+                  <template #custom="{ field: currField }">
+                    <slot :name="currField.prop" :field="currField" :form="formData"></slot>
                   </template>
                 </BaseFormItem>
               </template>
@@ -232,7 +232,8 @@ watch(
         formData.value[prop as string] = type === "custom" ? defVal : handleFields(fields, emits, defVal).data;
       } else {
         const result = handleFields(fields, emits, modelValue, fieldAttrs);
-        let { data, fields: _fields } = result;
+        let { fields: _fields } = result;
+        const { data } = result;
         merge(formData.value, data);
         if (labelWidthBySection) {
           const labelLen = getMaxLength(fields);

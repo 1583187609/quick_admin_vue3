@@ -22,8 +22,8 @@
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
-      <template #custom="{ row, col, ind }">
-        <slot name="custom" v-bind="{ row, col, $index: ind }"></slot>
+      <template #custom="{ row, col: c, ind }">
+        <slot name="custom" v-bind="{ row, col: c, $index: ind }"></slot>
       </template>
     </Column>
     <template #empty v-if="!loading">

@@ -8,13 +8,13 @@ import { FormField } from "@/components/BaseFormItem";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
-let model = reactive<CommonObj>({ form_type: 0 });
+const model = reactive<CommonObj>({ form_type: 0 });
 const fields = computed<FormField[]>(() => {
   return [
     {

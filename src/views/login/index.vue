@@ -60,7 +60,7 @@ const userStore = useUserStore();
 const loading = ref(false);
 const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   phone: storeAccount?.phone ?? "superAdmin_1",
   psd: storeAccount?.psd ?? "superAdmin123456",
   captcha: "",

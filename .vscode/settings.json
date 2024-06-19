@@ -8,11 +8,12 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.fixAll.eslint": "never"
+    "source.fixAll.eslint": "never" // 保存后使用eslint进行修复
   },
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "liveServer.settings.port": 5501,
   "cSpell.words": [
     "apisya",
     "asider",
@@ -79,6 +80,5 @@
     "wangeditor",
     "xslx",
     "Yapi"
-  ],
-  "liveServer.settings.port": 5501
+  ]
 }

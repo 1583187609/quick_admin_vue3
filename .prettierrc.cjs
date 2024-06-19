@@ -1,13 +1,9 @@
 // @see: https://www.prettier.cn
 
 module.exports = {
-  // semi: true, // 行尾是否需要分号
-  // singleQuote: false, // 使用单引号
   // "javascript.format.insertSpaceBeforeFunctionParenthesis": true, // 让函数(名)和后面的括号之间加个空格
   // "vetur.format.defaultFormatter.js": "vscode-typescript", // 让vue中的js按编辑器自带的ts格式进行格式化
-  // eslintIntegration: true, // 让prettier使用eslint的代码格式进行校验
-  // htmlWhitespaceSensitivity: "ignore", // 指定 HTML 文件的全局空白区域敏感度, "ignore" - 空格被认为是不敏感的
-  // endOfLine: "auto", // 换行符使用 auto
+  eslintIntegration: true, // 让prettier使用eslint的代码格式进行校验
   // 指定最大换行长度
   printWidth: 130,
   // 缩进制表符宽度 | 空格数

@@ -22,9 +22,9 @@ import { handleBtnNext } from "@/utils";
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
-  { _example_prop: () => ({}) }
+  { exampleProp: () => ({}) }
 );
 const fields: FormField[] = [
   { prop: "tx", label: "头像", type: "BaseUpload" },

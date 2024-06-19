@@ -9,10 +9,10 @@ import Chart from "./Chart.vue";
 import { axisCfg, gradColors, titleCfg } from "./_config";
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const options = {

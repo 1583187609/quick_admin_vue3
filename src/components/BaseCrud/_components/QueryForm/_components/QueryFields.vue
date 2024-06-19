@@ -10,8 +10,8 @@
       @change="(key:string, val:any)=>emits('change', key,val)"
       v-model="model[field!.prop as string]"
     >
-      <template #custom="{ field }">
-        <slot name="custom" :field="field"></slot>
+      <template #custom="{ field: currField }">
+        <slot name="custom" :field="currField"></slot>
       </template>
     </BaseFormItem>
   </el-col>
@@ -33,7 +33,7 @@ const props = withDefaults(
   }
 );
 const emits = defineEmits(["update:modelValue", "change"]);
-let model = computed<CommonObj>({
+const model = computed<CommonObj>({
   get() {
     return props.modelValue;
   },

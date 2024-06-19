@@ -108,7 +108,7 @@ export default defineStore("dict", () => {
   function getOpts(name: DictName, includeKeys: StrNum[] = [], isExclude = false): OptionItem[] {
     const currMap = getMap(name);
     let opts: OptionItem[] = [];
-    for (let key in currMap) {
+    for (const key in currMap) {
       const { text, disabled } = currMap[key];
       const val = isNaN(Number(key)) ? key : Number(key);
       const opt: OptionItem = { label: text, value: val };

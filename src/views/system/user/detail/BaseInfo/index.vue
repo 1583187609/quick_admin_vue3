@@ -19,8 +19,9 @@
           style="width: 5em"
           size="small"
           @click="openPopup(null, { component: '是否要重新比对人脸？' }, 'dialog')"
-          >比对人脸</el-button
         >
+          比对人脸
+        </el-button>
       </div>
     </div>
     <div class="f-c-s-c mr-o">

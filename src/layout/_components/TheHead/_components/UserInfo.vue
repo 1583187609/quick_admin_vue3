@@ -26,7 +26,7 @@ import { BtnName } from "@/components/BaseBtn";
 const { getOpts } = useDictStore();
 const genderOpts = getOpts("Gender");
 const editEnable = ref(false);
-let model = reactive<CommonObj>(getUserInfo());
+const model = reactive<CommonObj>(getUserInfo());
 // const props = withDefaults(
 //   defineProps<{
 //     data?: CommonObj;

@@ -31,10 +31,10 @@ import { defaultHomePath } from "@/utils";
 
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const route = useRoute();

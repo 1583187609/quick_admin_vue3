@@ -172,7 +172,7 @@ const { getSearchOpts } = useSelectOpts();
 const userOpts = getOpts("User");
 const enableOpts = getOpts("EnableStatus");
 //默认搜索值
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   xm: "张三",
   multi_tag: ["new_user"],
   date_range_def_val: ["2023-08-19", "2023-08-27"],

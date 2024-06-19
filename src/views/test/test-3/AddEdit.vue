@@ -33,7 +33,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-let model = reactive<CommonObj>(Object.assign({ cflx: 1, sfqy: 0 }, props.data));
+const model = reactive<CommonObj>(Object.assign({ cflx: 1, sfqy: 0 }, props.data));
 const fields = computed<FormField[]>(() => {
   return [
     {

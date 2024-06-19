@@ -9,8 +9,9 @@
       @close="onMenuItem('closeIndex', -1)"
       @click="onTagItem(homeTag, -1)"
       @contextmenu="onContextmenu($event, -1)"
-      >首页</PageTagItem
     >
+      首页
+    </PageTagItem>
     <button @click="onArrowBtn(-1)" class="btn f-c-c f-0" :class="{ disabled: leftDisabled }" :disabled="leftDisabled">
       <BaseIcon size="18" name="DArrowLeft"></BaseIcon>
     </button>
@@ -34,8 +35,9 @@
             @close="onMenuItem('closeIndex', index)"
             @click="onTagItem(element, index)"
             @contextmenu="onContextmenu($event, index)"
-            >{{ element.text }}</PageTagItem
           >
+            {{ element.text }}
+          </PageTagItem>
         </template>
       </Draggable>
       <DropMenu class="f-0" :currInd="contMenuInd" :total="tags.length" :data="bcrInfo" @menuItem="onMenuItem"></DropMenu>
@@ -76,7 +78,7 @@ const currTagInd = ref<number>(-1);
 const contMenuInd = ref<number>(-1);
 const tags = ref<PageTagItemType[]>(storage.getItem("pageTags") || []); //tempTags
 const scrollRef = ref<any>(null);
-let bcrInfo = ref({});
+const bcrInfo = ref({});
 useEvent("resize", initDisabled);
 watch(
   route,
@@ -206,7 +208,7 @@ function activeTagScrollToCenter(fullPath: string) {
     //     scrollEle.scrollTo(toLeft, 0);
     //   }
     // }
-    let toLeft = tagOffsetLeft - (scrollOffsetWidth - tagOffsetWidth) / 2;
+    const toLeft = tagOffsetLeft - (scrollOffsetWidth - tagOffsetWidth) / 2;
     scrollEle.scrollTo(toLeft, 0);
   });
 }

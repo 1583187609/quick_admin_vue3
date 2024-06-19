@@ -34,7 +34,7 @@ const props = withDefaults(
   {}
 );
 const defData: CommonObj = { cflx: 1, sfqy: 0 }; //默认值
-let model = reactive<CommonObj>(Object.assign(defData, props.data));
+const model = reactive<CommonObj>(Object.assign(defData, props.data));
 const fields = computed<FormField[]>(() => {
   return [
     {

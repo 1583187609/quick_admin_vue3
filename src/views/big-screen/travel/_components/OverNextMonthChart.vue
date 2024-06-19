@@ -34,8 +34,8 @@ const option: ECOption = {
     trigger: "axis",
     confine: true,
     formatter: params => {
-      let tipData = (params as { name: string; value: string }[])[0];
-      let html = `<div class="line-chart-bg">
+      const tipData = (params as { name: string; value: string }[])[0];
+      const html = `<div class="line-chart-bg">
                         <span style="">${tipData.name} <i >${tipData.value}</i> 人次访问</span>
                     </div>`;
       return html;
@@ -157,7 +157,7 @@ const option: ECOption = {
   }),
 };
 function randomNum(min: number, max: number): number {
-  let num = Math.floor(Math.random() * (min - max) + max);
+  const num = Math.floor(Math.random() * (min - max) + max);
   return num;
 }
 </script>

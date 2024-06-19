@@ -12,8 +12,8 @@
 </template>
 <script lang="ts">
 export default {
-  inheritAttrs: false,
   name: "BaseBtn",
+  inheritAttrs: false,
 };
 </script>
 <script lang="ts" name="BaseBtn" setup>

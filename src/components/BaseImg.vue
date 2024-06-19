@@ -18,7 +18,7 @@
       </div>
     </template>
     <template #error>
-      <template>{{ emits("error") }}</template>
+      {{ emits("error") }}
       <el-image class="base-img" :class="{ round }" :src="errImgSrc" :fit="fit" preview-teleported v-if="errImgSrc" />
       <div class="err-box f-c-c-c" v-else>
         <BaseIcon :size="sizeMap[sizeType]" name="Picture"></BaseIcon>

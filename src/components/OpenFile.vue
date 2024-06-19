@@ -2,7 +2,6 @@
   <a :href="url" class="open-file" target="_blank" download>
     <slot>-</slot>
   </a>
-  <template>-</template>
 </template>
 <script lang="ts" setup>
 // <a href="https://github.com/progit/progit2-zh/releases/download/2.1.62/progit.pdf"><img width="50px" src="/images/pdf.png"></a>

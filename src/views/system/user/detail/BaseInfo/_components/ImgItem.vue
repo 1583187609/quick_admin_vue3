@@ -7,8 +7,9 @@
       size="small"
       @click="emits('click', rejected)"
       :plain="rejected"
-      >{{ rejected ? "取消驳回" : "驳回" }}</el-button
     >
+      {{ rejected ? "取消驳回" : "驳回" }}
+    </el-button>
   </div>
 </template>
 <script lang="ts" setup>

@@ -26,7 +26,7 @@ interface ChartProp {
   woman: number;
 }
 
-let data: ChartProp = {
+const data: ChartProp = {
   man: 0.6,
   woman: 0.4,
 };

@@ -21,7 +21,7 @@ import { useDictStore } from "@/store";
 const { getOpts, getText } = useDictStore();
 const taskRewardsOpts = getOpts("TaskRewards");
 const getRewardWayOpts = getOpts("GetRewardWay");
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   //kpi-1
   // wszl: { zt: 0, jllx: 1, jlmx: 10, lqfs: 1 },
   scszzp: { zt: 0, jllx: 2, jlmx: 20, lqfs: 2 },

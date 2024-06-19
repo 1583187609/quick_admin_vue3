@@ -37,7 +37,7 @@ const supportSwitchAttrs: CommonObj = {
   style: "width: 5em",
 };
 const genderOpts = getOpts("Gender");
-let model = reactive({
+const model = reactive({
   nl: 24,
   cyxslx: 1,
 });

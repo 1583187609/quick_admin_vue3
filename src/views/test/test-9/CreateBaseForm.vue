@@ -40,10 +40,10 @@ import { omitAttrs, typeOf } from "@/utils";
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const widgetTypeOpts: OptionItem[] = [
@@ -61,7 +61,7 @@ const validOpts: OptionItem[] = [
   { label: "邮箱", value: "identity" },
   { label: "年龄", value: "age" },
 ];
-let model = reactive<CommonObj>(
+const model = reactive<CommonObj>(
   Object.assign(
     {}
     // { prop: "xm", label: "姓名" }

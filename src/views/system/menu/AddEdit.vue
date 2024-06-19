@@ -35,7 +35,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-let model = reactive<CommonObj>(
+const model = reactive<CommonObj>(
   Object.assign(
     {
       type: 1,

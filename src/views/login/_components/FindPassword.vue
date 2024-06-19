@@ -19,7 +19,7 @@ import { CommonObj } from "@/vite-env";
 //     data: () => ({}),
 //   }
 // );
-let model = reactive<CommonObj>({});
+const model = reactive<CommonObj>({});
 const fields = [
   {
     prop: "pheon",

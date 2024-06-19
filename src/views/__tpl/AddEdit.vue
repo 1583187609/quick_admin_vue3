@@ -25,7 +25,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-let model = reactive<CommonObj>(Object.assign({}, props.data));
+const model = reactive<CommonObj>(Object.assign({}, props.data));
 const fields: FormField[] = [
   {
     prop: "ffdx",

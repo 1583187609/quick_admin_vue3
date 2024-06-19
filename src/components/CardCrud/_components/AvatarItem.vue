@@ -35,6 +35,7 @@
         size="small"
         @click="() => emits('groupBtn', btn)"
         v-for="(btn, ind) in groupBtns"
+        :key="ind"
       />
     </div>
   </div>

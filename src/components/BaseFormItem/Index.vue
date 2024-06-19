@@ -29,7 +29,7 @@
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-input>
@@ -46,7 +46,7 @@
             </el-option>
             <el-option v-bind="opt" v-else />
           </template>
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-select>
@@ -57,7 +57,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'date-picker'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-date-picker>
@@ -116,7 +116,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'cascader'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-cascader>
@@ -150,7 +150,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'autocomplete'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-autocomplete>
@@ -360,7 +360,7 @@ function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
 }
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
-  let arr: FormItemRule[] = [];
+  const arr: FormItemRule[] = [];
   rules.forEach((item: CommonObj, ind: number) => {
     const keys: string[] = ["required", "min", "max", "pattern", "validator"];
     const { type } = item;

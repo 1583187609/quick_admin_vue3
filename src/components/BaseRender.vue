@@ -11,7 +11,7 @@
       <template v-if="typeof data.attrs?.slots === 'string'">
         {{ data.attrs?.slots }}
       </template>
-      <template v-slot:[key] v-for="(val, key) in data.attrs?.slots" :key="key">
+      <template #[key] v-for="(val, key) in data.attrs?.slots" :key="key">
         <BaseRender :data="(val as string)" />
       </template>
     </component>

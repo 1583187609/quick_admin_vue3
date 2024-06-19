@@ -76,7 +76,7 @@ const loading = ref(false);
 const title = import.meta.env.VITE_APP_TITLE;
 const redirect = ref(route.query.redirect?.toString() ?? "/");
 const { login_account } = localStorage;
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   account: login_account || "",
   password: "",
   remember: !!login_account,

@@ -230,7 +230,7 @@ const pageInfo = reactive<CommonObj>({ total: 0, hasMore: true });
 const loading = ref(false);
 const newRows = ref([]);
 const seledRows = ref<CommonObj[]>([]);
-let model = computed({
+const model = computed({
   get() {
     return props.modelValue;
   },
@@ -354,7 +354,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
     .then((res: any) => {
       if (!res) return;
       if (handleResponse) res = handleResponse(res);
-      let newList = res[resMap!.records as string];
+      const newList = res[resMap!.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请自测：", res);
       log && printLog(newList, "res");
       const _currPage = args[reqMap!.curr_page as string];

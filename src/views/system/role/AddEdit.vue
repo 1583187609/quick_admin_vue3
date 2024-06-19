@@ -26,7 +26,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-let model = reactive<CommonObj>(props.id ? {} : { status: 1 });
+const model = reactive<CommonObj>(props.id ? {} : { status: 1 });
 const fields = ref<FormField[]>([
   { prop: "role_type_text", label: "角色名称", required: true },
   { prop: "role_type", label: "角色标识符", required: true },

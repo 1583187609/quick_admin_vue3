@@ -28,10 +28,10 @@ import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { showMessage } from "@/utils";
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const actives = ref<StrNum[]>([1, 3]);

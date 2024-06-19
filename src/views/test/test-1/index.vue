@@ -33,7 +33,7 @@
       </template>
     </BaseForm>
     <ul class="f-1 ml-t tips-list">
-      <li class="item" v-for="(item, ind) in tipsList">{{ ind + 1 }}、{{ item }}</li>
+      <li class="item" v-for="(item, ind) in tipsList" :key="ind">{{ ind + 1 }}、{{ item }}</li>
     </ul>
   </div>
 </template>
@@ -106,7 +106,7 @@ const supportSwitchAttrs: CommonObj = {
   style: "width: 5em",
 };
 
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   widget_size: "default",
   label_position: "right",
   inner_obj: {

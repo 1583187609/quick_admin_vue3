@@ -9,7 +9,7 @@
     v-if="!noFieldsHide || newFields.length || newSections.length"
   >
     <div class="all-hide-scroll wrap-box" :style="{ maxHeight: getMaxHeight() }" v-if="newSections.length">
-      <div class="f-fs-fs" v-for="(sItem, sInd) in newSections.slice(0, isFold ? rowNum : undefined)">
+      <div class="f-fs-fs" v-for="(sItem, sInd) in newSections.slice(0, isFold ? rowNum : undefined)" :key="sInd">
         <div class="sec-label f-0">{{ sItem.label }}</div>
         <div class="sec-fields f-fs-fs-w f-1">
           <QueryFields
@@ -23,8 +23,8 @@
             v-for="(field, ind) in sItem.fields.slice(0, sliceInd?.(sInd))"
             :key="ind"
           >
-            <template #custom="{ field }">
-              <slot name="custom" :field="field" :form="formData"></slot>
+            <template #custom="{ field: currField }">
+              <slot name="custom" :field="currField" :form="formData"></slot>
             </template>
           </QueryFields>
           <QueryBtns
@@ -61,8 +61,8 @@
         v-for="(field, ind) in newFields.slice(0, sliceInd)"
         :key="ind"
       >
-        <template #custom="{ field }">
-          <slot name="custom" :field="field" :form="formData"></slot>
+        <template #custom="{ field: currField }">
+          <slot name="custom" :field="currField" :form="formData"></slot>
         </template>
       </QueryFields>
       <QueryBtns

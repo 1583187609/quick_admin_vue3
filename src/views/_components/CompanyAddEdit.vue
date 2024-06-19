@@ -46,7 +46,7 @@ const props = withDefaults(
 );
 console.log(props.data, "data----------------");
 const isAdd = props.data && !props.isApply; //是否是新增
-let model = reactive<CommonObj>(getModel());
+const model = reactive<CommonObj>(getModel());
 const fields: FormField[] = [
   {
     prop: "typeId",

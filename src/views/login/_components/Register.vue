@@ -15,7 +15,7 @@ import { reactive } from "vue";
 //     data: () => ({}),
 //   }
 // );
-let model = reactive<CommonObj>({});
+const model = reactive<CommonObj>({});
 const fields = [
   { prop: "pheon", label: "电话", valid: "phone", required: true },
   {

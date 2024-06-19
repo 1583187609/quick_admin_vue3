@@ -59,10 +59,10 @@ const languageOpts: OptionItem[] = [
 const setStore = useSetStore();
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const defaultModel = getDefaultModel(defaultSet);

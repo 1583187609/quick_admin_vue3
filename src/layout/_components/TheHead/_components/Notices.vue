@@ -46,10 +46,10 @@ import { Search } from "@element-plus/icons-vue";
 import BaseEmpty from "@/components/BaseEmpty.vue";
 // const props = withDefaults(
 //   defineProps<{
-//     _example_prop?: CommonObj;
+//     exampleProp?: CommonObj;
 //   }>(),
 //   {
-//     _example_prop: () => ({}),
+//     exampleProp: () => ({}),
 //   }
 // );
 const activeName = ref("first");

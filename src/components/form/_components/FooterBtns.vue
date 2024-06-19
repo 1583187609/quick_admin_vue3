@@ -62,7 +62,8 @@ watch(
 function handleValidate() {
   const { log, debug, isOmit, noSubmitProps } = props;
   return new Promise((resolve, reject) => {
-    let { params, formRef, handleRequest } = props;
+    let { params } = props;
+    const { formRef, handleRequest } = props;
     if (!formRef) return;
     formRef.validate((valid: any, fieldsObj: CommonObj) => {
       if (valid) {

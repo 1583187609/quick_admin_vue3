@@ -15,8 +15,8 @@
             @change="(prop:any,val:any)=>emits('change',prop,val)"
             :formRef="formRef"
           >
-            <template #custom="{ field }">
-              <slot :name="field.prop" :field="field" :form="formData"></slot>
+            <template #custom="{ field: currField }">
+              <slot :name="currField.prop" :field="currField" :form="formData"></slot>
             </template>
           </BaseFormItem>
         </el-col>

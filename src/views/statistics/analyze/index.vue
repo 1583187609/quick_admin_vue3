@@ -42,7 +42,7 @@ const genderOpts = getOpts("Gender");
 const roleTypeOpts = getOpts("RoleType");
 const enableStatusOpts = getOpts("EnableStatus");
 const openPopup: any = inject("openPopup");
-let model = reactive<CommonObj>({ age: [20, 30] });
+const model = reactive<CommonObj>({ age: [20, 30] });
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },

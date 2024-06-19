@@ -5,8 +5,8 @@
       :getGroupBtnsOfRow="getGroupBtnsOfRow"
       @groupBtn="onGroupBtn" -->
     <Column :col="col" :selection="selection" v-for="(col, cInd) in newCols" :key="cInd">
-      <template #custom="{ row, col, ind }">
-        <slot :name="col.prop" v-bind="{ row, col, $index: ind }"></slot>
+      <template #custom="{ row, col: c, ind }">
+        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }"></slot>
       </template>
     </Column>
     <template #empty>
