@@ -1,65 +1,38 @@
-import { storage } from "@/utils";
+import { GetMockAddress } from "@/api-mock";
+import { needParam, storage } from "@/utils";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 
 export type CascaderName = "Region";
-//  | "ReportCascader"
+// export type CascaderName = keyof cascaderMap;
 
 /**
  * 级联的逻辑处理暂时放在这里，后续再改进放置位置
  */
-//获取举报类型下拉项
-// function getReportsCascader(): OptionItem[] {
-//   return (
-//     storage.getItem("reportCascaderOpts")?.map((item: CommonObj) => {
-//       const { content, id, children } = item;
-//       return {
-//         label: content,
-//         value: id,
-//         children: children.map((it: CommonObj) => {
-//           const { content, id } = it;
-//           return { label: content, value: id };
-//         }),
-//       };
-//     }) || []
-//   );
-// }
 
-//获取级联中的文字
-export function getCascaderText(name: CascaderName, val: StrNum, char = "-") {
-  if (name === "Region") {
-    if (!val) return char;
-    let text = "";
-    const regions: OptionItem[] = storage.getItem("regions") || [];
-    regions.find((item, ind) => {
-      const { label, children = [] } = item;
-      const target = children.find((it: any) => it.value === val);
-      if (target) {
-        text = `${label}${char}${target.label}`;
-      }
-      return !!target;
-    });
-    return text;
-  }
-  // else if (name === "ReportCascader") {
-  //   const target = getReportsCascader().find(
-  //     (it: CommonObj) => it.value === val
-  //   );
-  //   return target?.label || "";
-  // }
-  else {
-    throw new Error(`未找到name为${name}的字典映射`);
-  }
+export const cascaderMap = {
+  // 地区（省市区）
+  Region: await GetMockAddress().then((res: any) => res),
+};
+
+// 获取级联中的文字
+export function getCascaderText(name: CascaderName, val: StrNum = needParam() as any, char = "-") {
+  const regions: OptionItem[] = cascaderMap[name];
+  if (!regions) throw new Error(`未找到name为${name}的字典映射`);
+  let text = "";
+  regions.find(item => {
+    const { label, children = [] } = item;
+    const target = children.find((it: OptionItem) => it.value === val);
+    if (target) {
+      text = `${label}${char}${target.label}`;
+    }
+    return !!target;
+  });
+  return text;
 }
 
-//获取级联下拉项
+// 获取级联下拉项
 export function getCascaderOpts(name: CascaderName): OptionItem[] {
-  if (name === "Region") {
-    return storage.getItem("regions") || [];
-  }
-  // else if (name === "ReportCascader") {
-  //   return getReportsCascader();
-  // }
-  else {
-    throw new Error(`未找到name为${name}的字典映射`);
-  }
+  const opts = cascaderMap[name];
+  if (!opts) throw new Error(`未找到name为${name}的字典映射`);
+  return opts;
 }

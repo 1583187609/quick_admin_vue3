@@ -10,17 +10,8 @@ import { showMessage } from "@/utils";
  * 函数未传必填参数时的校验
  * @param name string 参数名称
  */
-export function needParam(name: string) {
+export function needParam(name: string = "") {
   throw new Error("请传入参数：" + name);
-}
-
-/**
- * 接口暂未联调
- */
-export function noHandleFetch() {
-  return new Promise(() => {
-    showMessage("接口暂未联调", "warning");
-  });
 }
 
 /**

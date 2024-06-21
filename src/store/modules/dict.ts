@@ -4,8 +4,6 @@ import dict, { DictName } from "@/dict";
 import { printLog, storage, typeOf } from "@/utils";
 import { CommonObj, StrNum, OptionItem, FetchType } from "@/vite-env";
 import { defineStore } from "pinia";
-// import { GetAdminUserList } from "@/apis";
-import { GetMockAddress } from "@/api-mock";
 
 /**
  * 将对象按属性排序（整理文件按属性排序的时候会用到）
@@ -21,32 +19,8 @@ function sortMapByKey(map: CommonObj) {
   return obj;
 }
 
-/**
- * 处理storage存储中的tags，方便后续正确合并本地的tagsMap文件数据
- */
-function handleStorageTags(_dictMap: CommonObj | null) {
-  if (!_dictMap) return;
-  for (const key in _dictMap) {
-    for (const k in _dictMap[key]) {
-      const map = _dictMap[key][k];
-      for (const j in map) {
-        if (map[j] === "") {
-          delete map[j];
-        } else if (typeOf(map[j]) === "Object") {
-          for (const i in map[j]) {
-            if (map[j][i] === "") {
-              delete map[j][i];
-            }
-          }
-        }
-      }
-    }
-  }
-  return _dictMap;
-}
-
 export default defineStore("dict", () => {
-  const dictMap = reactive<CommonObj>(merge({}, dict, handleStorageTags(storage.getItem("dictMap"))));
+  const dictMap = reactive<CommonObj>(dict);
 
   /**
    * 获取tagMap
@@ -71,28 +45,10 @@ export default defineStore("dict", () => {
   }
 
   /**
-   * 设置tagMap
-   */
-  function setMap(name: DictName, newMap: CommonObj): void {
-    const oldMap = dictMap[name];
-    if (oldMap) {
-      if (!newMap) return;
-      const endMap: CommonObj = {};
-      for (const key in newMap) {
-        endMap[key] = merge(oldMap[key], newMap[key]);
-      }
-      dictMap[name] = endMap;
-      storage.setItem("dictMap", dictMap);
-    } else {
-      console.error("未找到name为" + name + "的tagMap");
-    }
-  }
-
-  /**
    * 获取字典文本内容
-   * @param name string 字典名称
-   * @param key string 字典中的建名
-   * @param char string 为空时的占位符号
+   * @param {string} name  字典名称
+   * @param {string} key  字典中的建名
+   * @param {string} char  为空时的占位符号
    */
   function getText(name: DictName, key: StrNum, char = "-"): string {
     const currMap = getMap(name);
@@ -129,96 +85,10 @@ export default defineStore("dict", () => {
     return opts;
   }
 
-  /**
-   * 初始化所有tags映射
-   */
-  async function initMap(names?: string[]) {
-    const fetchs: FetchType[] = [
-      // GetAdminUserList,
-      GetMockAddress,
-    ].filter((it: CommonObj) => {
-      return names ? names.includes(it.name) : true;
-    });
-    //初始化前，先清理干净allTags
-    storage.removeItem("dictMap");
-    clearMap();
-    merge(dictMap, dict);
-
-    const ends = await Promise.all(
-      fetchs.map((fetch: FetchType, ind: number) => {
-        const apiName = fetch.name;
-        return fetch({ page: 1, pageSize: 1 })
-          .then((res: CommonObj) => {
-            const map: CommonObj = {
-              // GetAdminUserList: () => handleSetTagMap("AdminRole", res.roles),
-              GetMockAddress() {
-                storage.setItem("regions", res);
-              },
-            };
-            map[apiName] ? map[apiName]() : console.error("未找到名为" + apiName + "的api");
-            return "success";
-          })
-          .catch(() => {
-            return "fail";
-          });
-      })
-    );
-    let sucLen = 0;
-    let faiLen = 0;
-    ends.forEach(it => {
-      if (it === "success") {
-        sucLen++;
-      } else if (it === "fail") {
-        faiLen++;
-      }
-    });
-    if (faiLen) printLog(undefined, "danger", `成功：${sucLen}；失败：${faiLen}`);
-    if (faiLen) {
-      console.error("初始化下拉选项时，请求失败");
-    } else {
-      storage.setItem("dictMap", dictMap);
-    }
-  }
-
-  /**
-   * 处理设置标签映射
-   */
-  function handleSetTagMap(key: DictName, data: any, keys: [string, string] = ["label", "value"]) {
-    const type = typeOf(data);
-    const map: CommonObj = {};
-    if (type === "Object") {
-      Object.entries(data).map(([value, label], ind: number) => {
-        map[value] = {
-          text: label,
-        };
-      });
-    } else if (type === "Array") {
-      const [labProp, valProp] = keys as [string, string];
-      data.map((item: CommonObj, ind: number) => {
-        const value = item[valProp];
-        const label = item[labProp];
-        map[value] = {
-          text: label,
-        };
-      });
-    }
-    setMap(key, map);
-  }
-  // 清空字典上的属性，默认清除所有
-  function clearMap(keys = Object.keys(dictMap)) {
-    keys.forEach(key => {
-      delete dictMap[key];
-    });
-  }
-
   return {
     dictMap,
-    initMap,
     getMap,
-    setMap,
     getText,
     getOpts,
-    clearMap,
-    handleSetTagMap,
   };
 });

@@ -171,6 +171,7 @@ const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
 const userOpts = getOpts("User");
 const enableOpts = getOpts("EnableStatus");
+const testFetchAsyncOpts = getOpts("TestFetchAsync");
 //默认搜索值
 const model = reactive<CommonObj>({
   xm: "张三",
@@ -185,6 +186,7 @@ const fields: FormFieldAttrs[] = [
     label: "姓名",
   },
   { prop: "qyzt", label: "启用状态", type: "select", options: enableOpts },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: testFetchAsyncOpts },
   {
     prop: "multi_tag",
     label: "多标签",
@@ -196,7 +198,7 @@ const fields: FormFieldAttrs[] = [
   },
   {
     prop: "liveCity",
-    label: "级联",
+    label: "居住地址",
     type: "cascader",
     options: getCascaderOpts("Region"),
     attrs: {

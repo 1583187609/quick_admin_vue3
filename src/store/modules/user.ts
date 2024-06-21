@@ -3,7 +3,6 @@ import { useRoute, useRouter } from "vue-router";
 import { PostUserLogin, PostUserLogout } from "@/api-mock";
 import { storage, isProd, defaultHomePath, defaultIconName } from "@/utils";
 import { CommonObj } from "@/vite-env";
-import { useInit } from "@/hooks";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
 import { useMenuStore, useRouteStore, useDictStore } from "@/store";
@@ -64,7 +63,6 @@ export default defineStore("user", () => {
       storage.setItem("token", user?.token ?? "");
       storage.setItem("allMenus", _navs);
       storage.setItem("expiredDate", dayjs(expired.value).format("YYYY-MM-DD HH:mm:ss"));
-      await dictStore.initMap();
       router.push(route.query.redirect?.toString() ?? defaultHomePath);
       ElNotification({
         type: "success",
@@ -86,7 +84,6 @@ export default defineStore("user", () => {
         if (!["rememberAccount", "set", "hasGuide"].includes(key)) storage.removeItem(key);
       });
       storage.clear("session"); //清除sessionStorage的数据
-      dictStore.clearMap();
       expired.value = Date.now();
       userInfo.value = null;
       // menuStore.changeActiveIndex(0);

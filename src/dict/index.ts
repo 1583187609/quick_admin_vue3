@@ -1,10 +1,14 @@
+import { PostUserList } from "@/api-mock";
+import { CommonObj } from "@/vite-env";
+
 export { default as colors } from "./colors";
 export * from "./cascader";
 export * from "./_types";
 
 /**
- * type 为 '' 即是primary的效果，如果写成 primary ，会触发ElementPlus 警告
+ * 字典映射集合
  */
+
 export default {
   //学历类型: 0未知 1大专 2本科 3研究生 4博士
   EducationType: {
@@ -171,6 +175,7 @@ export default {
       },
     },
   },
+  // 是否状态类型
   YesNoStatus: {
     "0": {
       text: "否",
@@ -214,4 +219,16 @@ export default {
       },
     },
   },
+  // 测试用的请求下拉项
+  TestFetchAsync: await PostUserList().then((res: CommonObj) => {
+    const obj: CommonObj = {};
+    Array(3)
+      .fill("")
+      .forEach((item: string, ind: number) => {
+        obj[ind] = {
+          text: `请求下拉项${ind}`,
+        };
+      });
+    return obj;
+  }),
 };

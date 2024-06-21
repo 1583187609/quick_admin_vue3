@@ -124,7 +124,6 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 const { VITE_APP_NAME } = import.meta.env;
-const { initMap } = useDictStore();
 const menuStore = useMenuStore();
 const baseStore = useBaseStore();
 const userStore = useUserStore();
@@ -142,7 +141,6 @@ const tooltipAttrs = {
 };
 async function handleReloadView() {
   // reloadView();
-  await initMap();
   router.go(0);
   showMessage("刷新系统成功");
 }
