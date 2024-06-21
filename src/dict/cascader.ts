@@ -15,7 +15,8 @@ export const cascaderMap = {
 };
 
 // 获取级联中的文字
-export function getCascaderText(name: CascaderName, val: StrNum = needParam() as any, char = "-") {
+export function getCascaderText(name: CascaderName, val: StrNum, char = "-") {
+  if (typeof val === "undefined") return char;
   const regions: OptionItem[] = cascaderMap[name];
   if (!regions) throw new Error(`未找到name为${name}的字典映射`);
   let text = "";

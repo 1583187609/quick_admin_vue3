@@ -5,10 +5,18 @@
 import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h } from "vue";
 import { ElMessage } from "element-plus";
-import { typeOf } from "@/utils";
+import { emptyVals, typeOf } from "@/utils";
 import { PopoverAttrs } from "@/components/BaseFormItem";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
+
+export const themeMap = {
+  primary: cssVars.colorPrimary,
+  success: cssVars.colorSuccess,
+  danger: cssVars.colorDanger,
+  warning: cssVars.colorWarning,
+  info: cssVars.colorInfo,
+};
 
 /**
  * 展示message提示信息
@@ -61,13 +69,6 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
     const { text, bgColor } = map[type];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;`, data);
   } else {
-    const themeMap = {
-      primary: cssVars.colorPrimary,
-      success: cssVars.colorSuccess,
-      danger: cssVars.colorDanger,
-      warning: cssVars.colorWarning,
-      info: cssVars.colorInfo,
-    };
     const bgColor = themeMap[type as ThemeColorType];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;`, data);
   }
@@ -77,17 +78,21 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
  * 处理时间：后端的时间为 1000-01-01 00:00:00 时，实际上是空值
  * @param text 要显示的文本内容
  * @param color 文本颜色
- * @param elTag 元素标签类型
  */
 export function devErrorTips(
-  text: string,
-  attrs: CommonObj | null = {
-    style: `color: ${cssVars.colorDanger};font-weight:600;`,
-  },
-  elTag: string | null = "span"
+  text: string = "",
+  type: ThemeColorType | "" = "danger"
 ): string | VNode<RendererNode, RendererElement, { [key: string]: any }> {
-  if (!elTag) return `~~${text}~~`;
-  return h(elTag, attrs, `~~${text}~~`);
+  return type ? h("span", { style: `color: ${themeMap[type]};` }, `${text}`) : text;
+}
+
+/**
+ * 处理时间：后端的时间为 1000-01-01 00:00:00 时，实际上是空值
+ * @param text 要显示的文本内容
+ * @param color 文本颜色
+ */
+export function renderValue(val?: string): string {
+  return emptyVals.includes(val) ? "-" : (val as string);
 }
 
 /**
