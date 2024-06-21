@@ -6,16 +6,13 @@
       <span>景区</span>
       <span>预约数量</span>
     </div>
-    <div class="echarts">
-      <ECharts :option="option" :resize="false" />
-    </div>
+    <Chart :option="option" height="270px" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ECharts from "./ECharts/index.vue";
-import { ECOption } from "./ECharts/config";
 import { ranking1, ranking2, ranking3, ranking4 } from "../_assets/ranking-icon";
+import Chart from "@/components/chart/Chart.vue";
 
 interface ChartProp {
   name: string;
@@ -59,7 +56,7 @@ const data = [
 
 const colors = ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"];
 
-const option: ECOption = {
+const option = {
   grid: {
     top: "5%",
     left: "7%",
@@ -229,10 +226,6 @@ const option: ECOption = {
 };
 </script>
 <style lang="scss" scoped>
-.echarts {
-  width: 100%;
-  height: calc(100% - 56px);
-}
 .echarts-header {
   box-sizing: border-box;
   display: flex;

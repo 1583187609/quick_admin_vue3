@@ -1,25 +1,22 @@
-<!-- 实时访问 -->
+<!-- 实时游客统计 -->
 <template>
-  <div class="real-time-access">
-    <div class="actual-total">
+  <div class="real-time-tourist">
+    <div class="actual-total f-fe-c">
       <div class="expect-total">可预约总量<i>999999</i>人</div>
-      <div class="actual-total">
-        <div v-for="(item, index) in actualTotal.split('')" :key="index" class="actual-item">
+      <div class="actual-total f-fe-c">
+        <div v-for="(item, ind) in actualTotal.split('')" :key="ind" class="actual-item f-c-c">
           {{ item }}
         </div>
-        <div class="actual-item">人</div>
+        <div class="actual-item f-c-c">人</div>
       </div>
     </div>
-    <div class="echarts">
-      <ECharts :option="option" :resize="false" />
-    </div>
+    <Chart :option="option" height="260px" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { ECOption } from "./ECharts/config";
-import ECharts from "./ECharts/index.vue";
+import Chart from "@/components/chart/Chart.vue";
 
 const actualTotal = ref("216908");
 const option = {
@@ -175,26 +172,16 @@ const option = {
       color: "#31d8d5",
     },
   ],
-} as ECOption;
+};
 </script>
 
 <style lang="scss" scoped>
-.echarts {
-  width: 100%;
-  height: calc(100% - 50px);
-}
 .actual-total {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   height: 50px;
   margin-top: 10px;
   margin-right: 4px;
   .actual-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 52px;
     height: 50px;
     margin-right: 1px;

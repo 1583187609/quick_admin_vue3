@@ -7,8 +7,6 @@ import { ref, onMounted, onBeforeUnmount, watch, computed, markRaw, nextTick } f
 import { EChartsType, ECElementEvent } from "echarts/core";
 import echarts, { ECOption } from "./config";
 import { useDebounceFn } from "@vueuse/core";
-// import { useGlobalStore } from "@/stores/modules/global";
-import { storeToRefs } from "pinia";
 
 interface Props {
   option: ECOption;
@@ -68,17 +66,6 @@ const resize = () => {
 };
 
 const debouncedResize = useDebounceFn(resize, 300, { maxWait: 800 });
-
-// const globalStore = useGlobalStore();
-// const { maximize, isCollapse, tabs, footer } = storeToRefs(globalStore);
-
-// watch(
-//   () => [maximize, isCollapse, tabs, footer],
-//   () => {
-//     debouncedResize();
-//   },
-//   { deep: true }
-// );
 
 onMounted(() => {
   nextTick(() => init());

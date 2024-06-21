@@ -1,25 +1,22 @@
+<!-- 男女比例 -->
 <template>
-  <!-- 男女比例 -->
   <div class="gender-ratio">
-    <div class="ratio-header">
-      <div class="man">
+    <div class="ratio-header f-sb-c">
+      <div class="man f-c-c-c">
         <span>男士</span>
         <img src="../_imgs/man.png" alt="" />
       </div>
-      <div class="woman">
+      <div class="woman f-c-c-c">
         <span>女士</span>
         <img src="../_imgs/woman.png" alt="" />
       </div>
     </div>
-    <div class="echarts">
-      <ECharts :option="option" :resize="false" />
-    </div>
+    <Chart :option="option" height="70px" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ECharts from "./ECharts/index.vue";
-import { ECOption } from "./ECharts/config";
+import Chart from "@/components/chart/Chart.vue";
 
 interface ChartProp {
   man: number;
@@ -31,7 +28,7 @@ const data: ChartProp = {
   woman: 0.4,
 };
 
-const option: ECOption = {
+const option = {
   xAxis: {
     type: "value",
     show: false,
@@ -136,19 +133,13 @@ const option: ECOption = {
   height: 100%;
   padding: 40px 65px;
   .ratio-header {
-    display: flex;
-    justify-content: space-between;
     width: 100%;
     height: 115px;
     .man,
     .woman {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       width: 110px;
       height: 115px;
-      background: url("../_imgs/man-bg.png") no-repeat;
-      background-size: 100% 100%;
+      background: url("../_imgs/man-bg.png") no-repeat 0 0/100% 100%;
       img {
         width: 60px;
         height: 60px;
@@ -163,10 +154,6 @@ const option: ECOption = {
     .woman {
       background: url("../_imgs/woman-bg.png") no-repeat;
     }
-  }
-  .echarts {
-    width: 100%;
-    height: calc(100% - 115px);
   }
 }
 </style>

@@ -1,11 +1,10 @@
 <!-- 年度使用对比 -->
 <template>
-  <ECharts class="annual-use" :option="option" :resize="false" />
+  <Chart class="annual-use" :option="option" height="260px" />
 </template>
 
 <script setup lang="ts">
-import ECharts from "./ECharts/index.vue";
-import { ECOption } from "./ECharts/config";
+import Chart from "@/components/chart/Chart.vue";
 
 interface ChartProp {
   label: string;
@@ -35,7 +34,7 @@ const data = {
   colors: ["#FFA600", "#007AFE", "#FF4B7A"],
 };
 
-const option: ECOption = {
+const option = {
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -193,10 +192,6 @@ const option: ECOption = {
 };
 </script>
 <style lang="scss" scoped>
-.echarts {
-  width: 100%;
-  height: 100%;
-}
 :deep(.annual-tooltip) {
   box-sizing: border-box;
   width: 206px;
