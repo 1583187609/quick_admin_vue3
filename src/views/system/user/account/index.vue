@@ -3,13 +3,13 @@
     :cols="cols"
     :fields="fields"
     :fetch="PostUserList"
-    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/user/detail' }, , 'delete', 'import', 'export']"
+    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
     :groupBtns="[
       'edit',
       {
         name: 'edit',
         text: '编辑（url)',
-        to: (row: CommonObj) => `/user/detail?id=${row.id}`,
+        to: (row: CommonObj) => `/system/user/detail?id=${row.id}`,
       },
       'delete',
       (row: CommonObj) => (row?.status === 1 ? 'forbid' : 'enable'),

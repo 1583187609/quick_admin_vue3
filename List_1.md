@@ -106,6 +106,7 @@
 59、写 Gis 示例
 60、写大屏示例
 61、给 BaseForm、SectionForm 添加骨架屏
+62、全局错误拦截，在 App.vue 中处理
 
 # 二、优化清单
 

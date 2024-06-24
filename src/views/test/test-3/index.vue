@@ -7,9 +7,9 @@
 :groupBtns="[
   'edit', 'reject','delete','download','pass',
   (row: CommonObj, rowInd: number)=> rowInd % 2 === 1 ? 'forbid' : 'enable',
-  { name: 'view', to: `/user/detail?id=${12}`},
-  { name: 'view', to: {name: 'userDetail', query: {id: 12}}},
-  { name: 'view', text: '查看', to: (row:CommonObj) => ({name: 'userDetail', query:{id: row.id}})},
+  { name: 'view', to: `/system/user/detail?id=${12}`},
+  { name: 'view', to: {name: 'systemUserDetail', query: {id: 12}}},
+  { name: 'view', text: '查看', to: (row:CommonObj) => ({name: 'systemUserDetail', query:{id: row.id}})},
 ]"
 /**
 * 可接受一个方法，按钮书写的前后位置不影响显示时前后的摆放位置（也可通过传入order属性改变前后位置）；
@@ -66,7 +66,7 @@
         {
           name: 'view',
           text: 'url跳转',
-          to: '/user/detail?id=12',
+          to: '/system/user/detail?id=12',
           order: 50,
           attrs: { icon: 'Link' },
         },
@@ -80,10 +80,10 @@
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
-          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/user/detail?id=${id}`}]
+          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/system/user/detail?id=${id}`}]
         }else{
           return ['edit', 'audit', 'reject','delete','download','pass', 'repeal', 'reset', 'log', 
-          { name: 'view', to: {name: 'userDetail', query:{id}}}]
+          { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
         }
       }"
       @extraBtn="onExtraBtn"

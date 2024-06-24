@@ -8,7 +8,7 @@
       </div>
       <BarsImg :bottomBar="status === 1 ? row.reason : ''" width="200" height="200" :src="row.src" class="avatar f-0" />
       <div class="info f-1">
-        <div @click="$router.push({ name: 'userDetail', query: { id: row.userId } })" class="nickname line-2 row">
+        <div @click="$router.push({ name: 'systemUserDetail', query: { id: row.userId } })" class="nickname line-2 row">
           {{ row.nickname || "-" }}
         </div>
         <BaseCopy class="row" :text="row.userId" />

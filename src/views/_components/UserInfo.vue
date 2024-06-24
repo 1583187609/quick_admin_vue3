@@ -109,7 +109,7 @@ function getAuthStatus(data) {
   return status;
 }
 function toUserDetail() {
-  router.push({ name: "userDetail", query: { id: props.data.id } });
+  router.push({ name: "systemUserDetail", query: { id: props.data.id } });
 }
 </script>
 <style lang="scss" scoped>
