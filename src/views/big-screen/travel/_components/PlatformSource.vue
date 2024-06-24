@@ -1,11 +1,10 @@
 <!-- 平台来源 -->
 <template>
-  <ECharts class="platform-source" :option="option" :resize="false" />
+  <Chart class="platform-source" :option="option" height="220px" />
 </template>
 
 <script setup lang="ts">
-import ECharts from "./ECharts/index.vue";
-import { ECOption } from "./ECharts/config";
+import Chart from "@/components/chart/Chart.vue";
 
 interface ChartProp {
   name: string;
@@ -20,7 +19,7 @@ const data = [
   { value: 30, name: "其他渠道", percentage: "30%" },
 ];
 
-const option: ECOption = {
+const option = {
   grid: {
     top: "0%",
     left: "2%",

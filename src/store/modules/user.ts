@@ -7,6 +7,8 @@ import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
 import { useMenuStore, useRouteStore, useDictStore } from "@/store";
 import { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
+// import md5 from "@/services/md5";
+import md5 from "md5";
 
 export default defineStore("user", () => {
   const router = useRouter();
@@ -45,6 +47,7 @@ export default defineStore("user", () => {
     } else {
       storage.removeItem("rememberAccount");
     }
+    // params.psd = md5(params.psd); // 启用 md5 进行加密
     return PostUserLogin(params).then(async (res: CommonObj) => {
       const { user, navs } = res;
       const _navs = getHandleNavs(

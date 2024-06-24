@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="wrap">
     <div class="content f-fs-s-c" ref="contentRef">
       <div class="header f-c-s f-0">
         <div class="side left">
@@ -23,34 +23,34 @@
               <span class="text">实时游客统计</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <RealTimeAccessChart class="body" />
+            <RealTimeTourist class="body" />
           </div>
           <div class="section center">
             <div class="head f-c-fs-c">
               <span class="text">男女比例</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <GenderRatioChart class="body" />
+            <GenderRatio class="body" />
           </div>
           <div class="section bottom">
             <div class="head f-c-fs-c">
               <span class="text">年龄比例</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <AgeRatioChart class="body" />
+            <AgeRatio class="body" />
           </div>
         </div>
         <div class="middle f-sb-s-c f-1">
           <div class="map f-1">
             <div class="map-title f-fs-c">景区实时客流量</div>
-            <ChinaMapChart />
+            <ChinaMap />
           </div>
           <div class="section future">
             <div class="head f-c-fs-c">
               <span class="text">未来30天游客量趋势图</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <OverNextMonthChart class="body" />
+            <OverNextMonth class="body" />
           </div>
         </div>
         <div class="right f-sb-s-c">
@@ -59,21 +59,21 @@
               <span class="text">热门景区排行</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <HotPlateChart class="body" />
+            <HotPlate class="body" />
           </div>
           <div class="section center">
             <div class="head f-c-fs-c">
               <span class="text">年度游客量对比</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <AnnualUseChart class="body" />
+            <AnnualUse class="body" />
           </div>
           <div class="section bottom">
             <div class="head f-c-fs-c">
               <span class="text">预约渠道数据统计</span>
               <img class="bg" src="./_imgs/title.png" />
             </div>
-            <PlatformSourceChart class="body" />
+            <PlatformSource class="body" />
           </div>
         </div>
       </div>
@@ -84,14 +84,14 @@
 <script setup lang="ts" name="dataScreen">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
-import AgeRatioChart from "./_components/AgeRatioChart.vue";
-import AnnualUseChart from "./_components/AnnualUseChart.vue";
-import ChinaMapChart from "./_components/ChinaMapChart.vue";
-import HotPlateChart from "./_components/HotPlateChart.vue";
-import GenderRatioChart from "./_components/GenderRatioChart.vue";
-import OverNextMonthChart from "./_components/OverNextMonthChart.vue";
-import PlatformSourceChart from "./_components/PlatformSourceChart.vue";
-import RealTimeAccessChart from "./_components/RealTimeAccessChart.vue";
+import AgeRatio from "./_components/AgeRatio.vue";
+import AnnualUse from "./_components/AnnualUse.vue";
+import ChinaMap from "./_components/ChinaMap.vue";
+import HotPlate from "./_components/HotPlate.vue";
+import GenderRatio from "./_components/GenderRatio.vue";
+import OverNextMonth from "./_components/OverNextMonth.vue";
+import PlatformSource from "./_components/PlatformSource.vue";
+import RealTimeTourist from "./_components/RealTimeTourist.vue";
 import { defaultHomePath } from "@/utils";
 import dayjs from "dayjs";
 
@@ -134,7 +134,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="scss" scoped>
-.container {
+.wrap {
   position: fixed;
   left: 0;
   top: 0;
@@ -258,6 +258,7 @@ onBeforeUnmount(() => {
     .map {
       position: relative;
       width: 100%;
+      height: 100%;
       margin-top: 78px;
       .map-title {
         position: absolute;
@@ -323,8 +324,8 @@ onBeforeUnmount(() => {
     }
   }
   .body {
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
   }
 }
 </style>

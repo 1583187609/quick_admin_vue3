@@ -1,11 +1,10 @@
 <!-- 年龄比例 -->
 <template>
-  <ECharts class="age-ratio" :option="option" :resize="false" />
+  <Chart class="age-ratio" :option="option" height="220px" />
 </template>
 
 <script setup lang="ts">
-import ECharts from "./ECharts/index.vue";
-import { ECOption } from "./ECharts/config";
+import Chart from "@/components/chart/Chart.vue";
 
 interface ChartProp {
   value: number;
@@ -24,7 +23,7 @@ const data: ChartProp[] = [
 
 const colors = ["#F6C95C", "#EF7D33", "#1F9393", "#184EA1", "#81C8EF", "#9270CA"];
 
-const option: any = {
+const option = {
   color: colors,
   tooltip: {
     show: true,
