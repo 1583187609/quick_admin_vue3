@@ -22,7 +22,7 @@
       <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
       <el-table-column v-bind="newCol" :formatter="newCol.formatter" :reserve-selection="selection" v-if="newCol.formatter">
         <template #header="{ column, $index, store, _self }">
-          {{ column.label }}
+          <BaseRender :data="column.label" />
           <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
             <template #reference>
               <BaseIcon :color="cssVars.colorInfo" name="QuestionFilled"></BaseIcon>

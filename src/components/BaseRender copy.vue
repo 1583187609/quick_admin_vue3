@@ -1,8 +1,11 @@
 <!-- 页面-简介 -->
 <template>
-  <template v-if="typeof data === 'object'">
+  <!-- <template v-if="!emptyVals.includes(data)"> -->
+  <template v-if="data !== undefined && data !== null">
+    <!-- 如果是基本数据类型 -->
+    <template v-if="!(typeof data === 'object')">{{ data }}</template>
     <!-- 如果是虚拟dom -->
-    <component :is="data" v-if="isVNode(data)"></component>
+    <component :is="data" v-else-if="isVNode(data)"></component>
     <!-- 如果是引入的组件 -->
     <component v-bind="data.attrs" :is="data.component" v-else>
       <template v-if="typeof data.attrs?.slots === 'string'">
@@ -13,8 +16,6 @@
       </template>
     </component>
   </template>
-  <!-- 如果是基本数据类型 -->
-  <template v-else>{{ data }}</template>
 </template>
 <script lang="ts" setup>
 import { RendererElement, RendererNode, VNode, isVNode } from "vue";

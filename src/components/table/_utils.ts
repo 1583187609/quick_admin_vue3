@@ -1,5 +1,5 @@
 import { CommonObj, StrNum } from "@/vite-env";
-import { typeOf, propsJoinChar, emptyTime, devErrorTips, emptyVals } from "@/utils";
+import { typeOf, propsJoinChar, emptyTime, devErrorTips, emptyVals, renderValue } from "@/utils";
 import { TableField, TableFieldAttrs, defaultColumnAttrs } from "@/components/table";
 import { merge } from "lodash";
 import config from "@/config";
@@ -127,11 +127,7 @@ export function getColLevel(col: TableFieldAttrs, lev = 0, specialColMap: Common
       minWidth: 164,
       formatter:
         type !== "custom" && typeof prop === "string"
-          ? (row: CommonObj) => {
-              if (typeof row[prop] === "undefined") return devErrorTips("未联调");
-              const isEmpty = emptyVals.includes(row[prop]) || emptyTime === row[prop];
-              return isEmpty ? "-" : row[prop];
-            }
+          ? (row: CommonObj) => renderValue(emptyTime === row[prop] ? undefined : row[prop])
           : undefined,
     },
     getAttrs?.(col),

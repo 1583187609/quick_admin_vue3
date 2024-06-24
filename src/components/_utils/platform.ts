@@ -5,7 +5,7 @@
 import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h } from "vue";
 import { ElMessage } from "element-plus";
-import { emptyVals, typeOf } from "@/utils";
+import { emptyVals, isDev, typeOf } from "@/utils";
 import { PopoverAttrs } from "@/components/BaseFormItem";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
@@ -83,7 +83,8 @@ export function devErrorTips(
   text: string = "",
   type: ThemeColorType | "" = "danger"
 ): string | VNode<RendererNode, RendererElement, { [key: string]: any }> {
-  return type ? h("span", { style: `color: ${themeMap[type]};` }, `${text}`) : text;
+  if (isDev) return type ? h("span", { style: `color: ${themeMap[type]};` }, `${text}`) : text;
+  return text;
 }
 
 /**

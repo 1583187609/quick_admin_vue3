@@ -90,11 +90,15 @@
     <div>
       <el-button type="primary" @click="testSubmitCancel">点击测试</el-button>
     </div>
+    <div class="f-sb-c">
+      <template>{{ undefined }}</template>
+      <template>{{ null }}</template>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { isVNode, reactive, ref } from "vue";
 import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
 import { PostUserList } from "@/api-mock";
@@ -104,6 +108,8 @@ const size = ref<ComponentSize>("default");
 const labelPosition = ref<FormProps["labelPosition"]>("right");
 const ruleFormRef = ref<FormInstance>();
 
+console.log(isVNode("test文本"), "isVNode-文本----------------");
+console.log(isVNode(true), "isVNode-布尔----------------");
 const sizeForm = reactive({
   name: "",
   hour: 1,
