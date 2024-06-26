@@ -586,7 +586,7 @@ export default [
       },
       {
         id: "41-8",
-        label: "测试8",
+        label: "聊天记录查询",
         icon: "Position",
         path: "/test/8",
         type: 1,

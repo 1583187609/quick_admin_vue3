@@ -16,3 +16,8 @@ export const GetMockRoleList = (data: CommonObj = {}) => http("get", "/mock/role
 export const GetMockSchoolList = (data: CommonObj = {}) => http("get", "/mock/school/list", data);
 //获取公司列表数据
 export const GetMockCompanyList = (data: CommonObj = {}) => http("get", "/mock/company/list", data);
+
+// 临时写的三个暂用接口
+export const GetImSearchFromUserList = (data: CommonObj = {}) => http("post", "/user/list", data);
+export const GetImSearchFriendList = (data: CommonObj = {}) => http("post", "/user/list", data);
+export const GetImSearchP2pChatList = (data: CommonObj = {}) => http("post", "/user/list", data);
