@@ -61,7 +61,7 @@ export default ({ mode, command }) => {
           },
           //页面组件的命名规则：根据路径来命名(以非index.vue作为文件名的，且首字母小写)
           {
-            exclude: ["src/views/**/index.vue"],
+            exclude: ["src/views/**/index.vue", "src/views/**/_components/**/*.vue"],
             include: ["src/views/**/*.vue"],
             genComponentName: res => {
               const { attrName, filePath, originalName, dirname } = res;

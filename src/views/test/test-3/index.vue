@@ -127,7 +127,7 @@
   </div>
 </template>
 <script lang="ts" name="TestThree" setup>
-import { ref, reactive, inject } from "vue";
+import { ref, reactive, inject, isVNode } from "vue";
 import { PostUserList } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { TableField, TableFieldAttrs } from "@/components/table";
@@ -145,8 +145,10 @@ import { getCascaderOpts } from "@/dict";
 import { Postcard } from "@element-plus/icons-vue";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
+import CustomHead from "./_components/CustomHead.vue";
 import { SectionFieldsItemAttrs } from "@/components/form";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { h } from "vue";
 
 const tempRow = {
   xm: "李四",
@@ -285,6 +287,27 @@ const cols: TableField[] = [
     type: "custom",
     extra: {
       popover: `需设置 {type: "custom"}`,
+    },
+  },
+  {
+    prop: "custom_head",
+    // label: "自定义表格头",
+    label: CustomHead,
+    // label: `<div><span>111111</span>自定义表格头</div>`,
+    // label: {
+    //   component: CustomHead,
+    // },
+    minWidth: 210,
+    extra: {
+      // popover: "这是自定义popover示例",
+      // popover: CustomHead,
+      popover: h(CustomHead, { isPopover: true }),
+      // popover: {
+      //   component: CustomHead,
+      //   attrs: {
+      //     isPopover: true,
+      //   },
+      // },
     },
   },
   {

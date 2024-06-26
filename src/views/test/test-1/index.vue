@@ -233,9 +233,9 @@ const fields = computed<FormField[]>(() => {
       },
       attrs: {
         placeholder: "电话号码（这是自定义的placeholder）",
-        slots: {
-          prefix: "Tel",
-        },
+      },
+      slots: {
+        prefix: "Tel",
       },
     },
     {
@@ -245,20 +245,18 @@ const fields = computed<FormField[]>(() => {
         valid: "password",
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
       },
-      attrs: {
-        slots: {
-          prefix: { component: BaseIcon, attrs: { name: "Lock" } },
-          // prefix: {
-          //   component: ElButton,
-          //   attrs: {
-          //     type: "primary",
-          //     slots: "按钮",
-          //     // slots: {
-          //     //   default: "按钮",
-          //     // },
-          //   },
-          // },
-        },
+      slots: {
+        prefix: { component: BaseIcon, attrs: { name: "Lock" } },
+        // prefix: {
+        //   component: ElButton,
+        //   attrs: {
+        //     type: "primary",
+        //   },
+        //   slots: "按钮",
+        //   // slots: {
+        //   //   default: "按钮",
+        //   // },
+        // },
       },
     },
     {
@@ -333,14 +331,12 @@ const fields = computed<FormField[]>(() => {
       label: "是否记住我",
       type: "checkbox",
       extra: {
-        tips: "用attrs.slots.default改变多选框右侧的文字（默认跟label一样）",
+        tips: "用slots.default改变多选框右侧的文字（默认跟label一样）",
       },
-      attrs: {
-        slots: "记住我",
-        // slots: {
-        //   default: "记住我",
-        // },
-      },
+      slots: "记住我",
+      // slots: {
+      //   default: "记住我",
+      // },
     },
     {
       prop: "ssq",

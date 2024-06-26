@@ -1,6 +1,7 @@
 import { FormRules } from "element-plus";
-import { RenderComponent } from "@/components/BaseRender.vue";
+import { RenderComponent, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
+import { BaseRenderData } from "@/components/BaseRender.vue";
 export type ValidType = "phone" | "password" | "identity" | "email" | "age";
 export type FormItemType =
   | "input"
@@ -41,6 +42,7 @@ export interface PopoverAttrs {
   title?: string;
   disabled?: boolean;
   width?: StrNum;
+  defaultSlot?: BaseRenderData;
 }
 export interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key
@@ -61,13 +63,9 @@ export interface FormFieldAttrs {
   };
   children?: FormField[];
   //控件的属性，例：placeholder
-  attrs?: {
-    //插槽
-    slots?: {
-      [key: string]: RenderComponent;
-    };
-    [key: string]: any;
-  };
+  attrs?: CommonObj;
+  //插槽
+  slots?: SlotsType;
   /**
    * 下面是 el-form-item 的属性
    */

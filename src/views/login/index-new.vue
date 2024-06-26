@@ -90,13 +90,13 @@ const fields = computed<FormField[]>(() => {
       required: true,
       attrs: {
         showWordLimit: false,
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "User",
-              size: "24",
-            },
+      },
+      slots: {
+        prefix: {
+          component: BaseIcon,
+          attrs: {
+            name: "User",
+            size: "24",
           },
         },
       },
@@ -109,17 +109,17 @@ const fields = computed<FormField[]>(() => {
       attrs: {
         maxlength: 4,
         showWordLimit: false,
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "Clock",
-              size: "24",
-            },
+      },
+      slots: {
+        prefix: {
+          component: BaseIcon,
+          attrs: {
+            name: "Clock",
+            size: "24",
           },
-          append: {
-            component: CaptchaBtn,
-          },
+        },
+        append: {
+          component: CaptchaBtn,
         },
       },
     },
@@ -128,14 +128,12 @@ const fields = computed<FormField[]>(() => {
       label: "密码",
       valid: "password",
       required: true,
-      attrs: {
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "Lock",
-              size: "24",
-            },
+      slots: {
+        prefix: {
+          component: BaseIcon,
+          attrs: {
+            name: "Lock",
+            size: "24",
           },
         },
       },
@@ -148,13 +146,13 @@ const fields = computed<FormField[]>(() => {
       rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
       attrs: {
         placeholder: "请再次输入密码",
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "Unlock",
-              size: "24",
-            },
+      },
+      slots: {
+        prefix: {
+          component: BaseIcon,
+          attrs: {
+            name: "Unlock",
+            size: "24",
           },
         },
       },

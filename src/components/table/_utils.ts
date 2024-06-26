@@ -123,13 +123,14 @@ export function getColLevel(col: TableFieldAttrs, lev = 0, specialColMap: Common
     {},
     defaultColumnAttrs,
     specialColAttrs,
-    label?.includes("时间") && {
-      minWidth: 164,
-      formatter:
-        type !== "custom" && typeof prop === "string"
-          ? (row: CommonObj) => renderValue(emptyTime === row[prop] ? undefined : row[prop])
-          : undefined,
-    },
+    typeof label === "string" &&
+      label?.includes("时间") && {
+        minWidth: 164,
+        formatter:
+          type !== "custom" && typeof prop === "string"
+            ? (row: CommonObj) => renderValue(emptyTime === row[prop] ? undefined : row[prop])
+            : undefined,
+      },
     getAttrs?.(col),
     col
   );

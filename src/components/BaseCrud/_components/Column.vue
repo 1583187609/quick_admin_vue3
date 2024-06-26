@@ -25,24 +25,28 @@
           <BaseRender :data="column.label" />
           <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
             <template #reference>
-              <BaseIcon :color="cssVars.colorInfo" name="QuestionFilled"></BaseIcon>
+              <BaseIcon :color="cssVars.colorInfo" name="QuestionFilled" />
             </template>
+            <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column v-bind="newCol" :reserve-selection="selection" v-else>
         <template #header="{ column, $index, store, _self }">
           <!--{{ column.label }} -->
+          <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
           <BaseRender
-            :data="devErrorTips(column.label, !(newCol.prop as string).startsWith('$') && _self.data[0]?.[column.property] === undefined ? undefined : '')"
+            :data="devErrorTips(column.label, !(newCol.prop as string).startsWith('$') && _self.data && _self.data[0]?.[column.property] === undefined ? undefined : '')"
+            v-else
           />
           <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
             <template #reference>
               <BaseIcon
-                :color="!(newCol.prop as string).startsWith('$') && _self.data[0]?.[column.property] === undefined ? cssVars.colorDanger : cssVars.colorInfo"
+                :color="!(newCol.prop as string).startsWith('$') && _self.data && _self.data[0]?.[column.property] === undefined ? cssVars.colorDanger : cssVars.colorInfo"
                 name="QuestionFilled"
-              ></BaseIcon>
+              />
             </template>
+            <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
           </el-popover>
         </template>
         <template #default="{ row, column, $index }">
@@ -152,6 +156,10 @@ function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: Fin
 function getNewCol(col: TableFieldAttrs) {
   popoverAttrs = getPopoverAttrs(col.extra?.popover);
   // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
+  if (typeof col.label !== "string") {
+    col.customLabel = col.label;
+    col.label = "";
+  }
   delete col.extra; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
