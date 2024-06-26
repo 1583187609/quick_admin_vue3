@@ -292,22 +292,12 @@ const cols: TableField[] = [
   {
     prop: "custom_head",
     // label: "自定义表格头",
-    label: CustomHead,
-    // label: `<div><span>111111</span>自定义表格头</div>`,
-    // label: {
-    //   component: CustomHead,
-    // },
+    label: h(CustomHead),
     minWidth: 210,
     extra: {
       // popover: "这是自定义popover示例",
       // popover: CustomHead,
       popover: h(CustomHead, { isPopover: true }),
-      // popover: {
-      //   component: CustomHead,
-      //   attrs: {
-      //     isPopover: true,
-      //   },
-      // },
     },
   },
   {
@@ -413,12 +403,8 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
       add: () => handleAddEdit(null, next),
       import: () => handleImport(),
       export: () => exportExcel(exportRows),
-      dialog: () =>
-        openPopup("这是一个dialog列表示例", {
-          component: SimpleList,
-          attrs: {},
-        }),
-      drawer: () => openPopup("这是一个drawer表单示例", { component: SimpleForm, attrs: {} }, "drawer"),
+      dialog: () => openPopup("这是一个dialog列表示例", SimpleList),
+      drawer: () => openPopup("这是一个drawer表单示例", SimpleForm, "drawer"),
     },
     name
   );
@@ -436,14 +422,11 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   );
 }
 //新增/编辑
-async function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
+async function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
   if (row) row = tempRow;
   openPopup(
     `${row ? "编辑" : "新增"}`,
-    {
-      component: AddEdit,
-      attrs: { data: row, refreshList: next },
-    }
+    h(AddEdit, { data: row, refreshList: next })
     // "drawer" //传入第三个参数drawer，可打开抽屉，不传则默认为dialog
   );
 }

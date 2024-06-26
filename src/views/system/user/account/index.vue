@@ -29,7 +29,7 @@ import { DeleteUserList, PostUserList, PostUserListExport, PutUserUpdate } from 
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { ElMessage, dayjs } from "element-plus";
-import { ref, reactive, inject } from "vue";
+import { ref, reactive, inject, h } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
 import { useDictStore } from "@/store";
@@ -106,17 +106,11 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(row ? "编辑" : "新增", {
-    component: AddEdit,
-    attrs: { id: row?.id, refreshList: next },
-  });
+  openPopup(row ? "编辑" : "新增", h(AddEdit, { id: row?.id, refreshList: next }));
 }
 //查看
 function handleView(row: CommonObj) {
-  openPopup("查看", {
-    component: AddEdit,
-    attrs: { id: row.id, pureText: true },
-  });
+  openPopup("查看", h(AddEdit, { id: row.id, pureText: true }));
 }
 //批量删除
 function handleDelete(ids: string[], next: FinallyNext) {

@@ -28,6 +28,7 @@ import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { h } from "vue";
 
 const openPopup: any = inject("openPopup");
 const { getOpts } = useDictStore();
@@ -112,11 +113,8 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   );
 }
 //新增/删除
-function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}菜单`, {
-    component: AddEdit,
-    attrs: { data: row, menuTree: menuTree.value, refreshList: next },
-  });
+function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
+  openPopup(`${row ? "编辑" : "新增"}菜单`, h(AddEdit, { data: row, menuTree: menuTree.value, refreshList: next }));
 }
 //删除
 function handleDelete(ids: string[], next: FinallyNext) {

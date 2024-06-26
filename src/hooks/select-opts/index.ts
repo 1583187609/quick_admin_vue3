@@ -1,5 +1,5 @@
 // 获取下拉项 select 的 options
-import { ref, reactive, computed, nextTick } from "vue";
+import { ref, reactive, computed, nextTick, h } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
 import { GetMockSchoolList, GetMockCompanyList } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
@@ -29,10 +29,7 @@ const typeMap: CommonObj = {
       const { fullName, shortName, id } = item;
       return {
         label: fullName,
-        customOption: {
-          component: CompanyOption,
-          attrs: { fullName, shortName },
-        },
+        customOption: h(CompanyOption, { fullName, shortName }),
         value: id,
       };
     },

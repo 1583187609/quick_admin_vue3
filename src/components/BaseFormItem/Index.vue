@@ -30,6 +30,7 @@
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
         >
+          <!-- <component :is="newField?.slots" v-if="newField?.slots"></component> -->
           <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
@@ -282,7 +283,7 @@ let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
-  const { type: fType, label, extra = {}, children } = field;
+  const { type: fType, label, extra = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   if (children?.length) {
     const { required } = field;
@@ -319,11 +320,8 @@ const newField = computed<FormFieldAttrs>(() => {
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
     tempField.attrs!.placeholder = getPlaceholder(tempField);
-    const { slots } = tempField;
-    if (typeOf(slots) === "String") {
-      tempField.slots = {
-        default: slots,
-      };
+    if (typeof slots === "string") {
+      tempField.slots = { default: slots };
     }
   }
   // if (size === "small" && type === "date-picker") {

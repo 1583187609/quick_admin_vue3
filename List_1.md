@@ -154,7 +154,7 @@
 33、联调时后端未返回此字段作标记处理
 34、通过外链打开新标签页面时，没有页签图标显示
 35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题
-36、将{component: '' }的组件渲染方式统一改成 h 函数渲染
+36、将{component: '' }的组件渲染方式统一改成 h 函数渲染（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）
 
 # 三、Bug 清单
 

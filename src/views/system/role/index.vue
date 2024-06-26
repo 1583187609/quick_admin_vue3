@@ -23,6 +23,7 @@ import { useDictStore } from "@/store";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { h } from "vue";
 
 const { getOpts } = useDictStore();
 const roleTypeOpts = getOpts("RoleType");
@@ -77,10 +78,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
 }
 //新增或编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}角色`, {
-    component: AddEdit,
-    attrs: { id: row?.id, refreshList: next },
-  });
+  openPopup(`${row ? "编辑" : "新增"}角色`, h(AddEdit, { id: row?.id, refreshList: next }));
 }
 //删除角色
 function handleDelete(ids: string[], next: FinallyNext) {

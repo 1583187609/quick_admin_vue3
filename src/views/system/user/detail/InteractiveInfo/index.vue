@@ -89,10 +89,8 @@
     </div>
   </BaseSection>
   <div>
-    <el-button @click="openPopup('峡谷先锋的好友关系（10）', { component: AttitudeList })" type="primary">
-      打开好有关系列表弹窗
-    </el-button>
-    <el-button @click="openPopup('峡谷先锋的表态（22）', { component: FriendsList })" type="primary">打开表态列表弹窗</el-button>
+    <el-button @click="openPopup('峡谷先锋的好友关系（10）', AttitudeList)" type="primary"> 打开好有关系列表弹窗 </el-button>
+    <el-button @click="openPopup('峡谷先锋的表态（22）', FriendsList)" type="primary">打开表态列表弹窗</el-button>
   </div>
 </template>
 <script lang="ts" setup>

@@ -96,8 +96,9 @@ const drawers = reactive<DrawerPopup[]>([]);
  * 构造生成新的body对象
  */
 function getNewBody(body: any): BaseRenderData {
-  if (typeof body === "string") return body; //字符串也是虚拟dom
-  if (!isVNode(body) && !body.component) return { component: body };
+  // if (typeof body === "string") return body; //字符串也是虚拟dom
+  // if (!isVNode(body) && !body.component) return { component: body };
+  // return body;
   return body;
 }
 

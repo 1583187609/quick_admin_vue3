@@ -16,7 +16,7 @@
   </div>
 </template>
 <script lang="ts" name="TestTwo" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, h } from "vue";
 import { SectionFormItem } from "@/components/form";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
@@ -95,6 +95,7 @@ const sections = computed<SectionFormItem[]>(() => {
           // },
           extra: {
             // before: "第",
+            // after: h(AddDelBtn, { name: "add" }),
             after: {
               component: AddDelBtn,
               attrs: {

@@ -122,6 +122,7 @@ import logoImg from "@/assets/images/logo.svg";
 import { useBaseStore, useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
+import { h } from "vue";
 
 const { VITE_APP_NAME } = import.meta.env;
 const menuStore = useMenuStore();
@@ -163,14 +164,7 @@ function toggleFullscreen() {
 }
 
 function openPersonalInfo() {
-  openPopup(
-    "账号信息",
-    {
-      component: UserInfo,
-      attrs: { data: user },
-    },
-    "drawer"
-  );
+  openPopup("账号信息", h(UserInfo, { data: user }), "drawer");
 }
 //退出登录
 function onLoginOut() {

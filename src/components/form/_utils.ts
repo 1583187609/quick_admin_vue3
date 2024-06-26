@@ -16,6 +16,7 @@ function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {
   });
   //使用JSON.stringify是为了能够直接修改field对象，且最后以field对象的属性为准
   merge(field, fieAttrs, JSON.parse(JSON.stringify(field)));
+  // merge(field, fieAttrs, structuredClone(field));
 }
 
 /**

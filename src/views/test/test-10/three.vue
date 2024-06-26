@@ -94,15 +94,26 @@
       <template>{{ undefined }}</template>
       <template>{{ null }}</template>
     </div>
+    <div>
+      <el-input placeholder="请输入">
+        <template #prefix>
+          <BaseRender :data="VBaseIcon" />
+        </template>
+        <template #append>
+          <BaseRender :data="VBaseIcon" />
+        </template>
+      </el-input>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { isVNode, reactive, ref } from "vue";
+import { isVNode, reactive, ref, h } from "vue";
 import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
 import { PostUserList } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
+import BaseIcon from "@/components/BaseIcon.vue";
 
 const size = ref<ComponentSize>("default");
 const labelPosition = ref<FormProps["labelPosition"]>("right");
@@ -110,6 +121,7 @@ const ruleFormRef = ref<FormInstance>();
 
 console.log(isVNode("test文本"), "isVNode-文本----------------");
 console.log(isVNode(true), "isVNode-布尔----------------");
+const VBaseIcon = h(BaseIcon, { name: "Lock" });
 const sizeForm = reactive({
   name: "",
   hour: 1,

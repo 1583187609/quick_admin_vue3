@@ -38,7 +38,7 @@
   </div>
 </template>
 <script lang="ts" name="TestOne" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, h } from "vue";
 import { FormField } from "@/components/BaseFormItem";
 import { PostUserList } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
@@ -46,6 +46,7 @@ import { BtnName } from "@/components/BaseBtn";
 import { ElMessage, ElButton } from "element-plus";
 import BaseIcon from "@/components/BaseIcon.vue";
 import { handleBtnNext } from "@/utils";
+import CustomPopover from "./_components/CustomPopover.vue";
 
 const tempAddressOpts: OptionItem[] = [
   {
@@ -127,6 +128,7 @@ const model = reactive<CommonObj>({
   zdy: [10, 20],
   // jzw: true,
 });
+
 const fields = computed<FormField[]>(() => {
   const { cyxslx } = model;
   return [
@@ -212,7 +214,10 @@ const fields = computed<FormField[]>(() => {
         { label: "男", value: 1 },
         { label: "女", value: 2 },
       ],
-      extra: {},
+      extra: {
+        // popover: h("div", { style: "color:red" }, "这是内容"),
+        popover: CustomPopover,
+      },
     },
     {
       prop: "sfzh",
@@ -246,6 +251,9 @@ const fields = computed<FormField[]>(() => {
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
       },
       slots: {
+        // prefix: h(BaseIcon, { name: "Lock" }),
+        // prefix: h(ElButton, {type: "primary" },'按钮'),
+
         prefix: { component: BaseIcon, attrs: { name: "Lock" } },
         // prefix: {
         //   component: ElButton,
