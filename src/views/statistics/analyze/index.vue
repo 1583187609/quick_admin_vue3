@@ -3,7 +3,7 @@
     :cols="cols"
     v-model="model"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :extraBtns="['add']"
     :groupBtns="[
       'edit',
@@ -26,10 +26,9 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { DeleteUserList, PostUserList, PostUserListExport, PutUserUpdate } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ElMessage, dayjs } from "element-plus";
 import { ref, reactive, inject } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";

@@ -35,16 +35,10 @@
         <template #header="{ column, $index, store, _self }">
           <!--{{ column.label }} -->
           <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
-          <BaseRender
-            :data="devErrorTips(column.label, !(newCol.prop as string).startsWith('$') && _self.data && _self.data[0]?.[column.property] === undefined ? undefined : '')"
-            v-else
-          />
+          <BaseRender :data="devErrorTips(column.label, getIsHandle(_self, column) ? undefined : '')" v-else />
           <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
             <template #reference>
-              <BaseIcon
-                :color="!(newCol.prop as string).startsWith('$') && _self.data && _self.data[0]?.[column.property] === undefined ? cssVars.colorDanger : cssVars.colorInfo"
-                name="QuestionFilled"
-              />
+              <BaseIcon :color="getIsHandle(_self, column) ? cssVars.colorDanger : cssVars.colorInfo" name="QuestionFilled" />
             </template>
             <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
           </el-popover>
@@ -162,6 +156,10 @@ function getNewCol(col: TableFieldAttrs) {
   }
   delete col.extra; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
+}
+// 该列是否已联调
+function getIsHandle(_self: CommonObj, column: CommonObj) {
+  return !(newCol.prop as string).startsWith("$") && _self.data?.length && _self.data[0]?.[column.property] === undefined;
 }
 // 此功能后续可能会移除
 function handleSwitchChange(col: TableFieldAttrs, row: CommonObj, ind: number) {

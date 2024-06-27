@@ -13,15 +13,14 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, nextTick, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { useDictStore } from "@/store";
 export type FormType = "unseal" | "add" | "handle";
 export type SceneType = "warning" | "login" | "all-interaction";
 const { getOpts } = useDictStore();
-const violationLevelOpts = getOpts("ViolationLevel", [0], true);
 const props = withDefaults(
   defineProps<{
     type: FormType;
@@ -34,7 +33,6 @@ const props = withDefaults(
   }>(),
   {}
 );
-const reportHandleOpts = getOpts("ReportHandle", [0, 2], true);
 const model = reactive<CommonObj>(
   Object.assign(
     {
@@ -65,7 +63,7 @@ const fields = computed<FormField[]>(() => {
             label: "处罚类型",
             type: "radio-group",
             required: true,
-            options: reportHandleOpts,
+            options: [],
             attrs: {},
           },
           scene === "all-interaction" && {
@@ -96,7 +94,7 @@ const fields = computed<FormField[]>(() => {
             label: "违规级别",
             type: "radio-group",
             required: true,
-            options: violationLevelOpts,
+            options: [],
             tips: "数值越小处罚程度越严重",
           },
         ]),
@@ -122,14 +120,14 @@ function handleFetch(params: CommonObj) {
     //status: 0=维持现有封禁;1=解除封禁
     params.status = 1;
     params.id = data.id;
-    return PostUserList(params);
+    return PostMockCommon(params);
   } else {
     delete params.userId;
-    return PostUserList(params);
+    return PostMockCommon(params);
   }
 }
 //处理表单值变化时
-function handleChange(prop: string, val: StrNum) {
+function handleChange(prop: string, val: SceneType) {
   if (prop === "scene") {
     model.fromMsg = getReplyMsg(val);
   } else if (prop === "timeDay") {

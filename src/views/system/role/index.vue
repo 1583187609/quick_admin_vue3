@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostAuthRoleList"
+    :fetch="GetAuthRoleList"
     :extraBtns="['add', 'delete']"
     :groupBtns="['edit', 'delete']"
     @extraBtn="onExtraBtn"
@@ -12,18 +12,16 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { PostAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
+import { ref, h, inject } from "vue";
+import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ElMessage } from "element-plus";
-import { ref, reactive, inject } from "vue";
 import { BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
 import { useDictStore } from "@/store";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
-import { h } from "vue";
 
 const { getOpts } = useDictStore();
 const roleTypeOpts = getOpts("RoleType");

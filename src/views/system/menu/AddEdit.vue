@@ -199,7 +199,6 @@ function getInfo(id?: StrNum) {
   });
 }
 function handleChange(prop: string, val: any) {
-  console.log(prop, val, "val------------------");
   if (prop === "component_path") {
     if (!model.menu_path) model.menu_path = val.replace(".vue", "");
   }

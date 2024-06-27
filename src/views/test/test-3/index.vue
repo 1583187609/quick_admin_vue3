@@ -39,7 +39,7 @@
       v-model="model"
       :cols="cols"
       :fields="fields"
-      :fetch="PostUserList"
+      :fetch="GetMockCommonList"
       :importCfg="testImportCfg"
       :extraBtns="[
         'add',
@@ -128,7 +128,7 @@
 </template>
 <script lang="ts" name="TestThree" setup>
 import { ref, reactive, inject, isVNode } from "vue";
-import { PostUserList } from "@/api-mock";
+import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { TableField, TableFieldAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
@@ -414,9 +414,9 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => PostUserList({ id }).then(() => next()),
-      forbid: () => PostUserList({ id, status: 0 }).then(() => next()),
-      enable: () => PostUserList({ id, status: 1 }).then(() => next()),
+      delete: () => DeleteMockCommon({ id }).then(() => next()),
+      forbid: () => PostMockCommon({ id, status: 0 }).then(() => next()),
+      enable: () => PostMockCommon({ id, status: 1 }).then(() => next()),
     },
     name
   );

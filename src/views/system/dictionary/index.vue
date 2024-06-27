@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :extraBtns="['add']"
     :groupBtns="['edit', 'delete']"
     @extraBtn="onExtraBtn"
@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, inject, h } from "vue";
-import { PostUserList, DeleteUserList } from "@/api-mock";
+import { GetMockCommonList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { handleBtnNext } from "@/utils";

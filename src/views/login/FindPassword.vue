@@ -7,18 +7,9 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import Captcha from "./Captcha.vue";
+import Captcha from "./_components/Captcha.vue";
 import { CommonObj } from "@/vite-env";
 
-// import { ref, reactive, watch, computed } from "vue";
-// const props = withDefaults(
-//   defineProps<{
-//     data?: CommonObj;
-//   }>(),
-//   {
-//     data: () => ({}),
-//   }
-// );
 const model = reactive<CommonObj>({});
 const fields = [
   {

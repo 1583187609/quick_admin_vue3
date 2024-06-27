@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetUserList"
     :extraBtns="['add']"
     :groupBtns="['edit', 'delete']"
     @extraBtn="onExtraBtn"
@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, inject, h } from "vue";
-import { PostUserList, DeleteUserList } from "@/api-mock";
+import { GetUserList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { handleBtnNext } from "@/utils";
@@ -23,14 +23,15 @@ import { useDictStore } from "@/store";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const { getOpts, getText } = useDictStore();
 const openPopup: any = inject("openPopup");
-const sendStatusOpts = getOpts("SendStatus");
+const yesNoStatusOpts = getOpts("YesNoStatus");
+const educationTypeOpts = getOpts("EducationType", [0], true);
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
   {
     prop: "ffzt",
     label: "发放状态",
     type: "select",
-    options: sendStatusOpts,
+    options: yesNoStatusOpts,
   },
   { prop: "czr", label: "操作人" },
   { prop: "bz", label: "备注" },

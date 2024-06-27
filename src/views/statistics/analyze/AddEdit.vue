@@ -1,11 +1,11 @@
 <template>
   <BaseForm
-    :request="PostUserSubmit"
+    :request="PostMockCommon"
     v-model="model"
     :style="{ width: pureText ? '350px' : '500px' }"
     :fields="fields"
     :pureText="pureText"
-    :fetch="id ? PutUserUpdate : PostUserAdd"
+    :fetch="id ? PostMockCommonUpdate : PostMockCommonAdd"
     :fetchSuccess="refreshList"
   >
     <!-- @submit="handleSubmit" -->
@@ -17,10 +17,10 @@
 <script lang="ts" setup>
 import { FormField } from "@/components/BaseFormItem";
 import { ref, reactive, watch } from "vue";
-import { PostUserSubmit, GetUserInfo } from "@/api-mock";
+import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import { useDictStore } from "@/store";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
-import { PostUserAdd, PutUserUpdate } from "@/api-mock";
+import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/vite-env";
 import { getCascaderOpts } from "@/dict";
 const { getOpts } = useDictStore();

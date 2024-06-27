@@ -2,7 +2,7 @@
 <template>
   <BaseCrud
     style="max-width: 1400px"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :fields="fields"
     :cols="cols"
     :extraBtns="[
@@ -21,7 +21,7 @@
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { handleBtnNext } from "@/utils";
 const openPopup = inject<any>("openPopup");

@@ -1,8 +1,13 @@
+/**
+ * @link 取消请求参考链接：https://blog.csdn.net/lu2925028830/article/details/126296846
+ */
+
 import qs from "qs";
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 import { typeOf, isDev } from "@/utils";
 import { showLoading, hideLoading, showToast } from "./_utils";
 import { GetRequired } from "@/vite-env";
+let source = axios.CancelToken.source();
 
 // 可选的自定义请求配置
 export interface CustomRequestConfig {
@@ -16,11 +21,23 @@ export interface NewAxiosRequestConfig extends AxiosRequestConfig {
   customConfig: GetRequired<CustomRequestConfig>;
 }
 
+/**
+ * 取消请求
+ * @returns
+ */
+export function cancelHttp() {
+  if (!source.token._listeners?.length) return;
+  // source.cancel("请求已被取消"); // 会取消请求栈内的所有请求
+  source.cancel(); // 会取消请求栈内的所有请求
+  source = axios.CancelToken.source();
+  showToast("请求已被取消");
+}
+
 const defaultCustomCfg = {
-  isStringify: false,
-  loadEnable: true,
-  toastEnable: true,
-  maxCount: 3,
+  isStringify: false, //对于post请求的参数是否字符串序列化
+  loadEnable: true, // 是否启用全局loading
+  toastEnable: true, // 对于code非成功值的提示信息是否要进行toast提示
+  maxCount: 1, //失败后重新请求的最大尝试次数
 };
 
 const statusMap: Record<number, string> = {
@@ -50,7 +67,6 @@ service.interceptors.request.use(
     return err;
   }
 );
-
 service.interceptors.response.use(
   (res: AxiosResponse) => {
     const { data: resData, status, config } = res;
@@ -64,6 +80,7 @@ service.interceptors.response.use(
     return Promise.reject(msg);
   },
   (err: AxiosError) => {
+    if (axios.isCancel(err)) return Promise.reject(err);
     const { message, config } = err;
     const { loadEnable, toastEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
     loadEnable && hideLoading();
@@ -79,7 +96,6 @@ service.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
 /**
  * 发送http请求
  * @param {String} method 请求类型（区分大小写），可选值：get,post,put,patch,delete
@@ -102,7 +118,7 @@ function fetch(
   othersCfg?: AxiosRequestConfig
 ): Promise<any> {
   method = method.toLowerCase();
-  const cfg: NewAxiosRequestConfig = { url, method, customConfig: customCfg, ...othersCfg };
+  const cfg: NewAxiosRequestConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
   if (["get"].includes(method)) {
     cfg.params = data;
   } else if (["post", "put", "patch", "delete"].includes(method)) {
@@ -140,14 +156,16 @@ function http(
 ): Promise<any> {
   customCfg = customCfg ? Object.assign({}, defaultCustomCfg, customCfg) : defaultCustomCfg;
   const maxCount = customCfg.maxCount!;
+  // console.log(source.token._listeners, "source--------------");
   return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg).catch(err => {
-    if (max <= 1) {
+    if (axios.isCancel(err) || max <= 1) {
       Promise.reject(err);
     } else {
       console.warn(`接口请求失败，尝试第${maxCount - max + 1}次重新请求`);
       http(method, url, data, customCfg, othersCfg, max - 1);
     }
   });
+  // return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg);
 }
 
 export default http;

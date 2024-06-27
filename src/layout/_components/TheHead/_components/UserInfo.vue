@@ -3,7 +3,7 @@
     style="width: 400px"
     :fields="fields"
     v-model="model"
-    :fetch="PostUserList"
+    :fetch="GetUserList"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
     :submitText="editEnable ? undefined : ''"
     :resetText="editEnable ? undefined : ''"
@@ -20,21 +20,13 @@ import { getUserInfo, handleBtnNext } from "@/utils";
 import { useDictStore } from "@/store";
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 
 const { getOpts } = useDictStore();
 const genderOpts = getOpts("Gender");
 const editEnable = ref(false);
 const model = reactive<CommonObj>(getUserInfo());
-// const props = withDefaults(
-//   defineProps<{
-//     data?: CommonObj;
-//   }>(),
-//   {
-//     data: () => ({}),
-//   }
-// );
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {

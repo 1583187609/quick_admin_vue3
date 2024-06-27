@@ -1,7 +1,7 @@
 import {
   // GetV2DistrictJsonData,
   // GetAdminIndustryJobTree,
-  PostUserList,
+  GetMockCommonList,
 } from "@/api-mock";
 import { storage, typeOf, debounce, printLog } from "@/utils";
 import pkg from "#/package.json";

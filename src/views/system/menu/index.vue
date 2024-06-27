@@ -17,7 +17,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { PostAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
+import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
@@ -127,7 +127,7 @@ function handleToggleStatus(row: CommonObj, next: FinallyNext) {}
 
 //处理请求
 function handleFetch(data: CommonObj) {
-  return PostAuthMenuList(data).then((res: CommonObj) => {
+  return GetAuthMenuList(data).then((res: CommonObj) => {
     menuTree.value = res.records;
     return res;
   });

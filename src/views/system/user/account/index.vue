@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetUserList"
     :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
     :groupBtns="[
       'edit',
@@ -25,10 +25,9 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { DeleteUserList, PostUserList, PostUserListExport, PutUserUpdate } from "@/api-mock";
+import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ElMessage, dayjs } from "element-plus";
 import { ref, reactive, inject, h } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
@@ -72,11 +71,11 @@ const fields = ref<FormField[]>([
 const cols: TableField[] = [
   { prop: "id", label: "用户ID", width: 70 },
   { prop: "name", label: "用户姓名", width: 90 },
-  { prop: "gender_text", label: "性别", width: 90, sortable: true },
+  { prop: "gender_text", label: "性别", width: 90 },
   { prop: "age", label: "年龄", width: 90, sortable: true },
   { prop: "address_text", label: "地址", minWidth: 250 },
   { prop: "phone", label: "电话", minWidth: 120 },
-  { prop: "type_text", label: "用户类型", minWidth: 90 },
+  { prop: "type_text", label: "用户类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
 ];
 //点击操作栏的分组按钮
@@ -128,7 +127,7 @@ function handleExport(ids: string[], next: FinallyNext) {
 //禁用
 function handleToggleStatus(row: CommonObj, next: FinallyNext) {
   const { status, id } = row;
-  PutUserUpdate({
+  PostUserUpdate({
     id,
     status: status === 1 ? 2 : 1,
   }).then((res: CommonObj) => {

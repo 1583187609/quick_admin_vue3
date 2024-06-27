@@ -5,7 +5,7 @@
       @change="handleChange"
       v-model="model"
       :fields="fields"
-      :fetch="PostUserList"
+      :fetch="PostMockCommon"
       :size="model.widget_size"
       :labelPosition="model.label_position"
       :moreBtns="[
@@ -40,7 +40,7 @@
 <script lang="ts" name="TestOne" setup>
 import { ref, reactive, watch, computed, h } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn";
 import { ElMessage, ElButton } from "element-plus";
@@ -490,7 +490,7 @@ const checkAge = (rule: any, value: any, callback: any) => {
 };
 function handleFetch(args: CommonObj) {
   const newArgs = args; //将args整理成后端需要的数据结构，然后传入接口中
-  return PostUserList(newArgs).then((res: CommonObj) => {
+  return PostMockCommon(newArgs).then((res: CommonObj) => {
     return res;
   });
 }

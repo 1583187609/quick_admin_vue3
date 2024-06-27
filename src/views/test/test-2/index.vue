@@ -20,7 +20,7 @@ import { ref, reactive, watch, computed, h } from "vue";
 import { SectionFormItem } from "@/components/form";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommon } from "@/api-mock";
 import { useDictStore } from "@/store";
 import AddDelBtn from "@/components/AddDelBtn.vue";
 import { getCascaderOpts } from "@/dict";
@@ -249,7 +249,7 @@ const sections = computed<SectionFormItem[]>(() => {
 //外层套用一层函数，可将参数进行转化处理再执行请求，也可传入handleParams属性
 function handleFetch(params: CommonObj) {
   console.log(params, "parasms-----------");
-  return PostUserList(params);
+  return PostMockCommon(params);
 }
 </script>
 <style lang="scss" scoped>
