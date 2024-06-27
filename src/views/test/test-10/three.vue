@@ -106,6 +106,14 @@
         </template>
       </el-input>
     </div>
+    <div>
+      <el-popconfirm confirm-button-text="确认删除" cancel-button-text="取消">
+        <template #reference>
+          <el-button>点击打开弹窗</el-button>
+        </template>
+        <span>这是自定义内容</span>
+      </el-popconfirm>
+    </div>
   </div>
 </template>
 

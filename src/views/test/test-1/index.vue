@@ -217,6 +217,7 @@ const fields = computed<FormField[]>(() => {
       extra: {
         // popover: h("div", { style: "color:red" }, "这是内容"),
         popover: CustomPopover,
+        tips: "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）",
       },
     },
     {
