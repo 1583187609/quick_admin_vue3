@@ -171,13 +171,13 @@ const route = useRoute();
 const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
-const userOpts = getOpts("User");
+const roleTypeOpts = getOpts("RoleType");
 const enableOpts = getOpts("EnableStatus");
 const testFetchAsyncOpts = getOpts("TestFetchAsync");
 //默认搜索值
 const model = reactive<CommonObj>({
   xm: "张三",
-  multi_tag: ["new_user"],
+  multi_tag: [0],
   date_range_def_val: ["2023-08-19", "2023-08-27"],
   num_range_def_val: [10, 20],
 });
@@ -193,7 +193,7 @@ const fields: FormFieldAttrs[] = [
     prop: "multi_tag",
     label: "多标签",
     type: "select",
-    options: userOpts,
+    options: roleTypeOpts,
     attrs: {
       multiple: true,
     },

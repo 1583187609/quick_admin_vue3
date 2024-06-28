@@ -10,6 +10,39 @@ export * from "./_types";
  */
 
 export default {
+  //身份认证情况：1=未认证,2=学历;3=公司,4=双认证
+  AuthCase: {
+    "1": {
+      text: "未认证",
+      attrs: {
+        type: "info",
+      },
+    },
+    "2": {
+      text: "学历认证",
+      attrs: {
+        color: "#06D4E0",
+        style: {
+          color: "#fff",
+        },
+      },
+    },
+    "3": {
+      text: "公司认证",
+      attrs: {
+        color: "#1368F9",
+        style: {
+          color: "#fff",
+        },
+      },
+    },
+    "4": {
+      text: "双认证",
+      attrs: {
+        type: "success",
+      },
+    },
+  },
   //学历类型: 0未知 1大专 2本科 3研究生 4博士
   EducationType: {
     0: {
