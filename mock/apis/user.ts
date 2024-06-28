@@ -3,7 +3,6 @@ import Mock from "mockjs";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
 import roleRows from "../data/roles";
-import { userRows } from "../data/rows";
 import { getDictText, getCascadeText, getDictCodes } from "../dict";
 import allAddress from "../data/address";
 import { CommonObj } from "@/vite-env";

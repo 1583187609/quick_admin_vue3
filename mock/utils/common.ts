@@ -2,7 +2,6 @@ import { cloneDeep, merge } from "lodash";
 import dictMap from "../dict";
 import { getDictText, getCascadeText } from "../dict";
 import { CommonObj, OptionItem } from "@/vite-env";
-import { isNodeEnv } from "./consts";
 
 /**
  * 检测元素所属类型

@@ -3,7 +3,6 @@ import allUsers from "../data/user";
 import allNavs from "../data/navs";
 import roleRows from "../data/roles";
 import testFields from "../data/test";
-import { userRows } from "../data/rows";
 import dictMap, { getDictText } from "../dict";
 import allAddress from "../data/address";
 import allSchool from "../data/school";
