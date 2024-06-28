@@ -2,11 +2,14 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "@/router";
 import ElementPlus from "element-plus";
-import components from "@/components/index";
+import components from "@/components";
 import pinia from "./store";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import mixin from "@/services/mixin";
 import { setupProdMockServer } from "./mockProdServer";
+import I18n from "@/languages";
+import { handleError } from "@/utils";
+
 import "@/assets/styles/font.scss";
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";
@@ -18,6 +21,7 @@ import "@/assets/styles/rewrite.scss";
 // window.dir = console.dir;
 setupProdMockServer();
 const app = createApp(App);
+app.config.errorHandler = handleError;
 // app.provide("global", {
 //   userInfo: null,
 // });
@@ -25,7 +29,8 @@ app.mixin(mixin);
 app.use(ElementPlus, {
   locale: zhCn,
 });
-app.use(components);
+app.use(components); //全局注册基础组件
+app.use(I18n);
 app.use(pinia);
 app.use(router);
 app.mount("#app");

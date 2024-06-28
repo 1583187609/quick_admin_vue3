@@ -5,14 +5,14 @@
       <template #icon>
         <BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : 'Search'"></BaseIcon>
       </template>
-      <template #default>搜索</template>
+      <template #default>{{ $t("base.button.search") }}</template>
     </el-button>
-    <el-button :icon="RefreshLeft" @click="emits('reset')" :disabled="loading">重置</el-button>
+    <el-button :icon="RefreshLeft" @click="emits('reset')" :disabled="loading">{{ $t("base.button.reset") }}</el-button>
     <el-button @click="emits('fold')" text type="primary" v-if="showFoldBtn">
       <template #icon>
         <BaseIcon name="ArrowDown" :class="{ 'rotate-180': !isFold, 'icon-fold': true }"></BaseIcon>
       </template>
-      {{ isFold ? "展开" : "折叠" }}
+      {{ isFold ? $t("base.button.unfold") : $t("base.button.fold") }}
     </el-button>
   </el-col>
 </template>

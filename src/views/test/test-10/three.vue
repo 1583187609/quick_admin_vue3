@@ -88,28 +88,49 @@
       </el-form-item>
     </el-form>
     <div>
-      <el-button type="primary" @click="testSubmitCancel">点击测试</el-button>
+      <el-button type="primary" @click="sendFetch">发送请求</el-button>
+      <el-button type="primary" @click="sendFetchTest">发送请求测试</el-button>
+      <el-button type="primary" @click="abortFetch">取消请求</el-button>
     </div>
     <div class="f-sb-c">
       <template>{{ undefined }}</template>
       <template>{{ null }}</template>
     </div>
+    <div>
+      <el-input placeholder="请输入">
+        <template #prefix>
+          <BaseRender :data="VBaseIcon" />
+        </template>
+        <template #append>
+          <BaseRender :data="VBaseIcon" />
+        </template>
+      </el-input>
+    </div>
+    <div>
+      <el-popconfirm confirm-button-text="确认删除" cancel-button-text="取消">
+        <template #reference>
+          <el-button>点击打开弹窗</el-button>
+        </template>
+        <span>这是自定义内容</span>
+      </el-popconfirm>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { isVNode, reactive, ref } from "vue";
+import { isVNode, reactive, ref, h } from "vue";
 import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommon, GetMockCommonList } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
+import BaseIcon from "@/components/BaseIcon.vue";
+import { cancelHttp } from "@/services/http";
 
 const size = ref<ComponentSize>("default");
 const labelPosition = ref<FormProps["labelPosition"]>("right");
 const ruleFormRef = ref<FormInstance>();
 
-console.log(isVNode("test文本"), "isVNode-文本----------------");
-console.log(isVNode(true), "isVNode-布尔----------------");
+const VBaseIcon = h(BaseIcon, { name: "Lock" });
 const sizeForm = reactive({
   name: "",
   hour: 1,
@@ -143,10 +164,29 @@ function handleReset(formEl?: FormInstance) {
   if (!formEl) return;
   formEl.resetFields();
 }
-function testSubmitCancel() {
-  PostUserList({}).then((res: CommonObj) => {
-    console.log(res, "res---------------------");
-  });
+function sendFetch() {
+  console.log("点击了发送请求按钮");
+  PostMockCommon({})
+    .then((res: CommonObj) => {
+      console.log(res, "请求成功---------------------");
+    })
+    .catch(err => {
+      console.log(err, "取消请求catch----------");
+    });
+}
+function sendFetchTest() {
+  console.log("点击了发送请求按钮");
+  GetMockCommonList({})
+    .then((res: CommonObj) => {
+      console.log(res, "请求成功---------------------");
+    })
+    .catch(err => {
+      console.log(err, "取消请求catch----------");
+    });
+}
+function abortFetch() {
+  console.log("点击了取消请求按钮");
+  cancelHttp();
 }
 </script>
 

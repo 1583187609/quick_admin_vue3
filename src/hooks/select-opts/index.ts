@@ -1,7 +1,7 @@
 // 获取下拉项 select 的 options
-import { ref, reactive, computed, nextTick } from "vue";
+import { ref, reactive, computed, nextTick, h } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
-import { GetMockSchoolList, GetMockCompanyList } from "@/api-mock";
+import { GetOptionsSchool, GetOptionsCompany } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
@@ -13,7 +13,7 @@ const typeMap: CommonObj = {
   school: {
     reqNameKey: "name",
     resValKey: "id", //跟下方的handleItem中的value对应的键名保持一致
-    fetchApi: GetMockSchoolList,
+    fetchApi: GetOptionsSchool,
     defaultField: { prop: "xx", label: "学校", type: "select" },
     handleItem(item: CommonObj) {
       const { name, id } = item;
@@ -23,16 +23,13 @@ const typeMap: CommonObj = {
   company: {
     reqNameKey: "name",
     resValKey: "id",
-    fetchApi: GetMockCompanyList,
+    fetchApi: GetOptionsCompany,
     defaultField: { prop: "gs", label: "公司", type: "select" },
     handleItem(item: CommonObj) {
       const { fullName, shortName, id } = item;
       return {
         label: fullName,
-        customOption: {
-          component: CompanyOption,
-          attrs: { fullName, shortName },
-        },
+        customOption: h(CompanyOption, { fullName, shortName }),
         value: id,
       };
     },
@@ -40,7 +37,7 @@ const typeMap: CommonObj = {
   // major: {
   //   reqNameKey: "majorName",
   //   resValKey: "id",
-  //   fetchApi: PostUserList,
+  //   fetchApi: GetMockCommonList,
   //   defaultField: { prop: "zy", label: "专业", type: "select" },
   //   handleItem(item: CommonObj) {
   //     const { majorName, id } = item;
@@ -50,7 +47,7 @@ const typeMap: CommonObj = {
   // subject: {
   //   reqNameKey: "name",
   //   resValKey: "name",
-  //   fetchApi: PostUserList,
+  //   fetchApi: GetMockCommonList,
   //   defaultField: { prop: "subject", label: "学科名称", type: "select" },
   //   handleItem(item: CommonObj) {
   //     const { name, code } = item;

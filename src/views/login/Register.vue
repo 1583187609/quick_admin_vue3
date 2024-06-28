@@ -1,20 +1,11 @@
 <template>
-  <BaseForm v-model="model" style="width: 450px" :fields="fields" :fetch="PostUserList" submitText="注册" />
+  <BaseForm v-model="model" style="width: 450px" :fields="fields" :fetch="PostUserRegister" submitText="注册" />
 </template>
 <script lang="ts" setup>
-import { PostUserList } from "@/api-mock";
+import { PostUserRegister } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
 import { reactive } from "vue";
 
-// import { ref, reactive, watch, computed } from "vue";
-// const props = withDefaults(
-//   defineProps<{
-//     data?: CommonObj;
-//   }>(),
-//   {
-//     data: () => ({}),
-//   }
-// );
 const model = reactive<CommonObj>({});
 const fields = [
   { prop: "pheon", label: "电话", valid: "phone", required: true },

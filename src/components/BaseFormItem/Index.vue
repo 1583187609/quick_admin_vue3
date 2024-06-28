@@ -12,6 +12,7 @@
         <template #reference>
           <BaseIcon :color="cssVars.colorInfo" class="icon-popover" :class="size" name="QuestionFilled"></BaseIcon>
         </template>
+        <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
       </el-popover>
     </template>
     <div class="mr-h" v-if="newField.extra?.before">
@@ -29,7 +30,8 @@
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
         >
-          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <!-- <component :is="newField?.slots" v-if="newField?.slots"></component> -->
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-input>
@@ -46,7 +48,7 @@
             </el-option>
             <el-option v-bind="opt" v-else />
           </template>
-          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-select>
@@ -57,7 +59,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'date-picker'"
         >
-          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-date-picker>
@@ -116,7 +118,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'cascader'"
         >
-          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-cascader>
@@ -150,7 +152,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'autocomplete'"
         >
-          <template #[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-autocomplete>
@@ -168,7 +170,7 @@
           v-else-if="newField.type === 'checkbox'"
         >
           <!-- <BaseRender
-            :data="newField?.attrs?.slots?.default || newField.label"
+            :data="newField?.slots?.default || newField.label"
           /> -->
         </el-checkbox>
         <!-- <el-time-picker
@@ -281,7 +283,7 @@ let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
-  const { type: fType, label, extra = {}, children } = field;
+  const { type: fType, label, extra = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   if (children?.length) {
     const { required } = field;
@@ -318,11 +320,8 @@ const newField = computed<FormFieldAttrs>(() => {
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
     tempField.attrs!.placeholder = getPlaceholder(tempField);
-    const { slots } = tempField.attrs!;
-    if (typeOf(slots) === "String") {
-      tempField.attrs!.slots = {
-        default: slots,
-      };
+    if (typeof slots === "string") {
+      tempField.slots = { default: slots };
     }
   }
   // if (size === "small" && type === "date-picker") {

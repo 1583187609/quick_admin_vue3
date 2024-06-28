@@ -10,7 +10,7 @@
       @click="onTagItem(homeTag, -1)"
       @contextmenu="onContextmenu($event, -1)"
     >
-      首页
+      {{ $t("layout.pageTags.home") }}
     </PageTagItem>
     <button @click="onArrowBtn(-1)" class="btn f-c-c f-0" :class="{ disabled: leftDisabled }" :disabled="leftDisabled">
       <BaseIcon size="18" name="DArrowLeft"></BaseIcon>

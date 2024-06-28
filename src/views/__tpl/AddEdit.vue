@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="model"
     :fields="fields"
-    :fetch="data ? PutUserUpdate : PostUserAdd"
+    :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
     :fetchSuccess="refreshList"
     :extraParams="data ? { id: data.id } : undefined"
   >
@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserAdd, PutUserUpdate } from "@/api-mock";
+import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { useDictStore } from "@/store";
 const { getOpts, getText } = useDictStore();
@@ -34,7 +34,9 @@ const fields: FormField[] = [
     attrs: {
       type: "textarea",
     },
-    tips: "多个用户用，分隔",
+    extra: {
+      tips: "多个用户用，分隔",
+    },
   },
   {
     prop: "ffje",

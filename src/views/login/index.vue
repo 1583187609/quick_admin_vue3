@@ -44,11 +44,11 @@ meta:
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, onMounted, computed } from "vue";
-import { PostUserLogin, GetUserLoginRoleAccounts } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
-import FindPassword from "./_components/FindPassword.vue";
-import Register from "./_components/Register.vue";
+import { ref, reactive, inject, computed } from "vue";
+import { GetUserLoginAccounts } from "@/api-mock";
+import { FormFieldAttrs } from "@/components/BaseFormItem";
+import FindPassword from "./FindPassword.vue";
+import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { storage } from "@/utils";
@@ -107,7 +107,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
 });
 loadAll();
 function loadAll() {
-  GetUserLoginRoleAccounts().then((res: CommonObj[]) => {
+  GetUserLoginAccounts().then((res: CommonObj[]) => {
     accountOpts.value = res.map((item: CommonObj) => {
       const { account, ...rest } = item;
       return { value: account, ...rest };

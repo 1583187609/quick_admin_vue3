@@ -1,8 +1,7 @@
 import { cloneDeep, merge } from "lodash";
 import dictMap from "../dict";
 import { getDictText, getCascadeText } from "../dict";
-import { CommonObj } from "@/vite-env";
-import { isNodeEnv } from "./consts";
+import { CommonObj, OptionItem } from "@/vite-env";
 
 /**
  * 检测元素所属类型
@@ -25,8 +24,8 @@ import { isNodeEnv } from "./consts";
  * @returns {String} 元素类型（String、Number、Boolean、Symbol、Undefined、Null、Function、Date、Array、Object、Regexp、Error、HtmlDocument、Global）
  */
 export function typeOf(ele: any) {
-  let endStr = Object.prototype.toString.call(ele);
-  let type = endStr.split(" ")[1].slice(0, -1);
+  const endStr = Object.prototype.toString.call(ele);
+  const type = endStr.split(" ")[1].slice(0, -1);
   return type;
 }
 
@@ -46,12 +45,18 @@ export function getRequestParams(req: CommonObj, ignoreKeys = ["phone"]) {
     const isIgnoreType = ["Null", "Undefined", "Boolean", "Array"].includes(valType);
     return isEmptyStr || isIgnoreKey || isIgnoreType;
   }
-  for (let key in reqParams) {
+  for (const key in reqParams) {
     const val = reqParams[key];
     if (isIgnore(key, val)) continue;
     const numVal = Number(val);
     if (!isNaN(numVal)) {
       reqParams[key] = numVal;
+    } else {
+      if (val === "true") {
+        reqParams[key] = true;
+      } else if (val === "false") {
+        reqParams[key] = false;
+      }
     }
   }
   return reqParams;
@@ -61,9 +66,9 @@ export function getRequestParams(req: CommonObj, ignoreKeys = ["phone"]) {
  * 处理数据，转化成vite mock api需要的数据结构
  */
 export function toViteMockApi(obj: CommonObj) {
-  const arr = [];
-  for (let key in obj) {
-    let [method, url] = key.split(" ");
+  const arr: CommonObj[] = [];
+  for (const key in obj) {
+    const [method, url] = key.split(" ");
     arr.push({
       url,
       method: method.toLowerCase(), //一定要转为小写，不然打包出来会提示404，踩了很久的坑
@@ -180,10 +185,10 @@ export function filterByConditions(list: any[], byConditions: any[]) {
  * @param ignoreKeys array 要忽略翻译的键名数组集合
  */
 export function getOptsFromDict(name: string, ignoreKeys: string[]) {
-  const opts = [];
+  const opts: OptionItem[] = [];
   const map = dictMap[name];
   if (!map) return null;
-  for (let key in map) {
+  for (const key in map) {
     if (!ignoreKeys?.includes(key)) {
       opts.push({ value: Number(key), label: map[key] });
     }

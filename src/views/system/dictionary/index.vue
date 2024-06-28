@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :extraBtns="['add']"
     :groupBtns="['edit', 'delete']"
     @extraBtn="onExtraBtn"
@@ -13,8 +13,8 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject } from "vue";
-import { PostUserList, DeleteUserList } from "@/api-mock";
+import { ref, reactive, inject, h } from "vue";
+import { GetMockCommonList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { handleBtnNext } from "@/utils";
@@ -62,10 +62,7 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, {
-    component: AddEdit,
-    attrs: { data: row, refreshList: next },
-  });
+  openPopup(`${row ? "编辑" : "新增"}`, h(AddEdit, { data: row, refreshList: next }));
 }
 </script>
 <style lang="scss" scoped></style>

@@ -24,8 +24,8 @@ export default defineStore("route", () => {
    */
   function getFlatMenus(menus?: MenusItem[]): MenusItem[] {
     const _menus: MenusItem[] = [];
-    function flatMenus(menus?: MenusItem[]) {
-      menus?.forEach((menu: MenusItem) => {
+    function flatMenus(menus: MenusItem[] = []) {
+      menus.forEach((menu: MenusItem) => {
         const { type, auth_codes, children } = menu;
         if (type === 0) {
           flatMenus(children);

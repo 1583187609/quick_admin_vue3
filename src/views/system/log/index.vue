@@ -1,10 +1,10 @@
 <!-- 页面-这是一个模板示例 -->
 <template>
-  <BaseCrud :cols="cols" :fields="fields" :fetch="PostUserList" index></BaseCrud>
+  <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommonList" :extraParams="{ emptyList: false }" index></BaseCrud>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
-import { PostUserList, DeleteUserList } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { useDictStore } from "@/store";

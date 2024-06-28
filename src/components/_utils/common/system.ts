@@ -306,3 +306,12 @@ export function downloadByBuffer(buffer, name?: string) {
   const url = window.URL.createObjectURL(blob);
   downloadByUrl(url, name);
 }
+
+/**
+ * @description 获取浏览器默认语言
+ * @returns {String}
+ */
+export function getBrowserLang() {
+  const lang = (navigator.language ?? navigator.browserLanguage).toLowerCase();
+  return ["cn", "zh", "zh-cn"].includes(lang) ? "zh" : "en";
+}

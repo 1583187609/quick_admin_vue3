@@ -3,7 +3,7 @@
 /********************************************************************/
 
 import cssVars from "@/assets/styles/_var.module.scss";
-import { RendererElement, RendererNode, VNode, h } from "vue";
+import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
 import { ElMessage } from "element-plus";
 import { emptyVals, isDev, typeOf } from "@/utils";
 import { PopoverAttrs } from "@/components/BaseFormItem";
@@ -224,8 +224,11 @@ export function getScreenSizeType(): ScreenSizeType {
  */
 export function getPopoverAttrs(popover?: string | PopoverAttrs): PopoverAttrs | undefined {
   if (!popover) return;
-  const t = typeOf(popover);
-  if (t === "String") return { content: popover as string };
-  if (t === "Object") return popover as PopoverAttrs;
+  const t = typeof popover;
+  if (t === "string") return { content: popover as string };
+  if (t === "object") {
+    if (isVNode(popover) || popover.render || popover.component) return { defaultSlot: popover };
+    return popover as PopoverAttrs;
+  }
   throw new Error(`暂不支持此popover类型：${t}`);
 }

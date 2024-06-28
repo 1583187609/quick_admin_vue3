@@ -5,7 +5,7 @@
       @change="handleChange"
       v-model="model"
       :fields="fields"
-      :fetch="PostUserList"
+      :fetch="PostMockCommon"
       :size="model.widget_size"
       :labelPosition="model.label_position"
       :moreBtns="[
@@ -38,14 +38,15 @@
   </div>
 </template>
 <script lang="ts" name="TestOne" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, h } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn";
 import { ElMessage, ElButton } from "element-plus";
 import BaseIcon from "@/components/BaseIcon.vue";
 import { handleBtnNext } from "@/utils";
+import CustomPopover from "./_components/CustomPopover.vue";
 
 const tempAddressOpts: OptionItem[] = [
   {
@@ -127,6 +128,7 @@ const model = reactive<CommonObj>({
   zdy: [10, 20],
   // jzw: true,
 });
+
 const fields = computed<FormField[]>(() => {
   const { cyxslx } = model;
   return [
@@ -212,7 +214,11 @@ const fields = computed<FormField[]>(() => {
         { label: "男", value: 1 },
         { label: "女", value: 2 },
       ],
-      extra: {},
+      extra: {
+        // popover: h("div", { style: "color:red" }, "这是内容"),
+        popover: CustomPopover,
+        tips: "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）",
+      },
     },
     {
       prop: "sfzh",
@@ -233,9 +239,9 @@ const fields = computed<FormField[]>(() => {
       },
       attrs: {
         placeholder: "电话号码（这是自定义的placeholder）",
-        slots: {
-          prefix: "Tel",
-        },
+      },
+      slots: {
+        prefix: "Tel",
       },
     },
     {
@@ -245,20 +251,21 @@ const fields = computed<FormField[]>(() => {
         valid: "password",
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
       },
-      attrs: {
-        slots: {
-          prefix: { component: BaseIcon, attrs: { name: "Lock" } },
-          // prefix: {
-          //   component: ElButton,
-          //   attrs: {
-          //     type: "primary",
-          //     slots: "按钮",
-          //     // slots: {
-          //     //   default: "按钮",
-          //     // },
-          //   },
-          // },
-        },
+      slots: {
+        // prefix: h(BaseIcon, { name: "Lock" }),
+        // prefix: h(ElButton, {type: "primary" },'按钮'),
+
+        prefix: { component: BaseIcon, attrs: { name: "Lock" } },
+        // prefix: {
+        //   component: ElButton,
+        //   attrs: {
+        //     type: "primary",
+        //   },
+        //   slots: "按钮",
+        //   // slots: {
+        //   //   default: "按钮",
+        //   // },
+        // },
       },
     },
     {
@@ -333,14 +340,12 @@ const fields = computed<FormField[]>(() => {
       label: "是否记住我",
       type: "checkbox",
       extra: {
-        tips: "用attrs.slots.default改变多选框右侧的文字（默认跟label一样）",
+        tips: "用slots.default改变多选框右侧的文字（默认跟label一样）",
       },
-      attrs: {
-        slots: "记住我",
-        // slots: {
-        //   default: "记住我",
-        // },
-      },
+      slots: "记住我",
+      // slots: {
+      //   default: "记住我",
+      // },
     },
     {
       prop: "ssq",
@@ -486,7 +491,7 @@ const checkAge = (rule: any, value: any, callback: any) => {
 };
 function handleFetch(args: CommonObj) {
   const newArgs = args; //将args整理成后端需要的数据结构，然后传入接口中
-  return PostUserList(newArgs).then((res: CommonObj) => {
+  return PostMockCommon(newArgs).then((res: CommonObj) => {
     return res;
   });
 }

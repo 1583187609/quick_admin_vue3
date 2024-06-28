@@ -1,18 +1,29 @@
 import http from "@/services/http";
 import { CommonObj } from "@/vite-env";
-// // 获取mock测试数据
-export const GetMockTest = (data: CommonObj = {}) => http("get", "/mock/test", data);
-// 获取mock 字典映射
-export const GetMockDict = (data: CommonObj = {}) => http("get", "/mock/dict", data);
-// 获取mock 地区省市区县
-export const GetMockAddress = (data: CommonObj = {}) => http("get", "/mock/address", data);
-// 获取mock导航数据
-export const GetMockNavs = (data: CommonObj = {}) => http("get", "/mock/navs", data);
-// 提交表单
-export const PostMockSubmit = (data: CommonObj = {}) => http("post", "/mock/submit", data);
-//测试获取表格行数据
-export const GetMockRoleList = (data: CommonObj = {}) => http("get", "/mock/role/list", data);
-//获取学校列表数据
-export const GetMockSchoolList = (data: CommonObj = {}) => http("get", "/mock/school/list", data);
-//获取公司列表数据
-export const GetMockCompanyList = (data: CommonObj = {}) => http("get", "/mock/company/list", data);
+
+/************ 通用接口 *************/
+// 通用的获取数据（信息对象）接口
+export const GetMockCommonDetail = (data?: CommonObj) => http("get", "/mock/common/detail", data);
+// 通用的获取列表（分页数组）接口
+export const GetMockCommonList = (data?: CommonObj) => http("get", "/mock/common/list", data);
+// 通用的提交数据（信息对象）接口
+export const PostMockCommon = (data?: CommonObj) => http("post", "/mock/common", data);
+// 通用的新增接口
+export const PostMockCommonAdd = (data?: CommonObj) => http("post", "/mock/common/add", data);
+// 通用的修改接口
+export const PostMockCommonUpdate = (data?: CommonObj) => http("post", "/mock/common/update", data);
+// 通用的导入接口
+export const PostMockCommonImport = (data?: CommonObj) => http("post", "/mock/common/import", data);
+// 通用的导出接口
+export const PostMockCommonExport = (data?: CommonObj) => http("post", "/mock/common/export", data);
+// 通用的删除接口
+export const DeleteMockCommon = (data?: CommonObj) => http("delete", "/mock/common", data);
+// 通用的更新全部数据接口
+export const PutMockCommon = (data?: CommonObj) => http("put", "/mock/common", data);
+// 通用的更新局部数据接口
+export const PatchMockCommon = (data?: CommonObj) => http("patch", "/mock/common", data);
+
+/************ 临时写的三个暂用接口 *************/
+export const GetImSearchFromUserList = (data?: CommonObj) => http("get", "/mock/common/list", data);
+export const GetImSearchFriendList = (data?: CommonObj) => http("get", "/mock/common/list", data);
+export const GetImSearchP2pChatList = (data?: CommonObj) => http("get", "/mock/common/list", data);

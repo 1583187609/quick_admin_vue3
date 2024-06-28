@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="model"
     :fields="fields"
-    :fetch="data ? PostUserList : PostUserList"
+    :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
     :fetchSuccess="refreshList"
     :extraParams="{ id: data?.id }"
     @change="(prop:string,val:any)=>model[prop] = val"
@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { merge } from "lodash";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";

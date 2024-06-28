@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="model"
     :fields="fields"
-    :fetch="isAdd ? PostAuthRoleList : PostAuthRoleList"
+    :fetch="isAdd ? GetAuthRoleList : GetAuthRoleList"
     :fetchSuccess="refreshList"
     :extraParams="{ id: data?.id, doRelationFeedbackCompany: isApply ? data!.id : undefined }"
   >
@@ -20,13 +20,11 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostAuthRoleList } from "@/api-mock";
+import { GetAuthRoleList } from "@/api-mock";
 import AddDelTag from "@/components/AddDelTag.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 import { useDictStore } from "@/store";
 
-const { getOpts } = useDictStore();
-const companyOpts = getOpts("Company");
 //是否支持： 0否;1=是
 const supportSwitchAttrs: CommonObj = {
   activeValue: 1,
@@ -52,7 +50,7 @@ const fields: FormField[] = [
     prop: "typeId",
     label: "公司类型",
     type: "select",
-    options: companyOpts,
+    options: [],
     attrs: {},
   },
   {

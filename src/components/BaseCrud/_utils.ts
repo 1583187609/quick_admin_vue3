@@ -17,6 +17,7 @@ import { HandleClickExtraBtnsProps, SpecialBoolColType } from "./_types";
 import { batchBtnNames } from ".";
 import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";
 import ImportPopup from "./_components/ImportPopup.vue";
+import { h } from "vue";
 
 export interface ExtraBtnRestArgs {
   selectedKeys: string[];
@@ -103,14 +104,8 @@ export function handleClickExtraBtns({
         .catch(() => {});
     }
   } else if (name === "import") {
-    openPopup("温馨提示", {
-      component: ImportPopup,
-      // component: () => import("./_components/ImportPopup.vue"),
-      attrs: {
-        tplCfg: importCfg,
-        onChange: (arr: CommonObj[]) => emits("click", name, arr),
-      },
-    });
+    // () => import("./_components/ImportPopup.vue"),
+    openPopup("温馨提示", h(ImportPopup, { tplCfg: importCfg, onChange: (arr: CommonObj[]) => emits("click", name, arr) }));
   } else {
     emits("extraBtn", name, next, {
       selectedKeys: [],

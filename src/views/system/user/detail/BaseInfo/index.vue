@@ -14,12 +14,7 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button
-          type="success"
-          style="width: 5em"
-          size="small"
-          @click="openPopup(null, { component: '是否要重新比对人脸？' }, 'dialog')"
-        >
+        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog')">
           比对人脸
         </el-button>
       </div>
@@ -133,7 +128,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
+import { ref, reactive, watch, computed, inject, h } from "vue";
 import ImgItem from "./_components/ImgItem.vue";
 import CellForm, { CellFormField } from "@/components/form/CellForm.vue";
 import CellTable, { CellTableFieldItem } from "@/components/table/CellTable.vue";
@@ -578,35 +573,28 @@ function handleReject(rejected: boolean) {
           closePopup("dialog");
         },
       },
-      {
-        component: `确定${rejected ? "取消" : ""}驳回？`,
-        attrs: {},
-      },
-      "dialog"
+      `确定${rejected ? "取消" : ""}驳回？`,
+      "dialog",
+      true
     );
   } else {
-    openPopup("头像驳回", { component: RejectAvatar }, "dialog", false);
+    openPopup("头像驳回", RejectAvatar, "dialog", false);
   }
 }
 function openCoinListPopup() {
-  openPopup({ title: "金币明细" }, { component: CoinList, attrs: {} }, "dialog", false);
+  openPopup("金币明细", CoinList, "dialog", false);
 }
 function openReportListPopup(type: number) {
-  openPopup({ title: (type === 2 ? "被" : "") + "举报记录" }, { component: ReportList, attrs: { type } }, "dialog", false);
+  openPopup((type === 2 ? "被" : "") + "举报记录", h(ReportList, { type }), "dialog", false);
 }
 function openLoveListPopup(type: number) {
-  openPopup({ title: (type === 2 ? "被" : "") + "喜欢记录" }, { component: LoveList, attrs: { type } }, "dialog", false);
+  openPopup((type === 2 ? "被" : "") + "喜欢记录", h(LoveList, { type }), "dialog", false);
 }
 function openEvaluateListPopup(type: number) {
-  openPopup({ title: (type === 2 ? "负" : "正") + "面评价" }, { component: EvaluateList, attrs: { type } }, "dialog", false);
+  openPopup((type === 2 ? "负" : "正") + "面评价", h(EvaluateList, { type }), "dialog", false);
 }
 function openAboutListPopup(type: number) {
-  openPopup(
-    { title: (type === 2 ? "关于我" : "关于你") + "提交记录" },
-    { component: AboutList, attrs: { type } },
-    "dialog",
-    false
-  );
+  openPopup((type === 2 ? "关于我" : "关于你") + "提交记录", h(AboutList, { type }), "dialog", false);
 }
 </script>
 <style lang="scss" scoped>

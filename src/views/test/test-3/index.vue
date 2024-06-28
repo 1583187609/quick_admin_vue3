@@ -39,7 +39,7 @@
       v-model="model"
       :cols="cols"
       :fields="fields"
-      :fetch="PostUserList"
+      :fetch="GetMockCommonList"
       :importCfg="testImportCfg"
       :extraBtns="[
         'add',
@@ -127,8 +127,8 @@
   </div>
 </template>
 <script lang="ts" name="TestThree" setup>
-import { ref, reactive, inject } from "vue";
-import { PostUserList } from "@/api-mock";
+import { ref, reactive, inject, isVNode } from "vue";
+import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { TableField, TableFieldAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
@@ -145,8 +145,10 @@ import { getCascaderOpts } from "@/dict";
 import { Postcard } from "@element-plus/icons-vue";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
+import CustomHead from "./_components/CustomHead.vue";
 import { SectionFieldsItemAttrs } from "@/components/form";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { h } from "vue";
 
 const tempRow = {
   xm: "李四",
@@ -169,13 +171,13 @@ const route = useRoute();
 const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
-const userOpts = getOpts("User");
+const roleTypeOpts = getOpts("RoleType");
 const enableOpts = getOpts("EnableStatus");
 const testFetchAsyncOpts = getOpts("TestFetchAsync");
 //默认搜索值
 const model = reactive<CommonObj>({
   xm: "张三",
-  multi_tag: ["new_user"],
+  multi_tag: [0],
   date_range_def_val: ["2023-08-19", "2023-08-27"],
   num_range_def_val: [10, 20],
 });
@@ -191,7 +193,7 @@ const fields: FormFieldAttrs[] = [
     prop: "multi_tag",
     label: "多标签",
     type: "select",
-    options: userOpts,
+    options: roleTypeOpts,
     attrs: {
       multiple: true,
     },
@@ -285,6 +287,17 @@ const cols: TableField[] = [
     type: "custom",
     extra: {
       popover: `需设置 {type: "custom"}`,
+    },
+  },
+  {
+    prop: "custom_head",
+    // label: "自定义表格头",
+    label: h(CustomHead),
+    minWidth: 210,
+    extra: {
+      // popover: "这是自定义popover示例",
+      // popover: CustomHead,
+      popover: h(CustomHead, { isPopover: true }),
     },
   },
   {
@@ -390,12 +403,8 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
       add: () => handleAddEdit(null, next),
       import: () => handleImport(),
       export: () => exportExcel(exportRows),
-      dialog: () =>
-        openPopup("这是一个dialog列表示例", {
-          component: SimpleList,
-          attrs: {},
-        }),
-      drawer: () => openPopup("这是一个drawer表单示例", { component: SimpleForm, attrs: {} }, "drawer"),
+      dialog: () => openPopup("这是一个dialog列表示例", SimpleList),
+      drawer: () => openPopup("这是一个drawer表单示例", SimpleForm, "drawer"),
     },
     name
   );
@@ -405,22 +414,19 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => PostUserList({ id }).then(() => next()),
-      forbid: () => PostUserList({ id, status: 0 }).then(() => next()),
-      enable: () => PostUserList({ id, status: 1 }).then(() => next()),
+      delete: () => DeleteMockCommon({ id }).then(() => next()),
+      forbid: () => PostMockCommon({ id, status: 0 }).then(() => next()),
+      enable: () => PostMockCommon({ id, status: 1 }).then(() => next()),
     },
     name
   );
 }
 //新增/编辑
-async function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
+async function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
   if (row) row = tempRow;
   openPopup(
     `${row ? "编辑" : "新增"}`,
-    {
-      component: AddEdit,
-      attrs: { data: row, refreshList: next },
-    }
+    h(AddEdit, { data: row, refreshList: next })
     // "drawer" //传入第三个参数drawer，可打开抽屉，不传则默认为dialog
   );
 }

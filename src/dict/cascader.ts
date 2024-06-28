@@ -1,9 +1,8 @@
-import { GetMockAddress } from "@/api-mock";
+import { GetCascaderRegion } from "@/api-mock";
 import { needParam, storage } from "@/utils";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 
-export type CascaderName = "Region";
-// export type CascaderName = keyof cascaderMap;
+export type CascaderName = keyof typeof cascaderMap;
 
 /**
  * 级联的逻辑处理暂时放在这里，后续再改进放置位置
@@ -11,7 +10,7 @@ export type CascaderName = "Region";
 
 export const cascaderMap = {
   // 地区（省市区）
-  Region: await GetMockAddress().then((res: any) => res),
+  Region: await GetCascaderRegion().then((res: any) => res),
 };
 
 // 获取级联中的文字

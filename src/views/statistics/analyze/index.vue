@@ -3,7 +3,7 @@
     :cols="cols"
     v-model="model"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :extraBtns="['add']"
     :groupBtns="[
       'edit',
@@ -26,10 +26,9 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { DeleteUserList, PostUserList, PostUserListExport, PutUserUpdate } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ElMessage, dayjs } from "element-plus";
 import { ref, reactive, inject } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
@@ -37,6 +36,7 @@ import FormPopup from "./FormPopup.vue";
 import { useDictStore } from "@/store";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
+import { h } from "vue";
 const { getOpts } = useDictStore();
 const genderOpts = getOpts("Gender");
 const roleTypeOpts = getOpts("RoleType");
@@ -103,10 +103,7 @@ function onGroupBtn(name: BtnName, row: CommonObj, next: FinallyNext) {
 
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(row ? "编辑" : "新增", {
-    component: AddEdit,
-    attrs: { id: row?.id, refreshList: next },
-  });
+  openPopup(row ? "编辑" : "新增", h(AddEdit, { id: row?.id, refreshList: next }));
 }
 //增加或减少
 function handlePlusMinus(name: BtnName, row: CommonObj, next: FinallyNext) {
@@ -114,14 +111,7 @@ function handlePlusMinus(name: BtnName, row: CommonObj, next: FinallyNext) {
     plus: "增加当日次数",
     minus: "减少当日次数",
   };
-  openPopup(
-    titleMap[name as string],
-    {
-      component: FormPopup,
-      attrs: { id: row?.id, refreshList: next },
-    },
-    "dialog"
-  );
+  openPopup(titleMap[name as string], h(FormPopup, { id: row?.id, refreshList: next }), "dialog");
 }
 </script>
 <style lang="scss" scoped></style>
