@@ -4,7 +4,7 @@
     style="width: 370px"
     v-model="model"
     :sections="sections"
-    :submitText="hasUpdated ? '恢复默认设置' : ''"
+    :submitText="hasUpdated ? $t('sysSet.reset') : ''"
     resetText=""
     @change="handleChange"
     @submit="handleReset"
@@ -20,6 +20,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 import { SectionFormItemAttrs } from "@/components/form";
@@ -29,6 +30,8 @@ import cssVars from "@/assets/styles/_var.module.scss";
 import { defaultSet } from "@/store/modules/set";
 import { useSetStore } from "@/store";
 
+const i18n = useI18n();
+const { tm: $t } = i18n;
 const showHideSwitchAttrs = {
   activeText: "显示",
   inactiveText: "隐藏",
@@ -53,18 +56,10 @@ const sizeOpts: OptionItem[] = [
   { label: "迷你", value: "mini" },
 ];
 const languageOpts: OptionItem[] = [
-  { label: "中文", value: "chinese" },
-  { label: "英文", value: "english" },
+  { label: "简体中文", value: "zh" },
+  { label: "英文", value: "en" },
 ];
 const setStore = useSetStore();
-const props = withDefaults(
-  defineProps<{
-    exampleProp?: CommonObj;
-  }>(),
-  {
-    exampleProp: () => ({}),
-  }
-);
 const defaultModel = getDefaultModel(defaultSet);
 const model = reactive<CommonObj>(getDefaultModel(setStore));
 const hasUpdated = computed(() => getIsUpdated(model, defaultModel)); //是否修改过
@@ -72,12 +67,12 @@ const formKey = ref(Date.now());
 const sections = computed<SectionFormItemAttrs[]>(() => {
   return [
     {
-      title: "显示设置",
+      title: $t("sysSet.appearance.title"),
       fields: [
-        { prop: "layout_type", label: "布局风格", type: "custom" },
+        { prop: "layout_type", label: $t("sysSet.appearance.layoutStyle.label"), type: "custom" },
         {
           prop: "widget_size",
-          label: "控件大小",
+          label: $t("sysSet.appearance.widgetSize.label"),
           type: "radio-group",
           options: sizeOpts,
           attrs: {
@@ -86,16 +81,16 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         },
         {
           prop: "language",
-          label: "语言类型",
+          label: $t("sysSet.appearance.langType.label"),
           type: "radio-group",
           options: languageOpts,
           attrs: {
-            disabled: true,
+            // disabled: true,
           },
         },
         {
           prop: "bread",
-          label: "面包屑",
+          label: $t("sysSet.appearance.breadcrumb.label"),
           type: "switch",
           extra: {
             span: model.bread === 1 ? 8 : undefined,
@@ -104,7 +99,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         },
         model.bread === 1 && {
           prop: "bread_icon",
-          label: "图标",
+          label: $t("sysSet.appearance.breadcrumb.icon"),
           type: "switch",
           extra: {
             span: 12,
@@ -113,7 +108,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         },
         {
           prop: "page_tag",
-          label: "页签栏",
+          label: $t("sysSet.appearance.pageTag.label"),
           type: "switch",
           extra: {
             span: model.page_tag === 1 ? 8 : undefined,
@@ -122,7 +117,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         },
         model.page_tag === 1 && {
           prop: "page_tag_icon",
-          label: "图标",
+          label: $t("sysSet.appearance.pageTag.icon"),
           type: "switch",
           extra: {
             span: 12,
@@ -131,22 +126,22 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         },
         {
           prop: "footer",
-          label: "页脚",
+          label: $t("sysSet.appearance.footer.label"),
           type: "switch",
           extra: {
-            popover: "页面底部的专利许可",
+            popover: $t("sysSet.appearance.footer.popover"),
           },
           attrs: { ...showHideSwitchAttrs, disabled: true },
         },
       ],
     },
     {
-      title: "主题设置",
+      title: $t("sysSet.theme.title"),
       fields: [
-        { prop: "theme_color", label: "主题颜色", type: "custom" },
+        { prop: "theme_color", label: $t("sysSet.theme.themeColor.label"), type: "custom" },
         {
           prop: "dark_mode",
-          label: "暗黑模式",
+          label: $t("sysSet.theme.darkMode.label"),
           type: "switch",
           attrs: {
             disabled: true,
@@ -155,14 +150,14 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
       ],
     },
     {
-      title: "菜单设置",
+      title: $t("sysSet.menu.title"),
       fields: [
         {
           prop: "unique_opened",
-          label: "手风琴",
+          label: $t("sysSet.menu.accordion.label"),
           type: "switch",
           extra: {
-            popover: "启用后，只保持一个子菜单的展开",
+            popover: $t("sysSet.menu.accordion.popover"),
           },
         },
       ],
@@ -188,6 +183,7 @@ function handleChange(prop: string, val: any) {
   if (prop === "widget_size") {
     setStore.updateSet("layout", { size: val });
   } else if (prop === "language") {
+    i18n.locale.value = val;
     setStore.updateSet("language", { type: val });
   } else if (prop === "bread") {
     setStore.updateSet("breadcrumb", { show: val });

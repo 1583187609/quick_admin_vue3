@@ -1,3 +1,7 @@
+/**
+ * @link 持久化存储参照：https://blog.csdn.net/m0_53808238/article/details/129751966
+ */
+
 import { createPinia } from "pinia";
 export default createPinia();
 
