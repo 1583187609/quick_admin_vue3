@@ -1,1 +1,0 @@
-import{d as s,o as e,c as t}from"./@vue-2b5461a3.js";const a={class:"friends-list"},i=s({name:"SystemUserDetailInteractiveInfo_componentsFriendsList",__name:"FriendsList",props:{data:{default:()=>({})}},setup:s=>(s,i)=>(e(),t("div",a,"friends-list"))});export{i as _};

@@ -51,7 +51,7 @@ function handleClick(menu: MenusItem) {
     // const tagIcon = document.createElement("link");
     // tagIcon.rel = "icon";
     // tagIcon.type = "image/svg+xml";
-    // tagIcon.href = "/ico.svg";
+    // tagIcon.href = "/favicon.ico";
     // win?.document.head.appendChild(tagIcon);
   } else {
     throw new Error(`暂不支持code为${link_type}的外链类型`);

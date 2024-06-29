@@ -1,1 +1,0 @@
-import{d as s,o as a,c as e}from"./@vue-2b5461a3.js";const t={class:""},d=s({name:"TestTest8",__name:"index",props:{data:{default:()=>({})}},setup:s=>(s,d)=>(a(),e("div",t,"模板8"))});export{d as default};

@@ -1,1 +1,0 @@
-import{d as e,o as a,c as s}from"./@vue-2b5461a3.js";const p={class:""},o=e({name:"BigScreenOther",__name:"index",props:{_example_prop:{default:()=>({})}},setup:e=>(e,o)=>(a(),s("div",p,"其他大屏"))});export{o as default};

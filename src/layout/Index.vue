@@ -41,7 +41,7 @@ import TheHead from "./_components/TheHead/Index.vue";
 import TheMenu from "./_components/TheMenu.vue";
 import { ref, reactive, nextTick, watch, provide, computed, h } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import logoImg from "@/assets/images/logo.svg";
+import logoImg from "@/assets/images/logo.png";
 import { storage, showMessage, getCompNameByRoute } from "@/utils";
 import { useMenuStore, useKeepAliveStore, useSetStore } from "@/store";
 

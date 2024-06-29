@@ -128,7 +128,7 @@ import SearchMenu from "./_components/SearchMenu.vue";
 import PathBreadcrumb from "./_components/PathBreadcrumb.vue";
 import { useDictStore, useSetStore } from "@/store";
 import screenfull from "screenfull";
-import logoImg from "@/assets/images/logo.svg";
+import logoImg from "@/assets/images/logo.png";
 import { useBaseStore, useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
