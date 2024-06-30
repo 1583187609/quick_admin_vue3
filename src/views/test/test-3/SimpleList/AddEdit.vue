@@ -15,11 +15,9 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn";
-import { merge } from "lodash";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts, getText } = useDictMap();
 const genderOpts = getOpts("Gender");
 const cflxOpts: OptionItem[] = [
   { label: "警告", value: 1 },

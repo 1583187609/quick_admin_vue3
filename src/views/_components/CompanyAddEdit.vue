@@ -23,7 +23,6 @@ import { FormField } from "@/components/BaseFormItem";
 import { GetAuthRoleList } from "@/api-mock";
 import AddDelTag from "@/components/AddDelTag.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
 
 //是否支持： 0否;1=是
 const supportSwitchAttrs: CommonObj = {

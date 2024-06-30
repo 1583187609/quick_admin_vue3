@@ -18,12 +18,12 @@ import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
-import { useDictStore } from "@/store";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { useDictMap } from "@/hooks";
 
-const { getOpts } = useDictStore();
+const { getOpts } = useDictMap();
 const roleTypeOpts = getOpts("RoleType");
 const enableStatusOpts = getOpts("EnableStatus");
 const openPopup: any = inject("openPopup");

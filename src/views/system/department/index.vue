@@ -7,8 +7,8 @@ import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts, getText } = useDictMap();
 const roleTypeOpts = getOpts("RoleType");
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },

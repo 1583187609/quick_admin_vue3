@@ -132,8 +132,6 @@ import { ref, reactive, watch, computed, inject, h } from "vue";
 import ImgItem from "./_components/ImgItem.vue";
 import CellForm, { CellFormField } from "@/components/form/CellForm.vue";
 import CellTable, { CellTableFieldItem } from "@/components/table/CellTable.vue";
-import { FormField } from "@/components/BaseFormItem";
-import { useDictStore } from "@/store";
 import { ElMessage } from "element-plus";
 import RejectAvatar from "./_components/RejectAvatar.vue";
 import CoinList from "./_components/CoinList.vue";
@@ -144,9 +142,10 @@ import AboutList from "./_components/AboutList.vue";
 import AboutTitle from "./_components/AboutTitle.vue";
 import VideoPannel from "./_components/VideoPannel.vue";
 import { CommonObj } from "@/vite-env";
+import { useDictMap } from "@/hooks";
 const openPopup: any = inject("openPopup");
 const closePopup: any = inject("closePopup");
-const { getOpts } = useDictStore();
+const { getOpts } = useDictMap();
 const genderOpts = getOpts("Gender");
 const statusMap: CommonObj = {
   normal: {

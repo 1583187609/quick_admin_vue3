@@ -18,12 +18,12 @@
 import { FormField } from "@/components/BaseFormItem";
 import { ref, reactive, watch } from "vue";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
-import { useDictStore } from "@/store";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
 import { PostUserAdd, PostUserUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { getCascaderOpts } from "@/dict";
-const { getOpts } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts } = useDictMap();
 const genderOpts = getOpts("Gender");
 const roleTypeOpts = getOpts("RoleType");
 const enableStatusOpts = getOpts("EnableStatus");

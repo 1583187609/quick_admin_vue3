@@ -77,12 +77,11 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { getCascaderText } from "@/dict";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
 import { useRouter } from "vue-router";
+import { useDictMap } from "@/hooks";
 const router = useRouter();
-const { getOpts, getText } = useDictStore();
+const { getOpts, getText, getCascaderText } = useDictMap();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

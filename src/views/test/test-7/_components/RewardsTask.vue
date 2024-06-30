@@ -17,8 +17,8 @@ import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form";
 import { FormField } from "@/components/BaseFormItem";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts, getText } = useDictMap();
 const taskRewardsOpts = getOpts("TaskRewards");
 const getRewardWayOpts = getOpts("GetRewardWay");
 const model = reactive<CommonObj>({

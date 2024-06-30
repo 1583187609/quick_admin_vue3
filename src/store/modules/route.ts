@@ -4,7 +4,7 @@ import { camelCase, cloneDeep } from "lodash";
 import { useRouter } from "vue-router";
 import { useMenuStore, useUserStore } from "@/store";
 import { RouteItem } from "./menu";
-import { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
+import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { CommonObj } from "@/vite-env";
 
 const modules = import.meta.glob("../../views/**/*.vue");
@@ -19,13 +19,13 @@ export default defineStore("route", () => {
   /**
    * 将菜单拉平成一级
    * @param menus 菜单数据
-   * @notice //0目录 1菜单（显示） 2菜单（不显示）3外链（暂未使用）
+   * @notice type //0目录 1菜单（显示） 2菜单（不显示）3外链（暂未使用）
    * @returns
    */
-  function getFlatMenus(menus?: MenusItem[]): MenusItem[] {
-    const _menus: MenusItem[] = [];
-    function flatMenus(menus: MenusItem[] = []) {
-      menus.forEach((menu: MenusItem) => {
+  function getFlatMenus(menus?: ResponseMenuItem[]): ResponseMenuItem[] {
+    const _menus: ResponseMenuItem[] = [];
+    function flatMenus(menus: ResponseMenuItem[] = []) {
+      menus.forEach((menu: ResponseMenuItem) => {
         const { type, auth_codes, children } = menu;
         if (type === 0) {
           flatMenus(children);
@@ -43,7 +43,7 @@ export default defineStore("route", () => {
    * @param menu 单个菜单数据
    * @returns
    */
-  function getRoute(menu: MenusItem): RouteItem {
+  function getRoute(menu: ResponseMenuItem): RouteItem {
     const { label, path, auth_codes, link_type, component, icon, is_cache } = menu;
     return {
       path,
@@ -63,7 +63,7 @@ export default defineStore("route", () => {
    * 创建路由
    */
   function createRoutes(menus = menuStore.allMenus) {
-    const routes = getFlatMenus(menus).map((it: MenusItem) => getRoute(it));
+    const routes = getFlatMenus(menus).map((it: ResponseMenuItem) => getRoute(it));
     routes.forEach((item: any) => {
       router.addRoute("layout", item);
     });

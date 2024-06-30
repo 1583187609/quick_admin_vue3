@@ -7,8 +7,8 @@ import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts, getText } = useDictMap();
 const enableStatusOpts = getOpts("EnableStatus");
 const fields: FormField[] = [
   { prop: "zh", label: "操作账号" },

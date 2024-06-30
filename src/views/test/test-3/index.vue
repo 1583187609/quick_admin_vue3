@@ -134,12 +134,11 @@ import { TableField, TableFieldAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
-import { useSelectOpts } from "@/hooks";
+import { useDictMap, useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
-import { useDictStore } from "@/store";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import { getCascaderOpts } from "@/dict";
 import { Postcard } from "@element-plus/icons-vue";
@@ -165,7 +164,7 @@ const testImportCfg = {
     { prop: "labelName", label: "标签名称" },
   ],
 };
-const { getOpts, getText } = useDictStore();
+const { getOpts, getText } = useDictMap();
 const openPopup: any = inject("openPopup");
 const route = useRoute();
 const { type } = route.query;

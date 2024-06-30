@@ -14,12 +14,12 @@ import { ref, reactive, watch, computed } from "vue";
 import { DictName } from "@/dict";
 import { CommonObj, StrNum } from "@/vite-env";
 import { emptyVals } from "@/utils";
-import { useDictStore } from "@/store";
 import type { TagProps } from "element-plus";
+import { useDictMap } from "@/hooks";
 export type BaseDictType = "tag" | "text";
 export type TagType = TagProps["type"];
 export type TagEffect = TagProps["effect"];
-const { getMap } = useDictStore();
+const { getMap } = useDictMap();
 const props = withDefaults(
   defineProps<{
     name?: DictName;

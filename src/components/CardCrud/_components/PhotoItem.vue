@@ -14,8 +14,8 @@ import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn";
 import BarsImg from "@/components/BarsImg.vue";
 import { AuditStatus } from "../Index.vue";
-import { useDictStore } from "@/store";
-const { getMap } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getMap } = useDictMap();
 const props = withDefaults(
   defineProps<{
     row?: CommonObj;

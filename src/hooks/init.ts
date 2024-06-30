@@ -1,11 +1,5 @@
-import {
-  // GetV2DistrictJsonData,
-  // GetAdminIndustryJobTree,
-  GetMockCommonList,
-} from "@/api-mock";
-import { storage, typeOf, debounce, printLog } from "@/utils";
 import pkg from "#/package.json";
-import { useDictStore } from "@/store";
+import { storage, typeOf, debounce, printLog } from "@/utils";
 import { CommonObj, OptionItem } from "@/vite-env";
 
 const { version } = pkg;

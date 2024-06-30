@@ -113,7 +113,6 @@
 <script lang="ts" setup>
 import { ref, computed, inject, onMounted, nextTick } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
-import type { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useRouter, useRoute } from "vue-router";
 import { ElMessageBox } from "element-plus";
@@ -126,7 +125,7 @@ import SystemSet from "./_components/SystemSet/index.vue";
 import SystemInfo from "./_components/SystemInfo.vue";
 import SearchMenu from "./_components/SearchMenu.vue";
 import PathBreadcrumb from "./_components/PathBreadcrumb.vue";
-import { useDictStore, useSetStore } from "@/store";
+import { useSetStore } from "@/store";
 import screenfull from "screenfull";
 import logoImg from "@/assets/images/logo.png";
 import { useBaseStore, useMenuStore, useUserStore } from "@/store";
@@ -144,7 +143,6 @@ const setStore = useSetStore();
 const dropdownRef = ref<any>(null);
 const openPopup: any = inject("openPopup");
 const reloadView = inject<any>("reloadView");
-const dictStore = useDictStore();
 const user = getUserInfo();
 const router = useRouter();
 const route = useRoute();

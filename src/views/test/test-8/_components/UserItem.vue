@@ -52,23 +52,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { getCascaderText } from "@/dict";
 import { CommonObj } from "@/vite-env";
 import { getCountDownTimeStr } from "@/utils";
-const tagMap: CommonObj = {
-  1: {
-    text: "剩余7天",
-    type: "success",
-  },
-  2: {
-    text: "失效会话",
-    type: "warning",
-  },
-  3: {
-    text: "过期会话",
-    type: "info",
-  },
-};
+import { useDictMap } from "@/hooks";
+const { getCascaderText } = useDictMap();
 const props = withDefaults(
   defineProps<{
     data: CommonObj;

@@ -2,7 +2,7 @@ import { computed, reactive, ref } from "vue";
 import { useUserStore, useRouteStore, useBaseStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { defineStore } from "pinia";
-import { LinkType, MenusItem } from "@/layout/_components/SideMenu/Index.vue";
+import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { defaultHomePath, storage } from "@/utils";
 export interface RouteItem {
   path: string;
@@ -24,9 +24,9 @@ export default defineStore("menu", () => {
   const baseStore = useBaseStore();
   const router = useRouter();
   const activeIndex = ref<number>(0);
-  const allMenus = reactive<MenusItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
-  const sideMenus = computed<MenusItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
-  function initAllMenus(menus: MenusItem[] = []) {
+  const allMenus = reactive<ResponseMenuItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
+  const sideMenus = computed<ResponseMenuItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
+  function initMenus(menus: ResponseMenuItem[] = []) {
     allMenus.length = 0;
     allMenus.push(...menus);
   }
@@ -40,7 +40,7 @@ export default defineStore("menu", () => {
     if (subNavs?.length) toFirstPath(allNavs[ind]);
   }
   //跳转到subMenus的第一个地址
-  function toFirstPath(menu: MenusItem) {
+  function toFirstPath(menu: ResponseMenuItem) {
     if (!menu.children?.length) return;
     const { children = [], path, label, link_type } = menu?.children[0];
     if (link_type) {
@@ -73,7 +73,7 @@ export default defineStore("menu", () => {
     const activeInd = activeIndex.value;
     let currPath = defaultHomePath;
     if (subMenus[activeInd]?.children?.length) {
-      function isFind(children: MenusItem[]): boolean {
+      function isFind(children: ResponseMenuItem[]): boolean {
         return !!children.find((sItem, sInd) => {
           const { children = [], path, label } = sItem;
           if (path === pathname) {
@@ -102,7 +102,7 @@ export default defineStore("menu", () => {
     sideMenus,
     activeIndex,
     toFirstPath,
-    initAllMenus,
+    initMenus,
     initMenusActive,
     changeActiveIndex,
   };

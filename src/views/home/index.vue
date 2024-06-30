@@ -1,4 +1,4 @@
-<!-- 页面-数据统计 -->
+<!-- 首页 -->
 <template>
   <div class="page">
     <Setting />

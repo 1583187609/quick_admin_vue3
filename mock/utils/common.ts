@@ -251,7 +251,8 @@ export function getConstructorObj(obj: CommonObj = {}, excludes?: string[]) {
  * 获取NavsTree
  * @param navs object[] 原始导航树数据
  */
-export function getNavsTree(navs: CommonObj[] = []): CommonObj[] {
+export function getNavsTree(navs?: CommonObj[]): CommonObj[] | undefined {
+  if (!navs) return;
   return navs.map((item: CommonObj, ind) => {
     const { label, component = "", path, children, status, is_cache, type, ...rest } = item;
     return {

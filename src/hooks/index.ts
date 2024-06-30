@@ -1,6 +1,7 @@
 export { default as useEvent } from "./event";
 export { default as useSelectOpts } from "./select-opts";
 export { default as useInit } from "./init";
+export { default as useDictMap } from "./dict-map";
 export { default as useCacheScroll } from "./cache-scroll";
 export { default as useSortable } from "./sortable";
 export { default as useRouteQuery } from "./route-query";

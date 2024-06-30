@@ -26,7 +26,7 @@ import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { ArrowRight } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 import { useMenuStore, useSetStore } from "@/store";
-import { MenusItem } from "../../SideMenu/Index.vue";
+import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { defaultHomePath } from "@/utils";
 
 const props = withDefaults(
@@ -40,7 +40,7 @@ const props = withDefaults(
 const route = useRoute();
 const menuStore = useMenuStore();
 const setStore = useSetStore();
-const breadcrumbs = ref<MenusItem[]>([
+const breadcrumbs = ref<ResponseMenuItem[]>([
   {
     id: "0",
     icon: "House",
@@ -61,7 +61,7 @@ watch(
   },
   { immediate: true }
 );
-function getAllBreadcrumbs(menus: MenusItem[], parent = [], result: CommonObj = {}) {
+function getAllBreadcrumbs(menus: ResponseMenuItem[], parent = [], result: CommonObj = {}) {
   for (const item of menus) {
     result[item.path] = [...parent, item];
     if (item.children) getAllBreadcrumbs(item.children, result[item.path], result);

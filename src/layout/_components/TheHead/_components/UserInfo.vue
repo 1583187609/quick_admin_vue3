@@ -17,13 +17,13 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
-import { useDictStore } from "@/store";
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
+import { useDictMap } from "@/hooks";
 
-const { getOpts } = useDictStore();
+const { getOpts } = useDictMap();
 const genderOpts = getOpts("Gender");
 const editEnable = ref(false);
 const model = reactive<CommonObj>(getUserInfo());

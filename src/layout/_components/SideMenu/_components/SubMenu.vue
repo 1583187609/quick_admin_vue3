@@ -22,18 +22,18 @@ export default {
 </script>
 <script lang="ts" setup>
 import { useRoute, useRouter } from "vue-router";
-import type { MenusItem } from "../Index.vue";
+import type { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { CommonObj } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
-    data: MenusItem[];
+    data: ResponseMenuItem[];
   }>(),
   {
     data: () => [],
   }
 );
 const router = useRouter();
-function handleClick(menu: MenusItem) {
+function handleClick(menu: ResponseMenuItem) {
   const { id, link_type, path, label } = menu;
   if (!link_type) {
     router.push(path);
@@ -51,7 +51,7 @@ function handleClick(menu: MenusItem) {
     // const tagIcon = document.createElement("link");
     // tagIcon.rel = "icon";
     // tagIcon.type = "image/svg+xml";
-    // tagIcon.href = "/favicon.ico";
+    // tagIcon.href = "/ico.svg";
     // win?.document.head.appendChild(tagIcon);
   } else {
     throw new Error(`暂不支持code为${link_type}的外链类型`);

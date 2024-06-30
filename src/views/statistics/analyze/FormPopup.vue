@@ -15,14 +15,13 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/BaseFormItem";
 import { GetMockCommonList } from "@/api-mock";
 import { TableField } from "@/components/table";
-import { useDictStore } from "@/store";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form";
 import { CommonObj, FinallyNext } from "@/vite-env";
-const { getOpts } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts } = useDictMap();
 const enableOpts = getOpts("EnableStatus");
 const props = withDefaults(
   defineProps<{

@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import SideMenu, { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
+import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useBaseStore, useMenuStore, useSetStore } from "@/store";
 const { VITE_APP_NAME } = import.meta.env;
 

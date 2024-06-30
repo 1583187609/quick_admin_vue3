@@ -21,10 +21,10 @@ import { SectionFormItem } from "@/components/form";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
-import { useDictStore } from "@/store";
 import AddDelBtn from "@/components/AddDelBtn.vue";
 import { getCascaderOpts } from "@/dict";
-const { getOpts, getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts, getText } = useDictMap();
 const regionOpts = getCascaderOpts("Region");
 const tipsList: string[] = ["section块之间span属性功能完善", "label宽度根据各个section块决定"];
 //是否支持： 0否;1=是

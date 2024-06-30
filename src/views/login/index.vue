@@ -52,7 +52,7 @@ import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { storage } from "@/utils";
-import { useDictStore, useUserStore } from "@/store";
+import { useUserStore } from "@/store";
 
 const { VITE_APP_NAME } = import.meta.env;
 const openPopup: any = inject("openPopup");

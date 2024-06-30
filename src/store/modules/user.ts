@@ -5,8 +5,8 @@ import { storage, isProd, defaultHomePath, defaultIconName } from "@/utils";
 import { CommonObj } from "@/vite-env";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
-import { useMenuStore, useRouteStore, useDictStore } from "@/store";
-import { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
+import { useMenuStore, useRouteStore } from "@/store";
+import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 // import md5 from "@/services/md5";
 import md5 from "md5";
 
@@ -14,7 +14,6 @@ export default defineStore("user", () => {
   const router = useRouter();
   const route = useRoute();
   const userInfo = ref<CommonObj | null>(storage.getItem("userInfo"));
-  const dictStore = useDictStore();
   const routeStore = useRouteStore();
   const menuStore = useMenuStore();
   //过期日期
@@ -30,9 +29,9 @@ export default defineStore("user", () => {
    * @param {number} expiration 过期时间，单位：秒，默认24小时不登录即会过期
    * @returns
    */
-  function getHandleNavs(navs: MenusItem[], level = 0): MenusItem[] {
+  function getHandleNavs(navs: ResponseMenuItem[], level = 0): ResponseMenuItem[] {
     if (!navs) return [];
-    return navs.map((item: MenusItem) => {
+    return navs.map((item: ResponseMenuItem) => {
       const { icon, children = [] } = item;
       //为了保持统一及美观，对于嵌套两层以上的菜单项不展示图标
       item.icon = level > 1 ? "" : icon || defaultIconName;
@@ -51,7 +50,7 @@ export default defineStore("user", () => {
     return PostUserLogin(params).then(async (res: CommonObj) => {
       const { user, navs } = res;
       const _navs = getHandleNavs(
-        navs.filter((it: MenusItem) => {
+        navs.filter((it: ResponseMenuItem) => {
           const { auth_codes } = it;
           if (!auth_codes) return true;
           return auth_codes.includes(user.type);
@@ -61,7 +60,7 @@ export default defineStore("user", () => {
       user._title = name || nickname || type_text + id;
       userInfo.value = user;
       expired.value = Date.now() + expiration;
-      menuStore.initAllMenus(_navs);
+      menuStore.initMenus(_navs);
       storage.setItem("userInfo", user);
       storage.setItem("token", user?.token ?? "");
       storage.setItem("allMenus", _navs);

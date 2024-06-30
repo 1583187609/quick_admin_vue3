@@ -37,8 +37,8 @@ import { getTimeAgo, typeOf } from "@/utils";
 import { AuditStatus } from "../Index.vue";
 import { DictItemProps } from "@/dict";
 import { getBarObj } from "@/components/CardCrud/_utils";
-import { useDictStore } from "@/store";
-const { getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getText } = useDictMap();
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4

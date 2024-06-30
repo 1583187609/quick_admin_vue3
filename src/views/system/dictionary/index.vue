@@ -20,9 +20,9 @@ import { TableField } from "@/components/table";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn";
-import { useDictStore } from "@/store";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-const { getOpts, getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getOpts, getText } = useDictMap();
 const openPopup: any = inject("openPopup");
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
 const cols: TableField[] = [

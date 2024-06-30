@@ -1,3 +1,4 @@
+<!-- 欢迎页 -->
 <template>
   <div class="home f-c-c-c">
     <div class="welcome">{{ timeAlias }}好，{{ userInfo?._title }}</div>
@@ -7,7 +8,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import {} from "@/api-mock";
 import { getUserInfo } from "@/utils";
 import { useRouter } from "vue-router";
 import { Top } from "@element-plus/icons-vue";

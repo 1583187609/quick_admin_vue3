@@ -23,15 +23,15 @@ import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { ref, reactive, inject } from "vue";
 import AddEdit from "./AddEdit.vue";
-import { useDictStore } from "@/store";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
 import { h } from "vue";
+import { useDictMap } from "@/hooks";
 
 const openPopup: any = inject("openPopup");
-const { getOpts } = useDictStore();
+const { getOpts } = useDictMap();
 const enableStatusOpts = getOpts("EnableStatus");
 const yesNoStatusOpts = getOpts("YesNoStatus");
 const menuTree = ref<MenuTreeNode[]>([]);
