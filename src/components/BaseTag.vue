@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <span class="base-tag span m-2" :class="tag ? tag?.attrs?.type : 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">
+  <span class="base-tag span m-2" :class="tag?.attrs?.type ?? 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">
     <slot :tag="tag">{{ tag?.text || empty }}</slot>
   </span>
   <el-tag class="base-tag m-2" v-bind="tag?.attrs" v-else>

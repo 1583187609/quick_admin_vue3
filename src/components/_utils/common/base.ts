@@ -342,6 +342,14 @@ export function copyText(text = "") {
 }
 
 /**
+ * 文本是否已超出（出现了省略号）
+ */
+export function getIsOver(target: any) {
+  const { scrollHeight, clientHeight } = target;
+  return scrollHeight > clientHeight;
+}
+
+/**
  * 是否是数组元素的删除
  */
 // export function isArrDel(fObj: CommonObj, tObj: CommonObj) {

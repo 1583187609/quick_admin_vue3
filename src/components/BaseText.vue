@@ -7,6 +7,7 @@
 <script lang="ts" setup>
 import { ref, inject, onMounted } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { getIsOver } from "@/utils";
 
 const openPopup: any = inject("openPopup");
 const props = withDefaults(
@@ -30,10 +31,6 @@ function handleClick(e: any) {
   if (isOver.value) {
     openPopup({ title: props.title, width: props.width }, e.target.innerText);
   }
-}
-function getIsOver(target: any) {
-  const { scrollHeight, clientHeight } = target;
-  return scrollHeight > clientHeight;
 }
 </script>
 <style lang="scss" scoped>
