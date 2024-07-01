@@ -2,7 +2,10 @@ import { FormRules } from "element-plus";
 import { RenderComponent, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { BaseRenderData } from "@/components/BaseRender.vue";
-export type ValidType = "phone" | "password" | "identity" | "email" | "age";
+import { defaultValidTypes } from "./_config";
+
+export type ValidType = keyof typeof defaultValidTypes;
+
 export type FormItemType =
   | "input"
   | "select"
