@@ -1,5 +1,6 @@
 <template>
   <el-menu
+    id="side-menu"
     class="side-menu all-hide-scroll"
     :background-color="effect === 'dark' ? navBgDark : navBgLight"
     :text-color="effect === 'dark' ? navTextColorLight : navBgLight"

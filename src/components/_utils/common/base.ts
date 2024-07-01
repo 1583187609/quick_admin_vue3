@@ -345,6 +345,7 @@ export function copyText(text = "") {
  * 文本是否已超出（出现了省略号）
  */
 export function getIsOver(target: any) {
+  if (!target) return false;
   const { scrollHeight, clientHeight } = target;
   return scrollHeight > clientHeight;
 }

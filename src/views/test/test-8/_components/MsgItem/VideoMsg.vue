@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, NextHintCb, StrNum } from "@/vite-env";
-// import { MsgPosition } from "@/views/chat/records/_components/MsgItem/Index.vue";
+// import { MsgPosition } from "./Index.vue";
 const props = withDefaults(
   defineProps<{
     data: CommonObj;
