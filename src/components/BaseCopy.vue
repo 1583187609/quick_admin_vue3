@@ -32,7 +32,7 @@ function handleClick() {
   input.select();
   const copyText = document.execCommand("copy");
   if (copyText) {
-    showMessage("复制成功！");
+    showMessage("复制成功！", "success");
   }
   document.body.removeChild(input);
 }

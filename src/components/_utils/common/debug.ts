@@ -4,8 +4,7 @@
 
 import { CommonObj } from "@/vite-env";
 import { isDev } from "./consts";
-import { ElNotification } from "element-plus";
-import { showMessage } from "@/utils";
+// import { ElNotification } from "element-plus";
 
 /**
  * 函数未传必填参数时的校验
@@ -61,11 +60,11 @@ export function handleError(error: any) {
     EvalError: "错误的使用了Eval",
     URIError: "URI错误",
   };
-  ElNotification({
-    title: errorMap[error.name] ?? "未知错误",
-    message: error,
-    type: "error",
-    duration: 3000,
-  });
-  console.error(error);
+  // ElNotification({
+  //   title: errorMap[error.name] ?? "未知错误",
+  //   message: error,
+  //   type: "error",
+  //   duration: 3000,
+  // });
+  console.error(errorMap[error.name] ?? "未知错误", error);
 }
