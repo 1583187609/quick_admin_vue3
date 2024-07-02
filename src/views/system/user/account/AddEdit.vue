@@ -21,12 +21,7 @@ import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
 import { PostUserAdd, PostUserUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext } from "@/vite-env";
-import { getCascaderOpts } from "@/dict";
-import { useDictMap } from "@/hooks";
-const { getOpts } = useDictMap();
-const genderOpts = getOpts("Gender");
-const roleTypeOpts = getOpts("RoleType");
-const enableStatusOpts = getOpts("EnableStatus");
+
 const props = withDefaults(
   defineProps<{
     id?: string | number;
@@ -43,7 +38,9 @@ const fields = ref<FormField[]>([
     label: "头像",
     required: false,
     type: "custom",
-    tips: "只能上传.jpg,.png,.gif,.jpeg类型，且大小不超过1M",
+    extra: {
+      tips: "只能上传.jpg,.png,.gif,.jpeg类型，且大小不超过1M",
+    },
   },
   {
     prop: "nickname",
@@ -56,17 +53,21 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "radio-group",
-    span: 12,
-    options: genderOpts,
+    options: "Gender",
     attrs: {
       type: "button",
+    },
+    extra: {
+      span: 12,
     },
   },
   {
     prop: "age",
     label: "年龄",
     type: "input-number",
-    span: 12,
+    extra: {
+      span: 12,
+    },
     attrs: {
       min: 0,
       max: 150,
@@ -77,29 +78,33 @@ const fields = ref<FormField[]>([
     label: "角色类型",
     type: "select",
     required: true,
-    span: 12,
-    options: roleTypeOpts,
+    extra: {
+      span: 12,
+    },
+    options: "RoleType",
   },
   {
     prop: "status",
     label: "启用状态",
     type: "radio-group",
     required: true,
-    span: 12,
-    options: enableStatusOpts,
+    extra: {
+      span: 12,
+    },
+    options: "EnableStatus",
     attrs: {
       type: "button",
     },
   },
 
-  { prop: "phone", label: "电话", required: true, span: 12, valid: "phone" },
-  { prop: "psd", label: "密码", required: true, span: 12, valid: "password" },
+  { prop: "phone", label: "电话", required: true, extra: { span: 12, valid: "phone" } },
+  { prop: "psd", label: "密码", required: true, extra: { span: 12, valid: "password" } },
   {
     prop: "address",
     label: "居住地址",
     required: false,
     type: "cascader",
-    options: getCascaderOpts("Region"),
+    options: "Region",
     attrs: {
       style: "width: 100%",
     },

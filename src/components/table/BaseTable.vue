@@ -19,7 +19,7 @@ import { merge } from "lodash";
 import { ref, reactive, watchEffect } from "vue";
 import { CommonObj } from "@/vite-env";
 import Column from "@/components/BaseCrud/_components/Column.vue";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { needPushSpecialCol } from "@/components/BaseCrud";
 import { getColLevel } from "@/components/table";
 import { getSpecialColMap } from "@/components/table";
@@ -29,7 +29,7 @@ import { typeOf, handleTableSummary } from "@/utils";
 const specialColMap = getSpecialColMap();
 const props = withDefaults(
   defineProps<{
-    cols: TableFieldAttrs[]; //表头
+    cols: TableColAttrs[]; //表头
     rows: CommonObj[]; //表格行数据
     total?: number;
     pageAttrs?: CommonObj; //分页属性
@@ -48,7 +48,7 @@ const props = withDefaults(
 );
 const tableRef = ref<any>();
 const newAttrs = reactive(merge({}, defaultTableAttrs));
-const newCols = ref<TableFieldAttrs[]>([]);
+const newCols = ref<TableColAttrs[]>([]);
 //调用stopWatch（），确保下面的方法只执行一次
 const stopWatch = watchEffect(() => {
   const { cols } = props;
@@ -58,7 +58,7 @@ const stopWatch = watchEffect(() => {
   needPushSpecialCol("operate", props) && cols.push(specialColMap.operate);
   const levels = cols.map(col => {
     if (typeOf(col) !== "Object") return 1;
-    const { col: newCol, level } = getColLevel(col as TableFieldAttrs, 1, specialColMap, defaultColumnAttrs);
+    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, specialColMap, defaultColumnAttrs);
     newCols.value.push(newCol);
     return level;
   });

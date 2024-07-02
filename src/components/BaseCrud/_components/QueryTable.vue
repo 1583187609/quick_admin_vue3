@@ -42,7 +42,7 @@ import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/BaseCrud/_components/Column.vue";
 import { needPushSpecialCol } from "@/components/BaseCrud";
 import { getTempGroupBtnsOfRow } from "@/components/BaseCrud";
-import { TableFieldAttrs, TableField, defaultTableAttrs, getColLevel, getSpecialColMap } from "@/components/table";
+import { TableColAttrs, TableField, defaultTableAttrs, getColLevel, getSpecialColMap } from "@/components/table";
 import config from "@/config";
 
 const props = withDefaults(
@@ -85,7 +85,7 @@ const seledRows = ref<CommonObj[]>([]);
  * 55+32+8+16*2+40+3 = 55+40+32+40+3 = 95+75 = 170
  * 216px 170px
  */
-const newCols = reactive<TableFieldAttrs[]>([]);
+const newCols = reactive<TableColAttrs[]>([]);
 //调用stopWatch（），确保下面的方法只执行一次
 const stopWatch = watchEffect(() => {
   const { cols, currPage, pageSize } = props;
@@ -97,7 +97,7 @@ const stopWatch = watchEffect(() => {
   needPushSpecialCol("operate", props) && cols.push(operate);
   const levels = cols.map(col => {
     if (typeOf(col) !== "Object") return 1;
-    const { col: newCol, level } = getColLevel(col as TableFieldAttrs, 1, specialColMap, $attrs.size === "small");
+    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, specialColMap, $attrs.size === "small");
     newCols.push(newCol);
     return level;
   });

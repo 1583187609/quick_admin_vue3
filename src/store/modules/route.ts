@@ -1,15 +1,13 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { camelCase, cloneDeep } from "lodash";
+import { ref } from "vue";
+import { camelCase } from "lodash";
 import { useRouter } from "vue-router";
-import { useMenuStore, useUserStore } from "@/store";
+import { useMenuStore } from "@/store";
 import { RouteItem } from "./menu";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
-import { CommonObj } from "@/vite-env";
 
 const modules = import.meta.glob("../../views/**/*.vue");
 export default defineStore("route", () => {
-  const userStore = useUserStore();
   const menuStore = useMenuStore();
   const router = useRouter();
   // const currRoutes = ref<RouteItem[]>([]);

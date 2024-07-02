@@ -3,7 +3,7 @@
   <BaseTable class="" :cols="cols" :rows="rows"></BaseTable>
 </template>
 <script lang="ts" setup>
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { CommonObj } from "@/vite-env";
 import { ref, reactive, watch, computed } from "vue";
 const props = withDefaults(
@@ -14,7 +14,7 @@ const props = withDefaults(
     data: () => ({}),
   }
 );
-const cols: TableFieldAttrs[] = [
+const cols: TableColAttrs[] = [
   { prop: "dlsj", label: "登录时间" },
   { prop: "dlip", label: "登录IP" },
   { prop: "wzxx", label: "位置信息" },

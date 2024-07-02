@@ -7,9 +7,7 @@ import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
-const roleTypeOpts = getOpts("RoleType");
+
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
   { prop: "yhxm", label: "用户姓名" },
@@ -18,7 +16,7 @@ const fields: FormField[] = [
     prop: "jslx",
     label: "角色类型",
     type: "select",
-    options: roleTypeOpts,
+    options: "RoleType",
   },
   { prop: "rq", label: "日期", type: "date-picker" },
 ];

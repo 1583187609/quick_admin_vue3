@@ -51,11 +51,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 import { CommonObj } from "@/vite-env";
 import { getCountDownTimeStr } from "@/utils";
-import { useDictMap } from "@/hooks";
-const { getCascaderText } = useDictMap();
+
 const props = withDefaults(
   defineProps<{
     data: CommonObj;

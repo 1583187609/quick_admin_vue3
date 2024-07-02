@@ -17,10 +17,8 @@ import { ref, reactive, nextTick, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictMap } from "@/hooks";
 export type FormType = "unseal" | "add" | "handle";
 export type SceneType = "warning" | "login" | "all-interaction";
-const { getOpts } = useDictMap();
 const props = withDefaults(
   defineProps<{
     type: FormType;

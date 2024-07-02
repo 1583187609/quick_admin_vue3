@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <!--
-{ width?: string | number ; minWidth?: string | number ; label?: string ; prop?: string | [string, string] ;  headerAlign?: AlignType; ... 9 more ...; children?: TableFieldAttrs[]; }
+{ width?: string | number ; minWidth?: string | number ; label?: string ; prop?: string | [string, string] ;  headerAlign?: AlignType; ... 9 more ...; children?: TableColAttrs[]; }
 { width?: string | number; minWidth?: string | number; type?: string;  showOverflowTooltip?: boolean | Partial<Pick<ElTooltipProps, "placement" | ... 7 more ... | "showArrow">>; ... 35 more ...; style?: unknown; }
 -->
 <template>
@@ -116,7 +116,7 @@
 import { ref, reactive, watch, computed, h } from "vue";
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, emptyVals, devErrorTips, showMessage, renderValue, isDev } from "@/utils";
 import { BtnItem } from "@/components/BaseBtn";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import GroupBtns, { GroupBtnsAttrs } from "./GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -127,12 +127,12 @@ import { PopoverAttrs } from "@/components/BaseFormItem";
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
   row: CommonObj;
-  col: TableFieldAttrs;
+  col: TableColAttrs;
   $index: number;
 }
 const props = withDefaults(
   defineProps<{
-    col: TableFieldAttrs;
+    col: TableColAttrs;
     disabled?: boolean;
     selection?: boolean;
     refreshList?: RefreshListFn;
@@ -147,7 +147,7 @@ const newCol = getNewCol(props.col);
 function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
   emits("groupBtn", btnObj, { row, col, $index }, next);
 }
-function getNewCol(col: TableFieldAttrs) {
+function getNewCol(col: TableColAttrs) {
   popoverAttrs = getPopoverAttrs(col.extra?.popover);
   // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   if (typeof col.label !== "string") {
@@ -162,7 +162,7 @@ function getIsHandle(_self: CommonObj, column: CommonObj) {
   return !(newCol.prop as string).startsWith("$") && _self.data?.length && _self.data[0]?.[column.property] === undefined;
 }
 // 此功能后续可能会移除
-function handleSwitchChange(col: TableFieldAttrs, row: CommonObj, ind: number) {
+function handleSwitchChange(col: TableColAttrs, row: CommonObj, ind: number) {
   const { attrs = {} } = col;
   const { fetch, idKeys = ["id", "id"], statusKey = "status" } = attrs;
   const preKey = attrs?.activeValue === row[statusKey] ? "in" : "";

@@ -17,23 +17,19 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
+import { ref, reactive, inject } from "vue";
 import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ref, reactive, inject } from "vue";
 import AddEdit from "./AddEdit.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
 import { h } from "vue";
-import { useDictMap } from "@/hooks";
 
 const openPopup: any = inject("openPopup");
-const { getOpts } = useDictMap();
-const enableStatusOpts = getOpts("EnableStatus");
-const yesNoStatusOpts = getOpts("YesNoStatus");
 const menuTree = ref<MenuTreeNode[]>([]);
 const fields = ref<FormField[]>([
   { prop: "name", label: "菜单名称" },
@@ -41,19 +37,19 @@ const fields = ref<FormField[]>([
     prop: "is_link",
     label: "是否外链",
     type: "select",
-    options: yesNoStatusOpts,
+    options: "YesNoStatus",
   },
   {
     prop: "status",
     label: "状态",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
   {
     prop: "is_cache",
     label: "是否缓存",
     type: "select",
-    options: yesNoStatusOpts,
+    options: "YesNoStatus",
   },
   {
     prop: "create_time_range",

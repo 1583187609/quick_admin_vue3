@@ -50,12 +50,12 @@ import { ref, reactive, toRefs, inject, watch } from "vue";
 import { Delete, RefreshLeft } from "@element-plus/icons-vue";
 import { FormInstance } from "element-plus";
 import { CommonObj } from "@/vite-env";
-import { TableFieldAttrs, defaultColumnAttrs, defaultTableAttrs } from "@/components/table";
+import { TableColAttrs, defaultColumnAttrs, defaultTableAttrs } from "@/components/table";
 import { showMessage } from "../_utils";
 export type CellType = "" | "input" | "select" | "switch" | "custom" | "operate";
 const props = withDefaults(
   defineProps<{
-    cols: TableFieldAttrs[]; //表头
+    cols: TableColAttrs[]; //表头
     rows: CommonObj[]; //表格行数据
     footer?: boolean; //是否显示底部按钮
     text?: boolean; //是否纯文本展示

@@ -237,6 +237,8 @@ import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "./_components/AddDelList.vue";
 import { rangeJoinChar } from "@/utils";
+import { useDictMap } from "@/hooks";
+import { CascaderName, DictName } from "@/dict";
 
 export interface RuleItem {
   type?: string; // string, number, boolean, method, regexp, integer, float, array, object, enum, date, url, hex, email, any
@@ -270,7 +272,6 @@ const props = withDefaults(
   {}
 );
 const emits = defineEmits(["update:modelValue", "change"]);
-// const formItemRef = ref<any>(null);
 const newVal = computed({
   get() {
     return props.modelValue;
@@ -280,6 +281,7 @@ const newVal = computed({
   },
 });
 let popoverAttrs: any;
+const { getCascaderOpts, getOpts } = useDictMap();
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
@@ -314,12 +316,17 @@ const newField = computed<FormFieldAttrs>(() => {
     const defField = defaultFieldAttrs[type];
     // tempField = merge({ type, required: prefixProp ? true : false }, defField, validField, field);
     tempField = merge({ type }, defField, validField, field);
-    const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
-    merge(tempField, { attrs: autoAttrs }, field);
+    const { getAttrs } = tempField?.attrs ?? {};
+    getAttrs && merge(tempField, { attrs: getAttrs(tempField) }, field);
+    let { options } = tempField;
+    if (typeof options === "string")
+      tempField.options = type === "cascader" ? getCascaderOpts(options as CascaderName) : getOpts(options as DictName);
     popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
-    tempField.attrs!.placeholder = getPlaceholder(tempField);
+    if (tempField?.attrs?.placeholder) {
+      tempField.attrs.placeholder = getPlaceholder(tempField);
+    }
     if (typeof slots === "string") {
       tempField.slots = { default: slots };
     }
@@ -443,9 +450,7 @@ function handleInput(e: any, prop: string) {
     emits("change", prop, val);
   }
 }
-defineExpose({
-  // formItemRef,
-});
+defineExpose({});
 </script>
 <style lang="scss" scoped>
 .base-form-item {

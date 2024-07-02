@@ -20,18 +20,14 @@ import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
 const openPopup: any = inject("openPopup");
-const yesNoStatusOpts = getOpts("YesNoStatus");
-const educationTypeOpts = getOpts("EducationType", [0], true);
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
   {
     prop: "ffzt",
     label: "发放状态",
     type: "select",
-    options: yesNoStatusOpts,
+    options: "YesNoStatus",
   },
   { prop: "czr", label: "操作人" },
   { prop: "bz", label: "备注" },

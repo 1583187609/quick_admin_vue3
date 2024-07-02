@@ -20,9 +20,7 @@ import { TableField } from "@/components/table";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form";
 import { CommonObj, FinallyNext } from "@/vite-env";
-import { useDictMap } from "@/hooks";
-const { getOpts } = useDictMap();
-const enableOpts = getOpts("EnableStatus");
+
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

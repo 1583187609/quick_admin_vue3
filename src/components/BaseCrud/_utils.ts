@@ -11,7 +11,7 @@ import {
   defaultFormItemType,
   showMessage,
 } from "@/utils";
-import { TableField, TableFieldAttrs } from "@/components/table";
+import { TableField, TableColAttrs } from "@/components/table";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { HandleClickExtraBtnsProps, SpecialBoolColType } from "./_types";
 import { batchBtnNames } from ".";
@@ -79,12 +79,12 @@ export function handleClickExtraBtns({
           if (name === "export") {
             const newCols = (cols?.filter((it: TableField) => {
               if (typeOf(it) !== "Object") return false;
-              return !(it as TableFieldAttrs)?.prop?.startsWith("$");
-            }) || []) as TableFieldAttrs[];
-            exportRows.push(newCols.map((it: TableFieldAttrs) => it.label));
+              return !(it as TableColAttrs)?.prop?.startsWith("$");
+            }) || []) as TableColAttrs[];
+            exportRows.push(newCols.map((it: TableColAttrs) => it.label));
             seledRows.forEach((row: CommonObj) => {
               const list: string[] = [];
-              newCols.forEach((col: TableFieldAttrs) => {
+              newCols.forEach((col: TableColAttrs) => {
                 const { prop, type, formatter } = col;
                 let val = "";
                 if (allowList.includes(type)) {

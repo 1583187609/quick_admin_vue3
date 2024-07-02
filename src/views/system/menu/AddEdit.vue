@@ -23,10 +23,8 @@ import MenuTree from "./_components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { defaultIconName } from "@/utils";
 import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
-const yesNoStatusOpts = getOpts("YesNoStatus");
-const enableStatusOpts = getOpts("EnableStatus");
-const menuTypeOpts = getOpts("MenuType");
+
+const { getText } = useDictMap();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -58,7 +56,7 @@ const fields = computed(() => {
       label: "菜单类型",
       required: true,
       type: "radio-group",
-      options: menuTypeOpts,
+      options: "MenuType",
       extra: {
         popover: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
       },
@@ -136,7 +134,7 @@ const fields = computed(() => {
             label: "是否缓存",
             type: "radio-group",
             required: true,
-            options: yesNoStatusOpts,
+            options: "YesNoStatus",
             extra: {
               span: 12,
               popover: "是否缓存该页面",
@@ -147,7 +145,7 @@ const fields = computed(() => {
             label: "是否显示",
             type: "radio-group",
             required: true,
-            options: yesNoStatusOpts,
+            options: "YesNoStatus",
             extra: {
               span: 12,
               popover: "在菜单目录中是否可见",
@@ -158,7 +156,7 @@ const fields = computed(() => {
             label: "是否外链",
             required: true,
             type: "radio-group",
-            options: yesNoStatusOpts,
+            options: "YesNoStatus",
             extra: {
               span: 12,
             },
@@ -168,7 +166,7 @@ const fields = computed(() => {
             label: "新窗口打开",
             required: true,
             type: "radio-group",
-            options: yesNoStatusOpts,
+            options: "YesNoStatus",
             extra: {
               span: 12,
             },
@@ -180,7 +178,7 @@ const fields = computed(() => {
       label: "状态",
       required: true,
       type: "radio-group",
-      options: enableStatusOpts,
+      options: "EnableStatus",
       extra: {
         span: 12,
         popover: "启用后，在菜单中可见，否则不可见",

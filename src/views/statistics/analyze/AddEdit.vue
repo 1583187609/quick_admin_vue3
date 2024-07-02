@@ -21,12 +21,6 @@ import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/vite-env";
-import { getCascaderOpts } from "@/dict";
-import { useDictMap } from "@/hooks";
-const { getOpts } = useDictMap();
-const genderOpts = getOpts("Gender");
-const roleTypeOpts = getOpts("RoleType");
-const enableStatusOpts = getOpts("EnableStatus");
 const props = withDefaults(
   defineProps<{
     id?: StrNum;
@@ -55,7 +49,7 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "radio-group",
-    options: genderOpts,
+    options: "Gender",
     attrs: {
       type: "button",
     },
@@ -74,14 +68,14 @@ const fields = ref<FormField[]>([
     label: "类型",
     type: "select",
     required: false,
-    options: roleTypeOpts,
+    options: "RoleType",
   },
   {
     prop: "status",
     label: "状态",
     type: "radio-group",
     required: false,
-    options: enableStatusOpts,
+    options: "EnableStatus",
     attrs: {
       type: "button",
     },
@@ -91,12 +85,19 @@ const fields = ref<FormField[]>([
     label: "地址",
     required: false,
     type: "cascader",
-    options: getCascaderOpts("Region"),
+    options: "Region",
     attrs: {
       style: "width: 100%",
     },
   },
-  { prop: "phone", label: "电话", required: true, valid: "phone" },
+  {
+    prop: "phone",
+    label: "电话",
+    required: true,
+    extra: {
+      valid: "phone",
+    },
+  },
 ]);
 getDetail(id);
 //获取详情数据

@@ -21,8 +21,7 @@ import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
+
 const openPopup: any = inject("openPopup");
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
 const cols: TableField[] = [

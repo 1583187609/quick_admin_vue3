@@ -3,6 +3,7 @@ import { RenderComponent, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { BaseRenderData } from "@/components/BaseRender.vue";
 import { defaultValidTypes } from "./_config";
+import { CascaderName, DictName } from "@/dict";
 
 export type ValidType = keyof typeof defaultValidTypes;
 
@@ -78,9 +79,13 @@ export interface FormFieldAttrs {
   style?: any; //el-form-item 的style属性
   required?: boolean; //是否必填
   rules?: FormRules[]; //校验规则
-  options?: OptionItem[]; //select、cascader等的options属性
+  options?: DictName | CascaderName | OptionItem[]; //select、cascader等的options属性
   labelWidth?: string | number; //label文字的宽度
   fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
+}
+
+export interface StandardFormFieldAttrs extends FormFieldAttrs {
+  options?: OptionItem[]; //select、cascader等的options属性
 }
 
 export type FormField = BaseDataType | FormFieldAttrs;

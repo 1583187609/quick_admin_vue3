@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import BaseTable from "@/components/table/BaseTable.vue";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { CommonObj, CommonSize } from "@/vite-env";
 import config from "@/config";
 import { showMessage } from "@/utils";
@@ -59,7 +59,7 @@ const props = withDefaults(
   )
 );
 const tableKey = ref(Date.now());
-const cols: TableFieldAttrs[] = [
+const cols: TableColAttrs[] = [
   {
     prop: "colName",
     label: "列名",

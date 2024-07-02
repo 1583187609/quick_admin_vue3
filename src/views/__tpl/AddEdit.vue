@@ -15,9 +15,6 @@ import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
-const enableOpts = getOpts("EnableStatus");
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

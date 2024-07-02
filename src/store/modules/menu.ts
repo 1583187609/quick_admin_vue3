@@ -19,8 +19,6 @@ export interface RouteItem {
 }
 
 export default defineStore("menu", () => {
-  const route = useRoute();
-  const userStore = useUserStore();
   const baseStore = useBaseStore();
   const router = useRouter();
   const activeIndex = ref<number>(0);

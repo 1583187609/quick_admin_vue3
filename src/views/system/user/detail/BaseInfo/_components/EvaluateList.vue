@@ -4,7 +4,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { CommonObj } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
@@ -14,7 +14,7 @@ const props = withDefaults(
     type: 1,
   }
 );
-const cols: TableFieldAttrs[] = [
+const cols: TableColAttrs[] = [
   { prop: "pjr", label: "评价人", width: 100 },
   { prop: "pjlx", label: "评价类型", width: 80 },
   { prop: "pjnr", label: "评价内容", width: 250 },

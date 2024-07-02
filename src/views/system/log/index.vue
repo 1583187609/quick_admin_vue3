@@ -3,20 +3,17 @@
   <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommonList" :extraParams="{ emptyList: false }" index></BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
-const enableStatusOpts = getOpts("EnableStatus");
+
 const fields: FormField[] = [
   { prop: "zh", label: "操作账号" },
   {
     prop: "czyw",
     label: "操作业务",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
   { prop: "bz", label: "备注" },
   { prop: "rq", label: "日期", type: "date-picker" },

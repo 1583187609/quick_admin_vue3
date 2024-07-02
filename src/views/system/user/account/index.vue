@@ -34,11 +34,7 @@ import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
-import { useDictMap } from "@/hooks";
-const { getOpts } = useDictMap();
-const genderOpts = getOpts("Gender");
-const roleTypeOpts = getOpts("RoleType");
-const enableStatusOpts = getOpts("EnableStatus");
+
 const openPopup: any = inject("openPopup");
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
@@ -53,19 +49,19 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "select",
-    options: genderOpts,
+    options: "Gender",
   },
   {
     prop: "type",
     label: "用户类型",
     type: "select",
-    options: roleTypeOpts,
+    options: "RoleType",
   },
   {
     prop: "status",
     label: "账号状态",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
 ]);
 const cols: TableField[] = [

@@ -21,24 +21,20 @@ import AddEdit from "./AddEdit.vue";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
-import { useDictMap } from "@/hooks";
 
-const { getOpts } = useDictMap();
-const roleTypeOpts = getOpts("RoleType");
-const enableStatusOpts = getOpts("EnableStatus");
 const openPopup: any = inject("openPopup");
 const fields = ref<FormField[]>([
   {
     prop: "role_type",
     label: "角色类型",
     type: "select",
-    options: roleTypeOpts,
+    options: "RoleType",
   },
   {
     prop: "status",
     label: "状态",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
   {
     prop: "create_time_range",

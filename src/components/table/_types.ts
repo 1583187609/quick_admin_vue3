@@ -31,7 +31,7 @@ export type ColItemType =
   | "BaseCopy"
   | CustomSpecialColType;
 
-export interface TableFieldAttrs {
+export interface TableColAttrs {
   label?: BaseRenderData;
   customLabel?: BaseRenderData;
   prop?: string | [string, string];
@@ -54,6 +54,6 @@ export interface TableFieldAttrs {
     cellValue?: any,
     index?: number
   ) => string | VNode<RendererNode, RendererElement, { [key: string]: any }>;
-  children?: TableFieldAttrs[];
+  children?: TableColAttrs[];
 }
-export type TableField = boolean | TableFieldAttrs;
+export type TableField = boolean | TableColAttrs;

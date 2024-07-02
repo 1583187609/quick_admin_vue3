@@ -22,10 +22,7 @@ import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
 import AddDelBtn from "@/components/AddDelBtn.vue";
-import { getCascaderOpts } from "@/dict";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
-const regionOpts = getCascaderOpts("Region");
+
 const tipsList: string[] = ["section块之间span属性功能完善", "label宽度根据各个section块决定"];
 //是否支持： 0否;1=是
 const supportSwitchAttrs: CommonObj = {
@@ -36,7 +33,6 @@ const supportSwitchAttrs: CommonObj = {
   inlinePrompt: true,
   style: "width: 5em",
 };
-const genderOpts = getOpts("Gender");
 const model = reactive({
   nl: 24,
   cyxslx: 1,
@@ -59,7 +55,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "xb",
           label: "性别",
           type: "select",
-          options: genderOpts,
+          options: "Gender",
           extra: {
             span: 6,
           },
@@ -85,7 +81,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "dz",
           label: "地址",
           type: "cascader",
-          options: regionOpts,
+          options: "Region",
         },
         {
           prop: "hz",

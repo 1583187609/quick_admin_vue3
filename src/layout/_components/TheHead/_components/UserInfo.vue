@@ -21,10 +21,7 @@ import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
-import { useDictMap } from "@/hooks";
 
-const { getOpts } = useDictMap();
-const genderOpts = getOpts("Gender");
 const editEnable = ref(false);
 const model = reactive<CommonObj>(getUserInfo());
 const fields = computed<FormFieldAttrs[]>(() => {
@@ -63,7 +60,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
       prop: "gender",
       label: "性别",
       type: "radio-group",
-      options: genderOpts,
+      options: "Gender",
       attrs: {
         type: "button",
         disabled: true,

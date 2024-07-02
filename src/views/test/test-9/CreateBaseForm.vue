@@ -36,7 +36,7 @@ import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem, SectionFormItemAttrs } from "@/components/form";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
-import { useDictMap } from "@/hooks";
+
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(
   defineProps<{
@@ -68,7 +68,6 @@ const model = reactive<CommonObj>(
     // { type: "input", required: false, prop: "xm", label: "姓名" }
   )
 );
-const { getOpts } = useDictMap();
 const yesNoOpts: OptionItem[] = [
   { label: "是", value: true },
   { label: "否", value: false },

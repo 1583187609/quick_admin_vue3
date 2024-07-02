@@ -9,7 +9,7 @@
   </BaseTable>
 </template>
 <script lang="ts" setup>
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { CommonObj } from "@/vite-env";
 import { ref, reactive, watch, computed } from "vue";
 const props = withDefaults(
@@ -20,7 +20,7 @@ const props = withDefaults(
     data: () => ({}),
   }
 );
-const cols: TableFieldAttrs[] = [
+const cols: TableColAttrs[] = [
   { prop: "lx", label: "类型", width: 200 },
   { prop: "bdsj", label: "变动时间", width: 120 },
   { prop: "bdje", label: "变动金额", width: 100, type: "custom" },

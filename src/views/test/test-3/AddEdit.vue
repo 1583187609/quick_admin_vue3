@@ -16,9 +16,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
-import { useDictMap } from "@/hooks";
-const { getOpts, getText } = useDictMap();
-const genderOpts = getOpts("Gender");
+
 const cflxOpts: OptionItem[] = [
   { label: "警告", value: 1 },
   { label: "禁言", value: 2 },
@@ -45,7 +43,7 @@ const fields = computed<FormField[]>(() => {
       label: "性别",
       required: true,
       type: "select",
-      options: genderOpts,
+      options: "Gender",
       extra: {
         span: 12,
       },

@@ -130,17 +130,16 @@
 import { ref, reactive, inject, isVNode } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
-import { TableField, TableFieldAttrs } from "@/components/table";
+import { TableField, TableColAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
-import { useDictMap, useSelectOpts } from "@/hooks";
+import { useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
-import { getCascaderOpts } from "@/dict";
 import { Postcard } from "@element-plus/icons-vue";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
@@ -164,15 +163,11 @@ const testImportCfg = {
     { prop: "labelName", label: "标签名称" },
   ],
 };
-const { getOpts, getText } = useDictMap();
 const openPopup: any = inject("openPopup");
 const route = useRoute();
 const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
-const roleTypeOpts = getOpts("RoleType");
-const enableOpts = getOpts("EnableStatus");
-const testFetchAsyncOpts = getOpts("TestFetchAsync");
 //默认搜索值
 const model = reactive<CommonObj>({
   xm: "张三",
@@ -186,13 +181,18 @@ const fields: FormFieldAttrs[] = [
     prop: "xm",
     label: "姓名",
   },
-  { prop: "qyzt", label: "启用状态", type: "select", options: enableOpts },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: testFetchAsyncOpts },
+  {
+    prop: "qyzt",
+    label: "启用状态",
+    type: "select",
+    options: "EnableStatus",
+  },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchAsync" },
   {
     prop: "multi_tag",
     label: "多标签",
     type: "select",
-    options: roleTypeOpts,
+    options: "RoleType",
     attrs: {
       multiple: true,
     },
@@ -201,7 +201,7 @@ const fields: FormFieldAttrs[] = [
     prop: "liveCity",
     label: "居住地址",
     type: "cascader",
-    options: getCascaderOpts("Region"),
+    options: "Region",
     attrs: {
       filterable: true,
     },
@@ -358,7 +358,7 @@ const cols: TableField[] = [
     extra: {
       popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
     },
-  } as TableFieldAttrs,
+  } as TableColAttrs,
   //   ]
   // : [
   {
@@ -368,7 +368,7 @@ const cols: TableField[] = [
     extra: {
       popover: `设置 {type: "update", prop: "updatedAt"}，只会显示 updatedAt 属性的值`,
     },
-  } as TableFieldAttrs,
+  } as TableColAttrs,
   // ]),
   // {
   //   prop: ["creator", "createdAt"],

@@ -1,6 +1,6 @@
 export default {
   // 文件后缀
-  fileSuffix: "tsx",
+  fileSuffix: "vue",
   // 菜单图标
   menuIcons: {
     "1": "Histogram",

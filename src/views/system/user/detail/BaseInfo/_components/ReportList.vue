@@ -7,7 +7,7 @@
   </BaseTable>
 </template>
 <script lang="ts" setup>
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { CommonObj } from "@/vite-env";
 import { ref, reactive, watch, computed } from "vue";
 const statusMap: CommonObj = {
@@ -28,7 +28,7 @@ const props = withDefaults(
     type: 1,
   }
 );
-const cols: TableFieldAttrs[] = [
+const cols: TableColAttrs[] = [
   ...(props.type === 1 ? [{ prop: "bjbr", label: "被举报人", width: 100 }] : []),
   ...(props.type === 2 ? [{ prop: "jbr", label: "举报人", width: 100 }] : []),
   { prop: "jblx", label: "举报类型" },
