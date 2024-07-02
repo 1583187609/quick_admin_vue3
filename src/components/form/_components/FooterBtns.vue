@@ -109,8 +109,8 @@ function handleSubmit() {
             log && printLog(res, "res");
             fetchSuccess(submitText + "成功！");
           })
-          .catch(() => {
-            fetchFail?.();
+          .catch((err: any) => {
+            fetchFail?.(err);
           })
           .finally(() => {
             isLoading.value = false;

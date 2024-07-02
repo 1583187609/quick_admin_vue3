@@ -245,7 +245,6 @@ export const defaultPopoverAttrs: CommonObj = getExportData(
   formCfg?.defaultPopoverAttrs
 );
 
-export type ValidType = keyof typeof defaultValidTypes;
 //默认的校验类型
 export const defaultValidTypes: CommonObj = getExportData(
   {

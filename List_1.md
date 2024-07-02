@@ -109,6 +109,7 @@
 63、拖拽基础组件生成页面
 64、封装 TreeCrud 组件
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
+66、让 select，cascader 的 options 可以传入 name 名称实现下拉项的正常渲染展示
 
 # 二、优化清单
 
