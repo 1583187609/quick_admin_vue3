@@ -18,7 +18,7 @@ const props = withDefaults(
   }>(),
   {
     maxLine: 5,
-    title: "查看完整内容",
+    title: "详情",
     width: "500px",
   }
 );
@@ -36,7 +36,10 @@ function handleClick(e: any) {
 <style lang="scss" scoped>
 .base-text {
   &.over {
-    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>

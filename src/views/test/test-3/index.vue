@@ -394,6 +394,14 @@ const cols: TableField[] = [
       popover: `设置{type: "remark"}，内置列宽度、label文案`,
     },
   },
+  {
+    prop: "wltl",
+    label: "未联调列",
+    minWidth: 100,
+    extra: {
+      popover: "未联调的列，表格头文字会被标红",
+    },
+  },
 ];
 function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { exportRows } = restArgs;
