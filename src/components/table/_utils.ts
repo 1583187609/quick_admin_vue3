@@ -96,7 +96,9 @@ export function getSpecialColMap(currPage: number = 1, pageSize: number = 20): C
         minWidth: 250,
       },
       // 文本复制
-      // BaseCopy: {},
+      BaseCopy: {
+        minWidth: 190,
+      },
       //用户信息
       // UserInfo: {
       //   prop: "userData",

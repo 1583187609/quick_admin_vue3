@@ -48,7 +48,7 @@ import config from "@/config";
 const props = withDefaults(
   defineProps<{
     tableAttrs?: CommonObj; //ElementPlus 表格的属性
-    groupBtnsAttrs?: GroupBtnsAttrs; //ElementPlus 表格的属性
+    groupBtnsAttrs?: GroupBtnsAttrs;
     loading?: boolean;
     cols: TableField[]; //表头
     rows: CommonObj[]; //表格行数据
@@ -136,20 +136,23 @@ function handleSelectionChange(rows: CommonObj[]) {
   const keys = rows.map(it => it[newAttrs.value.rowKey]);
   emits("selectionChange", rows, keys);
 }
-//获取每一行的分组按钮
-function getGroupBtnsOfRow(row: CommonObj, $rowInd: number) {
+// 获取每一行的分组按钮
+function getGroupBtnsOfRow(row: CommonObj, ind: number) {
   const { groupBtns = [], rows, filterBtnsByAuth } = props;
-  const tempBtns = getTempGroupBtnsOfRow(row, $rowInd, groupBtns);
+  const tempBtns = getTempGroupBtnsOfRow(row, ind, groupBtns);
   const filterBtns = filterBtnsByAuth(tempBtns);
   const width = getOperateColWidth(filterBtns);
-  if (operateWidth < width) {
-    operateWidth = width;
-    newCols.slice(-1)[0].minWidth = operateWidth;
-  }
-  //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
-  if (operateWidth < 30 && $rowInd === rows.length - 1) {
-    operateWidth = getOperateColWidth();
-    newCols.slice(-1)[0].minWidth = operateWidth;
+  if (ind < rows.length - 1) {
+    if (operateWidth < width) {
+      operateWidth = width;
+      newCols.slice(-1)[0].minWidth = operateWidth;
+    }
+  } else {
+    //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
+    if (operateWidth < 30) {
+      operateWidth = getOperateColWidth();
+      newCols.slice(-1)[0].minWidth = operateWidth;
+    }
   }
   return filterBtns;
 }
@@ -165,14 +168,12 @@ function getOperateColWidth(btns?: BtnItem[]): number {
   const btnPadding = 3;
   const btnMargin = 12;
   const cellPadding = 12;
-  if (!btns) {
-    //最小宽度
-    return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
-  }
+  //最小宽度
+  if (!btns) return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
   let em = 0; //按钮文字字符数量
   let width = 0;
   const { groupBtnsAttrs = {} } = props;
-  const { vertical, maxNum = defaultGroupBtnsMaxNum } = groupBtnsAttrs;
+  const { vertical, maxNum = defaultGroupBtnsMaxNum } = groupBtnsAttrs as GroupBtnsAttrs;
   if (btns.length > maxNum) {
     btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
   }

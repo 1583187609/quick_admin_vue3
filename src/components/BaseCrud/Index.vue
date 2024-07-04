@@ -189,10 +189,10 @@ const props = withDefaults(
       inputDebounce: true,
       exportCfg: () => ({ limit: 10000 }),
       pagination: () => ({ currPage: 1, pageSize: 20 }),
-      reqMap: defaultReqMap as any,
-      resMap: defaultResMap as any,
+      reqMap: () => defaultReqMap,
+      resMap: () => defaultResMap,
       showPagination: true,
-      colSpanAttrs: defaultColSpanAttrs as any,
+      colSpanAttrs: () => defaultColSpanAttrs,
       // 跟下面的size: "small" 搭配使用，会，会使得排版布局更加紧凑
       // colSpanAttrs: () => ({
       //  xs: 12,

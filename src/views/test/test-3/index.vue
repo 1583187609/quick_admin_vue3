@@ -317,6 +317,11 @@ const cols: TableField[] = [
     },
   },
   {
+    prop: "avatar",
+    label: "文本复制[BaseCopy]",
+    type: "BaseCopy",
+  },
+  {
     prop: "form_col",
     label: "formatter列",
     minWidth: 140,
