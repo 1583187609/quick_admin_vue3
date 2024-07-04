@@ -115,30 +115,6 @@ export function getChinaCharLength(str?: string): number {
 }
 
 /**
- * 获取label的最大字符长度
- * @param fields 表单域
- * @param num 额外的空白宽度，默认2 // 2是因为：一个是间距宽度，一个是*宽度
- */
-export function getMaxLength(fields: FormField[] = [], num = 2): number {
-  let max = 1;
-  fields.forEach(item => {
-    if (typeOf(item) !== "Object") return;
-    const { label, children, extra } = item as FormFieldAttrs;
-    const popNum = extra?.popover ? 1 : 0;
-    if (label?.length + popNum > max) {
-      max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
-    }
-    if (children) {
-      const _max = getMaxLength(children, 0);
-      if (_max > max) {
-        max = _max;
-      }
-    }
-  });
-  return max + num;
-}
-
-/**
  * 获取字符串的字节长度（全角符算2个，半角符算1个字符）
  * @param str string 字符串
  */

@@ -5,8 +5,8 @@
 import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
 import { ElMessage } from "element-plus";
-import { emptyVals, isDev, typeOf } from "@/utils";
-import { PopoverAttrs } from "@/components/BaseFormItem";
+import { emptyVals, getChinaCharLength, isDev, typeOf } from "@/utils";
+import { FormField, FormFieldAttrs, PopoverAttrs } from "@/components/BaseFormItem";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
 
@@ -200,21 +200,13 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
  * @return string 屏幕类型
  */
 export type ScreenSizeType = "xs" | "sm" | "md" | "lg" | "xl";
-export function getScreenSizeType(): ScreenSizeType {
-  let size = "";
-  const width = document.body.offsetWidth;
-  if (width < 768) {
-    size = "xs";
-  } else if (width >= 768 && width < 992) {
-    size = "sm";
-  } else if (width >= 992 && width < 1200) {
-    size = "md";
-  } else if (width >= 1200 && width < 1920) {
-    size = "lg";
-  } else if (width >= 1920) {
-    size = "xl";
-  }
-  return size as ScreenSizeType;
+export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType {
+  if (w < 768) return "xs";
+  if (w >= 768 && w < 992) return "sm";
+  if (w >= 992 && w < 1200) return "md";
+  if (w >= 1200 && w < 1920) return "lg";
+  if (w >= 1920) return "xl";
+  return "xl";
 }
 
 /**
@@ -231,4 +223,26 @@ export function getPopoverAttrs(popover?: string | PopoverAttrs): PopoverAttrs |
     return popover as PopoverAttrs;
   }
   throw new Error(`暂不支持此popover类型：${t}`);
+}
+
+/**
+ * 获取label的最大字符长度
+ * @param fields 表单域
+ * @param num 额外的空白宽度，默认2 // 2是因为：一个是间距宽度，一个是*宽度
+ */
+export function getMaxLength(fields: FormField[] = [], num = 2): number {
+  let max = 1;
+  fields.forEach(item => {
+    if (typeOf(item) !== "Object") return;
+    const { label, children, extra } = item as FormFieldAttrs;
+    const popNum = extra?.popover ? 1 : 0;
+    if (label?.length + popNum > max) {
+      max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
+    }
+    if (children) {
+      const _max = getMaxLength(children, 0);
+      if (_max > max) max = _max;
+    }
+  });
+  return max + num;
 }

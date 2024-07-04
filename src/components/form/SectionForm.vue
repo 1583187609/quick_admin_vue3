@@ -144,73 +144,7 @@ const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"])
 const footerBtnsRef = ref<any>(null);
 const folds = ref<boolean[]>([]);
 const formRef = ref<FormInstance>();
-// const newAttrs = computed(() => {
-//   const maxLen = Math.max(
-//     ...props.sections.map((sItem: SectionFormItem, sInd: number) => {
-//       if (typeOf(sItem) !== "Object") return 0;
-//       const item: SectionFormItemAttrs = sItem as SectionFormItemAttrs;
-//       const { fold = false } = item;
-//       folds.value[sInd] = fold;
-//       item.fields?.map((fIt: FormField) => {
-//         if (typeOf(fIt) !== "Object") return fIt;
-//         const it: FormFieldAttrs = fIt as FormFieldAttrs;
-//         //子级的属性影响父级的属性
-//         it.attrs = merge({}, item.attrs, it.attrs);
-//         return it;
-//       });
-//       return getMaxLength(item?.fields);
-//     })
-//   );
-//   return merge({ labelWidth: maxLen + "em" }, defaultFormAttrs);
-// });
 const newSections = ref<SectionFormItemAttrs[]>([]);
-// const formData = reactive<CommonObj>({});
-// const params = computed(() => merge({}, formData, props.extraParams));
-// watch(
-//   () => props.sections,
-//   (newVals) => {
-//     const { modelValue, labelWidthBySection } = props;
-//     newSections.value = newVals.filter((secItem: SectionFormItem) => {
-//       if (typeOf(secItem) !== "Object") return false;
-//       const { type, prop, fields, fieldAttrs } =
-//         secItem as SectionFormItemAttrs;
-//       if (typeOf(prop) !== "Undefined") {
-//         const defVal = modelValue?.[prop as string];
-//         formData[prop as string] =
-//           type === "custom" ? defVal : handleFields(fields, emits, defVal).data;
-//       } else {
-//         const result = handleFields(fields, emits, modelValue, fieldAttrs);
-//         let { data, fields: _fields } = result;
-//         merge(formData, data);
-//         if (labelWidthBySection) {
-//           const labelLen = getMaxLength(fields);
-//           _fields = _fields.map((field: FormFieldAttrs, ind: number) => {
-//             field.labelWidth = labelLen + "em";
-//             return field;
-//           });
-//         }
-//         (secItem as SectionFormItemAttrs).fields = _fields;
-//       }
-//       return true;
-//     }) as SectionFormItemAttrs[];
-//   },
-//   { immediate: true, deep: true }
-// );
-// watch(
-//   () => props.modelValue,
-//   (newVal) => {
-//     merge(formData, newVal);
-//   },
-//   { immediate: false, deep: true }
-// );
-// watch(
-//   formData,
-//   (newVal) => {
-//     merge(props.modelValue, newVal);
-//   },
-//   { immediate: true, deep: true }
-// );
-
 const formData = computed({
   get() {
     return props.modelValue;

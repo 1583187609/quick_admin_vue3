@@ -46,13 +46,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, watchEffect, inject } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
-import { getMaxLength, isProd } from "@/utils";
+import { isProd } from "@/utils";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
@@ -92,36 +92,7 @@ const props = withDefaults(
 const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
-// const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
 const newFields = ref<FormFieldAttrs[]>([]);
-// const formData = ref<CommonObj>({});
-// const params = computed(() => merge({}, formData.value, props.extraParams));
-// watch(
-//   () => props.fields,
-//   (newVal) => {
-//     const { modelValue } = props;
-//     const result = handleFields(newVal, emits, modelValue);
-//     const { data, fields } = result;
-//     newFields.value = fields;
-//     merge(formData.value, data);
-//   },
-//   { immediate: true, deep: true }
-// );
-// watch(
-//   () => props.modelValue,
-//   (newVal) => {
-//     formData.value = newVal;
-//   },
-//   { immediate: false, deep: true }
-// );
-// watch(
-//   formData.value,
-//   (newVal) => {
-//     // merge(props.modelValue, newVal);
-//     emits("update:modelValue", newVal);
-//   },
-//   { immediate: false, deep: true }
-// );
 const formData = computed({
   get() {
     return props.modelValue;

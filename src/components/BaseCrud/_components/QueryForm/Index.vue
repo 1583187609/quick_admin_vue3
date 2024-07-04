@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, computed, watch, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
-import { getMaxLength, getScreenSizeType, showMessage } from "@/utils";
+import { getScreenSizeType, showMessage } from "@/utils";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
 import { CommonObj } from "@/vite-env";
@@ -211,20 +211,6 @@ function getMaxHeight() {
   const rows = colNum.value > 1 ? props.rowNum : props.rowNum + 1;
   return rows * (isSmall ? 28 : 40) + "px";
 }
-//获取表单的属性
-// function getFormAttrs() {
-//   const { fields, compact, sections } = props;
-//   let maxLen = 1; //label的最大字符长度
-//   if (sections) {
-//     const lens = sections.map((item: SectionFieldsItemAttrs) => {
-//       return getMaxLength(item.fields, isSmall ? 0.5 : compact ? 1 : undefined);
-//     });
-//     maxLen = Math.max(...lens);
-//   } else {
-//     maxLen = getMaxLength(fields, isSmall ? 0.5 : compact ? 1 : undefined);
-//   }
-//   return Object.assign({ labelWidth: maxLen + "em" }, defaultFormAttrs);
-// }
 //设置屏幕宽度类型
 function getColNum() {
   const { colSpanAttrs } = props;
