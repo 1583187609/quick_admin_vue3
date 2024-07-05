@@ -1,13 +1,11 @@
 // 获取下拉项 select 的 options
-import { ref, reactive, computed, nextTick, h } from "vue";
+import { ref, computed, nextTick, h } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
 import { GetOptionsSchool, GetOptionsCompany } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
-import { merge } from "lodash";
 
 export type SelectSearchType = "school" | "company";
-//  | "major" | "subject"
 
 const typeMap: CommonObj = {
   school: {
@@ -34,33 +32,12 @@ const typeMap: CommonObj = {
       };
     },
   },
-  // major: {
-  //   reqNameKey: "majorName",
-  //   resValKey: "id",
-  //   fetchApi: GetMockCommonList,
-  //   defaultField: { prop: "zy", label: "专业", type: "select" },
-  //   handleItem(item: CommonObj) {
-  //     const { majorName, id } = item;
-  //     return { label: majorName, value: id };
-  //   },
-  // },
-  // subject: {
-  //   reqNameKey: "name",
-  //   resValKey: "name",
-  //   fetchApi: GetMockCommonList,
-  //   defaultField: { prop: "subject", label: "学科名称", type: "select" },
-  //   handleItem(item: CommonObj) {
-  //     const { name, code } = item;
-  //     return { label: name, value: code };
-  //   },
-  //   extraParams: { groupType: 2 },
-  // },
 };
 
 export default () => {
   /**
    * 获取输入并搜索的下拉项
-   * @tips 作为 "school" | "company" | "major" | "subject" 四个搜索下拉项的整合
+   * @tips 作为 "school" | "company" 两个搜索下拉项的整合
    */
   function getSearchOpts(
     type: SelectSearchType,
@@ -101,7 +78,7 @@ export default () => {
     }
 
     return {
-      ...merge({}, defaultField, field),
+      ...{ ...defaultField, ...field },
       options: opts,
       attrs: {
         filterable: true,
