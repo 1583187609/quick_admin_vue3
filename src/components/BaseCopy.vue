@@ -1,6 +1,6 @@
 <!-- 页面-复制文本组件 -->
 <template>
-  <div @click="handleClick" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0 }">
+  <div @click.stop="handleClick" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0 }">
     <span :class="`line-${line}`">
       <slot>{{ text || "-" }}</slot>
     </span>

@@ -35,7 +35,7 @@
         :key="ind"
       >
         <BaseIcon :name="name" size="28"></BaseIcon>
-        <span class="text line-1">{{ name }}</span>
+        <BaseCopy class="text line-1" :text="name" />
       </li>
       <li class="item f-c-c-c f-empty" v-for="(item, ind) in 9" :key="ind"></li>
     </ul>
@@ -47,6 +47,7 @@ import * as Icons from "@element-plus/icons-vue";
 import { ElementPlus, Search } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
 import BasicDialog from "@/components/BasicDialog.vue";
+import { CommonObj } from "@/vite-env";
 export type TabNames = "All" | "Line" | "Bold" | "Filled";
 //实底风格
 const filledIcons = [
@@ -91,26 +92,26 @@ const { formItem } = useFormItem();
 const searchVal = ref("");
 const showDialog = ref(false);
 const currTab = ref<TabNames>("All");
+const iconsMap: CommonObj = {
+  All: [],
+  Line: [],
+  Filled: [],
+  Bold: [],
+};
+Object.keys(Icons).filter(it => {
+  iconsMap.All.push(it);
+  if (!it.endsWith("Filled") && !it.endsWith("Bold") && !boldIcons.includes(it) && !filledIcons.includes(it))
+    iconsMap.Line.push(it);
+  else if (it.endsWith("Filled") || filledIcons.includes(it)) iconsMap.Filled.push(it);
+  else if (it.endsWith(currTab.value) || boldIcons.includes(it)) iconsMap.Bold.push(it);
+});
 const names = computed(() => {
-  let arr = Object.keys(Icons).filter(it => {
-    if (currTab.value === "All") {
-      return true;
-    } else if (currTab.value === "Line") {
-      return !it.endsWith("Filled") && !it.endsWith("Bold") && !boldIcons.includes(it) && !filledIcons.includes(it);
-    } else if (currTab.value === "Filled") {
-      return it.endsWith("Filled") || filledIcons.includes(it);
-    } else if (currTab.value === "Bold") {
-      return it.endsWith(currTab.value) || boldIcons.includes(it);
-    }
+  const icons = iconsMap[currTab.value];
+  if (!searchVal.value) return icons;
+  return icons.filter((it: string) => {
+    const val = searchVal.value.toLowerCase();
+    return it.toLowerCase().includes(val);
   });
-  if (searchVal.value) {
-    arr = arr.filter((it: string) => {
-      const val = searchVal.value.toLowerCase();
-      it = it.toLowerCase();
-      return it.includes(val);
-    });
-  }
-  return arr;
 });
 const iconName = computed({
   get() {
@@ -121,13 +122,6 @@ const iconName = computed({
     formItem?.validate("change");
   },
 });
-// watch(
-//   iconName,
-//   (newVal) => {
-//     formItem?.validate("blur");
-//   },
-//   { immediate: false }
-// );
 function handleClick(name: string) {
   iconName.value = name;
   showDialog.value = false;

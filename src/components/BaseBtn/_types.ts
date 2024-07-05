@@ -1,8 +1,8 @@
 import { CommonObj, CommonSize } from "@/vite-env";
 import btnsMap from ".";
 
-// export type BtnAllNames = keyof typeof btnsMap;
-export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
+export type BtnAllNames = keyof typeof btnsMap;
+// export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
 export interface BtnsAllMap {
   // [key in keyof btnsMap]: BtnItem;
   [key: string]: BtnItem;

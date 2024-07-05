@@ -117,10 +117,7 @@ function onMoreBtns(name: BtnName) {
   handleBtnNext(
     {
       edit: () => (editEnable.value = true),
-      view: () => {
-        console.log("点击了查看按钮");
-        editEnable.value = false;
-      },
+      view: () => (editEnable.value = false),
     },
     name
   );
