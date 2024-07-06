@@ -27,7 +27,7 @@
 import { ref, reactive, watch, computed, useAttrs } from "vue";
 import { useFormItem } from "element-plus";
 import { CommonObj, StrNum, CommonSize } from "@/vite-env";
-import { emptyVals, propsJoinChar, rangeJoinChar, showMessage } from "@/utils";
+import { emptyVals, propsJoinChar, rangeJoinChar, showMessage } from "@/components/_utils";
 type InputType = "min" | "max";
 type StrNumUnd = StrNum | undefined;
 const { formItem } = useFormItem();

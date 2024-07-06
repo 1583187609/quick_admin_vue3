@@ -27,7 +27,7 @@
 import { reactive, ref } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
-import { showMessage, storage, toCssVal } from "@/utils";
+import { showMessage, storage, toCssVal } from "@/components/_utils";
 import config from "@/config";
 import { StrNum, CommonObj, FinallyNext } from "@/vite-env";
 export interface FileAttrs {

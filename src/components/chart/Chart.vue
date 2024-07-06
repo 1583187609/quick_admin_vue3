@@ -8,7 +8,7 @@ import * as echarts from "echarts/core";
 import { useEvent } from "@/hooks";
 import { ref, reactive, watch, onMounted } from "vue";
 import { gradColors } from "./_config";
-import { toCssVal } from "@/utils";
+import { toCssVal } from "@/components/_utils";
 import type { EchartTheme } from "./_config/types";
 import {
   PieChart,

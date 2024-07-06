@@ -13,7 +13,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { DictName } from "@/dict";
 import { CommonObj, StrNum } from "@/vite-env";
-import { emptyVals } from "@/utils";
+import { emptyVals } from "@/components/_utils";
 import type { TagProps } from "element-plus";
 import { useDictMap } from "@/hooks";
 export type BaseDictType = "tag" | "text";

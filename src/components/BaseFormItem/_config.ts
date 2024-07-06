@@ -1,6 +1,6 @@
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem/index";
-import { getExportData, rangeJoinChar, regexp } from "@/utils";
+import { getExportData, rangeJoinChar, regexp } from "@/components/_utils";
 import config from "@/config";
 
 const formCfg = config?.form;

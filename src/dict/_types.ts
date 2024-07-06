@@ -1,11 +1,11 @@
 import { TagType, TagEffect } from "@/components/BaseTag.vue";
 import dict from ".";
-import colors from "./colors";
+import { tagColorMap } from "./_config";
 
 export type DictName = keyof typeof dict;
-export type TagColorName = keyof typeof colors;
+export type TagColorName = keyof typeof tagColorMap;
 // export type DictName = keyof InstanceType<typeof dict>;
-// export type TagColorName = keyof InstanceType<typeof colors>;
+// export type TagColorName = keyof InstanceType<typeof tagColorMap>;
 export interface DictItemProps {
   text: string;
   disabled?: boolean; //作为下拉选项时是否禁用

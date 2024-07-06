@@ -5,7 +5,7 @@
 import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
 import { ElMessage } from "element-plus";
-import { emptyVals, getChinaCharLength, isDev, typeOf } from "@/utils";
+import { emptyVals, getChinaCharLength, isDev, storage, typeOf } from "@/components/_utils";
 import { FormField, FormFieldAttrs, PopoverAttrs } from "@/components/BaseFormItem";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
@@ -99,14 +99,13 @@ export function renderValue(val?: string): string {
 /**
  * 防抖：指触发事件后在 n 秒内函数只能执行一次，如果在 n 秒内又触发了事件，则会重新计算函数执行时间
  * @param {(that:any,event:Event,args:CommonObj) => void} fn 回调函数
- * @param {Number} delay 延迟时间
  * @param {Boolean} immediate 是否立即执行
- * @param {*} params 传入的参数
- * @example methods: {onSubmit: debounce((that, event, param) => {console.log("防抖测试");})}
+ * @param {Number} delay 延迟时间
+ * @example methods: {onSubmit: debounce((that, event, ...args) => {console.log("防抖测试");})}
  */
-export function debounce(fn: (that: any, event: Event, args: CommonObj) => void, delay = 1000, immediate = true, params = {}) {
+export function debounce(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000) {
   let timer: any = null;
-  return function (event: Event) {
+  return function (event: Event, ...args: any) {
     if (timer) clearTimeout(timer);
     if (immediate) {
       const canExe = !timer;
@@ -114,13 +113,13 @@ export function debounce(fn: (that: any, event: Event, args: CommonObj) => void,
         timer = null;
       }, delay);
       if (canExe) {
-        fn(this, event, params);
+        fn(this, event, ...args);
       } else {
         showMessage("您的操作太频繁了", "warning");
       }
     } else {
       timer = setTimeout(() => {
-        fn(this, event, params);
+        fn(this, event, ...args);
         timer = null;
       }, delay);
     }
@@ -130,27 +129,26 @@ export function debounce(fn: (that: any, event: Event, args: CommonObj) => void,
 /**
  * 节流：指连续触发事件，但是在 n 秒内只执行一次函数
  * @param {(that:any,event:Event,args:CommonObj) => void} fn 回调函数
- * @param {Number} delay 延迟时间
  * @param {Boolean} immediate 是否立即执行
- * @param {*} params 传入的参数
- * @example methods: {onSubmit: throttle((that, event, param) => {console.log("节流测试");})}
+ * @param {Number} delay 延迟时间
+ * @example methods: {onSubmit: throttle((that, event, ...args) => {console.log("节流测试");})}
  */
-export function throttle(fn: (that: any, event: Event, args: CommonObj) => void, delay = 1000, immediate = true, params = {}) {
+export function throttle(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000) {
   if (immediate) {
     let previous = 0;
-    return function (event: Event) {
+    return function (e: Event, ...args: any) {
       const now = Date.now();
       if (now - previous > delay) {
-        fn(this, event, params);
+        fn(this, e, ...args);
         previous = now;
       }
     };
   } else {
     let timer: any = null;
-    return function (event: Event) {
+    return function (e: Event, ...args: any) {
       if (!timer) {
         timer = setTimeout(() => {
-          fn(this, event, params);
+          fn(this, e, ...args);
           timer = null;
         }, delay);
       }
@@ -170,10 +168,7 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
   const { columns, data } = param;
   const sums: string[] = [];
   columns.forEach((column, index) => {
-    if (index === 0) {
-      sums[index] = "合计";
-      return;
-    }
+    if (index === 0) return (sums[index] = "合计");
     const values = data.map(item => Number(item[column.property]));
     if (values.every(value => Number.isNaN(value))) {
       sums[index] = "-"; //N/A
@@ -183,11 +178,7 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
       } else {
         sums[index] = `${values.reduce((prev, curr) => {
           const value = Number(curr);
-          if (!Number.isNaN(value)) {
-            return prev + curr;
-          } else {
-            return prev;
-          }
+          return Number.isNaN(value) ? prev : prev + curr;
         }, 0)}`;
       }
     }
@@ -245,4 +236,13 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
     }
   });
   return max + num;
+}
+
+/**
+ * 获取用户信息
+ */
+export function getUserInfo(): CommonObj | null {
+  const info = storage.getItem("userInfo");
+  if (!info) showMessage("检测到未登录异常", "error");
+  return info;
 }

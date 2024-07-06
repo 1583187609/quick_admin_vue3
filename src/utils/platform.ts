@@ -55,11 +55,6 @@ export function handleDateTime(row: CommonObj, key: string) {
   return row[key] === emptyTime ? "-" : row[key];
 }
 
-//获取用户信息
-export function getUserInfo() {
-  return storage.getItem("userInfo");
-}
-
 /**
  * 计算src/views下开发的有效页面
  * @return

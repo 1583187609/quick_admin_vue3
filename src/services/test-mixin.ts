@@ -14,11 +14,9 @@ const directive: Directive = {
   mounted(el, binding) {
     const { value, arg = 500, modifiers = {} } = binding;
     const { immediate } = modifiers;
-    console.log(immediate, "immediate--------");
     if (typeof value !== "function") {
       throw new Error("v-debounce expects a function as its value");
     }
-    console.log(arg, "args------");
     el.addEventListener("input", debounce(value, arg as number));
   },
   beforeUnmount(el, binding) {

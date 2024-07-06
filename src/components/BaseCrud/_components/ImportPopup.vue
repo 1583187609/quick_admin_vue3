@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { importExcel, exportExcel, showMessage } from "@/utils";
+import { importExcel, exportExcel, showMessage } from "@/components/_utils";
 export interface ImportTplColsItem {
   prop: string;
   label: string;

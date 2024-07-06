@@ -52,7 +52,7 @@ import { handleFields } from "./_utils";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
-import { isProd } from "@/utils";
+import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";

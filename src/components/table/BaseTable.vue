@@ -24,7 +24,7 @@ import { needPushSpecialCol } from "@/components/BaseCrud";
 import { getColLevel } from "@/components/table";
 import { getSpecialColMap } from "@/components/table";
 import { defaultTableAttrs, defaultColumnAttrs } from "@/components/table";
-import { typeOf, handleTableSummary } from "@/utils";
+import { typeOf, handleTableSummary } from "@/components/_utils";
 
 const specialColMap = getSpecialColMap();
 const props = withDefaults(

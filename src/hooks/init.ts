@@ -1,6 +1,5 @@
 import pkg from "#/package.json";
-import { storage, typeOf, debounce, printLog } from "@/utils";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { storage } from "@/utils";
 
 const { version } = pkg;
 //页面加载时的初始化操作

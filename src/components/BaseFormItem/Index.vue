@@ -229,14 +229,14 @@ export default {
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, reactive, watch, useAttrs, computed } from "vue";
 import { merge, cloneDeep } from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType, showMessage } from "@/utils";
+import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType, showMessage } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
 import { FormField, FormFieldAttrs, PopoverAttrs } from "./index";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "./_components/AddDelList.vue";
-import { rangeJoinChar } from "@/utils";
+import { rangeJoinChar } from "@/components/_utils";
 import { useDictMap } from "@/hooks";
 import { CascaderName, DictName } from "@/dict";
 

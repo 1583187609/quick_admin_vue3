@@ -20,7 +20,7 @@
 import { ref, inject, watch, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
-import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/utils";
+import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/components/_utils";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import { ClosePopupType } from "@/App.vue";
 const closePopup: any = inject("closePopup");

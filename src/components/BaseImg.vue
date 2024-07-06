@@ -31,8 +31,8 @@
 <script lang="ts" setup>
 import { reactive, ref, toRefs, computed } from "vue";
 import { useRouter } from "vue-router";
-import { toCssVal } from "@/utils";
-import { typeOf } from "@/utils";
+import { toCssVal } from "@/components/_utils";
+import { typeOf } from "@/components/_utils";
 import { TagType } from "@/components/BaseTag.vue";
 import { CommonObj, FetchType, FinallyNext } from "@/vite-env";
 import emptyImg from "@/assets/images/default/img.png";

@@ -24,7 +24,7 @@ import AddDelBtn, { AddDelBtnType } from "@/components/AddDelBtn.vue";
 import { merge } from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";
 import { CommonObj } from "@/vite-env";
-import { showMessage } from "@/utils";
+import { showMessage } from "@/components/_utils";
 import { typeOf } from "#/mock/utils";
 const props = withDefaults(
   defineProps<{

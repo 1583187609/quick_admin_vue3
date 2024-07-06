@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import { computed, h, inject, ref } from "vue";
 import { Setting, Printer, CircleCheck } from "@element-plus/icons-vue";
-import { sortObjArrByKey } from "@/utils";
+import { sortObjArrByKey } from "@/components/_utils";
 import { BaseBtnType, BtnItem, BtnName, getBtnObj } from "@/components/BaseBtn";
 import { TableField } from "@/components/table";
 import SetTable from "../SetTable.vue";

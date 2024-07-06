@@ -19,7 +19,7 @@ export default {
 <script lang="ts" name="BaseBtn" setup>
 import { computed, useAttrs, useSlots, inject } from "vue";
 import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";
-import { typeOf } from "@/utils";
+import { typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { PopconfirmAttrs } from "./index";
 import { CommonObj } from "@/vite-env";

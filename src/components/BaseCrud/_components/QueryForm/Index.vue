@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, computed, watch, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
-import { getScreenSizeType, showMessage } from "@/utils";
+import { getScreenSizeType, showMessage } from "@/components/_utils";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
 import { CommonObj } from "@/vite-env";

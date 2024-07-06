@@ -1,8 +1,8 @@
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
-import { typeOf, propsJoinChar, getMaxLength } from "@/utils";
+import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 import { merge } from "lodash";
-import { handleFormInitData } from "@/utils";
+import { handleFormInitData } from "@/components/_utils";
 
 //处理属性继承
 function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {

@@ -27,7 +27,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { toCssVal, typeOf, getPopoverAttrs, emptyVals } from "@/utils";
+import { toCssVal, typeOf, getPopoverAttrs, emptyVals } from "@/components/_utils";
 import { CommonObj, StrNum } from "@/vite-env";
 import { ref, reactive, computed } from "vue";
 import { PopoverAttrs } from "@/components/BaseFormItem";

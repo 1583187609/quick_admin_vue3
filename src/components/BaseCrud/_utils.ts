@@ -10,7 +10,7 @@ import {
   getLabelFromOptionsByLastValue,
   defaultFormItemType,
   showMessage,
-} from "@/utils";
+} from "@/components/_utils";
 import { TableField, TableColAttrs } from "@/components/table";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { HandleClickExtraBtnsProps, SpecialBoolColType } from "./_types";

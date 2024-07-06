@@ -95,7 +95,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, watchEffect } from "vue";
 import { FormInstance } from "element-plus";
-import { getMaxLength, typeOf, getPopoverAttrs, isProd } from "@/utils";
+import { getMaxLength, typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";

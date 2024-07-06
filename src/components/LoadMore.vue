@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, onMounted } from "vue";
 import { CommonObj, FinallyNext, StrNum, SetTimeout } from "@/vite-env";
-import { toCssVal } from "@/utils";
+import { toCssVal } from "@/components/_utils";
 let timeout: SetTimeout = null;
 const noMoreTipsDuration = 2000;
 const props = withDefaults(

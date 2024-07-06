@@ -21,7 +21,7 @@
 </template>
 <script lang="ts" setup>
 import { RendererElement, RendererNode, VNode, isVNode } from "vue";
-import { devErrorTips, emptyVals } from "@/utils";
+import { devErrorTips, emptyVals } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 //虚拟dom，即 h 函数返回的对象
 export type VirtualDomProps = VNode<RendererNode, RendererElement, { [key: string]: any }>;

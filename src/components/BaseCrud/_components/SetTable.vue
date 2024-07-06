@@ -35,7 +35,7 @@ import BaseTable from "@/components/table/BaseTable.vue";
 import { TableColAttrs } from "@/components/table";
 import { CommonObj, CommonSize } from "@/vite-env";
 import config from "@/config";
-import { showMessage } from "@/utils";
+import { showMessage } from "@/components/_utils";
 
 const switchProps = {
   inlinePrompt: true,

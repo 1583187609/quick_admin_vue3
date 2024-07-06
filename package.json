@@ -39,7 +39,6 @@
     "prepare": "husky install",
     "api": "node ./scripts/api/index.js",
     "apisya": "node ./scripts/api/ya.js",
-    "vue": "node ./scripts/test/index.js",
     "imgs": "node ./scripts/images.js"
   },
   "dependencies": {

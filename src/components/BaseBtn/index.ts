@@ -2,7 +2,7 @@ import { WarningFilled } from "@element-plus/icons-vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/vite-env";
 import config from "@/config";
-import { getExportData } from "@/utils";
+import { getExportData } from "@/components/_utils";
 
 export * from "./_utils";
 export * from "./_types";

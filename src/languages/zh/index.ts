@@ -1,9 +1,7 @@
-import layout from "./layout";
 import base from "./base";
-import sysSet from "./sys-set";
+import layoutLangs from "@/layout/_langs/zh";
 
 export default {
-  layout,
   base,
-  sysSet,
+  ...layoutLangs,
 };

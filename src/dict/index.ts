@@ -2,7 +2,7 @@ import base from "./modules/base";
 import other from "./modules/other";
 import system from "./modules/system";
 
-export { default as colors } from "./colors";
+export * from "./_config";
 export * from "./cascader";
 export * from "./_types";
 

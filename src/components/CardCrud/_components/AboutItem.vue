@@ -33,7 +33,7 @@
 import { ref, nextTick, inject } from "vue";
 import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn";
-import { getTimeAgo, typeOf } from "@/utils";
+import { getTimeAgo, typeOf } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
 import { DictItemProps } from "@/dict";
 import { getBarObj } from "@/components/CardCrud/_utils";

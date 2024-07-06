@@ -111,10 +111,10 @@ import {
   defaultReqMap,
   defaultResMap,
   defaultColSpanAttrs,
-} from "@/utils";
+} from "@/components/_utils";
 import Pagination from "./_components/Pagination.vue";
 import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
-import { splitPropsParams } from "@/utils";
+import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { FilterByAuthFn, batchBtnNames } from "@/components/BaseCrud";
 import { CommonObj, FetchType, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
@@ -129,7 +129,6 @@ import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 
 const openPopup = inject<any>("openPopup");
 const allCols = ref<TableField[]>([]);
-// const { getUserInfo } = useUserStore();
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据

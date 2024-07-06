@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { ref, inject, onMounted } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { getIsOver } from "@/utils";
+import { getIsOver } from "@/components/_utils";
 
 const openPopup: any = inject("openPopup");
 const props = withDefaults(

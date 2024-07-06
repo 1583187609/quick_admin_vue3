@@ -1,5 +1,5 @@
 import { CommonObj, StrNum } from "@/vite-env";
-import { typeOf, propsJoinChar, emptyTime, devErrorTips, emptyVals, renderValue } from "@/utils";
+import { typeOf, propsJoinChar, emptyTime, devErrorTips, emptyVals, renderValue } from "@/components/_utils";
 import { TableField, TableColAttrs, defaultColumnAttrs } from "@/components/table";
 import { merge } from "lodash";
 import config from "@/config";

@@ -28,7 +28,7 @@
 import { computed, inject } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum } from "@/utils";
+import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum } from "@/components/_utils";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/App.vue";
 import config from "@/config";

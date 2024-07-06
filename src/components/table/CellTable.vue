@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { getMaxLength, getScreenSizeType } from "@/utils";
+import { getMaxLength, getScreenSizeType } from "@/components/_utils";
 import { useEvent } from "@/hooks";
 import { CommonObj } from "@/vite-env";
 import { FormField } from "@/components/BaseFormItem";

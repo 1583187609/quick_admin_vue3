@@ -35,7 +35,7 @@
 import { ref, computed, watchEffect, useAttrs, reactive } from "vue";
 import { GroupBtnsAttrs } from "./GroupBtns.vue";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
-import { typeOf, handleTableSummary, defaultGroupBtnsMaxNum, getChinaCharLength } from "@/utils";
+import { typeOf, handleTableSummary, defaultGroupBtnsMaxNum, getChinaCharLength } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
 import { GroupBtnsType } from "@/components/BaseCrud/_components/GroupBtns.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
