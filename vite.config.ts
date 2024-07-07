@@ -24,7 +24,9 @@ function getFileNameByPath(path: string, char = "/") {
   const name = path.substring(lastInd + 1, lastDotInd);
   if (name !== "index" && name !== "Index") return name;
   const secondInd = path.lastIndexOf(char, lastInd - 1);
-  return path.substring(secondInd + 1, lastInd) || name;
+  let newName = path.substring(secondInd + 1, lastInd) || name;
+  if (newName.startsWith("_")) newName = `0${newName}`; //GitHub Pages服务会将下划线开头的文件视为隐藏文件，不会暴露出来，故做此处理
+  return newName;
 }
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
