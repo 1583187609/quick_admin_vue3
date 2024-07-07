@@ -61,8 +61,8 @@ const loading = ref(false);
 const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
 const model = reactive<CommonObj>({
-  phone: storeAccount?.phone ?? "superAdmin_1",
-  psd: storeAccount?.psd ?? "superAdmin123456",
+  phone: storeAccount?.phone ?? "18483221518",
+  psd: storeAccount?.psd ?? "superAdmin12345",
   captcha: "",
   remember: !!storeAccount,
 });
@@ -71,7 +71,6 @@ const fields = computed<FormFieldAttrs[]>(() => {
     {
       prop: "phone",
       label: "账号",
-      valid: /^\d/.test(model.phone) ? "phone" : undefined,
       required: true,
       type: "autocomplete",
       attrs: {
@@ -80,15 +79,20 @@ const fields = computed<FormFieldAttrs[]>(() => {
         onSelect: handleSelect,
         fetchSuggestions: handleFetchSuggestions,
       },
+      extra: {
+        valid: /^\d/.test(model.phone) ? "phone" : undefined,
+      },
     },
     {
       prop: "psd",
       label: "密码",
-      valid: "password",
       required: true,
       attrs: {
         type: "password",
         autocomplete: "off",
+      },
+      extra: {
+        valid: "password",
       },
     },
     {

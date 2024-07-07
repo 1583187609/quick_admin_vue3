@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div class="the-head">
     <div class="header f-sb-c" :class="setStore.layout.type === 'vertical' ? 'light' : 'dark'">
       <!-- 标题栏 -->
       <h1 class="h1 f-c-c" @click="router.push({ name: 'home' })" v-if="setStore.layout.type === 'horizontal'">
         <BaseImg :src="logoImg" size="30" :preview="false" />
-        <div class="ml-h">{{ VITE_APP_NAME }}</div>
+        <div class="ml-h line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
       </h1>
       <!-- 折叠按钮 -->
       <BaseIcon
         id="collapse-icon"
-        @click="baseStore.isFold = !baseStore.isFold"
+        @click="menuStore.isCollapse = !menuStore.isCollapse"
         class="f-0 fold-btn"
         :class="setStore.layout.type === 'vertical' ? 'dark' : 'light'"
         size="1.5em"
-        :name="baseStore.isFold ? 'Expand' : 'Fold'"
+        :name="menuStore.isCollapse ? 'Expand' : 'Fold'"
       />
       <!-- 导航菜单 -->
       <SideMenu :menus="menuStore.allMenus" mode="horizontal" class="f-1 menu-nav" v-if="setStore.layout.type === 'horizontal'" />
@@ -111,10 +111,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, inject, onMounted, nextTick } from "vue";
+import { ref, inject, onMounted, nextTick } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import PageTags from "./_components/PageTags/Index.vue";
 import pkg from "#/package.json";
@@ -128,7 +128,7 @@ import PathBreadcrumb from "./_components/PathBreadcrumb.vue";
 import { useSetStore } from "@/store";
 import screenfull from "screenfull";
 import logoImg from "@/assets/images/logo.png";
-import { useBaseStore, useMenuStore, useUserStore } from "@/store";
+import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 import { h } from "vue";
@@ -137,7 +137,6 @@ import { useI18n } from "vue-i18n";
 const { tm: $t } = useI18n();
 const { VITE_APP_NAME } = import.meta.env;
 const menuStore = useMenuStore();
-const baseStore = useBaseStore();
 const userStore = useUserStore();
 const setStore = useSetStore();
 const dropdownRef = ref<any>(null);
@@ -145,7 +144,6 @@ const openPopup: any = inject("openPopup");
 const reloadView = inject<any>("reloadView");
 const user = getUserInfo();
 const router = useRouter();
-const route = useRoute();
 const tooltipAttrs = {
   showAfter: 200,
   offset: 6,
@@ -305,6 +303,7 @@ function startGuide() {
 .h1 {
   cursor: pointer;
   padding: 0 $gap;
+  font-size: normal;
   font-size: $font-size-heavyer;
 }
 .menu-nav {

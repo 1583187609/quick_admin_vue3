@@ -1,6 +1,5 @@
-import { computed, reactive, ref } from "vue";
-import { useUserStore, useRouteStore, useBaseStore } from "@/store";
-import { useRoute, useRouter } from "vue-router";
+import { computed, reactive, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { defaultHomePath, storage } from "@/utils";
@@ -19,11 +18,18 @@ export interface RouteItem {
 }
 
 export default defineStore("menu", () => {
-  const baseStore = useBaseStore();
   const router = useRouter();
   const activeIndex = ref<number>(0);
+  const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); //是否折叠菜单
   const allMenus = reactive<ResponseMenuItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
   const sideMenus = computed<ResponseMenuItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
+  /**
+   * 增加一层监听是为了手动刷新浏览器时（点击左上角的刷新按钮），能够保持和刷新前一样的状态
+   * 存储在sessionStorage中是为了避免localStorage中存储过多，影响阅读，且是否折叠这个状态不用一直存储在localStorage中
+   */
+  // watch(isCollapse, newVal => {
+  //   storage.setItem("isCollapse", newVal, "session");
+  // });
   function initMenus(menus: ResponseMenuItem[] = []) {
     allMenus.length = 0;
     allMenus.push(...menus);
@@ -31,10 +37,10 @@ export default defineStore("menu", () => {
   //改变导航选中项时
   function changeActiveIndex(ind: number, toFirst: boolean = true, allNavs = allMenus) {
     activeIndex.value = ind;
-    if (ind === -1) baseStore.isFold = true;
+    if (ind === -1) isCollapse.value = true;
     if (!toFirst) return;
     const subNavs = allNavs[ind]?.children;
-    baseStore.isFold = !subNavs?.length;
+    isCollapse.value = !subNavs?.length;
     if (subNavs?.length) toFirstPath(allNavs[ind]);
   }
   //跳转到subMenus的第一个地址
@@ -99,6 +105,7 @@ export default defineStore("menu", () => {
     allMenus,
     sideMenus,
     activeIndex,
+    isCollapse,
     toFirstPath,
     initMenus,
     initMenusActive,

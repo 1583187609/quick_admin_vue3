@@ -1,0 +1,1 @@
+import{d as a,o as e,c as s}from"./@vue-2b5461a3.js";const o={class:"drag"},d=a({name:"CodeDrag",__name:"index",props:{exampleProp:{default:()=>({})}},setup:a=>(a,d)=>(e(),s("div",o,"拖拽生成页面"))});export{d as default};

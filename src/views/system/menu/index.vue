@@ -22,7 +22,7 @@ import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import AddEdit from "./AddEdit.vue";
+import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";

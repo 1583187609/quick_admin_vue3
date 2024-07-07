@@ -1,0 +1,1 @@
+const e={rowKey:"id",border:!0,tableLayout:"auto",highlightCurrentRow:!0,defaultExpandAll:!1},a={align:"center",headerAlign:"center"},t={background:!0,layout:"total, sizes, prev, pager, next, jumper"};export{t as a,a as b,e as d};

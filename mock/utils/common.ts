@@ -1,33 +1,8 @@
-import { cloneDeep, merge } from "lodash";
+import { merge } from "lodash";
 import dictMap from "../dict";
-import { getDictText, getCascadeText } from "../dict";
+import { getDictText } from "../dict";
 import { CommonObj, OptionItem } from "@/vite-env";
-
-/**
- * 检测元素所属类型
- * Object.prototype.toString.call(*)的可能结果如下所示：
- * @example null             [object Null]
- * @example undefined        [object Undefined]
- * @example Symbol());       [object Symbol]
- * @example true             [object Boolean]
- * @example ''               [object String]
- * @example 1                [object Number]
- * @example []               [object Array]
- * @example {}               [object Object]
- * @example new Date()       [object Date]
- * @example new Function()   [object Function]
- * @example new RegExp()     [object RegExp]
- * @example new Error()      [object Error]
- * @example document         [object HTMLDocument]
- * @example window           [object global] window 是全局对象 global 的引用
- * @param {*} ele 待检测的对象、字符串、数组等
- * @returns {String} 元素类型（String、Number、Boolean、Symbol、Undefined、Null、Function、Date、Array、Object、Regexp、Error、HtmlDocument、Global）
- */
-export function typeOf(ele: any) {
-  const endStr = Object.prototype.toString.call(ele);
-  const type = endStr.split(" ")[1].slice(0, -1);
-  return type;
-}
+import { typeOf } from "./base";
 
 /**
  * 获取请求参数
@@ -76,19 +51,6 @@ export function toViteMockApi(obj: CommonObj) {
     });
   }
   return arr;
-}
-
-/**
- * 删除对象属性(不改变原数组）
- * @param obj [object] 要删除属性所在的对象
- * @param attrs string[] 要删除的属性名
- */
-export function deleteAttrs(obj = {}, attrs: string[] = []) {
-  const newObj: CommonObj = cloneDeep(obj);
-  attrs.forEach((key, ind) => {
-    delete newObj[key];
-  });
-  return newObj;
 }
 
 /**

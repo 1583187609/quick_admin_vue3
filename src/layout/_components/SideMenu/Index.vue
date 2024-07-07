@@ -4,7 +4,7 @@
     class="side-menu all-hide-scroll"
     :background-color="effect === 'dark' ? navBgDark : navBgLight"
     :text-color="effect === 'dark' ? navTextColorLight : navBgLight"
-    :collapse="baseStore.isFold"
+    :collapse="menuStore.isCollapse"
     :default-active="route.path"
     :default-openeds="defaultOpeneds"
     :unique-opened="!!setStore.menu.uniqueOpened"
@@ -17,10 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from "vue";
 import SubMenu from "./_components/SubMenu.vue";
 import { CommonObj } from "@/vite-env";
-import { useMenuStore, useBaseStore, useSetStore } from "@/store";
+import { useMenuStore, useSetStore } from "@/store";
 import { useRoute } from "vue-router";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { ResponseMenuItem, MenuEffect } from "./_types";
@@ -38,13 +37,12 @@ const props = withDefaults(
   }
 );
 const route = useRoute();
-const baseStore = useBaseStore();
 const menuStore = useMenuStore();
 const setStore = useSetStore();
 menuStore.initMenusActive(route.path); //初始菜单选中项
 function handleClick() {
   if (setStore.layout.type === "columns") {
-    baseStore.isFold = false;
+    menuStore.isCollapse = false;
   }
 }
 </script>

@@ -215,7 +215,9 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     prop: "nl",
     label: "年龄",
     type: "input-number",
-    valid: "age",
+    extra: {
+      valid: "age",
+    },
   },
   {
     prop: "sr",
@@ -267,7 +269,9 @@ const baseInfoFormFields: CellTableFieldItem[] = [
   {
     prop: "sr",
     label: "手机号",
-    valid: "phone",
+    extra: {
+      valid: "phone",
+    },
   },
   {
     prop: "sjh",
@@ -512,7 +516,9 @@ const preferSetFormFields: CellTableFieldItem[] = [
     label: "年龄范围",
     type: "BaseNumberRange",
     // colAttrs: { span: 6 },
-    valid: "age",
+    extra: {
+      valid: "age",
+    },
   },
   {
     prop: "xlyq",
@@ -553,12 +559,10 @@ const relatedAccountFormFields: CellTableFieldItem[] = [
   {
     prop: "glsl",
     label: "关联数量",
-    value: 3,
   },
   {
     prop: "yzx",
     label: "已注销",
-    value: 1,
   },
 ];
 const baseInfoTableData: CommonObj = {};

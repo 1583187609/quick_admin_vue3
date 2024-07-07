@@ -8,7 +8,7 @@ export type CascaderName = keyof typeof cascaderMap;
 
 const cascaderMap = {
   // 地区（省市区）
-  Region: await GetCascaderRegion().then((res: any) => res),
+  Region: [], // await GetCascaderRegion().then((res: any) => res),
 };
 
 export default cascaderMap;

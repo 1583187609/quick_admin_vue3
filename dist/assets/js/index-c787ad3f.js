@@ -1,0 +1,1 @@
+import{d as e,o,c as a}from"./@vue-2b5461a3.js";const s={class:"demo-2"},m=e({name:"DemoTwo",__name:"index",props:{exampleProp:{default:()=>({})}},setup:e=>(e,m)=>(o(),a("div",s,"demo-2"))});export{m as default};

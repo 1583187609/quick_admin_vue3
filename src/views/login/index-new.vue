@@ -87,10 +87,12 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "account",
       label: "账号",
-      // valid: "phone",
       required: true,
       attrs: {
         showWordLimit: false,
+      },
+      extra: {
+        // valid: "phone",
       },
       slots: {
         prefix: h(BaseIcon, { name: "User", size: "24" }),
@@ -113,8 +115,10 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "password",
       label: "密码",
-      valid: "password",
       required: true,
+      extra: {
+        valid: "password",
+      },
       slots: {
         prefix: h(BaseIcon, { name: "Lock", size: "24" }),
       },
@@ -122,11 +126,13 @@ const fields = computed<FormField[]>(() => {
     type.value === "register" && {
       prop: "confirmPsd",
       label: "确认密码",
-      valid: "password",
       required: true,
       rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
       attrs: {
         placeholder: "请再次输入密码",
+      },
+      extra: {
+        valid: "password",
       },
       slots: {
         prefix: h(BaseIcon, { name: "Unlock", size: "24" }),

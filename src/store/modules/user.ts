@@ -82,13 +82,16 @@ export default defineStore("user", () => {
    */
   function handleLoginOut(isFetch = true) {
     function handleClear() {
-      storage.getKeys().forEach((key: string) => {
-        if (!["rememberAccount", "set", "hasGuide"].includes(key)) storage.removeItem(key);
-      });
-      storage.clear("session"); //清除sessionStorage的数据
-      expired.value = Date.now();
-      userInfo.value = null;
-      // menuStore.changeActiveIndex(0);
+      //等一秒后再清空，避免userInfo无值时，有些页面会报错
+      setTimeout(() => {
+        storage.getKeys().forEach((key: string) => {
+          if (!["rememberAccount", "set", "hasGuide"].includes(key)) storage.removeItem(key);
+        });
+        storage.clear("session"); //清除sessionStorage的数据
+        expired.value = Date.now();
+        userInfo.value = null;
+        // menuStore.changeActiveIndex(0);
+      }, 1000);
       const { path, fullPath, name } = route;
       router.push({
         name: "login",

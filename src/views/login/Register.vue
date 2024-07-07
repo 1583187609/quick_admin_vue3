@@ -8,7 +8,14 @@ import { reactive } from "vue";
 
 const model = reactive<CommonObj>({});
 const fields = [
-  { prop: "pheon", label: "电话", valid: "phone", required: true },
+  {
+    prop: "pheon",
+    label: "电话",
+    required: true,
+    extra: {
+      valid: "phone",
+    },
+  },
   {
     prop: "psd",
     label: "密码",

@@ -1,0 +1,1 @@
+import{d as t,o as s,c as a}from"./@vue-2b5461a3.js";const e={class:"attitude-list"},i=t({__name:"AttitudeList",props:{data:{default:()=>({})}},setup:t=>(t,i)=>(s(),a("div",e,"attitude-list"))});export{i as _};

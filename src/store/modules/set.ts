@@ -43,6 +43,7 @@ export const defaultSet: DefaultSet = {
     type: "columns",
     size: defaultWidgetSize,
   },
+  //语言
   language: {
     type: "zh",
   },

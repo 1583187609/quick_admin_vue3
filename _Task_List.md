@@ -112,6 +112,7 @@
 64、封装 TreeCrud 组件
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
 66、让 select，cascader 的 options 可以传入 name 名称实现下拉项的正常渲染展示
+67、完善 CellTable 组件
 
 ## 二、优化清单
 
@@ -240,6 +241,8 @@
 70、工程量大了后，全局字典，以及命名是否会重复的优化处理手段
 
 ## 四、Vue 极致优化清单
+
+1、BaseCopy 中的复制图标采用按需引入方式
 
 ### 动画优化相关
 
