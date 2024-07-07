@@ -1,1 +1,0 @@
-import{d as a,o as s,c as e,V as m}from"./@vue-2b5461a3.js";const o={class:"base-age"},t=a({name:"BaseAge",__name:"BaseAge",props:{num:{default:26}},setup:a=>(a,t)=>(s(),e("div",o,m(a.num),1))});export{t as default};

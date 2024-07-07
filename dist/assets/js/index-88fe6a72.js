@@ -1,1 +1,0 @@
-import{d as a,o as e,c as s}from"./@vue-2b5461a3.js";const t={class:""},o=a({name:"VfxFlatBtn",__name:"index",props:{exampleProp:{default:()=>({})}},setup:a=>(a,o)=>(e(),s("div",t,"扁平按钮特效"))});export{o as default};

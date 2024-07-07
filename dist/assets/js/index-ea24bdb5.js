@@ -1,1 +1,0 @@
-import{d as e,o as s,c as a}from"./@vue-2b5461a3.js";const t=e({name:"TestTest6",__name:"index",props:{exampleProp:{default:()=>({})}},setup:e=>(e,t)=>(s(),a("div",null,"测试页面6"))});export{t as default};

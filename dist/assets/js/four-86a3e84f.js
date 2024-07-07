@@ -1,1 +1,0 @@
-import{d as e,o as s,c as a}from"./@vue-2b5461a3.js";const o=e({name:"TestTest10Four",__name:"four",props:{exampleProp:{default:()=>({})}},setup:e=>(e,o)=>(s(),a("div",null,"测试10-4"))});export{o as default};

@@ -1,1 +1,0 @@
-import{d as e,o as s,c as a}from"./@vue-2b5461a3.js";const c={class:"base-qrcode f-c-c"},o=e({name:"BaseQrcode",__name:"BaseQrcode",setup:e=>(e,o)=>(s(),a("div",c,"这是一个生成二维码的组件"))});export{o as default};

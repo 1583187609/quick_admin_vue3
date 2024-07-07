@@ -1,1 +1,0 @@
-import{d as e,o as a,c as o}from"./@vue-2b5461a3.js";const s=e({name:"MonitorFileSize",__name:"index",props:{exampleProp:{default:()=>({})}},setup:e=>(e,s)=>(a(),o("div",null,"文件大小分析"))});export{s as default};
