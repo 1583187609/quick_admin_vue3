@@ -31,13 +31,15 @@ function getFileNameByPath(path: string, char = "/") {
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
   // const env = loadEnv(mode, process.cwd(), ''); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
+  const isVitepress = process.argv[1].includes("vitepress");
   const env = loadEnv(mode, process.cwd());
   return defineConfig({
     base: "./", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // base: "/", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // root: "./src/pages", // 项目根目录
     plugins: [
-      vue(),
+      // vue(),
+      ...(isVitepress ? [] : [vue()]),
       // 自动给组件命名
       GenerateComponentName({
         include: ["**/*.vue"],
