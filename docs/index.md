@@ -33,6 +33,12 @@ features:
     link: /comp/basic/BaseIcon
     linkText: 了解更多
   - icon:
+      src: /logo.svg
+    title: 低代码
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
+  - icon:
       dark: /logo.svg
       light: /ico.svg
     title: 更多功能
