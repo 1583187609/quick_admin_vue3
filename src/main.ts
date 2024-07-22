@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "@/router";
 import ElementPlus from "element-plus";
 import components from "@/components";
-import pinia from "./store";
+import store from "./store";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import mixin from "@/services/mixin";
 import { setupProdMockServer } from "./mockProdServer";
@@ -31,6 +31,6 @@ app.use(ElementPlus, {
 });
 app.use(components); //全局注册基础组件
 app.use(I18n);
-app.use(pinia);
+app.use(store);
 app.use(router);
 app.mount("#app");
