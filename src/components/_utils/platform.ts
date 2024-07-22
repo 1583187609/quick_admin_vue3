@@ -10,6 +10,9 @@ import { FormField, FormFieldAttrs, PopoverAttrs } from "@/components/BaseFormIt
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
 
+export const noAuthPaths = ["/login"]; //不需要授权就能登录的页面
+export const errorPaths = ["/403", "/404", "/500"];
+
 export const themeMap = {
   primary: cssVars.colorPrimary,
   success: cssVars.colorSuccess,
@@ -240,11 +243,15 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
 
 /**
  * 获取用户信息
+ * @returns
  */
-export function getUserInfo(): CommonObj | null {
+export function getUserInfo(id = ""): CommonObj | null {
   const info = storage.getItem("userInfo");
-  // if (!info) showMessage("检测到未登录异常", "error");
-  if (!info) console.error("检测到未登录异常");
+  const path = location.hash.slice(1);
+  if (!noAuthPaths.some((it: string) => path.startsWith(it)) && !info) {
+    // if (!info) showMessage("检测到未登录异常", "error");
+    console.error(`检测到未登录异常，在${location.pathname}：${id}处执行`);
+  }
   return info;
 }
 

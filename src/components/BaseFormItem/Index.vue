@@ -287,6 +287,7 @@ const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
   const { type: fType, label, extra = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
+  // let tempField: FormFieldAttrs = field;
   if (children?.length) {
     const { required } = field;
     subFields.value = children as FormFieldAttrs[];
