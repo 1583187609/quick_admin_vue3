@@ -275,7 +275,7 @@ export default ({ mode, command }) => {
     },
     //vite构建时默认使用Esbuild，打包速度是其他打包工具的十几倍，但是缺点也很明显，不具备操作AST的能力，所以需要通过terser去除console.log
     build: {
-      outDir: mode === "production" ? "docs" : `docs-${mode}`,
+      outDir: mode === "production" ? "dist" : `dist-${mode}`,
       // outDir: outDirPath,
       // 压缩和混淆代码：使用 Vite 的内置压缩工具（例如 Terser）对打包后的代码进行压缩和混淆，以减小文件大小并提高加载速度。可以通过在 vite.config.js 中设置 build.minify 选项来启用压缩
       minify: "terser",
