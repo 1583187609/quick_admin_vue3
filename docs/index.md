@@ -4,8 +4,8 @@ layout: home # 可选值：doc, page, home, false。默认为 doc。为false时�
 
 hero:
   name: "Quick Admin Vue3"
-  text: "A VitePress Site"
-  tagline: My great project tagline
+  text: 基于Vue3、ElementPlus、TypeScript的后台管理系统
+  tagline: 一个以快（开发效率、计算机执行效率）为核心的后台管理系统模板 # A quick behind manage system template.
   image:
     src: /logo.svg
     alt: VitePress
@@ -22,16 +22,20 @@ hero:
 
 features:
   - icon: 🛠️
-    title: Feature A
+    title: 设计理念
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
   - icon:
       src: /logo.svg
-    title: Feature B
+    title: 特性简介
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
   - icon:
       dark: /logo.svg
       light: /ico.svg
-    title: Feature C
+    title: 更多功能
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
     link: /comp/basic/BaseIcon
     linkText: 了解更多
