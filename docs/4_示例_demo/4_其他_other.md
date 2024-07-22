@@ -44,7 +44,7 @@ Wraps in a <div class="vp-raw">inner</div>
 
 # 图片
 
-![测试图片](../../assets/images/logo.png)
+![测试图片](../../src/assets/images/logo.png)
 
 # Vue 语法
 
