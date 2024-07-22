@@ -11,9 +11,6 @@
 <script lang="ts" setup>
 import { ref, nextTick, useAttrs } from "vue";
 import { getIsOver } from "@/utils";
-// defineOptions({
-//   inheritAttrs: false,
-// });
 const props = withDefaults(
   defineProps<{
     label?: string;
