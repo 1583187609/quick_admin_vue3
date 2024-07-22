@@ -16,16 +16,13 @@
   </div>
 </template>
 <script lang="ts" name="TestTwo" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, h } from "vue";
 import { SectionFormItem } from "@/components/form";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
-import { PostUserList } from "@/api-mock";
-import { useDictStore } from "@/store";
+import { PostMockCommon } from "@/api-mock";
 import AddDelBtn from "@/components/AddDelBtn.vue";
-import { getCascaderOpts } from "@/dict";
-const { getOpts, getText } = useDictStore();
-const regionOpts = getCascaderOpts("Region");
+
 const tipsList: string[] = ["section块之间span属性功能完善", "label宽度根据各个section块决定"];
 //是否支持： 0否;1=是
 const supportSwitchAttrs: CommonObj = {
@@ -36,8 +33,7 @@ const supportSwitchAttrs: CommonObj = {
   inlinePrompt: true,
   style: "width: 5em",
 };
-const genderOpts = getOpts("Gender");
-let model = reactive({
+const model = reactive({
   nl: 24,
   cyxslx: 1,
 });
@@ -59,7 +55,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "xb",
           label: "性别",
           type: "select",
-          options: genderOpts,
+          options: "Gender",
           extra: {
             span: 6,
           },
@@ -85,7 +81,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "dz",
           label: "地址",
           type: "cascader",
-          options: regionOpts,
+          options: "Region",
         },
         {
           prop: "hz",
@@ -95,6 +91,7 @@ const sections = computed<SectionFormItem[]>(() => {
           // },
           extra: {
             // before: "第",
+            // after: h(AddDelBtn, { name: "add" }),
             after: {
               component: AddDelBtn,
               attrs: {
@@ -248,7 +245,7 @@ const sections = computed<SectionFormItem[]>(() => {
 //外层套用一层函数，可将参数进行转化处理再执行请求，也可传入handleParams属性
 function handleFetch(params: CommonObj) {
   console.log(params, "parasms-----------");
-  return PostUserList(params);
+  return PostMockCommon(params);
 }
 </script>
 <style lang="scss" scoped>

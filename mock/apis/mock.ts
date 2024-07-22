@@ -3,7 +3,6 @@ import allUsers from "../data/user";
 import allNavs from "../data/navs";
 import roleRows from "../data/roles";
 import testFields from "../data/test";
-import { userRows } from "../data/rows";
 import dictMap, { getDictText } from "../dict";
 import allAddress from "../data/address";
 import allSchool from "../data/school";
@@ -14,95 +13,130 @@ const delAttrs: string[] = ["psd"];
 
 export default toViteMockApi({
   /**
-   * 测试综合数据
-   * @param type {string} XXXX
+   * 通用的获取详情数据接口
    */
-  "GET /mock/test": (req: CommonObj) => {
-    const { curr_page = 1, page_size = 10 } = getRequestParams(req);
-    return resData({ data: testFields });
+  "GET /mock/common/detail": (req: CommonObj) => {
+    return resData({ data: req });
   },
   /**
-   * 测试
-   * @param type {string} XXXX
+   * 通用的获取列表的接口
    */
-  "GET /mock/user": (req: CommonObj) => {
-    const { curr_page = 1, page_size = 10 } = getRequestParams(req);
-    return resData({ data: allUsers });
-  },
-  /**
-   * 字典映射
-   */
-  "GET /mock/dict": (req: CommonObj) => {
-    const { name } = getRequestParams(req);
-    if (name) {
-      if (dictMap[name]) {
-        return resData({ data: dictMap[name] });
-      } else {
-        return resData({
-          code: 1,
-          msg: "未找到该字典映射",
-          data: null,
+  "GET /mock/common/list": (req: CommonObj) => {
+    const {
+      id,
+      type,
+      gender,
+      age = [],
+      name,
+      curr_page = 1,
+      page_size = 10,
+      exports = false,
+      emptyList = false,
+      status,
+    } = getRequestParams(req);
+    if (emptyList) {
+      return resData({
+        data: {
+          total_num: 0,
+          records: [],
+          curr_page,
+          page_size,
+          has_next: false,
+        },
+      });
+    }
+    let queryList = filterByConditions(allUsers, [
+      ["id", id],
+      ["type", type],
+      ["gender", gender],
+      ["status", status],
+      ["age", { type: "range", range: age }],
+      ["name", { type: "blur", byKeys: ["name"], keyword: name }],
+    ]);
+    queryList = queryList.map((item: CommonObj) => {
+      item = deleteAttrs(item, delAttrs);
+      item.userData = JSON.parse(JSON.stringify(item));
+      return item;
+    });
+    if (exports) {
+      const { fields, ids } = exports;
+      if (ids?.length) {
+        queryList = filterByConditions(queryList, ["id", { type: "inArr", inArr: ids }]);
+      }
+      if (fields.length) {
+        queryList = queryList.map(row => {
+          const newRow: CommonObj = {};
+          for (const key in row) {
+            if (fields.includes(key)) {
+              newRow[key] = row[key];
+            }
+          }
+          return newRow;
         });
       }
+      return resData({
+        data: queryList,
+      });
     } else {
-      return resData({ data: dictMap });
+      const sInd = (curr_page - 1) * page_size;
+      const eInd = sInd + page_size;
+      return resData({
+        data: {
+          total_num: queryList.length,
+          records: queryList.slice(sInd, eInd),
+          curr_page,
+          page_size,
+          has_next: eInd < queryList.length - 1,
+        },
+      });
     }
   },
   /**
-   * 获取地区省市区县
+   * 通用的提交数据（信息对象）接口
    */
-  "GET /mock/address": (req: CommonObj) => {
-    // const { name } = getRequestParams(req);
-    const cloneAddress = allAddress.map((pItem, pInd) => {
-      const { id, name, city } = pItem;
-      const cloneCity = city.map((cItem, cInd) => {
-        const { id, name, area } = cItem;
-        const cloenArea = area.map((aItem, aInd) => {
-          const { id, name } = aItem;
-          return { value: id, label: name };
-        });
-        return {
-          value: id,
-          label: name,
-          children: cloenArea,
-        };
-      });
-      return {
-        value: id,
-        label: name,
-        children: cloneCity,
-      };
-    });
-    return resData({ data: cloneAddress });
+  "POST /mock/common": (req: CommonObj) => {
+    return resData();
   },
   /**
-   * 获取学校列表
+   * 通用的新增接口
    */
-  "GET /mock/school/list": (req: CommonObj) => {
-    const { name } = getRequestParams(req);
-    let list = allSchool.filter((it: CommonObj) => it.name.includes(name));
-    // list = list.map((item: CommonObj) => {
-    //   const { name, id, ...rest } = item;
-    //   return { label: name, value: id, ...rest };
-    // });
-    return resData({ data: list });
+  "POST /mock/common/add": (req: CommonObj) => {
+    return resData();
   },
   /**
-   * 获取公司列表
+   * 通用的修改接口
    */
-  "GET /mock/company/list": (req: CommonObj) => {
-    const { name } = getRequestParams(req);
-    let list = allCompany.filter((it: CommonObj) => it.fullName.includes(name));
-    // list = list.map((item: CommonObj) => {
-    //   const { fullName, id, ...rest } = item;
-    //   return { label: fullName, value: id, ...rest };
-    // });
-    return resData({ data: list });
+  "POST /mock/common/update": (req: CommonObj) => {
+    return resData();
   },
   /**
-   * 用户提交表单（测试）
+   * 通用的导入接口
    */
-  "POST /user/submit": (req: CommonObj) => {
-    return resData({ data: null });
+  "POST /mock/common/import": (req: CommonObj) => {
+    return resData();
+  },
+  /**
+   * 通用的导出接口
+   */
+  "POST /mock/common/export": (req: CommonObj) => {
+    return resData();
+  },
+  /**
+   * 通用的删除接口
+   */
+  "DELETE /mock/common": (req: CommonObj) => {
+    return resData();
+  },
+  /**
+   * 通用的更新全部数据接口（类似post）
+   */
+  "PUT /mock/common": (req: CommonObj) => {
+    return resData();
+  },
+  /**
+   * 通用的更新局部数据（类似post，只针对更改过的）接口。是对put的补充，patch意为修补。
+   */
+  "PATCH /mock/common": (req: CommonObj) => {
+    return resData();
   },
 });

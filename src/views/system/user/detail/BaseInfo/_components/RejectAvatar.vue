@@ -14,7 +14,7 @@ const props = withDefaults(
     data: () => ({}),
   }
 );
-let model = reactive<CommonObj>({ bhly: 1 });
+const model = reactive<CommonObj>({ bhly: 1 });
 const fields: FormField[] = [
   {
     prop: "bhly",

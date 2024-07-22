@@ -2,8 +2,9 @@
 //博客参考地址：https://www.cnblogs.com/-pdd/p/15617970.html
 import * as Icons from "@element-plus/icons-vue";
 import { createVNode, computed } from "vue";
-import { toCssVal, defaultIconName } from "@/utils";
+import { toCssVal, defaultIconName } from "@/components/_utils";
 
+export type IconNames = keyof typeof Icons;
 export default {
   name: "BaseIcon",
   props: {
@@ -19,7 +20,7 @@ export default {
     },
   },
   setup(props) {
-    const Icon = computed(() => Icons[props.name as keyof typeof Icons]);
+    const Icon = computed(() => Icons[props.name as IconNames]);
     return () => {
       return createVNode(
         Icon.value || "span",

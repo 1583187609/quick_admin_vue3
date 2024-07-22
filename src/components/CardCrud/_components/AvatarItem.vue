@@ -8,7 +8,7 @@
       </div>
       <BarsImg :bottomBar="status === 1 ? row.reason : ''" width="200" height="200" :src="row.src" class="avatar f-0" />
       <div class="info f-1">
-        <div @click="$router.push({ name: 'userDetail', query: { id: row.userId } })" class="nickname line-2 row">
+        <div @click="$router.push({ name: 'systemUserDetail', query: { id: row.userId } })" class="nickname line-2 row">
           {{ row.nickname || "-" }}
         </div>
         <BaseCopy class="row" :text="row.userId" />
@@ -35,13 +35,14 @@
         size="small"
         @click="() => emits('groupBtn', btn)"
         v-for="(btn, ind) in groupBtns"
+        :key="ind"
       />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { getTimeAgo } from "@/utils";
+import { getTimeAgo } from "@/components/_utils";
 import { CommonObj, FetchType, FinallyNext, StrNum } from "@/vite-env";
 import { GroupBtnsType } from "@/components/BaseCrud/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";

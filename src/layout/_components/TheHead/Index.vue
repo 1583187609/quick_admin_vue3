@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div class="the-head">
     <div class="header f-sb-c" :class="setStore.layout.type === 'vertical' ? 'light' : 'dark'">
       <!-- 标题栏 -->
       <h1 class="h1 f-c-c" @click="router.push({ name: 'home' })" v-if="setStore.layout.type === 'horizontal'">
         <BaseImg :src="logoImg" size="30" :preview="false" />
-        <div class="ml-h">{{ VITE_APP_NAME }}</div>
+        <div class="ml-h line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
       </h1>
       <!-- 折叠按钮 -->
       <BaseIcon
         id="collapse-icon"
-        @click="baseStore.isFold = !baseStore.isFold"
+        @click="menuStore.isCollapse = !menuStore.isCollapse"
         class="f-0 fold-btn"
         :class="setStore.layout.type === 'vertical' ? 'dark' : 'light'"
         size="1.5em"
-        :name="baseStore.isFold ? 'Expand' : 'Fold'"
+        :name="menuStore.isCollapse ? 'Expand' : 'Fold'"
       />
       <!-- 导航菜单 -->
       <SideMenu :menus="menuStore.allMenus" mode="horizontal" class="f-1 menu-nav" v-if="setStore.layout.type === 'horizontal'" />
@@ -22,20 +22,24 @@
       </template>
       <!-- 快捷入口 -->
       <div class="quick-entry f-0 ml-a">
-        <el-tooltip v-bind="tooltipAttrs" content="搜索菜单">
+        <el-tooltip v-bind="tooltipAttrs" :content="$t('layout.header.entryIcons.searchMenu')">
           <el-button id="search-menu" @click="openSearchMenu" :icon="Search" type="primary" class="item" plain circle></el-button>
         </el-tooltip>
         <el-popover placement="bottom" :width="310" trigger="click">
           <template #reference>
             <el-badge :value="5" :max="99" :show-zero="false">
-              <el-tooltip v-bind="tooltipAttrs" content="消息通知">
+              <el-tooltip v-bind="tooltipAttrs" :content="$t('layout.header.entryIcons.notification')">
                 <el-button id="notice-entry" :icon="Bell" type="primary" class="item" plain circle></el-button>
               </el-tooltip>
             </el-badge>
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip v-bind="tooltipAttrs" :content="isFull ? '取消全屏' : '全屏展示'" v-if="screenfull.isEnabled">
+        <el-tooltip
+          v-bind="tooltipAttrs"
+          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
+          v-if="screenfull.isEnabled"
+        >
           <el-button
             id="fullscreen"
             @click="toggleFullscreen"
@@ -60,34 +64,40 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <el-button @click="openPersonalInfo" style="width: 100%" :icon="User" type="info" link>个人资料</el-button>
+                <el-button @click="openPersonalInfo" style="width: 100%" :icon="User" type="info" link>
+                  {{ $t("layout.header.dropdown.myInfo") }}
+                </el-button>
               </el-dropdown-item>
               <el-dropdown-item>
-                <el-button @click="handleReloadView" style="width: 100%" :icon="Refresh" type="info" link>刷新系统</el-button>
+                <el-button @click="handleReloadView" style="width: 100%" :icon="Refresh" type="info" link>
+                  {{ $t("layout.header.dropdown.refreshSys") }}
+                </el-button>
               </el-dropdown-item>
               <el-dropdown-item>
                 <el-button
                   id="system-set"
-                  @click="openPopup({ title: '系统设置', closeOnClickModal: true }, SystemSet, 'drawer')"
+                  @click="openPopup({ title: $t('layout.header.dropdown.sysSet'), closeOnClickModal: true }, SystemSet, 'drawer')"
                   style="width: 100%"
                   :icon="Setting"
                   type="info"
                   link
-                  >系统设置</el-button
+                  >{{ $t("layout.header.dropdown.sysSet") }}</el-button
                 >
               </el-dropdown-item>
               <el-dropdown-item>
                 <el-button
-                  @click="openPopup('关于系统', SystemInfo, 'drawer')"
+                  @click="openPopup($t('layout.header.dropdown.aboutSys'), SystemInfo, 'drawer')"
                   style="width: 100%"
                   :icon="InfoFilled"
                   type="info"
                   link
-                  >关于系统</el-button
+                  >{{ $t("layout.header.dropdown.aboutSys") }}</el-button
                 >
               </el-dropdown-item>
               <el-dropdown-item divided>
-                <el-button @click="onLoginOut" style="width: 100%" :icon="SwitchButton" type="primary" link>退出登录</el-button>
+                <el-button @click="onLoginOut" style="width: 100%" :icon="SwitchButton" type="primary" link>
+                  {{ $t("layout.header.dropdown.logout") }}
+                </el-button>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -101,11 +111,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, inject, onMounted, nextTick } from "vue";
+import { ref, inject, onMounted, nextTick } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
-import type { MenusItem } from "@/layout/_components/SideMenu/Index.vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import PageTags from "./_components/PageTags/Index.vue";
 import pkg from "#/package.json";
@@ -116,33 +125,31 @@ import SystemSet from "./_components/SystemSet/index.vue";
 import SystemInfo from "./_components/SystemInfo.vue";
 import SearchMenu from "./_components/SearchMenu.vue";
 import PathBreadcrumb from "./_components/PathBreadcrumb.vue";
-import { useDictStore, useSetStore } from "@/store";
+import { useSetStore } from "@/store";
 import screenfull from "screenfull";
-import logoImg from "@/assets/images/logo.svg";
-import { useBaseStore, useMenuStore, useUserStore } from "@/store";
+import logoImg from "@/assets/images/logo.png";
+import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
+import { h } from "vue";
+import { useI18n } from "vue-i18n";
 
+const { tm: $t } = useI18n();
 const { VITE_APP_NAME } = import.meta.env;
-const { initMap } = useDictStore();
 const menuStore = useMenuStore();
-const baseStore = useBaseStore();
 const userStore = useUserStore();
 const setStore = useSetStore();
 const dropdownRef = ref<any>(null);
 const openPopup: any = inject("openPopup");
 const reloadView = inject<any>("reloadView");
-const dictStore = useDictStore();
 const user = getUserInfo();
 const router = useRouter();
-const route = useRoute();
 const tooltipAttrs = {
   showAfter: 200,
   offset: 6,
 };
 async function handleReloadView() {
   // reloadView();
-  await initMap();
   router.go(0);
   showMessage("刷新系统成功");
 }
@@ -165,14 +172,7 @@ function toggleFullscreen() {
 }
 
 function openPersonalInfo() {
-  openPopup(
-    "账号信息",
-    {
-      component: UserInfo,
-      attrs: { data: user },
-    },
-    "drawer"
-  );
+  openPopup($t("layout.header.dropdown.myInfo"), h(UserInfo, { data: user }), "drawer");
 }
 //退出登录
 function onLoginOut() {
@@ -303,6 +303,7 @@ function startGuide() {
 .h1 {
   cursor: pointer;
   padding: 0 $gap;
+  font-size: normal;
   font-size: $font-size-heavyer;
 }
 .menu-nav {

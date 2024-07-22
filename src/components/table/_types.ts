@@ -4,6 +4,7 @@ import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { PopoverAttrs } from "@/components/BaseFormItem";
+import { BaseRenderData } from "../BaseRender.vue";
 
 export type AlignType = "left" | "center" | "right";
 
@@ -30,8 +31,9 @@ export type ColItemType =
   | "BaseCopy"
   | CustomSpecialColType;
 
-export interface TableFieldAttrs {
-  label?: string;
+export interface TableColAttrs {
+  label?: BaseRenderData;
+  customLabel?: BaseRenderData;
   prop?: string | [string, string];
   width?: string | number;
   minWidth?: string | number;
@@ -44,7 +46,7 @@ export interface TableFieldAttrs {
   attrs?: CommonObj;
   sortable?: boolean | "custom"; //是否启用排序
   extra?: {
-    popover?: string | PopoverAttrs;
+    popover?: string | PopoverAttrs | BaseRenderData;
   };
   formatter?: (
     row: any,
@@ -52,6 +54,6 @@ export interface TableFieldAttrs {
     cellValue?: any,
     index?: number
   ) => string | VNode<RendererNode, RendererElement, { [key: string]: any }>;
-  children?: TableFieldAttrs[];
+  children?: TableColAttrs[];
 }
-export type TableField = boolean | TableFieldAttrs;
+export type TableField = boolean | TableColAttrs;

@@ -47,7 +47,7 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
           const { gender } = res.context.currentContext;
           return getDictText("Gender", gender);
         },
-        psd: `${roleNameMap[type]}123456`,
+        psd: `${roleNameMap[type]}12345`,
         name: () => Random.cname(), //姓名
         avatar(res: CommonObj) {
           const { gender } = res.context.currentContext;
@@ -99,6 +99,10 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
         //更新时间
         update_time() {
           return Random.datetime();
+        },
+        //备注
+        remark() {
+          return Random.ctitle(0, 20);
         },
       },
     ],

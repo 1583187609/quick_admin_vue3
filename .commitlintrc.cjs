@@ -20,7 +20,7 @@
 // test: 增加测试
 // chore: 构建过程或辅助工具的变动
 
-const types = ["chore", "docs", "feat", "fix", "refactor", "revert", "test"];
+const types = ["chore", "docs", "feat", "fix", "refactor", "revert", "test", "style"];
 
 module.exports = {
   extents: ["@commitlint/config-conventional"],

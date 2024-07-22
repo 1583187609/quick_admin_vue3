@@ -1,5 +1,5 @@
 import { CommonObj } from "@/vite-env";
-import { typeOf } from "@/utils";
+import { typeOf } from "@/components/_utils";
 
 //整理Avatar审核的要传入组件的数据
 export function getAvatarRowData(row: CommonObj): CommonObj {

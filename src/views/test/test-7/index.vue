@@ -15,7 +15,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { GetMockTest } from "@/api-mock";
 import { CommonObj, TabItem } from "@/vite-env";
 import { TabsPaneContext } from "element-plus";
 import RewardsTask from "./_components/RewardsTask.vue";

@@ -66,7 +66,6 @@ const props = withDefaults(
   }
 );
 const emits = defineEmits(["update:modelValue"]);
-const baseStore = useBaseStore();
 const setStore = useSetStore();
 const type = computed({
   get() {

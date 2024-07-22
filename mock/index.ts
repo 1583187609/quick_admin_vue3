@@ -6,7 +6,7 @@ import apis from "./apis";
 // module.exports = [
 //   ...apis,
 //   // {
-//   //   url: "/mock/test",
+//   //   url: "/example/test",
 //   //   method: "post",
 //   //   response: (req: CommonObj) => {
 //   //     const { name } = getRequestParams(req);

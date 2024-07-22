@@ -28,7 +28,7 @@ const props = withDefaults(
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
-let model = computed({
+const model = computed({
   get() {
     const [e1, ...rest] = props.modelValue?.slice(1, -4).split("/");
     return new Proxy(

@@ -6,10 +6,10 @@ import { ref, reactive, watch, computed } from "vue";
 import { CommonObj } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 </script>

@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" />
+      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" :key="ind" />
     </div>
   </div>
 </template>
@@ -33,12 +33,12 @@
 import { ref, nextTick, inject } from "vue";
 import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn";
-import { getTimeAgo, typeOf } from "@/utils";
+import { getTimeAgo, typeOf } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
 import { DictItemProps } from "@/dict";
 import { getBarObj } from "@/components/CardCrud/_utils";
-import { useDictStore } from "@/store";
-const { getText } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getText } = useDictMap();
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4

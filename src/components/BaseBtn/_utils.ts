@@ -1,6 +1,6 @@
 import * as Icons from "@element-plus/icons-vue";
-import { InfoFilled, CircleCloseFilled } from "@element-plus/icons-vue";
-import { getUserInfo, typeOf } from "@/utils";
+import { CircleCloseFilled } from "@element-plus/icons-vue";
+import { getUserInfo, typeOf } from "@/components/_utils";
 import { merge, upperFirst } from "lodash";
 // import { useSlots } from "vue";
 import btnsMap from ".";
@@ -64,7 +64,7 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj): BtnItem {
     btnObj.auth = auth.map((it: FilterAuthItem) => {
       if (typeof it !== "object") return it;
       const { disabled, code } = it;
-      //感觉没必要加上&& getUserInfo().type===code，但暂时先这么写，后面再思考
+      //感觉没必要加上 && getUserInfo().type===code，但暂时先这么写，后面再思考
       if (disabled && getUserInfo().type === code) {
         attrs ? (attrs.disabled = true) : (btnObj.attrs = { disabled: true });
       }

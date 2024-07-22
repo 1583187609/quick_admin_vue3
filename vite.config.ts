@@ -24,7 +24,9 @@ function getFileNameByPath(path: string, char = "/") {
   const name = path.substring(lastInd + 1, lastDotInd);
   if (name !== "index" && name !== "Index") return name;
   const secondInd = path.lastIndexOf(char, lastInd - 1);
-  return path.substring(secondInd + 1, lastInd) || name;
+  let newName = path.substring(secondInd + 1, lastInd) || name;
+  if (newName.startsWith("_")) newName = `0${newName}`; //GitHub Pages服务会将下划线开头的文件视为隐藏文件，不会暴露出来，故做此处理
+  return newName;
 }
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
@@ -32,6 +34,7 @@ export default ({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
   return defineConfig({
     base: "./", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
+    // base: "/", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // root: "./src/pages", // 项目根目录
     plugins: [
       vue(),
@@ -61,7 +64,7 @@ export default ({ mode, command }) => {
           },
           //页面组件的命名规则：根据路径来命名(以非index.vue作为文件名的，且首字母小写)
           {
-            exclude: ["src/views/**/index.vue"],
+            exclude: ["src/views/**/index.vue", "src/views/**/_components/**/*.vue"],
             include: ["src/views/**/*.vue"],
             genComponentName: res => {
               const { attrName, filePath, originalName, dirname } = res;
@@ -198,10 +201,10 @@ export default ({ mode, command }) => {
       //     // },
       //   ],
       // }),
-      viteCompression({
-        ext: ".gz",
-        deleteOriginFile: false,
-      }),
+      // viteCompression({
+      //   ext: ".gz",
+      //   deleteOriginFile: false,
+      // }),
       // viteCompression({
       //   ext: '.br',
       //   algorithm: 'brotliCompress',

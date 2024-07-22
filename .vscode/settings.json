@@ -2,17 +2,18 @@
   "editor.formatOnSave": true,
   // "editor.formatOnType": true,
   // "editor.formatOnPaste": true,
-  "eslint.enable": false,
+  "eslint.enable": true,
   "eslint.alwaysShowStatus": true,
   "eslint.quiet": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.fixAll.eslint": "never"
+    "source.fixAll.eslint": "never" // 保存后使用eslint进行修复
   },
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "liveServer.settings.port": 5503,
   "cSpell.words": [
     "apisya",
     "asider",
@@ -39,9 +40,11 @@
     "Echarts",
     "Eleme",
     "Eolink",
+    "fanlichuan",
     "Geeker",
     "gifsicle",
     "Gitee",
+    "gitnore",
     "hbuilderx",
     "heavyer",
     "heavyest",
@@ -54,6 +57,7 @@
     "mockjs",
     "navs",
     "nprogress",
+    "Openeds",
     "optipng",
     "pannel",
     "picomatch",
@@ -67,6 +71,7 @@
     "sortablejs",
     "stylelint",
     "stylelintignore",
+    "stylelintrc",
     "treemap",
     "unplugin",
     "valide",
@@ -78,7 +83,7 @@
     "vuets",
     "wangeditor",
     "xslx",
-    "Yapi"
-  ],
-  "liveServer.settings.port": 5501
+    "Yapi",
+    "zlevel"
+  ]
 }

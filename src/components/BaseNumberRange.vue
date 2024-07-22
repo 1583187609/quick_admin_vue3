@@ -27,7 +27,7 @@
 import { ref, reactive, watch, computed, useAttrs } from "vue";
 import { useFormItem } from "element-plus";
 import { CommonObj, StrNum, CommonSize } from "@/vite-env";
-import { emptyVals, propsJoinChar, rangeJoinChar, showMessage } from "@/utils";
+import { emptyVals, propsJoinChar, rangeJoinChar, showMessage } from "@/components/_utils";
 type InputType = "min" | "max";
 type StrNumUnd = StrNum | undefined;
 const { formItem } = useFormItem();
@@ -91,7 +91,7 @@ function handleClear(type: InputType) {
 </script>
 <style lang="scss" scoped>
 .base-number-range {
-  width: 100%;
+  width: 200px;
   .separator {
     line-height: 32px;
     margin: 0 $gap-half;

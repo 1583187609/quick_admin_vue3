@@ -41,7 +41,7 @@
 </template>
 <script lang="ts" setup>
 import CellForm, { CellFormField } from "@/components/form/CellForm.vue";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { CommonObj } from "@/vite-env";
 import { ref, reactive, watch, computed } from "vue";
 const props = withDefaults(
@@ -69,7 +69,7 @@ const companyFormFields: CellFormField[] = [
   { prop: "jc", label: "简称" },
   { prop: "yxrz", label: "邮箱认证" },
 ];
-const companyCols: TableFieldAttrs[] = [
+const companyCols: TableColAttrs[] = [
   { prop: "gsmc", label: "公司名称" },
   { prop: "gsjc", label: "公司简称" },
   { prop: "gslx", label: "公司类型" },
@@ -81,7 +81,7 @@ const companyCols: TableFieldAttrs[] = [
   { prop: "rzzt", label: "认证状态" },
   { prop: "czr", label: "操作人" },
 ];
-const educationCols: TableFieldAttrs[] = [
+const educationCols: TableColAttrs[] = [
   { prop: "xxmc", label: "学校名称" },
   { prop: "xxlx", label: "学校类型" },
   { prop: "xl", label: "学历" },

@@ -1,4 +1,4 @@
-<!-- 页面-数据统计 -->
+<!-- 首页 -->
 <template>
   <div class="page">
     <Setting />
@@ -43,6 +43,9 @@
       <BaseSection class="section f-1" title="饼图 - ChartPie">
         <ChartPie :data="chartData.bt" />
       </BaseSection>
+      <BaseSection class="section f-1" title="雷达图 - ChartRadar（后续完善）">
+        <ChartRadar />
+      </BaseSection>
     </div>
     <div class="row f-sb-s">
       <BaseSection class="section f-1" title="自定义option - Chart">
@@ -58,16 +61,21 @@
         <ChartBars :datas="chartData.zztdg" />
       </BaseSection>
     </div>
+    <BaseSection class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
+      <MultiCharts height="500px" />
+    </BaseSection>
   </div>
 </template>
 <script lang="ts" name="WorkbenchStatistics" setup>
 import { ref, reactive } from "vue";
-import { PostUserList } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import Chart from "@/components/chart/Chart.vue";
 import ChartLine from "@/components/chart/ChartLine.vue";
 import ChartBar from "@/components/chart/ChartBar.vue";
 import ChartPie from "@/components/chart/ChartPie.vue";
+import ChartRadar from "@/components/chart/ChartRadar.vue";
 import ChartBars from "@/components/chart/ChartBars.vue";
+import MultiCharts from "@/components/chart/MultiCharts.vue";
 import Setting from "./_components/Setting.vue";
 import { CommonObj } from "@/vite-env";
 
@@ -155,7 +163,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位" },
       { prop: "accept_time", label: "接受时间" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
   {
     label: "我的待阅",
@@ -166,7 +174,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位1" },
       { prop: "accept_time", label: "接受时间1" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
   {
     label: "我的已办",
@@ -177,7 +185,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位2" },
       { prop: "accept_time", label: "接受时间2" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
   {
     label: "我发起的",
@@ -188,7 +196,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位3" },
       { prop: "accept_time", label: "接受时间3" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
 ];
 const activeName = ref(1);
@@ -201,13 +209,13 @@ const chartData = reactive<CommonObj>({
   zztdwd: [],
   zztdg: [],
 });
-init();
 function init() {
   //模拟请求
   setTimeout(() => {
     Object.assign(chartData, mockChartData);
   }, 100);
 }
+init();
 </script>
 <style lang="scss" scoped>
 .page {

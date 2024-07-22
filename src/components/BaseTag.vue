@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <span class="base-tag span m-2" :class="tag ? tag?.attrs?.type : 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">
+  <span class="base-tag span m-2" :class="tag?.attrs?.type ?? 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">
     <slot :tag="tag">{{ tag?.text || empty }}</slot>
   </span>
   <el-tag class="base-tag m-2" v-bind="tag?.attrs" v-else>
@@ -13,13 +13,13 @@
 import { ref, reactive, watch, computed } from "vue";
 import { DictName } from "@/dict";
 import { CommonObj, StrNum } from "@/vite-env";
-import { emptyVals } from "@/utils";
-import { useDictStore } from "@/store";
+import { emptyVals } from "@/components/_utils";
 import type { TagProps } from "element-plus";
+import { useDictMap } from "@/hooks";
 export type BaseDictType = "tag" | "text";
 export type TagType = TagProps["type"];
 export type TagEffect = TagProps["effect"];
-const { getMap } = useDictStore();
+const { getMap } = useDictMap();
 const props = withDefaults(
   defineProps<{
     name?: DictName;

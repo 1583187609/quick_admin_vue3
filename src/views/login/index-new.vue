@@ -49,6 +49,7 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import { getUserInfo } from "@/utils";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/store";
+import { h } from "vue";
 export type FormType = "login" | "register" | "forget";
 // const userStore = useUserStore();
 const typeMap: CommonObj = {
@@ -76,7 +77,7 @@ const loading = ref(false);
 const title = import.meta.env.VITE_APP_TITLE;
 const redirect = ref(route.query.redirect?.toString() ?? "/");
 const { login_account } = localStorage;
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   account: login_account || "",
   password: "",
   remember: !!login_account,
@@ -86,19 +87,15 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "account",
       label: "账号",
-      // valid: "phone",
       required: true,
       attrs: {
         showWordLimit: false,
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "User",
-              size: "24",
-            },
-          },
-        },
+      },
+      extra: {
+        // valid: "phone",
+      },
+      slots: {
+        prefix: h(BaseIcon, { name: "User", size: "24" }),
       },
     },
     type.value !== "login" && {
@@ -109,54 +106,36 @@ const fields = computed<FormField[]>(() => {
       attrs: {
         maxlength: 4,
         showWordLimit: false,
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "Clock",
-              size: "24",
-            },
-          },
-          append: {
-            component: CaptchaBtn,
-          },
-        },
+      },
+      slots: {
+        prefix: h(BaseIcon, { name: "Clock", size: "24" }),
+        append: CaptchaBtn,
       },
     },
     {
       prop: "password",
       label: "密码",
-      valid: "password",
       required: true,
-      attrs: {
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "Lock",
-              size: "24",
-            },
-          },
-        },
+      extra: {
+        valid: "password",
+      },
+      slots: {
+        prefix: h(BaseIcon, { name: "Lock", size: "24" }),
       },
     },
     type.value === "register" && {
       prop: "confirmPsd",
       label: "确认密码",
-      valid: "password",
       required: true,
       rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
       attrs: {
         placeholder: "请再次输入密码",
-        slots: {
-          prefix: {
-            component: BaseIcon,
-            attrs: {
-              name: "Unlock",
-              size: "24",
-            },
-          },
-        },
+      },
+      extra: {
+        valid: "password",
+      },
+      slots: {
+        prefix: h(BaseIcon, { name: "Unlock", size: "24" }),
       },
     },
     type.value === "login" && {

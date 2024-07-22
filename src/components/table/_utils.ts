@@ -1,6 +1,6 @@
 import { CommonObj, StrNum } from "@/vite-env";
-import { typeOf, propsJoinChar, emptyTime, devErrorTips, emptyVals } from "@/utils";
-import { TableField, TableFieldAttrs, defaultColumnAttrs } from "@/components/table";
+import { typeOf, propsJoinChar, emptyTime, devErrorTips, emptyVals, renderValue } from "@/components/_utils";
+import { TableField, TableColAttrs, defaultColumnAttrs } from "@/components/table";
 import { merge } from "lodash";
 import config from "@/config";
 
@@ -96,13 +96,15 @@ export function getSpecialColMap(currPage: number = 1, pageSize: number = 20): C
         minWidth: 250,
       },
       // 文本复制
-      // BaseCopy: {},
+      BaseCopy: {
+        minWidth: 190,
+      },
       //用户信息
       // UserInfo: {
       //   prop: "userData",
       //   label: "用户信息",
       //   fixed: "left",
-      //   getAttrs(col: TableFieldAttrs) {
+      //   getAttrs(col: TableColAttrs) {
       //     return {
       //       width: col?.attrs?.simple ? 222 : 440,
       //     };
@@ -114,7 +116,7 @@ export function getSpecialColMap(currPage: number = 1, pageSize: number = 20): C
 }
 
 // 获取col和level
-export function getColLevel(col: TableFieldAttrs, lev = 0, specialColMap: CommonObj, isSmall?: boolean): CommonObj {
+export function getColLevel(col: TableColAttrs, lev = 0, specialColMap: CommonObj, isSmall?: boolean): CommonObj {
   let newLev = lev;
   const { children, type, prop, label, minWidth } = col;
   const specialColAttrs = specialColMap[type as string];
@@ -123,17 +125,14 @@ export function getColLevel(col: TableFieldAttrs, lev = 0, specialColMap: Common
     {},
     defaultColumnAttrs,
     specialColAttrs,
-    label?.includes("时间") && {
-      minWidth: 164,
-      formatter:
-        type !== "custom" && typeof prop === "string"
-          ? (row: CommonObj) => {
-              if (typeof row[prop] === "undefined") return devErrorTips("未联调");
-              const isEmpty = emptyVals.includes(row[prop]) || emptyTime === row[prop];
-              return isEmpty ? "-" : row[prop];
-            }
-          : undefined,
-    },
+    typeof label === "string" &&
+      label?.includes("时间") && {
+        minWidth: 164,
+        formatter:
+          type !== "custom" && typeof prop === "string"
+            ? (row: CommonObj) => renderValue(emptyTime === row[prop] ? undefined : row[prop])
+            : undefined,
+      },
     getAttrs?.(col),
     col
   );
@@ -152,7 +151,7 @@ export function getColLevel(col: TableFieldAttrs, lev = 0, specialColMap: Common
   if (children?.length) {
     newCol.children = children.map((item: TableField) => {
       if (typeOf(item) !== "Object") return 0;
-      const { col, level } = getColLevel(item as TableFieldAttrs, lev++, specialColMap, defaultColumnAttrs);
+      const { col, level } = getColLevel(item as TableColAttrs, lev++, specialColMap, defaultColumnAttrs);
       if (level > newLev) {
         newLev = level;
       }

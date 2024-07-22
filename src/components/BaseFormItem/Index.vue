@@ -12,6 +12,7 @@
         <template #reference>
           <BaseIcon :color="cssVars.colorInfo" class="icon-popover" :class="size" name="QuestionFilled"></BaseIcon>
         </template>
+        <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
       </el-popover>
     </template>
     <div class="mr-h" v-if="newField.extra?.before">
@@ -29,7 +30,8 @@
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <!-- <component :is="newField?.slots" v-if="newField?.slots"></component> -->
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-input>
@@ -46,7 +48,7 @@
             </el-option>
             <el-option v-bind="opt" v-else />
           </template>
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-select>
@@ -57,7 +59,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'date-picker'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots" :key="key">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-date-picker>
@@ -116,7 +118,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'cascader'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-cascader>
@@ -150,7 +152,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'autocomplete'"
         >
-          <template v-slot:[key] v-for="(val, key) in newField?.attrs?.slots">
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-autocomplete>
@@ -168,7 +170,7 @@
           v-else-if="newField.type === 'checkbox'"
         >
           <!-- <BaseRender
-            :data="newField?.attrs?.slots?.default || newField.label"
+            :data="newField?.slots?.default || newField.label"
           /> -->
         </el-checkbox>
         <!-- <el-time-picker
@@ -227,14 +229,16 @@ export default {
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, reactive, watch, useAttrs, computed } from "vue";
 import { merge, cloneDeep } from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType, showMessage } from "@/utils";
+import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType, showMessage } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
 import { FormField, FormFieldAttrs, PopoverAttrs } from "./index";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "./_components/AddDelList.vue";
-import { rangeJoinChar } from "@/utils";
+import { rangeJoinChar } from "@/components/_utils";
+import { useDictMap } from "@/hooks";
+import { CascaderName, DictName } from "@/dict";
 
 export interface RuleItem {
   type?: string; // string, number, boolean, method, regexp, integer, float, array, object, enum, date, url, hex, email, any
@@ -268,7 +272,6 @@ const props = withDefaults(
   {}
 );
 const emits = defineEmits(["update:modelValue", "change"]);
-// const formItemRef = ref<any>(null);
 const newVal = computed({
   get() {
     return props.modelValue;
@@ -278,11 +281,13 @@ const newVal = computed({
   },
 });
 let popoverAttrs: any;
+const { getCascaderOpts, getOpts } = useDictMap();
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size } = props;
-  const { type: fType, label, extra = {}, children } = field;
+  const { type: fType, label, extra = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
+  // let tempField: FormFieldAttrs = field;
   if (children?.length) {
     const { required } = field;
     subFields.value = children as FormFieldAttrs[];
@@ -312,17 +317,19 @@ const newField = computed<FormFieldAttrs>(() => {
     const defField = defaultFieldAttrs[type];
     // tempField = merge({ type, required: prefixProp ? true : false }, defField, validField, field);
     tempField = merge({ type }, defField, validField, field);
-    const autoAttrs = tempField?.attrs?.getAttrs?.(tempField) || {};
-    merge(tempField, { attrs: autoAttrs }, field);
+    const { getAttrs } = tempField?.attrs ?? {};
+    getAttrs && merge(tempField, { attrs: getAttrs(tempField) }, field);
+    let { options } = tempField;
+    if (typeof options === "string")
+      tempField.options = type === "cascader" ? getCascaderOpts(options as CascaderName) : getOpts(options as DictName);
     popoverAttrs = getPopoverAttrs(tempField.extra?.popover);
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
-    tempField.attrs!.placeholder = getPlaceholder(tempField);
-    const { slots } = tempField.attrs!;
-    if (typeOf(slots) === "String") {
-      tempField.attrs!.slots = {
-        default: slots,
-      };
+    if (tempField?.attrs?.placeholder) {
+      tempField.attrs.placeholder = getPlaceholder(tempField);
+    }
+    if (typeof slots === "string") {
+      tempField.slots = { default: slots };
     }
   }
   // if (size === "small" && type === "date-picker") {
@@ -360,7 +367,7 @@ function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
 }
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
-  let arr: FormItemRule[] = [];
+  const arr: FormItemRule[] = [];
   rules.forEach((item: CommonObj, ind: number) => {
     const keys: string[] = ["required", "min", "max", "pattern", "validator"];
     const { type } = item;
@@ -444,9 +451,7 @@ function handleInput(e: any, prop: string) {
     emits("change", prop, val);
   }
 }
-defineExpose({
-  // formItemRef,
-});
+defineExpose({});
 </script>
 <style lang="scss" scoped>
 .base-form-item {

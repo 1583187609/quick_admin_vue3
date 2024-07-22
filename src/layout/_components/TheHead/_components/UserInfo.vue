@@ -3,7 +3,7 @@
     style="width: 400px"
     :fields="fields"
     v-model="model"
-    :fetch="PostUserList"
+    :fetch="GetUserList"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
     :submitText="editEnable ? undefined : ''"
     :resetText="editEnable ? undefined : ''"
@@ -17,24 +17,13 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
-import { useDictStore } from "@/store";
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 
-const { getOpts } = useDictStore();
-const genderOpts = getOpts("Gender");
 const editEnable = ref(false);
-let model = reactive<CommonObj>(getUserInfo());
-// const props = withDefaults(
-//   defineProps<{
-//     data?: CommonObj;
-//   }>(),
-//   {
-//     data: () => ({}),
-//   }
-// );
+const model = reactive<CommonObj>(getUserInfo());
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
@@ -71,7 +60,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
       prop: "gender",
       label: "性别",
       type: "radio-group",
-      options: genderOpts,
+      options: "Gender",
       attrs: {
         type: "button",
         disabled: true,
@@ -88,9 +77,11 @@ const fields = computed<FormFieldAttrs[]>(() => {
     {
       prop: "phone",
       label: "电话号码",
-      valid: "phone",
       attrs: {
         disabled: !editEnable.value,
+      },
+      extra: {
+        valid: "phone",
       },
     },
     ...(editEnable.value
@@ -98,18 +89,22 @@ const fields = computed<FormFieldAttrs[]>(() => {
           {
             prop: "password",
             label: "新密码",
-            valid: "password",
             attrs: {
               type: "password",
+            },
+            extra: {
+              valid: "password",
             },
           },
           {
             prop: "rePassword",
             label: "确认密码",
-            valid: "password",
             rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
             attrs: {
               type: "password",
+            },
+            extra: {
+              valid: "password",
             },
           },
         ]
@@ -128,10 +123,7 @@ function onMoreBtns(name: BtnName) {
   handleBtnNext(
     {
       edit: () => (editEnable.value = true),
-      view: () => {
-        console.log("点击了查看按钮");
-        editEnable.value = false;
-      },
+      view: () => (editEnable.value = false),
     },
     name
   );

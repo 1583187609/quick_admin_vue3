@@ -2,7 +2,7 @@
 <template>
   <SectionForm style="width: 800px" :sections="sections">
     <template #yebd>
-      <BaseCrud :fetch="PostUserList" :cols="cols" :tableAttrs="{ size: 'small' }" :pageAttrs="{ small: true }">
+      <BaseCrud :fetch="GetMockCommonList" :cols="cols" :tableAttrs="{ size: 'small' }" :pageAttrs="{ small: true }">
         <template #bd="{ row, index }">
           <BaseNum :value="(index % 2 === 0 ? 1 : -1) * 20" showText />
         </template>
@@ -15,15 +15,12 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import { TableField } from "@/components/table";
-import { useDictStore } from "@/store";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form";
 import { CommonObj, FinallyNext } from "@/vite-env";
-const { getOpts } = useDictStore();
-const enableOpts = getOpts("EnableStatus");
+
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

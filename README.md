@@ -4,9 +4,23 @@
 
 1. 技术栈：Vue3 + ElementPlus + Scss + TypeScript + Eslint + Prettier
 
-## 二、在线预览
+## 二、地址链接
 
-[登录入口](https://fanlichuan.gitee.io/management/vue/#/login)
+### Vue3 版（已经过一个完整企业级项目验证）
+
+在线预览：[Github](https://1583187609.github.io/quick_admin/vue3/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/preview/#/login)（暂不可用，服务维护升级）~~
+
+说明文档：[Github](https://1583187609.github.io/quick_admin/vue3/docs)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/docs)（暂不可用，服务维护升级）~~
+
+仓库地址：[Github](https://github.com/1583187609/quick_admin_vue3)、[Gitee](https://gitee.com/fanlichuan/quick_admin_vue3)
+
+### React 版（完善度约 80%）
+
+在线预览：[Github 地址](https://1583187609.github.io/quick_admin/react/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee 地址](https://fanlichuan.gitee.io/quick_admin/react/preview/#/login)（暂不可用，服务维护升级）~~
+
+说明文档：[Github 地址](https://1583187609.github.io/quick_admin/react/docs)（国外服务，初次加载较慢）、~~[Gitee 地址](https://fanlichuan.gitee.io/quick_admin/react/docs)（暂不可用，服务维护升级）~~
+
+仓库地址：[Github](https://github.com/1583187609/quick_admin_react)、[Gitee](https://gitee.com/fanlichuan/quick_admin_react)
 
 ## 三、前言概述
 
@@ -86,8 +100,8 @@
 ## 七、其他后记
 
 1. 以上文字说明、图片示例，未完全呈现已有功能，因时间精力有限，后续再完善此文档。
-2. Quick 内核伴随公司后台管理系统一起成长，稳定运行至今并趋于成熟。
-3. [React 版仓库地址](https://gitee.com/fanlichuan/management/tree/master/quick-admin-react18)。
+2. Quick Admin Vue3 核心代码（<span style="color:red;">src/components</span> 和 <span style="color:red;">src/config</span>），已经过一个完整企业级项目验证，稳定运行至今并趋于<span style="color:red;">成熟</span>。
+3. 欲知已完善或待完善某些功能，可查看任务清单（[Github](https://github.com/1583187609/quick_admin_vue3/blob/dev/_Task_List.md) 或 [Gitee](https://gitee.com/fanlichuan/quick_admin_vue3/blob/master/_Task_List.md)），清单未时时更新，有滞后情况
 
 ## 八、联系方式
 

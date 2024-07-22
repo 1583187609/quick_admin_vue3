@@ -45,7 +45,7 @@
 import { reactive, ref, computed } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
-import { storage, toCssVal, isProd, showMessage } from "@/utils";
+import { storage, toCssVal, isProd, showMessage } from "@/components/_utils";
 import config from "@/config";
 import { StrNum, CommonObj, FinallyNext } from "@/vite-env";
 const props = withDefaults(

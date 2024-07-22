@@ -54,7 +54,7 @@ import AboutItem from "./_components/AboutItem.vue";
 import FaceItem from "./_components/FaceItem.vue";
 import PhotoItem from "./_components/PhotoItem.vue";
 import { getAvatarRowData } from "./_utils";
-import { typeOf, showMessage } from "@/utils";
+import { typeOf, showMessage } from "@/components/_utils";
 import { FilterByAuthFn, getTempGroupBtnsOfRow } from "@/components/BaseCrud";
 import { CommonObj } from "@/vite-env";
 import { ClosePopupType } from "@/App.vue";

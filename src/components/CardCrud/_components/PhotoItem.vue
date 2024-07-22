@@ -4,7 +4,7 @@
     <BarsImg :src="row.url" :topBar="topBar" class="img" sizeType="default" :bottomBar="row.status === 1 ? row.reason : ''" />
     <div class="foot-box f-c-c-c f-0">
       <BaseCopy class="mb-q" :text="row.userId" />
-      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" />
+      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" :key="ind" />
     </div>
   </div>
 </template>
@@ -14,8 +14,8 @@ import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn";
 import BarsImg from "@/components/BarsImg.vue";
 import { AuditStatus } from "../Index.vue";
-import { useDictStore } from "@/store";
-const { getMap } = useDictStore();
+import { useDictMap } from "@/hooks";
+const { getMap } = useDictMap();
 const props = withDefaults(
   defineProps<{
     row?: CommonObj;

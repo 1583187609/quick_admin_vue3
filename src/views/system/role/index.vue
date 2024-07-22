@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostAuthRoleList"
+    :fetch="GetAuthRoleList"
     :extraBtns="['add', 'delete']"
     :groupBtns="['edit', 'delete']"
     @extraBtn="onExtraBtn"
@@ -12,34 +12,29 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { PostAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
+import { ref, h, inject } from "vue";
+import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ElMessage } from "element-plus";
-import { ref, reactive, inject } from "vue";
 import { BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
-import { useDictStore } from "@/store";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
 
-const { getOpts } = useDictStore();
-const roleTypeOpts = getOpts("RoleType");
-const enableStatusOpts = getOpts("EnableStatus");
 const openPopup: any = inject("openPopup");
 const fields = ref<FormField[]>([
   {
     prop: "role_type",
     label: "角色类型",
     type: "select",
-    options: roleTypeOpts,
+    options: "RoleType",
   },
   {
     prop: "status",
     label: "状态",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
   {
     prop: "create_time_range",
@@ -77,10 +72,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
 }
 //新增或编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}角色`, {
-    component: AddEdit,
-    attrs: { id: row?.id, refreshList: next },
-  });
+  openPopup(`${row ? "编辑" : "新增"}角色`, h(AddEdit, { id: row?.id, refreshList: next }));
 }
 //删除角色
 function handleDelete(ids: string[], next: FinallyNext) {

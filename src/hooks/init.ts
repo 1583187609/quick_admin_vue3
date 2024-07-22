@@ -1,30 +1,10 @@
-import {
-  // GetV2DistrictJsonData,
-  // GetAdminIndustryJobTree,
-  PostUserList,
-} from "@/api-mock";
-import { storage, typeOf, debounce, printLog } from "@/utils";
 import pkg from "#/package.json";
-import { useDictStore } from "@/store";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { storage } from "@/utils";
 
 const { version } = pkg;
 //页面加载时的初始化操作
 let isFirst = true;
 export default () => {
-  const { initMap } = useDictStore();
-  //获取省市区（县）的json数据
-  // function fetchRegionOpts() {
-  //   GetV2DistrictJsonData().then((res: any) => {
-  //     storage.setItem("regions", res);
-  //   });
-  // }
-  // //获取行业/职业的JSON数据
-  // function fetchIndustryOpts() {
-  //   GetAdminIndustryJobTree().then((res: any) => {
-  //     storage.setItem("industry", res);
-  //   });
-  // }
   //监测是否是最新版本
   function isLatestVersion() {
     const lastVer = storage.getItem("lastVersion");
@@ -39,7 +19,6 @@ export default () => {
   }
   //更新数据
   function updateData() {
-    initMap();
     console.log("监测到版本更新，已自动同步本地all-tags数据");
   }
   //轮询更新localStorage中的allTags

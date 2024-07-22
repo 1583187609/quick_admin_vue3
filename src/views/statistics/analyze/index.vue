@@ -3,7 +3,7 @@
     :cols="cols"
     v-model="model"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :extraBtns="['add']"
     :groupBtns="[
       'edit',
@@ -26,23 +26,19 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { DeleteUserList, PostUserList, PostUserListExport, PutUserUpdate } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ElMessage, dayjs } from "element-plus";
 import { ref, reactive, inject } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
 import FormPopup from "./FormPopup.vue";
-import { useDictStore } from "@/store";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
-const { getOpts } = useDictStore();
-const genderOpts = getOpts("Gender");
-const roleTypeOpts = getOpts("RoleType");
-const enableStatusOpts = getOpts("EnableStatus");
+import { h } from "vue";
+
 const openPopup: any = inject("openPopup");
-let model = reactive<CommonObj>({ age: [20, 30] });
+const model = reactive<CommonObj>({ age: [20, 30] });
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },
@@ -56,19 +52,19 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "select",
-    options: genderOpts,
+    options: "Gender",
   },
   {
     prop: "type",
     label: "用户类型",
     type: "select",
-    options: roleTypeOpts,
+    options: "RoleType",
   },
   {
     prop: "status",
     label: "账号状态",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
 ]);
 const cols: TableField[] = [
@@ -103,10 +99,7 @@ function onGroupBtn(name: BtnName, row: CommonObj, next: FinallyNext) {
 
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(row ? "编辑" : "新增", {
-    component: AddEdit,
-    attrs: { id: row?.id, refreshList: next },
-  });
+  openPopup(row ? "编辑" : "新增", h(AddEdit, { id: row?.id, refreshList: next }));
 }
 //增加或减少
 function handlePlusMinus(name: BtnName, row: CommonObj, next: FinallyNext) {
@@ -114,14 +107,7 @@ function handlePlusMinus(name: BtnName, row: CommonObj, next: FinallyNext) {
     plus: "增加当日次数",
     minus: "减少当日次数",
   };
-  openPopup(
-    titleMap[name as string],
-    {
-      component: FormPopup,
-      attrs: { id: row?.id, refreshList: next },
-    },
-    "dialog"
-  );
+  openPopup(titleMap[name as string], h(FormPopup, { id: row?.id, refreshList: next }), "dialog");
 }
 </script>
 <style lang="scss" scoped></style>

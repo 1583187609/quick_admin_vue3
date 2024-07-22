@@ -1,19 +1,17 @@
 // 获取下拉项 select 的 options
-import { ref, reactive, computed, nextTick } from "vue";
+import { ref, computed, nextTick, h } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
-import { GetMockSchoolList, GetMockCompanyList } from "@/api-mock";
+import { GetOptionsSchool, GetOptionsCompany } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
-import { merge } from "lodash";
 
 export type SelectSearchType = "school" | "company";
-//  | "major" | "subject"
 
 const typeMap: CommonObj = {
   school: {
     reqNameKey: "name",
     resValKey: "id", //跟下方的handleItem中的value对应的键名保持一致
-    fetchApi: GetMockSchoolList,
+    fetchApi: GetOptionsSchool,
     defaultField: { prop: "xx", label: "学校", type: "select" },
     handleItem(item: CommonObj) {
       const { name, id } = item;
@@ -23,47 +21,23 @@ const typeMap: CommonObj = {
   company: {
     reqNameKey: "name",
     resValKey: "id",
-    fetchApi: GetMockCompanyList,
+    fetchApi: GetOptionsCompany,
     defaultField: { prop: "gs", label: "公司", type: "select" },
     handleItem(item: CommonObj) {
       const { fullName, shortName, id } = item;
       return {
         label: fullName,
-        customOption: {
-          component: CompanyOption,
-          attrs: { fullName, shortName },
-        },
+        customOption: h(CompanyOption, { fullName, shortName }),
         value: id,
       };
     },
   },
-  // major: {
-  //   reqNameKey: "majorName",
-  //   resValKey: "id",
-  //   fetchApi: PostUserList,
-  //   defaultField: { prop: "zy", label: "专业", type: "select" },
-  //   handleItem(item: CommonObj) {
-  //     const { majorName, id } = item;
-  //     return { label: majorName, value: id };
-  //   },
-  // },
-  // subject: {
-  //   reqNameKey: "name",
-  //   resValKey: "name",
-  //   fetchApi: PostUserList,
-  //   defaultField: { prop: "subject", label: "学科名称", type: "select" },
-  //   handleItem(item: CommonObj) {
-  //     const { name, code } = item;
-  //     return { label: name, value: code };
-  //   },
-  //   extraParams: { groupType: 2 },
-  // },
 };
 
 export default () => {
   /**
    * 获取输入并搜索的下拉项
-   * @tips 作为 "school" | "company" | "major" | "subject" 四个搜索下拉项的整合
+   * @tips 作为 "school" | "company" 两个搜索下拉项的整合
    */
   function getSearchOpts(
     type: SelectSearchType,
@@ -104,7 +78,7 @@ export default () => {
     }
 
     return {
-      ...merge({}, defaultField, field),
+      ...{ ...defaultField, ...field },
       options: opts,
       attrs: {
         filterable: true,

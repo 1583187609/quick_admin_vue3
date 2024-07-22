@@ -1,34 +1,9 @@
-import { cloneDeep, merge } from "lodash";
+import { merge } from "lodash";
 import dictMap from "../dict";
-import { getDictText, getCascadeText } from "../dict";
-import { CommonObj } from "@/vite-env";
-import { isNodeEnv } from "./consts";
-
-/**
- * 检测元素所属类型
- * Object.prototype.toString.call(*)的可能结果如下所示：
- * @example null             [object Null]
- * @example undefined        [object Undefined]
- * @example Symbol());       [object Symbol]
- * @example true             [object Boolean]
- * @example ''               [object String]
- * @example 1                [object Number]
- * @example []               [object Array]
- * @example {}               [object Object]
- * @example new Date()       [object Date]
- * @example new Function()   [object Function]
- * @example new RegExp()     [object RegExp]
- * @example new Error()      [object Error]
- * @example document         [object HTMLDocument]
- * @example window           [object global] window 是全局对象 global 的引用
- * @param {*} ele 待检测的对象、字符串、数组等
- * @returns {String} 元素类型（String、Number、Boolean、Symbol、Undefined、Null、Function、Date、Array、Object、Regexp、Error、HtmlDocument、Global）
- */
-export function typeOf(ele: any) {
-  let endStr = Object.prototype.toString.call(ele);
-  let type = endStr.split(" ")[1].slice(0, -1);
-  return type;
-}
+import { getDictText } from "../dict";
+import { CommonObj, OptionItem } from "@/vite-env";
+import { typeOf } from "./base";
+import { getBasePath } from "../_platform/_utils";
 
 /**
  * 获取请求参数
@@ -46,12 +21,18 @@ export function getRequestParams(req: CommonObj, ignoreKeys = ["phone"]) {
     const isIgnoreType = ["Null", "Undefined", "Boolean", "Array"].includes(valType);
     return isEmptyStr || isIgnoreKey || isIgnoreType;
   }
-  for (let key in reqParams) {
+  for (const key in reqParams) {
     const val = reqParams[key];
     if (isIgnore(key, val)) continue;
     const numVal = Number(val);
     if (!isNaN(numVal)) {
       reqParams[key] = numVal;
+    } else {
+      if (val === "true") {
+        reqParams[key] = true;
+      } else if (val === "false") {
+        reqParams[key] = false;
+      }
     }
   }
   return reqParams;
@@ -61,9 +42,9 @@ export function getRequestParams(req: CommonObj, ignoreKeys = ["phone"]) {
  * 处理数据，转化成vite mock api需要的数据结构
  */
 export function toViteMockApi(obj: CommonObj) {
-  const arr = [];
-  for (let key in obj) {
-    let [method, url] = key.split(" ");
+  const arr: CommonObj[] = [];
+  for (const key in obj) {
+    const [method, url] = key.split(" ");
     arr.push({
       url,
       method: method.toLowerCase(), //一定要转为小写，不然打包出来会提示404，踩了很久的坑
@@ -71,19 +52,6 @@ export function toViteMockApi(obj: CommonObj) {
     });
   }
   return arr;
-}
-
-/**
- * 删除对象属性(不改变原数组）
- * @param obj [object] 要删除属性所在的对象
- * @param attrs string[] 要删除的属性名
- */
-export function deleteAttrs(obj = {}, attrs: string[] = []) {
-  const newObj: CommonObj = cloneDeep(obj);
-  attrs.forEach((key, ind) => {
-    delete newObj[key];
-  });
-  return newObj;
 }
 
 /**
@@ -180,10 +148,10 @@ export function filterByConditions(list: any[], byConditions: any[]) {
  * @param ignoreKeys array 要忽略翻译的键名数组集合
  */
 export function getOptsFromDict(name: string, ignoreKeys: string[]) {
-  const opts = [];
+  const opts: OptionItem[] = [];
   const map = dictMap[name];
   if (!map) return null;
-  for (let key in map) {
+  for (const key in map) {
     if (!ignoreKeys?.includes(key)) {
       opts.push({ value: Number(key), label: map[key] });
     }
@@ -246,7 +214,8 @@ export function getConstructorObj(obj: CommonObj = {}, excludes?: string[]) {
  * 获取NavsTree
  * @param navs object[] 原始导航树数据
  */
-export function getNavsTree(navs: CommonObj[] = []): CommonObj[] {
+export function getNavsTree(navs?: CommonObj[]): CommonObj[] | undefined {
+  if (!navs) return;
   return navs.map((item: CommonObj, ind) => {
     const { label, component = "", path, children, status, is_cache, type, ...rest } = item;
     return {
@@ -290,19 +259,6 @@ export function findTreeNode(arr: any[], byId: string, propsMap: CommonObj = { i
   }
   getFindInfo(arr, byId);
   return node;
-}
-
-/**
- * 获取域名+pathname
- * @example 发布到gitee上的有效地址：https://fanlichuan.gitee.io/quick_admin_vue3/dist/static/imgs/girl-1.jpg
- * @example VsCode Live Sever打开的有效地址：http://127.0.0.1:5500/dist/static/imgs/boy-6.jpg
- */
-export function getBasePath(projectName = "quick_admin_vue3", rootPath = "/dist") {
-  const isDev = process.env.NODE_ENV === "development";
-  if (isDev) return ""; //开发模式
-  const { origin, host } = location;
-  const isLiveSever = host.startsWith("127");
-  return `${origin}/${isLiveSever ? "" : projectName}${rootPath}`;
 }
 
 /**

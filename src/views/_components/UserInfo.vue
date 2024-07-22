@@ -76,13 +76,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { getCascaderText } from "@/dict";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
+import { CommonObj } from "@/vite-env";
 import { useRouter } from "vue-router";
+import { useDictMap } from "@/hooks";
+
 const router = useRouter();
-const { getOpts, getText } = useDictStore();
+const { getText, getCascaderText } = useDictMap();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -109,7 +108,7 @@ function getAuthStatus(data) {
   return status;
 }
 function toUserDetail() {
-  router.push({ name: "userDetail", query: { id: props.data.id } });
+  router.push({ name: "systemUserDetail", query: { id: props.data.id } });
 }
 </script>
 <style lang="scss" scoped>

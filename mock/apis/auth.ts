@@ -27,7 +27,7 @@ export default toViteMockApi({
   /**
    * 权限 - 角色列表
    */
-  "POST /auth/role/list": (req: CommonObj) => {
+  "GET /auth/role/list": (req: CommonObj) => {
     const { role_type, status, create_time_range, curr_page = 1, page_size = 10 } = getRequestParams(req);
     const queryList = filterByConditions(allRoles, [
       ["role_type", role_type],
@@ -72,7 +72,7 @@ export default toViteMockApi({
   /**
    * 权限 - 修改角色
    */
-  "PUT /auth/role/update": (req: CommonObj) => {
+  "POST /auth/role/update": (req: CommonObj) => {
     let code, msg, data;
     const reqObj = getRequestParams(req);
     const { id, role_type, role_type_text, status, remark, menu_auth } = reqObj;
@@ -117,7 +117,7 @@ export default toViteMockApi({
   /**
    * 权限 - 获取菜单列表
    */
-  "POST /auth/menu/list": (req: CommonObj) => {
+  "GET /auth/menu/list": (req: CommonObj) => {
     const {
       name,
       status,
@@ -175,8 +175,8 @@ export default toViteMockApi({
    */
   "GET /auth/menu/info": (req: CommonObj) => {
     const { id } = getRequestParams(req, ["id"]);
-    let code, msg, data;
-    data = findTreeNode(allNavsTree, id);
+    let code, msg;
+    const data = findTreeNode(allNavsTree, id);
     if (!data) {
       code = 1;
       msg = "不存在该菜单";
@@ -215,7 +215,7 @@ export default toViteMockApi({
    * @param phone [string] 电话号码
    * @param psd [string] 密码
    */
-  "PUT /auth/menu/update": (req: CommonObj) => {
+  "POST /auth/menu/update": (req: CommonObj) => {
     let code, msg, data;
     const reqObj = getRequestParams(req);
     const { id } = reqObj;

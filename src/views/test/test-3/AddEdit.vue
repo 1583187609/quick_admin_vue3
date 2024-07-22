@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="model"
     :fields="fields"
-    :fetch="data ? PostUserList : PostUserList"
+    :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
     :fetchSuccess="refreshList"
     :extraParams="{ id: data?.id }"
     @change="(prop:string,val:any)=>model[prop] = val"
@@ -14,13 +14,9 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
-import { PostUserList } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn";
-import { merge } from "lodash";
+import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
-const genderOpts = getOpts("Gender");
+
 const cflxOpts: OptionItem[] = [
   { label: "警告", value: 1 },
   { label: "禁言", value: 2 },
@@ -33,7 +29,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-let model = reactive<CommonObj>(Object.assign({ cflx: 1, sfqy: 0 }, props.data));
+const model = reactive<CommonObj>(Object.assign({ cflx: 1, sfqy: 0 }, props.data));
 const fields = computed<FormField[]>(() => {
   return [
     {
@@ -47,7 +43,7 @@ const fields = computed<FormField[]>(() => {
       label: "性别",
       required: true,
       type: "select",
-      options: genderOpts,
+      options: "Gender",
       extra: {
         span: 12,
       },

@@ -7,9 +7,9 @@
 :groupBtns="[
   'edit', 'reject','delete','download','pass',
   (row: CommonObj, rowInd: number)=> rowInd % 2 === 1 ? 'forbid' : 'enable',
-  { name: 'view', to: `/user/detail?id=${12}`},
-  { name: 'view', to: {name: 'userDetail', query: {id: 12}}},
-  { name: 'view', text: '查看', to: (row:CommonObj) => ({name: 'userDetail', query:{id: row.id}})},
+  { name: 'view', to: `/system/user/detail?id=${12}`},
+  { name: 'view', to: {name: 'systemUserDetail', query: {id: 12}}},
+  { name: 'view', text: '查看', to: (row:CommonObj) => ({name: 'systemUserDetail', query:{id: row.id}})},
 ]"
 /**
 * 可接受一个方法，按钮书写的前后位置不影响显示时前后的摆放位置（也可通过传入order属性改变前后位置）；
@@ -39,7 +39,7 @@
       v-model="model"
       :cols="cols"
       :fields="fields"
-      :fetch="PostUserList"
+      :fetch="GetMockCommonList"
       :importCfg="testImportCfg"
       :extraBtns="[
         'add',
@@ -66,7 +66,7 @@
         {
           name: 'view',
           text: 'url跳转',
-          to: '/user/detail?id=12',
+          to: '/system/user/detail?id=12',
           order: 50,
           attrs: { icon: 'Link' },
         },
@@ -80,10 +80,10 @@
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
-          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/user/detail?id=${id}`}]
+          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/system/user/detail?id=${id}`}]
         }else{
           return ['edit', 'audit', 'reject','delete','download','pass', 'repeal', 'reset', 'log', 
-          { name: 'view', to: {name: 'userDetail', query:{id}}}]
+          { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
         }
       }"
       @extraBtn="onExtraBtn"
@@ -127,10 +127,10 @@
   </div>
 </template>
 <script lang="ts" name="TestThree" setup>
-import { ref, reactive, inject } from "vue";
-import { PostUserList } from "@/api-mock";
+import { ref, reactive, inject, isVNode } from "vue";
+import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
-import { TableField, TableFieldAttrs } from "@/components/table";
+import { TableField, TableColAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
@@ -139,14 +139,14 @@ import { BtnName } from "@/components/BaseBtn";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
-import { useDictStore } from "@/store";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
-import { getCascaderOpts } from "@/dict";
 import { Postcard } from "@element-plus/icons-vue";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
+import CustomHead from "./_components/CustomHead.vue";
 import { SectionFieldsItemAttrs } from "@/components/form";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { h } from "vue";
 
 const tempRow = {
   xm: "李四",
@@ -163,18 +163,15 @@ const testImportCfg = {
     { prop: "labelName", label: "标签名称" },
   ],
 };
-const { getOpts, getText } = useDictStore();
 const openPopup: any = inject("openPopup");
 const route = useRoute();
 const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
-const userOpts = getOpts("User");
-const enableOpts = getOpts("EnableStatus");
 //默认搜索值
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   xm: "张三",
-  multi_tag: ["new_user"],
+  multi_tag: [0],
   date_range_def_val: ["2023-08-19", "2023-08-27"],
   num_range_def_val: [10, 20],
 });
@@ -184,21 +181,27 @@ const fields: FormFieldAttrs[] = [
     prop: "xm",
     label: "姓名",
   },
-  { prop: "qyzt", label: "启用状态", type: "select", options: enableOpts },
+  {
+    prop: "qyzt",
+    label: "启用状态",
+    type: "select",
+    options: "EnableStatus",
+  },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchAsync" },
   {
     prop: "multi_tag",
     label: "多标签",
     type: "select",
-    options: userOpts,
+    options: "RoleType",
     attrs: {
       multiple: true,
     },
   },
   {
     prop: "liveCity",
-    label: "级联",
+    label: "居住地址",
     type: "cascader",
-    options: getCascaderOpts("Region"),
+    options: "Region",
     attrs: {
       filterable: true,
     },
@@ -286,6 +289,17 @@ const cols: TableField[] = [
     },
   },
   {
+    prop: "custom_head",
+    // label: "自定义表格头",
+    label: h(CustomHead),
+    minWidth: 210,
+    extra: {
+      // popover: "这是自定义popover示例",
+      // popover: CustomHead,
+      popover: h(CustomHead, { isPopover: true }),
+    },
+  },
+  {
     prop: "avatar",
     label: "图片 [BaseImg]",
     type: "BaseImg",
@@ -301,6 +315,11 @@ const cols: TableField[] = [
     extra: {
       popover: "内置文本组件 [BaseText]，内置列宽；超出文本后自动省略，且可点击后弹出弹窗查看完整内容",
     },
+  },
+  {
+    prop: "avatar",
+    label: "文本复制[BaseCopy]",
+    type: "BaseCopy",
   },
   {
     prop: "form_col",
@@ -344,7 +363,7 @@ const cols: TableField[] = [
     extra: {
       popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
     },
-  } as TableFieldAttrs,
+  } as TableColAttrs,
   //   ]
   // : [
   {
@@ -354,7 +373,7 @@ const cols: TableField[] = [
     extra: {
       popover: `设置 {type: "update", prop: "updatedAt"}，只会显示 updatedAt 属性的值`,
     },
-  } as TableFieldAttrs,
+  } as TableColAttrs,
   // ]),
   // {
   //   prop: ["creator", "createdAt"],
@@ -380,6 +399,14 @@ const cols: TableField[] = [
       popover: `设置{type: "remark"}，内置列宽度、label文案`,
     },
   },
+  {
+    prop: "wltl",
+    label: "未联调列",
+    minWidth: 100,
+    extra: {
+      popover: "未联调的列，表格头文字会被标红",
+    },
+  },
 ];
 function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { exportRows } = restArgs;
@@ -388,12 +415,8 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
       add: () => handleAddEdit(null, next),
       import: () => handleImport(),
       export: () => exportExcel(exportRows),
-      dialog: () =>
-        openPopup("这是一个dialog列表示例", {
-          component: SimpleList,
-          attrs: {},
-        }),
-      drawer: () => openPopup("这是一个drawer表单示例", { component: SimpleForm, attrs: {} }, "drawer"),
+      dialog: () => openPopup("这是一个dialog列表示例", SimpleList),
+      drawer: () => openPopup("这是一个drawer表单示例", SimpleForm, "drawer"),
     },
     name
   );
@@ -403,22 +426,19 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => PostUserList({ id }).then(() => next()),
-      forbid: () => PostUserList({ id, status: 0 }).then(() => next()),
-      enable: () => PostUserList({ id, status: 1 }).then(() => next()),
+      delete: () => DeleteMockCommon({ id }).then(() => next()),
+      forbid: () => PostMockCommon({ id, status: 0 }).then(() => next()),
+      enable: () => PostMockCommon({ id, status: 1 }).then(() => next()),
     },
     name
   );
 }
 //新增/编辑
-async function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
+async function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
   if (row) row = tempRow;
   openPopup(
     `${row ? "编辑" : "新增"}`,
-    {
-      component: AddEdit,
-      attrs: { data: row, refreshList: next },
-    }
+    h(AddEdit, { data: row, refreshList: next })
     // "drawer" //传入第三个参数drawer，可打开抽屉，不传则默认为dialog
   );
 }

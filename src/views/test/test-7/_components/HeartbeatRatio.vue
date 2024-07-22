@@ -14,7 +14,7 @@ const userOpts: OptionItem[] = [
   { label: "新用户", value: 3 },
   { label: "普通用户", value: 4 },
 ];
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   xyh: [{ jblx: undefined, zb: undefined }],
   yzjb: [{ jblx: undefined, zb: undefined }],
   ptyh: [{ jblx: undefined, zb: undefined }],

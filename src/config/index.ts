@@ -1,5 +1,5 @@
 import { BaseComponentsConfig } from "./_types";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 import { getUserInfo, storage } from "@/utils";
 import { CommonObj } from "@/vite-env";
 export * from "./_types";
@@ -76,7 +76,7 @@ const config = {
         label: "用户信息",
         // minWidth: 280, // 450/280
         fixed: "left",
-        getAttrs(col: TableFieldAttrs) {
+        getAttrs(col: TableColAttrs) {
           return {
             width: col?.attrs?.simple ? 232 : 450,
           };
@@ -105,7 +105,7 @@ const config = {
       //   has_more: "hasMore",
       //   records: "list",
       // }),
-      filterByAuth: (auth: number[]) => auth.includes(getUserInfo().type),
+      filterByAuth: (auth: number[]) => auth.includes(getUserInfo()?.type),
       // filterByAuth: (auth: number[]) => true,
       //跟下面的size  small 搭配使用
       // colSpanAttrs: () => ({

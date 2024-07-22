@@ -5,7 +5,7 @@
         <div class="f-c-c-c f-0 logo">
           <BaseImg :src="logoImg" size="60%" style="border-radius: 0" :to="{ name: 'home' }" />
         </div>
-        <ul class="list f-fs-c-c f-1 all-hide-scroll">
+        <ul id="main-menu" class="list f-fs-c-c f-1 all-hide-scroll">
           <li
             class="item f-c-c-c"
             :class="{ active: menuStore.activeIndex === ind }"
@@ -14,7 +14,7 @@
             :key="ind"
           >
             <BaseIcon size="20" :name="item.icon" />
-            <span class="text line-1">{{ item.label }}</span>
+            <TooltipLabel :label="item.label" />
           </li>
         </ul>
       </div>
@@ -24,10 +24,10 @@
     <div class="f-1 f-sb-s-c" style="width: 1px">
       <TheHead class="f-0" />
       <div class="container f-1 all-hide-scroll">
-        <RouterView v-slot="{ Component, route }">
+        <RouterView v-slot="{ Component, route: currRoute }">
           <Transition name="main" mode="out-in" appear>
             <KeepAlive :include="keepAliveStore.list" :max="20">
-              <component :is="formatComponentInstance(Component, route)" :key="aliveCompKey || route.fullPath" />
+              <component :is="formatComponentInstance(Component, currRoute)" :key="aliveCompKey || currRoute.fullPath" />
             </KeepAlive>
           </Transition>
         </RouterView>
@@ -39,11 +39,12 @@
 // 路由动画：http://www.dearweb.cn/qianduan/dw-333.html
 import TheHead from "./_components/TheHead/Index.vue";
 import TheMenu from "./_components/TheMenu.vue";
-import { ref, reactive, nextTick, watch, provide, computed, h } from "vue";
+import { ref, reactive, nextTick, provide, computed, h } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import logoImg from "@/assets/images/logo.svg";
-import { storage, showMessage, getCompNameByRoute } from "@/utils";
+import logoImg from "@/assets/images/logo.png";
+import { storage, showMessage, getCompNameByRoute, getIsOver } from "@/utils";
 import { useMenuStore, useKeepAliveStore, useSetStore } from "@/store";
+import TooltipLabel from "@/layout/_components/TooltipLabel.vue";
 
 const keepAliveStore = useKeepAliveStore();
 const menuStore = useMenuStore();
@@ -108,7 +109,7 @@ provide("reloadView", reloadView);
       cursor: pointer;
       padding: $gap-half $gap-qtr;
       width: $main-menu-width;
-      .text {
+      .tooltip-label {
         margin-top: $gap-qtr;
         font-size: $font-size-lighter;
       }

@@ -28,9 +28,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject, ref } from "vue";
+import { computed, h, inject, ref } from "vue";
 import { Setting, Printer, CircleCheck } from "@element-plus/icons-vue";
-import { sortObjArrByKey } from "@/utils";
+import { sortObjArrByKey } from "@/components/_utils";
 import { BaseBtnType, BtnItem, BtnName, getBtnObj } from "@/components/BaseBtn";
 import { TableField } from "@/components/table";
 import SetTable from "../SetTable.vue";
@@ -157,17 +157,14 @@ function openColSetDrawer() {
     });
   openPopup(
     { title: "列设置", closeOnClickModal: true },
-    {
-      component: SetTable,
-      attrs: {
-        rows,
-        size: props.size,
-        handleShowChange,
-        handleExportChange,
-        handleOrderChange,
-        handleResetColSet,
-      },
-    },
+    h(SetTable, {
+      rows,
+      size: props.size,
+      handleShowChange,
+      handleExportChange,
+      handleOrderChange,
+      handleResetColSet,
+    }),
     "drawer"
   );
 }

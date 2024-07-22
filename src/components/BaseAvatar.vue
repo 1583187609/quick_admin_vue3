@@ -17,7 +17,7 @@ import { useRouter } from "vue-router";
 import avatarImg from "@/assets/images/default/avatar.png";
 import avatarManImg from "@/assets/images/default/avatar-man.png";
 import avatarWomanImg from "@/assets/images/default/avatar-woman.png";
-import { toCssVal } from "@/utils";
+import { toCssVal } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 const avatarMap = {
   1: avatarManImg,

@@ -10,13 +10,13 @@ import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
 import { FormField } from "@/components/BaseFormItem";
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   xyh: [{ jblx: undefined, zb: undefined }],
   yzjb: [{ jblx: undefined, zb: undefined }],
   ptyh: [{ jblx: undefined, zb: undefined }],

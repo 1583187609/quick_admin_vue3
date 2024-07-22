@@ -1,3 +1,7 @@
+import { StrNum } from "@/vite-env";
+import dayjs from "dayjs";
+import Mock from "mockjs";
+
 /**
  * 一、 语法规范
  * 'name|rule': value    name（属性名）、rule（生成规则）、value（属性值）
@@ -64,6 +68,7 @@
  * @params {Object} settings 配置项集合。{timeout: 400}  400，表示400毫秒后才会返回响应内容；'200-600'，表示响应时间介于200和600毫秒之间。默认值是'10-100'
  */
 // Mock.setup(settings)
+// Mock.setup({ timeout: 3000 });
 
 /**
  * Mock.Random是一个工具类，用于生成各种随机数据。提供的完整方法（占位符）如下：
@@ -130,10 +135,6 @@
 //     }
 // })
 // console.log(Example, 'Example')
-
-import { StrNum } from "@/vite-env";
-import dayjs from "dayjs";
-import Mock from "mockjs";
 
 /**
  * 自定义扩展Mock

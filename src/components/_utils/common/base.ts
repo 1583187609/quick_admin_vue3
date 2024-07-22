@@ -2,7 +2,7 @@
 /*************** 为Base*.vue正常执行逻辑提供的常用的方法 ***************/
 /********************************************************************/
 
-import { regexp, showMessage, toCamelCase } from "@/utils";
+import { regexp, showMessage, toCamelCase } from "@/components/_utils";
 import { merge } from "lodash";
 import config, { ConfigMergeStrategy } from "@/config";
 import { CommonObj, StrNum } from "@/vite-env";
@@ -115,30 +115,6 @@ export function getChinaCharLength(str?: string): number {
 }
 
 /**
- * 获取label的最大字符长度
- * @param fields 表单域
- * @param num 额外的空白宽度，默认2 // 2是因为：一个是间距宽度，一个是*宽度
- */
-export function getMaxLength(fields: FormField[] = [], num = 2): number {
-  let max = 1;
-  fields.forEach(item => {
-    if (typeOf(item) !== "Object") return;
-    const { label, children, extra } = item as FormFieldAttrs;
-    const popNum = extra?.popover ? 1 : 0;
-    if (label?.length + popNum > max) {
-      max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
-    }
-    if (children) {
-      const _max = getMaxLength(children, 0);
-      if (_max > max) {
-        max = _max;
-      }
-    }
-  });
-  return max + num;
-}
-
-/**
  * 获取字符串的字节长度（全角符算2个，半角符算1个字符）
  * @param str string 字符串
  */
@@ -191,16 +167,13 @@ export function omitAttrs(obj: CommonObj, list = emptyVals) {
 /**
  * 剔除对象属性（不会改变原数组）
  * @param obj 要剔除属性的对象
- * @param arr 剔除的属性数组
+ * @param keys 剔除的属性数组
  */
-export function deleteAttrs(obj: CommonObj = {}, arr: string[] = []) {
+export function deleteAttrs(obj: CommonObj = {}, keys: string | string[]) {
   const newObj = JSON.parse(JSON.stringify(obj));
-  if (!arr?.length) return newObj;
-  for (const key in newObj) {
-    if (arr.includes(key)) {
-      delete newObj[key];
-    }
-  }
+  if (!keys?.length) return newObj;
+  if (typeof keys === "string") return delete newObj[keys];
+  keys.forEach(key => delete newObj[key]);
   return newObj;
 }
 
@@ -303,7 +276,7 @@ export function getIsUpdated(e_1: any, e_2: any) {
  * @param name 触发的按钮名称
  */
 export function handleBtnNext(map: CommonObj, name: BtnName) {
-  map[name] ? map[name]() : showMessage(`点击了${name}按钮`);
+  map[name] ? map[name]() : showMessage(`点击了${name}按钮`, "info");
 }
 
 /**
@@ -339,6 +312,15 @@ export function copyText(text = "") {
     showMessage("复制成功！");
   }
   document.body.removeChild(input);
+}
+
+/**
+ * 文本是否已超出（出现了省略号）
+ */
+export function getIsOver(target: any) {
+  if (!target) return false;
+  const { scrollHeight, clientHeight } = target;
+  return scrollHeight > clientHeight;
 }
 
 /**

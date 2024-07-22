@@ -22,8 +22,8 @@
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
-      <template #custom="{ row, col, ind }">
-        <slot name="custom" v-bind="{ row, col, $index: ind }"></slot>
+      <template #custom="{ row, col: c, ind }">
+        <slot name="custom" v-bind="{ row, col: c, $index: ind }"></slot>
       </template>
     </Column>
     <template #empty v-if="!loading">
@@ -35,20 +35,20 @@
 import { ref, computed, watchEffect, useAttrs, reactive } from "vue";
 import { GroupBtnsAttrs } from "./GroupBtns.vue";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
-import { typeOf, handleTableSummary, defaultGroupBtnsMaxNum, getChinaCharLength } from "@/utils";
+import { typeOf, handleTableSummary, defaultGroupBtnsMaxNum, getChinaCharLength } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
 import { GroupBtnsType } from "@/components/BaseCrud/_components/GroupBtns.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/BaseCrud/_components/Column.vue";
 import { needPushSpecialCol } from "@/components/BaseCrud";
 import { getTempGroupBtnsOfRow } from "@/components/BaseCrud";
-import { TableFieldAttrs, TableField, defaultTableAttrs, getColLevel, getSpecialColMap } from "@/components/table";
+import { TableColAttrs, TableField, defaultTableAttrs, getColLevel, getSpecialColMap } from "@/components/table";
 import config from "@/config";
 
 const props = withDefaults(
   defineProps<{
     tableAttrs?: CommonObj; //ElementPlus 表格的属性
-    groupBtnsAttrs?: GroupBtnsAttrs; //ElementPlus 表格的属性
+    groupBtnsAttrs?: GroupBtnsAttrs;
     loading?: boolean;
     cols: TableField[]; //表头
     rows: CommonObj[]; //表格行数据
@@ -85,7 +85,7 @@ const seledRows = ref<CommonObj[]>([]);
  * 55+32+8+16*2+40+3 = 55+40+32+40+3 = 95+75 = 170
  * 216px 170px
  */
-const newCols = reactive<TableFieldAttrs[]>([]);
+const newCols = reactive<TableColAttrs[]>([]);
 //调用stopWatch（），确保下面的方法只执行一次
 const stopWatch = watchEffect(() => {
   const { cols, currPage, pageSize } = props;
@@ -97,7 +97,7 @@ const stopWatch = watchEffect(() => {
   needPushSpecialCol("operate", props) && cols.push(operate);
   const levels = cols.map(col => {
     if (typeOf(col) !== "Object") return 1;
-    const { col: newCol, level } = getColLevel(col as TableFieldAttrs, 1, specialColMap, $attrs.size === "small");
+    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, specialColMap, $attrs.size === "small");
     newCols.push(newCol);
     return level;
   });
@@ -136,20 +136,23 @@ function handleSelectionChange(rows: CommonObj[]) {
   const keys = rows.map(it => it[newAttrs.value.rowKey]);
   emits("selectionChange", rows, keys);
 }
-//获取每一行的分组按钮
-function getGroupBtnsOfRow(row: CommonObj, $rowInd: number) {
+// 获取每一行的分组按钮
+function getGroupBtnsOfRow(row: CommonObj, ind: number) {
   const { groupBtns = [], rows, filterBtnsByAuth } = props;
-  const tempBtns = getTempGroupBtnsOfRow(row, $rowInd, groupBtns);
+  const tempBtns = getTempGroupBtnsOfRow(row, ind, groupBtns);
   const filterBtns = filterBtnsByAuth(tempBtns);
   const width = getOperateColWidth(filterBtns);
-  if (operateWidth < width) {
-    operateWidth = width;
-    newCols.slice(-1)[0].minWidth = operateWidth;
-  }
-  //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
-  if (operateWidth < 30 && $rowInd === rows.length - 1) {
-    operateWidth = getOperateColWidth();
-    newCols.slice(-1)[0].minWidth = operateWidth;
+  if (ind < rows.length - 1) {
+    if (operateWidth < width) {
+      operateWidth = width;
+      newCols.slice(-1)[0].minWidth = operateWidth;
+    }
+  } else {
+    //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
+    if (operateWidth < 30) {
+      operateWidth = getOperateColWidth();
+      newCols.slice(-1)[0].minWidth = operateWidth;
+    }
   }
   return filterBtns;
 }
@@ -165,14 +168,12 @@ function getOperateColWidth(btns?: BtnItem[]): number {
   const btnPadding = 3;
   const btnMargin = 12;
   const cellPadding = 12;
-  if (!btns) {
-    //最小宽度
-    return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
-  }
+  //最小宽度
+  if (!btns) return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
   let em = 0; //按钮文字字符数量
   let width = 0;
   const { groupBtnsAttrs = {} } = props;
-  const { vertical, maxNum = defaultGroupBtnsMaxNum } = groupBtnsAttrs;
+  const { vertical, maxNum = defaultGroupBtnsMaxNum } = groupBtnsAttrs as GroupBtnsAttrs;
   if (btns.length > maxNum) {
     btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
   }

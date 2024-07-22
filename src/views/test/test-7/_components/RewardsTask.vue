@@ -16,12 +16,9 @@ import { ref, reactive, watch, computed } from "vue";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form";
 import { FormField } from "@/components/BaseFormItem";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { useDictStore } from "@/store";
-const { getOpts, getText } = useDictStore();
-const taskRewardsOpts = getOpts("TaskRewards");
-const getRewardWayOpts = getOpts("GetRewardWay");
-let model = reactive<CommonObj>({
+import { CommonObj } from "@/vite-env";
+
+const model = reactive<CommonObj>({
   //kpi-1
   // wszl: { zt: 0, jllx: 1, jlmx: 10, lqfs: 1 },
   scszzp: { zt: 0, jllx: 2, jlmx: 20, lqfs: 2 },
@@ -54,7 +51,7 @@ const childrenFields: FormField[] = [
     label: "奖励类型",
     // required: true,
     type: "select",
-    options: taskRewardsOpts,
+    options: "TaskRewards",
   },
   {
     prop: "jlmx",
@@ -70,7 +67,7 @@ const childrenFields: FormField[] = [
     label: "领取方式",
     type: "radio-group",
     required: true,
-    options: getRewardWayOpts,
+    options: "GetRewardWay",
   },
 ];
 //如果在SectionFormItem中添加 prop 属性，则提交时的数据会包裹在对应的prop名称下

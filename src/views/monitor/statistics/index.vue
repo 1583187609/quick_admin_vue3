@@ -48,6 +48,9 @@ const comps = getDevelopComponents();
     }
     .list {
       overflow: auto;
+      .li {
+        line-height: 1.6;
+      }
     }
   }
 }

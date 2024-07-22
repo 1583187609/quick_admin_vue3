@@ -8,16 +8,16 @@
 import { ref, reactive, watch, computed } from "vue";
 import { ElMessage } from "element-plus";
 import { CommonObj, SetInterval } from "@/vite-env";
-let seconds = 5;
+const seconds = 5;
 const currSecond = ref(seconds);
 const hasSend = ref(false);
 let timer: SetInterval = null;
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 function handleClick(params: type) {

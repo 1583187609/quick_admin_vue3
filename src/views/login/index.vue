@@ -44,15 +44,15 @@ meta:
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, onMounted, computed } from "vue";
-import { PostUserLogin, GetUserLoginRoleAccounts } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
-import FindPassword from "./_components/FindPassword.vue";
-import Register from "./_components/Register.vue";
+import { ref, reactive, inject, computed } from "vue";
+import { GetUserLoginAccounts } from "@/api-mock";
+import { FormFieldAttrs } from "@/components/BaseFormItem";
+import FindPassword from "./FindPassword.vue";
+import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { storage } from "@/utils";
-import { useDictStore, useUserStore } from "@/store";
+import { useUserStore } from "@/store";
 
 const { VITE_APP_NAME } = import.meta.env;
 const openPopup: any = inject("openPopup");
@@ -60,9 +60,9 @@ const userStore = useUserStore();
 const loading = ref(false);
 const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
-let model = reactive<CommonObj>({
-  phone: storeAccount?.phone ?? "superAdmin_1",
-  psd: storeAccount?.psd ?? "superAdmin123456",
+const model = reactive<CommonObj>({
+  phone: storeAccount?.phone ?? "18483221518",
+  psd: storeAccount?.psd ?? "superAdmin12345",
   captcha: "",
   remember: !!storeAccount,
 });
@@ -71,7 +71,6 @@ const fields = computed<FormFieldAttrs[]>(() => {
     {
       prop: "phone",
       label: "账号",
-      valid: /^\d/.test(model.phone) ? "phone" : undefined,
       required: true,
       type: "autocomplete",
       attrs: {
@@ -80,15 +79,20 @@ const fields = computed<FormFieldAttrs[]>(() => {
         onSelect: handleSelect,
         fetchSuggestions: handleFetchSuggestions,
       },
+      extra: {
+        valid: /^\d/.test(model.phone) ? "phone" : undefined,
+      },
     },
     {
       prop: "psd",
       label: "密码",
-      valid: "password",
       required: true,
       attrs: {
         type: "password",
         autocomplete: "off",
+      },
+      extra: {
+        valid: "password",
       },
     },
     {
@@ -107,7 +111,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
 });
 loadAll();
 function loadAll() {
-  GetUserLoginRoleAccounts().then((res: CommonObj[]) => {
+  GetUserLoginAccounts().then((res: CommonObj[]) => {
     accountOpts.value = res.map((item: CommonObj) => {
       const { account, ...rest } = item;
       return { value: account, ...rest };
@@ -137,7 +141,7 @@ function handleSelect(item: CommonObj) {
 .wrap {
   height: 100vh;
   width: 100vw;
-  background: url("@/assets/images/bg/login.jpg") no-repeat 0 0/100% 100% #eee;
+  background: url("./_imgs/login.jpg") no-repeat 0 0/100% 100% #eee;
 }
 .bounce-in {
   animation: bounceIn 1.2s;

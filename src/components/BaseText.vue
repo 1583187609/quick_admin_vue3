@@ -7,6 +7,7 @@
 <script lang="ts" setup>
 import { ref, inject, onMounted } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { getIsOver } from "@/components/_utils";
 
 const openPopup: any = inject("openPopup");
 const props = withDefaults(
@@ -17,7 +18,7 @@ const props = withDefaults(
   }>(),
   {
     maxLine: 5,
-    title: "查看完整内容",
+    title: "详情",
     width: "500px",
   }
 );
@@ -31,15 +32,14 @@ function handleClick(e: any) {
     openPopup({ title: props.title, width: props.width }, e.target.innerText);
   }
 }
-function getIsOver(target: any) {
-  const { scrollHeight, clientHeight } = target;
-  return scrollHeight > clientHeight;
-}
 </script>
 <style lang="scss" scoped>
 .base-text {
   &.over {
-    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>

@@ -7,7 +7,7 @@ import cssVars from "@/assets/styles/_var.module.scss";
 export type LayoutType = "vertical" | "classics" | "horizontal" | "columns";
 export type LayoutSize = "large" | "medium" | "small" | "mini";
 export type SetName = keyof typeof defaultSet;
-export type LanguageTypes = "chinese" | "english";
+export type LanguageTypes = "zh" | "en";
 export interface LayoutAttrs {
   type: LayoutType;
   size: LayoutSize;
@@ -43,8 +43,9 @@ export const defaultSet: DefaultSet = {
     type: "columns",
     size: defaultWidgetSize,
   },
+  //语言
   language: {
-    type: "chinese",
+    type: "zh",
   },
   //菜单设置
   menu: {

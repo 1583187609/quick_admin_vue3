@@ -3,12 +3,23 @@
 /********************************************************************/
 
 import cssVars from "@/assets/styles/_var.module.scss";
-import { RendererElement, RendererNode, VNode, h } from "vue";
+import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
 import { ElMessage } from "element-plus";
-import { typeOf } from "@/utils";
-import { PopoverAttrs } from "@/components/BaseFormItem";
+import { emptyVals, getChinaCharLength, isDev, storage, typeOf } from "@/components/_utils";
+import { FormField, FormFieldAttrs, PopoverAttrs } from "@/components/BaseFormItem";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
+
+export const noAuthPaths = ["/login"]; //不需要授权就能登录的页面
+export const errorPaths = ["/403", "/404", "/500"];
+
+export const themeMap = {
+  primary: cssVars.colorPrimary,
+  success: cssVars.colorSuccess,
+  danger: cssVars.colorDanger,
+  warning: cssVars.colorWarning,
+  info: cssVars.colorInfo,
+};
 
 /**
  * 展示message提示信息
@@ -61,13 +72,6 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
     const { text, bgColor } = map[type];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;`, data);
   } else {
-    const themeMap = {
-      primary: cssVars.colorPrimary,
-      success: cssVars.colorSuccess,
-      danger: cssVars.colorDanger,
-      warning: cssVars.colorWarning,
-      info: cssVars.colorInfo,
-    };
     const bgColor = themeMap[type as ThemeColorType];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;`, data);
   }
@@ -77,30 +81,34 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
  * 处理时间：后端的时间为 1000-01-01 00:00:00 时，实际上是空值
  * @param text 要显示的文本内容
  * @param color 文本颜色
- * @param elTag 元素标签类型
  */
 export function devErrorTips(
-  text: string,
-  attrs: CommonObj | null = {
-    style: `color: ${cssVars.colorDanger};font-weight:600;`,
-  },
-  elTag: string | null = "span"
+  text: string = "",
+  type: ThemeColorType | "" = "danger"
 ): string | VNode<RendererNode, RendererElement, { [key: string]: any }> {
-  if (!elTag) return `~~${text}~~`;
-  return h(elTag, attrs, `~~${text}~~`);
+  if (isDev) return type ? h("span", { style: `color: ${themeMap[type]};` }, `${text}`) : text;
+  return text;
+}
+
+/**
+ * 处理时间：后端的时间为 1000-01-01 00:00:00 时，实际上是空值
+ * @param text 要显示的文本内容
+ * @param color 文本颜色
+ */
+export function renderValue(val?: string): string {
+  return emptyVals.includes(val) ? "-" : (val as string);
 }
 
 /**
  * 防抖：指触发事件后在 n 秒内函数只能执行一次，如果在 n 秒内又触发了事件，则会重新计算函数执行时间
  * @param {(that:any,event:Event,args:CommonObj) => void} fn 回调函数
- * @param {Number} delay 延迟时间
  * @param {Boolean} immediate 是否立即执行
- * @param {*} params 传入的参数
- * @example methods: {onSubmit: debounce((that, event, param) => {console.log("防抖测试");})}
+ * @param {Number} delay 延迟时间
+ * @example methods: {onSubmit: debounce((that, event, ...args) => {console.log("防抖测试");})}
  */
-export function debounce(fn: (that: any, event: Event, args: CommonObj) => void, delay = 1000, immediate = true, params = {}) {
+export function debounce(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000) {
   let timer: any = null;
-  return function (event: Event) {
+  return function (event: Event, ...args: any) {
     if (timer) clearTimeout(timer);
     if (immediate) {
       const canExe = !timer;
@@ -108,13 +116,13 @@ export function debounce(fn: (that: any, event: Event, args: CommonObj) => void,
         timer = null;
       }, delay);
       if (canExe) {
-        fn(this, event, params);
+        fn(this, event, ...args);
       } else {
         showMessage("您的操作太频繁了", "warning");
       }
     } else {
       timer = setTimeout(() => {
-        fn(this, event, params);
+        fn(this, event, ...args);
         timer = null;
       }, delay);
     }
@@ -124,27 +132,26 @@ export function debounce(fn: (that: any, event: Event, args: CommonObj) => void,
 /**
  * 节流：指连续触发事件，但是在 n 秒内只执行一次函数
  * @param {(that:any,event:Event,args:CommonObj) => void} fn 回调函数
- * @param {Number} delay 延迟时间
  * @param {Boolean} immediate 是否立即执行
- * @param {*} params 传入的参数
- * @example methods: {onSubmit: throttle((that, event, param) => {console.log("节流测试");})}
+ * @param {Number} delay 延迟时间
+ * @example methods: {onSubmit: throttle((that, event, ...args) => {console.log("节流测试");})}
  */
-export function throttle(fn: (that: any, event: Event, args: CommonObj) => void, delay = 1000, immediate = true, params = {}) {
+export function throttle(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000) {
   if (immediate) {
     let previous = 0;
-    return function (event: Event) {
+    return function (e: Event, ...args: any) {
       const now = Date.now();
       if (now - previous > delay) {
-        fn(this, event, params);
+        fn(this, e, ...args);
         previous = now;
       }
     };
   } else {
     let timer: any = null;
-    return function (event: Event) {
+    return function (e: Event, ...args: any) {
       if (!timer) {
         timer = setTimeout(() => {
-          fn(this, event, params);
+          fn(this, e, ...args);
           timer = null;
         }, delay);
       }
@@ -164,10 +171,7 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
   const { columns, data } = param;
   const sums: string[] = [];
   columns.forEach((column, index) => {
-    if (index === 0) {
-      sums[index] = "合计";
-      return;
-    }
+    if (index === 0) return (sums[index] = "合计");
     const values = data.map(item => Number(item[column.property]));
     if (values.every(value => Number.isNaN(value))) {
       sums[index] = "-"; //N/A
@@ -177,11 +181,7 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
       } else {
         sums[index] = `${values.reduce((prev, curr) => {
           const value = Number(curr);
-          if (!Number.isNaN(value)) {
-            return prev + curr;
-          } else {
-            return prev;
-          }
+          return Number.isNaN(value) ? prev : prev + curr;
         }, 0)}`;
       }
     }
@@ -194,21 +194,13 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
  * @return string 屏幕类型
  */
 export type ScreenSizeType = "xs" | "sm" | "md" | "lg" | "xl";
-export function getScreenSizeType(): ScreenSizeType {
-  let size = "";
-  const width = document.body.offsetWidth;
-  if (width < 768) {
-    size = "xs";
-  } else if (width >= 768 && width < 992) {
-    size = "sm";
-  } else if (width >= 992 && width < 1200) {
-    size = "md";
-  } else if (width >= 1200 && width < 1920) {
-    size = "lg";
-  } else if (width >= 1920) {
-    size = "xl";
-  }
-  return size as ScreenSizeType;
+export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType {
+  if (w < 768) return "xs";
+  if (w >= 768 && w < 992) return "sm";
+  if (w >= 992 && w < 1200) return "md";
+  if (w >= 1200 && w < 1920) return "lg";
+  if (w >= 1920) return "xl";
+  return "xl";
 }
 
 /**
@@ -218,8 +210,66 @@ export function getScreenSizeType(): ScreenSizeType {
  */
 export function getPopoverAttrs(popover?: string | PopoverAttrs): PopoverAttrs | undefined {
   if (!popover) return;
-  const t = typeOf(popover);
-  if (t === "String") return { content: popover as string };
-  if (t === "Object") return popover as PopoverAttrs;
+  const t = typeof popover;
+  if (t === "string") return { content: popover as string };
+  if (t === "object") {
+    if (isVNode(popover) || popover.render || popover.component) return { defaultSlot: popover };
+    return popover as PopoverAttrs;
+  }
   throw new Error(`暂不支持此popover类型：${t}`);
+}
+
+/**
+ * 获取label的最大字符长度
+ * @param fields 表单域
+ * @param num 额外的空白宽度，默认2 // 2是因为：一个是间距宽度，一个是*宽度
+ */
+export function getMaxLength(fields: FormField[] = [], num = 2): number {
+  let max = 1;
+  fields.forEach(item => {
+    if (typeOf(item) !== "Object") return;
+    const { label, children, extra } = item as FormFieldAttrs;
+    const popNum = extra?.popover ? 1 : 0;
+    if (label?.length + popNum > max) {
+      max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
+    }
+    if (children) {
+      const _max = getMaxLength(children, 0);
+      if (_max > max) max = _max;
+    }
+  });
+  return max + num;
+}
+
+/**
+ * 获取用户信息
+ * @returns
+ */
+export function getUserInfo(id = ""): CommonObj | null {
+  const info = storage.getItem("userInfo");
+  const path = location.hash.slice(1);
+  if (!noAuthPaths.some((it: string) => path.startsWith(it)) && !info) {
+    // if (!info) showMessage("检测到未登录异常", "error");
+    console.error(`检测到未登录异常，在${location.pathname}：${id}处执行`);
+  }
+  return info;
+}
+
+/**
+ * 计算src/components下开发的有效页面
+ * @return
+ */
+export function getDevelopComponents() {
+  const comps = import.meta.glob("@/components/**/**/*.vue");
+  const allNames = Object.keys(comps);
+  const unValidNames: string[] = []; //无效页面
+  //有效页面
+  const valideNames = allNames.filter((key: string) => {
+    if (key.includes(" ")) unValidNames.push(key);
+    return !key.includes(" ");
+  });
+  return {
+    valideNames,
+    unValidNames,
+  };
 }

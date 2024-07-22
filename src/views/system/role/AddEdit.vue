@@ -12,13 +12,11 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/components/BaseFormItem";
 import { ref, reactive, watch } from "vue";
+import { FormField } from "@/components/BaseFormItem";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { GetAuthRoleInfo, PostAuthRoleAdd, PostAuthRoleUpdate } from "@/api-mock";
-import { useDictStore } from "@/store";
-const { getOpts } = useDictStore();
-const enableStatusOpts = getOpts("EnableStatus");
+
 const props = withDefaults(
   defineProps<{
     id?: StrNum;
@@ -26,10 +24,10 @@ const props = withDefaults(
   }>(),
   {}
 );
-let model = reactive<CommonObj>(props.id ? {} : { status: 1 });
+const model = reactive<CommonObj>(props.id ? {} : { status: 1 });
 const fields = ref<FormField[]>([
-  { prop: "role_type_text", label: "角色名称", required: true },
-  { prop: "role_type", label: "角色标识符", required: true },
+  { prop: "role_text", label: "角色名称", required: true },
+  { prop: "role", label: "角色标识符", required: true },
   {
     prop: "menu_auth",
     label: "菜单权限",
@@ -39,7 +37,7 @@ const fields = ref<FormField[]>([
     prop: "status",
     label: "启用状态",
     type: "radio-group",
-    options: enableStatusOpts,
+    options: "EnableStatus",
     attrs: {
       type: "button",
     },

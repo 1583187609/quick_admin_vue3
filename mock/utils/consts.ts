@@ -1,2 +1,2 @@
-// 是否是Node环境
-export const isNodeEnv = typeof global !== "undefined" && Object.prototype.toString.call(global) === "[object global]";
+// 是否是处在NodeJs环境中
+export const isAtNode = typeof global !== "undefined" && Object.prototype.toString.call(global) === "[object global]";

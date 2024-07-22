@@ -10,13 +10,14 @@ import {
   getLabelFromOptionsByLastValue,
   defaultFormItemType,
   showMessage,
-} from "@/utils";
-import { TableField, TableFieldAttrs } from "@/components/table";
+} from "@/components/_utils";
+import { TableField, TableColAttrs } from "@/components/table";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { HandleClickExtraBtnsProps, SpecialBoolColType } from "./_types";
 import { batchBtnNames } from ".";
 import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";
 import ImportPopup from "./_components/ImportPopup.vue";
+import { h } from "vue";
 
 export interface ExtraBtnRestArgs {
   selectedKeys: string[];
@@ -78,12 +79,12 @@ export function handleClickExtraBtns({
           if (name === "export") {
             const newCols = (cols?.filter((it: TableField) => {
               if (typeOf(it) !== "Object") return false;
-              return !(it as TableFieldAttrs)?.prop?.startsWith("$");
-            }) || []) as TableFieldAttrs[];
-            exportRows.push(newCols.map((it: TableFieldAttrs) => it.label));
+              return !(it as TableColAttrs)?.prop?.startsWith("$");
+            }) || []) as TableColAttrs[];
+            exportRows.push(newCols.map((it: TableColAttrs) => it.label));
             seledRows.forEach((row: CommonObj) => {
               const list: string[] = [];
-              newCols.forEach((col: TableFieldAttrs) => {
+              newCols.forEach((col: TableColAttrs) => {
                 const { prop, type, formatter } = col;
                 let val = "";
                 if (allowList.includes(type)) {
@@ -103,14 +104,8 @@ export function handleClickExtraBtns({
         .catch(() => {});
     }
   } else if (name === "import") {
-    openPopup("温馨提示", {
-      component: ImportPopup,
-      // component: () => import("./_components/ImportPopup.vue"),
-      attrs: {
-        tplCfg: importCfg,
-        onChange: (arr: CommonObj[]) => emits("click", name, arr),
-      },
-    });
+    // () => import("./_components/ImportPopup.vue"),
+    openPopup("温馨提示", h(ImportPopup, { tplCfg: importCfg, onChange: (arr: CommonObj[]) => emits("click", name, arr) }));
   } else {
     emits("extraBtn", name, next, {
       selectedKeys: [],

@@ -1,7 +1,12 @@
 import { FormRules } from "element-plus";
-import { RenderComponent } from "@/components/BaseRender.vue";
+import { RenderComponent, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
-export type ValidType = "phone" | "password" | "identity" | "email" | "age";
+import { BaseRenderData } from "@/components/BaseRender.vue";
+import { defaultValidTypes } from "./_config";
+import { CascaderName, DictName } from "@/dict";
+
+export type ValidType = keyof typeof defaultValidTypes;
+
 export type FormItemType =
   | "input"
   | "select"
@@ -41,6 +46,7 @@ export interface PopoverAttrs {
   title?: string;
   disabled?: boolean;
   width?: StrNum;
+  defaultSlot?: BaseRenderData;
 }
 export interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key
@@ -61,13 +67,9 @@ export interface FormFieldAttrs {
   };
   children?: FormField[];
   //控件的属性，例：placeholder
-  attrs?: {
-    //插槽
-    slots?: {
-      [key: string]: RenderComponent;
-    };
-    [key: string]: any;
-  };
+  attrs?: CommonObj;
+  //插槽
+  slots?: SlotsType;
   /**
    * 下面是 el-form-item 的属性
    */
@@ -77,9 +79,13 @@ export interface FormFieldAttrs {
   style?: any; //el-form-item 的style属性
   required?: boolean; //是否必填
   rules?: FormRules[]; //校验规则
-  options?: OptionItem[]; //select、cascader等的options属性
+  options?: DictName | CascaderName | OptionItem[]; //select、cascader等的options属性
   labelWidth?: string | number; //label文字的宽度
   fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
+}
+
+export interface StandardFormFieldAttrs extends FormFieldAttrs {
+  options?: OptionItem[]; //select、cascader等的options属性
 }
 
 export type FormField = BaseDataType | FormFieldAttrs;

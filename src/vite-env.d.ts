@@ -56,30 +56,29 @@ interface TabItem {
 }
 
 // 以下是测试部分，待验证
-interface ComplexObject {
-  mandatory: string;
-  option1?: number;
-  option2?: boolean;
-}
+// interface ComplexObject {
+//   mandatory: string;
+//   option1?: number;
+//   option2?: boolean;
+// }
 
-type GetRequired<T> = {
-  [P in keyof T as T[P] extends Required<T>[P] ? P : never]: T[P];
-};
+// type GetRequired<T> = {
+//   [P in keyof T as T[P] extends Required<T>[P] ? P : never]: T[P];
+// };
 
-type GetOptional<T> = {
-  [P in keyof T as T[P] extends Required<T>[P] ? never : P]: T[P];
-};
+// type GetOptional<T> = {
+//   [P in keyof T as T[P] extends Required<T>[P] ? never : P]: T[P];
+// };
 
-type GetAllKeys<T> = {
-  [P in keyof T]: T[P];
-};
+// type GetAllKeys<T> = {
+//   [P in keyof T]: T[P];
+// };
 
-let keys: GetOptional<ComplexObject>;
+// let keys: GetOptional<ComplexObject>;
 
 //其他参考
 // type BtnAllNames = keyof typeof btnsMap;
 // type BtnAllNames = keyof InstanceType<typeof btnsMap>;
-
 // function handler<T extends object, K extends keyof T>(obj: T, propName: K) {}
 
 interface User {
@@ -88,26 +87,26 @@ interface User {
   age: number;
 }
 //可选参数
-type CustomPartial<T> = {
+export type GetPartial<T> = {
   [P in keyof T]?: T[P];
 };
 //必选参数
-type CustomRequired<T> = {
+export type GetRequired<T> = {
   [P in keyof T]-?: T[P];
 };
 //提取部分属性
-type CustomPick<T, K extends keyof T> = {
+export type GetPick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
 //排除部分属性(排除type中的，即联合类型中的)
-type CustomExclude<T, K> = T extends K ? never : T;
+export type GetExclude<T, K> = T extends K ? never : T;
 
 // 排除部分属性(排除interface中的，即接口类型中的)
-type CustomOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type GetOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 //使用示例
-type PartialUser = CustomPartial<User>;
-type RequiredUser = CustomRequired<User>;
-type PickUser = CustomPick<User, "age" | "name">;
-type ExcludeUser = CustomExclude<"a" | "b" | "c", "a" | "c">;
-type OmitUser = CustomOmit<User, "age">;
+type PartialUser = GetPartial<User>;
+type RequiredUser = GetRequired<User>;
+type PickUser = GetPick<User, "age" | "name">;
+type ExcludeUser = GetExclude<"a" | "b" | "c", "a" | "c">;
+type OmitUser = GetOmit<User, "age">;

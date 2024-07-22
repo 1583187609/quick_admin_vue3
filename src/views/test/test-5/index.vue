@@ -1,35 +1,6 @@
 <!-- 页面-数据统计 -->
 <template>
   <div class="page">
-    <div class="row f-sb-s">
-      <BaseSection class="section f-2" title="待办事项" badge="10">
-        <el-tabs v-model="activeName" @tabClick="(tab:any)=>activeName=tab.paneName" type="border-card">
-          <el-tab-pane :label="item.label" :name="item.value" v-for="(item, ind) in tabs" :key="ind">
-            <BaseCrud
-              :cols="item.cols"
-              :fetch="item.api"
-              :tableAttrs="{ size: 'small', maxHeight: 200 }"
-              :pageAttrs="{
-                small: true,
-                pageSizes: [5, 10, 15, 20, 25],
-              }"
-              :pagination="{ currPage: 1, pageSize: 5 }"
-              v-if="activeName === item.value"
-            />
-          </el-tab-pane>
-        </el-tabs>
-      </BaseSection>
-      <BaseSection class="section f-1" title="消息通知" badge="120">
-        <ul class="notices all-hide-scroll" v-if="20">
-          <li class="item f-sb-c" v-for="(item, ind) in 20" :key="ind">
-            <div class="f-1">
-              <span class="line-1">这是第{{ ind + 1 }}条消息</span>
-            </div>
-            <time class="time f-0 ml-half">2023-06-19</time>
-          </li>
-        </ul>
-      </BaseSection>
-    </div>
     <div class="row">
       <BaseSection class="section f-1" title="通图图表 - 折线图">
         <ChartLine />
@@ -61,7 +32,7 @@
 </template>
 <script lang="ts" name="TestFive" setup>
 import { ref, reactive } from "vue";
-import { PostUserList } from "@/api-mock";
+import { GetMockCommonList } from "@/api-mock";
 import Chart from "@/components/chart/Chart.vue";
 import ChartLine from "@/components/chart/ChartLine.vue";
 import ChartBar from "@/components/chart/ChartBar.vue";
@@ -77,7 +48,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位" },
       { prop: "accept_time", label: "接受时间" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
   {
     label: "我的待阅",
@@ -88,7 +59,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位1" },
       { prop: "accept_time", label: "接受时间1" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
   {
     label: "我的已办",
@@ -99,7 +70,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位2" },
       { prop: "accept_time", label: "接受时间2" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
   {
     label: "我发起的",
@@ -110,7 +81,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位3" },
       { prop: "accept_time", label: "接受时间3" },
     ],
-    api: PostUserList,
+    api: GetMockCommonList,
   },
 ];
 const customOption = {
@@ -146,18 +117,6 @@ const activeName = ref(1);
 .section {
   &:not(:last-child) {
     margin-right: $gap-half;
-  }
-}
-.notices {
-  max-height: 300px;
-  overflow: auto;
-  .item {
-    padding: $gap-half 0;
-    border-bottom: $border-light;
-    .time {
-      color: $color-text-light;
-      font-size: $font-size-light;
-    }
   }
 }
 </style>

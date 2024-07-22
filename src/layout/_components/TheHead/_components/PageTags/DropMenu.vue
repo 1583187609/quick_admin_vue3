@@ -9,14 +9,16 @@
           :disabled="getDisabled(item.type)"
           v-for="(item, ind) in dropdowns"
           :key="ind"
-          >{{ item.text }}</el-dropdown-item
         >
+          {{ item.text }}
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 <script lang="ts" setup>
 import { ref, watch, reactive, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { CommonObj } from "@/vite-env";
 export type RouteTagType = "home" | "first" | "other" | "last";
 export type MenuItemType =
@@ -42,29 +44,30 @@ interface DropdownItem {
   type: MenuItemType;
   divided: boolean;
 }
-const dropdowns: DropdownItem[] = [
+const { tm: $t } = useI18n();
+const dropdowns = reactive<DropdownItem[]>([
   {
-    text: "关闭",
+    text: $t("layout.pageTags.close"),
     type: "closeIndex",
     divided: false,
   },
   {
-    text: "关闭其他",
+    text: $t("layout.pageTags.closeOther"),
     type: "closeOthers",
     divided: false,
   },
   {
-    text: "关闭到右侧",
+    text: $t("layout.pageTags.closeToRight"),
     type: "closeRight",
     divided: false,
   },
   {
-    text: "关闭到左侧",
+    text: $t("layout.pageTags.closeToLeft"),
     type: "closeLeft",
     divided: false,
   },
   {
-    text: "全部关闭",
+    text: $t("layout.pageTags.closeAll"),
     type: "closeAll",
     divided: false,
   },
@@ -74,21 +77,21 @@ const dropdowns: DropdownItem[] = [
   //   divided: false,
   // },
   {
-    text: "复制路径",
+    text: $t("layout.pageTags.copyPath"),
     type: "copyPath",
     divided: true,
   },
   {
-    text: "复制完整路径",
+    text: $t("layout.pageTags.copyFullPath"),
     type: "copyWholePath",
     divided: false,
   },
   {
-    text: "刷新",
+    text: $t("layout.pageTags.refresh"),
     type: "reload",
     divided: true,
   },
-];
+]);
 const props = withDefaults(
   defineProps<{
     data?: null | CommonObj;

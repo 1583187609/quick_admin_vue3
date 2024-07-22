@@ -17,22 +17,19 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { PostAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
+import { ref, reactive, inject } from "vue";
+import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
-import { ref, reactive, inject } from "vue";
-import AddEdit from "./AddEdit.vue";
-import { useDictStore } from "@/store";
+import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { h } from "vue";
 
 const openPopup: any = inject("openPopup");
-const { getOpts } = useDictStore();
-const enableStatusOpts = getOpts("EnableStatus");
-const yesNoStatusOpts = getOpts("YesNoStatus");
 const menuTree = ref<MenuTreeNode[]>([]);
 const fields = ref<FormField[]>([
   { prop: "name", label: "菜单名称" },
@@ -40,19 +37,19 @@ const fields = ref<FormField[]>([
     prop: "is_link",
     label: "是否外链",
     type: "select",
-    options: yesNoStatusOpts,
+    options: "YesNoStatus",
   },
   {
     prop: "status",
     label: "状态",
     type: "select",
-    options: enableStatusOpts,
+    options: "EnableStatus",
   },
   {
     prop: "is_cache",
     label: "是否缓存",
     type: "select",
-    options: yesNoStatusOpts,
+    options: "YesNoStatus",
   },
   {
     prop: "create_time_range",
@@ -112,11 +109,8 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   );
 }
 //新增/删除
-function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}菜单`, {
-    component: AddEdit,
-    attrs: { data: row, menuTree: menuTree.value, refreshList: next },
-  });
+function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
+  openPopup(`${row ? "编辑" : "新增"}菜单`, h(AddEdit, { data: row, menuTree: menuTree.value, refreshList: next }));
 }
 //删除
 function handleDelete(ids: string[], next: FinallyNext) {
@@ -129,7 +123,7 @@ function handleToggleStatus(row: CommonObj, next: FinallyNext) {}
 
 //处理请求
 function handleFetch(data: CommonObj) {
-  return PostAuthMenuList(data).then((res: CommonObj) => {
+  return GetAuthMenuList(data).then((res: CommonObj) => {
     menuTree.value = res.records;
     return res;
   });

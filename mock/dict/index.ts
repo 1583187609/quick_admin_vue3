@@ -42,19 +42,6 @@ const dictMap: CommonObj = {
     3: "外链",
   },
 };
-//获取级联地址文本
-export type CascaderType = "Region";
-export function getCascadeText(type: CascaderType, ids: [number, number, number] = [0, 0, 0]) {
-  if (type === "Region") {
-    const [pId, cId, aId] = ids;
-    const pItem = allAddress.find((it: CommonObj) => it.id === pId);
-    const cItem = pItem?.city.find((it: CommonObj) => it.id === cId);
-    const aItem = cItem?.area.find((it: CommonObj) => it.id === aId);
-    return `${pItem?.name}${cItem?.name}${aItem?.name || ""}`;
-  } else {
-    return "-";
-  }
-}
 //获取字典文本
 export function getDictText(name: DictNames, val: string | number) {
   return dictMap[name][val] || "";
@@ -64,3 +51,18 @@ export function getDictCodes(name: DictNames) {
   return Object.keys(dictMap[name]).map(it => Number(it));
 }
 export default dictMap as CommonObj;
+
+export type CascaderType = keyof typeof cascaderMap;
+const cascaderMap = {
+  Region: allAddress,
+};
+//获取级联地址文本
+export function getCascadeText(type: CascaderType, ids: [number, number, number] = [0, 0, 0], byKey = "id") {
+  const mapOpts = cascaderMap[type];
+  if (!mapOpts) return "-";
+  const [pId, cId, aId] = ids;
+  const pItem = mapOpts.find((it: CommonObj) => it[byKey] === pId);
+  const cItem = pItem?.city.find((it: CommonObj) => it[byKey] === cId);
+  const aItem = cItem?.area.find((it: CommonObj) => it[byKey] === aId);
+  return `${pItem?.name}${cItem?.name}${aItem?.name || ""}`;
+}

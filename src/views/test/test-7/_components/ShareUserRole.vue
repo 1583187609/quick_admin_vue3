@@ -6,7 +6,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/BaseFormItem";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-let model = reactive<CommonObj>({
+const model = reactive<CommonObj>({
   list: [{ yyid: "123456" }],
 });
 const fields = ref<FormField[]>([

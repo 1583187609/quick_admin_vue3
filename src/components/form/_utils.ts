@@ -1,8 +1,8 @@
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
-import { typeOf, propsJoinChar, getMaxLength } from "@/utils";
+import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 import { merge } from "lodash";
-import { handleFormInitData } from "@/utils";
+import { handleFormInitData } from "@/components/_utils";
 
 //处理属性继承
 function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {
@@ -16,6 +16,7 @@ function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {
   });
   //使用JSON.stringify是为了能够直接修改field对象，且最后以field对象的属性为准
   merge(field, fieAttrs, JSON.parse(JSON.stringify(field)));
+  // merge(field, fieAttrs, structuredClone(field));
 }
 
 /**

@@ -15,8 +15,8 @@
             @change="(prop:any,val:any)=>emits('change',prop,val)"
             :formRef="formRef"
           >
-            <template #custom="{ field }">
-              <slot :name="field.prop" :field="field" :form="formData"></slot>
+            <template #custom="{ field: currField }">
+              <slot :name="currField.prop" :field="currField" :form="formData"></slot>
             </template>
           </BaseFormItem>
         </el-col>
@@ -53,15 +53,15 @@ export default {
 };
 </script>
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, watchEffect } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { FormFieldAttrs } from "@/components/BaseFormItem";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
-import { getMaxLength, omitAttrs, typeOf, isProd } from "@/utils";
+import { isProd } from "@/components/_utils";
 import { ColSpanAttrs } from "../table/CellTable.vue";
-import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";
+import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, FetchType } from "@/vite-env";
 export interface CellFormField extends FormFieldAttrs {
@@ -109,59 +109,7 @@ const props = withDefaults(
 const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const formRef = ref<FormInstance>();
 const footerBtnsRef = ref<any>(null);
-// const newAttrs = computed(() => merge({ labelWidth: getMaxLength(props.fields) + "em" }, defaultFormAttrs));
 const newFields = ref<FormFieldAttrs[]>([]);
-// const formData = reactive<CommonObj>({});
-// watch(
-//   () => props.fields,
-//   (newVal) => {
-//     const { model } = props;
-//     const result = handleFields(newVal, emits, model);
-//     const { data, fields } = result;
-//     merge(formData, data);
-//     newFields.value = fields;
-//   }
-// );
-// watch(
-//   () => props.model,
-//   (newVal) => {
-//     merge(formData, newVal);
-//   },
-//   { immediate: false, deep: true }
-// );
-// watch(
-//   formData,
-//   (newVal) => {
-//     merge(props.model, newVal);
-//   },
-//   { immediate: false, deep: true }
-// );
-// const formData = ref<CommonObj>({});
-// watch(
-//   () => props.fields,
-//   (newVal) => {
-//     const { modelValue } = props;
-//     const result = handleFields(newVal, emits, modelValue);
-//     const { data, fields } = result;
-//     newFields.value = fields;
-//     merge(formData.value, data);
-//   },
-//   { immediate: true, deep: true }
-// );
-// watch(
-//   () => props.modelValue,
-//   (newVal) => {
-//     formData.value = newVal;
-//   },
-//   { immediate: false, deep: true }
-// );
-// watch(
-//   formData.value,
-//   (newVal) => {
-//     emits("update:modelValue", newVal);
-//   },
-//   { immediate: false, deep: true }
-// );
 const formData = computed({
   get() {
     return props.modelValue;

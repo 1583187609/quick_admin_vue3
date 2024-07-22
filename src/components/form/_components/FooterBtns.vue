@@ -20,7 +20,7 @@
 import { ref, inject, watch, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
-import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/utils";
+import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/components/_utils";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import { ClosePopupType } from "@/App.vue";
 const closePopup: any = inject("closePopup");
@@ -62,7 +62,8 @@ watch(
 function handleValidate() {
   const { log, debug, isOmit, noSubmitProps } = props;
   return new Promise((resolve, reject) => {
-    let { params, formRef, handleRequest } = props;
+    let { params } = props;
+    const { formRef, handleRequest } = props;
     if (!formRef) return;
     formRef.validate((valid: any, fieldsObj: CommonObj) => {
       if (valid) {
@@ -108,8 +109,8 @@ function handleSubmit() {
             log && printLog(res, "res");
             fetchSuccess(submitText + "成功！");
           })
-          .catch(() => {
-            fetchFail?.();
+          .catch((err: any) => {
+            fetchFail?.(err);
           })
           .finally(() => {
             isLoading.value = false;

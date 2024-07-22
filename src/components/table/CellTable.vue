@@ -14,10 +14,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { getMaxLength, getScreenSizeType } from "@/utils";
+import { getMaxLength, getScreenSizeType } from "@/components/_utils";
 import { useEvent } from "@/hooks";
-import { CommonObj } from "@/vite-env";
-import { FormField } from "@/components/BaseFormItem";
+import { CommonObj, OptionItem } from "@/vite-env";
+import { FormField, FormItemType, ValidType } from "@/components/BaseFormItem";
 export interface ColSpanAttrs {
   xs?: number; // <768
   sm?: number; // >=768
@@ -27,18 +27,21 @@ export interface ColSpanAttrs {
   //其他
   span?: number;
 }
-export type CellTableFieldType = "text" | "custom" | "custom-all";
+export type CellTableFieldType = "text" | "custom" | "custom-all" | "none" | FormItemType;
 export interface CellTableFieldItem {
   prop: string;
   label: string;
-  value?: string | number | CommonObj;
   type?: CellTableFieldType;
-  extra?: {
-    popover?: string | CommonObj;
-  };
+  required?: boolean;
   attrs?: CommonObj;
   colAttrs?: ColSpanAttrs;
   vertical?: boolean;
+  options?: OptionItem[];
+  direction?: "vertical" | "horizontal";
+  extra?: {
+    popover?: string | CommonObj;
+    valid?: ValidType;
+  };
 }
 const defaultColSpanAttrs: CommonObj = {
   // xs: 24, // <768

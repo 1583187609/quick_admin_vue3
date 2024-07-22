@@ -1,17 +1,42 @@
-<!-- 页面-简介 -->
+<!-- 页面-部门管理 -->
 <template>
-  <div>部门管理</div>
+  <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommonList" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-const props = withDefaults(
-  defineProps<{
-    _example_prop?: CommonObj;
-  }>(),
+import { ref, reactive, inject } from "vue";
+import { GetMockCommonList } from "@/api-mock";
+import { FormField } from "@/components/BaseFormItem";
+import { TableField } from "@/components/table";
+
+const fields: FormField[] = [
+  { prop: "yhid", label: "用户ID" },
+  { prop: "yhxm", label: "用户姓名" },
+  { prop: "bmmc", label: "部门名称" },
   {
-    _example_prop: () => ({}),
-  }
-);
+    prop: "jslx",
+    label: "角色类型",
+    type: "select",
+    options: "RoleType",
+  },
+  { prop: "rq", label: "日期", type: "date-picker" },
+];
+const cols: TableField[] = [
+  {
+    prop: "yhid",
+    label: "用户ID",
+    minWidth: 210,
+  },
+  {
+    prop: "yhxm",
+    label: "用户姓名",
+    minWidth: 210,
+  },
+  {
+    prop: "jslx",
+    label: "角色类型",
+    minWidth: 90,
+  },
+  { type: "remark" },
+];
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

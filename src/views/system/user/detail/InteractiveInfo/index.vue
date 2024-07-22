@@ -89,17 +89,17 @@
     </div>
   </BaseSection>
   <div>
-    <el-button @click="openPopup('峡谷先锋的好友关系（10）', { component: AttitudeList })" type="primary"
-      >打开好有关系列表弹窗</el-button
-    >
-    <el-button @click="openPopup('峡谷先锋的表态（22）', { component: FriendsList })" type="primary">打开表态列表弹窗</el-button>
+    <el-button @click="openPopup('峡谷先锋的好友关系（10）', AttitudeList)" type="primary"> 打开好有关系列表弹窗 </el-button>
+    <el-button @click="openPopup('峡谷先锋的表态（22）', FriendsList)" type="primary">打开表态列表弹窗</el-button>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import AttitudeList from "./_components/AttitudeList.vue";
 import FriendsList from "./_components/FriendsList.vue";
+import { CommonObj } from "@/vite-env";
 const openPopup: any = inject("openPopup");
+
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -115,40 +115,49 @@ const props = withDefaults(
     margin-bottom: $gap-half;
   }
 }
+
 .inter-statistics {
   .group {
     padding: $gap 0;
+
     &:not(:last-child) {
       border-bottom: $border-main;
     }
   }
+
   .key-val {
     &:not(:last-child) {
       margin-right: $gap-two;
     }
+
     .key {
       color: $color-text-light;
       font-size: $font-size-light;
     }
+
     .val {
       font-size: 20px;
     }
   }
 }
+
 .notice-back {
   .group {
     &:not(:last-child) {
       margin-bottom: $gap;
     }
+
     .title {
       margin-bottom: $gap-qtr;
       font-weight: 600;
     }
   }
+
   .item {
     &:not(:last-child) {
       margin-bottom: $gap-qtr;
     }
+
     .label {
       width: 6em;
       margin-right: $gap-half;
@@ -156,6 +165,7 @@ const props = withDefaults(
       font-size: $font-size-light;
     }
   }
+
   .el-tag {
     &:not(:last-child) {
       margin-right: $gap-half;

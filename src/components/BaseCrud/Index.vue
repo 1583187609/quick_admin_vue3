@@ -111,10 +111,10 @@ import {
   defaultReqMap,
   defaultResMap,
   defaultColSpanAttrs,
-} from "@/utils";
+} from "@/components/_utils";
 import Pagination from "./_components/Pagination.vue";
 import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
-import { splitPropsParams } from "@/utils";
+import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { FilterByAuthFn, batchBtnNames } from "@/components/BaseCrud";
 import { CommonObj, FetchType, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
@@ -129,7 +129,6 @@ import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 
 const openPopup = inject<any>("openPopup");
 const allCols = ref<TableField[]>([]);
-// const { getUserInfo } = useUserStore();
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据
@@ -189,10 +188,10 @@ const props = withDefaults(
       inputDebounce: true,
       exportCfg: () => ({ limit: 10000 }),
       pagination: () => ({ currPage: 1, pageSize: 20 }),
-      reqMap: defaultReqMap as any,
-      resMap: defaultResMap as any,
+      reqMap: () => defaultReqMap,
+      resMap: () => defaultResMap,
       showPagination: true,
-      colSpanAttrs: defaultColSpanAttrs as any,
+      colSpanAttrs: () => defaultColSpanAttrs,
       // 跟下面的size: "small" 搭配使用，会，会使得排版布局更加紧凑
       // colSpanAttrs: () => ({
       //  xs: 12,
@@ -230,7 +229,7 @@ const pageInfo = reactive<CommonObj>({ total: 0, hasMore: true });
 const loading = ref(false);
 const newRows = ref([]);
 const seledRows = ref<CommonObj[]>([]);
-let model = computed({
+const model = computed({
   get() {
     return props.modelValue;
   },
@@ -354,7 +353,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
     .then((res: any) => {
       if (!res) return;
       if (handleResponse) res = handleResponse(res);
-      let newList = res[resMap!.records as string];
+      const newList = res[resMap!.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请自测：", res);
       log && printLog(newList, "res");
       const _currPage = args[reqMap!.curr_page as string];

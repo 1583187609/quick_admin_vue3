@@ -2,7 +2,7 @@
 <template>
   <BaseForm
     style="width: 500px"
-    :fetch="PostUserList"
+    :fetch="PostMockCommon"
     :fields="fields"
     :moreBtns="[
       { name: 'pass', popconfirm: false },
@@ -15,16 +15,16 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { PostUserList } from "@/api-mock";
+import { PostMockCommon } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { BtnName } from "@/components/BaseBtn";
 import { handleBtnNext } from "@/utils";
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
-  { _example_prop: () => ({}) }
+  { exampleProp: () => ({}) }
 );
 const fields: FormField[] = [
   { prop: "tx", label: "头像", type: "BaseUpload" },
@@ -59,7 +59,7 @@ const fields: FormField[] = [
 function onMoreBtns(name: BtnName, data: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
-      pass: () => PostUserList().then(() => next()),
+      pass: () => PostMockCommon().then(() => next()),
       view: () => openPopup("第二个纯文本弹窗示例", "你好！这是第二个纯文本弹窗示例"),
     },
     name

@@ -3,13 +3,12 @@ import Mock from "mockjs";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
 import roleRows from "../data/roles";
-import { userRows } from "../data/rows";
 import { getDictText, getCascadeText, getDictCodes } from "../dict";
 import allAddress from "../data/address";
 import { CommonObj } from "@/vite-env";
 import dayjs from "dayjs";
 import { merge } from "lodash";
-import { TableFieldAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table";
 
 const { Random } = Mock;
 
@@ -50,8 +49,8 @@ export default toViteMockApi({
    */
   "POST /user/login": (req: CommonObj) => {
     const { phone = "", psd = "", captcha = "", valid_captcha = true } = getRequestParams(req, ["captcha", "phone", "psd"]);
-    let code, msg, data;
-    data = allUsers.find((it: CommonObj) => {
+    let code, msg;
+    const data: CommonObj[] = allUsers.find((it: CommonObj) => {
       return (it.phone === phone || it.account === phone) && it.psd === psd;
     });
     if (!data) {
@@ -117,7 +116,7 @@ export default toViteMockApi({
    * @param type [number] 用户类型，可选值：0超级管理员；1普通管理员 11普通用户
    * @param export_fields [string] 导出字段
    */
-  "POST /user/list": (req: CommonObj) => {
+  "GET /user/list": (req: CommonObj) => {
     const { id, type, gender, age = [], name, curr_page = 1, page_size = 10, exports, status } = getRequestParams(req);
     let queryList = filterByConditions(allUsers, [
       ["id", id],
@@ -127,8 +126,10 @@ export default toViteMockApi({
       ["age", { type: "range", range: age }],
       ["name", { type: "blur", byKeys: ["name"], keyword: name }],
     ]);
-    queryList = queryList.map((item, ind: number) => {
-      return deleteAttrs(item, delAttrs);
+    queryList = queryList.map((item: CommonObj) => {
+      item = deleteAttrs(item, delAttrs);
+      item.userData = JSON.parse(JSON.stringify(item));
+      return item;
     });
     if (exports) {
       const { fields, ids } = exports;
@@ -138,7 +139,7 @@ export default toViteMockApi({
       if (fields.length) {
         queryList = queryList.map(row => {
           const newRow: CommonObj = {};
-          for (let key in row) {
+          for (const key in row) {
             if (fields.includes(key)) {
               newRow[key] = row[key];
             }
@@ -182,7 +183,7 @@ export default toViteMockApi({
     const queryList = filterByConditions(allUsers, [["id", { type: "inArr", inArr: ids }]]);
     const labels: string[] = [];
     const props: string[] = [];
-    cols?.forEach((col: TableFieldAttrs, ind: number) => {
+    cols?.forEach((col: TableColAttrs, ind: number) => {
       const { label, prop } = col;
       labels.push(label as string);
       props.push(prop as string);
@@ -237,7 +238,7 @@ export default toViteMockApi({
    * @param phone [string] 电话号码
    * @param psd [string] 密码
    */
-  "PUT /user/update": (req: CommonObj) => {
+  "POST /user/update": (req: CommonObj) => {
     let code, msg, data;
     const reqObj = getRequestParams(req);
     const { id, phone, type, gender, address } = reqObj;
@@ -256,9 +257,9 @@ export default toViteMockApi({
     return resData({ code, msg, data });
   },
   /**
-   * 获取用户登录的角色账号
+   * 获取用户登录的账号(一类角色各选取一个账号)
    */
-  "GET /user/login/role-accounts": (req: CommonObj) => {
+  "GET /user/login/accounts": (req: CommonObj) => {
     const roles = getDictCodes("RoleType");
     const accounts: CommonObj[] = [];
     let ind = 0;

@@ -95,7 +95,7 @@ const contMenuInd = ref<number>(-1);
 const tags = ref<PageTagItemType[]>(storage.getItem("pageTags") || []); //tempTags
 const scrollRef = ref(null);
 const tagRef = ref<any>(null);
-let bcrInfo = ref({});
+const bcrInfo = ref({});
 useEvent("resize", initDisabled);
 // let sTime = 0;
 watch(
@@ -219,7 +219,7 @@ function activeTagScrollToCenter(fullPath: string) {
     //     scrollEle.scrollTo(toLeft, 0);
     //   }
     // }
-    let toLeft = tagOffsetLeft - (scrollOffsetWidth - tagOffsetWidth) / 2;
+    const toLeft = tagOffsetLeft - (scrollOffsetWidth - tagOffsetWidth) / 2;
     scrollEle.scrollTo(toLeft, 0);
   });
 }

@@ -28,22 +28,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
+import { ref, reactive, watch, computed, inject, h } from "vue";
 import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
 import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
-import { useDictStore } from "@/store";
 import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem, SectionFormItemAttrs } from "@/components/form";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
+
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(
   defineProps<{
-    _example_prop?: CommonObj;
+    exampleProp?: CommonObj;
   }>(),
   {
-    _example_prop: () => ({}),
+    exampleProp: () => ({}),
   }
 );
 const widgetTypeOpts: OptionItem[] = [
@@ -61,14 +61,13 @@ const validOpts: OptionItem[] = [
   { label: "邮箱", value: "identity" },
   { label: "年龄", value: "age" },
 ];
-let model = reactive<CommonObj>(
+const model = reactive<CommonObj>(
   Object.assign(
     {}
     // { prop: "xm", label: "姓名" }
     // { type: "input", required: false, prop: "xm", label: "姓名" }
   )
 );
-const { getOpts } = useDictStore();
 const yesNoOpts: OptionItem[] = [
   { label: "是", value: true },
   { label: "否", value: false },
@@ -289,12 +288,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
 //打开配置弹窗
 function openConfigPopup(type: string = "") {
   const label = getFields().find(it => it.prop === type)?.label;
-  openPopup(`编辑${label || ""}(${type})`, {
-    component: Config,
-    attrs: {
-      type,
-    },
-  });
+  openPopup(`编辑${label || ""}(${type})`, h(Config, { type }));
 }
 // openConfigPopup("options");
 function handleChange(val: string) {

@@ -32,11 +32,10 @@
  * 8个常用自定义指令参考博客：https://segmentfault.com/a/1190000038475001
  */
 
-import { debounce, throttle, copyText, typeOf, getUserInfo } from "@/utils";
+import { debounce, throttle, copyText, typeOf } from "@/utils";
 interface EleType extends HTMLElement {
   parentNode: any;
 }
-// const user = getUserInfo();
 export default {
   //created() {},
   methods: {},
@@ -151,7 +150,7 @@ export default {
         } else {
           throw new Error("value必须是Array或Function类型");
         }
-        el.addEventListener(eventName, debounce(fn, delay as number, immediate));
+        el.addEventListener(eventName, debounce(fn, immediate, delay as number));
       },
       beforeUnmount(el: HTMLElement, binding: any) {
         const { value: fn, arg: eventName } = binding;
@@ -180,7 +179,7 @@ export default {
         // if (typeof fn !== "function") {
         //   throw new Error("v-throttle expects a function as its value");
         // }
-        el.addEventListener(eventName, throttle(fn, delay as number, immediate));
+        el.addEventListener(eventName, throttle(fn, immediate, delay as number));
       },
       beforeUnmount(el: HTMLElement, binding: any) {
         const { value: fn, arg: eventName } = binding;

@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="PostUserList"
+    :fetch="GetMockCommonList"
     :extraBtns="['add']"
     :groupBtns="['edit', 'delete']"
     @extraBtn="onExtraBtn"
@@ -12,27 +12,27 @@
   >
   </BaseCrud>
 </template>
-<script lang="ts" name="Tpl" setup>
-import { ref, reactive, inject } from "vue";
-import { PostUserList, DeleteUserList } from "@/api-mock";
+<script lang="ts" setup>
+import { ref, reactive, inject, h } from "vue";
+import { GetMockCommonList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/BaseFormItem";
 import { TableField } from "@/components/table";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn";
-import { useDictStore } from "@/store";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-const { getOpts, getText } = useDictStore();
+
 const openPopup: any = inject("openPopup");
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
 const cols: TableField[] = [
   {
-    prop: "ffcgyhid",
+    prop: "zdlx",
     label: "字典类型",
     minWidth: 210,
   },
   {
     type: "remark",
+    // prop: "produce",
   },
   {
     type: "create",
@@ -61,10 +61,7 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, {
-    component: AddEdit,
-    attrs: { data: row, refreshList: next },
-  });
+  openPopup(`${row ? "编辑" : "新增"}`, h(AddEdit, { data: row, refreshList: next }));
 }
 </script>
 <style lang="scss" scoped></style>

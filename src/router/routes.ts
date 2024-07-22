@@ -45,6 +45,7 @@ export default [
     },
     component: () => import("@/views/login/index.vue"),
     // component: () => import("@/views/login/index-new.vue"),  //新版登录页面
+    // component: () => import("@/views/login/index-canvas.vue"),  //canvas背景登录页面
   },
   {
     path: "/:pathMatch(.*)",
