@@ -8,7 +8,7 @@ import { handleError } from "@/utils";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 
 import "@/assets/styles/base.scss";
-// import "@/assets/styles/element.scss";
+import "@/assets/styles/element.scss";
 import "@/assets/styles/rewrite.scss";
 // import "@/assets/styles/vitepress.scss";
 

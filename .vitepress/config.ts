@@ -30,6 +30,11 @@ export default defineConfig({
   // appearance: true, //可选值：boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions
   lastUpdated: true, // 是否使用 Git 获取每个页面的最后更新时间戳。时间戳将包含在每个页面的页面数据中，可通过 useData 访问。
   markdown: {
+    // 数学方程需要安装：npm add -D markdown-it-mathjax3
+    // math: true,
+    image: {
+      lazyLoading: true, // 默认禁用图片懒加载
+    },
     container: {
       tipLabel: "温馨提示",
       warningLabel: "消息警告",
@@ -111,6 +116,11 @@ export default defineConfig({
       { icon: "github", link: "https://github.com/vuejs/vitepress" },
       {
         icon: { svg: "gitee" },
+        link: "https://github.com/vuejs/vitepress",
+        // ariaLabel: "cool link",
+      },
+      {
+        icon: { svg: "掘金" },
         link: "https://github.com/vuejs/vitepress",
         // ariaLabel: "cool link",
       },

@@ -37,7 +37,20 @@ function sortPaths(paths = [], char = splitOrderChar) {
   return paths;
 }
 
-function getReadFiles() {}
+/**
+ * 获取过滤且排序后的文件名列表
+ * @param {*} dirPath 要读取的文件所在文件夹路径
+ * @param {*} excludes 要排除的文件夹名
+ * @returns
+ */
+function getSortReadFiles(dirPath, excludes) {
+  let readFiles = fs.readdirSync(dirPath);
+  if (excludes?.length) {
+    readFiles = readFiles.filter(file => !excludes.some(it => file.includes(it)));
+  }
+  sortPaths(readFiles);
+  return readFiles;
+}
 
 /**
  * 递归获取子路径
@@ -164,8 +177,7 @@ function getSourceItems(urlsMap = sourceUrls) {
 export function getNav(dirPath = docsPath, isDeep = false, endList = []) {
   const newDirPath = path.join(process.cwd(), dirPath);
   const list = [];
-  const readFiles = fs.readdirSync(newDirPath).filter(file => !excludes.some(it => file.includes(it)));
-  sortPaths(readFiles);
+  const readFiles = getSortReadFiles(newDirPath, excludes);
   readFiles.forEach(file => {
     const curPath = path.join(newDirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
@@ -210,8 +222,7 @@ export function getNav(dirPath = docsPath, isDeep = false, endList = []) {
  */
 function getSideNavs(dirPath) {
   const newDirPath = path.join(process.cwd(), dirPath);
-  const readFiles = fs.readdirSync(newDirPath);
-  sortPaths(readFiles);
+  const readFiles = getSortReadFiles(newDirPath);
   const navs = readFiles.map(file => {
     const curPath = path.join(newDirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
@@ -263,8 +274,7 @@ function getRewrites(sidebar) {
  */
 export function getSidebarAndRewrites(wrapPath = docsPath) {
   const newWrapPath = path.join(process.cwd(), wrapPath);
-  const readFiles = fs.readdirSync(newWrapPath).filter(file => !excludes.some(it => file.includes(it)));
-  sortPaths(readFiles);
+  const readFiles = getSortReadFiles(newWrapPath, excludes);
   const sidebar = {};
   readFiles.map(file => {
     const dirPath = `${wrapPath}/${file}`;
@@ -275,4 +285,69 @@ export function getSidebarAndRewrites(wrapPath = docsPath) {
     }
   });
   return { sidebar, rewrites: Object.assign({ [`docs/${indexName}`]: indexName }, isSimple ? getRewrites(sidebar) : {}) };
+}
+
+/**
+ * 生成 index.md文件
+ * @returns
+ */
+function getIndexMdFile() {
+  // return "# 测试123";
+  return `---
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home # 可选值：doc, page, home, false。默认为 doc。为false时，没有任何侧边栏、导航栏或页脚（例：想要一个完全可自定义的登录页面）
+hero:
+  name: "Quick Admin Vue3"
+  text: 一个以“快”著称的后台管理系统
+  tagline: 基于Vite+Vue3+ElementPlus+Pinia+TypeScript+Sass
+  image:
+    src: /logo.svg
+    alt: VitePress
+    width: 160px
+  actions:
+    - theme: brand
+      text: 指南
+      link: /guide/basic/安装
+      # target?: string
+      # rel?: string
+    - theme: alt
+      text: 组件
+      link: /comp/basic/BaseIcon
+features:
+  - icon: 🛠️
+    title: 设计理念
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
+  - icon:
+      src: /logo.svg
+    title: 特性简介
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
+  - icon:
+      src: /logo.svg
+    title: 低代码
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
+  - icon:
+      dark: /logo.svg
+      light: /logo.svg
+    title: 更多功能
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    link: /comp/basic/BaseIcon
+    linkText: 了解更多
+    # target?: string
+    # rel?: string
+---`;
+}
+
+/**
+ * 写入index.md文件（首页）
+ * @param {string} writePath 写入的路径
+ */
+export function writeIndexMdFile(writePath = `${docsPath}/${indexName}`) {
+  const indexMdFile = getIndexMdFile();
+  writeFileSync(path.join(process.cwd(), writePath), indexMdFile);
 }
