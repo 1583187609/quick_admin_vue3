@@ -1,13 +1,13 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from "@/router";
 import ElementPlus from "element-plus";
-import components from "@/components";
-import store from "./store";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+import components from "@/components";
+import router from "@/router";
+import store from "@/store";
 import mixin from "@/services/mixin";
-import { setupProdMockServer } from "./mockProdServer";
 import I18n from "@/languages";
+import { setupProdMockServer } from "./mockProdServer";
 import { handleError } from "@/utils";
 
 import "@/assets/styles/font.scss";
