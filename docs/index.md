@@ -40,7 +40,7 @@ features:
     linkText: 了解更多
   - icon:
       dark: /logo.svg
-      light: /ico.svg
+      light: /logo.svg
     title: 更多功能
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
     link: /comp/basic/BaseIcon

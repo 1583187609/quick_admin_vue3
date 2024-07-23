@@ -29,6 +29,15 @@ export default defineConfig({
   // mpa: false, //设置为 true 时，生产应用程序将在 MPA 模式下构建。MPA 模式默认提供 零 JavaScript 支持，代价是禁用客户端导航，并且需要明确选择加入才能进行交互。
   // appearance: true, //可选值：boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions
   lastUpdated: true, // 是否使用 Git 获取每个页面的最后更新时间戳。时间戳将包含在每个页面的页面数据中，可通过 useData 访问。
+  markdown: {
+    container: {
+      tipLabel: "温馨提示",
+      warningLabel: "消息警告",
+      dangerLabel: "注意事项",
+      infoLabel: "内容描述",
+      detailsLabel: "查看详情",
+    },
+  },
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
     logo: "/logo.svg",
