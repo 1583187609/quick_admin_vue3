@@ -4,8 +4,8 @@ layout: home # 可选值：doc, page, home, false。默认为 doc。为false时�
 
 hero:
   name: "Quick Admin Vue3"
-  text: 基于Vue3、ElementPlus、TypeScript的后台管理系统
-  tagline: 一个以快（开发效率、计算机执行效率）为核心的后台管理系统模板 # A quick behind manage system template.
+  text: 一个以“快”著称的后台管理系统
+  tagline: 基于Vite+Vue3+ElementPlus+Pinia+TypeScript+Sass
   image:
     src: /logo.svg
     alt: VitePress

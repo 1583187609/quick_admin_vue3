@@ -284,7 +284,7 @@ export function getSidebarAndRewrites(wrapPath = docsPath) {
       sidebar[dirPath + "/"] = getSideNavs(dirPath);
     }
   });
-  return { sidebar, rewrites: Object.assign({ [`docs/${indexName}`]: indexName }, isSimple ? getRewrites(sidebar) : {}) };
+  return { sidebar, rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isSimple ? getRewrites(sidebar) : {}) };
 }
 
 /**

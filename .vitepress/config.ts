@@ -122,7 +122,6 @@ export default defineConfig({
       {
         icon: { svg: "掘金" },
         link: "https://github.com/vuejs/vitepress",
-        // ariaLabel: "cool link",
       },
     ],
     externalLinkIcon: true, //是否在 markdown 中的外部链接旁显示外部链接图标。
