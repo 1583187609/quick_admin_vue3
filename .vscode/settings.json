@@ -85,5 +85,6 @@
     "xslx",
     "Yapi",
     "zlevel"
-  ]
+  ],
+  "i18n-ally.localesPaths": ["src/languages"]
 }
