@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { camelCase, upperFirst, docsPath, indexName, splitOrderChar, sourceUrls, excludes } from "./utils/index.js";
+import { camelCase, upperFirst, docsPath, indexName, splitOrderChar, sourceUrls, excludes, writeFileSync } from "./utils/index.js";
 
 const isSimple = true; //是否采用简化的方式展示目录结构
 
