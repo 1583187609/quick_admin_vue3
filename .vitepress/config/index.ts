@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
-import { getNav, getSidebarAndRewrites } from "../scripts/out/index.js";
+import { getNav, getSidebarAndRewrites } from "../../scripts/out/index.js";
+import plugins from "./plugins.ts";
 
 const { sidebar, rewrites } = getSidebarAndRewrites() as any;
 
@@ -42,6 +43,7 @@ export default defineConfig({
       infoLabel: "内容描述",
       detailsLabel: "查看详情",
     },
+    config: md => plugins(md),
   },
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {

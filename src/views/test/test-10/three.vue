@@ -126,6 +126,9 @@ import { CommonObj } from "@/vite-env";
 import BaseIcon from "@/components/BaseIcon.vue";
 import { cancelHttp } from "@/services/http";
 
+// import UserInfo from "@/views/_components/UserInfo.vue";
+// console.log(h("div"), "UserInfo.vue----------------");
+
 const size = ref<ComponentSize>("default");
 const labelPosition = ref<FormProps["labelPosition"]>("right");
 const ruleFormRef = ref<FormInstance>();

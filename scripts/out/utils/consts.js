@@ -1,4 +1,5 @@
 export const isDev = process.env.NODE_ENV === "development";
+export const isSimple = true;
 export const splitOrderChar = "_"; //用于标记序号跟文件名称，作为分隔的符号
 export const docsPath = "/docs"; //文档路径
 export const indexName = "index.md"; //首页md文件的名称

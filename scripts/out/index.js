@@ -1,8 +1,17 @@
 import path from "path";
 import fs from "fs";
-import { camelCase, upperFirst, docsPath, indexName, splitOrderChar, sourceUrls, excludes, writeFileSync } from "./utils/index.js";
-
-const isSimple = true; //是否采用简化的方式展示目录结构
+import {
+  docsPath,
+  indexName,
+  splitOrderChar,
+  sourceUrls,
+  excludes,
+  writeFileSync,
+  getDocs,
+  getFileName,
+  isSimple,
+  writeMdDoc,
+} from "./utils/index.js";
 
 /**
  * 把字符串和对象排序，如果有数字前缀，则根据数字前缀排序
@@ -122,20 +131,6 @@ function getFirstPath(children = []) {
 }
 
 /**
- * 获取剔除下划线后的文件名
- * @param {string} file 文件名
- * @param {cn|en} type 获取的文件名类型，中文名或英文名
- */
-function getFileName(file, type = "cn", char = "_") {
-  if (!isSimple) return file;
-  if (!file.includes(char)) return file;
-  const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名
-  const hasNum = !isNaN(Number(num)); // 如果存在序号
-  if (type === "en") return hasNum ? enName ?? cnName : cnName;
-  return upperFirst(hasNum ? cnName : num);
-}
-
-/**
  * 获取资源链接地址
  */
 function getSourceItems(urlsMap = sourceUrls) {
@@ -235,7 +230,7 @@ function getSideNavs(dirPath) {
       };
     } else {
       return {
-        text: fileName,
+        text: fileName, //.slice(0, -3),
         link: `${dirPath}/${file.slice(0, -3)}`,
       };
     }
@@ -284,7 +279,10 @@ export function getSidebarAndRewrites(wrapPath = docsPath) {
       sidebar[dirPath + "/"] = getSideNavs(dirPath);
     }
   });
-  return { sidebar, rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isSimple ? getRewrites(sidebar) : {}) };
+  return {
+    sidebar,
+    rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isSimple ? getRewrites(sidebar) : {}),
+  };
 }
 
 /**
@@ -347,7 +345,11 @@ features:
  * 写入index.md文件（首页）
  * @param {string} writePath 写入的路径
  */
-export function writeIndexMdFile(writePath = `${docsPath}/${indexName}`) {
-  const indexMdFile = getIndexMdFile();
-  writeFileSync(path.join(process.cwd(), writePath), indexMdFile);
+export function writeFile(writePath = `${docsPath}/${indexName}`, fileStr = getIndexMdFile()) {
+  writeFileSync(path.join(process.cwd(), writePath), fileStr);
 }
+
+// 测试
+// writeFile(`${docsPath}/5_测试_test/1_文档生成.md`, getDocs("/examples/form"));
+
+writeMdDoc("/examples/form", `${docsPath}/5_测试_test`);

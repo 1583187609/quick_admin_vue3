@@ -49,12 +49,7 @@ export function deleteFolderSync(folderPath, isDelSelf = true) {
  * @param encoding 编码格式
  * @return error 错误信息，如果没有错误，则为null
  */
-export function writeFileSync(
-  writePath,
-  writeStr,
-  showSuccess = true,
-  encoding = "utf-8"
-) {
+export function writeFileSync(writePath, writeStr, showSuccess = true, encoding = "utf-8") {
   const basename = path.basename(writePath);
   const isSuccess = mkdirsSync(writePath.replace(basename, ""));
   if (isSuccess) {
@@ -78,16 +73,11 @@ export function writeFileSync(
  * @param isFile boolean 是否是文件
  * @return 返回添加行数据之后的文件数据字符串
  */
-export function addToFileLineSync(
-  file = "",
-  aimStr = "",
-  addLines = [],
-  isFile = false
-) {
+export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile = false) {
   const splitReg = /\r\n|\n|\r/gm;
   const fileStr = isFile ? fs.readFileSync(file, "utf8") : file;
   const lines = fileStr.split(splitReg);
-  let ind = lines.findIndex((it) => it.replace(/ +/g, "").includes(aimStr)) + 1;
+  let ind = lines.findIndex(it => it.replace(/ +/g, "").includes(aimStr)) + 1;
   if (ind === -1) {
     ind = lines.length - 1;
   }
@@ -96,14 +86,44 @@ export function addToFileLineSync(
 }
 
 /**
- * 递归创建临时目录(同步方法)
- * 注：nodejs不能一次性创建多层目录，需要递归处理
- * @param dirname 多层目录路径 示例： hello/a/b/c
+ * 解析vue文件
+ * @param filePath vue文件路径
+ * @returns {file: '', info:{}}
  */
-export function mkdirsTempSync(pathStr) {
-  pathStr = path.join(process.cwd(), pathStr);
-  const newPath = fs.mkdirSync(pathStr, { recursive: true });
-  // const newPath = fs.mkdtempSync(pathStr, { recursive: true });
-  console.log(newPath, "newPath----------");
-  return newPath;
+// const tempVueFileStr = `
+// <!--
+//  @title 行内表单
+//  @desc 这是行内表单的描述
+// -->
+// <template></template>
+// <style></style>
+// <!--
+//  @title 行内表单1
+//  @desc 这是行内表单的描述1
+// -->
+// `;
+export function resolveVueFile(filePath = "") {
+  let matchStr = "";
+  const info = {
+    descs: {},
+  };
+  const fileStr = fs.readFileSync(filePath, "utf8");
+  const endStr = fileStr.replace(/(<!--.*?-->)/gs, a => {
+    if (!matchStr) matchStr = a; //只识别第一次匹配的，其他的则忽略
+    return "";
+  });
+  const infos = matchStr
+    .slice(4, -3)
+    .split(/\n/g)
+    .filter(it => !!it);
+  infos.map(item => {
+    let [key, val] = item.trim().split(" ");
+    key = key.slice(1);
+    if (["tip", "warning", "danger"].includes(key)) {
+      info.descs[key] = val;
+    } else {
+      info[key] = val;
+    }
+  });
+  return { file: endStr.trimStart(), info };
 }
