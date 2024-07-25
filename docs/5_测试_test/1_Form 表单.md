@@ -9,13 +9,13 @@ Form 组件已经从 2. x 的 Float 布局升级为 Flex 布局
 
 
 ## 行内表单
-::: demo 这是行内表单的描述
+::: demo 这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签<`BaseForm`/>的示例。完整英文句子示例：`Hello`,
 form/InlineForm
 :::
 
 
 ::: tip
-这是tip信息示例
+这是`tip`信息示例
 :::
 
 

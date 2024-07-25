@@ -1,6 +1,6 @@
 <!-- 
   @title 行内表单
-  @description 这是行内表单的描述
+  @description 这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!
   @tip 这是tip信息示例
  -->
 <!--

@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
-import { resolveVueFile, writeFileSync } from "./file";
+import { writeFileSync } from "./file";
+import { resolveVueFile } from "./vue";
 import { docsPath } from "./consts";
 
 /**
