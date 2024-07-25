@@ -30,13 +30,11 @@ export function deleteFolderSync(folderPath, isDelSelf = true) {
   if (fs.existsSync(folderPath)) {
     fs.readdirSync(folderPath).forEach((file, index) => {
       const curPath = path.join(folderPath, file);
-      if (fs.lstatSync(curPath).isDirectory()) {
-        // 如果是文件夹则递归删除
-        deleteFolderSync(curPath, true);
-      } else {
-        // 如果是文件则直接删除
-        fs.unlinkSync(curPath);
-      }
+      const isDir = fs.lstatSync(curPath).isDirectory();
+      // 如果是文件夹则递归删除
+      if (isDir) return deleteFolderSync(curPath, true);
+      // 如果是文件则直接删除
+      return fs.unlinkSync(curPath);
     });
     isDelSelf && fs.rmdirSync(folderPath); // 删除空文件夹
   }

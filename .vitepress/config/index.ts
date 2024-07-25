@@ -38,8 +38,8 @@ export default defineConfig({
     },
     container: {
       tipLabel: "温馨提示",
-      warningLabel: "消息警告",
-      dangerLabel: "注意事项",
+      warningLabel: "注意事项",
+      dangerLabel: "特别注意",
       infoLabel: "内容描述",
       detailsLabel: "查看详情",
     },

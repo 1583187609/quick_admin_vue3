@@ -1,0 +1,47 @@
+// vitepress 的样式
+:root {
+  // 主题色
+  // --vp-c-brand-1: $color-primary;
+
+  // 自定义 hero 的 name 的颜色
+  //   --vp-home-hero-name-color: blue;
+  //   --vp-home-hero-name-color: transparent;
+  //   --vp-home-hero-name-background: -webkit-linear-gradient(
+  //     120deg,
+  //     #bd34fe,
+  //     #41d1ff
+  //   );
+  // 徽章的背景色
+  //   --vp-badge-info-border: transparent;
+  //   --vp-badge-info-text: var(--vp-c-text-2);
+  //   --vp-badge-info-bg: var(--vp-c-default-soft);
+
+  //   --vp-badge-tip-border: transparent;
+  //   --vp-badge-tip-text: var(--vp-c-brand-1);
+  //   --vp-badge-tip-bg: var(--vp-c-brand-soft);
+
+  //   --vp-badge-warning-border: transparent;
+  //   --vp-badge-warning-text: var(--vp-c-warning-1);
+  //   --vp-badge-warning-bg: var(--vp-c-warning-soft);
+
+  //   --vp-badge-danger-border: transparent;
+  //   --vp-badge-danger-text: var(--vp-c-danger-1);
+  //   --vp-badge-danger-bg: var(--vp-c-danger-soft);
+}
+.VPSidebarItem {
+  .is-link {
+    padding: 0 $gap;
+    &.is-active {
+      // background: $color-bg-light;
+      background: #eee;
+      border-radius: $radius-main;
+      .text {
+        color: $color-primary;
+        font-weight: bolder;
+      }
+      // .indicator {
+      //   background: blue;
+      // }
+    }
+  }
+}

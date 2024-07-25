@@ -1,5 +1,5 @@
-import path from "path";
 import fs from "fs";
+import path from "path";
 import {
   docsPath,
   indexName,
@@ -10,6 +10,8 @@ import {
   upperFirst,
   isSimple,
   writeMdDoc,
+  writeTestFile,
+  getVuePropsTs,
 } from "./utils/index.js";
 
 /**
@@ -17,8 +19,8 @@ import {
  * @param {string} file 文件名
  * @param {cn|en} type 获取的文件名类型，中文名或英文名
  */
-function getFileName(file, type = "cn", char = "_") {
-  file = file.replace(".md", "");
+export function getFileName(file, type = "cn", char = "_") {
+  file = file.split(".")[0];
   if (!isSimple) return file;
   if (!file.includes(char)) return file;
   const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名
@@ -101,6 +103,13 @@ function getSubPaths(folderPath = "", urls = []) {
   return sortPaths(paths);
 }
 
+/**
+ * 获取vitepress导航中的items数据
+ * @param {*} paths 多级路径
+ * @param {*} dirPath 文件夹路径
+ * @param {*} file 文件名称
+ * @returns
+ */
 function getItems(paths = [], dirPath = "", file = "") {
   return paths.map(subPaths => {
     if (Array.isArray(subPaths)) {
@@ -304,7 +313,6 @@ export function getSidebarAndRewrites(wrapPath = docsPath) {
  * @returns
  */
 function getIndexMdFile() {
-  // return "# 测试123";
   return `---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home # 可选值：doc, page, home, false。默认为 doc。为false时，没有任何侧边栏、导航栏或页脚（例：想要一个完全可自定义的登录页面）
@@ -363,7 +371,7 @@ export function writeFile(writePath = `${docsPath}/${indexName}`, fileStr = getI
   writeFileSync(path.join(process.cwd(), writePath), fileStr);
 }
 
-// 测试
-// writeFile(`${docsPath}/5_测试_test/1_文档生成.md`, getDocs("/examples/form"));
+writeMdDoc();
+// writeTestFile();
 
-writeMdDoc("/examples/form", `${docsPath}/5_测试_test`);
+// const props = getVuePropsTs();

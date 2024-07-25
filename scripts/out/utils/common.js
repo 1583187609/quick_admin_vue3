@@ -1,6 +1,6 @@
 // 这个文件仅供node环境使用，在浏览器中 from "path" 会提示路径错误，需要写成 "./path"或"/path"或"../path"等
 import fetch from "./fetch.js";
-import { writeFileSync, addToFileLineSync } from "./file.js";
+import { writeFileSync, addToFileLineSync } from "./file/index.js";
 
 /**
  * 爬取html页面
@@ -9,13 +9,11 @@ import { writeFileSync, addToFileLineSync } from "./file.js";
  */
 export async function fetchHtml(url = "", writePath, baseUrl = url) {
   try {
-    return await fetch("GET", url).then((html) => {
+    return await fetch("GET", url).then(html => {
       if (!html) {
         throw new Error("返回的html为空，有可能是地址错误：" + url);
       }
-      html = addToFileLineSync(html, "<head>", [
-        `  <base href="${baseUrl}" />`,
-      ]);
+      html = addToFileLineSync(html, "<head>", [`  <base href="${baseUrl}" />`]);
       writePath && writeFileSync(writePath, html);
       return html;
     });
@@ -31,12 +29,12 @@ export async function fetchHtml(url = "", writePath, baseUrl = url) {
  */
 export async function downloadImg(url, writePath) {
   return await fetch("GET", url, "binary")
-    .then((res) => {
+    .then(res => {
       const err = writeFileSync(writePath, res, "binary");
       console.log(`下载${err ? "失败" : "成功"}`, err || "");
       return null;
     })
-    .catch((err) => {
+    .catch(err => {
       console.log("下载失败", err);
       return err;
     });

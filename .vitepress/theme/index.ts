@@ -11,7 +11,7 @@ import Demo from "../inner/_components/Demo.vue";
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";
 import "@/assets/styles/rewrite.scss";
-// import "@/assets/styles/vitepress.scss";
+import "../styles/index.scss";
 
 export default {
   extends: DefaultTheme,

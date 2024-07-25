@@ -10,7 +10,7 @@ import { ApiTableContainer } from "../plugins/api-table";
 import type Token from "markdown-it/lib/token";
 import type Renderer from "markdown-it/lib/renderer";
 import type MarkdownIt from "markdown-it";
-import { resolveVueFile } from "../../scripts/out/utils";
+import { getVueFileInfo } from "../../scripts/out/utils";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {
@@ -52,7 +52,7 @@ export default (md: MarkdownIt) => {
           // const pathStr = path.join(process.cwd(), "/examples", `${sourceFile}.vue`);
           const pathStr = path.resolve(process.cwd(), "examples", `${sourceFile}.vue`);
           // source = fs.readFileSync(pathStr, "utf-8");
-          const { file, infos } = resolveVueFile(pathStr);
+          const { file, infos } = getVueFileInfo(pathStr);
           source = file;
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
