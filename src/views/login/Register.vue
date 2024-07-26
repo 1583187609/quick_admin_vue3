@@ -12,7 +12,7 @@ const fields = [
     prop: "pheon",
     label: "电话",
     required: true,
-    extra: {
+    extraAttrs: {
       valid: "phone",
     },
   },
@@ -21,7 +21,7 @@ const fields = [
     label: "密码",
     required: true,
     attrs: { type: "password" },
-    extra: {
+    extraAttrs: {
       valid: "password",
     },
   },
@@ -31,7 +31,7 @@ const fields = [
     required: true,
     rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
     attrs: { type: "password" },
-    extra: {
+    extraAttrs: {
       valid: "password",
     },
   },

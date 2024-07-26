@@ -44,7 +44,7 @@ const fields = computed<FormField[]>(() => {
       required: true,
       type: "select",
       options: "Gender",
-      extra: {
+      extraAttrs: {
         span: 12,
       },
     },
@@ -52,7 +52,7 @@ const fields = computed<FormField[]>(() => {
       prop: "nl",
       label: "年龄",
       type: "input-number",
-      extra: {
+      extraAttrs: {
         span: 12,
         valid: "age",
       },
@@ -60,7 +60,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "dhhm",
       label: "电话号码",
-      extra: {
+      extraAttrs: {
         valid: "phone",
       },
     },
@@ -68,7 +68,7 @@ const fields = computed<FormField[]>(() => {
       prop: "sfqy",
       label: "是否启用",
       type: "switch",
-      extra: {
+      extraAttrs: {
         popover: "这是popover示例",
       },
     },
@@ -80,7 +80,7 @@ const fields = computed<FormField[]>(() => {
         type: "textarea",
         maxlength: 100,
       },
-      extra: {
+      extraAttrs: {
         tips: "这是tips示例",
       },
     },
@@ -91,7 +91,7 @@ const fields = computed<FormField[]>(() => {
             label: "天数",
             type: "input-number",
             attrs: { min: 0 },
-            extra: {
+            extraAttrs: {
               after: "天",
             },
           },
@@ -112,7 +112,7 @@ const fields = computed<FormField[]>(() => {
         type: "textarea",
         maxlength: 100,
       },
-      extra: {
+      extraAttrs: {
         tips: "这是tips示例",
       },
     },

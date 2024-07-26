@@ -5,9 +5,9 @@
       <template v-if="newFields.length">
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <BaseFormItem
-          :className="`f-span-${field.extra?.span || span}`"
+          :className="`f-span-${field.extraAttrs?.span || span}`"
           :field="field"
-          :pureText="field.extra?.pureText || pureText"
+          :pureText="field.extraAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
           @change="(prop:any,val:any)=>emits('change',prop,val)"
           :formRef="formRef"

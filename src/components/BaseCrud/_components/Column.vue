@@ -157,13 +157,13 @@ function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: Fin
   emits("groupBtn", btnObj, { row, col, $index }, next);
 }
 function getNewCol(col: TableColAttrs) {
-  popoverAttrs = getPopoverAttrs(col.extra?.popover);
+  popoverAttrs = getPopoverAttrs(col.extraAttrs?.popover);
   // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   if (typeof col.label !== "string") {
     col.customLabel = col.label;
     col.label = "";
   }
-  delete col.extra; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
+  delete col.extraAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
 // 该列是否已联调

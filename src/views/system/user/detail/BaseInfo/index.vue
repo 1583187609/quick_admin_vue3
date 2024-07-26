@@ -215,7 +215,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     prop: "nl",
     label: "年龄",
     type: "input-number",
-    extra: {
+    extraAttrs: {
       valid: "age",
     },
   },
@@ -269,7 +269,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
   {
     prop: "sr",
     label: "手机号",
-    extra: {
+    extraAttrs: {
       valid: "phone",
     },
   },
@@ -343,7 +343,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     // colAttrs: baseInfoColAttrs,
     required: true,
     attrs: {},
-    extra: {
+    extraAttrs: {
       popover: "最近登录时间",
     },
   },
@@ -516,7 +516,7 @@ const preferSetFormFields: CellTableFieldItem[] = [
     label: "年龄范围",
     type: "BaseNumberRange",
     // colAttrs: { span: 6 },
-    extra: {
+    extraAttrs: {
       valid: "age",
     },
   },

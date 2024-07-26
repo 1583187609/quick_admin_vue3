@@ -45,7 +45,7 @@ export interface TableColAttrs {
   type?: ColItemType;
   attrs?: CommonObj;
   sortable?: boolean | "custom"; //是否启用排序
-  extra?: {
+  extraAttrs?: {
     popover?: string | PopoverAttrs | BaseRenderData;
   };
   formatter?: (

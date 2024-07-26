@@ -54,7 +54,7 @@ export interface FormFieldAttrs {
   /**
    * 下面都是为了迎合业务需求而新添加的属性
    */
-  extra?: {
+  extraAttrs?: {
     span?: number; //占位栅栏的宽度，同ElementPlus 的 span 1~24
     example?: string; //示例，写在placeholder中的示例文本
     popover?: string | PopoverAttrs; //ElementPlus 的 popover组件

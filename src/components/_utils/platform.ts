@@ -228,8 +228,8 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
   let max = 1;
   fields.forEach(item => {
     if (typeOf(item) !== "Object") return;
-    const { label, children, extra } = item as FormFieldAttrs;
-    const popNum = extra?.popover ? 1 : 0;
+    const { label, children, extraAttrs } = item as FormFieldAttrs;
+    const popNum = extraAttrs?.popover ? 1 : 0;
     if (label?.length + popNum > max) {
       max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
     }

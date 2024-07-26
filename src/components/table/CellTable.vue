@@ -38,7 +38,7 @@ export interface CellTableFieldItem {
   vertical?: boolean;
   options?: OptionItem[];
   direction?: "vertical" | "horizontal";
-  extra?: {
+  extraAttrs?: {
     popover?: string | CommonObj;
     valid?: ValidType;
   };

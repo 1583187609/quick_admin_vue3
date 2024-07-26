@@ -36,9 +36,9 @@
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <BaseFormItem
-                  :className="`f-span-${field.extra?.span || span}`"
+                  :className="`f-span-${field.extraAttrs?.span || span}`"
                   :field="field"
-                  :pureText="field?.extra?.pureText || sItem.pureText || pureText"
+                  :pureText="field?.extraAttrs?.pureText || sItem.pureText || pureText"
                   v-model="formData[sItem.prop][field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
                   :formRef="formRef"
@@ -49,9 +49,9 @@
                   </template>
                 </BaseFormItem>
                 <BaseFormItem
-                  :className="`f-span-${field?.extra?.span || span}`"
+                  :className="`f-span-${field?.extraAttrs?.span || span}`"
                   :field="field"
-                  :pureText="field?.extra?.pureText || sItem?.extra?.pureText || pureText"
+                  :pureText="field?.extraAttrs?.pureText || sItem?.extraAttrs?.pureText || pureText"
                   v-model="formData[field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
                   :formRef="formRef"
