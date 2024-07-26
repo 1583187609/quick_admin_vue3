@@ -1,7 +1,7 @@
 import path from "path";
-import { getFileStrByRegexp, getTsFileStrByName, getTsItemsFromVueProps, getWithTagStr, writeFileSync } from "../utils/file";
+import { getWithTagStr, writeFileSync, toCodeBlock, getTsStrByName, getItemsFromTsFileStr, getTable } from "../utils/file";
 import { docsPath } from "../utils/consts";
-import { getTypeTable } from "./component";
+import { getDescs, getRowsOfProps, getTypeTable, tableTypeMap } from "./component";
 
 /**
  * 写入生成md文档（测试）
@@ -16,26 +16,36 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
   const complexStr =
     "这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!这是一个英语短语示例：Basic Form。哈哈哈，这是html标签示例：<div style='display:inline-block'>Content</div>。Markdown is fun. 英文句子示例：Here is an HTML tag: an English phrase. Markdown is fun. md文档标识示例：`hello world`。";
   let fileStr = "# 测试\n\n";
-  fileStr += `## 自动打标签\n\n`;
-  fileStr += `### html标签文本\n\n${getWithTagStr(htmlStr)}\n\n`;
-  fileStr += `### 已有Tag标识\n\n${getWithTagStr(mdStr)}\n\n`;
-  fileStr += `### 英文单词\n\n${getWithTagStr(wordStr)}\n\n`;
-  fileStr += `### 英文语句\n\n${getWithTagStr(sentenceStr)}\n\n`;
-  fileStr += `### 复杂情况\n\n${getWithTagStr(complexStr)}\n\n`;
-  const rows = getTsItemsFromVueProps("/src/components/form/BaseForm.vue", true);
+  // fileStr += `## 自动打标签\n\n`;
+  // fileStr += `### html标签文本\n\n${getWithTagStr(htmlStr)}\n\n`;
+  // fileStr += `### 已有Tag标识\n\n${getWithTagStr(mdStr)}\n\n`;
+  // fileStr += `### 英文单词\n\n${getWithTagStr(wordStr)}\n\n`;
+  // fileStr += `### 英文语句\n\n${getWithTagStr(sentenceStr)}\n\n`;
+  // fileStr += `### 复杂情况\n\n${getWithTagStr(complexStr)}\n\n`;
+
   fileStr += `## Ts属性示例\n\n`;
-  fileStr += `## Vue Props\n\n${getTypeTable("props", rows)}\n\n`;
-  // fileStr += `## 获取指定Ts类型 Type\n\n${getTsFileStrByName(
-  //   "/src/components/table/_type.ts",
-  //   "ColItemType"
-  // )}\n\n`;
-  // fileStr += `## 获取指定Ts类型 Interface\n\n${getTsFileStrByName(
-  //   "/src/components/table/_type.ts",
-  //   "TableColAttrs"
-  // )}\n\n`;
-  fileStr += `## 获取Vue文件的Props\n\n${getFileStrByRegexp(undefined, undefined, false, "ts")}\n\n`;
-  fileStr += `## 获取TS文件中指定的Interface\n\n${getTsFileStrByName()}\n\n`;
-  fileStr += `## 获取TS文件中指定的Type\n\n${getTsFileStrByName(undefined, "type FormItemType")}\n\n`;
+  fileStr += `### Vue Props\n\n`;
+  fileStr += `#### Ts类型\n\n${toCodeBlock(getTsStrByName("/src/components/form/BaseForm.vue", "props"), "ts")}\n\n`;
+  const descs = getDescs({ details: toCodeBlock(getTsStrByName("/src/components/form/BaseForm.vue", "props", true)) });
+  fileStr += `${descs}\n\n`;
+  const { cols } = tableTypeMap.props;
+  const tsStr = getTsStrByName("/src/components/form/BaseForm.vue", "props", true);
+  const rows = getItemsFromTsFileStr(tsStr, true);
+  fileStr += `#### 表格展示\n\n${getTable(cols, rows)}\n\n`;
+
+  fileStr += `### TS Interface\n\n`;
+  fileStr += `#### Ts 类型\n\n${toCodeBlock(getTsStrByName("/examples/ts.ts", "interface FormFieldAttrs"), "ts")}\n\n`;
+  const descs_1 = getDescs({ details: toCodeBlock(getTsStrByName("/examples/ts.ts", "interface FormFieldAttrs", true)) });
+  fileStr += `${descs_1}\n\n`;
+  const tsStr_1 = getTsStrByName("/examples/ts.ts", "interface FormFieldAttrs", true);
+  const rows_1 = getItemsFromTsFileStr(tsStr_1, true);
+  fileStr += `#### 表格展示\n\n${getTable(cols, rows_1)}\n\n`;
+
+  fileStr += `### TS Type\n\n`;
+  fileStr += `#### Ts 类型\n\n${toCodeBlock(getTsStrByName("/examples/ts.ts", "type FormItemType"), "ts")}\n\n`;
+  const descs_2 = getDescs({ details: toCodeBlock(getTsStrByName("/examples/ts.ts", "type FormItemType", true)) });
+  fileStr += `${descs_2}\n\n`;
+
   writePath = path.join(process.cwd(), docsPath, writePath);
   writeFileSync(writePath, fileStr);
 };

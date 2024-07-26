@@ -28,7 +28,7 @@ form/1_AllFields
 
 
 ## 额外属性
-::: demo 除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extra `中
+::: demo 除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extraAttrs `中
 form/2_ExtraAttrs
 :::
 
@@ -38,8 +38,6 @@ form/2_ExtraAttrs
 ::: demo 插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
 form/5_ExtendMore
 :::
-
-
 
 
 ## API
@@ -69,8 +67,51 @@ form/5_ExtendMore
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
 |`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
 
+### 方法
+
+|方法名|说明|类型|
+|:---:|:---:|:---:|
+|-|-|-|
+
 ::: tip
 这是`tip`消息
+:::
+
+
+### 事件
+
+|事件名称|说明|回调参数|
+|:---:|:---:|:---:|
+|-|-|-|
+
+::: tip
+这是`tip`消息
+:::
+
+
+::: warning
+这是`warning`消息
+:::
+
+
+::: danger
+这是`danger`消息
+:::
+
+
+::: details
+这是`details`消息
+:::
+
+
+### 插槽
+
+|插槽名|说明|子标签|
+|:---:|:---:|:---:|
+|-|-|-|
+
+::: warning
+这是`warning`消息
 :::
 
 

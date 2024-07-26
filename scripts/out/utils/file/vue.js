@@ -45,15 +45,3 @@ export function getVueFileInfo(filePath = "") {
   });
   return { file: endStr.trimStart(), info };
 }
-
-/**
- * 获取Props的ts类型
- */
-export function getTsItemsFromVueProps(readPath = "/src/components/form/BaseForm.vue", isAtMd = false) {
-  readPath = path.join(process.cwd(), readPath);
-  const regex = /<{([^}]+)}>/;
-  const fileStr = fs.readFileSync(readPath, "utf-8");
-  const matchStr = fileStr.match(regex)?.[0];
-  const items = getItemsFromTsFileStr(matchStr.slice(2, -2), isAtMd);
-  return items;
-}

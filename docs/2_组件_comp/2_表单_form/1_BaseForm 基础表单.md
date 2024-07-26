@@ -5,8 +5,8 @@ const model=reactive({
 })
 const fields=[
   {prop: 'xm',label: '姓名',required:true},
-  {prop: 'zh',label: '电话',extra:{ valid: 'phone' }},
-  {prop: 'mm',label: '密码',extra:{ valid: 'password' }},
+  {prop: 'zh',label: '电话',extraAttrs:{ valid: 'phone' }},
+  {prop: 'mm',label: '密码',extraAttrs:{ valid: 'password' }},
   {prop:'lx',label:'类型',type: 'select',options: [
     {label: '类型0',value: 0},
     {label: '类型1',value: 1},
@@ -34,7 +34,7 @@ required
 ## 额外属性
 
 ```js
-const extra = {
+const extraAttrs = {
   valid: "phone", //password
   popover: "popover气泡提示",
   tips: "字段底部提示信息",

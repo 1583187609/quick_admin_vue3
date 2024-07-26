@@ -48,31 +48,23 @@ export interface PopoverAttrs {
   width?: StrNum;
   defaultSlot?: BaseRenderData;
 }
-type Test1 = "1" | "2";
-interface FormFieldAttrsTest {
-  key?: any;
-  extra?: {
-    span?: number;
-  };
-}
-type Test2 = "3" | "4";
 export interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key
   type?: FormItemType; //控件类型，例：input
   /**
    * 下面都是为了迎合业务需求而新添加的属性
    */
-  extra?: {
-    span?: number; //占位栅栏的宽度，同ElementPlus 的 span 1~24
-    example?: string; //示例，写在placeholder中的示例文本
-    popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
-    tips?: string; //注意提示语，位于字段的下方
-    pureText?: boolean; //是否纯文本展示
-    valid?: ValidType; //校验类型
-    before?: any; //字段前面拼接的内容，可以是文本、组件等
-    after?: any; //字段后面拼接的内容，可以是文本、组件等
-    className?: string | CommonObj | any[]; //写在el-form-item上的类名
-  };
+  // extraAttrs?: {
+  //   span?: number; //占位栅栏的宽度，同ElementPlus 的 span 1~24
+  //   example?: string; //示例，写在placeholder中的示例文本
+  //   popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
+  //   tips?: string; //注意提示语，位于字段的下方
+  //   pureText?: boolean; //是否纯文本展示
+  //   valid?: ValidType; //校验类型
+  //   before?: any; //字段前面拼接的内容，可以是文本、组件等
+  //   after?: any; //字段后面拼接的内容，可以是文本、组件等
+  //   className?: string | CommonObj | any[]; //写在el-form-item上的类名
+  // };
   children?: FormField[];
   //控件的属性，例：placeholder
   attrs?: CommonObj;

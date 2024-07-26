@@ -1,22 +1,4 @@
 import { getWithTagStr } from "./md";
-import { getFileStrByRegexp } from "./base";
-
-/**
- * 获取指定的ts类型
- * @param {*} readPath 读取的文件路径
- * @param {*} name ts类型名称
- */
-export function getTsFileStrByName(
-  readPath = "/examples/ts.ts",
-  name = "interface FormFieldAttrs" // type FormItemType , interface FormFieldAttrs
-) {
-  const isType = name.startsWith("type");
-  const reg = isType ? `${name} =([^;]+);` : `${name} {[^}]+.*?[^}]+}`;
-  const fileStr = getFileStrByRegexp(readPath, reg, false, "ts");
-  // const items = getItemsFromTsFileStr(fileStr, true);
-  // console.log(items, "items---------");
-  return fileStr;
-}
 
 /**
  * 从ts文件中获取items
@@ -33,7 +15,10 @@ export function getItemsFromTsFileStr(fileStr = "", isAtMd = false) {
       // 将单行注释拼接到下一行的后面
       if (str.startsWith("//")) {
         const nextLine = lines[i + 1];
-        if (nextLine) lines[i + 1] += nextLine.includes("//") ? str.slice(2) : str;
+        if (nextLine && !nextLine.startsWith("//") && !nextLine.startsWith("/*")) {
+          // str = str.replaceAll("|", "\\|"); //.replaceAll("[", "[").replaceAll("]", "]");
+          lines[i + 1] += nextLine.includes("//") ? str.slice(2) : str;
+        }
         str = "";
       }
       return str;

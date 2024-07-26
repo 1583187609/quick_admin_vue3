@@ -2,13 +2,13 @@
  基础常用（任意工程可用）**********************
  ********************************************/
 
-import { isSimple } from "./consts";
+import { isSimple, splitOrderChar } from "./consts";
 
 /**
  * 函数未传必填参数时的校验
  * @param name string 参数名称
  */
-export function needParam(name) {
+export function needParam(name = "") {
   throw new Error("请传入参数：" + name);
 }
 
@@ -69,7 +69,7 @@ export function camelCase(str = "", isToBy = true) {
  * @param {string} file 文件名
  * @param {cn|en} type 获取的文件名类型，中文名或英文名
  */
-export function getFileName(file, type = "cn", char = "_") {
+export function getFileName(file, type = "cn", char = splitOrderChar) {
   file = file.split(".")[0];
   if (!isSimple) return file;
   if (!file.includes(char)) return file;

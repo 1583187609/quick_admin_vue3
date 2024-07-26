@@ -1,10 +1,12 @@
 import fs from "fs";
 import path from "path";
+import { readMeName } from "../consts";
+import { needParam } from "../base";
 
 /**
  * 将字符串中的html字符串、英文单词、短语、句子等，用``打上md的标识
  */
-const tempReg = /((\b\w+\b)([,: ]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
+const tempReg = /((\b\w+\b)([,: -]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
 export function getWithTagStr(str = "", reg = tempReg) {
   if (!str) return "";
   return str.replace(reg, match => {
@@ -20,13 +22,15 @@ export function getWithTagStr(str = "", reg = tempReg) {
  * @param {string} rowsRange 选择某些指定行 例：{5,10}
  */
 export function getMdFileByPath(filePath = "/examples/form", rowsRange = "") {
-  return `<!-- @include: ../..${filePath}/ReadMe.md${rowsRange} -->`;
+  return `<!-- @include: ../..${filePath}/${readMeName}.md${rowsRange} -->`;
 }
 
 /**
  * 获取Ts类型
+ * @param {string} filePath 要读取文件的路径。例："/src/components/form/_types.ts"
  */
-export function getTypeScript(filePath = "/src/components/form/_types.ts") {
+export function getTypeScript(filePath) {
+  if (!filePath) return "";
   let mdStr = `## 类型声明
 ::: details
 <<< ${process.cwd()}${filePath}
@@ -87,4 +91,19 @@ export function getTable(cols = tempCols, rows = tempRows) {
     tableStr += `\n${rowStr}`;
   });
   return tableStr;
+}
+
+/**
+ * 将代码推进代码块中
+ * @param {string} code 代码字符串
+ * @param {js|ts|md|css|……} type 代码块类型
+ */
+export function toCodeBlock(code, type = "md") {
+  if (!type) return code;
+  if (type)
+    return `
+\`\`\` ${type}
+${code}
+\`\`\`
+`;
 }
