@@ -1,3 +1,10 @@
+// export enum OrderDropKeyEnum {
+//   OrderType = '订单类型'
+// }
+// export type OrderDropListRes = {
+//   [k in keyof typeof OrderDropKeyEnum]: OrderDropItem[];
+// };
+
 import fs from "fs";
 import path from "path";
 import {
@@ -11,7 +18,7 @@ import {
   isSimple,
   writeMdDoc,
   writeTestFile,
-  getVuePropsTs,
+  getTsItemsFromVueProps,
 } from "./utils/index.js";
 
 /**
@@ -374,4 +381,4 @@ export function writeFile(writePath = `${docsPath}/${indexName}`, fileStr = getI
 writeMdDoc();
 // writeTestFile();
 
-// const props = getVuePropsTs();
+// const props = getTsItemsFromVueProps();

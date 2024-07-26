@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { getVuePropsTs, writeFileSync } from ".";
+import { getTsItemsFromVueProps, writeFileSync } from ".";
 import { getVueFileInfo } from "./vue.js";
 import { docsPath } from "../consts.js";
 import { getFileName } from "../../index.js";
@@ -210,7 +210,7 @@ export function getAPI(apis = tempApis, title = "API") {
     const { type, source, descs } = api;
     const { name, filePath } = source;
     let rows = [];
-    if (type === "props") rows = getVuePropsTs(filePath, true);
+    if (type === "props") rows = getTsItemsFromVueProps(filePath, true);
     if (!rows.length) return;
     mdStr += getTypeTable(type, rows, descs);
   });

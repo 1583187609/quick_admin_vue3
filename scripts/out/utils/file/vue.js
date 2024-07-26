@@ -49,7 +49,7 @@ export function getVueFileInfo(filePath = "") {
 /**
  * 获取Props的ts类型
  */
-export function getVuePropsTs(readPath = "/src/components/form/BaseForm.vue", isAtMd = false) {
+export function getTsItemsFromVueProps(readPath = "/src/components/form/BaseForm.vue", isAtMd = false) {
   readPath = path.join(process.cwd(), readPath);
   const regex = /<{([^}]+)}>/;
   const fileStr = fs.readFileSync(readPath, "utf-8");
