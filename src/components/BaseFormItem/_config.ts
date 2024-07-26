@@ -316,7 +316,7 @@ export const defaultValidTypes: CommonObj = getExportData(
         min: 0,
         max: 100,
       },
-      extra: {
+      extraAttrs: {
         after: "岁",
       },
     },

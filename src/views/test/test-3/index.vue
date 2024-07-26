@@ -209,14 +209,14 @@ const fields: FormFieldAttrs[] = [
   getSearchOpts("school", {
     prop: "schoolId",
     label: "学校",
-    extra: {
+    extraAttrs: {
       popover: "采用hooks封装复杂逻辑",
     },
   }),
   getSearchOpts("company", {
     prop: "companyId",
     label: "公司",
-    extra: {
+    extraAttrs: {
       popover: "hooks封装且自定义选择下拉项",
     },
   }),
@@ -254,7 +254,7 @@ const fields: FormFieldAttrs[] = [
     prop: "zdy",
     label: "自定义",
     type: "custom",
-    extra: {
+    extraAttrs: {
       popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
   },
@@ -271,7 +271,7 @@ const cols: TableField[] = [
     // prop: "userData",
     label: "自定义组件列-内置 [UserInfo]",
     type: "UserInfo",
-    extra: {
+    extraAttrs: {
       popover: `传递popover属性增加疑问小提示；可以自定义表格列并内嵌到系统中，设置 {type: "UserInfo"} 即可`,
     },
     attrs: {
@@ -284,7 +284,7 @@ const cols: TableField[] = [
     label: "自定义组件-非内置",
     width: 170,
     type: "custom",
-    extra: {
+    extraAttrs: {
       popover: `需设置 {type: "custom"}`,
     },
   },
@@ -293,7 +293,7 @@ const cols: TableField[] = [
     // label: "自定义表格头",
     label: h(CustomHead),
     minWidth: 210,
-    extra: {
+    extraAttrs: {
       // popover: "这是自定义popover示例",
       // popover: CustomHead,
       popover: h(CustomHead, { isPopover: true }),
@@ -304,7 +304,7 @@ const cols: TableField[] = [
     label: "图片 [BaseImg]",
     type: "BaseImg",
     minWidth: 160,
-    extra: {
+    extraAttrs: {
       popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
     },
   },
@@ -312,7 +312,7 @@ const cols: TableField[] = [
     prop: "produce",
     label: "自我介绍 [BaseText]",
     type: "BaseText",
-    extra: {
+    extraAttrs: {
       popover: "内置文本组件 [BaseText]，内置列宽；超出文本后自动省略，且可点击后弹出弹窗查看完整内容",
     },
   },
@@ -325,7 +325,7 @@ const cols: TableField[] = [
     prop: "form_col",
     label: "formatter列",
     minWidth: 140,
-    extra: {
+    extraAttrs: {
       popover: `继承自ElementPlus的 formatter 方法`,
     },
     formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
@@ -344,14 +344,14 @@ const cols: TableField[] = [
         label: "状态 [BaseTag]",
         width: 220,
         type: "BaseTag",
-        extra: {
+        extraAttrs: {
           popover: `非simple可见`,
         },
       },
   !isSimple && {
     prop: "sj",
     label: "时间（内置宽度）",
-    extra: {
+    extraAttrs: {
       popover: `只设置 {prop: "sj"}，不设置 {type: "create"}。会根据 label 中带时间二字，自动确定该列的宽度`,
     },
   },
@@ -360,7 +360,7 @@ const cols: TableField[] = [
   {
     type: "create",
     label: "创建时间 [create]",
-    extra: {
+    extraAttrs: {
       popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
     },
   } as TableColAttrs,
@@ -370,7 +370,7 @@ const cols: TableField[] = [
     type: "update",
     prop: "updatedAt",
     label: "修改时间 [update]",
-    extra: {
+    extraAttrs: {
       popover: `设置 {type: "update", prop: "updatedAt"}，只会显示 updatedAt 属性的值`,
     },
   } as TableColAttrs,
@@ -385,7 +385,7 @@ const cols: TableField[] = [
     label: "启/禁用",
     type: "switch",
     minWidth: 100,
-    extra: {
+    extraAttrs: {
       popover: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
     },
     attrs: {
@@ -395,7 +395,7 @@ const cols: TableField[] = [
   {
     type: "remark",
     label: "备注 [remark]",
-    extra: {
+    extraAttrs: {
       popover: `设置{type: "remark"}，内置列宽度、label文案`,
     },
   },
@@ -403,7 +403,7 @@ const cols: TableField[] = [
     prop: "wltl",
     label: "未联调列",
     minWidth: 100,
-    extra: {
+    extraAttrs: {
       popover: "未联调的列，表格头文字会被标红",
     },
   },

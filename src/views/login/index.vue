@@ -79,7 +79,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         onSelect: handleSelect,
         fetchSuggestions: handleFetchSuggestions,
       },
-      extra: {
+      extraAttrs: {
         valid: /^\d/.test(model.phone) ? "phone" : undefined,
       },
     },
@@ -91,7 +91,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         type: "password",
         autocomplete: "off",
       },
-      extra: {
+      extraAttrs: {
         valid: "password",
       },
     },

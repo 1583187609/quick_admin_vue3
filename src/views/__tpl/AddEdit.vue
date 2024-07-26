@@ -31,7 +31,7 @@ const fields: FormField[] = [
     attrs: {
       type: "textarea",
     },
-    extra: {
+    extraAttrs: {
       tips: "多个用户用，分隔",
     },
   },

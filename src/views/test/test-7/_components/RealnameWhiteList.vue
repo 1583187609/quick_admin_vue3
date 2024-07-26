@@ -26,7 +26,7 @@ const fields = ref<FormField[]>([
         label: "身份证号",
         labelWidth: "auto",
         required: true,
-        extra: {
+        extraAttrs: {
           valid: "identity",
         },
       },

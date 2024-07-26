@@ -91,7 +91,7 @@ const fields = computed<FormField[]>(() => {
       attrs: {
         showWordLimit: false,
       },
-      extra: {
+      extraAttrs: {
         // valid: "phone",
       },
       slots: {
@@ -116,7 +116,7 @@ const fields = computed<FormField[]>(() => {
       prop: "password",
       label: "密码",
       required: true,
-      extra: {
+      extraAttrs: {
         valid: "password",
       },
       slots: {
@@ -131,7 +131,7 @@ const fields = computed<FormField[]>(() => {
       attrs: {
         placeholder: "请再次输入密码",
       },
-      extra: {
+      extraAttrs: {
         valid: "password",
       },
       slots: {

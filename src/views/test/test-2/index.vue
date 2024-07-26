@@ -56,7 +56,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "性别",
           type: "select",
           options: "Gender",
-          extra: {
+          extraAttrs: {
             span: 6,
           },
         },
@@ -64,7 +64,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "nl",
           label: "年龄",
           type: "input-number",
-          extra: {
+          extraAttrs: {
             span: 6,
             valid: "age",
           },
@@ -72,7 +72,7 @@ const sections = computed<SectionFormItem[]>(() => {
         {
           prop: "dhhm",
           label: "电话",
-          extra: {
+          extraAttrs: {
             span: 12,
             valid: "phone",
           },
@@ -89,7 +89,7 @@ const sections = computed<SectionFormItem[]>(() => {
           // attrs: {
           //   style: "50%",
           // },
-          extra: {
+          extraAttrs: {
             // before: "第",
             // after: h(AddDelBtn, { name: "add" }),
             after: {
@@ -103,7 +103,7 @@ const sections = computed<SectionFormItem[]>(() => {
         {
           prop: "bz",
           label: "备注",
-          extra: {
+          extraAttrs: {
             span: 24,
           },
           attrs: {
@@ -121,7 +121,7 @@ const sections = computed<SectionFormItem[]>(() => {
         {
           prop: "sfzh",
           label: "身份证号",
-          extra: {
+          extraAttrs: {
             span: 12,
             valid: "identity",
           },
@@ -129,7 +129,7 @@ const sections = computed<SectionFormItem[]>(() => {
         {
           prop: "zsbh",
           label: "证书证号",
-          extra: {
+          extraAttrs: {
             span: 12,
           },
           attrs: {
@@ -147,7 +147,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "zdy",
           label: "自定义组件",
           type: "custom",
-          extra: {
+          extraAttrs: {
             tips: "这是自定义组件，临时用el-input代替",
           },
         },
@@ -156,7 +156,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "头像",
           required: false,
           type: "BaseUpload",
-          extra: {
+          extraAttrs: {
             span: 12,
           },
         },
@@ -165,7 +165,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "证书",
           required: false,
           type: "BaseUpload",
-          extra: {
+          extraAttrs: {
             span: 12,
           },
         },
@@ -177,7 +177,7 @@ const sections = computed<SectionFormItem[]>(() => {
             { label: "认证方式有prop", value: 1 },
             { label: "认证方式无prop", value: 2 },
           ],
-          extra: {
+          extraAttrs: {
             tips: "radio-group控件，默认为button样式",
             popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
           },
@@ -226,7 +226,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "编辑内容",
           type: "custom",
           rules: [{ max: 10, message: "不能超过10个字符", trigger: "change" }],
-          extra: {
+          extraAttrs: {
             popover: "不能超过最大字符数校验",
           },
         },
