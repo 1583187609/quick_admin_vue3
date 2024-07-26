@@ -89,6 +89,7 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
  * @param readPath 要读取的文件路径
  * @param reg 正则表达式的只读字符串或者正则表达式
  * @param boundaryChars 边界符号：由起止符号构成
+ * @param codeType 代码类型 undefined, ts, vue, md
  * @returns 匹配的文件字符串
  */
 // const vuePropsReg = /<{([^}]+)}>/; // /defineProps<{([^}]+)}>/
@@ -97,7 +98,7 @@ export function getFileStrByRegexp(
   readPath = "/src/components/form/BaseForm.vue",
   reg = vuePropRegStr,
   boundaryChars = "{}",
-  isAtMd = false
+  codeType
 ) {
   const isReg = typeOf(reg) === "RegExp";
   const regexp = isReg ? reg : new RegExp(reg);
@@ -112,9 +113,9 @@ export function getFileStrByRegexp(
     const eInd = regStr.lastIndexOf(c2) - regStr.length;
     matchStr = matchStr.slice(sInd, eInd).trim();
   }
-  if (isAtMd)
+  if (codeType)
     return `
-\`\`\`md
+\`\`\` ${codeType}
 ${matchStr}
 \`\`\`
 `;

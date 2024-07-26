@@ -1,8 +1,11 @@
 import { defineConfig } from "vitepress";
 import { getNav, getSidebarAndRewrites } from "../../scripts/out/menus/index.js";
 import plugins from "./plugins.ts";
+import { hotRun } from "../../scripts/out/index.js";
 
 const { sidebar, rewrites } = getSidebarAndRewrites() as any;
+
+hotRun();
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({

@@ -1,3 +1,7 @@
+/**
+ * 常用方法相关
+ */
+
 export * from "./consts.js";
 export * from "./base.js";
 export * from "./file/index.js";

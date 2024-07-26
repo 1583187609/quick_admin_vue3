@@ -12,7 +12,7 @@ export function getTsFileStrByName(
 ) {
   const isType = name.startsWith("type");
   const reg = isType ? `${name} =([^;]+);` : `${name} {[^}]+.*?[^}]+}`;
-  const fileStr = getFileStrByRegexp(readPath, reg, false, true);
+  const fileStr = getFileStrByRegexp(readPath, reg, false, "ts");
   // const items = getItemsFromTsFileStr(fileStr, true);
   // console.log(items, "items---------");
   return fileStr;

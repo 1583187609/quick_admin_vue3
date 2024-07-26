@@ -1,3 +1,7 @@
+/**
+ * 菜单生成相关
+ */
+
 import fs from "fs";
 import path from "path";
 import { docsPath, indexName, splitOrderChar, sourceUrls, excludes, isSimple, getFileName } from "../utils/index.js";

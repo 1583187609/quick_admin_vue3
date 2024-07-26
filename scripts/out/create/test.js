@@ -33,7 +33,7 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
   //   "/src/components/table/_type.ts",
   //   "TableColAttrs"
   // )}\n\n`;
-  fileStr += `## 获取Vue文件的Props\n\n${getFileStrByRegexp(undefined, undefined, false, true)}\n\n`;
+  fileStr += `## 获取Vue文件的Props\n\n${getFileStrByRegexp(undefined, undefined, false, "ts")}\n\n`;
   fileStr += `## 获取TS文件中指定的Interface\n\n${getTsFileStrByName()}\n\n`;
   fileStr += `## 获取TS文件中指定的Type\n\n${getTsFileStrByName(undefined, "type FormItemType")}\n\n`;
   writePath = path.join(process.cwd(), docsPath, writePath);

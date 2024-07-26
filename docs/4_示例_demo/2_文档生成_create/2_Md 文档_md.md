@@ -56,7 +56,7 @@
 ## 获取Vue文件的Props
 
 
-```md
+``` ts
 defineProps<{
     modelValue?: CommonObj; //表单数据
     fields: FormField[]; //表单字段项
@@ -85,7 +85,7 @@ defineProps<{
 ## 获取TS文件中指定的Interface
 
 
-```md
+``` ts
 interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key
   type?: FormItemType; //控件类型，例：input
@@ -127,7 +127,7 @@ interface FormFieldAttrs {
 ## 获取TS文件中指定的Type
 
 
-```md
+``` ts
 type FormItemType =
   | "input"
   | "select"
