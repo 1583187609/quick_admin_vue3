@@ -9,14 +9,14 @@ import {
   emptyVals,
   getFileName,
   getTable,
-  getTypeScript,
+  getTypeDeclare,
   getVueFileInfo,
   getWithTagStr,
   needParam,
   readMeName,
   splitOrderChar,
   writeFileSync,
-  getItemsFromTsFileStr,
+  getItemsFromTsStr,
 } from "../utils";
 
 /**
@@ -31,7 +31,7 @@ import {
 //   danger: "这是danger消息",
 //   details: "这是details消息",
 // };
-export function getDescs(descs) {
+export function getHints(descs) {
   if (!descs) return "";
   let descStr = "";
   for (const key in descs) {
@@ -66,7 +66,7 @@ function getCodeDemo(readPath) {
 ## ${title}
 ::: demo ${description}
 ${filePath}
-:::\n${getDescs(descs)}\n\n`;
+:::\n${getHints(descs)}\n\n`;
   });
   return mdStr;
 }
@@ -112,10 +112,11 @@ export const tableTypeMap = {
     ],
   },
 };
-export function getTypeTable(type = "props", rows = [], descs) {
+export function getTypeTable(type = "props", rows = [], descs, customTitle) {
   const { title, cols } = tableTypeMap[type];
-  let descStr = getDescs(descs);
-  let mdStr = `### ${title}\n\n${getTable(cols, rows, descs)}${descStr}\n\n`;
+  const titleStr = customTitle ?? `### ${title}\n\n`;
+  let descStr = getHints(descs);
+  let mdStr = `${titleStr}${getTable(cols, rows, descs)}${descStr}\n\n`;
   return mdStr;
 }
 
@@ -172,7 +173,7 @@ export default (readPath = needParam(), writePath = needParam(), sections, order
     const { demoDirPath, apis, tsPath } = sections;
     const codeDemo = getCodeDemo(demoDirPath);
     const api = getAPI(apis);
-    const tsStr = getTypeScript(tsPath);
+    const tsStr = getTypeDeclare(tsPath);
     fileStr += `\n\n${codeDemo}${api}${tsStr}`;
   }
   let fileName = `${title}.md`;
@@ -190,7 +191,7 @@ export function getRowsOfProps(readPath = needParam(), isAtMd = false) {
   const regex = /<{([^}]+)}>/;
   const fileStr = fs.readFileSync(readPath, "utf-8");
   const matchStr = fileStr.match(regex)?.[0];
-  return getItemsFromTsFileStr(matchStr.slice(2, -2), isAtMd);
+  return getItemsFromTsStr(matchStr.slice(2, -2), isAtMd);
 }
 
 /**

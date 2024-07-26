@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { getItemsFromTsFileStr, getWithTagStr } from ".";
+import { getItemsFromTsStr, getWithTagStr } from ".";
 
 /**
  * 解析vue文件

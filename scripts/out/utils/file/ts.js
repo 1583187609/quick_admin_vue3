@@ -5,7 +5,7 @@ import { getWithTagStr } from "./md";
  * @param {*} fileStr 读取的文件路径
  * @param {*} isAtMd 是否在md文件中展示
  */
-export function getItemsFromTsFileStr(fileStr = "", isAtMd = false) {
+export function getItemsFromTsStr(fileStr = "", isAtMd = false) {
   const lines = fileStr.trim().split("\n");
   const list = lines
     .map((it, i) => {

@@ -29,7 +29,7 @@ export function getMdFileByPath(filePath = "/examples/form", rowsRange = "") {
  * 获取Ts类型
  * @param {string} filePath 要读取文件的路径。例："/src/components/form/_types.ts"
  */
-export function getTypeScript(filePath) {
+export function getTypeDeclare(filePath) {
   if (!filePath) return "";
   let mdStr = `## 类型声明
 ::: details
@@ -46,24 +46,24 @@ export function getTypeScript(filePath) {
  */
 // 默认的列属性
 const defaultColAttrs = {
-  align: "center",
+  align: "left",
   width: 10,
   minWidth: 10,
 };
 // 示例
-const tempCols = [
-  { prop: "xm", label: "姓名", width: 0, minWdth: 0, align: "center" },
-  { prop: "xb", label: "性别", width: 0, minWdth: 0, align: "center" },
-  { prop: "nl", label: "年龄", width: 0, minWdth: 0, align: "center" },
-  { prop: "bz", label: "备注", width: 0, minWdth: 0, align: "left" },
-];
-const tempRows = [
-  { xm: "张三", xb: "男", nl: 25, bz: "无" },
-  { xm: "李四", xb: "男", nl: 32, bz: "无" },
-  { xm: "王五", xb: "男", nl: 19, bz: "无" },
-  { xm: "李梅", xb: "女", nl: 18, bz: "这是一条备注信息" },
-];
-export function getTable(cols = tempCols, rows = tempRows) {
+// const tempCols = [
+//   { prop: "xm", label: "姓名", width: 0, minWidth: 0, align: "center" },
+//   { prop: "xb", label: "性别", width: 0, minWidth: 0, align: "center" },
+//   { prop: "nl", label: "年龄", width: 0, minWidth: 0, align: "center" },
+//   { prop: "bz", label: "备注", width: 0, minWidth: 0, align: "left" },
+// ];
+// const tempRows = [
+//   { xm: "张三", xb: "男", nl: 25, bz: "无" },
+//   { xm: "李四", xb: "男", nl: 32, bz: "无" },
+//   { xm: "王五", xb: "男", nl: 19, bz: "无" },
+//   { xm: "李梅", xb: "女", nl: 18, bz: "这是一条备注信息" },
+// ];
+export function getTable(cols = needParam(), rows = []) {
   const props = [];
   const headStrs = ["", ""].map((item, ind) => {
     const newCols = cols.map(col => {
