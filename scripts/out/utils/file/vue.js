@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { getWithTagStr } from ".";
+import { getItemsFromTsFileStr, getWithTagStr } from ".";
 
 /**
  * 解析vue文件
@@ -54,35 +54,6 @@ export function getTsItemsFromVueProps(readPath = "/src/components/form/BaseForm
   const regex = /<{([^}]+)}>/;
   const fileStr = fs.readFileSync(readPath, "utf-8");
   const matchStr = fileStr.match(regex)?.[0];
-  const items = matchStr
-    .slice(2, -2)
-    .trim()
-    .split("\n")
-    .map(it => it.trim());
-
-  const list = items.map(item => {
-    let [keyVal, desc] = item.split("//").map(it => it.trim());
-    const colonInd = keyVal.indexOf(":");
-    const key = keyVal.slice(0, colonInd);
-    const val = keyVal.slice(colonInd + 1);
-    const required = key.at(-1) !== "?";
-    let name = required ? key : key.slice(0, -1);
-    let type = val.trim().replaceAll(";", "").replaceAll("|", "\\|");
-    let defVal = "-";
-    if (isAtMd) {
-      name = `\`${name}\``;
-      type = `\`${type}\``;
-      if (defVal !== "-") defVal = `\`${defVal}\``;
-      desc = getWithTagStr(desc);
-    }
-    const obj = {
-      name,
-      type,
-      desc,
-      default: defVal,
-      required,
-    };
-    return obj;
-  });
-  return list;
+  const items = getItemsFromTsFileStr(matchStr.slice(2, -2), isAtMd);
+  return items;
 }

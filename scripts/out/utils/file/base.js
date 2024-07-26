@@ -3,6 +3,7 @@
  ********************************************/
 import fs from "fs";
 import path from "path";
+import { typeOf } from "../base";
 
 /**
  * 递归创建目录(同步方法)
@@ -81,4 +82,41 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
   }
   lines.splice(ind, 0, ...addLines);
   return lines.join("\r\n");
+}
+
+/**
+ * 根据正则表达式获取文件字符串
+ * @param readPath 要读取的文件路径
+ * @param reg 正则表达式的只读字符串或者正则表达式
+ * @param boundaryChars 边界符号：由起止符号构成
+ * @returns 匹配的文件字符串
+ */
+// const vuePropsReg = /<{([^}]+)}>/; // /defineProps<{([^}]+)}>/
+const vuePropRegStr = "defineProps<{([^}]+)}>";
+export function getFileStrByRegexp(
+  readPath = "/src/components/form/BaseForm.vue",
+  reg = vuePropRegStr,
+  boundaryChars = "{}",
+  isAtMd = false
+) {
+  const isReg = typeOf(reg) === "RegExp";
+  const regexp = isReg ? reg : new RegExp(reg);
+  const regStr = isReg ? reg.source : reg;
+  readPath = path.join(process.cwd(), readPath);
+  const fileStr = fs.readFileSync(readPath, "utf-8");
+  let matchStr = fileStr.match(regexp)?.[0];
+  if (!matchStr) return "";
+  if (boundaryChars) {
+    const [c1, c2] = boundaryChars;
+    const sInd = regStr.indexOf(c1) + 1;
+    const eInd = regStr.lastIndexOf(c2) - regStr.length;
+    matchStr = matchStr.slice(sInd, eInd).trim();
+  }
+  if (isAtMd)
+    return `
+\`\`\`md
+${matchStr}
+\`\`\`
+`;
+  return matchStr;
 }

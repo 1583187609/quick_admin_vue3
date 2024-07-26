@@ -1,9 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { getTsItemsFromVueProps, writeFileSync } from ".";
-import { getVueFileInfo } from "./vue.js";
-import { docsPath } from "../consts.js";
-import { getFileName } from "../../index.js";
 
 /**
  * 将字符串中的html字符串、英文单词、短语、句子等，用``打上md的标识
@@ -19,60 +15,23 @@ export function getWithTagStr(str = "", reg = tempReg) {
 }
 
 /**
- * 获取描述类md文本
- * @param {*} descs
- * @returns
- */
-// 示例
-// const tempDescs = {
-//   tip: "这是tip消息",
-//   warning: "这是warning消息",
-//   danger: "这是danger消息",
-//   details: "这是details消息",
-// };
-function getDescs(descs) {
-  if (!descs) return "";
-  let descStr = "";
-  for (const key in descs) {
-    const val = getWithTagStr(descs[key]);
-    descStr += `\n\n::: ${key}\n${val}\n:::\n`;
-  }
-  return descStr;
-}
-
-/**
  * 文档前言
  * @param {string} filePath 文件路径
  * @param {string} rowsRange 选择某些指定行 例：{5,10}
  */
-function getMdFile(filePath = "/examples/form", rowsRange = "") {
+export function getMdFileByPath(filePath = "/examples/form", rowsRange = "") {
   return `<!-- @include: ../..${filePath}/ReadMe.md${rowsRange} -->`;
 }
 
 /**
- * 生成代码示例
- * @link 参考链接：https://juejin.cn/post/7243520456979398693
- * @link 参考链接：https://zhuanlan.zhihu.com/p/450698973
- * @notice 完整路径：/examples/form/InlineForm
- * @returns
+ * 获取Ts类型
  */
-function getCodeDemo(dirPath = "form") {
-  const newDirPath = path.join(process.cwd(), "examples", dirPath);
-  let mdStr = "";
-  const readFiles = fs.readdirSync(newDirPath).filter(it => it !== "ReadMe.md");
-  readFiles.forEach(file => {
-    const curPath = path.join(newDirPath, file);
-    const isDir = fs.lstatSync(curPath).isDirectory();
-    if (isDir) throw new Error("暂未处理文件夹情况");
-    const filePath = `${dirPath}/${file.slice(0, -4)}`;
-    const { info } = getVueFileInfo(`${path.join(newDirPath, file)}`);
-    const { title = getFileName(file, "cn"), description = "", descs } = info;
-    mdStr += `
-  ## ${title}
-  ::: demo ${description}
-  ${filePath}
-  :::\n${getDescs(descs)}\n\n`;
-  });
+export function getTypeScript(filePath = "/src/components/form/_types.ts") {
+  let mdStr = `## 类型声明
+::: details
+<<< ${process.cwd()}${filePath}
+:::  
+\n`;
   return mdStr;
 }
 
@@ -128,120 +87,4 @@ export function getTable(cols = tempCols, rows = tempRows) {
     tableStr += `\n${rowStr}`;
   });
   return tableStr;
-}
-
-/**
- * 获取指定类型表格的md文本
- * @param {props|method|event|slot} type 表格类型：属性、方法、事件、插槽
- * @param {*} rows 表格数据
- * @returns
- */
-const tableTypeMap = {
-  props: {
-    title: "属性",
-    cols: [
-      { prop: "name", label: "属性" },
-      { prop: "desc", label: "说明" },
-      { prop: "type", label: "类型" },
-      { prop: "default", label: "默认值" },
-    ],
-  },
-  method: {
-    title: "方法",
-    cols: [
-      { prop: "name", label: "方法名" },
-      { prop: "desc", label: "说明" },
-      { prop: "type", label: "类型" },
-    ],
-  },
-  event: {
-    title: "事件",
-    cols: [
-      { prop: "name", label: "事件名称" },
-      { prop: "desc", label: "说明" },
-      { prop: "cbArgs", label: "回调参数" },
-    ],
-  },
-  slot: {
-    title: "插槽",
-    cols: [
-      { prop: "name", label: "插槽名" },
-      { prop: "desc", label: "说明" },
-      { prop: "subTag", label: "子标签" },
-    ],
-  },
-};
-export function getTypeTable(type = "props", rows = [], descs) {
-  const { title, cols } = tableTypeMap[type];
-  let descStr = getDescs(descs);
-  let mdStr = `### ${title}\n\n${getTable(cols, rows, descs)}${descStr}\n\n`;
-  return mdStr;
-}
-
-/**
- * 获取API部分的md内容
- */
-const tempApis = [
-  {
-    type: "props",
-    //读取属性的来源文件
-    source: {
-      name: "", //读取文件中的props
-      filePath: "/src/components/form/BaseForm.vue",
-    },
-    descs: { tip: "这是tip消息" },
-  },
-  { type: "method", source: { name: "", filePath: "" }, descs: { warning: "这是warning消息" } },
-  {
-    type: "event",
-    source: { name: "", filePath: "" },
-    descs: {
-      tip: "这是tip消息",
-      warning: "这是warning消息",
-      danger: "这是danger消息",
-      details: "这是details消息",
-    },
-  },
-  { type: "slot", source: { name: "", filePath: "" } },
-];
-export function getAPI(apis = tempApis, title = "API") {
-  let mdStr = `## ${title}\n\n`;
-  apis.forEach(api => {
-    const { type, source, descs } = api;
-    const { name, filePath } = source;
-    let rows = [];
-    if (type === "props") rows = getTsItemsFromVueProps(filePath, true);
-    if (!rows.length) return;
-    mdStr += getTypeTable(type, rows, descs);
-  });
-  return `${mdStr}\n\n`;
-}
-
-/**
- * 获取Ts类型
- */
-export function getTypeScript(filePath = "/src/components/form/_types.ts") {
-  let mdStr = `## 类型声明
-::: details
-<<< ${process.cwd()}${filePath}
-:::  
-\n`;
-  return mdStr;
-}
-
-/**
- * 写入（生成）Md文档文件
- * @param {string} readPath 要读取的文件路径
- * @param {string} writePath 要写入的文件路径
- * @param {number} order 文件的序号
- */
-export function writeMdDoc(readPath = "/examples/form", writePath = `${docsPath}/5_测试_test`, order = 1) {
-  readPath = path.join(process.cwd(), readPath, "ReadMe.md");
-  let fileStr = fs.readFileSync(readPath, "utf-8");
-  const title = fileStr.split("\n")[0]?.replaceAll("#", "")?.trim() ?? "无标题";
-  const api = getAPI(tempApis);
-  const codeDemo = getCodeDemo();
-  const ts = getTypeScript();
-  fileStr += `\n\n${codeDemo}\n\n${api}${ts}`;
-  writeFileSync(path.join(process.cwd(), `${writePath}/${order}_${title}.md`), fileStr);
 }

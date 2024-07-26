@@ -5,6 +5,14 @@
 import { isSimple } from "./consts";
 
 /**
+ * 函数未传必填参数时的校验
+ * @param name string 参数名称
+ */
+export function needParam(name) {
+  throw new Error("请传入参数：" + name);
+}
+
+/**
  * 检测元素所属类型
  * Object.prototype.toString.call(*)的可能结果如下所示：
  * @example null             [object Null]
@@ -31,14 +39,6 @@ export function typeOf(ele) {
 }
 
 /**
- * 函数未传必填参数时的校验
- * @param name string 参数名称
- */
-export function needParam(name) {
-  throw new Error("请传入参数：" + name);
-}
-
-/**
  * 将字符串第一个单词大写
  */
 export function upperFirst(str = "") {
@@ -62,4 +62,19 @@ export function camelCase(str = "", isToBy = true) {
     })
     .join("");
   return str;
+}
+
+/**
+ * 获取剔除下划线后的文件名
+ * @param {string} file 文件名
+ * @param {cn|en} type 获取的文件名类型，中文名或英文名
+ */
+export function getFileName(file, type = "cn", char = "_") {
+  file = file.split(".")[0];
+  if (!isSimple) return file;
+  if (!file.includes(char)) return file;
+  const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名
+  const hasNum = !isNaN(Number(num)); // 如果存在序号
+  if (type === "en") return hasNum ? enName ?? cnName : cnName;
+  return upperFirst(hasNum ? cnName : num);
 }

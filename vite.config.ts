@@ -252,7 +252,7 @@ export default ({ mode, command }) => {
       },
     },
     server: {
-      open: true,
+      open: !isVitepress,
       // port: 5180, //启动端口
       // hmr: {
       //   host: "127.0.0.1",
