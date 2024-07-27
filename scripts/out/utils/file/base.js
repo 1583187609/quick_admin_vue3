@@ -49,7 +49,7 @@ export function deleteFolderSync(folderPath, isDelSelf = true) {
  * @param encoding 编码格式
  * @return error 错误信息，如果没有错误，则为null
  */
-export function writeFileSync(writePath, writeStr, showSuccess = true, encoding = "utf-8") {
+export function writeFileSync(writePath, writeStr, showSuccess = false, encoding = "utf-8") {
   const basename = path.basename(writePath);
   const isSuccess = mkdirsSync(writePath.replace(basename, ""));
   if (isSuccess) {
@@ -87,9 +87,9 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
 
 /**
  * 根据正则表达式获取部分文件字符串
- * @param readPath 要读取的文件路径
- * @param reg 正则表达式的只读字符串或者正则表达式
- * @param boundaryChars 边界符号：由起止符号构成
+ * @param {string} readPath 要读取的文件路径
+ * @param {string|RegExp} reg 正则表达式的只读字符串或者正则表达式
+ * @param {string|false} boundaryChars 边界符号：由起止符号构成
  * @returns 匹配的文件字符串
  */
 export function getPartFileStr(readPath = needParam(), reg = needParam(), boundaryChars = false) {
@@ -130,17 +130,18 @@ function getTsStr(readPath = needParam(), name = needParam(), noWrap = true) {
 
 /**
  * 根据ts类型名称获取ts字符串（从vue文件或ts文件中获取）
- * @param {string} readPath 读取文件的路径
- * @param {string} name ts类型名称
+ * @param {string} readPath 读取文件的路径。例："/src/components/form/BaseForm.vue"
+ * @param {defineProps|type +|interface +} name ts类型名称。例"defineProps" "defineEmits" "defineSlots" "defineExpose" "type FormItemType"  "interface FormFieldAttrs"
  * @param {boolean} noWrap 是否去壳
  */
-export function getTsStrByName(readPath = "/src/components/form/BaseForm.vue", name = "props", noWrap = false) {
+export function getTsStrByName(readPath = needParam(), name = "defineProps", noWrap = false) {
   let boundaryChars = "{}";
   if (!noWrap) boundaryChars = false;
-  if (name === "props") {
+  // 获取vue文件中的 defineProps 或 defineExpose
+  if (name.startsWith("define")) {
     const ext = path.extname(readPath).slice(1);
-    if (ext !== "vue") throw new Error(`${ext}文件中不存在vue文件中的props`);
-    return getPartFileStr(readPath, "defineProps<{([^}]+)}>", boundaryChars);
+    if (ext !== "vue") throw new Error(`${ext}文件中不存在${ext}文件中的${name}`);
+    return getPartFileStr(readPath, `${name}<{([^}]+)}>`, boundaryChars);
   }
   return getTsStr(readPath, name, boundaryChars);
 }
@@ -151,14 +152,14 @@ export function getTsStrByName(readPath = "/src/components/form/BaseForm.vue", n
  * @param {string} oldName 旧文件名称
  * @param {string} newName 新文件名称
  */
-export function changeReadMeFileName(dirPath = "/examples", oldName = readMeName, newName = "Summary") {
+export function changeFileName(dirPath = "/examples", oldName = readMeName, newName = "Summary") {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(file => {
     const currPath = path.join(fullDirPath, file);
     const isDir = fs.lstatSync(currPath).isDirectory();
     if (isDir) {
-      changeReadMeFileName(`${dirPath}/${file}`, oldName, newName);
+      changeFileName(`${dirPath}/${file}`, oldName, newName);
     } else {
       const ext = path.extname(file);
       const fileName = path.basename(file, ext); //用第二个参数去掉后缀名
@@ -166,6 +167,32 @@ export function changeReadMeFileName(dirPath = "/examples", oldName = readMeName
         const oldPathName = path.join(fullDirPath, file);
         const newPathName = path.join(fullDirPath, newName + ext);
         fs.renameSync(oldPathName, newPathName);
+      }
+    }
+  });
+}
+
+/**
+ * 递归删除某个文件夹下的指定名称的文件
+ * @param {string} dirPath 目录路径
+ * @param {string} name 要递归删除的文件名
+ */
+export function deleteFileByName(dirPath = "/examples", name = readMeName + ".md") {
+  // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_DemoForm 示例表单/${name}`);
+  const fullDirPath = path.join(process.cwd(), dirPath);
+  // fs.unlinkSync(fullDirPath);
+  const dirNames = fs.readdirSync(fullDirPath);
+  dirNames.forEach(file => {
+    const currPath = path.join(fullDirPath, file);
+    const isDir = fs.lstatSync(currPath).isDirectory();
+    if (isDir) {
+      deleteFileByName(`${dirPath}/${file}`, name);
+    } else {
+      if (file === name) {
+        console.log(currPath, "currPath--------------");
+        // const isExist = fs.existsSync(currPath);
+        // isExist && fs.unlinkSync(currPath);
+        fs.unlinkSync(currPath);
       }
     }
   });

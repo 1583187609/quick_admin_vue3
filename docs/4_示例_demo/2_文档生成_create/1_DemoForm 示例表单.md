@@ -1,10 +1,3 @@
-# Demo Form 演示表单
-
-这是演示表单的示例
-
-::: tip
-功能待完善，敬请期待。
-:::
 
 
 
@@ -67,14 +60,9 @@
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
 |`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
 
-### 方法
-
-|方法名|说明|类型|
-|:---|:---|:---|
-|-|-|-|
 
 ::: tip
-这是`tip`消息
+这是 `props `的`tip`信息
 :::
 
 
@@ -82,36 +70,30 @@
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|-|-|-|
+|`update:modelValue`|双向绑定值|`args: CommonObj`|
+|`submit`|表单提交|`args: CommonObj`|
+|`change`|`change`事件|`prop: string, val: string `| `number`|
+|`moreBtns`|监听操作栏的按钮点击事件|`name: string, args: CommonObj, cb: FinallyNext`|
+
 
 ::: tip
-这是`tip`消息
+这是 `emits `的`tip`信息
 :::
 
 
-::: warning
-这是`warning`消息
-:::
+### 方法(`expose`)
 
 
-::: danger
-这是`danger`消息
-:::
-
-
-::: details
-这是`details`消息
-:::
-
-
-### 插槽
-
-|插槽名|说明|子标签|
+这是 `expose `的 `description`。通过写入 `description `获得
+|方法名|说明|类型|
 |:---|:---|:---|
-|-|-|-|
+|`formRef`|表单实例|`any`|
+|`formValidate`|表单校验|`() => void`|
+|`tempTestFn_1`|临时的测试方法|`() => void`|
+
 
 ::: warning
-这是`warning`消息
+注意这部分的`title`——【方法(`expose`)】是通过写入覆盖默认值的
 :::
 
 
@@ -119,6 +101,6 @@
 
 ## 类型声明
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/components/form/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/examples/0_示例_demo/ts.ts
 :::  
 

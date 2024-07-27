@@ -29,53 +29,18 @@
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
 |`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
 
-### 方法
-
-|方法名|说明|类型|
-|:---|:---|:---|
-|-|-|-|
-
-::: tip
-这是`tip`消息
-:::
-
-
 ### 事件
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|-|-|-|
+||||
 
-::: tip
-这是`tip`消息
-:::
+### 方法
 
-
-::: warning
-这是`warning`消息
-:::
-
-
-::: danger
-这是`danger`消息
-:::
-
-
-::: details
-这是`details`消息
-:::
-
-
-### 插槽
-
-|插槽名|说明|子标签|
+|方法名|说明|类型|
 |:---|:---|:---|
-|-|-|-|
-
-::: warning
-这是`warning`消息
-:::
-
+|`formRef`||`any`|
+|`formValidate`||`() => void`|
 
 
 

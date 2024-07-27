@@ -1,4 +1,4 @@
-<!-- 
+<!-- summary
   @title 继承与扩展
   @description 插槽及其他属性功能，完全继承自ElementPlus。需谨记 Dom嵌套跟JSON嵌套保持一致的原则
  -->

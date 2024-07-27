@@ -11,9 +11,8 @@
 
 import fs from "fs";
 import path from "path";
-import { writeComponentDoc, writeDemoTestDoc, writeTestMdDoc } from "./create/index.js";
-import { docsPath, readMeName, splitOrderChar } from "./utils/consts.js";
-import { getRowsOfProps, getRowsOfMethod, getRowsOfEvent, getRowsOfSlot } from "./create/component.js";
+import { writeComponentDoc, writeTestMdDoc } from "./create/index.js";
+import { docsPath, splitOrderChar } from "./utils/consts.js";
 
 /**
  * 触发热更新写入新文件的方法
@@ -21,93 +20,40 @@ import { getRowsOfProps, getRowsOfMethod, getRowsOfEvent, getRowsOfSlot } from "
  */
 export function hotRun() {}
 
-function getSecs() {
-  return {
-    apis: [
-      {
-        type: "props",
-        rows: getRowsOfProps("/src/components/form/BaseForm.vue", true),
-      },
-      { type: "method", rows: getRowsOfMethod(), descs: { tip: "这是tip消息" } },
-      {
-        type: "event",
-        rows: getRowsOfEvent(),
-        descs: {
-          tip: "这是tip消息",
-          warning: "这是warning消息",
-          danger: "这是danger消息",
-          details: "这是details消息",
-        },
-      },
-      { type: "slot", rows: getRowsOfSlot(), descs: { warning: "这是warning消息" } },
-    ],
-    tsPath: "/src/components/form/_types.ts",
-  };
-}
-
-function writeCommonTestDoc(dirPath = "/examples") {
+/***
+ * 撰写通用组件文档
+ */
+function writeCommonTestDocs(dirPath = "/examples", writeDemo = true, withDoc = false) {
   const fullDirPath = path.join(process.cwd(), dirPath);
-  const dirNames = fs.readdirSync(fullDirPath).filter(it => it !== "0_示例_demo");
+  const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(parFile => {
+    if (parFile === "0_示例_demo" && writeDemo) {
+      return writeComponentDoc(
+        `${docsPath}/4_示例_demo/2_文档生成_create/1_DemoForm 示例表单.md`,
+        `${dirPath}/0_示例_demo/1_DemoForm 示例表单`,
+        `${dirPath}/0_示例_demo/DemoForm.vue`,
+        `${dirPath}/0_示例_demo/ts.ts`
+      );
+    }
+    if (!withDoc) return;
     const currPath = path.join(fullDirPath, parFile);
     const isDir = fs.lstatSync(currPath).isDirectory();
     if (!isDir) throw new Error("暂未处理不是文件夹的情况");
     const enName = parFile.split(splitOrderChar).at(-1);
-    // console.log(parFile, enName, "parFile------------");
     fs.readdirSync(currPath).forEach(file => {
-      const readDirPath = `${dirPath}/${parFile}/${file}`;
-      const writeFilePath = `${docsPath}/2_组件_comp/${parFile}/${file}.md`;
-      const secs = enName === "form" ? getSecs() : null;
-      writeComponentDoc(readDirPath, writeFilePath, secs);
+      const demoPath = `${dirPath}/${parFile}/${file}`;
+      const writePath = `${docsPath}/2_组件_comp/${parFile}/${file}.md`;
+      if (enName === "form") {
+        const apiPath = "/src/components/form/BaseForm.vue";
+        const tsPath = "/src/components/form/_types.ts";
+        writeComponentDoc(writePath, demoPath, apiPath, tsPath);
+      } else {
+        writeComponentDoc(writePath, demoPath);
+      }
     });
   });
-  // //组件 -> 表单 -> 基础表单
-  // writeComponentDoc("/examples/2_表单_form/1_BaseForm 基础表单", `${docsPath}/2_组件_comp/2_表单_form`, {
-  //   apis: [
-  //     {
-  //       type: "props",
-  //       rows: getRowsOfProps("/src/components/form/BaseForm.vue", true),
-  //     },
-  //     { type: "method", rows: getRowsOfMethod(), descs: { tip: "这是tip消息" } },
-  //     {
-  //       type: "event",
-  //       rows: getRowsOfEvent(),
-  //       descs: {
-  //         tip: "这是tip消息",
-  //         warning: "这是warning消息",
-  //         danger: "这是danger消息",
-  //         details: "这是details消息",
-  //       },
-  //     },
-  //     { type: "slot", rows: getRowsOfSlot(), descs: { warning: "这是warning消息" } },
-  //   ],
-  //   tsPath: "/src/components/form/_types.ts",
-  // });
-  // //组件 -> 表单 -> 分块表单
-  // writeComponentDoc("/examples/2_表单_form/2_SectionForm 分块表单 分块表单 分块表单 分块表单", `${docsPath}/2_组件_comp/2_表单_form`, {
-  //   apis: [
-  //     {
-  //       type: "props",
-  //       rows: getRowsOfProps("/src/components/form/BaseForm.vue", true),
-  //     },
-  //     { type: "method", rows: getRowsOfMethod(), descs: { tip: "这是tip消息" } },
-  //     {
-  //       type: "event",
-  //       rows: getRowsOfEvent(),
-  //       descs: {
-  //         tip: "这是tip消息",
-  //         warning: "这是warning消息",
-  //         danger: "这是danger消息",
-  //         details: "这是details消息",
-  //       },
-  //     },
-  //     { type: "slot", rows: getRowsOfSlot(), descs: { warning: "这是warning消息" } },
-  //   ],
-  //   tsPath: "/src/components/form/_types.ts",
-  // });
 }
 
-// writeTestMdDoc(); //测试生成Md文档页示例
-// writeDemoTestDoc(); // 生成文档页示例
+writeCommonTestDocs(); //生成组件文档页（通用方法）
 
-writeCommonTestDoc(); //生成组件文档页（通用方法）
+// writeTestMdDoc(); //测试生成Md文档页示例

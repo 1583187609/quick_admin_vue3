@@ -1,4 +1,4 @@
-<!-- 
+<!-- summary
   @title 全部控件类型
   @description 全部控件类型包含：ElementPlus（input, select）、内置（BaseNumberRange）、自定义扩展（UserInfo）三部分。
  -->

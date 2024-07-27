@@ -5,8 +5,7 @@
 import fs from "fs";
 import path from "path";
 import {
-  docsPath,
-  emptyVals,
+  upperFirst,
   getFileName,
   getTable,
   getTsTypeDeclare,
@@ -17,11 +16,13 @@ import {
   splitOrderChar,
   writeFileSync,
   getItemsFromTsStr,
+  getTsStrByName,
+  getAnnotationByType,
 } from "../utils";
 
 /**
  * 获取描述类md文本
- * @param {*} descs
+ * @param {object} hints
  * @returns
  */
 // 示例
@@ -31,11 +32,11 @@ import {
 //   danger: "这是danger消息",
 //   details: "这是details消息",
 // };
-export function getHints(descs) {
-  if (!descs) return "";
+export function getHints(hints) {
+  if (!hints) return "";
   let descStr = "";
-  for (const key in descs) {
-    const val = getWithTagStr(descs[key]);
+  for (const key in hints) {
+    const val = getWithTagStr(hints[key]);
     descStr += `\n\n::: ${key}\n${val}\n:::\n`;
   }
   return descStr;
@@ -69,19 +70,20 @@ function getCodeDemos(readPath) {
     if (isDir) throw new Error("暂未处理文件夹情况");
     const newFilePath = `${readPath}/${file}`;
     const { info } = getVueFileInfo(`${path.join(dirPath, file)}`);
-    const { title = getFileName(file, "cn"), description = "", descs } = info;
+    const { title = getFileName(file, "cn"), description = "", hints } = info ?? {};
     mdStr += `
 ## ${title}
 ::: demo ${description}
 ${newFilePath}
-:::\n${getHints(descs)}\n\n`;
+:::\n${getHints(hints)}\n\n`;
   });
   return mdStr;
 }
 
+// * @param {props|method|event|slot} type 表格类型：属性、方法、事件、插槽
 /**
  * 获取指定类型表格的md文本
- * @param {props|method|event|slot} type 表格类型：属性、方法、事件、插槽
+ * @param {props|expose|emits|slots} type 表格类型：属性、方法、事件、插槽
  * @param {*} rows 表格数据
  * @returns
  */
@@ -95,7 +97,7 @@ export const tableTypeMap = {
       { prop: "default", label: "默认值" },
     ],
   },
-  method: {
+  expose: {
     title: "方法",
     cols: [
       { prop: "name", label: "方法名" },
@@ -103,7 +105,7 @@ export const tableTypeMap = {
       { prop: "type", label: "类型" },
     ],
   },
-  event: {
+  emits: {
     title: "事件",
     cols: [
       { prop: "name", label: "事件名称" },
@@ -111,7 +113,7 @@ export const tableTypeMap = {
       { prop: "cbArgs", label: "回调参数" },
     ],
   },
-  slot: {
+  slots: {
     title: "插槽",
     cols: [
       { prop: "name", label: "插槽名" },
@@ -120,128 +122,103 @@ export const tableTypeMap = {
     ],
   },
 };
-export function getTypeTable(type = "props", rows = [], descs, customTitle) {
+export function getTypeTable(type = "props", rows = [], info) {
+  if (!rows?.length) return "";
+  const { hints, title: overTitle, description } = info ?? {};
   const { title, cols } = tableTypeMap[type];
-  const titleStr = customTitle ?? `### ${title}\n\n`;
-  let descStr = getHints(descs);
-  let mdStr = `${titleStr}${getTable(cols, rows, descs)}${descStr}\n\n`;
+  let mdStr = `### ${overTitle ?? title}\n\n`;
+  if (description) mdStr += `\n${description}\n`;
+  mdStr += `${getTable(cols, rows, hints)}\n`;
+  if (hints) mdStr += `${getHints(hints)}\n\n`;
   return mdStr;
 }
 
 /**
  * 获取API部分的md内容
+ * @param {string} readPath 要读取的文件路径。例：/examples/0_示例_demo/DemoForm.vue
+ * @param {string} title 标题
  */
-// apis 参数示例
-// const tempApis = [
-//   {
-//     type: "props",
-//     // rows: getRowsOfProps("/src/components/form/BaseForm.vue", true),
-//     descs: { tip: "这是tip消息" },
-//   },
-//   { type: "method", descs: { warning: "这是warning消息" } },
-//   {
-//     type: "event",
-//     descs: {
-//       tip: "这是tip消息",
-//       warning: "这是warning消息",
-//       danger: "这是danger消息",
-//       details: "这是details消息",
-//     },
-//   },
-//   { type: "slot" },
-// ];
-function getApiTables(apis, title = "API") {
-  if (!apis?.length) return "";
+const types = ["props", "emits", "slots", "expose"];
+function getApiTables(readPath = "", title = "API") {
+  if (!readPath) return "";
   let mdStr = `## ${title}\n\n`;
-  apis.forEach(api => {
-    const { type, rows, descs } = api;
-    if (!rows?.length) return;
-    mdStr += getTypeTable(type, rows, descs);
+  types.forEach(type => {
+    const { info } = getVueFileInfo(path.join(process.cwd(), readPath), type);
+    const rows = getRowsFromVueDefine(readPath, `define${upperFirst(type)}`, true);
+    mdStr += getTypeTable(type, rows, info);
   });
   return `${mdStr}\n\n`;
 }
 
 /**
+ * 获取vue文件中的摘要信息
+ * @param {string} readPath 要读取文件的路径
+ */
+function getSummaryInfo(readPath) {
+  if (!readPath) return "";
+  const fullPath = path.join(process.cwd(), readPath);
+  const { info } = getVueFileInfo(fullPath);
+  return info;
+}
+
+/**
  * 写入（生成）组件说明文档文件
- * @param {string} readPath 要读取的文件路径。例："/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单"
  * @param {string} writePath 要写入的文件路径。例：`${docsPath}/4_示例_demo/2_文档生成_create`
- * @param {object} sections 分块内容
- * @param {number} order 文件的序号（用于文件目录中的位置排序）
+ * @param {string} demoPath 要读取的文件路径。例："/examples/2_表单_form/1_BaseForm 基础表单"
+ * @param {string} apiPath 读取api内容的路径
+ * @param {string} tsPath 读取ts类型的文件路径
  * @advice 方法名建议 writeComponentDoc
  */
-// sections 示例
-// const tempSecs = {
-//   apis: tempApis,
-//   tsPath: "/src/components/form/_types.ts",
-// };
-export default (readPath = needParam(), writeFilePath = needParam(), sections) => {
-  const readMePath = path.join(process.cwd(), readPath, `${readMeName}.md`);
+export default (writeFilePath = needParam(), demoPath = needParam(), apiPath, tsPath) => {
+  const readMePath = path.join(process.cwd(), demoPath, `${readMeName}.md`);
   const isExist = fs.existsSync(readMePath);
+  // const info = getSummaryInfo(apiPath);
   let fileStr = "";
   if (isExist) {
     fileStr = fs.readFileSync(readMePath, "utf-8");
   } else {
-    fileStr = getInitReadMeFile(writeFilePath.split(splitOrderChar).at(-1).slice(0, -3));
-    writeFileSync(readMePath, fileStr);
+    // 现在不需要配备一个ReadMe文件了，所以不再自动生成了
+    // const title = writeFilePath.split(splitOrderChar).at(-1).slice(0, -3);
+    // fileStr = getInitReadMeFile(title);
+    // writeFileSync(readMePath, fileStr);
   }
-  if (sections) {
-    const { apis, tsPath } = sections;
-    const codeDemos = getCodeDemos(readPath);
-    const apiTables = getApiTables(apis);
-    const tsStr = getTsTypeDeclare(tsPath);
-    fileStr += `\n\n${codeDemos}${apiTables}${tsStr}`;
-  }
+  const codeDemos = getCodeDemos(demoPath);
+  const apiTables = getApiTables(apiPath);
+  const tsDeclare = getTsTypeDeclare(tsPath);
+  fileStr += `\n\n${codeDemos}${apiTables}${tsDeclare}`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };
 
 /**
- * 获取API-属性-表格-行数据（rows）
+ *
+ * @returns 从Vue define（"defineProps" "defineEmits" "defineSlots" "defineExpose"）中获取表格数据（rows）
  * @param {string} readPath 读取文件的路径 例："/src/components/form/BaseForm.vue"
+ * @param {defineProps|defineEmits|defineSlots|defineExpose} type 读取文件的路径 例："/src/components/form/BaseForm.vue"
  * @param {boolean} isAtMd 是否处在md文档中
  */
-export function getRowsOfProps(readPath = needParam(), isAtMd = false) {
-  readPath = path.join(process.cwd(), readPath);
-  const regex = /<{([^}]+)}>/;
-  const fileStr = fs.readFileSync(readPath, "utf-8");
-  const matchStr = fileStr.match(regex)?.[0];
-  return getItemsFromTsStr(matchStr.slice(2, -2), isAtMd);
-}
-
-/**
- *
- * @returns 获取API-方法-表格-行数据（rows)
- */
-export function getRowsOfMethod() {
-  const { cols } = tableTypeMap.method;
-  const row = {};
-  cols.forEach(({ prop }) => {
-    row[prop] = "-";
+export function getRowsFromVueDefine(readPath = needParam(), type = "defineProps", isAtMd = false) {
+  const fileStr = getTsStrByName(readPath, type, true);
+  if (type !== "defineEmits") return getItemsFromTsStr(fileStr, isAtMd);
+  const rows = [];
+  const lines = fileStr.trim().split("\n");
+  lines.map(line => {
+    line = line.trim();
+    const sInd = line.indexOf(":") + 1;
+    const eInd = line.lastIndexOf(")");
+    const annoStr = line.slice(line.indexOf(";") + 1); //注释
+    const item = line.slice(sInd, eInd).trim() + annoStr;
+    const commaInd = item.indexOf(","); //逗号的下标
+    const name = item.slice(0, commaInd).trim().slice(1, -1);
+    const [args, anno] = item
+      .slice(commaInd + 1)
+      .split("//")
+      .map(it => it.trim());
+    const row = {
+      name: isAtMd ? getWithTagStr(name) : name,
+      desc: isAtMd ? getWithTagStr(anno) : anno,
+      cbArgs: isAtMd ? getWithTagStr(args) : args,
+    };
+    rows.push(row);
   });
-  return [row];
-}
-
-/**
- *
- * @returns 获取API-事件-表格-行数据（rows)
- */
-export function getRowsOfEvent() {
-  const { cols } = tableTypeMap.event;
-  const row = {};
-  cols.forEach(({ prop }) => {
-    row[prop] = "-";
-  });
-  return [row];
-}
-
-/**
- *
- * @returns 获取API-插槽-表格-行数据（rows)
- */
-export function getRowsOfSlot() {
-  const { cols } = tableTypeMap.slot;
-  const row = {};
-  cols.forEach(({ prop }) => {
-    row[prop] = "-";
-  });
-  return [row];
+  return rows;
 }

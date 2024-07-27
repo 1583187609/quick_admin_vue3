@@ -2,11 +2,13 @@ import { getWithTagStr } from "./md";
 
 /**
  * 从ts文件中获取items
- * @param {*} fileStr 读取的文件路径
- * @param {*} isAtMd 是否在md文件中展示
+ * @param {string} fileStr 读取的文件路径
+ * @param {boolean} isAtMd 是否在md文件中展示
  */
 export function getItemsFromTsStr(fileStr = "", isAtMd = false) {
-  const lines = fileStr.trim().split("\n");
+  fileStr = fileStr.trim();
+  if (!fileStr) return [];
+  const lines = fileStr.split("\n");
   const list = lines
     .map((it, i) => {
       let str = it.trim();

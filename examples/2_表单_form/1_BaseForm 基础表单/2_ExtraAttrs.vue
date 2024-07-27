@@ -1,4 +1,4 @@
-<!-- 
+<!-- summary
   @title 额外属性
   @description 除了ElementPlus的属性外，其他的功能属性一律添加在 extraAttrs 中
  -->

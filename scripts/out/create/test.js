@@ -1,7 +1,7 @@
 import path from "path";
 import { getWithTagStr, writeFileSync, toCodeBlock, getTsStrByName, getItemsFromTsStr, getTable } from "../utils/file";
 import { docsPath } from "../utils/consts";
-import { getHints, getRowsOfProps, getTypeTable, tableTypeMap } from "./component";
+import { getHints, getTypeTable, tableTypeMap } from "./component";
 
 /**
  * 写入生成md文档（测试）
@@ -25,13 +25,14 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
 
   fileStr += `## Ts属性示例\n\n`;
   fileStr += `### Vue Props\n\n`;
-  fileStr += `#### Ts类型\n\n${toCodeBlock(getTsStrByName("/src/components/form/BaseForm.vue", "props"), "ts")}\n\n`;
-  const hints = getHints({ details: toCodeBlock(getTsStrByName("/src/components/form/BaseForm.vue", "props", true)) });
+  const vueFilePath = "/src/components/form/BaseForm.vue";
+  fileStr += `#### Ts类型\n\n${toCodeBlock(getTsStrByName(vueFilePath, "defineProps"), "ts")}\n\n`;
+  const hints = getHints({ details: toCodeBlock(getTsStrByName(vueFilePath, "defineProps", true)) });
   fileStr += `${hints}\n\n`;
   const { cols } = tableTypeMap.props;
-  const rows = getItemsFromTsStr(getTsStrByName("/src/components/form/BaseForm.vue", "props", true), true);
+  const rows = getItemsFromTsStr(getTsStrByName(vueFilePath, "defineProps", true), true);
   // fileStr += `#### 表格展示\n\n${getTable(cols, rows)}\n\n`;
-  fileStr += `#### 表格展示\n\n${getTypeTable("props", rows, undefined, "")}\n\n`;
+  fileStr += `#### 表格展示\n\n${getTypeTable("props", rows)}\n\n`;
 
   fileStr += `### TS Interface\n\n`;
   fileStr += `#### Ts 类型\n\n${toCodeBlock(

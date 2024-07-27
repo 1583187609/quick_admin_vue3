@@ -205,7 +205,7 @@ key?: any; //v-for的key，如果不写，则是默认的index作为key
 |:---|:---|:---|:---|
 |`key`|`v-for`的`key`，如果不写，则是默认的`index`作为`key`|`any`|-|
 |`type`|控件类型，例：`input`|`FormItemType`|-|
-|`children`|};   `className`?: `string `| `CommonObj `| `any`[];|`FormField[]`|-|
+|`children`|};   `className`?: `string `| `CommonObj `| `any`[];|`FormField[]`|-|
 |`attrs`|控件的属性，例：`placeholder`|`CommonObj`|-|
 |`slots`|插槽|`SlotsType`|-|
 |`prop`|属性名，当存在`children`时，可以不传|`string \| [string, string]`|-|
