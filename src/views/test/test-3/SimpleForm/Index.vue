@@ -16,7 +16,7 @@
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { BtnName } from "@/components/BaseBtn";
 import { handleBtnNext } from "@/utils";
 const openPopup = inject<any>("openPopup");

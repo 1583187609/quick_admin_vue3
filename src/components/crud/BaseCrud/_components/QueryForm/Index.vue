@@ -85,7 +85,7 @@
 import { ref, reactive, inject, computed, watch, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/components/_utils";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { CommonObj } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";

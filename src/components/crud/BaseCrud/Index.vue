@@ -91,7 +91,7 @@
 </template>
 <script lang="ts" name="BaseCrud" setup>
 import { ref, reactive, watch, computed, onMounted, inject } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { TableField } from "@/components/table";
 import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { pickBy, cloneDeep, merge, upperFirst } from "lodash";

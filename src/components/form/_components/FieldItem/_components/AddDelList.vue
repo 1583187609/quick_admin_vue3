@@ -19,7 +19,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import AddDelBtn, { AddDelBtnType } from "@/components/AddDelBtn.vue";
 import { merge } from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";

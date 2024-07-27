@@ -1,4 +1,4 @@
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 import { merge } from "lodash";

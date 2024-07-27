@@ -1,5 +1,7 @@
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { CommonObj, StrNum } from "@/vite-env";
+
+export * from "@/components/form/_components/FieldItem";
 
 //表格列的span属性
 export interface ColSpanAttrs {

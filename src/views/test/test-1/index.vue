@@ -39,7 +39,7 @@
 </template>
 <script lang="ts" name="TestOne" setup>
 import { ref, reactive, watch, computed, h } from "vue";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn";

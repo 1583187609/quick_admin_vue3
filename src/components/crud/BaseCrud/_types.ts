@@ -1,6 +1,6 @@
 import { CommonObj, StrNum } from "@/vite-env";
 import { TableField } from "@/components/table";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
 import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";

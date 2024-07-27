@@ -6,7 +6,7 @@ import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
 import { ElMessage } from "element-plus";
 import { emptyVals, getChinaCharLength, isDev, storage, typeOf } from "@/components/_utils";
-import { FormField, FormFieldAttrs, PopoverAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs, PopoverAttrs } from "@/components/form";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
 

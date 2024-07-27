@@ -173,7 +173,7 @@ onBeforeUnmount(() => {
   if (editorInst == null) return;
   editorInst.destroy();
 });
-defineExpose({
+defineExpose<{ editor: any }>({
   editor: editorInst,
 });
 </script>

@@ -18,7 +18,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 

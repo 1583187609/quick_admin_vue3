@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { TableField } from "@/components/table";
 
 const fields: FormField[] = [

@@ -142,7 +142,7 @@ function pause() {
   audioRef.value.pause();
 }
 //暴露方法名、变量等，后续可能会用到
-defineExpose({
+defineExpose<any>({
   playing,
   progress,
   timeStr,

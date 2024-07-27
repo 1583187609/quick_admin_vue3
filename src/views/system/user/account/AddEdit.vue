@@ -15,7 +15,7 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { ref, reactive, watch } from "vue";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";

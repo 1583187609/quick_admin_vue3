@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, h, inject } from "vue";
 import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { TableField } from "@/components/table";
 import { BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";

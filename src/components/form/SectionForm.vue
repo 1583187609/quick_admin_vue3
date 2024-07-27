@@ -96,7 +96,7 @@
 import { ref, reactive, computed, watch, watchEffect } from "vue";
 import { FormInstance } from "element-plus";
 import { getMaxLength, typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
