@@ -12,9 +12,8 @@
 import fs from "fs";
 import path from "path";
 import { writeComponentDoc, writeDemoTestDoc, writeTestMdDoc } from "./create/index.js";
-import { docsPath, splitOrderChar } from "./utils/consts.js";
+import { docsPath, readMeName, splitOrderChar } from "./utils/consts.js";
 import { getRowsOfProps, getRowsOfMethod, getRowsOfEvent, getRowsOfSlot } from "./create/component.js";
-import { getFileName } from "./utils/base.js";
 
 /**
  * 触发热更新写入新文件的方法
@@ -54,7 +53,7 @@ function writeCommonTestDoc(dirPath = "/examples") {
     const isDir = fs.lstatSync(currPath).isDirectory();
     if (!isDir) throw new Error("暂未处理不是文件夹的情况");
     const enName = parFile.split(splitOrderChar).at(-1);
-    console.log(parFile, enName, "parFile------------");
+    // console.log(parFile, enName, "parFile------------");
     fs.readdirSync(currPath).forEach(file => {
       const readDirPath = `${dirPath}/${parFile}/${file}`;
       const writeFilePath = `${docsPath}/2_组件_comp/${parFile}/${file}.md`;

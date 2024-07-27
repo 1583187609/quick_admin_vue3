@@ -4,6 +4,7 @@
 import fs from "fs";
 import path from "path";
 import { needParam, typeOf } from "../base";
+import { readMeName } from "../consts";
 
 /**
  * 递归创建目录(同步方法)
@@ -142,4 +143,30 @@ export function getTsStrByName(readPath = "/src/components/form/BaseForm.vue", n
     return getPartFileStr(readPath, "defineProps<{([^}]+)}>", boundaryChars);
   }
   return getTsStr(readPath, name, boundaryChars);
+}
+
+/**
+ * 更改文件名称
+ * @param {string} dirPath 要更改的父文件夹路径
+ * @param {string} oldName 旧文件名称
+ * @param {string} newName 新文件名称
+ */
+export function changeReadMeFileName(dirPath = "/examples", oldName = readMeName, newName = "Summary") {
+  const fullDirPath = path.join(process.cwd(), dirPath);
+  const dirNames = fs.readdirSync(fullDirPath);
+  dirNames.forEach(file => {
+    const currPath = path.join(fullDirPath, file);
+    const isDir = fs.lstatSync(currPath).isDirectory();
+    if (isDir) {
+      changeReadMeFileName(`${dirPath}/${file}`, oldName, newName);
+    } else {
+      const ext = path.extname(file);
+      const fileName = path.basename(file, ext); //用第二个参数去掉后缀名
+      if (fileName === oldName) {
+        const oldPathName = path.join(fullDirPath, file);
+        const newPathName = path.join(fullDirPath, newName + ext);
+        fs.renameSync(oldPathName, newPathName);
+      }
+    }
+  });
 }
