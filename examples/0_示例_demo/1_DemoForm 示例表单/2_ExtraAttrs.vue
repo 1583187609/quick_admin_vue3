@@ -7,7 +7,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { useDictMap } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
