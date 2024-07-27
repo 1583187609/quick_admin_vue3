@@ -1,16 +1,16 @@
-# BaseForm 基础表单
+# Demo Form 演示表单
 
-这是基础表单的示例
+这是演示表单的示例
 
 ::: tip
-表单已做防抖、请求加载状态等
+功能待完善，敬请期待。
 :::
 
 
 
 ## 测试表单
 ::: demo 这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签`<BaseForm/>`的示例。完整英文句子示例：`Hello, world!`
-form/0_TestForm
+/examples/0_示例_demo/1_DemoForm 示例表单/0_TestForm.vue
 :::
 
 
@@ -22,21 +22,21 @@ form/0_TestForm
 
 ## 全部控件类型
 ::: demo 全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
-form/1_AllFields
+/examples/0_示例_demo/1_DemoForm 示例表单/1_AllFields.vue
 :::
 
 
 
 ## 额外属性
 ::: demo 除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extraAttrs `中
-form/2_ExtraAttrs
+/examples/0_示例_demo/1_DemoForm 示例表单/2_ExtraAttrs.vue
 :::
 
 
 
 ## 继承与扩展
 ::: demo 插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
-form/5_ExtendMore
+/examples/0_示例_demo/1_DemoForm 示例表单/5_ExtendMore.vue
 :::
 
 

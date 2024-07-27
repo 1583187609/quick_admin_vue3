@@ -9,7 +9,7 @@ import {
   emptyVals,
   getFileName,
   getTable,
-  getTypeDeclare,
+  getTsTypeDeclare,
   getVueFileInfo,
   getWithTagStr,
   needParam,
@@ -42,30 +42,38 @@ export function getHints(descs) {
 }
 
 /**
- * 生成代码示例
- * @param {string} readPath 读取文件的路径 例："/examples/form"
- * @link 参考链接：https://juejin.cn/post/7243520456979398693
- * @link 参考链接：https://zhuanlan.zhihu.com/p/450698973
- * @notice 完整路径：/examples/form/InlineForm
+ * 初始化ReadMe文件
+ * @param {string} title 标题
  * @returns
  */
-function getCodeDemo(readPath) {
+export function getInitReadMeFile(title) {
+  return `# ${title}\n\n待完善`;
+}
+
+/**
+ * 生成代码示例
+ * @param {string} readPath 读取文件的路径 例："/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单"
+ * @link 参考链接：https://juejin.cn/post/7243520456979398693
+ * @link 参考链接：https://zhuanlan.zhihu.com/p/450698973
+ * @notice 完整路径：/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单/InlineForm
+ * @returns
+ */
+function getCodeDemos(readPath) {
   if (!readPath) return "";
-  const dirPath = path.join(process.cwd(), readPath);
   let mdStr = "";
+  const dirPath = path.join(process.cwd(), readPath);
   const readFiles = fs.readdirSync(dirPath).filter(it => it !== `${readMeName}.md`);
   readFiles.forEach(file => {
     const curPath = path.join(dirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory();
     if (isDir) throw new Error("暂未处理文件夹情况");
-    const subPath = readPath.split("/").slice(2).join("/");
-    const filePath = `${subPath}/${file.slice(0, -4)}`;
+    const newFilePath = `${readPath}/${file}`;
     const { info } = getVueFileInfo(`${path.join(dirPath, file)}`);
     const { title = getFileName(file, "cn"), description = "", descs } = info;
     mdStr += `
 ## ${title}
 ::: demo ${description}
-${filePath}
+${newFilePath}
 :::\n${getHints(descs)}\n\n`;
   });
   return mdStr;
@@ -123,25 +131,26 @@ export function getTypeTable(type = "props", rows = [], descs, customTitle) {
 /**
  * 获取API部分的md内容
  */
-const tempApis = [
-  {
-    type: "props",
-    rows: [], // getRowsOfProps("/src/components/form/BaseForm.vue", true),
-    descs: { tip: "这是tip消息" },
-  },
-  { type: "method", descs: { warning: "这是warning消息" } },
-  {
-    type: "event",
-    descs: {
-      tip: "这是tip消息",
-      warning: "这是warning消息",
-      danger: "这是danger消息",
-      details: "这是details消息",
-    },
-  },
-  { type: "slot" },
-];
-function getAPI(apis, title = "API") {
+// apis 参数示例
+// const tempApis = [
+//   {
+//     type: "props",
+//     // rows: getRowsOfProps("/src/components/form/BaseForm.vue", true),
+//     descs: { tip: "这是tip消息" },
+//   },
+//   { type: "method", descs: { warning: "这是warning消息" } },
+//   {
+//     type: "event",
+//     descs: {
+//       tip: "这是tip消息",
+//       warning: "这是warning消息",
+//       danger: "这是danger消息",
+//       details: "这是details消息",
+//     },
+//   },
+//   { type: "slot" },
+// ];
+function getApiTables(apis, title = "API") {
   if (!apis?.length) return "";
   let mdStr = `## ${title}\n\n`;
   apis.forEach(api => {
@@ -154,31 +163,35 @@ function getAPI(apis, title = "API") {
 
 /**
  * 写入（生成）组件说明文档文件
- * @param {string} readPath 要读取的文件路径。例："/examples/form"
+ * @param {string} readPath 要读取的文件路径。例："/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单"
  * @param {string} writePath 要写入的文件路径。例：`${docsPath}/4_示例_demo/2_文档生成_create`
  * @param {object} sections 分块内容
  * @param {number} order 文件的序号（用于文件目录中的位置排序）
  * @advice 方法名建议 writeComponentDoc
  */
-const tempSecs = {
-  demoDirPath: "/examples/form",
-  apis: tempApis,
-  tsPath: "/src/components/form/_types.ts",
-};
-export default (readPath = needParam(), writePath = needParam(), sections, order) => {
-  readPath = path.join(process.cwd(), readPath, `${readMeName}.md`);
-  let fileStr = fs.readFileSync(readPath, "utf-8");
-  const title = fileStr.split("\n")[0]?.replaceAll("#", "")?.trim() ?? "无标题";
-  if (sections) {
-    const { demoDirPath, apis, tsPath } = sections;
-    const codeDemo = getCodeDemo(demoDirPath);
-    const api = getAPI(apis);
-    const tsStr = getTypeDeclare(tsPath);
-    fileStr += `\n\n${codeDemo}${api}${tsStr}`;
+// sections 示例
+// const tempSecs = {
+//   apis: tempApis,
+//   tsPath: "/src/components/form/_types.ts",
+// };
+export default (readPath = needParam(), writeFilePath = needParam(), sections) => {
+  const readMePath = path.join(process.cwd(), readPath, `${readMeName}.md`);
+  const isExist = fs.existsSync(readMePath);
+  let fileStr = "";
+  if (isExist) {
+    fileStr = fs.readFileSync(readMePath, "utf-8");
+  } else {
+    fileStr = getInitReadMeFile(writeFilePath.split(splitOrderChar).at(-1).slice(0, -3));
+    writeFileSync(readMePath, fileStr);
   }
-  let fileName = `${title}.md`;
-  if (!emptyVals.includes(order)) fileName = `${order}${splitOrderChar}${fileName}`;
-  writeFileSync(path.join(process.cwd(), writePath, fileName), fileStr);
+  if (sections) {
+    const { apis, tsPath } = sections;
+    const codeDemos = getCodeDemos(readPath);
+    const apiTables = getApiTables(apis);
+    const tsStr = getTsTypeDeclare(tsPath);
+    fileStr += `\n\n${codeDemos}${apiTables}${tsStr}`;
+  }
+  writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };
 
 /**

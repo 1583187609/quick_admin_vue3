@@ -53,14 +53,14 @@ const { copy, isSupported } = useClipboard({
 
 const [sourceVisible, toggleSourceVisible] = useToggle();
 // const lang = useLang();
-const demoSourceUrl = useSourceCode(toRef(props, "path"));
+// const demoSourceUrl = useSourceCode(toRef(props, "path"));
 
 const sourceCodeRef = ref<HTMLButtonElement>();
 const formatPathDemos = computed(() => {
   const demos = {};
-  const demoFiles = import.meta.glob(`../../../examples/*/*.vue`, { eager: true });
+  const demoFiles = import.meta.glob(`../../../examples/**/*.vue`, { eager: true });
   Object.keys(demoFiles).forEach(key => {
-    demos[key.replace("../../../examples/", "").replace(".vue", "")] = demoFiles[key].default;
+    demos[key.replace("../../../examples/", "")] = demoFiles[key].default;
   });
   return demos;
 });

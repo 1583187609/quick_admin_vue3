@@ -40,29 +40,16 @@ export default (md: MarkdownIt) => {
         const sourceFile = sourceFileToken.children?.[0].content ?? "";
 
         if (sourceFileToken.type === "inline") {
-          // source = fs.readFileSync(
-          //   // path.resolve(docRoot, "examples", `${sourceFile}.vue`),
-          //   path.resolve(
-          //     path.join(process.cwd(), "/src"),
-          //     "views/_components",
-          //     `${sourceFile}.vue`
-          //   ),
-          //   "utf-8"
-          // );
-          // const pathStr = path.join(process.cwd(), "/examples", `${sourceFile}.vue`);
-          const pathStr = path.resolve(process.cwd(), "examples", `${sourceFile}.vue`);
+          const pathStr = path.join(process.cwd(), sourceFile);
           // source = fs.readFileSync(pathStr, "utf-8");
           const { file, infos } = getVueFileInfo(pathStr);
           source = file;
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
-
-        // return `<div>123123123</div>`;
-        return `<Demo source="${encodeURIComponent(
-          md.render(`\`\`\` vue\n${source}\`\`\``)
-        )}" path="${sourceFile}" raw-source="${encodeURIComponent(source)}" description="${encodeURIComponent(
-          md.render(description)
-        )}">`;
+        return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\`\`\``))}" path="${sourceFile.replace(
+          "/examples/",
+          ""
+        )}" raw-source="${encodeURIComponent(source)}" description="${encodeURIComponent(md.render(description))}">`;
       } else {
         return "</Demo>";
       }

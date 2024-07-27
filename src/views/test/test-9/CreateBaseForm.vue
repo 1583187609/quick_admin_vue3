@@ -1,7 +1,7 @@
 <!-- 组件 - 创建基础表单 -->
 <template>
   <div class="f-sb-fs" style="height: 200px">
-    <SectionForm class="create-base-form f-3" v-model="model" :sections="sections" debug> </SectionForm>
+    <SectionForm class="create-base-form f-3" v-model="model" :sections="sections"></SectionForm>
     <!-- <BaseSection class="create-base-form f-3" title="第一部分">
       <el-form>
         <template v-for="(field, ind) in getFields()" :key="ind">

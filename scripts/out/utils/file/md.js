@@ -21,7 +21,10 @@ export function getWithTagStr(str = "", reg = tempReg) {
  * @param {string} filePath 文件路径
  * @param {string} rowsRange 选择某些指定行 例：{5,10}
  */
-export function getMdFileByPath(filePath = "/examples/form", rowsRange = "") {
+export function getMdFileByPath(
+  filePath = "/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单",
+  rowsRange = ""
+) {
   return `<!-- @include: ../..${filePath}/${readMeName}.md${rowsRange} -->`;
 }
 
@@ -29,7 +32,7 @@ export function getMdFileByPath(filePath = "/examples/form", rowsRange = "") {
  * 获取Ts类型
  * @param {string} filePath 要读取文件的路径。例："/src/components/form/_types.ts"
  */
-export function getTypeDeclare(filePath) {
+export function getTsTypeDeclare(filePath) {
   if (!filePath) return "";
   let mdStr = `## 类型声明
 ::: details

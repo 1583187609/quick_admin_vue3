@@ -34,15 +34,20 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
   fileStr += `#### 表格展示\n\n${getTypeTable("props", rows, undefined, "")}\n\n`;
 
   fileStr += `### TS Interface\n\n`;
-  fileStr += `#### Ts 类型\n\n${toCodeBlock(getTsStrByName("/examples/ts.ts", "interface FormFieldAttrs"), "ts")}\n\n`;
-  const hints_1 = getHints({ details: toCodeBlock(getTsStrByName("/examples/ts.ts", "interface FormFieldAttrs", true)) });
+  fileStr += `#### Ts 类型\n\n${toCodeBlock(
+    getTsStrByName("/examples/0_示例_demo/ts.ts", "interface FormFieldAttrs"),
+    "ts"
+  )}\n\n`;
+  const hints_1 = getHints({
+    details: toCodeBlock(getTsStrByName("/examples/0_示例_demo/ts.ts", "interface FormFieldAttrs", true)),
+  });
   fileStr += `${hints_1}\n\n`;
-  const rows_1 = getItemsFromTsStr(getTsStrByName("/examples/ts.ts", "interface FormFieldAttrs", true), true);
+  const rows_1 = getItemsFromTsStr(getTsStrByName("/examples/0_示例_demo/ts.ts", "interface FormFieldAttrs", true), true);
   fileStr += `#### 表格展示\n\n${getTable(cols, rows_1)}\n\n`;
 
   fileStr += `### TS Type\n\n`;
-  fileStr += `#### Ts 类型\n\n${toCodeBlock(getTsStrByName("/examples/ts.ts", "type FormItemType"), "ts")}\n\n`;
-  const hints_2 = getHints({ details: toCodeBlock(getTsStrByName("/examples/ts.ts", "type FormItemType", true)) });
+  fileStr += `#### Ts 类型\n\n${toCodeBlock(getTsStrByName("/examples/0_示例_demo/ts.ts", "type FormItemType"), "ts")}\n\n`;
+  const hints_2 = getHints({ details: toCodeBlock(getTsStrByName("/examples/0_示例_demo/ts.ts", "type FormItemType", true)) });
   fileStr += `${hints_2}\n\n`;
 
   writePath = path.join(process.cwd(), docsPath, writePath);

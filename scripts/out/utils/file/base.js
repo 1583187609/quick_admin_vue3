@@ -110,7 +110,7 @@ export function getPartFileStr(readPath = needParam(), reg = needParam(), bounda
 
 /**
  * 根据ts类型名称获取对应的文件片段
- * @param {string} readPath 读取的文件路径。例："/examples/ts.ts"
+ * @param {string} readPath 读取的文件路径。例："/examples/0_示例_demo/ts.ts"
  * @param {string} name ts类型名称。例："type FormItemType"  "interface FormFieldAttrs"
  * @param {boolean} noWrap 是否带壳
  */

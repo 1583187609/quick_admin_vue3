@@ -28,20 +28,20 @@
   //   --vp-badge-danger-text: var(--vp-c-danger-1);
   //   --vp-badge-danger-bg: var(--vp-c-danger-soft);
 }
-.VPSidebarItem {
-  .is-link {
-    padding: 0 $gap;
-    &.is-active {
-      // background: $color-bg-light;
-      background: #eee;
-      border-radius: $radius-main;
-      .text {
-        color: $color-primary;
-        font-weight: bolder;
-      }
-      // .indicator {
-      //   background: blue;
-      // }
-    }
-  }
-}
+// .VPSidebarItem {
+//   .is-link {
+//     padding: 0 $gap;
+//     &.is-active {
+//       // background: $color-bg-light;
+//       background: #eee;
+//       border-radius: $radius-main;
+//       .text {
+//         color: $color-primary;
+//         font-weight: bolder;
+//       }
+//       // .indicator {
+//       //   background: blue;
+//       // }
+//     }
+//   }
+// }
