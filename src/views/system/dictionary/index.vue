@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, h } from "vue";
 import { GetMockCommonList, DeleteUserList } from "@/api-mock";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { TableField } from "@/components/table";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";

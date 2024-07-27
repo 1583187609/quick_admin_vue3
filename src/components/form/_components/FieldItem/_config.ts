@@ -1,5 +1,5 @@
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form/_components/FieldItem/index";
+import { FormFieldAttrs } from "@/components/form/index";
 import { getExportData, rangeJoinChar, regexp } from "@/components/_utils";
 import config from "@/config";
 

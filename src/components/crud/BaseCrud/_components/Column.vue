@@ -132,7 +132,7 @@ import cssVars from "@/assets/styles/_var.module.scss";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import BaseRender from "@/components/BaseRender.vue";
-import { PopoverAttrs } from "@/components/form/_components/FieldItem";
+import { PopoverAttrs } from "@/components/form";
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
   row: CommonObj;

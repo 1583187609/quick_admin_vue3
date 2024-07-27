@@ -122,7 +122,10 @@ function handleEnter() {
     emits("submit", params.value);
   }
 }
-defineExpose({
+defineExpose<{
+  formRef: any;
+  formValidate: () => void;
+}>({
   formRef,
   formValidate() {
     return footerBtnsRef.value.formValidate();

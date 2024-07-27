@@ -129,7 +129,7 @@
 <script lang="ts" name="TestThree" setup>
 import { ref, reactive, inject, isVNode } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { TableField, TableColAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";

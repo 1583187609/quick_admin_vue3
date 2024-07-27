@@ -20,7 +20,7 @@
 import { ref, reactive, inject } from "vue";
 import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { TableField } from "@/components/table";
 import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";

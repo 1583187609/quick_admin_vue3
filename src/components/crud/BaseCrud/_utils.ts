@@ -12,7 +12,7 @@ import {
   showMessage,
 } from "@/components/_utils";
 import { TableField, TableColAttrs } from "@/components/table";
-import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormFieldAttrs } from "@/components/form";
 import { HandleClickExtraBtnsProps, SpecialBoolColType } from "./_types";
 import { batchBtnNames } from ".";
 import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";

@@ -26,7 +26,7 @@
 </template>
 <script lang="ts" setup>
 import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
-import { FormField } from "@/components/form/_components/FieldItem";
+import { FormField } from "@/components/form";
 import { TableField } from "@/components/table";
 import { ref, reactive, inject, h } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";

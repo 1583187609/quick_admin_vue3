@@ -101,7 +101,7 @@ function handleMousewheel(e: any) {
     }
   }
 }
-defineExpose({
+defineExpose<any>({
   //滚动到底部
   scrollToBottom() {
     const { scrollTop, scrollHeight, clientHeight } = boxRef.value.wrapRef;

@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import pkg from "#/package.json";
 import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormFieldAttrs } from "@/components/form";
 import { reactive } from "vue";
 const { version, dependencies, devDependencies } = pkg;
 const { VITE_APP_NAME } = import.meta.env;

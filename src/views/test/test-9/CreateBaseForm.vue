@@ -29,7 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject, h } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
