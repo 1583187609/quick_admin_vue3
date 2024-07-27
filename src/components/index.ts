@@ -8,7 +8,6 @@ import { defineAsyncComponent } from "vue";
 const comps_1 = import.meta.glob("./**/Base*/Index.vue"); // **/ 表示匹配嵌套任意多层级
 const comps_2 = import.meta.glob("./**/Base*.vue");
 const comps = Object.assign(comps_1, comps_2);
-console.log(comps_1, "comps_1------------");
 export default function install(app: any) {
   for (const [key, value] of Object.entries(comps)) {
     let name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."));

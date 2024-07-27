@@ -144,7 +144,7 @@ defineExpose({
   overflow: auto;
   overscroll-behavior: auto;
 }
-.base-form-item {
+.field-item {
   padding: 2px;
   margin-bottom: 0;
   outline: $color-border-main solid 1px;

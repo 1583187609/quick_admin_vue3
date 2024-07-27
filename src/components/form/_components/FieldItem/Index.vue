@@ -2,7 +2,7 @@
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
   <el-form-item
-    class="base-form-item"
+    class="field-item"
     v-bind="prefixProp && !newField.labelWidth ? deleteAttrs(newField, ['label']) : newField"
     :class="className"
   >
@@ -139,12 +139,12 @@
           v-model="newVal"
           v-else-if="newField.type === 'BaseUpload'"
         />
-        <!-- <BaseEditor
+        <!-- <BasicEditor
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
-          v-else-if="newField.type === 'BaseEditor'"
-        ></BaseEditor> -->
+          v-else-if="newField.type === 'BasicEditor'"
+        ></BasicEditor> -->
         <el-autocomplete
           :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
@@ -454,7 +454,7 @@ function handleInput(e: any, prop: string) {
 defineExpose({});
 </script>
 <style lang="scss" scoped>
-.base-form-item {
+.field-item {
 }
 .err {
   color: $color-danger;

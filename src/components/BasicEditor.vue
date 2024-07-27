@@ -1,5 +1,5 @@
 <template>
-  <div class="base-editor">
+  <div class="basic-editor">
     <Toolbar class="tool-bar" :editor="editorInst" :defaultConfig="toolbarCfg" :mode="mode" />
     <Editor
       class="editor"
@@ -178,7 +178,7 @@ defineExpose({
 });
 </script>
 <style lang="scss" scoped>
-.base-editor {
+.basic-editor {
   border-radius: $radius-main;
   border: $border-main;
   overflow: hidden;
