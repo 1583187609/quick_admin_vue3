@@ -3,7 +3,7 @@
 /********************************************************************/
 
 import { typeOf } from "@/components/_utils";
-import { FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { emptyVals, emptyTime } from "./consts";
 import dayjs from "dayjs";

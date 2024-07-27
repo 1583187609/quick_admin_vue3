@@ -7,7 +7,7 @@ import btnsMap from ".";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/vite-env";
 import { PopconfirmAttrs, BaseBtnType, BtnItem, BtnName, BtnFn } from "./_types";
-import { FilterAuthItem } from "@/components/BaseCrud";
+import { FilterAuthItem } from "@/components/crud/BaseCrud";
 
 /**
  * 获取popconfirm的属性对象

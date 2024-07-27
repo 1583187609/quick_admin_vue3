@@ -1,5 +1,5 @@
 import { PopupType } from "@/App.vue";
-import { FormItemType } from "@/components/BaseFormItem";
+import { FormItemType } from "@/components/form/_components/FieldItem";
 import { CommonObj, StrNum } from "@/vite-env";
 
 //配置合并的策略

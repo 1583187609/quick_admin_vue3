@@ -129,7 +129,7 @@
 <script lang="ts" name="TestThree" setup>
 import { ref, reactive, inject, isVNode } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { TableField, TableColAttrs } from "@/components/table";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
@@ -145,7 +145,7 @@ import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
 import CustomHead from "./_components/CustomHead.vue";
 import { SectionFieldsItemAttrs } from "@/components/form";
-import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { h } from "vue";
 
 const tempRow = {

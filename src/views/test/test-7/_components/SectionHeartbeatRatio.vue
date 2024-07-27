@@ -7,7 +7,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { SectionFormItem } from "@/components/form";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

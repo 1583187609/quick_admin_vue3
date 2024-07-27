@@ -2,7 +2,7 @@
 <template>
   <el-form-item style="margin-bottom: 18px; width: 100%" v-for="(item, ind) in newList" :key="ind">
     <!-- <el-space> -->
-    <BaseFormItem
+    <FieldItem
       :prefixProp="`${parentProp}[${ind}]`"
       :field="field"
       :pureText="field.extraAttrs?.pureText || pureText"
@@ -19,13 +19,14 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import AddDelBtn, { AddDelBtnType } from "@/components/AddDelBtn.vue";
 import { merge } from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";
 import { CommonObj } from "@/vite-env";
 import { showMessage } from "@/components/_utils";
-import { typeOf } from "#/mock/utils";
+import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+
 const props = withDefaults(
   defineProps<{
     modelValue?: any;

@@ -20,13 +20,13 @@
 import { ref, reactive, inject } from "vue";
 import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { TableField } from "@/components/table";
 import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";
-import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { h } from "vue";
 
 const openPopup: any = inject("openPopup");

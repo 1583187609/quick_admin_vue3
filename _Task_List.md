@@ -120,7 +120,7 @@
 ~~2、登录页面 code 错误时，BaseForm 的 loading 状态处理，考虑采用 fetch 方式进行整理~~  
 ~~3、去掉 BaseCrud 的 onTableChange 事件~~  
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
-5、BaseFormItem type==='empty' 相关逻辑完善  
+5、FormItem type==='empty' 相关逻辑完善  
 ~~6、ExtraBtn 按钮加载渲染时很慢，大概延迟了 0.5s 才渲染出来~~  
 ~~7、BaseCrud 组件的加载渲染优化~~  
 ~~6、删除 file-saver 包~~  
@@ -215,7 +215,7 @@
 ~~44、后台管理采用动态路由刷新页面会出现 404 页面处理~~  
 ~~45、自动导入图片脚本执行~~  
 ~~46、表单默认值处理~~  
-47、BaseFormItem 为 date-picker，type 为 daterange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错  
+47、FormItem 为 date-picker，type 为 daterange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错  
 ~~48、优化 vue3 中使用了过多的 watch~~  
 ~~49、接口自动化添加默认值~~  
 ~~50、APP_NAME~~  

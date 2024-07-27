@@ -128,8 +128,8 @@
 import { ref, reactive, inject, watch } from "vue";
 import { GetImSearchFromUserList, GetImSearchFriendList, GetImSearchP2pChatList } from "@/api-mock";
 import { Search } from "@element-plus/icons-vue";
-import CustomCrud from "@/components/CustomCrud/Index.vue";
-import { FormField } from "@/components/BaseFormItem";
+import CustomCrud from "@/components/crud/CustomCrud/Index.vue";
+import { FormField } from "@/components/form/_components/FieldItem";
 import UserItem from "./_components/UserItem.vue";
 import MsgItem from "./_components/MsgItem/Index.vue";
 import { useSelectOpts } from "@/hooks";

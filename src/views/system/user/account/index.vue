@@ -26,14 +26,14 @@
 </template>
 <script lang="ts" setup>
 import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { TableField } from "@/components/table";
 import { ref, reactive, inject, h } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
-import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 
 const openPopup: any = inject("openPopup");
 const fields = ref<FormField[]>([

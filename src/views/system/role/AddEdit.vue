@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch } from "vue";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { GetAuthRoleInfo, PostAuthRoleAdd, PostAuthRoleUpdate } from "@/api-mock";
 

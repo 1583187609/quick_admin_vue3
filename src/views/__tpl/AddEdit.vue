@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const props = withDefaults(

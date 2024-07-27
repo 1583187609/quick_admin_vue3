@@ -1,4 +1,4 @@
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { CommonObj, StrNum } from "@/vite-env";
 
 //表格列的span属性

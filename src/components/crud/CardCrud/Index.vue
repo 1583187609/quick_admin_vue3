@@ -55,7 +55,7 @@ import FaceItem from "./_components/FaceItem.vue";
 import PhotoItem from "./_components/PhotoItem.vue";
 import { getAvatarRowData } from "./_utils";
 import { typeOf, showMessage } from "@/components/_utils";
-import { FilterByAuthFn, getTempGroupBtnsOfRow } from "@/components/BaseCrud";
+import { FilterByAuthFn, getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
 import { CommonObj } from "@/vite-env";
 import { ClosePopupType } from "@/App.vue";
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";

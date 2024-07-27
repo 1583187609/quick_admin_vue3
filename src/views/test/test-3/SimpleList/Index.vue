@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { GetMockCommonList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 import { handleBtnNext } from "@/utils";

@@ -27,7 +27,7 @@
 </template>
 <script lang="ts" setup>
 import { GetMockCommonList } from "@/api-mock";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { TableField } from "@/components/table";
 import { ref, reactive, inject } from "vue";
 import { BaseBtnType, BtnName } from "@/components/BaseBtn";

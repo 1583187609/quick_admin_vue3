@@ -3,7 +3,7 @@
 /********************************************************************/
 
 import { getExportData } from "@/components/_utils";
-import { ReqMap, ResMap } from "@/components/BaseCrud";
+import { ReqMap, ResMap } from "@/components/crud/BaseCrud";
 import { ColSpanAttrs } from "@/components/form";
 import config from "@/config";
 

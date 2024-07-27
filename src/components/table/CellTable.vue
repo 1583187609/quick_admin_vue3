@@ -17,7 +17,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { getMaxLength, getScreenSizeType } from "@/components/_utils";
 import { useEvent } from "@/hooks";
 import { CommonObj, OptionItem } from "@/vite-env";
-import { FormField, FormItemType, ValidType } from "@/components/BaseFormItem";
+import { FormField, FormItemType, ValidType } from "@/components/form/_components/FieldItem";
 export interface ColSpanAttrs {
   xs?: number; // <768
   sm?: number; // >=768

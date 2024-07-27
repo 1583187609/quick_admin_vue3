@@ -5,7 +5,7 @@
     <!-- <BaseSection class="create-base-form f-3" title="第一部分">
       <el-form>
         <template v-for="(field, ind) in getFields()" :key="ind">
-          <BaseFormItem :field="field" v-model="fieldsArr[ind]" />
+          <FieldItem :field="field" v-model="fieldsArr[ind]" />
         </template>
       </el-form>
     </BaseSection> -->
@@ -29,13 +29,15 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject, h } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem, SectionFormItemAttrs } from "@/components/form";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
+import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(
   defineProps<{

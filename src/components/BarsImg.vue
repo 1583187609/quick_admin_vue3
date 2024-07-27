@@ -36,7 +36,7 @@ import { reactive, ref, toRefs, computed, useAttrs } from "vue";
 import { useRouter } from "vue-router";
 import { toCssVal, typeOf } from "@/components/_utils";
 import { TagType } from "@/components/BaseTag.vue";
-import { getBarObj } from "@/components/CardCrud/_utils";
+import { getBarObj } from "@/components/crud/CardCrud/_utils";
 import { CommonObj, FetchType, FinallyNext } from "@/vite-env";
 export type TagSize = "large" | "default" | "small" | "";
 export interface BarAttrs {

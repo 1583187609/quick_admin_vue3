@@ -207,7 +207,7 @@
       />
       <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
         <!-- :field="deleteAttrs(cField, ['label'])" -->
-        <BaseFormItem
+        <FieldItem
           :prefixProp="newField.prop as string"
           :field="cField"
           :pureText="cField.extraAttrs?.pureText || pureText"
@@ -221,11 +221,11 @@
 </template>
 <script lang="ts">
 export default {
-  name: "BaseFormItem",
+  name: "FieldItem",
   inheritAttrs: false,
 };
 </script>
-<script lang="ts" name="BaseFormItem" setup>
+<script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, reactive, watch, useAttrs, computed } from "vue";
 import { merge, cloneDeep } from "lodash";
