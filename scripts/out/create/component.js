@@ -17,7 +17,7 @@ import {
   writeFileSync,
   getItemsFromTsStr,
   getTsStrByName,
-  getAnnotationByType,
+  configName,
 } from "../utils";
 
 /**
@@ -48,22 +48,35 @@ export function getHints(hints) {
  * @returns
  */
 export function getInitReadMeFile(title) {
-  return `# ${title}\n\n待完善`;
+  return `# ${title}\n\n待完善\n`;
+}
+
+/**
+ * 初始化配置文件
+ * @param {string} apiPath api来源路径。例：`${dirPath}/0_示例_demo/DemoForm.vue`,
+ * @param {string} tsPath ts类型声明来源路径。例：`${dirPath}/0_示例_demo/ts.ts`
+ * @returns
+ */
+export function getInitConfigFile(apiPath = "", tsPath = "") {
+  return `{
+  "apiPath": "${apiPath}",
+  "tsPath": "${tsPath}"
+}`;
 }
 
 /**
  * 生成代码示例
- * @param {string} readPath 读取文件的路径 例："/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单"
+ * @param {string} readPath 读取文件的路径 例："/examples/2_表单_form/1_BaseForm 基础表单"
  * @link 参考链接：https://juejin.cn/post/7243520456979398693
  * @link 参考链接：https://zhuanlan.zhihu.com/p/450698973
- * @notice 完整路径：/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单/InlineForm
+ * @notice 完整路径：/examples/2_表单_form/1_BaseForm 基础表单/InlineForm
  * @returns
  */
 function getCodeDemos(readPath) {
   if (!readPath) return "";
   let mdStr = "";
   const dirPath = path.join(process.cwd(), readPath);
-  const readFiles = fs.readdirSync(dirPath).filter(it => it !== `${readMeName}.md`);
+  const readFiles = fs.readdirSync(dirPath).filter(it => ![readMeName, configName].includes(it));
   readFiles.forEach(file => {
     const curPath = path.join(dirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory();
@@ -75,7 +88,7 @@ function getCodeDemos(readPath) {
 ## ${title}
 ::: demo ${description}
 ${newFilePath}
-:::\n${getHints(hints)}\n\n`;
+:::\n${getHints(hints)}\n`;
   });
   return mdStr;
 }
@@ -147,14 +160,14 @@ function getApiTables(readPath = "", title = "API") {
     const rows = getRowsFromVueDefine(readPath, `define${upperFirst(type)}`, true);
     mdStr += getTypeTable(type, rows, info);
   });
-  return `${mdStr}\n\n`;
+  return `${mdStr}\n`;
 }
 
 /**
  * 获取vue文件中的摘要信息
  * @param {string} readPath 要读取文件的路径
  */
-function getSummaryInfo(readPath) {
+function getSummaryInfo(readPath = "") {
   if (!readPath) return "";
   const fullPath = path.join(process.cwd(), readPath);
   const { info } = getVueFileInfo(fullPath);
@@ -169,23 +182,40 @@ function getSummaryInfo(readPath) {
  * @param {string} tsPath 读取ts类型的文件路径
  * @advice 方法名建议 writeComponentDoc
  */
-export default (writeFilePath = needParam(), demoPath = needParam(), apiPath, tsPath) => {
-  const readMePath = path.join(process.cwd(), demoPath, `${readMeName}.md`);
-  const isExist = fs.existsSync(readMePath);
-  // const info = getSummaryInfo(apiPath);
+// apiPath, tsPath
+export default (writeFilePath = needParam(), demoPath = needParam()) => {
   let fileStr = "";
-  if (isExist) {
-    fileStr = fs.readFileSync(readMePath, "utf-8");
-  } else {
-    // 现在不需要配备一个ReadMe文件了，所以不再自动生成了
-    // const title = writeFilePath.split(splitOrderChar).at(-1).slice(0, -3);
-    // fileStr = getInitReadMeFile(title);
-    // writeFileSync(readMePath, fileStr);
-  }
-  const codeDemos = getCodeDemos(demoPath);
-  const apiTables = getApiTables(apiPath);
-  const tsDeclare = getTsTypeDeclare(tsPath);
-  fileStr += `\n\n${codeDemos}${apiTables}${tsDeclare}`;
+  // 获取apiPath, tsPath
+  const fullFilePath = path.join(process.cwd(), demoPath, configName);
+  const isExist = fs.existsSync(fullFilePath);
+  const dataStr = isExist ? fs.readFileSync(fullFilePath, "utf-8") : getInitConfigFile();
+  !isExist && writeFileSync(fullFilePath, dataStr);
+  const { apiPath, tsPath } = JSON.parse(dataStr);
+
+  // 从api来源文件中读取摘要信息，并拼接字符串
+  const info = getSummaryInfo(apiPath);
+  const { title = writeFilePath.split(splitOrderChar).at(-1).slice(0, -3) ?? "无标题", hints, description } = info ?? {};
+  fileStr += `# ${title}\n\n`;
+  const oldFileStr = fileStr;
+  if (description) fileStr += `${description}\n\n`;
+  if (hints) fileStr += `${getHints(hints)}\n\n`;
+
+  // 从ReadMe文件中读取摘要信息
+  // const readMePath = path.join(process.cwd(), demoPath, readMeName);
+  // const isExist = fs.existsSync(readMePath);
+  // if (isExist) {
+  //   fileStr = fs.readFileSync(readMePath, "utf-8");
+  // } else {
+  //   // 现在不需要配备一个ReadMe文件了，所以不再自动生成了
+  //   // const title = writeFilePath.split(splitOrderChar).at(-1).slice(0, -3);
+  //   // fileStr = getInitReadMeFile(title);
+  //   // writeFileSync(readMePath, fileStr);
+  // }
+
+  if (demoPath) fileStr += `${getCodeDemos(demoPath)}\n\n`;
+  if (apiPath) fileStr += `${getApiTables(apiPath)}\n\n`;
+  if (tsPath) fileStr += `${getTsTypeDeclare(tsPath)}\n\n`;
+  if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善\n\n`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };
 

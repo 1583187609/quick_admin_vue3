@@ -1,10 +1,10 @@
-import fs from "fs";
-import path from "path";
 import { readMeName } from "../consts";
 import { needParam } from "../base";
 
 /**
  * 将字符串中的html字符串、英文单词、短语、句子等，用``打上md的标识
+ * @param {string} str 要处理的字符串
+ * @param {RegExp} reg 处理规则（正则表达式）
  */
 const tempReg = /((\b\w+\b)([,: -]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
 export function getWithTagStr(str = "", reg = tempReg) {
@@ -18,14 +18,11 @@ export function getWithTagStr(str = "", reg = tempReg) {
 
 /**
  * 文档前言
- * @param {string} filePath 文件路径
+ * @param {string} filePath 文件路径。例："/examples/2_表单_form/1_BaseForm 基础表单"
  * @param {string} rowsRange 选择某些指定行 例：{5,10}
  */
-export function getMdFileByPath(
-  filePath = "/examples/2_表单_form/1_BaseForm 基础表单 基础表单 基础表单 基础表单",
-  rowsRange = ""
-) {
-  return `<!-- @include: ../..${filePath}/${readMeName}.md${rowsRange} -->`;
+export function getMdFileByPath(filePath = needParam(), rowsRange = "") {
+  return `<!-- @include: ../..${filePath}/${readMeName}${rowsRange} -->`;
 }
 
 /**
@@ -38,7 +35,7 @@ export function getTsTypeDeclare(filePath) {
 ::: details
 <<< ${process.cwd()}${filePath}
 :::  
-\n`;
+`;
   return mdStr;
 }
 

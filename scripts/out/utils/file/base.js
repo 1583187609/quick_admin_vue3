@@ -149,10 +149,10 @@ export function getTsStrByName(readPath = needParam(), name = "defineProps", noW
 /**
  * 更改文件名称
  * @param {string} dirPath 要更改的父文件夹路径
- * @param {string} oldName 旧文件名称
- * @param {string} newName 新文件名称
+ * @param {string} oldName 旧文件名称（带后缀名）
+ * @param {string} newName 新文件名称（带后缀名）
  */
-export function changeFileName(dirPath = "/examples", oldName = readMeName, newName = "Summary") {
+export function changeFileName(dirPath = "/examples", oldName = readMeName, newName = "Summary.md") {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(file => {
@@ -161,11 +161,10 @@ export function changeFileName(dirPath = "/examples", oldName = readMeName, newN
     if (isDir) {
       changeFileName(`${dirPath}/${file}`, oldName, newName);
     } else {
-      const ext = path.extname(file);
-      const fileName = path.basename(file, ext); //用第二个参数去掉后缀名
+      const fileName = path.basename(file); //用第二个参数去掉后缀名
       if (fileName === oldName) {
         const oldPathName = path.join(fullDirPath, file);
-        const newPathName = path.join(fullDirPath, newName + ext);
+        const newPathName = path.join(fullDirPath, newName);
         fs.renameSync(oldPathName, newPathName);
       }
     }
@@ -177,7 +176,7 @@ export function changeFileName(dirPath = "/examples", oldName = readMeName, newN
  * @param {string} dirPath 目录路径
  * @param {string} name 要递归删除的文件名
  */
-export function deleteFileByName(dirPath = "/examples", name = readMeName + ".md") {
+export function deleteFileByName(dirPath = "/examples", name = readMeName) {
   // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_DemoForm 示例表单/${name}`);
   const fullDirPath = path.join(process.cwd(), dirPath);
   // fs.unlinkSync(fullDirPath);

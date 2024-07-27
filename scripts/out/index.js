@@ -23,33 +23,24 @@ export function hotRun() {}
 /***
  * 撰写通用组件文档
  */
-function writeCommonTestDocs(dirPath = "/examples", writeDemo = true, withDoc = false) {
+function writeCommonTestDocs(dirPath = "/examples", writeDemo = true, withDoc = true) {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(parFile => {
     if (parFile === "0_示例_demo" && writeDemo) {
       return writeComponentDoc(
         `${docsPath}/4_示例_demo/2_文档生成_create/1_DemoForm 示例表单.md`,
-        `${dirPath}/0_示例_demo/1_DemoForm 示例表单`,
-        `${dirPath}/0_示例_demo/DemoForm.vue`,
-        `${dirPath}/0_示例_demo/ts.ts`
+        `${dirPath}/0_示例_demo/1_DemoForm 示例表单`
       );
     }
     if (!withDoc) return;
     const currPath = path.join(fullDirPath, parFile);
     const isDir = fs.lstatSync(currPath).isDirectory();
     if (!isDir) throw new Error("暂未处理不是文件夹的情况");
-    const enName = parFile.split(splitOrderChar).at(-1);
     fs.readdirSync(currPath).forEach(file => {
       const demoPath = `${dirPath}/${parFile}/${file}`;
       const writePath = `${docsPath}/2_组件_comp/${parFile}/${file}.md`;
-      if (enName === "form") {
-        const apiPath = "/src/components/form/BaseForm.vue";
-        const tsPath = "/src/components/form/_types.ts";
-        writeComponentDoc(writePath, demoPath, apiPath, tsPath);
-      } else {
-        writeComponentDoc(writePath, demoPath);
-      }
+      writeComponentDoc(writePath, demoPath);
     });
   });
 }

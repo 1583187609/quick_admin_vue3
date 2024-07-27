@@ -1,6 +1,6 @@
 # BaseForm 基础表单
 
-待完善
+
 
 
 ## 测试表单
@@ -14,12 +14,10 @@
 :::
 
 
-
 ## 全部控件类型
 ::: demo 全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
 /examples/2_表单_form/1_BaseForm 基础表单/1_AllFields.vue
 :::
-
 
 
 ## 额外属性
@@ -28,11 +26,11 @@
 :::
 
 
-
 ## 继承与扩展
 ::: demo 插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
 /examples/2_表单_form/1_BaseForm 基础表单/5_ExtendMore.vue
 :::
+
 
 
 ## API
@@ -62,11 +60,13 @@
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
 |`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
 
+
 ### 事件
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
 ||||
+
 
 ### 方法
 
@@ -77,8 +77,11 @@
 
 
 
+
+
 ## 类型声明
 ::: details
 <<< E:\Quick-Admin\quick_admin_vue3/src/components/form/_types.ts
 :::  
+
 

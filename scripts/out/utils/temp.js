@@ -37,7 +37,7 @@ export function createDirToExamplesByDocsDirs(readDir = `${docsPath}/2_组件_co
         fs.mkdirSync(fullWriteDir, { recursive: true });
         const title = fullWriteDir.split(splitOrderChar).at(-1);
         const readMeFile = getInitReadMeFile(title);
-        writeFileSync(`${fullWriteDir}/${readMeName}.md`, readMeFile);
+        writeFileSync(`${fullWriteDir}/${readMeName}`, readMeFile);
       }
     });
   });
