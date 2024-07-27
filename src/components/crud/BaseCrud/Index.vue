@@ -91,13 +91,13 @@
 </template>
 <script lang="ts" name="BaseCrud" setup>
 import { ref, reactive, watch, computed, onMounted, inject } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { TableField } from "@/components/table";
-import { GroupBtnsType } from "@/components/BaseCrud/_components/GroupBtns.vue";
+import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { pickBy, cloneDeep, merge, upperFirst } from "lodash";
 import ExtraBtns, { ToolBtnName } from "./_components/ExtraBtns/Index.vue";
-import QueryTable from "@/components/BaseCrud/_components/QueryTable.vue";
-import QueryForm from "@/components/BaseCrud/_components/QueryForm/Index.vue";
+import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
+import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
 import {
   isProd,
@@ -116,14 +116,14 @@ import Pagination from "./_components/Pagination.vue";
 import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
-import { FilterByAuthFn, batchBtnNames } from "@/components/BaseCrud";
+import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
 import { CommonObj, FetchType, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
 import { SectionFieldsItemAttrs } from "@/components/form";
 import { ColSpanAttrs } from "@/components/form";
 import { ClosePopupType } from "@/App.vue";
 import config from "@/config";
 import { SummaryListType, PaginationAttrs } from "@/components/table";
-import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/BaseCrud";
+import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud";
 import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 

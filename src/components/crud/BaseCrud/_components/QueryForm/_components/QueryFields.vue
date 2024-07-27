@@ -1,7 +1,7 @@
 <!-- 页面-简介 -->
 <template>
   <el-col class="query-fields">
-    <BaseFormItem
+    <FieldItem
       style="width: 100%"
       :className="className"
       :field="field"
@@ -13,13 +13,15 @@
       <template #custom="{ field: currField }">
         <slot name="custom" :field="currField"></slot>
       </template>
-    </BaseFormItem>
+    </FieldItem>
   </el-col>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj;

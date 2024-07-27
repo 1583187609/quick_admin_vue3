@@ -44,7 +44,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { getTimeAgo } from "@/components/_utils";
 import { CommonObj, FetchType, FinallyNext, StrNum } from "@/vite-env";
-import { GroupBtnsType } from "@/components/BaseCrud/_components/GroupBtns.vue";
+import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
 const props = withDefaults(
   defineProps<{

@@ -46,7 +46,7 @@ meta:
 <script lang="ts" setup>
 import { ref, reactive, inject, computed } from "vue";
 import { GetUserLoginAccounts } from "@/api-mock";
-import { FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";

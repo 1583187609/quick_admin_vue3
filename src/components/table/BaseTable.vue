@@ -18,9 +18,9 @@
 import { merge } from "lodash";
 import { ref, reactive, watchEffect } from "vue";
 import { CommonObj } from "@/vite-env";
-import Column from "@/components/BaseCrud/_components/Column.vue";
+import Column from "@/components/crud/BaseCrud/_components/Column.vue";
 import { TableColAttrs } from "@/components/table";
-import { needPushSpecialCol } from "@/components/BaseCrud";
+import { needPushSpecialCol } from "@/components/crud/BaseCrud";
 import { getColLevel } from "@/components/table";
 import { getSpecialColMap } from "@/components/table";
 import { defaultTableAttrs, defaultColumnAttrs } from "@/components/table";

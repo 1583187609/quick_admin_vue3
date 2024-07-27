@@ -24,7 +24,7 @@
               </template>
               <template v-else>-</template>
             </template>
-            <BaseFormItem :field="getNewField(col, $index)" v-model="row[col.prop]" v-else></BaseFormItem>
+            <FieldItem :field="getNewField(col, $index)" v-model="row[col.prop]" v-else />
           </template>
         </el-table-column>
       </template>
@@ -51,7 +51,9 @@ import { Delete, RefreshLeft } from "@element-plus/icons-vue";
 import { FormInstance } from "element-plus";
 import { CommonObj } from "@/vite-env";
 import { TableColAttrs, defaultColumnAttrs, defaultTableAttrs } from "@/components/table";
-import { showMessage } from "../_utils";
+import { showMessage } from "@/utils";
+import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+
 export type CellType = "" | "input" | "select" | "switch" | "custom" | "operate";
 const props = withDefaults(
   defineProps<{

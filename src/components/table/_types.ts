@@ -3,7 +3,7 @@ import { CustomSpecialColType } from "@/config/_components/CustomSpecialTableCol
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
-import { PopoverAttrs } from "@/components/BaseFormItem";
+import { PopoverAttrs } from "@/components/form/_components/FieldItem";
 import { BaseRenderData } from "../BaseRender.vue";
 
 export type AlignType = "left" | "center" | "right";

@@ -14,13 +14,13 @@
 <script lang="ts" setup>
 import { ref, h, inject } from "vue";
 import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { TableField } from "@/components/table";
 import { BtnName } from "@/components/BaseBtn";
 import AddEdit from "./AddEdit.vue";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
-import { ExtraBtnRestArgs } from "@/components/BaseCrud";
+import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 
 const openPopup: any = inject("openPopup");
 const fields = ref<FormField[]>([

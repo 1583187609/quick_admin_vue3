@@ -35,7 +35,7 @@
             <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
-                <BaseFormItem
+                <FieldItem
                   :className="`f-span-${field.extraAttrs?.span || span}`"
                   :field="field"
                   :pureText="field?.extraAttrs?.pureText || sItem.pureText || pureText"
@@ -47,8 +47,8 @@
                   <template #custom="{ field: currField }">
                     <slot :name="currField.prop" :field="currField" :form="formData"></slot>
                   </template>
-                </BaseFormItem>
-                <BaseFormItem
+                </FieldItem>
+                <FieldItem
                   :className="`f-span-${field?.extraAttrs?.span || span}`"
                   :field="field"
                   :pureText="field?.extraAttrs?.pureText || sItem?.extraAttrs?.pureText || pureText"
@@ -60,7 +60,7 @@
                   <template #custom="{ field: currField }">
                     <slot :name="currField.prop" :field="currField" :form="formData"></slot>
                   </template>
-                </BaseFormItem>
+                </FieldItem>
               </template>
             </template>
           </div>
@@ -96,14 +96,16 @@
 import { ref, reactive, computed, watch, watchEffect } from "vue";
 import { FormInstance } from "element-plus";
 import { getMaxLength, typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
-import { FormField, FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { SectionFormItemAttrs, SectionFormItem, defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType, StrNum } from "@/vite-env";
+import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
+
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据

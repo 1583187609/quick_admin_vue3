@@ -37,11 +37,11 @@ import { GroupBtnsAttrs } from "./GroupBtns.vue";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
 import { typeOf, handleTableSummary, defaultGroupBtnsMaxNum, getChinaCharLength } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
-import { GroupBtnsType } from "@/components/BaseCrud/_components/GroupBtns.vue";
+import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import Column, { RefreshListFn, RowBtnInfo } from "@/components/BaseCrud/_components/Column.vue";
-import { needPushSpecialCol } from "@/components/BaseCrud";
-import { getTempGroupBtnsOfRow } from "@/components/BaseCrud";
+import Column, { RefreshListFn, RowBtnInfo } from "@/components/crud/BaseCrud/_components/Column.vue";
+import { needPushSpecialCol } from "@/components/crud/BaseCrud";
+import { getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
 import { TableColAttrs, TableField, defaultTableAttrs, getColLevel, getSpecialColMap } from "@/components/table";
 import config from "@/config";
 

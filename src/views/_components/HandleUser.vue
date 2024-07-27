@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, nextTick, computed } from "vue";
-import { FormField } from "@/components/BaseFormItem";
+import { FormField } from "@/components/form/_components/FieldItem";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 export type FormType = "unseal" | "add" | "handle";

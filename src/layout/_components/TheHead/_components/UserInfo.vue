@@ -18,7 +18,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
 import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn";
 

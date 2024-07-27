@@ -1,5 +1,5 @@
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/BaseFormItem/index";
+import { FormFieldAttrs } from "@/components/form/_components/FieldItem/index";
 import { getExportData, rangeJoinChar, regexp } from "@/components/_utils";
 import config from "@/config";
 
@@ -225,7 +225,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     // BaseUpload: {
     //   attrs: {},
     // },
-    // BaseEditor: {
+    // BasicEditor: {
     //   attrs: {
     // style: { width: "100%" },
     //   },

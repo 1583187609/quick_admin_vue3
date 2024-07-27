@@ -1,6 +1,6 @@
-<!-- 组件 - 颜值描述巡查 -->
+<!-- 组件 - 资料巡查 -->
 <template>
-  <div class="face-item f-fs-s-c">
+  <div class="about-item f-fs-s-c" :class="{ passed: status === 0, rejected: status === 1 }">
     <div class="f-fs-s-c cont-box f-1">
       <div class="f-fs-c head f-0" v-if="row.userData">
         <el-tooltip :show-after="300" :content="row.userData.nickname" :disabled="!row.userData.nickname">
@@ -11,11 +11,14 @@
         <BaseTag name="Gender" :value="row.userData.gender" class="f-0" pureText />
       </div>
       <div class="title f-sb-b f-0">
-        <b class="b">驳回：{{ row.myFacePersonRejectNum }}</b>
-        <span class="time-ago">{{ getTimeAgo(row.lastestPubAt) || "-" }}</span>
+        <b class="b">{{ getText("AboutInfo", row.type) }}</b>
+        <span class="time-ago">
+          <!-- {{ getTimeAgo(row.createdAt) || "-" }} -->
+          {{ getTimeAgo(row.updatedAt ? row.updatedAt : row.createdAt) || "-" }}
+        </span>
       </div>
       <div class="desc all-hide-scroll f-1" ref="descRef">
-        {{ row.myFace || "-" }}
+        {{ row.content || "-" }}
       </div>
       <div class="bottom-text" :style="{ minHeight: currSize.barHeight + 'px' }" v-bind="bottomTip.attrs" v-if="bottomTip.text">
         {{ bottomTip.text }}
@@ -33,7 +36,9 @@ import { BtnItem } from "@/components/BaseBtn";
 import { getTimeAgo, typeOf } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
 import { DictItemProps } from "@/dict";
-import { getBarObj } from "@/components/CardCrud/_utils";
+import { getBarObj } from "@/components/crud/CardCrud/_utils";
+import { useDictMap } from "@/hooks";
+const { getText } = useDictMap();
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4
@@ -74,14 +79,28 @@ const popoverRef = ref();
 const currSize = sizeMap[props.sizeType];
 //底部提示文字
 const bottomTip = computed<any>(() => getBarObj(props.bottomBar));
+nextTick(() => {
+  getShowScroll();
+});
+function getShowScroll() {
+  const { scrollHeight, clientHeight } = descRef?.value || {};
+  hasScroll.value = scrollHeight > clientHeight;
+}
 </script>
 <style lang="scss" scoped>
 $foot-height: 36px;
-.face-item {
+.about-item {
   min-width: 310px;
-  height: 25%;
+  height: 50%;
   width: calc(20% - $gap-half);
   transition: all 0.85s;
+  &.passed {
+    // visibility: hidden;
+    // opacity: 0;
+  }
+  &.rejected {
+    // filter: grayscale(1);
+  }
   .cont-box {
     position: relative;
     background: #fff;

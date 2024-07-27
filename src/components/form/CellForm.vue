@@ -8,7 +8,7 @@
           v-for="(field, ind) in fields"
           :key="ind"
         >
-          <BaseFormItem
+          <FieldItem
             :field="field"
             :pureText="field.extraAttrs?.pureText || pureText"
             v-model="formData[field.prop as string]"
@@ -18,7 +18,7 @@
             <template #custom="{ field: currField }">
               <slot :name="currField.prop" :field="currField" :form="formData"></slot>
             </template>
-          </BaseFormItem>
+          </FieldItem>
         </el-col>
       </template>
       <template v-else>空空如也~</template>
@@ -55,7 +55,7 @@ export default {
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { FormFieldAttrs } from "@/components/BaseFormItem";
+import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
@@ -63,7 +63,9 @@ import { isProd } from "@/components/_utils";
 import { ColSpanAttrs } from "../table/CellTable.vue";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
+import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 import { CommonObj, FinallyNext, FetchType } from "@/vite-env";
+
 export interface CellFormField extends FormFieldAttrs {
   colAttrs?: ColSpanAttrs;
 }
@@ -142,7 +144,7 @@ defineExpose({
   overflow: auto;
   overscroll-behavior: auto;
 }
-.base-form-item {
+.field-item {
   padding: 2px;
   margin-bottom: 0;
   outline: $color-border-main solid 1px;
