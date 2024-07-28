@@ -6,7 +6,7 @@
   <div>
     <el-button @click="handleOpenDialog" type="primary">打开Dialog</el-button>
     <!-- <el-button @click="handleOpenDrawer" type="primary">打开Drawer</el-button> -->
-    <el-button @click="handleClosePopup" type="primary">关闭Popup</el-button>
+    <!-- <el-button @click="handleClosePopup" type="primary">关闭Popup</el-button> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -20,8 +20,8 @@ const handleOpenDialog = () => {
 // const handleOpenDrawer = () => {
 //   openPopup("抽屉", "这是抽屉内容", "drawer");
 // };
-const handleClosePopup = () => {
-  closePopup();
-};
+// const handleClosePopup = () => {
+//   closePopup();
+// };
 </script>
 <style lang="scss" name="" scoped></style>

@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/App.vue",
-  "tsPath": "/src/App.vue"
+  "apiPath": "/src/components/GlobalPopup.vue",
+  "tsPath": "/src/components/GlobalPopup.vue"
 }

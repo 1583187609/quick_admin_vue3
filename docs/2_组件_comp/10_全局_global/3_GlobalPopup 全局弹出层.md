@@ -1,5 +1,7 @@
 # GlobalPopup 全局弹出层
 
+提供了两个弹出层`dialog`和`drawer`。默认`dialog`，可在全局配置中进行配置
+
 
 
 
@@ -18,7 +20,7 @@
 
 ## 类型声明
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/App.vue
+<<< E:\Quick-Admin\quick_admin_vue3/src/components/GlobalPopup.vue
 :::  
 
 
