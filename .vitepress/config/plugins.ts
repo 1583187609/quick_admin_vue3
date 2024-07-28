@@ -10,7 +10,7 @@ import { ApiTableContainer } from "../plugins/api-table";
 import type Token from "markdown-it/lib/token";
 import type Renderer from "markdown-it/lib/renderer";
 import type MarkdownIt from "markdown-it";
-import { getVueFileInfo } from "../../scripts/out/utils";
+import { getVueApiInfo } from "../../scripts/out/utils";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {
@@ -42,7 +42,7 @@ export default (md: MarkdownIt) => {
         if (sourceFileToken.type === "inline") {
           const pathStr = path.join(process.cwd(), sourceFile);
           // source = fs.readFileSync(pathStr, "utf-8");
-          const { file, infos } = getVueFileInfo(pathStr);
+          const { file, infos } = getVueApiInfo(pathStr);
           source = file;
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);

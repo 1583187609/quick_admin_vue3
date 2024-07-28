@@ -1,5 +1,5 @@
 import fs from "fs";
-import { getWithTagStr } from ".";
+import { getAtMdStr } from ".";
 import { needParam } from "../base";
 
 /**
@@ -8,10 +8,11 @@ import { needParam } from "../base";
  * @param {summary|props|expose|emits|slots} type 要读取的注释类型
  */
 export function getAnnotationByType(filePath = needParam(), type = "summary", noWrap = false) {
-  const regHtml = new RegExp(`(<!-- ${type}.*?-->)`, "gs");
-  const regJs = new RegExp(`(\\/\\*\\* ${type}.*?\\*\\/)`, "gs");
   const isHtml = type === "summary";
-  const reg = isHtml ? regHtml : regJs;
+  const htmlRegStr = `(<!-- ${type}.*?-->)`;
+  const jsRegStr = `(\\/\\*\\* ${type}.*?\\*\\/)`;
+  const regStr = isHtml ? htmlRegStr : jsRegStr;
+  const reg = new RegExp(regStr, "gs");
   let matchStr = "";
   const fileStr = fs.readFileSync(filePath, "utf8");
   const endStr = fileStr.replace(reg, a => {
@@ -34,7 +35,7 @@ export function getAnnotationByType(filePath = needParam(), type = "summary", no
 }
 
 /**
- * 解析vue文件
+ * 获取vue文件中api的信息
  * @param {string} filePath vue文件路径
  * @param {summary|props|expose|emits|slots} matchType 要读取的注释类型
  * @returns {file: '', info:{}}
@@ -51,7 +52,7 @@ export function getAnnotationByType(filePath = needParam(), type = "summary", no
 //  @desc 这是行内表单的描述1
 // -->
 // `;
-export function getVueFileInfo(filePath = "", matchType = "summary") {
+export function getVueApiInfo(filePath = "", matchType = "summary") {
   if (!filePath) return { file: "", info: null };
   const { matchStr, endStr } = getAnnotationByType(filePath, matchType, true);
   const info = { hints: {} };
@@ -61,12 +62,13 @@ export function getVueFileInfo(filePath = "", matchType = "summary") {
     const spaceInd = item.indexOf(" ");
     const key = item.slice(1, spaceInd);
     let val = item.slice(spaceInd + 1).trim();
-    val = getWithTagStr(val);
-    if (["tip", "warning", "danger"].includes(key)) {
+    val = getAtMdStr(val);
+    const isHint = ["tip", "warning", "danger"].includes(key);
+    if (isHint) {
       info.hints[key] = val;
-    } else {
-      info[key] = val;
+      return;
     }
+    info[key] = val;
   });
   return { file: endStr, info };
 }

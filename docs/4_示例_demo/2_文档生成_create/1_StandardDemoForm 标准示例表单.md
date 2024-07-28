@@ -1,0 +1,130 @@
+# 标准示例表单
+
+在这里，会以标准写法来完成文件
+
+
+
+::: tip
+此表单仅做示例使用，不含任何业务功能
+:::
+
+
+
+## 测试表单
+::: demo 这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签`<BaseForm/>`的示例。完整英文句子示例：`Hello, world!`
+/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/0_TestForm.vue
+:::
+
+
+::: tip
+这是`tip`信息示例
+:::
+
+
+## 全部控件类型
+::: demo 全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
+/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/1_AllFields.vue
+:::
+
+
+## 额外属性
+::: demo 除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extraAttrs `中
+/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
+:::
+
+
+## 继承与扩展
+::: demo 插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
+/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
+:::
+
+
+
+## API
+
+### `Props`
+
+
+描述信息（`props`）
+|属性|说明|类型|默认值|
+|:---|:---|:---|:---|
+|`modelValue?`|表单数据|`-`|-|
+|`fields`|表单字段项|`-`|-|
+|`pureText?`|是否纯文本展示|`-`|-|
+|`fetch?`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`-`|-|
+|`fetchSuccess?`|`fetch`请求成功之后的回调方法|`-`|-|
+|`fetchFail?`|`fetch`请求失败之后的回调方法|`-`|-|
+|`span?`|同`ElementPlus `的`span`，`1 `~ `24`|`-`|-|
+|`footer?`|是否显示底部按钮|`-`|-|
+|`submitText?`|提交按钮的文字|`-`|-|
+|`resetText?`|提交按钮的文字|`-`|-|
+|`extraParams?`|额外的参数|`-`|-|
+|`moreBtns?`|底部的额外更多按钮|`-`|-|
+|`loading?`|提交按钮是否显示加载图标|`-`|-|
+|`isOmit?`|是否剔除掉 `undefined`，'' 参数|`-`|-|
+|`log?`|是否通过 `console.log `打印输出请求参数和响应参数|`-`|-|
+|`debug?`|是否终止提交，并打印传参|`-`|-|
+|`isCache?`|是否缓存|`-`|-|
+|`autoFixedFoot?`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`-`|-|
+|`noSubmitProps?`|提交表单时，不要提交的`prop`属性|`-`|-|
+|`handleRequest?`|处理参数|`-`|-|
+
+
+::: tip
+这是 `props `的 `tip `信息
+:::
+
+
+### 事件
+
+|事件名称|说明|回调参数|
+|:---|:---|:---|
+|`update:modelValue`|双向绑定值|`args: CommonObj`|
+|`submit`|表单提交|`args: CommonObj`|
+|`change`|`change`事件|`prop: string, val: string `| `number`|
+|`moreBtns`|监听操作栏的按钮点击事件|`name: string, args: CommonObj, cb: FinallyNext`|
+
+
+::: warning
+这是 `emits `的 `warning `信息
+:::
+
+
+### 插槽
+
+|插槽名|说明|子标签|
+|:---|:---|:---|
+|`default?`|默认插槽|`-`|
+|`item?`|`item`插槽|`-`|
+
+
+::: danger
+这是 `slots `的`tip`信息
+:::
+
+
+### 方法(`expose`)
+
+
+这是 `expose `的 `description`。通过写入 `description `获得
+|方法名|说明|类型|
+|:---|:---|:---|
+|`formRef`|表单实例|`-`|
+|`formValidate`|表单校验|`-`|
+|`tempTestFn_1`|临时的测试方法|`-`|
+
+
+::: warning
+注意这部分的`title`——【方法(`expose`)】是通过写入覆盖默认值的
+:::
+
+
+
+
+
+## 类型声明
+::: details
+<<< E:\Quick-Admin\quick_admin_vue3/examples/0_示例_demo/_typescript/standard.ts
+:::  
+
+

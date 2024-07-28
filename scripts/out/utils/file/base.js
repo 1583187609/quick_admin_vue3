@@ -3,8 +3,21 @@
  ********************************************/
 import fs from "fs";
 import path from "path";
-import { needParam, typeOf } from "../base";
+import { camelCase, needParam, typeOf } from "../base";
 import { readMeName } from "../consts";
+
+/**
+ * 获取字符串中目标字符串的id，找到任意一个即停止查找
+ * @param {string} str 要查找的字符串
+ * @param {string|string[]} chars 目标字符,可以为数组或字符串
+ */
+export function getIndex(str, chars = "") {
+  for (let i = 0; i < chars.length; i++) {
+    const ind = str.indexOf(chars[i]);
+    if (ind !== -1) return ind;
+  }
+  return -1;
+}
 
 /**
  * 递归创建目录(同步方法)
@@ -90,28 +103,48 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
  * @param {string} readPath 要读取的文件路径
  * @param {string|RegExp} reg 正则表达式的只读字符串或者正则表达式
  * @param {string|false} boundaryChars 边界符号：由起止符号构成
- * @returns 匹配的文件字符串
+ * @returns {
+ * matchStr {string} 匹配的文件字符串
+ * strType {ts|arr|obj} 字符串的来源类型
+ * type {props|emits|slots|expose}
+ * }
  */
 export function getPartFileStr(readPath = needParam(), reg = needParam(), boundaryChars = false) {
   const isReg = typeOf(reg) === "RegExp";
   const regexp = isReg ? reg : new RegExp(reg);
-  const regStr = isReg ? reg.source : reg;
-  readPath = path.join(process.cwd(), readPath);
-  const fileStr = fs.readFileSync(readPath, "utf-8");
+  const fullPath = path.join(process.cwd(), readPath);
+  const fileStr = fs.readFileSync(fullPath, "utf-8");
   let matchStr = fileStr.match(regexp)?.[0];
   if (!matchStr) return "";
+  //是否是ts类型的字符串。也可能是其他开头的字符串，例：defineExpose<, defineExpose(, type = '', interface {}
+  let strType = "obj";
+  // const list = ["defineProps<", "defineEmits<", "defineSlots<", "defineExpose<", "interface"];
+  // if (matchStr.startsWith(list)) strType = "ts";
+  const tsList = ["defineProps<", "defineEmits<", "defineSlots<", "defineExpose<", "interface"];
+  if (tsList.some(it => matchStr.startsWith(it))) strType = "ts";
+  if (matchStr.startsWith("defineEmits([")) strType = "arr";
+  // regexp.source.includes("defineProps") && console.log(matchStr, strType, "defineProps-matchStr---------------");
+  const endInd = matchStr.indexOf(/[<\(]/);
+  let type = "";
+  if (matchStr.startsWith("define")) type = camelCase(matchStr.slice(6, endInd));
+  if (matchStr.startsWith("type")) type = "type";
+  if (matchStr.startsWith("interface")) type = "interface";
+  if (!type) throw new Error("未检测到type类型");
   if (boundaryChars) {
+    // defineEmits(["update:modelValue"])
+    if (matchStr.startsWith("defineEmits([")) boundaryChars = "[]";
     const [c1, c2] = boundaryChars;
-    const sInd = regStr.indexOf(c1) + 1;
-    const eInd = regStr.lastIndexOf(c2) - regStr.length;
+    // regexp.source.includes("defineProps") && console.log(matchStr, "defineProps-matchStr---------------");
+    const sInd = matchStr.indexOf(c1) + 1;
+    const eInd = matchStr.lastIndexOf(c2);
     matchStr = matchStr.slice(sInd, eInd).trim();
   }
-  return matchStr;
+  return { matchStr, strType, type };
 }
 
 /**
  * 根据ts类型名称获取对应的文件片段
- * @param {string} readPath 读取的文件路径。例："/examples/0_示例_demo/ts.ts"
+ * @param {string} readPath 读取的文件路径。例："/examples/0_示例_demo/_typescript/standard.ts"
  * @param {string} name ts类型名称。例："type FormItemType"  "interface FormFieldAttrs"
  * @param {boolean} noWrap 是否带壳
  */
@@ -129,19 +162,25 @@ function getTsStr(readPath = needParam(), name = needParam(), noWrap = true) {
 }
 
 /**
- * 根据ts类型名称获取ts字符串（从vue文件或ts文件中获取）
+ * 根据ts类型名称获取ts或obj（对象）类型的字符串（从vue文件或ts文件中获取）
  * @param {string} readPath 读取文件的路径。例："/src/components/form/BaseForm.vue"
  * @param {defineProps|type +|interface +} name ts类型名称。例"defineProps" "defineEmits" "defineSlots" "defineExpose" "type FormItemType"  "interface FormFieldAttrs"
  * @param {boolean} noWrap 是否去壳
  */
-export function getTsStrByName(readPath = needParam(), name = "defineProps", noWrap = false) {
+export function getTsOrObjStrByName(readPath = needParam(), name = "defineProps", noWrap = false) {
   let boundaryChars = "{}";
   if (!noWrap) boundaryChars = false;
   // 获取vue文件中的 defineProps 或 defineExpose
   if (name.startsWith("define")) {
     const ext = path.extname(readPath).slice(1);
     if (ext !== "vue") throw new Error(`${ext}文件中不存在${ext}文件中的${name}`);
-    return getPartFileStr(readPath, `${name}<{([^}]+)}>`, boundaryChars);
+    // let regStr = `${name}<{([^}]+)}>`;
+    // let regStr = `${name}[<\\(]{([\\s\\S]*)}[\\)>]`; // 匹配 defineExpose({}) 或 defineExpose<{}> 类型的字符串
+    // let regStr = `${name}[<\\(]{([^}]*)}[\\)>]`; // 匹配 defineExpose({}) 或 defineExpose<{}> 类型的字符串
+    const midRegStr = `<`;
+    // 匹配示例：defineExpose<{}>, defineExpose({}), defineEmits([])
+    let regStr = `(${name}<{[^${midRegStr}]+}>)|(${name}\\({[^${midRegStr}]+}\\))|(${name}\\(\\[[^${midRegStr}]+\\]\\);)`;
+    return getPartFileStr(readPath, regStr, boundaryChars);
   }
   return getTsStr(readPath, name, boundaryChars);
 }
@@ -177,7 +216,7 @@ export function changeFileName(dirPath = "/examples", oldName = readMeName, newN
  * @param {string} name 要递归删除的文件名
  */
 export function deleteFileByName(dirPath = "/examples", name = readMeName) {
-  // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_DemoForm 示例表单/${name}`);
+  // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_StandardDemoForm 标准示例表单/${name}`);
   const fullDirPath = path.join(process.cwd(), dirPath);
   // fs.unlinkSync(fullDirPath);
   const dirNames = fs.readdirSync(fullDirPath);

@@ -9,15 +9,17 @@ import {
   getFileName,
   getTable,
   getTsTypeDeclare,
-  getVueFileInfo,
-  getWithTagStr,
+  getVueApiInfo,
+  getAtMdStr,
   needParam,
   readMeName,
   splitOrderChar,
   writeFileSync,
   getItemsFromTsStr,
-  getTsStrByName,
+  getTsOrObjStrByName,
   configName,
+  getItemsFromObjStr,
+  getItemsFromArrStr,
 } from "../utils";
 
 /**
@@ -36,7 +38,7 @@ export function getHints(hints) {
   if (!hints) return "";
   let descStr = "";
   for (const key in hints) {
-    const val = getWithTagStr(hints[key]);
+    const val = getAtMdStr(hints[key]);
     descStr += `\n\n::: ${key}\n${val}\n:::\n`;
   }
   return descStr;
@@ -53,8 +55,8 @@ export function getInitReadMeFile(title) {
 
 /**
  * 初始化配置文件
- * @param {string} apiPath api来源路径。例：`${dirPath}/0_示例_demo/DemoForm.vue`,
- * @param {string} tsPath ts类型声明来源路径。例：`${dirPath}/0_示例_demo/ts.ts`
+ * @param {string} apiPath api来源路径。例：`${dirPath}/0_示例_demo/_components/StandardDemoForm.vue`,
+ * @param {string} tsPath ts类型声明来源路径。例：`${dirPath}/0_示例_demo/_typescript/standard.ts`
  * @returns
  */
 export function getInitConfigFile(apiPath = "", tsPath = "") {
@@ -82,7 +84,7 @@ function getCodeDemos(readPath) {
     const isDir = fs.lstatSync(curPath).isDirectory();
     if (isDir) throw new Error("暂未处理文件夹情况");
     const newFilePath = `${readPath}/${file}`;
-    const { info } = getVueFileInfo(`${path.join(dirPath, file)}`);
+    const { info } = getVueApiInfo(`${path.join(dirPath, file)}`);
     const { title = getFileName(file, "cn"), description = "", hints } = info ?? {};
     mdStr += `
 ## ${title}
@@ -123,7 +125,7 @@ export const tableTypeMap = {
     cols: [
       { prop: "name", label: "事件名称" },
       { prop: "desc", label: "说明" },
-      { prop: "cbArgs", label: "回调参数" },
+      { prop: "type", label: "回调参数" },
     ],
   },
   slots: {
@@ -131,7 +133,7 @@ export const tableTypeMap = {
     cols: [
       { prop: "name", label: "插槽名" },
       { prop: "desc", label: "说明" },
-      { prop: "subTag", label: "子标签" },
+      { prop: "type", label: "子标签" },
     ],
   },
 };
@@ -148,7 +150,7 @@ export function getTypeTable(type = "props", rows = [], info) {
 
 /**
  * 获取API部分的md内容
- * @param {string} readPath 要读取的文件路径。例：/examples/0_示例_demo/DemoForm.vue
+ * @param {string} readPath 要读取的文件路径。例：/examples/0_示例_demo/_components/StandardDemoForm.vue
  * @param {string} title 标题
  */
 const types = ["props", "emits", "slots", "expose"];
@@ -156,7 +158,7 @@ function getApiTables(readPath = "", title = "API") {
   if (!readPath) return "";
   let mdStr = `## ${title}\n\n`;
   types.forEach(type => {
-    const { info } = getVueFileInfo(path.join(process.cwd(), readPath), type);
+    const { info } = getVueApiInfo(path.join(process.cwd(), readPath), type);
     const rows = getRowsFromVueDefine(readPath, `define${upperFirst(type)}`, true);
     mdStr += getTypeTable(type, rows, info);
   });
@@ -170,7 +172,7 @@ function getApiTables(readPath = "", title = "API") {
 function getSummaryInfo(readPath = "") {
   if (!readPath) return "";
   const fullPath = path.join(process.cwd(), readPath);
-  const { info } = getVueFileInfo(fullPath);
+  const { info } = getVueApiInfo(fullPath);
   return info;
 }
 
@@ -227,8 +229,13 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
  * @param {boolean} isAtMd 是否处在md文档中
  */
 export function getRowsFromVueDefine(readPath = needParam(), type = "defineProps", isAtMd = false) {
-  const fileStr = getTsStrByName(readPath, type, true);
-  if (type !== "defineEmits") return getItemsFromTsStr(fileStr, isAtMd);
+  const { matchStr: fileStr, strType } = getTsOrObjStrByName(readPath, type, true);
+  if (type !== "defineEmits") {
+    if (strType === "ts") return getItemsFromTsStr(fileStr, isAtMd);
+    return getItemsFromObjStr(fileStr, isAtMd);
+  } else {
+    if (strType === "arr") return getItemsFromArrStr(fileStr, isAtMd);
+  }
   const rows = [];
   const lines = fileStr.trim().split("\n");
   lines.map(line => {
@@ -244,9 +251,9 @@ export function getRowsFromVueDefine(readPath = needParam(), type = "defineProps
       .split("//")
       .map(it => it.trim());
     const row = {
-      name: isAtMd ? getWithTagStr(name) : name,
-      desc: isAtMd ? getWithTagStr(anno) : anno,
-      cbArgs: isAtMd ? getWithTagStr(args) : args,
+      name: isAtMd ? getAtMdStr(name) : name,
+      desc: isAtMd ? getAtMdStr(anno) : anno,
+      type: isAtMd ? getAtMdStr(args) : args,
     };
     rows.push(row);
   });

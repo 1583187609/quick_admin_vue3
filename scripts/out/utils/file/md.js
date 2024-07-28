@@ -7,8 +7,9 @@ import { needParam } from "../base";
  * @param {RegExp} reg 处理规则（正则表达式）
  */
 const tempReg = /((\b\w+\b)([,: -]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
-export function getWithTagStr(str = "", reg = tempReg) {
+export function getAtMdStr(str = "", reg = tempReg) {
   if (!str) return "";
+  if (str === "-") return str;
   return str.replace(reg, match => {
     // 判断是否已经包裹在反引号中，如果已经包裹，则不再处理
     if (match.startsWith("`") && match.endsWith("`")) return match;
