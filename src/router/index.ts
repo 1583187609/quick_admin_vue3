@@ -64,9 +64,12 @@ router.afterEach((to, from) => {
 /**
  * @description 路由跳转错误
  * */
-router.onError(error => {
+router.onError((error, to) => {
   console.error("路由错误", error.message);
   NProgress.done();
+  // if (error.message.includes("Failed to fetch dynamically imported module")) {
+  //   window.location = to.fullPath;
+  // }
 });
 
 export default router;

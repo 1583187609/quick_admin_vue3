@@ -1,4 +1,4 @@
 {
-    "apiPath": "",
-    "tsPath": ""
+  "apiPath": "/src/components/crud/BaseCrud/Index.vue",
+  "tsPath": "/src/components/crud/BaseCrud/_types.ts"
 }

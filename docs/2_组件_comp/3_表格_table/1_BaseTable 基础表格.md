@@ -12,7 +12,7 @@
 |:---|:---|:---|:---|
 |`cols`|表头|`TableColAttrs[]`|-|
 |`rows`|表格行数据|`CommonObj[]`|-|
-|`total`||`number`|-|
+|`total`|-|`number`|-|
 |`pageAttrs`|分页属性|`CommonObj`|-|
 |`sort`|是否显示排序列|`boolean`|-|
 |`index`|是否展示序号列|`boolean`|-|
@@ -22,11 +22,12 @@
 |`summaryMethod`|计算汇总的方法|`(arg: any) => string[]`|-|
 
 
-### 事件
+### 方法
 
-|事件名称|说明|回调参数|
+|方法名|说明|类型|
 |:---|:---|:---|
-||||
+|`ableR`|-|-|
+||-|-|
 
 
 

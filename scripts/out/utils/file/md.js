@@ -2,15 +2,26 @@ import { readMeName } from "../consts";
 import { needParam } from "../base";
 
 /**
+ * 获取（计算出）md文档标识需要的正则表达式
+ */
+// 下列依次为：匹配Ts的箭头函数、BaseBtnType[]、
+const specialRegStrs = [`\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, `\\w+\\[\\]`];
+const tempRegStr = `((\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. ]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
+// const tempReg = /((\b\w+\b)([,: -]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
+function getMdRegexp() {
+  const regStr = specialRegStrs.map(it => `(${it})`).join("|") + `|${tempRegStr}`;
+  return new RegExp(regStr, "g");
+}
+
+/**
  * 将字符串中的html字符串、英文单词、短语、句子等，用``打上md的标识
  * @param {string} str 要处理的字符串
- * @param {RegExp} reg 处理规则（正则表达式）
  */
-const tempReg = /((\b\w+\b)([,: -]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
-export function getAtMdStr(str = "", reg = tempReg) {
+const mdReg = getMdRegexp(); //提取出来就不用每次都重新计算了
+export function getAtMdStr(str = "") {
   if (!str) return "";
   if (str === "-") return str;
-  return str.replace(reg, match => {
+  return str.replace(mdReg, match => {
     // 判断是否已经包裹在反引号中，如果已经包裹，则不再处理
     if (match.startsWith("`") && match.endsWith("`")) return match;
     return `\`${match}\``;

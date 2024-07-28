@@ -1,4 +1,4 @@
 {
-    "apiPath": "",
-    "tsPath": ""
+  "apiPath": "/src/components/chart/Chart.vue",
+  "tsPath": "/src/components/chart/_config/types.ts"
 }

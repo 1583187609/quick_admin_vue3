@@ -27,7 +27,7 @@ export function hotRun() {}
  * @param {boolean} writeDemo 是否重写示例文档
  * @param {standard|complex|null|undefined|''} demoType 示例类型
  */
-function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "standard", dirPath = "/examples") {
+function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", dirPath = "/examples") {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(parFile => {
@@ -54,6 +54,7 @@ function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "stand
   });
 }
 
-writeCommonTestDocs(false, true, "complex"); //生成组件文档页（通用方法）
+writeCommonTestDocs(); //生成组件文档页（通用方法）
+// writeCommonTestDocs(false, true, "complex"); //生成组件文档页（通用方法）
 
 // writeTestMdDoc(); //测试生成Md文档页示例

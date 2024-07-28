@@ -28,6 +28,7 @@
   //   --vp-badge-danger-text: var(--vp-c-danger-1);
   //   --vp-badge-danger-bg: var(--vp-c-danger-soft);
 }
+
 // .VPSidebarItem {
 //   .is-link {
 //     padding: 0 $gap;
@@ -45,3 +46,12 @@
 //     }
 //   }
 // }
+
+// 中间内容区域
+.VPContent {
+  .content {
+    * {
+      overscroll-behavior: auto;
+    }
+  }
+}

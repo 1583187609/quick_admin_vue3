@@ -7,6 +7,7 @@ import mixin from "@/services/mixin";
 import { handleError } from "@/utils";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Demo from "../inner/_components/Demo.vue";
+// import Root from "./Root.vue";
 
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";
@@ -24,4 +25,5 @@ export default {
     app.use(store);
     app.use(router);
   },
+  // Layout: Root,
 };

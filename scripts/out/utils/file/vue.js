@@ -52,6 +52,15 @@ export function getAnnotationByType(filePath = needParam(), type = "summary", no
 //  @desc 这是行内表单的描述1
 // -->
 // `;
+/**
+ * key可能的取值
+ * @title 标题
+ * @description  描述信息（摘要）
+ * @tip tip 块信息
+ * @warning warning 块信息
+ * @danger danger 块信息
+ * @details details 块信息
+ */
 export function getVueApiInfo(filePath = "", matchType = "summary") {
   if (!filePath) return { file: "", info: null };
   const { matchStr, endStr } = getAnnotationByType(filePath, matchType, true);

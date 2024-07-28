@@ -20,11 +20,6 @@ const decoded = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.example-source-wrapper {
-  * {
-    overscroll-behavior: auto;
-  }
-}
 :deep(.language-vue) {
   margin: 0 !important;
   border-radius: 0 !important;

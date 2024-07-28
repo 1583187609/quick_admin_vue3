@@ -141,11 +141,12 @@ export function getTypeTable(type = "props", rows = [], info) {
   if (!rows?.length) return "";
   const { hints, title: overTitle, description } = info ?? {};
   const { title, cols } = tableTypeMap[type];
-  let mdStr = `### ${overTitle ?? title}\n\n`;
+  let mdStr = "";
   if (description) mdStr += `\n${description}\n`;
   mdStr += `${getTable(cols, rows, hints)}\n`;
   if (hints) mdStr += `${getHints(hints)}\n\n`;
-  return mdStr;
+  if (!mdStr) return "";
+  return `### ${overTitle ?? title}\n\n${mdStr}`;
 }
 
 /**
@@ -156,18 +157,20 @@ export function getTypeTable(type = "props", rows = [], info) {
 const types = ["props", "emits", "slots", "expose"];
 function getApiTables(readPath = "", title = "API") {
   if (!readPath) return "";
-  let mdStr = `## ${title}\n\n`;
+  let mdStr = "";
   types.forEach(type => {
     const { info } = getVueApiInfo(path.join(process.cwd(), readPath), type);
     const rows = getRowsFromVueDefine(readPath, `define${upperFirst(type)}`, true);
     mdStr += getTypeTable(type, rows, info);
   });
-  return `${mdStr}\n`;
+  if (!mdStr) return "";
+  return `## ${title}\n\n${mdStr}\n`;
 }
 
 /**
  * 获取vue文件中的摘要信息
  * @param {string} readPath 要读取文件的路径
+ * @param {object} info 返回的信息
  */
 function getSummaryInfo(readPath = "") {
   if (!readPath) return "";
@@ -215,7 +218,10 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
   // }
 
   if (demoPath) fileStr += `${getCodeDemos(demoPath)}\n\n`;
-  if (apiPath) fileStr += `${getApiTables(apiPath)}\n\n`;
+  if (apiPath) {
+    const apiStr = getApiTables(apiPath);
+    if (apiStr) fileStr += `${apiStr}\n\n`;
+  }
   if (tsPath) fileStr += `${getTsTypeDeclare(tsPath)}\n\n`;
   if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善\n\n`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
@@ -230,6 +236,7 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
  */
 export function getRowsFromVueDefine(readPath = needParam(), type = "defineProps", isAtMd = false) {
   const { matchStr: fileStr, strType } = getTsOrObjStrByName(readPath, type, true);
+  if (!fileStr) return [];
   if (type !== "defineEmits") {
     if (strType === "ts") return getItemsFromTsStr(fileStr, isAtMd);
     return getItemsFromObjStr(fileStr, isAtMd);

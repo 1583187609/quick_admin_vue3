@@ -45,7 +45,7 @@
 |`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
 |`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`fetchFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
-|`span`|同`ElementPlus `的`span`，`1 `~ `24`|`string \| number`|-|
+|`span`|同`ElementPlus `的`span`，`1 ~ 24`|`string \| number`|-|
 |`footer`|是否显示底部按钮|`boolean`|-|
 |`submitText`|提交按钮的文字|`string`|-|
 |`resetText`|提交按钮的文字|`string`|-|
@@ -65,15 +65,18 @@
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-||||
+|`update:modelValue`|-|-|
+|`submit`|-|-|
+|`change`|-|-|
+|`moreBtns`|-|-|
 
 
 ### 方法
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`formRef`||`any`|
-|`formValidate`||`() => void`|
+|`formRef`|-|`any`|
+|`formValidate`|-|`() => void`|
 
 
 
