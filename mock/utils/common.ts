@@ -189,10 +189,10 @@ export function addObj(newObj: CommonObj, oldObj: CommonObj, othObj: CommonObj) 
 /**
  * 获取构造对象
  * @param obj object 要依照的对象
- * @param excludes string[] 要排除生成的属性名
+ * @param excludeNames string[] 要排除生成的属性名
  * @return object 构造好之后的新对象
  */
-export function getConstructorObj(obj: CommonObj = {}, excludes?: string[]) {
+export function getConstructorObj(obj: CommonObj = {}, excludeNames?: string[]) {
   const newObj: CommonObj = {};
   const typeMap: CommonObj = {
     Undefined: undefined,
@@ -202,7 +202,7 @@ export function getConstructorObj(obj: CommonObj = {}, excludes?: string[]) {
     Function: () => {},
   };
   for (const key in obj) {
-    // if (!excludes?.includes(key)) {
+    // if (!excludeNames?.includes(key)) {
     const type = typeOf(obj[key]);
     newObj[key] = typeMap[type];
     // }

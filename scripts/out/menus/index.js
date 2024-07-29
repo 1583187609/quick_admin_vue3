@@ -4,7 +4,7 @@
 
 import fs from "fs";
 import path from "path";
-import { docsPath, indexName, splitOrderChar, sourceUrls, excludes, isSimple, getFileName } from "../utils/index.js";
+import { docsPath, indexName, splitOrderChar, sourceUrls, excludeNames, isSimple, getFileName } from "../utils/index.js";
 
 /**
  * 把字符串和对象排序，如果有数字前缀，则根据数字前缀排序
@@ -42,13 +42,13 @@ function sortPaths(paths = [], char = splitOrderChar) {
 /**
  * 获取过滤且排序后的文件名列表
  * @param {*} dirPath 要读取的文件所在文件夹路径
- * @param {*} excludes 要排除的文件夹名
+ * @param {*} excludeNames 要排除的文件夹名
  * @returns
  */
-function getSortReadFiles(dirPath, excludes) {
+function getSortReadFiles(dirPath, excludeNames) {
   let readFiles = fs.readdirSync(dirPath);
-  if (excludes?.length) {
-    readFiles = readFiles.filter(file => !excludes.some(it => file.includes(it)));
+  if (excludeNames?.length) {
+    readFiles = readFiles.filter(file => !excludeNames.some(it => file.includes(it)));
   }
   sortPaths(readFiles);
   return readFiles;
@@ -137,7 +137,7 @@ function getFirstPath(children = []) {
 export function getNav(dirPath = docsPath, isDeep = false, endList = []) {
   const newDirPath = path.join(process.cwd(), dirPath);
   const list = [];
-  const readFiles = getSortReadFiles(newDirPath, excludes);
+  const readFiles = getSortReadFiles(newDirPath, excludeNames);
   readFiles.forEach(file => {
     const curPath = path.join(newDirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
@@ -225,7 +225,7 @@ function getRewrites(sidebar) {
  */
 export function getSidebarAndRewrites(wrapPath = docsPath) {
   const newWrapPath = path.join(process.cwd(), wrapPath);
-  const readFiles = getSortReadFiles(newWrapPath, excludes);
+  const readFiles = getSortReadFiles(newWrapPath, excludeNames);
   const sidebar = {};
   readFiles.map(file => {
     const dirPath = `${wrapPath}/${file}`;

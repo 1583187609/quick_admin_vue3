@@ -1,4 +1,4 @@
-import { unknownChar } from "../consts";
+import { showTypeInferred, unknownChar } from "../consts";
 import { getIndex } from "./base";
 import { getAtMdStr } from "./md";
 
@@ -58,8 +58,8 @@ function getEffectiveLines(fileStr = "") {
  * @return
  */
 export function getInferredTsType(str = "") {
-  if (isFnReg.test(str)) return "Function（类型推断）";
-  if (isArrReg.test(str)) return "Array（类型推断）";
+  if (isFnReg.test(str)) return `Function${showTypeInferred ? "（类型推断）" : ""}`;
+  if (isArrReg.test(str)) return `Array${showTypeInferred ? "（类型推断）" : ""}`;
   return unknownChar;
 }
 

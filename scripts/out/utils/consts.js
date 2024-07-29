@@ -15,7 +15,7 @@ export const configName = "data.json"; //examples下面的配置文件的名称
 export const emptyVals = ["", null, undefined]; //空值，凡遇此空值，则用“-”进行占位填充。看后期是否要考虑将 "undefined", "null" 这两个加入其中
 
 // process.env.NODE_ENV 会先为undefined值，后为development导致取出的值不对
-export const excludes = true || isDev ? ["index"] : ["test", "demo", "index"]; //.vitepress构建页面时，需要排除的文件夹或文件名
+export const excludeNames = true || isDev ? ["index"] : ["test", "demo", "index"]; //.vitepress构建页面时，需要排除的文件夹或文件名
 // 资源地址
 export const sourceUrls = {
   // 预览地址
@@ -40,15 +40,9 @@ export const sourceUrls = {
       github: "https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2F1583187609%2Fquick_admin_vue3",
     },
   },
-  // 说明文档
-  //   docs: {
-  //     react: {
-  //       gitee: "",
-  //       github: "",
-  //     },
-  //     vue3: {
-  //       gitee: "",
-  //       github: "",
-  //     },
-  //   },
 };
+
+/**
+ * 下面是配置信息（临时写在这里）
+ */
+export const showTypeInferred = true; //是否显示类型推断
