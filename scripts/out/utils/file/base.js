@@ -10,10 +10,11 @@ import { readMeName } from "../consts";
  * 获取字符串中目标字符串的id，找到任意一个即停止查找
  * @param {string} str 要查找的字符串
  * @param {string|string[]} chars 目标字符,可以为数组或字符串
+ * @param {boolean} isLast 是否使用 lastIndexOf 查找
  */
-export function getIndex(str, chars = "") {
+export function getIndex(str, chars = "", isLast = false) {
   for (let i = 0; i < chars.length; i++) {
-    const ind = str.indexOf(chars[i]);
+    const ind = str[isLast ? "lastIndexOf" : "indexOf"](chars[i]);
     if (ind !== -1) return ind;
   }
   return -1;
