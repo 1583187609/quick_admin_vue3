@@ -1,3 +1,5 @@
+import { getBracesNum, getLineType } from ".";
+import { needParam } from "../base";
 import { showTypeInferred, unknownChar } from "../consts";
 import { getIndex } from "./base";
 import { getAtMdStr } from "./md";
@@ -35,6 +37,8 @@ function getEffectiveLines(fileStr = "") {
       }
       str = "";
     }
+    // if (str.startsWith("return")) str = "";
+    // if (str.startsWith("}")) str = "";
     // 处理函数行
     const isFnHalf = isFnReg.test(str) && !str.includes("}");
     if (isFnHalf) {
@@ -69,7 +73,7 @@ export function getInferredTsType(str = "") {
  * @param {boolean} isAtMd 是否转成md标识英文的字符串
  * @returns
  */
-function getTableRowItem(row, isAtMd) {
+function getTableRowItem(row = needParam(), isAtMd) {
   const { name = unknownChar, type = unknownChar, desc = unknownChar, defVal = unknownChar, required = unknownChar } = row;
   return {
     name: isAtMd ? getAtMdStr(name) : name,
@@ -104,17 +108,70 @@ export function getItemsFromTsStr(fileStr = "", isAtMd = false) {
  * @param {string} fileStr 读取的文件路径
  * @param {boolean} isAtMd 是否在md文件中展示
  */
-function getIsEnd() {}
+function getEffectiveLineType(str = needParam()) {
+  const ind = getIndex(str, `,'"\`([{`);
+  if (ind === -1) return "";
+  // throw new Error(`暂未处理行字符串为【${str}】的情况`)
+  const char = str[ind];
+  if (char === ",") return "unknown";
+  if (char === "(") return "Function";
+  if (char === "[") return "Array";
+  if (char === "{") return "Object";
+  if (['"', "`", "'"].includes(char)) return "String";
+  const colonInd = str.indexOf(":");
+  const commaInd = str.indexOf(",");
+  if (!isNaN(Number(str.slice(colonInd + 1, commaInd)))) return "Number";
+  // throw new Error(`暂未处理符号为${char}不知类型的情况`);
+  return "";
+}
 export function getItemsFromObjStr(fileStr = "", isAtMd = false) {
   const lines = getEffectiveLines(fileStr);
-  return lines.map(item => {
-    const [keyVal, desc] = item.split("//").map(it => it.trim());
-    const colonInd = getIndex(keyVal, ":,");
-    const name = keyVal.slice(0, colonInd);
-    const val = keyVal.slice(colonInd + 1);
-    const type = getInferredTsType(val);
-    return getTableRowItem({ name, type, desc }, isAtMd);
-  });
+  // let bracesNum = 0;
+  return lines
+    .map(item => {
+      const [keyVal, desc] = item.split("//").map(it => it.trim());
+      const t = getEffectiveLineType(item);
+      if (t === "unknown") {
+        const commaInd = keyVal.indexOf(",");
+        const name = keyVal.slice(0, commaInd);
+        return getTableRowItem({ name, desc }, isAtMd);
+      }
+      if (t === "Function") {
+        const colonInd = getIndex(keyVal, ":(");
+        const name = keyVal.slice(0, colonInd);
+        const type = `${t}${showTypeInferred ? "（类型推断）" : ""}`;
+        return getTableRowItem({ name, type, desc }, isAtMd);
+      }
+      if (t === "Array" || t === "Object") {
+        const colonInd = keyVal.indexOf(":");
+        const name = keyVal.slice(0, colonInd);
+        const type = `${t}${showTypeInferred ? "（类型推断）" : ""}`;
+        return getTableRowItem({ name, type, desc }, isAtMd);
+      }
+      return null;
+    })
+    .filter(it => !!it);
+  // return lines.map(item => {
+  //   // const t = getEffectiveLineType(item);
+  //   // if (colonInd === -1) {
+  //   //   // 如果没找到，则说明是对象或数组
+  //   //   let name;
+  //   //   const isArr = item.indexOf("[");
+  //   //   let type = isArr ? "Array" : "Function";
+  //   //   if (showTypeInferred) type += `（类型推断）`;
+  //   //   bracesNum = getBracesNum(item, 0, isArr ? "[]" : "{}");
+  //   //   if (bracesNum === 0) {
+  //   //   }
+  //   //   return getTableRowItem({ name, type, desc }, isAtMd);
+  //   // } else {
+  //   const [keyVal, desc] = item.split("//").map(it => it.trim());
+  //   const colonInd = getIndex(keyVal, ":,");
+  //   const name = keyVal.slice(0, colonInd);
+  //   const val = keyVal.slice(colonInd + 1);
+  //   const type = getInferredTsType(val);
+  //   return getTableRowItem({ name, type, desc }, isAtMd);
+  //   // }
+  // });
 }
 
 /**

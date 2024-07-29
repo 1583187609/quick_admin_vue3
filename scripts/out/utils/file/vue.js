@@ -103,14 +103,16 @@ function getTypeIsEnd(line = "") {
  * 判断 ts interface 行中{}的数量（为0时，说明完全左右{}数量一致
  * @param {string} line 行字符串
  * @param {type|Interface} type 处理字符串时要依据的处理类型
+ * @param {string} chars 分界的字符串
  * @returns {boolean} 该行是否已结束
  */
-function getInterfaceBracesNum(line = "", n = 0) {
+export function getBracesNum(line = "", n = 0, chars = "{}") {
+  const [left, right] = chars.split("");
   for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    if (char === "{") {
+    const c = line[i];
+    if (c === left) {
       n++;
-    } else if (char === "}") {
+    } else if (c === right) {
       n--;
     }
   }
@@ -122,7 +124,7 @@ function getInterfaceBracesNum(line = "", n = 0) {
  * @param {string} str 要处理的行字符串
  * @returns {""|"anno"|"ts"|"other"} 行的类型
  */
-function getLineType(str = needParam()) {
+export function getLineType(str = needParam()) {
   if (str === "") return "";
   const annoChars = ["//", "/*", "*", "*/"];
   const isAnno = annoChars.some(it => str.startsWith(it));
@@ -204,13 +206,13 @@ export function getTsDeclareFromVueFile(readPathHalf = "", nChar = "\n") {
     const isInfa = infaReg.test(line);
     if (isInfa) {
       newLines.push(item);
-      infaBracesNum = getInterfaceBracesNum(line);
+      infaBracesNum = getBracesNum(line);
       if (infaBracesNum == 0) return;
       isAtInfa = true;
       return;
     }
     if (isAtInfa) {
-      infaBracesNum = getInterfaceBracesNum(line, infaBracesNum);
+      infaBracesNum = getBracesNum(line, infaBracesNum);
       if (infaBracesNum === 0) isAtInfa = false;
       return newLines.push(item);
     }

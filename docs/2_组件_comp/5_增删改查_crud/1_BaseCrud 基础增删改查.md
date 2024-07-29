@@ -85,61 +85,46 @@
 |:---|:---|:---|
 |`refreshList`|-|-|
 |`getList`|-|-|
-|`getQueryParams(isOmit = props.isOmit`) |-|-|
-|`return isOmit ? omitAttrs(params`) |-|-|
+|`getQueryParams`|-|`Function`（类型推断）|
+|`return isOmit ? omitAttrs(params`) |-|`Function`（类型推断）|
 |}|-|-|
 |`getQueryFields(excludeKeys = [reqMap!.curr_page`|-|-|
 |`const queryFields`|-|`Array`（类型推断）|
 |`const rangeKeys`|-|`Array`（类型推断）|
-|`const propFields = queryFormRef.value.getFields() as FormFieldAttrs`[]|-|`Array`（类型推断）|
-|`propFields.forEach((it`|-|-|
-|`if (it.prop?.includes(propsJoinChar`)) |-|-|
-|`rangeKeys.push(it.prop as string`)|-|-|
-||-|-|
+|`const propFields = queryFormRef.value.getFields`|-|`Function`（类型推断）|
+|`propFields.forEach((it`|-|`Function`（类型推断）|
+|`if `|-|`Function`（类型推断）|
+|`rangeKeys.push`|-|`Function`（类型推断）|
 |}) `as unknown as FormFieldAttrs`[]|-|`Array`（类型推断）|
-|`for (const prop in params`) |-|-|
-|`if (excludeKeys && !excludeKeys.includes(prop`)) |-|-|
-|`const target = propFields.find((it`|-|-|
-|`if (target`) |-|-|
+|`for `|-|`Function`（类型推断）|
+|`if `|-|`Function`（类型推断）|
+|`const target = propFields.find((it`|-|`Function`（类型推断）|
+|`if `|-|`Function`（类型推断）|
 |`const val = params[prop`]|-|`Array`（类型推断）|
-|`const canPush = !emptyVals.includes(val) && (typeOf(val) !== "Array" || val.some((it`|-|-|
-|`if (canPush`) |-|-|
-|`queryFields.push`(|-|-|
-|`label`|-|-|
-|`value`|-|-|
-|})|-|-|
-||-|-|
-||-|-|
-||-|-|
-||-|-|
-|`rangeKeys.forEach(prop `=> |-|-|
+|`if `|-|`Function`（类型推断）|
+|`queryFields.push`|-|`Function`（类型推断）|
+|`label: target.label`|-|-|
+|`value: getQueryFieldValue(target`|-|-|
+|`rangeKeys.forEach`|-|`Function`（类型推断）|
 |`const [minKey`|-|-|
 |`const minVal = params[minKey`]|-|`Array`（类型推断）|
 |`const maxVal = params[maxKey`]|-|`Array`（类型推断）|
-|`const target = propFields.find((it`|-|-|
-|`if (target && (minVal || maxVal`)) |-|-|
-|`queryFields.push`(|-|-|
-|`label`|-|-|
-|`value`|-|`Array`（类型推断）|
-|})|-|-|
-||-|-|
-|})|-|-|
-|`return queryFields`|-|-|
+|`const target = propFields.find((it`|-|`Function`（类型推断）|
+|`if `|-|`Function`（类型推断）|
+|`queryFields.push`|-|`Function`（类型推断）|
+|`label: target.label`|-|-|
+|`value: [minVal`|-|-|
 |}|-|-|
-|})|-|-|
-|`function handleDragSort(ele = queryTableRef.value.tableRef.$el.querySelector(".el-table__body-wrapper tbody") as HTMLElement`) |拖拽排序|-|
-|`const { rowKey } = props`|-|-|
+|`const { rowKey } = props`|-|`Object`（类型推断）|
 |`Sortable.create(ele`|-|-|
-|`handle`|-|-|
-|`animation`|-|-|
-|`onEnd(res`|-|-|
+|`handle: ".sort-cell`"|-|-|
+|`animation: 300`|-|-|
+|`onEnd(res`|-|`Function`（类型推断）|
 |`const { newIndex`|-|-|
-|`if (typeof props.sort === "boolean`") |-|-|
 |`emits("dargSortEnd`"|-|-|
 |`showMessage(tips`)|`newRows.value.splice(newIndex, 0, removeItem); const removeItem = newRows.value.splice(oldIndex, 1)[0`];|-|
-|})|-|-|
-|} `else `|-|-|
-||(`props.sort as any)({[rowKey`]})|-|
+|} `else `|-|`Object`（类型推断）|
+||(`props.sort as any)({[rowKey`]})|`Function`（类型推断）|
 |}|-|-|
 
 
