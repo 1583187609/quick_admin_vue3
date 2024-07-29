@@ -69,7 +69,7 @@ function getAllBreadcrumbs(menus: ResponseMenuItem[], parent = [], result: Commo
   return result;
 }
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .path-breadcrumb {
   &.dark {
     :deep(.el-breadcrumb__inner) {

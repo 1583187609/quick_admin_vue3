@@ -120,7 +120,7 @@ import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
 import { CommonObj, FetchType, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
 import { SectionFieldsItemAttrs } from "@/components/form";
 import { ColSpanAttrs } from "@/components/form";
-import { ClosePopupType } from "@/App.vue";
+import { ClosePopupType } from "@/components/GlobalPopup.vue";
 import config from "@/config";
 import { SummaryListType, PaginationAttrs } from "@/components/table";
 import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud";

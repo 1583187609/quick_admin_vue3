@@ -42,4 +42,4 @@ const fields: FormFieldAttrs[] = [
   },
 ];
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

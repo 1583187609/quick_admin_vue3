@@ -30,7 +30,7 @@ import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum } from "@/components/_utils";
 import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
-import { ClosePopupType } from "@/App.vue";
+import { ClosePopupType } from "@/components/GlobalPopup.vue";
 import config from "@/config";
 import { CommonObj, FinallyNext } from "@/vite-env";
 export type GroupBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);

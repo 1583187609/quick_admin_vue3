@@ -43,4 +43,4 @@ const fields: FormFieldAttrs[] = [
   { prop: "zdy", label: "自定义", type: "custom", extraAttrs: { popover: `设置type: "custom"，即可自定义控件` } },
 ];
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

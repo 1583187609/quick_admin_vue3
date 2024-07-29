@@ -131,41 +131,6 @@ function getFirstPath(children = []) {
 }
 
 /**
- * 获取资源链接地址
- */
-function getSourceItems(urlsMap = sourceUrls) {
-  // vitepress 不支持多层嵌套的解析
-  // const items = [];
-  // const textMap = { preview: "预览", repository: "仓库", docs: "文档" };
-  // for (const key in urlsMap) {
-  //   const typeObj = urlsMap[key];
-  //   const item = {
-  //     text: textMap[key],
-  //     items: Object.entries(typeObj).map(([k, v]) => {
-  //       console.log(k, v, "k-v----------------");
-  //       return {
-  //         text: upperFirst(k),
-  //         items: Object.entries(v).map(([i, j]) => {
-  //           return { text: i, link: j };
-  //         }),
-  //       };
-  //     }),
-  //   };
-  //   items.push(item);
-  // }
-  // return items;
-  // 故采用如下方案
-  const items = [
-    {
-      text: "预览",
-      link: "https://gitee.com/link?target=https%3A%2F%2F1583187609.github.io%2Fquick_admin%2Freact%2Fpreview%2F%23%2Flogin",
-    },
-    { text: "仓库", link: "https://gitee.com/fanlichuan/quick_admin_react" },
-  ];
-  return items;
-}
-
-/**
  * 获取顶部导航数据（即：themeConfig.nav）
  * @param dirPath string 文件夹路径
  */
@@ -198,15 +163,6 @@ export function getNav(dirPath = docsPath, isDeep = false, endList = []) {
       });
     }
   });
-  // 资源链接，临时这样写
-  if (!endList?.length) {
-    endList = [
-      {
-        text: "资源",
-        items: getSourceItems(sourceUrls),
-      },
-    ];
-  }
   list.push(...endList);
   return list;
 }

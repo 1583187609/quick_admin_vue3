@@ -25,4 +25,4 @@ const handleOpenDrawer = () => {
 //   closePopup();
 // };
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

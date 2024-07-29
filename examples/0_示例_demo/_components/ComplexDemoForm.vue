@@ -159,10 +159,31 @@ defineSlots<{
  * @description 这是 expose 的 description。通过写入 description 获得
  * @warning 注意这部分的title——【方法(expose)】是通过写入覆盖默认值的
  */
+const refreshList = () => {};
 defineExpose({
   // 这是测试方法
-  tempTestFn_1: () => {
-    console.log("dddd--------");
+  refreshList,
+  getList: () => {},
+  getQueryParams(isOmit = props.isOmit) {
+    return isOmit ? true : params;
+  },
+  getQueryFields(excludeKeys = []) {
+    const queryFields: any[] = [];
+    const rangeKeys: string[] = [];
+    const propFields = [];
+    rangeKeys.forEach(prop => {
+      const [minKey, maxKey] = prop.split(",");
+      const minVal = params[minKey];
+      const maxVal = params[maxKey];
+      const target: any = propFields.find((it: FormFieldAttrs) => it.prop!.includes(prop));
+      if (target && (minVal || maxVal)) {
+        queryFields.push({
+          label: target.label,
+          value: [minVal, maxVal].join("~"),
+        });
+      }
+    });
+    return queryFields;
   },
 });
 // 下面注释是故意放这里的

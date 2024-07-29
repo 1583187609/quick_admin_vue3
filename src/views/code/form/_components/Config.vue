@@ -54,7 +54,7 @@ const val = computed<any>({
   },
 });
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .config {
   width: 600px;
 }

@@ -222,7 +222,10 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
     const apiStr = getApiTables(apiPath);
     if (apiStr) fileStr += `${apiStr}\n\n`;
   }
-  if (tsPath) fileStr += `${getTsTypeDeclare(tsPath)}\n\n`;
+  if (tsPath) {
+    const tsFileStr = getTsTypeDeclare(tsPath);
+    if (tsFileStr) fileStr += `${tsFileStr}\n\n`;
+  }
   if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善\n\n`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };

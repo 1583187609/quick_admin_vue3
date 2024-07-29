@@ -32,4 +32,4 @@ function handleSubmit() {
   showMessage("点击了下载按钮");
 }
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

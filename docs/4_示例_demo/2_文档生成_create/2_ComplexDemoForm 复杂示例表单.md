@@ -85,7 +85,29 @@
 这是 `expose `的 `description`。通过写入 `description `获得
 |方法名|说明|类型|
 |:---|:---|:---|
-|`tempTestFn_1 `|这是测试方法|`Function`（类型推断）|
+|`refreshList`|这是测试方法|-|
+|`getList`|-|`Function`（类型推断）|
+|`getQueryParams(isOmit = props.isOmit`) |-|-|
+|`return isOmit ? true `|-|-|
+|}|-|-|
+|`getQueryFields(excludeKeys `= []) |-|`Array`（类型推断）|
+|`const queryFields`|-|`Array`（类型推断）|
+|`const rangeKeys`|-|`Array`（类型推断）|
+|`const propFields `= []|-|`Array`（类型推断）|
+|`rangeKeys.forEach(prop `=> |-|-|
+|`const [minKey`|-|-|
+|`const minVal = params[minKey`]|-|`Array`（类型推断）|
+|`const maxVal = params[maxKey`]|-|`Array`（类型推断）|
+|`const target`|-|-|
+|`if (target && (minVal || maxVal`)) |-|-|
+|`queryFields.push`(|-|-|
+|`label`|-|-|
+|`value`|-|`Array`（类型推断）|
+|})|-|-|
+||-|-|
+|})|-|-|
+|`return queryFields`|-|-|
+|}|-|-|
 
 
 ::: warning

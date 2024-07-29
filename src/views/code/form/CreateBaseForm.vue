@@ -317,7 +317,7 @@ function handleChange(val: string) {
   //   }
 }
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .title {
   font-size: 18px;
 }

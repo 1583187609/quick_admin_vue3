@@ -14,7 +14,7 @@ const props = withDefaults(
   {}
 );
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .audio-msg {
   &.right {
     color: $color-primary;

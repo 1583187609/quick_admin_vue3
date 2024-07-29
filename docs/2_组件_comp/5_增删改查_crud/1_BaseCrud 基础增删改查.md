@@ -3,6 +3,18 @@
 
 
 
+## 基础用法
+::: demo 摘要介绍暂时略
+/examples/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
+:::
+
+
+## 内嵌组件
+::: demo 内嵌组件的说明
+/examples/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
+:::
+
+
 
 ## API
 
@@ -124,7 +136,7 @@
 |`const { newIndex`|-|-|
 |`if (typeof props.sort === "boolean`") |-|-|
 |`emits("dargSortEnd`"|-|-|
-|`showMessage(tips`)|`newRows.value.splice(newIndex, 0, removeItem`); `const removeItem = newRows.value.splice(oldIndex, 1)[0`];|-|
+|`showMessage(tips`)|`newRows.value.splice(newIndex, 0, removeItem); const removeItem = newRows.value.splice(oldIndex, 1)[0`];|-|
 |})|-|-|
 |} `else `|-|-|
 ||(`props.sort as any)({[rowKey`]})|-|

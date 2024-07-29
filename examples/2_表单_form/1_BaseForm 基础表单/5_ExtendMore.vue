@@ -17,4 +17,4 @@ const fields: FormFieldAttrs[] = [
   { prop: "xm_2", label: "项目2" },
 ];
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

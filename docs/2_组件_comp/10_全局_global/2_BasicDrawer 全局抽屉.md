@@ -26,7 +26,11 @@
 
 ## 类型声明
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/components/BasicDrawer.vue
+
+``` ts
+
+```
+
 :::  
 
 

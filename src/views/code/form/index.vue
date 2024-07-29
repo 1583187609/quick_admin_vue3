@@ -17,7 +17,7 @@ import CreateSectionForm from "./CreateSectionForm.vue";
 export type TabName = "base-form" | "section-form";
 const activeName = ref("base-form");
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .test-six {
   height: 100%;
 }

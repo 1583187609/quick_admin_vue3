@@ -1,3 +1,9 @@
+// 暂时先不使用，所以先注释
+// export const isBrowser = !!globalThis.window; //是否是浏览器
+// export const T = isBrowser ? "&nbsp;&nbsp;" : "  "; //一个制表符的间距，可选："  ", "&nbsp;&nbsp;"
+// export const N = isBrowser ? "<br>" : "\n"; //换行符，可选：<br>, \n
+// export const Br = isBrowser ? N : ""; //换行符
+
 export const isDev = process.env.NODE_ENV === "development";
 export const isSimple = true;
 export const splitOrderChar = "_"; //用于标记序号跟文件名称，作为分隔的符号

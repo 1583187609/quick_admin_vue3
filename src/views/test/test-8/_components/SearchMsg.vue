@@ -119,7 +119,7 @@ function handleClick(row: CommonObj) {
   });
 }
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .search-msg {
   width: 700px;
 }

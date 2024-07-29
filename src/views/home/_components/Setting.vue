@@ -47,7 +47,7 @@ function handleClick(ind: number) {
   }
 }
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .set-move {
   position: fixed;
   $size: 72px;

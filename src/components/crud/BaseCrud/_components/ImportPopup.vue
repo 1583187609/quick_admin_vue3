@@ -66,7 +66,7 @@ function handleFileChange(file: any, files: any[]) {
   };
 }
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .template-hint {
   width: 250px;
   text-align: center;

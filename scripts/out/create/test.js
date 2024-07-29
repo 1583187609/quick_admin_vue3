@@ -1,5 +1,13 @@
 import path from "path";
-import { getAtMdStr, writeFileSync, toCodeBlock, getTsOrObjStrByName, getItemsFromTsStr, getTable } from "../utils/file";
+import {
+  getAtMdStr,
+  writeFileSync,
+  toCodeBlock,
+  getTsOrObjStrByName,
+  getItemsFromTsStr,
+  getTable,
+  getTsDeclareFromVueFile,
+} from "../utils/file";
 import { docsPath } from "../utils/consts";
 import { getHints, getTypeTable, tableTypeMap } from "./component";
 
@@ -62,6 +70,9 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
     ),
   });
   fileStr += `${hints_2}\n\n`;
+
+  const scriptStr = getTsDeclareFromVueFile("/examples/0_示例_demo/_components/GlobalPopupDemo.vue");
+  fileStr += `## 从Vue文件中直接获取Ts类型\n\n${toCodeBlock(scriptStr, "ts")}\n\n`;
 
   writePath = path.join(process.cwd(), docsPath, writePath);
   writeFileSync(writePath, fileStr);

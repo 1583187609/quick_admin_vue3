@@ -104,6 +104,7 @@ export function getItemsFromTsStr(fileStr = "", isAtMd = false) {
  * @param {string} fileStr 读取的文件路径
  * @param {boolean} isAtMd 是否在md文件中展示
  */
+function getIsEnd() {}
 export function getItemsFromObjStr(fileStr = "", isAtMd = false) {
   const lines = getEffectiveLines(fileStr);
   return lines.map(item => {

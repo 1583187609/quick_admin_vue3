@@ -87,6 +87,8 @@ modelValue?: CommonObj; //表单数据
 
 #### 表格展示
 
+### 属性
+
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|表单数据|`CommonObj`|-|
@@ -95,7 +97,7 @@ modelValue?: CommonObj; //表单数据
 |`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
 |`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`fetchFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
-|`span`|同`ElementPlus `的`span`，`1 `~ `24`|`string \| number`|-|
+|`span`|同`ElementPlus `的`span`，`1 ~ 24`|`string \| number`|-|
 |`footer`|是否显示底部按钮|`boolean`|-|
 |`submitText`|提交按钮的文字|`string`|-|
 |`resetText`|提交按钮的文字|`string`|-|
@@ -109,7 +111,6 @@ modelValue?: CommonObj; //表单数据
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|-|
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
 |`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
-
 
 
 ### TS Interface
@@ -205,16 +206,16 @@ key?: any; //v-for的key，如果不写，则是默认的index作为key
 |:---|:---|:---|:---|
 |`key`|`v-for`的`key`，如果不写，则是默认的`index`作为`key`|`any`|-|
 |`type`|控件类型，例：`input`|`FormItemType`|-|
-|`children`|};   `className`?: `string `| `CommonObj `| `any`[];|`FormField[]`|-|
+|`children`|};   `className?: string | CommonObj | any`[];|`FormField[]`|-|
 |`attrs`|控件的属性，例：`placeholder`|`CommonObj`|-|
 |`slots`|插槽|`SlotsType`|-|
-|`prop`|属性名，当存在`children`时，可以不传|`string \| [string, string]`|-|
-|`label`||`string`|-|
+|`prop`|属性名，当存在`children`时，可以不传|`string \| [string, string`]|-|
+|`label`|-|`string`|-|
 |`class`|`el-form-item `的`class`属性|`any`|-|
 |`style`|`el-form-item `的`style`属性|`any`|-|
 |`required`|是否必填|`boolean`|-|
 |`rules`|校验规则|`FormRules[]`|-|
-|`options`|`select`、`cascader`等的`options`属性|`DictName \| CascaderName \| OptionItem[]`|-|
+|`options`|`select`、`cascader`等的`options`属性|`DictName \| CascaderName \| OptionItem`[]|-|
 |`labelWidth`|`label`文字的宽度|`string \| number`|-|
 |`fetchSuggestions`|`autocomplete `时候的参数|`(queryStr: string, cb: any) => void`|-|
 
@@ -274,5 +275,64 @@ type FormItemType =
 ```
 
 :::
+
+
+## 从Vue文件中直接获取Ts类型
+
+
+``` ts
+
+
+export type PopupType = "drawer" | "dialog"; //弹窗类型
+export type DialogId = `dialog-${number}`; //id必须大于等于0，示例："dialog-1"
+export type DrawerId = `drawer-${number}`; //id必须大于等于0，示例："drawer-1"
+export type FootRenderData = false | BaseRenderData;
+export interface DialogPopup {
+  id: number;
+  name: "dialog";
+  show: boolean;
+  attrs: {
+    title?: string;
+    [key: string]: any;
+  };
+export type DirectionType = "rtl" | "ltr" | "ttb" | "btt";
+export interface DrawerPopup {
+  id: number;
+  name: "drawer";
+  show: boolean;
+  attrs: {
+    title?: string;
+    direction?: DirectionType;
+    [key: string]: any;
+  };
+export interface DrawerHeadAttrs {
+  title?: string;
+  [key: string]: any;
+}
+export interface DialogHeadAttrs {
+  title?: string;
+  [key: string]: any;
+}
+//打开的弹窗类型
+export type OpenPopupTypes = PopupType | DialogPopup | DrawerPopup | DialogId | DrawerId;
+export type ClosePopupType = OpenPopupTypes | number | "all"; //关闭的弹窗类型：'all' 关闭所有dialog、drawer；number：关闭顶层的 n 个弹窗
+export type CloseDialogType = DialogPopup | DialogId | "all";
+export type CloseDrawerType = DrawerPopup | DrawerId | "all";
+export type DialogHeadTypes = string | DialogHeadAttrs;
+export type DrawerHeadTypes = string | DrawerHeadAttrs;
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
 
 

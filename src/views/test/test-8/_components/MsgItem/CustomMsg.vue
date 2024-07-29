@@ -17,7 +17,7 @@ const props = withDefaults(
   }
 );
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .custom-msg {
   color: $color-text-light;
   width: 100%;

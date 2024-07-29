@@ -1,5 +1,7 @@
+import path from "path";
 import { readMeName } from "../consts";
 import { needParam } from "../base";
+import { getTsDeclareFromVueFile } from "./vue";
 
 /**
  * 获取（计算出）md文档标识需要的正则表达式
@@ -41,11 +43,21 @@ export function getMdFileByPath(filePath = needParam(), rowsRange = "") {
  * 获取Ts类型
  * @param {string} filePath 要读取文件的路径。例："/src/components/form/_types.ts"
  */
-export function getTsTypeDeclare(filePath) {
+export function getTsTypeDeclare(filePath = needParam()) {
   if (!filePath) return "";
-  let mdStr = `## 类型声明
+  let contStr = "";
+  const ext = path.extname(filePath);
+  if (ext === ".ts") {
+    contStr = `<<< ${process.cwd()}${filePath}`;
+  } else if (ext === ".vue") {
+    const scriptStr = getTsDeclareFromVueFile(filePath);
+    contStr = `${toCodeBlock(scriptStr, "ts")}`;
+  } else {
+    throw new Error(`暂未处理${ext}类型文件`);
+  }
+  const mdStr = `## 类型声明
 ::: details
-<<< ${process.cwd()}${filePath}
+${contStr}
 :::  
 `;
   return mdStr;

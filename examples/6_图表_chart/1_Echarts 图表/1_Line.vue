@@ -17,4 +17,4 @@ const data = [
   ["YY4", 72.4, 53.9, 39.1],
 ];
 </script>
-<style lang="scss" name="" scoped></style>
+<style lang="scss" scoped></style>

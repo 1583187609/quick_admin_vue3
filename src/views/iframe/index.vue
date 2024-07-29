@@ -8,7 +8,7 @@ const route = useRoute();
 const { url } = route.query;
 const iframeSrc = (url as string) ?? "";
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .inner-link {
   padding: 0;
 }

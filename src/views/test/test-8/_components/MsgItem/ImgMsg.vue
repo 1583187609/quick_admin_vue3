@@ -18,7 +18,7 @@ const imgInfo = computed<CommonObj>(() => {
   };
 });
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .img-msg {
   // max-width: 50%;
   // max-height: 400px;
