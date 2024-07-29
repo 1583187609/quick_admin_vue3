@@ -12,7 +12,7 @@
 
 ## 测试表单
 ::: demo 这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签`<BaseForm/>`的示例。完整英文句子示例：`Hello, world!`
-/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/0_TestForm.vue
+/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/0_TestForm.vue
 :::
 
 
@@ -23,19 +23,19 @@
 
 ## 全部控件类型
 ::: demo 全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
-/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/1_AllFields.vue
+/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/1_AllFields.vue
 :::
 
 
 ## 额外属性
 ::: demo 除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extraAttrs `中
-/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
+/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
 :::
 
 
 ## 继承与扩展
 ::: demo 插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
-/examples/0_示例_demo/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
+/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
 :::
 
 
@@ -124,7 +124,7 @@
 
 ## 类型声明
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/examples/0_示例_demo/_typescript/standard.ts
+<<< E:\Quick-Admin\quick_admin_vue3/demos/0_示例_demo/_typescript/standard.ts
 :::  
 
 

@@ -34,7 +34,7 @@ export function createGitHubUrl(
   docsDir: string,
   docsBranch: string,
   path: string,
-  folder = "examples/",
+  folder = "demos/",
   ext = ".vue"
 ) {
   const base = isExternal(docsRepo) ? docsRepo : `https://github.com/${docsRepo}`;

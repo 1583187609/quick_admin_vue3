@@ -5,13 +5,13 @@
 
 ## 基础用法
 ::: demo 摘要介绍暂时略
-/examples/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
+/demos/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
 
 
 ## 内嵌组件
 ::: demo 内嵌组件的说明
-/examples/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
+/demos/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
 :::
 
 

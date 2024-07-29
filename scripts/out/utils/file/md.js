@@ -32,7 +32,7 @@ export function getAtMdStr(str = "") {
 
 /**
  * 文档前言
- * @param {string} filePath 文件路径。例："/examples/2_表单_form/1_BaseForm 基础表单"
+ * @param {string} filePath 文件路径。例："/demos/2_表单_form/1_BaseForm 基础表单"
  * @param {string} rowsRange 选择某些指定行 例：{5,10}
  */
 export function getMdFileByPath(filePath = needParam(), rowsRange = "") {

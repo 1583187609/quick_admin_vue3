@@ -68,10 +68,10 @@ export function getInitConfigFile(apiPath = "", tsPath = "") {
 
 /**
  * 生成代码示例
- * @param {string} readPath 读取文件的路径 例："/examples/2_表单_form/1_BaseForm 基础表单"
+ * @param {string} readPath 读取文件的路径 例："/demos/2_表单_form/1_BaseForm 基础表单"
  * @link 参考链接：https://juejin.cn/post/7243520456979398693
  * @link 参考链接：https://zhuanlan.zhihu.com/p/450698973
- * @notice 完整路径：/examples/2_表单_form/1_BaseForm 基础表单/InlineForm
+ * @notice 完整路径：/demos/2_表单_form/1_BaseForm 基础表单/InlineForm
  * @returns
  */
 function getCodeDemos(readPath) {
@@ -151,7 +151,7 @@ export function getTypeTable(type = "props", rows = [], info) {
 
 /**
  * 获取API部分的md内容
- * @param {string} readPath 要读取的文件路径。例：/examples/0_示例_demo/_components/StandardDemoForm.vue
+ * @param {string} readPath 要读取的文件路径。例：/demos/0_示例_demo/_components/StandardDemoForm.vue
  * @param {string} title 标题
  */
 const types = ["props", "emits", "slots", "expose"];
@@ -182,7 +182,7 @@ function getSummaryInfo(readPath = "") {
 /**
  * 写入（生成）组件说明文档文件
  * @param {string} writePath 要写入的文件路径。例：`${docsPath}/4_示例_demo/2_文档生成_create`
- * @param {string} demoPath 要读取的文件路径。例："/examples/2_表单_form/1_BaseForm 基础表单"
+ * @param {string} demoPath 要读取的文件路径。例："/demos/2_表单_form/1_BaseForm 基础表单"
  * @param {string} apiPath 读取api内容的路径
  * @param {string} tsPath 读取ts类型的文件路径
  * @advice 方法名建议 writeComponentDoc

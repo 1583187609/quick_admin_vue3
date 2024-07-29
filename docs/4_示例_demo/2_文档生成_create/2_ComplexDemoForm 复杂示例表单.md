@@ -120,7 +120,7 @@
 
 ## 类型声明
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/examples/0_示例_demo/_typescript/complex.ts
+<<< E:\Quick-Admin\quick_admin_vue3/demos/0_示例_demo/_typescript/complex.ts
 :::  
 
 

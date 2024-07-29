@@ -145,7 +145,7 @@ export function getPartFileStr(readPath = needParam(), reg = needParam(), bounda
 
 /**
  * 根据ts类型名称获取对应的文件片段
- * @param {string} readPath 读取的文件路径。例："/examples/0_示例_demo/_typescript/standard.ts"
+ * @param {string} readPath 读取的文件路径。例："/demos/0_示例_demo/_typescript/standard.ts"
  * @param {string} name ts类型名称。例："type FormItemType"  "interface FormFieldAttrs"
  * @param {boolean} noWrap 是否带壳
  */
@@ -192,7 +192,7 @@ export function getTsOrObjStrByName(readPath = needParam(), name = "defineProps"
  * @param {string} oldName 旧文件名称（带后缀名）
  * @param {string} newName 新文件名称（带后缀名）
  */
-export function changeFileName(dirPath = "/examples", oldName = readMeName, newName = "Summary.md") {
+export function changeFileName(dirPath = "/demos", oldName = readMeName, newName = "Summary.md") {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(file => {
@@ -216,7 +216,7 @@ export function changeFileName(dirPath = "/examples", oldName = readMeName, newN
  * @param {string} dirPath 目录路径
  * @param {string} name 要递归删除的文件名
  */
-export function deleteFileByName(dirPath = "/examples", name = readMeName) {
+export function deleteFileByName(dirPath = "/demos", name = readMeName) {
   // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_StandardDemoForm 标准示例表单/${name}`);
   const fullDirPath = path.join(process.cwd(), dirPath);
   // fs.unlinkSync(fullDirPath);

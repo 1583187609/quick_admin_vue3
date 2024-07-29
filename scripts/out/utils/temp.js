@@ -26,7 +26,7 @@ export function mkdirsTempSync(pathStr) {
  * @param {string} readDir 读取文件夹路径
  * @param {string} writeDir 写入的文件夹路径
  */
-export function createDirToExamplesByDocsDirs(readDir = `${docsPath}/2_组件_comp`, writeDir = "/examples") {
+export function createDirToExamplesByDocsDirs(readDir = `${docsPath}/2_组件_comp`, writeDir = "/demos") {
   const fullReadDir = path.join(process.cwd(), readDir);
   fs.readdirSync(fullReadDir).forEach(file => {
     const currDirPath = path.join(process.cwd(), writeDir, file);

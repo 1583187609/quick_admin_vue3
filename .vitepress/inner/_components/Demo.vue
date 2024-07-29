@@ -58,9 +58,9 @@ const [sourceVisible, toggleSourceVisible] = useToggle();
 const sourceCodeRef = ref<HTMLButtonElement>();
 const formatPathDemos = computed(() => {
   const demos = {};
-  const demoFiles = import.meta.glob(`../../../examples/**/*.vue`, { eager: true });
+  const demoFiles = import.meta.glob(`../../../demos/**/*.vue`, { eager: true });
   Object.keys(demoFiles).forEach(key => {
-    demos[key.replace("../../../examples/", "")] = demoFiles[key].default;
+    demos[key.replace("../../../demos/", "")] = demoFiles[key].default;
   });
   return demos;
 });

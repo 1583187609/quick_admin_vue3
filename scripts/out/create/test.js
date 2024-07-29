@@ -44,34 +44,32 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
 
   fileStr += `### TS Interface\n\n`;
   fileStr += `#### Ts 类型\n\n${toCodeBlock(
-    getTsOrObjStrByName("/examples/0_示例_demo/_typescript/standard.ts", "interface FormFieldAttrs").matchStr,
+    getTsOrObjStrByName("/demos/0_示例_demo/_typescript/standard.ts", "interface FormFieldAttrs").matchStr,
     "ts"
   )}\n\n`;
   const hints_1 = getHints({
     details: toCodeBlock(
-      getTsOrObjStrByName("/examples/0_示例_demo/_typescript/standard.ts", "interface FormFieldAttrs", true).matchStr
+      getTsOrObjStrByName("/demos/0_示例_demo/_typescript/standard.ts", "interface FormFieldAttrs", true).matchStr
     ),
   });
   fileStr += `${hints_1}\n\n`;
   const rows_1 = getItemsFromTsStr(
-    getTsOrObjStrByName("/examples/0_示例_demo/_typescript/standard.ts", "interface FormFieldAttrs", true).matchStr,
+    getTsOrObjStrByName("/demos/0_示例_demo/_typescript/standard.ts", "interface FormFieldAttrs", true).matchStr,
     true
   );
   fileStr += `#### 表格展示\n\n${getTable(cols, rows_1)}\n\n`;
 
   fileStr += `### TS Type\n\n`;
   fileStr += `#### Ts 类型\n\n${toCodeBlock(
-    getTsOrObjStrByName("/examples/0_示例_demo/_typescript/standard.ts", "type FormItemType").matchStr,
+    getTsOrObjStrByName("/demos/0_示例_demo/_typescript/standard.ts", "type FormItemType").matchStr,
     "ts"
   )}\n\n`;
   const hints_2 = getHints({
-    details: toCodeBlock(
-      getTsOrObjStrByName("/examples/0_示例_demo/_typescript/standard.ts", "type FormItemType", true).matchStr
-    ),
+    details: toCodeBlock(getTsOrObjStrByName("/demos/0_示例_demo/_typescript/standard.ts", "type FormItemType", true).matchStr),
   });
   fileStr += `${hints_2}\n\n`;
 
-  const scriptStr = getTsDeclareFromVueFile("/examples/0_示例_demo/_components/GlobalPopupDemo.vue");
+  const scriptStr = getTsDeclareFromVueFile("/demos/0_示例_demo/_components/GlobalPopupDemo.vue");
   fileStr += `## 从Vue文件中直接获取Ts类型\n\n${toCodeBlock(scriptStr, "ts")}\n\n`;
 
   writePath = path.join(process.cwd(), docsPath, writePath);

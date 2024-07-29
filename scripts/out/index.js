@@ -27,7 +27,7 @@ export function hotRun() {}
  * @param {boolean} writeDemo 是否重写示例文档
  * @param {standard|complex|null|undefined|''} demoType 示例类型
  */
-function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", dirPath = "/examples") {
+function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", dirPath = "/demos") {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(parFile => {

@@ -47,7 +47,7 @@ export default (md: MarkdownIt) => {
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
         return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\`\`\``))}" path="${sourceFile.replace(
-          "/examples/",
+          "/demos/",
           ""
         )}" raw-source="${encodeURIComponent(source)}" description="${encodeURIComponent(md.render(description))}">`;
       } else {
