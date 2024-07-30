@@ -7,17 +7,24 @@ import { camelCase, needParam, typeOf } from "../base";
 import { readMeName } from "../consts";
 
 /**
- * 获取字符串中目标字符串的id，找到任意一个即停止查找
+ * 获取字符串中目标字符中最先出现的那个字符的下标
  * @param {string} str 要查找的字符串
  * @param {string|string[]} chars 目标字符,可以为数组或字符串
  * @param {boolean} isLast 是否使用 lastIndexOf 查找
  */
 export function getIndex(str, chars = "", isLast = false) {
+  if (typeof chars === "string") chars = chars.split("");
+  let index = -1;
   for (let i = 0; i < chars.length; i++) {
     const ind = str[isLast ? "lastIndexOf" : "indexOf"](chars[i]);
-    if (ind !== -1) return ind;
+    if (ind === -1) continue;
+    if (index === -1) {
+      index = ind;
+      continue;
+    }
+    if (ind < index) index = ind;
   }
-  return -1;
+  return index;
 }
 
 /**

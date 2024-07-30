@@ -110,11 +110,12 @@ export function getBracesNum(line = "", n = 0, chars = "{}") {
   const [left, right] = chars.split("");
   for (let i = 0; i < line.length; i++) {
     const c = line[i];
+    if (c === "/" && line[i + 1] === "/") continue; //说明是注释
     if (c === left) {
       n++;
-    } else if (c === right) {
-      n--;
+      continue;
     }
+    if (c === right) n--;
   }
   return n;
 }
