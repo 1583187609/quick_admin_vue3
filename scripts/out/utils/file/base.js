@@ -4,7 +4,7 @@
 import fs from "fs";
 import path from "path";
 import { camelCase, needParam, typeOf } from "../base";
-import { readMeName } from "../consts";
+import { docsPath, readMeName } from "../consts";
 
 /**
  * 获取字符串中目标字符中最先出现的那个字符的下标
@@ -242,4 +242,13 @@ export function deleteFileByName(dirPath = "/demos", name = readMeName) {
       }
     }
   });
+}
+
+/**
+ * 
+ * @param {string} byDirPath 参照（依据）文件夹路径
+ * @param {string} delDirPath 要删除的文件所在文件夹的路径
+ */
+export function deleteRemainFile(byDirPath='/demos',delDirPath=docsPath){
+
 }

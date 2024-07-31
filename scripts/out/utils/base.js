@@ -17,7 +17,7 @@ export function needParam(name = "") {
  * Object.prototype.toString.call(*)的可能结果如下所示：
  * @example null             [object Null]
  * @example undefined        [object Undefined]
- * @example Symbol());       [object Symbol]
+ * @example Symbol();        [object Symbol]
  * @example true             [object Boolean]
  * @example ''               [object String]
  * @example 1                [object Number]
