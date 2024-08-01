@@ -5,7 +5,6 @@
 import fs from "fs";
 import path from "path";
 import {
-  upperFirst,
   getFileName,
   getTable,
   getTsTypeDeclare,
@@ -15,12 +14,10 @@ import {
   readMeName,
   splitOrderChar,
   writeFileSync,
-  getItemsFromTsStr,
-  getTsOrObjStrByName,
   configName,
-  getItemsFromObjStr,
-  getItemsFromArrStr,
+  N,
 } from "../utils";
+import { getDefineRowsMap } from "../utils/file/vuets";
 
 /**
  * 获取描述类md文本
@@ -39,7 +36,7 @@ export function getHints(hints) {
   let descStr = "";
   for (const key in hints) {
     const val = getAtMdStr(hints[key]);
-    descStr += `\n\n::: ${key}\n${val}\n:::\n`;
+    descStr += `${N}::: ${key}${N}${val}${N}:::${N}`;
   }
   return descStr;
 }
@@ -50,7 +47,7 @@ export function getHints(hints) {
  * @returns
  */
 export function getInitReadMeFile(title) {
-  return `# ${title}\n\n待完善\n`;
+  return `# ${title}${N}\n待完善${N}`;
 }
 
 /**
@@ -90,7 +87,7 @@ function getCodeDemos(readPath) {
 ## ${title}
 ::: demo ${description}
 ${newFilePath}
-:::\n${getHints(hints)}\n`;
+:::${N}${getHints(hints)}${N}`;
   });
   return mdStr;
 }
@@ -142,11 +139,11 @@ export function getTypeTable(type = "props", rows = [], info) {
   const { hints, title: overTitle, description } = info ?? {};
   const { title, cols } = tableTypeMap[type];
   let mdStr = "";
-  if (description) mdStr += `\n${description}\n`;
-  mdStr += `${getTable(cols, rows, hints)}\n`;
-  if (hints) mdStr += `${getHints(hints)}\n\n`;
+  if (description) mdStr += `${N}${description}${N}`;
+  mdStr += `${getTable(cols, rows, hints)}${N}`;
+  if (hints) mdStr += `${getHints(hints)}${N}${N}`;
   if (!mdStr) return "";
-  return `### ${overTitle ?? title}\n\n${mdStr}`;
+  return `### ${overTitle ?? title}${N}${N}${mdStr}`;
 }
 
 /**
@@ -158,13 +155,15 @@ const types = ["props", "emits", "slots", "expose"];
 function getApiTables(readPath = "", title = "API") {
   if (!readPath) return "";
   let mdStr = "";
+  const rowsMap = getDefineRowsMap(readPath, true);
+  const readPathFull = path.join(process.cwd(), readPath);
   types.forEach(type => {
-    const { info } = getVueApiInfo(path.join(process.cwd(), readPath), type);
-    const rows = getRowsFromVueDefine(readPath, `define${upperFirst(type)}`, true);
+    const { info } = getVueApiInfo(readPathFull, type);
+    const rows = rowsMap[type];
     mdStr += getTypeTable(type, rows, info);
   });
   if (!mdStr) return "";
-  return `## ${title}\n\n${mdStr}\n`;
+  return `## ${title}${N}${N}${mdStr}${N}`;
 }
 
 /**
@@ -200,10 +199,10 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
   // 从api来源文件中读取摘要信息，并拼接字符串
   const info = getSummaryInfo(apiPath);
   const { title = writeFilePath.split(splitOrderChar).at(-1).slice(0, -3) ?? "无标题", hints, description } = info ?? {};
-  fileStr += `# ${title}\n\n`;
+  fileStr += `# ${title}${N}${N}`;
   const oldFileStr = fileStr;
-  if (description) fileStr += `${description}\n\n`;
-  if (hints) fileStr += `${getHints(hints)}\n\n`;
+  if (description) fileStr += `${description}${N}${N}`;
+  if (hints) fileStr += `${getHints(hints)}${N}${N}`;
 
   // 从ReadMe文件中读取摘要信息
   // const readMePath = path.join(process.cwd(), demoPath, readMeName);
@@ -217,55 +216,15 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
   //   // writeFileSync(readMePath, fileStr);
   // }
 
-  if (demoPath) fileStr += `${getCodeDemos(demoPath)}\n\n`;
+  if (demoPath) fileStr += `${getCodeDemos(demoPath)}${N}${N}`;
   if (apiPath) {
     const apiStr = getApiTables(apiPath);
-    if (apiStr) fileStr += `${apiStr}\n\n`;
+    if (apiStr) fileStr += `${apiStr}${N}${N}`;
   }
   if (tsPath) {
     const tsFileStr = getTsTypeDeclare(tsPath);
-    if (tsFileStr) fileStr += `${tsFileStr}\n\n`;
+    if (tsFileStr) fileStr += `${tsFileStr}${N}${N}`;
   }
-  if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善\n\n`;
+  if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善${N}${N}`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };
-
-/**
- *
- * @returns 从Vue define（"defineProps" "defineEmits" "defineSlots" "defineExpose"）中获取表格数据（rows）
- * @param {string} readPath 读取文件的路径 例："/src/components/form/BaseForm.vue"
- * @param {defineProps|defineEmits|defineSlots|defineExpose} type 读取文件的路径 例："/src/components/form/BaseForm.vue"
- * @param {boolean} isAtMd 是否处在md文档中
- */
-export function getRowsFromVueDefine(readPath = needParam(), type = "defineProps", isAtMd = false) {
-  const { matchStr: fileStr, strType } = getTsOrObjStrByName(readPath, type, true);
-  if (!fileStr) return [];
-  if (type !== "defineEmits") {
-    if (strType === "ts") return getItemsFromTsStr(fileStr, isAtMd);
-    return getItemsFromObjStr(fileStr, isAtMd);
-  } else {
-    if (strType === "arr") return getItemsFromArrStr(fileStr, isAtMd);
-  }
-  const rows = [];
-  const lines = fileStr.trim().split("\n");
-  lines.map(line => {
-    line = line.trim();
-    const sInd = line.indexOf(":") + 1;
-    const eInd = line.lastIndexOf(")");
-    const annoStr = line.slice(line.indexOf(";") + 1); //注释
-    const item = line.slice(sInd, eInd).trim() + annoStr;
-    const commaInd = item.indexOf(","); //逗号的下标
-    const name = item.slice(0, commaInd).trim().slice(1, -1);
-    const [args, anno] = item
-      .slice(commaInd + 1)
-      .split("//")
-      .map(it => it.trim());
-    const row = {
-      name: isAtMd ? getAtMdStr(name) : name,
-      desc: isAtMd ? getAtMdStr(anno) : anno,
-      type: isAtMd ? getAtMdStr(args) : args,
-    };
-    rows.push(row);
-  });
-  return rows;
-}

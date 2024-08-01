@@ -3,10 +3,8 @@ import path from "path";
 import { getAtMdStr } from ".";
 import { needParam } from "../base";
 import { Interface } from "readline";
-
-const typeReg = /^export +type +\w+ *= *[\s\S]*/;
-const infaReg = /^export +interface *[\s\S]+{[\s\S]*/;
-const imprReg = /^import +type *{[\s\S]*/;
+import { N } from "../consts";
+import { getLineType, getNearLineIndex, isImportTypeDeclare, isInterfaceDeclare, isTypeDeclare } from "./vuets";
 
 /**
  * 根据类型获取html注释
@@ -30,13 +28,13 @@ export function getAnnotationByType(filePath = needParam(), type = "summary", no
   const eInd = isHtml ? -3 : -2;
   matchStr = matchStr
     .slice(sInd, eInd)
-    .split("\n")
+    .split(N)
     .map(it => {
       if (!isHtml) it = it.replace("*", "");
       return it.trim();
     })
     .filter(it => !!it)
-    .join("\n");
+    .join(N);
   return { matchStr, endStr };
 }
 
@@ -71,7 +69,7 @@ export function getVueApiInfo(filePath = "", matchType = "summary") {
   if (!filePath) return { file: "", info: null };
   const { matchStr, endStr } = getAnnotationByType(filePath, matchType, true);
   const info = { hints: {} };
-  const lines = matchStr.split("\n");
+  const lines = matchStr.split(N);
   lines.forEach(item => {
     if (!item.startsWith("@")) return;
     const spaceInd = item.indexOf(" ");
@@ -87,6 +85,7 @@ export function getVueApiInfo(filePath = "", matchType = "summary") {
   });
   return { file: endStr, info };
 }
+
 /**
  * 判断ts type的行（字符串）是否是结束行
  * @param {string} line 行字符串
@@ -103,14 +102,17 @@ function getTypeIsEnd(line = "") {
  * 判断 ts interface 行中{}的数量（为0时，说明完全左右{}数量一致
  * @param {string} line 行字符串
  * @param {type|Interface} type 处理字符串时要依据的处理类型
- * @param {string} chars 分界的字符串
+ * @param {string|[string,string]} chars 分界的字符串
  * @returns {boolean} 该行是否已结束
  */
 export function getBracesNum(line = "", n = 0, chars = "{}") {
-  const [left, right] = chars.split("");
+  if (typeof chars === "string") chars = chars.split("");
+  const [left, right] = chars;
   for (let i = 0; i < line.length; i++) {
     const c = line[i];
-    if (c === "/" && line[i + 1] === "/") continue; //说明是注释
+    // 如果是注释
+    const isAnno = c === "/" && line[i + 1] === "/";
+    if (isAnno) return n;
     if (c === left) {
       n++;
       continue;
@@ -118,20 +120,6 @@ export function getBracesNum(line = "", n = 0, chars = "{}") {
     if (c === right) n--;
   }
   return n;
-}
-
-/**
- * 获取该行的类型
- * @param {string} str 要处理的行字符串
- * @returns {""|"anno"|"ts"|"other"} 行的类型
- */
-export function getLineType(str = needParam()) {
-  if (str === "") return "";
-  const annoChars = ["//", "/*", "*", "*/"];
-  const isAnno = annoChars.some(it => str.startsWith(it));
-  if (isAnno) return "anno";
-  if (typeReg.test(str) || infaReg.test(str)) return "ts";
-  return "other";
 }
 
 /**
@@ -162,13 +150,12 @@ function getScriptFromVueFile(readPathFull = "", noWrap = false) {
 /**
  * 从Vue文件中获取Ts类型声明
  * @param {string} readPathHalf 要读取的文件路径。例：/demos/Hello.vue
- * @param {string} nChar 换行符
  * @returns Ts类型声明字符串
  */
-export function getTsDeclareFromVueFile(readPathHalf = "", nChar = "\n") {
+export function getTsDeclareFromVueFile(readPathHalf = "") {
   const fullPath = path.join(process.cwd(), readPathHalf);
   const scriptStr = getScriptFromVueFile(fullPath, true);
-  const rows = scriptStr.split("\n");
+  const rows = scriptStr.split(N);
   const newLines = [];
   let isAtType = false;
   let isAtInfa = false;
@@ -178,7 +165,7 @@ export function getTsDeclareFromVueFile(readPathHalf = "", nChar = "\n") {
     if (untilInd >= ind) return newLines.push(item);
     const line = item.trim();
     if (line.startsWith("import")) {
-      if (imprReg.test(line)) return newLines.push(item);
+      if (isImportTypeDeclare(line)) return newLines.push(item);
       const splitChar = " from ";
       const [frontStr, behindStr] = line.split(splitChar);
       const sInd = line.indexOf("{");
@@ -193,8 +180,7 @@ export function getTsDeclareFromVueFile(readPathHalf = "", nChar = "\n") {
       newLines.push(`import type {${sliceStr}}${splitChar}${behindStr}`);
       return;
     }
-    const isType = typeReg.test(line);
-    if (isType) {
+    if (isTypeDeclare(line)) {
       newLines.push(item);
       if (getTypeIsEnd(line)) return;
       isAtType = true;
@@ -204,8 +190,7 @@ export function getTsDeclareFromVueFile(readPathHalf = "", nChar = "\n") {
       if (getTypeIsEnd(line)) isAtType = false;
       return newLines.push(item);
     }
-    const isInfa = infaReg.test(line);
-    if (isInfa) {
+    if (isInterfaceDeclare(line)) {
       newLines.push(item);
       infaBracesNum = getBracesNum(line);
       if (infaBracesNum == 0) return;
@@ -219,24 +204,14 @@ export function getTsDeclareFromVueFile(readPathHalf = "", nChar = "\n") {
     }
     const currType = getLineType(line);
     if (currType === "") return newLines.push(item);
-    const isAnnoLine = currType === "anno"; //是否是注释行
-    if (isAnnoLine) {
-      function getNearTsLineIndex(nextInd) {
-        let nextLine = rows[nextInd];
-        if (nextLine === undefined) return -1;
-        nextLine = nextLine.trim();
-        let nextType = getLineType(nextLine);
-        const isEmptyOrAnno = ["", "anno"].includes(nextType); //是否是空行或注释行
-        if (isEmptyOrAnno) return getNearTsLineIndex(++nextInd);
-        if (nextType === "ts") return nextInd;
-        return -1;
-      }
-      const nearInd = getNearTsLineIndex(ind + 1);
+    const isAnno = currType === "anno"; //是否是注释行
+    if (isAnno) {
+      const nearInd = getNearLineIndex(rows, ind + 1, "anno");
       if (nearInd > -1) {
         untilInd = nearInd;
         newLines.push(item);
       }
     }
   });
-  return newLines.join(nChar).trim();
+  return newLines.join(N).trim();
 }

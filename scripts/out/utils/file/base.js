@@ -4,18 +4,21 @@
 import fs from "fs";
 import path from "path";
 import { camelCase, needParam, typeOf } from "../base";
-import { docsPath, readMeName } from "../consts";
+import { docsPath, demosPath, readMeName } from "../consts";
+import { getDefineCodeType, getResolveInfo, isTypeDeclare } from "./vuets";
 
 /**
- * 获取字符串中目标字符中最先出现的那个字符的下标
+ * 获取字符串中目标字符中最先出现的那个字符的下标（会忽略后半截的注释部分）
  * @param {string} str 要查找的字符串
  * @param {string|string[]} chars 目标字符,可以为数组或字符串
  * @param {boolean} isLast 是否使用 lastIndexOf 查找
  */
-export function getIndex(str, chars = "", isLast = false) {
+export function getIndexIgnoreAnno(str, chars = "", isLast = false) {
   if (typeof chars === "string") chars = chars.split("");
   let index = -1;
   for (let i = 0; i < chars.length; i++) {
+    const isMeetAnno = chars[i] === "/" && chars[i + 1] === "/";
+    if (isMeetAnno) return index;
     const ind = str[isLast ? "lastIndexOf" : "indexOf"](chars[i]);
     if (ind === -1) continue;
     if (index === -1) {
@@ -124,14 +127,13 @@ export function getPartFileStr(readPath = needParam(), reg = needParam(), bounda
   const fileStr = fs.readFileSync(fullPath, "utf-8");
   let matchStr = fileStr.match(regexp)?.[0];
   if (!matchStr) return "";
-  //是否是ts类型的字符串。也可能是其他开头的字符串，例：defineExpose<, defineExpose(, type = '', interface {}
-  let strType = "obj";
-  // const list = ["defineProps<", "defineEmits<", "defineSlots<", "defineExpose<", "interface"];
-  // if (matchStr.startsWith(list)) strType = "ts";
-  const tsList = ["defineProps<", "defineEmits<", "defineSlots<", "defineExpose<", "interface"];
-  if (tsList.some(it => matchStr.startsWith(it))) strType = "ts";
-  if (matchStr.startsWith("defineEmits([")) strType = "arr";
-  // regexp.source.includes("defineProps") && console.log(matchStr, strType, "defineProps-matchStr---------------");
+  // //是否是ts类型的字符串。也可能是其他开头的字符串，例：defineExpose<, defineExpose(, type = '', interface {}
+  // let strType = "obj";
+  // const tsList = ["defineProps<", "defineEmits<", "defineSlots<", "defineExpose<", "interface"];
+  // if (tsList.some(it => matchStr.startsWith(it))) strType = "ts";
+  // if (matchStr.startsWith("defineEmits([")) strType = "arr";
+
+  const strType = getDefineCodeType(matchStr);
   const endInd = matchStr.indexOf(/[<\(]/);
   let type = "";
   if (matchStr.startsWith("define")) type = camelCase(matchStr.slice(6, endInd));
@@ -142,7 +144,6 @@ export function getPartFileStr(readPath = needParam(), reg = needParam(), bounda
     // defineEmits(["update:modelValue"])
     if (matchStr.startsWith("defineEmits([")) boundaryChars = "[]";
     const [c1, c2] = boundaryChars;
-    // regexp.source.includes("defineProps") && console.log(matchStr, "defineProps-matchStr---------------");
     const sInd = matchStr.indexOf(c1) + 1;
     const eInd = matchStr.lastIndexOf(c2);
     matchStr = matchStr.slice(sInd, eInd).trim();
@@ -157,6 +158,7 @@ export function getPartFileStr(readPath = needParam(), reg = needParam(), bounda
  * @param {boolean} noWrap 是否带壳
  */
 function getTsStr(readPath = needParam(), name = needParam(), noWrap = true) {
+  // const isType = isTypeDeclare(name);
   const isType = name.startsWith("type");
   if (!isType && !name.startsWith("interface")) throw new Error("ts文件必须以 type 或 interface 开头");
   let boundaryChars = "{}";
@@ -194,12 +196,22 @@ export function getTsOrObjStrByName(readPath = needParam(), name = "defineProps"
 }
 
 /**
+ * 根据ts类型名称获取ts或obj（对象）类型的字符串（从vue文件或ts文件中获取）
+ */
+export function getTsOrObjStrByNameNew(readPath = needParam(), name = "defineProps", noWrap = false) {
+  const fullPath = path.join(process.cwd(), readPath);
+  const fileStr = fs.readFileSync(fullPath, "utf-8");
+  const info = getResolveInfo(fileStr, false, true);
+  // console.log(info, "info---------123");
+}
+
+/**
  * 更改文件名称
  * @param {string} dirPath 要更改的父文件夹路径
  * @param {string} oldName 旧文件名称（带后缀名）
  * @param {string} newName 新文件名称（带后缀名）
  */
-export function changeFileName(dirPath = "/demos", oldName = readMeName, newName = "Summary.md") {
+export function changeFileName(dirPath = demosPath, oldName = readMeName, newName = "Summary.md") {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(file => {
@@ -223,7 +235,7 @@ export function changeFileName(dirPath = "/demos", oldName = readMeName, newName
  * @param {string} dirPath 目录路径
  * @param {string} name 要递归删除的文件名
  */
-export function deleteFileByName(dirPath = "/demos", name = readMeName) {
+export function deleteFileByName(dirPath = demosPath, name = readMeName) {
   // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_StandardDemoForm 标准示例表单/${name}`);
   const fullDirPath = path.join(process.cwd(), dirPath);
   // fs.unlinkSync(fullDirPath);
@@ -235,9 +247,6 @@ export function deleteFileByName(dirPath = "/demos", name = readMeName) {
       deleteFileByName(`${dirPath}/${file}`, name);
     } else {
       if (file === name) {
-        console.log(currPath, "currPath--------------");
-        // const isExist = fs.existsSync(currPath);
-        // isExist && fs.unlinkSync(currPath);
         fs.unlinkSync(currPath);
       }
     }
@@ -245,10 +254,8 @@ export function deleteFileByName(dirPath = "/demos", name = readMeName) {
 }
 
 /**
- * 
+ *
  * @param {string} byDirPath 参照（依据）文件夹路径
  * @param {string} delDirPath 要删除的文件所在文件夹的路径
  */
-export function deleteRemainFile(byDirPath='/demos',delDirPath=docsPath){
-
-}
+export function deleteRemainFile(byDirPath = demosPath, delDirPath = docsPath) {}

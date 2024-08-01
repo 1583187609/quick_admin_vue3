@@ -18,7 +18,7 @@
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`|-|-|
+|`update:modelValue`||-|
 
 
 

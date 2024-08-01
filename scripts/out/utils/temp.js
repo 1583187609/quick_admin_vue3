@@ -4,7 +4,7 @@
 
 import fs from "fs";
 import path from "path";
-import { docsPath, readMeName, splitOrderChar } from "./consts";
+import { docsPath, demosPath, readMeName, splitOrderChar } from "./consts";
 import { writeFileSync } from "./file";
 import { getInitReadMeFile } from "../create/component";
 
@@ -26,7 +26,7 @@ export function mkdirsTempSync(pathStr) {
  * @param {string} readDir 读取文件夹路径
  * @param {string} writeDir 写入的文件夹路径
  */
-export function createDirToExamplesByDocsDirs(readDir = `${docsPath}/2_组件_comp`, writeDir = "/demos") {
+export function createDirToExamplesByDocsDirs(readDir = `${docsPath}/2_组件_comp`, writeDir = demosPath) {
   const fullReadDir = path.join(process.cwd(), readDir);
   fs.readdirSync(fullReadDir).forEach(file => {
     const currDirPath = path.join(process.cwd(), writeDir, file);

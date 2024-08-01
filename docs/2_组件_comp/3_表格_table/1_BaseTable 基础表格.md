@@ -19,7 +19,13 @@
 |`selection`|是否显示选择框|`boolean`|-|
 |`sortable`|是否启用排序|`boolean`|-|
 |`showSummary`|是否显示汇总行|`boolean`|-|
-|`summaryMethod`|计算汇总的方法|`(arg: any) => string[]`|-|
+
+
+### 方法
+
+|方法名|说明|类型|
+|:---|:---|:---|
+|`tableRef`|-|`unknown`（类型推断）|
 
 
 

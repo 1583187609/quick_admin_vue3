@@ -1,5 +1,5 @@
 import path from "path";
-import { readMeName } from "../consts";
+import { N, readMeName } from "../consts";
 import { needParam } from "../base";
 import { getTsDeclareFromVueFile } from "./vue";
 
@@ -9,7 +9,6 @@ import { getTsDeclareFromVueFile } from "./vue";
 // 下列依次为：匹配Ts的箭头函数、BaseBtnType[]、
 const specialRegStrs = [`\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, `\\w+\\[\\]`];
 const tempRegStr = `((\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. ]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
-// const tempReg = /((\b\w+\b)([,: -]+(\b\w+\b))*[!,. ]*)+|(\b\w+\b)|(<[^>]*\/>)|(<[^>]+>.*?<\/[^>]+>)|(`[^`]+`)/g;
 function getMdRegexp() {
   const regStr = specialRegStrs.map(it => `(${it})`).join("|") + `|${tempRegStr}`;
   return new RegExp(regStr, "g");
@@ -104,7 +103,7 @@ export function getTable(cols = needParam(), rows = []) {
     });
     return `|${newCols.join("|")}|`;
   });
-  let tableStr = headStrs.join("\n");
+  let tableStr = headStrs.join(N);
   // if (!rows?.length) {
   //   const row = {};
   //   props.forEach(prop => (row[prop] = "-"));
@@ -112,7 +111,7 @@ export function getTable(cols = needParam(), rows = []) {
   // }
   rows.forEach(row => {
     const rowStr = `|${props.map(prop => row[prop]).join("|")}|`;
-    tableStr += `\n${rowStr}`;
+    tableStr += `${N}${rowStr}`;
   });
   return tableStr;
 }

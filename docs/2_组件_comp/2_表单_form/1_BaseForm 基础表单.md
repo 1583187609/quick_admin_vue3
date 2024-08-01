@@ -8,7 +8,6 @@
 /demos/2_表单_form/1_BaseForm 基础表单/0_TestForm.vue
 :::
 
-
 ::: tip
 这是`tip`信息示例
 :::
@@ -58,17 +57,16 @@
 |`isCache`|是否缓存|`boolean`|-|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|-|
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
-|`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
 
 
 ### 事件
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`|-|-|
-|`submit`|-|-|
-|`change`|-|-|
-|`moreBtns`|-|-|
+|`update:modelValue`||-|
+|`submit`||-|
+|`change`||-|
+|`moreBtns`||-|
 
 
 ### 方法
@@ -76,7 +74,6 @@
 |方法名|说明|类型|
 |:---|:---|:---|
 |`formRef`|-|`any`|
-|`formValidate`|-|`() => void`|
 
 
 

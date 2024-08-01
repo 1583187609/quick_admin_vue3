@@ -1,5 +1,4 @@
 import path from "path";
-import fs from "fs";
 import mdContainer from "markdown-it-container";
 import headers from "../plugins/headers";
 import externalLinkIcon from "../plugins/external-link-icon";
@@ -10,7 +9,7 @@ import { ApiTableContainer } from "../plugins/api-table";
 import type Token from "markdown-it/lib/token";
 import type Renderer from "markdown-it/lib/renderer";
 import type MarkdownIt from "markdown-it";
-import { getVueApiInfo } from "../../scripts/out/utils";
+import { getVueApiInfo, demosPath } from "../../scripts/out/utils";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {
@@ -47,7 +46,7 @@ export default (md: MarkdownIt) => {
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
         return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\`\`\``))}" path="${sourceFile.replace(
-          "/demos/",
+          `${demosPath}/`,
           ""
         )}" raw-source="${encodeURIComponent(source)}" description="${encodeURIComponent(md.render(description))}">`;
       } else {

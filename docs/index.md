@@ -4,7 +4,7 @@ layout: home # 可选值：doc, page, home, false。默认为 doc。为false时�
 
 hero:
   name: "Quick Admin Vue3"
-  text: 一个以“快”著称的后台管理系统
+  text: 一个“快”的后台管理系统
   tagline: 基于Vite+Vue3+ElementPlus+Pinia+TypeScript+Sass
   image:
     src: /logo.svg

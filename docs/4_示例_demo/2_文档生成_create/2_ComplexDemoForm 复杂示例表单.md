@@ -3,7 +3,6 @@
 在这里，会考虑其他复杂边界情况的解析处理
 
 
-
 ::: tip
 此表单仅做示例使用，不含任何业务功能
 :::
@@ -38,8 +37,6 @@
 |`isCache`|是否缓存|`boolean`|-|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|-|
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
-|`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
-
 
 ::: tip
 这是 `props `的`tip`信息
@@ -55,27 +52,12 @@
 |`change`|变化（无`Ts`）|-|
 |`moreBtns`|更多按钮（无`Ts`）|-|
 
-
 ::: tip
 提示类信息可以设置一个，也可以设置多个
 :::
 
-
 ::: warning
 这是 `emits `的 `warning `信息
-:::
-
-
-### 插槽
-
-|插槽名|说明|子标签|
-|:---|:---|:---|
-|`default`|默认插槽|`(props: { msg: string }) => any`|
-|`tempTest`|这是临时写的用作测试的插槽|`(props: { id: number }) => any`|
-
-
-::: danger
-这是 `slots `的`tip`信息
 :::
 
 
@@ -85,25 +67,10 @@
 这是 `expose `的 `description`。通过写入 `description `获得
 |方法名|说明|类型|
 |:---|:---|:---|
-|`refreshList`|这是测试方法|-|
-|`getList`: `() => {}`|-|-|
+|`refreshList`|-|`unknown`（类型推断）|
+|`getList`|-|`Function`（类型推断）|
 |`getQueryParams`|-|`Function`（类型推断）|
-|}|-|-|
 |`getQueryFields`|-|`Function`（类型推断）|
-|`const queryFields`|-|`Array`（类型推断）|
-|`const rangeKeys`|-|`Array`（类型推断）|
-|`const propFields `= []|-|`Array`（类型推断）|
-|`rangeKeys.forEach`|-|`Function`（类型推断）|
-|`const [minKey`|-|-|
-|`const minVal = params[minKey`]|-|`Array`（类型推断）|
-|`const maxVal = params[maxKey`]|-|`Array`（类型推断）|
-|`const target`|-|`Function`（类型推断）|
-|`if `|-|`Function`（类型推断）|
-|`queryFields.push`|-|`Function`（类型推断）|
-|`label: target.label`|-|-|
-|`value: [minVal`|-|-|
-|}|-|-|
-
 
 ::: warning
 注意这部分的`title`——【方法(`expose`)】是通过写入覆盖默认值的

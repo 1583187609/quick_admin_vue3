@@ -3,7 +3,6 @@
 在这里，会以标准写法来完成文件
 
 
-
 ::: tip
 此表单仅做示例使用，不含任何业务功能
 :::
@@ -14,7 +13,6 @@
 ::: demo 这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签`<BaseForm/>`的示例。完整英文句子示例：`Hello, world!`
 /demos/0_示例_demo/1_StandardDemoForm 标准示例表单/0_TestForm.vue
 :::
-
 
 ::: tip
 这是`tip`信息示例
@@ -67,8 +65,6 @@
 |`isCache`|是否缓存|`boolean`|-|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|-|
 |`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
-|`handleRequest`|处理参数|`(args: CommonObj) => CommonObj`|-|
-
 
 ::: tip
 这是 `props `的 `tip `信息
@@ -81,25 +77,11 @@
 |:---|:---|:---|
 |`update:modelValue`|双向绑定值|`args: CommonObj`|
 |`submit`|表单提交|`args: CommonObj`|
-|`change`|`change`事件|`prop: string, val: string | number`|
+|`change`|`change`事件|`prop: string, val: string \| number`|
 |`moreBtns`|监听操作栏的按钮点击事件|`name: string, args: CommonObj, cb: FinallyNext`|
-
 
 ::: warning
 这是 `emits `的 `warning `信息
-:::
-
-
-### 插槽
-
-|插槽名|说明|子标签|
-|:---|:---|:---|
-|`default`|默认插槽|`(props: { msg: string }) => any`|
-|`item`|`item`插槽|`(props: { id: number }) => any`|
-
-
-::: danger
-这是 `slots `的`tip`信息
 :::
 
 
@@ -110,9 +92,6 @@
 |方法名|说明|类型|
 |:---|:---|:---|
 |`formRef`|表单实例|`any`|
-|`formValidate`|表单校验|`() => void`|
-|`tempTestFn_1`|临时的测试方法|`() => void`|
-
 
 ::: warning
 注意这部分的`title`——【方法(`expose`)】是通过写入覆盖默认值的

@@ -7,6 +7,7 @@ import { useSourceCode } from "../composables/source-code";
 import { usePlayground } from "../composables/use-playground";
 import Example from "./demo/vp-example.vue";
 import SourceCode from "./demo/vp-source-code.vue";
+import { demosPath } from "../../../scripts/out/utils/index.js";
 
 // import { useLang } from "../composables/lang";
 // import demoBlockLocale from "../../i18n/component/demo-block.json"; //这是原来的github上的地址
@@ -60,7 +61,7 @@ const formatPathDemos = computed(() => {
   const demos = {};
   const demoFiles = import.meta.glob(`../../../demos/**/*.vue`, { eager: true });
   Object.keys(demoFiles).forEach(key => {
-    demos[key.replace("../../../demos/", "")] = demoFiles[key].default;
+    demos[key.replace(`../../../demos/`, "")] = demoFiles[key].default;
   });
   return demos;
 });

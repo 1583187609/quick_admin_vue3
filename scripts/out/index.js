@@ -12,8 +12,10 @@
 import fs from "fs";
 import path from "path";
 import { writeComponentDoc, writeTestMdDoc } from "./create/index.js";
-import { docsPath, splitOrderChar } from "./utils/consts.js";
+import { demosPath, docsPath, splitOrderChar } from "./utils/consts.js";
 import { upperFirst } from "./utils/base.js";
+import { getDefineRowsMap } from "./utils/file/vuets.js";
+import { getTsOrObjStrByNameNew } from "./utils/index.js";
 
 /**
  * 触发热更新写入新文件的方法
@@ -27,7 +29,7 @@ export function hotRun() {}
  * @param {boolean} writeDemo 是否重写示例文档
  * @param {standard|complex|null|undefined|''} demoType 示例类型
  */
-function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", dirPath = "/demos") {
+function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", dirPath = demosPath) {
   const fullDirPath = path.join(process.cwd(), dirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(parFile => {
@@ -58,3 +60,5 @@ writeCommonTestDocs(); //生成组件文档页（通用方法）
 // writeCommonTestDocs(false, true, "complex"); //生成组件文档页（通用方法）
 
 // writeTestMdDoc(); //测试生成Md文档页示例
+
+// getTsOrObjStrByNameNew();
