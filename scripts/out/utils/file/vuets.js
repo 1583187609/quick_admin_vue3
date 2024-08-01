@@ -139,42 +139,43 @@ export function getVueScriptStr(readPath = needParam(), noWrap = true) {
 /**
  * 获取Vue文件中的defineXxx类型的文本
  * @param {string} scriptStr script标签部分的文本字符串
+ * @line 见如下 getResolveInfo("",false,true)
  */
-function getVueDefineFileStr(scriptStr = "") {
-  const lines = scriptStr.split(N);
-  let sum = 0;
-  let name = "";
-  let isAtInner = false;
-  const rows = [];
-  const mapRows = {};
-  lines.forEach(item => {
-    if (isAnnotation(item)) return;
-    if (isAtInner) return rows.push(item);
-    if (isVueDefineDeclare(item)) {
-      isAtInner = true;
-      rows.push(item);
-      const newNum = getBracesNum(item, sum);
-      const isEnd = newNum === 0;
-      if (isEnd) isAtInner = false;
-      const isFirstLine = sum === 0; //是否是第一行
-      if (isFirstLine) {
-        name = item.match(new RegExp(`(${defineKeywords.join("|")})`))?.[0];
-        const codeType = getDefineCodeType(item);
-      }
-    }
-    if (rows.length && !isAtInner) {
-      mapRows[name] = rows;
-      rows.length = 0;
-    }
-  });
-  return rows.join(N);
-}
+// function getVueDefineFileStr(scriptStr = "") {
+//   const lines = scriptStr.split(N);
+//   let sum = 0;
+//   let name = "";
+//   let isAtInner = false;
+//   const rows = [];
+//   const mapRows = {};
+//   lines.forEach(item => {
+//     if (isAnnotation(item)) return;
+//     if (isAtInner) return rows.push(item);
+//     if (isVueDefineDeclare(item)) {
+//       isAtInner = true;
+//       rows.push(item);
+//       const newNum = getBracesNum(item, sum);
+//       const isEnd = newNum === 0;
+//       if (isEnd) isAtInner = false;
+//       const isFirstLine = sum === 0; //是否是第一行
+//       if (isFirstLine) {
+//         name = item.match(new RegExp(`(${defineKeywords.join("|")})`))?.[0];
+//         const codeType = getDefineCodeType(item);
+//       }
+//     }
+//     if (rows.length && !isAtInner) {
+//       mapRows[name] = rows;
+//       rows.length = 0;
+//     }
+//   });
+//   return rows.join(N);
+// }
 
 /**
- * 获取Ts文件
+ * 获取 Ts 声明（待完善）
  * @param {string} scriptStr script标签部分的文本字符串
  */
-function getTsFileStr(scriptStr = "") {
+function getTsDeclareStr(scriptStr = "") {
   const lines = scriptStr.split(N);
   let sum = 0;
   let isAtInner = false;
@@ -202,6 +203,7 @@ function getTsFileStr(scriptStr = "") {
   });
   return rows.join(N);
 }
+
 /**
  * 获取下一次遇到其他不同本行类型的行下标
  * @param {string[]} rows 多行文本数据数组
