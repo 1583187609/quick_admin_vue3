@@ -113,6 +113,10 @@
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）  
 ~~66、让 select，cascader 的 options 可以传入 name 名称实现下拉项的正常渲染展示~~  
 67、完善 CellTable 组件
+68、将级联、下拉项分开，且分同步异步文件夹
+options
+-cascader
+-select
 
 ## 二、优化清单
 
@@ -166,6 +170,7 @@
 ~~40、国际化处理的配置文件（languages）应该分别放在各个模块下方~~  
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置
+
 
 ## 三、Bug 清单
 

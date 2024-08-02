@@ -65,6 +65,16 @@ export function getAnnotationByType(filePath = needParam(), type = "summary", no
  * @danger danger 块信息
  * @details details 块信息
  */
+// 改成如下新的
+/**
+ * key可能的取值
+ * @title 标题
+ * @description  描述信息（摘要）
+ * @notice {tip} tip 块信息（默认为tip）
+ * @notice {warning} warning 块信息
+ * @notice {danger} danger 块信息
+ * @notice {details} details 块信息
+ */
 export function getVueApiInfo(filePath = "", matchType = "summary") {
   if (!filePath) return { file: "", info: null };
   const { matchStr, endStr } = getAnnotationByType(filePath, matchType, true);
@@ -74,8 +84,7 @@ export function getVueApiInfo(filePath = "", matchType = "summary") {
     if (!item.startsWith("@")) return;
     const spaceInd = item.indexOf(" ");
     const key = item.slice(1, spaceInd);
-    let val = item.slice(spaceInd + 1).trim();
-    val = getAtMdStr(val);
+    const val = getAtMdStr(item.slice(spaceInd + 1).trim());
     const isHint = ["tip", "warning", "danger"].includes(key);
     if (isHint) {
       info.hints[key] = val;

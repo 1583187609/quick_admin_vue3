@@ -9,7 +9,7 @@ import { ApiTableContainer } from "../plugins/api-table";
 import type Token from "markdown-it/lib/token";
 import type Renderer from "markdown-it/lib/renderer";
 import type MarkdownIt from "markdown-it";
-import { getVueApiInfo, demosPath } from "../../scripts/out/utils";
+import { getVueApiInfo, demosPath } from "../../scripts/doc/utils";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {

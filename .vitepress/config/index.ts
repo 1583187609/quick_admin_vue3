@@ -1,7 +1,7 @@
 import { defineConfig } from "vitepress";
-import { getNav, getSidebarAndRewrites } from "../../scripts/out/menus/index.js";
+import { getNav, getSidebarAndRewrites } from "../../scripts/doc/menus/index.js";
 import plugins from "./plugins.ts";
-import { hotRun } from "../../scripts/out/index.js";
+import { hotRun } from "../../scripts/doc/index.js";
 
 const { sidebar, rewrites } = getSidebarAndRewrites() as any;
 

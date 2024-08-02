@@ -24,3 +24,5 @@
 ~~13、/demos 路径提取到变量中~~
 14、完善 vuets 文件（Vue ts 文件的解析）
 15、换行符替换变量为 N
+16、替换注释中tip danger warning details的写法。默认为 tip
+17、多行注释默认 hidden。

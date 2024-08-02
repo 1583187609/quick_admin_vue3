@@ -75,3 +75,11 @@ export default {
   },
 };
 ```
+
+# 字典类型
+- cascader 级联
+  - 同步
+  - 异步
+- select 下拉项
+  - 同步
+  - 异步

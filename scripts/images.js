@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { N } = require("./out/utils");
 const filePath = path.resolve(__dirname, "../src/assets/imgs"); //要写入的文件地址
 // const domain = "https://fanlichuan.gitee.io/assets/out-single-vue3"; //远程地址前缀
 const domain = "https://xiangqinjiao.oss-cn-shanghai.aliyuncs.com/ws-new"; //远程地址前缀
@@ -49,17 +48,17 @@ const readFiles = path => {
 };
 
 const writeIndexFile = files => {
-  let baseDomain = `const domain = '${domain}';${N}`;
+  let baseDomain = `const domain = '${domain}';\n`;
   files.forEach(file => {
     let name = file.fileName.replace(/([^.]+)\..+/, "$1").replace(/[-_]([a-z0-9])/g, (val, $1) => $1.toUpperCase());
     name = name.slice(0, 1).toLowerCase() + name.slice(1);
     // || file.path.startsWith("local")
     if (file.path.startsWith("temp") || file.path.startsWith("local")) {
-      baseDomain += `export const ${name}Img = require('./${file.path}${file.path ? "/" : ""}${file.fileName}');${N}`;
+      baseDomain += `export const ${name}Img = require('./${file.path}${file.path ? "/" : ""}${file.fileName}');\n`;
     } else if (file.path.startsWith("remote")) {
       baseDomain += `export const ${name}Img = domain + '${file.path.slice("remote".length)}${file.path ? "/" : ""}${
         file.fileName
-      }';${N}`;
+      }';\n`;
     }
   });
   fs.writeFileSync(filePath + "/index.ts", baseDomain);
