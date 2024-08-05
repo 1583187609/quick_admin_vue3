@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import compiler from "@vue/compiler-sfc";
 import parser from "@typescript-eslint/parser";
-import tsCompiler, { createSystem, createLanguageServiceHost } from "typescript";
+import tsCompiler from "typescript";
 // import parser from "@typescript-eslint/typescript-estree";
 const { parseForESLint } = parser;
 
@@ -29,21 +29,21 @@ export function getVueTsAst(readPath = "/src/components/form/BaseForm.vue") {
 
   // 从Vue文件中提取TypeScript代码
   // const tsContent = vueContent.match(/<script[^>]*>([\s\S]*?)<\/script>/i)?.[1];
-  const tsContent = scriptContent;
+  // const tsContent = scriptContent;
 
-  // 创建一个TS编译器宿主
-  const host = createLanguageServiceHost({ fileNames: ["./temp.ts"] }, tsContent);
+  // // 创建一个TS编译器宿主
+  // const host = createLanguageServiceHost({ fileNames: ["./temp.ts"] }, tsContent);
 
-  // 创建编译器实例
-  const system = createSystem(host);
-  const service = ts.createLanguageService(host);
+  // // 创建编译器实例
+  // const system = createSystem(host);
+  // const service = ts.createLanguageService(host);
 
-  // 获取AST
-  const ast = service.getEmitOutput("./temp.ts").outputFiles[0];
+  // // 获取AST
+  // const ast = service.getEmitOutput("./temp.ts").outputFiles[0];
 
-  // 打印AST
-  console.log(ast);
-  return ast;
+  // // 打印AST
+  // console.log(ast);
+  // return ast;
   // return tsCompiler;
 
   // 使用@typescript-eslint/parser解析TypeScript AST
