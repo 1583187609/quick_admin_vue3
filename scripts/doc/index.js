@@ -56,9 +56,9 @@ function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", di
   });
 }
 
-writeCommonTestDocs(); //生成组件文档页（通用方法）
+// writeCommonTestDocs(); //生成组件文档页（通用方法）
 // writeCommonTestDocs(false, true, "complex"); //生成组件文档页（通用方法）
 
-// writeTestMdDoc(); //测试生成Md文档页示例
+writeTestMdDoc(); //测试生成Md文档页示例
 
 // getTsOrObjStrByNameNew();
