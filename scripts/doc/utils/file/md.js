@@ -7,7 +7,7 @@ import { getTsDeclareFromVueFile } from "./vue";
  * 获取（计算出）md文档标识需要的正则表达式
  */
 // 下列依次为：匹配Ts的箭头函数、BaseBtnType[]、
-const specialRegStrs = [`\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, `\\w+\\[\\]`];
+const specialRegStrs = [`\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, `\\w+\\[ *\\]`];
 const tempRegStr = `((\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. ]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
 function getMdRegexp() {
   const regStr = specialRegStrs.map(it => `(${it})`).join("|") + `|${tempRegStr}`;

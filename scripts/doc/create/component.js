@@ -8,20 +8,29 @@ import {
   getFileName,
   getTable,
   getTsTypeDeclare,
-  getVueApiInfo,
   getAtMdStr,
   needParam,
   readMeName,
-  splitOrderChar,
   writeFileSync,
   configName,
   N,
 } from "../utils";
-import { getDefineRowsMap } from "../utils/file/vuets";
+import { getApiTablesStr, getInfoFromAnnoByName, getSummaryFileStr } from "../utils/file/vue-doc";
+
+export function getNoticesFromTags(tags = []) {
+  if (!tags?.length) return;
+  const notices = {};
+  tags.forEach(item => {
+    const { title, description } = item;
+    const type = item.type.name;
+    if (title === "notice") notices[type] = description;
+  });
+  return notices;
+}
 
 /**
  * 获取描述类md文本
- * @param {object} hints
+ * @param {object} notices
  * @returns
  */
 // 示例
@@ -31,11 +40,11 @@ import { getDefineRowsMap } from "../utils/file/vuets";
 //   danger: "这是danger消息",
 //   details: "这是details消息",
 // };
-export function getHints(hints) {
-  if (!hints) return "";
+export function getNoticesStr(notices) {
+  if (!notices) return "";
   let descStr = "";
-  for (const key in hints) {
-    const val = getAtMdStr(hints[key]);
+  for (const key in notices) {
+    const val = getAtMdStr(notices[key]);
     descStr += `${N}::: ${key}${N}${val}${N}:::${N}`;
   }
   return descStr;
@@ -81,18 +90,18 @@ function getCodeDemos(readPath) {
     const isDir = fs.lstatSync(curPath).isDirectory();
     if (isDir) throw new Error("暂未处理文件夹情况");
     const newFilePath = `${readPath}/${file}`;
-    const { info } = getVueApiInfo(`${path.join(dirPath, file)}`);
-    const { title = getFileName(file, "cn"), description = "", hints } = info ?? {};
+    const info = getInfoFromAnnoByName(path.join(readPath, file));
+    const { title, description = "", tags } = info ?? {};
+    const notices = getNoticesFromTags(tags);
     mdStr += `
 ## ${title}
 ::: demo ${description}
 ${newFilePath}
-:::${N}${getHints(hints)}${N}`;
+:::${N}${getNoticesStr(notices)}${N}`;
   });
   return mdStr;
 }
 
-// * @param {props|method|event|slot} type 表格类型：属性、方法、事件、插槽
 /**
  * 获取指定类型表格的md文本
  * @param {props|expose|emits|slots} type 表格类型：属性、方法、事件、插槽
@@ -130,53 +139,25 @@ export const tableTypeMap = {
     cols: [
       { prop: "name", label: "插槽名" },
       { prop: "desc", label: "说明" },
-      { prop: "type", label: "子标签" },
+      { prop: "type", label: "Scope" },
+      // { prop: "type", label: "子标签" },
     ],
   },
 };
 export function getTypeTable(type = "props", rows = [], info) {
   if (!rows?.length) return "";
-  const { hints, title: overTitle, description } = info ?? {};
+  const { tags, title: overTitle, description } = info ?? {};
+  const notices = getNoticesFromTags(tags);
   const { title, cols } = tableTypeMap[type];
   let mdStr = "";
   if (description) mdStr += `${N}${description}${N}`;
-  mdStr += `${getTable(cols, rows, hints)}${N}`;
-  if (hints) mdStr += `${getHints(hints)}${N}${N}`;
+  mdStr += `${getTable(cols, rows, notices)}${N}`;
+  if (notices) mdStr += `${getNoticesStr(notices)}${N}${N}`;
   if (!mdStr) return "";
   return `### ${overTitle ?? title}${N}${N}${mdStr}`;
 }
 
 /**
- * 获取API部分的md内容
- * @param {string} readPath 要读取的文件路径。例：/demos/0_示例_demo/_components/StandardDemoForm.vue
- * @param {string} title 标题
- */
-const types = ["props", "emits", "slots", "expose"];
-function getApiTables(readPath = "", title = "API") {
-  if (!readPath) return "";
-  let mdStr = "";
-  const rowsMap = getDefineRowsMap(readPath, true);
-  const readPathFull = path.join(process.cwd(), readPath);
-  types.forEach(type => {
-    const { info } = getVueApiInfo(readPathFull, type);
-    const rows = rowsMap[type];
-    mdStr += getTypeTable(type, rows, info);
-  });
-  if (!mdStr) return "";
-  return `## ${title}${N}${N}${mdStr}${N}`;
-}
-
-/**
- * 获取vue文件中的摘要信息
- * @param {string} readPath 要读取文件的路径
- * @param {object} info 返回的信息
- */
-function getSummaryInfo(readPath = "") {
-  if (!readPath) return "";
-  const fullPath = path.join(process.cwd(), readPath);
-  const { info } = getVueApiInfo(fullPath);
-  return info;
-}
 
 /**
  * 写入（生成）组件说明文档文件
@@ -187,7 +168,7 @@ function getSummaryInfo(readPath = "") {
  * @advice 方法名建议 writeComponentDoc
  */
 // apiPath, tsPath
-export default (writeFilePath = needParam(), demoPath = needParam()) => {
+export default async (writeFilePath = needParam(), demoPath = needParam()) => {
   let fileStr = "";
   // 获取apiPath, tsPath
   const fullFilePath = path.join(process.cwd(), demoPath, configName);
@@ -196,13 +177,9 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
   !isExist && writeFileSync(fullFilePath, dataStr);
   const { apiPath, tsPath } = JSON.parse(dataStr);
 
-  // 从api来源文件中读取摘要信息，并拼接字符串
-  const info = getSummaryInfo(apiPath);
-  const { title = writeFilePath.split(splitOrderChar).at(-1).slice(0, -3) ?? "无标题", hints, description } = info ?? {};
+  const title = getFileName(writeFilePath);
   fileStr += `# ${title}${N}${N}`;
   const oldFileStr = fileStr;
-  if (description) fileStr += `${description}${N}${N}`;
-  if (hints) fileStr += `${getHints(hints)}${N}${N}`;
 
   // 从ReadMe文件中读取摘要信息
   // const readMePath = path.join(process.cwd(), demoPath, readMeName);
@@ -216,15 +193,23 @@ export default (writeFilePath = needParam(), demoPath = needParam()) => {
   //   // writeFileSync(readMePath, fileStr);
   // }
 
-  if (demoPath) fileStr += `${getCodeDemos(demoPath)}${N}${N}`;
+  // 从api来源文件中读取摘要信息，并拼接字符串
   if (apiPath) {
-    const apiStr = getApiTables(apiPath);
+    fileStr += await getSummaryFileStr(apiPath, title);
+  }
+
+  if (demoPath) fileStr += `${getCodeDemos(demoPath)}${N}${N}`;
+
+  if (apiPath) {
+    const apiStr = await getApiTablesStr(apiPath);
     if (apiStr) fileStr += `${apiStr}${N}${N}`;
   }
+
   if (tsPath) {
     const tsFileStr = getTsTypeDeclare(tsPath);
     if (tsFileStr) fileStr += `${tsFileStr}${N}${N}`;
   }
+
   if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善${N}${N}`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };

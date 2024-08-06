@@ -2,32 +2,33 @@
 
 
 
-
-
-## API
-
-### 属性
+### BaseTable
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`cols`|表头|`TableColAttrs[]`|-|
-|`rows`|表格行数据|`CommonObj[]`|-|
+|`cols`|-|`TableColAttrs[ ]`|-|
+|`rows`|-|`CommonObj[ ]`|-|
 |`total`|-|`number`|-|
-|`pageAttrs`|分页属性|`CommonObj`|-|
-|`sort`|是否显示排序列|`boolean`|-|
-|`index`|是否展示序号列|`boolean`|-|
-|`selection`|是否显示选择框|`boolean`|-|
-|`sortable`|是否启用排序|`boolean`|-|
-|`showSummary`|是否显示汇总行|`boolean`|-|
+|`pageAttrs`|-|`CommonObj`|-|
+|`sort`|-|`boolean`|-|
+|`index`|-|`boolean`|-|
+|`selection`|-|`boolean`|-|
+|`sortable`|-|`boolean`|-|
+|`showSummary`|-|`boolean`|-|
+|`summaryMethod`|-|`() => void`|-|
 
 
-### 方法
+### BaseTable
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`tableRef`|-|`unknown`（类型推断）|
+|`tableRef`|-|`() => void`|
 
+### BaseTable
 
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`c.prop`|-|`row, col, $index, name`|
 
 
 

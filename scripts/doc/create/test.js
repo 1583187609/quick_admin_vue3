@@ -9,7 +9,7 @@ import {
   getTsDeclareFromVueFile,
 } from "../utils/file";
 import { docsPath, demosPath, N } from "../utils/consts";
-import { getHints, getTypeTable, tableTypeMap } from "./component";
+import { getNoticesStr, getTypeTable, tableTypeMap } from "./component";
 import { getVueTsAst } from "../utils/file/vue-ast";
 import { getDefineRowsMap } from "../utils/file/vuets";
 
@@ -40,8 +40,8 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
   // fileStr += `### Vue Props${NN}`;
   // const vueFilePath = "/src/components/form/BaseForm.vue";
   // fileStr += `#### Ts类型${NN}${toCodeBlock(getTsOrObjStrByName(vueFilePath, "defineProps").matchStr, "ts")}${NN}`;
-  // const hints = getHints({ details: toCodeBlock(getTsOrObjStrByName(vueFilePath, "defineProps", true).matchStr) });
-  // fileStr += `${hints}${NN}`;
+  // const noticesStr = getNoticesStr({ details: toCodeBlock(getTsOrObjStrByName(vueFilePath, "defineProps", true).matchStr) });
+  // fileStr += `${noticesStr}${NN}`;
   // const { cols } = tableTypeMap.props;
   // const rowsMap = getDefineRowsMap(vueFilePath, true);
   // const rows = rowsMap.props;
@@ -52,7 +52,7 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
   //   getTsOrObjStrByName(standardTsPath, "interface FormFieldAttrs").matchStr,
   //   "ts"
   // )}${NN}`;
-  // const hints_1 = getHints({
+  // const hints_1 = getNoticesStr({
   //   details: toCodeBlock(getTsOrObjStrByName(standardTsPath, "interface FormFieldAttrs", true).matchStr),
   // });
   // fileStr += `${hints_1}${NN}`;
@@ -61,7 +61,7 @@ export default (writePath = `/4_示例_demo/2_文档生成_create/2_Md 文档_md
 
   // fileStr += `### TS Type${NN}`;
   // fileStr += `#### Ts 类型${NN}${toCodeBlock(getTsOrObjStrByName(standardTsPath, "type FormItemType").matchStr, "ts")}${NN}`;
-  // const hints_2 = getHints({
+  // const hints_2 = getNoticesStr({
   //   details: toCodeBlock(getTsOrObjStrByName(standardTsPath, "type FormItemType", true).matchStr),
   // });
   // fileStr += `${hints_2}${NN}`;

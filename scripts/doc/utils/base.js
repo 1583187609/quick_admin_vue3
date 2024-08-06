@@ -2,6 +2,7 @@
  基础常用（任意工程可用）**********************
  ********************************************/
 
+import path from "path";
 import { isSimple, splitOrderChar } from "./consts";
 
 /**
@@ -66,11 +67,13 @@ export function camelCase(str = "", isToBy = true) {
 
 /**
  * 获取剔除下划线后的文件名
- * @param {string} file 文件名
+ * @param {string} filePath 文件路径
  * @param {cn|en} type 获取的文件名类型，中文名或英文名
  */
-export function getFileName(file, type = "cn", char = splitOrderChar) {
-  file = file.split(".")[0];
+export function getFileName(filePath = needParam(), type = "cn", char = splitOrderChar) {
+  const ext = path.extname(filePath);
+  const file = path.basename(filePath, ext);
+  // file = file.split(".")[0];
   if (!isSimple) return file;
   if (!file.includes(char)) return file;
   const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名

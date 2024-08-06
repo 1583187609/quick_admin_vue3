@@ -1,12 +1,11 @@
-<!-- summary
-  @title 测试表单
-  @description 这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!
-  @tip 这是tip信息示例
+<!-- summary 测试表单
+  这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!
+  @notice {tip} 这是tip信息示例
  -->
 <!--
-  @warning 这是warning信息示例
-  @danger 这是danger信息示例
- -->
+  @notice {warning} 这是warning信息示例
+  @notice {danger} 这是danger信息示例
+-->
 <template>
   <el-form :inline="true" :model="formInline" class="demo-form-inline">
     <el-form-item label="Approved by">

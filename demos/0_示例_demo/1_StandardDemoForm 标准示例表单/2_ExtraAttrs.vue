@@ -1,7 +1,6 @@
-<!-- summary
-  @title 额外属性
-  @description 除了ElementPlus的属性外，其他的功能属性一律添加在 extraAttrs 中
- -->
+<!-- summary 额外属性
+  除了ElementPlus的属性外，其他的功能属性一律添加在 extraAttrs 中
+-->
 <template>
   <BaseForm :fields="fields" :fetch="PostMockCommon"></BaseForm>
 </template>

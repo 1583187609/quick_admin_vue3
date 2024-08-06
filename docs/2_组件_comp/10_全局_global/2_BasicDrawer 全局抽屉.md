@@ -2,25 +2,25 @@
 
 
 
-
-
-## API
-
-### 属性
+### BasicDrawer
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|-|`boolean`|-|
 |`body`|-|`any`|-|
 
-
-### 事件
+### BasicDrawer
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`||-|
+|`update:modelValue`|-|-|
 
 
+### BasicDrawer
+
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`default`|-|-|
 
 
 

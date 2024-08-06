@@ -1,64 +1,95 @@
 # BaseCrud 基础增删改查
 
 
-
-
-## 基础用法
-::: demo 摘要介绍暂时略
+## BasicUse
+::: demo 
 /demos/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
 
 
-## 内嵌组件
-::: demo 内嵌组件的说明
+## Embedded
+::: demo 
 /demos/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
 :::
 
 
 
-## API
-
-### 属性
+### Index
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|表单数据|`CommonObj`|-|
+|`modelValue`|-|`CommonObj`|-|
 |`rowKey`|-|`string`|-|
-|`formAttrs`|`el-form`的属性配置|`CommonObj`|-|
-|`tableAttrs`|`el-table`的属性配置|`CommonObj`|-|
-|`pageAttrs`|分页配置|`CommonObj`|-|
-|`disabled`|是否禁用|`boolean`|-|
-|`groupBtnsAttrs`|分页配置|`GroupBtnsAttrs`|-|
-|`pagination`|是否分页|`false \| PaginationAttrs`|-|
-|`fields`|-|`FormField[]`|-|
-|`sections`|-|`SectionFieldsItemAttrs[]`|-|
-|`cols`|-|`TableField[]`|-|
+|`formAttrs`|-|`CommonObj`|-|
+|`tableAttrs`|-|`CommonObj`|-|
+|`pageAttrs`|-|`CommonObj`|-|
+|`disabled`|-|`boolean`|-|
+|`groupBtnsAttrs`|-|`GroupBtnsAttrs`|-|
+|`pagination`|-|`false \| PaginationAttrs`|-|
+|`fields`|-|`FormField[ ]`|-|
+|`sections`|-|`SectionFieldsItemAttrs[ ]`|-|
+|`cols`|-|`TableField[ ]`|-|
 |`selectAll`|-|`boolean`|-|
 |`fetch`|-|`UniteFetchType`|-|
+|`fetchSuccess`|-|`() => void`|-|
+|`fetchFail`|-|`() => void`|-|
+|`immediate`|-|`boolean`|-|
+|`extraBtns`|-|`BaseBtnType[ ]`|-|
+|`groupBtns`|-|`GroupBtnsType`|-|
+|`reqMap`|-|`ReqMap`|-|
+|`resMap`|-|`ResMap`|-|
+|`showPagination`|-|`boolean`|-|
+|`summaryList`|-|`SummaryListType`|-|
+|`sort`|-|`boolean \| UniteFetchType`|-|
+|`index`|-|`boolean`|-|
+|`selection`|-|`boolean`|-|
+|`batchBtn`|-|`boolean`|-|
+|`exportCfg`|-|{
+  `limit: number`; //一次性导出数据的上限条数
+}|-|
+|`importCfg`|-|`TplCfgAttrs`|-|
+|`extraParams`|-|`CommonObj`|-|
+|`log`|-|`boolean`|-|
+|`debug`|-|`boolean`|-|
+|`isOmit`|-|`boolean`|-|
+|`changeFetch`|-|`boolean`|-|
+|`inputDebounce`|-|`boolean`|-|
+|`filterByAuth`|-|`FilterByAuthFn`|-|
+|`colSpanAttrs`|-|`ColSpanAttrs`|-|
+|`compact`|-|`boolean`|-|
+|`size`|-|`CommonSize`|-|
+|`rowNum`|-|`number`|-|
+|`handleRequest`|-|`() => void`|-|
+|`handleResponse`|-|`() => void`|-|
 
-
-### 事件
+### Index
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`||-|
-|`extraBtn`||-|
-|`groupBtn`||-|
-|`selectionChange`||-|
-|`rows`||-|
-|`dargSortEnd`||-|
+|`update:modelValue`|-|-|
+|`extraBtn`|-|-|
+|`groupBtn`|-|-|
+|`selectionChange`|-|-|
+|`rows`|-|-|
+|`dargSortEnd`|-|-|
 
-
-### 方法
+### Index
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`refreshList`|-|`unknown`（类型推断）|
-|`getList`|-|`unknown`（类型推断）|
-|`getQueryParams`|-|`Function`（类型推断）|
-|`getQueryFields`|-|`Function`（类型推断）|
+|`refreshList`|-|`() => void`|
+|`getList`|-|`() => void`|
+|`getQueryParams`|-|`() => void`|
+|`getQueryFields`|-|`() => void`|
 
+### Index
 
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`field.prop`|-|`name, field, form`|
+|`middle`|-|-|
+|`default`|-|`loading, rows, total, hasMore, params, onGroupBtn`|
+|`col.prop`|-|`row, col, $index, name`|
 
 
 

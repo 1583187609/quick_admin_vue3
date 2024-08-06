@@ -1,80 +1,65 @@
-# 复杂示例表单
-
-在这里，会考虑其他复杂边界情况的解析处理
-
-
-::: tip
-此表单仅做示例使用，不含任何业务功能
-:::
+# ComplexDemoForm 复杂示例表单
 
 
 
 
-## API
 
-### `Props`
+### ComplexDemoForm
 
-
-通过设置 `@title: Props` 可覆盖默认的 `title`（属性）。
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|表单数据|`CommonObj`|-|
-|`fields`|表单字段项|`FormField[]`|-|
-|`pureText`|是否纯文本展示|`boolean`|-|
-|`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
-|`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
-|`fetchFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
-|`span`|同`ElementPlus `的`span`，`1 ~ 24`|`string \| number`|-|
-|`footer`|是否显示底部按钮|`boolean`|-|
-|`submitText`|提交按钮的文字|`string`|-|
-|`resetText`|提交按钮的文字|`string`|-|
-|`extraParams`|额外的参数|`CommonObj`|-|
-|`moreBtns`|底部的额外更多按钮|`BaseBtnType[]`|-|
-|`loading`|提交按钮是否显示加载图标|`boolean`|-|
-|`isOmit`|是否剔除掉 `undefined`，'' 参数|`boolean`|-|
-|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
-|`debug`|是否终止提交，并打印传参|`boolean`|-|
-|`isCache`|是否缓存|`boolean`|-|
-|`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|-|
-|`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
-
-::: tip
-这是 `props `的`tip`信息
-:::
+|`modelValue`|-|`CommonObj`|-|
+|`fields`|-|`FormField[ ]`|-|
+|`pureText`|-|`boolean`|-|
+|`fetch`|-|`UniteFetchType`|-|
+|`fetchSuccess`|-|`FinallyNext`|-|
+|`fetchFail`|-|`FinallyNext`|-|
+|`span`|-|`string \| number`|-|
+|`footer`|-|`boolean`|-|
+|`submitText`|-|`string`|-|
+|`resetText`|-|`string`|-|
+|`extraParams`|-|`CommonObj`|-|
+|`moreBtns`|-|`BaseBtnType[ ]`|-|
+|`loading`|-|`boolean`|-|
+|`isOmit`|-|`boolean`|-|
+|`log`|-|`boolean`|-|
+|`debug`|-|`boolean`|-|
+|`isCache`|-|`boolean`|-|
+|`autoFixedFoot`|-|`boolean`|-|
+|`noSubmitProps`|-|`string[ ]`|-|
+|`handleRequest`|-|`() => void`|-|
 
 
-### 事件
+
+### ComplexDemoForm
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`|双向绑定（无`Ts`）|-|
-|`submit`|提交（无`Ts`）|-|
-|`change`|变化（无`Ts`）|-|
-|`moreBtns`|更多按钮（无`Ts`）|-|
-
-::: tip
-提示类信息可以设置一个，也可以设置多个
-:::
-
-::: warning
-这是 `emits `的 `warning `信息
-:::
+|`update:modelValue`|-|-|
+|`submit`|-|-|
+|`change`|-|-|
+|`moreBtns`|-|-|
 
 
-### 方法(`expose`)
 
+### ComplexDemoForm
 
-这是 `expose `的 `description`。通过写入 `description `获得
 |方法名|说明|类型|
 |:---|:---|:---|
-|`refreshList`|-|`unknown`（类型推断）|
-|`getList`|-|`Function`（类型推断）|
-|`getQueryParams`|-|`Function`（类型推断）|
-|`getQueryFields`|-|`Function`（类型推断）|
+|`refreshList`|-|`() => void`|
+|`getList`|-|`() => void`|
+|`getQueryParams`|-|`() => void`|
+|`getQueryFields`|-|`() => void`|
 
-::: warning
-注意这部分的`title`——【方法(`expose`)】是通过写入覆盖默认值的
-:::
+
+
+### ComplexDemoForm
+
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`currField.prop`|-|`name, field, form`|
+|`default`|-|-|
+|`tempTest`|-|-|
 
 
 

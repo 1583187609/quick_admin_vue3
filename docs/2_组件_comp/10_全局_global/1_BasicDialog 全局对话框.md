@@ -2,25 +2,27 @@
 
 
 
-
-
-## API
-
-### 属性
+### BasicDialog
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`body`|-|`any`|-|
 |`footer`|-|`any`|-|
+|`modelValue`|-|-|-|
 
-
-### 事件
+### BasicDialog
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`||-|
+|`update:modelValue`|-|-|
 
 
+### BasicDialog
+
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`default`|-|-|
+|`footer`|-|-|
 
 
 
