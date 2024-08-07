@@ -195,7 +195,7 @@ export default async (writeFilePath = needParam(), demoPath = needParam()) => {
 
   // 从api来源文件中读取摘要信息，并拼接字符串
   if (apiPath) {
-    fileStr += await getSummaryFileStr(apiPath, title);
+    fileStr += getSummaryFileStr(apiPath, title);
   }
 
   if (demoPath) fileStr += `${getCodeDemos(demoPath)}${N}${N}`;

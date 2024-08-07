@@ -1,11 +1,10 @@
-<!-- summary
-  @title 复杂示例表单
-  @description 在这里，会考虑其他复杂边界情况的解析处理
-  @tip 此表单仅做示例使用，不含任何业务功能
+<!-- summary 复杂示例表单
+  在这里，会考虑其他复杂边界情况的解析处理
+  @notice 此表单仅做示例使用，不含任何业务功能
  -->
 <!-- summary
-  @warning 这是warning信息示例
-  @danger 这是danger信息示例
+  @notice {warning} 这是warning信息示例
+  @notice {danger} 这是danger信息示例
  -->
 <template>
   <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
@@ -66,10 +65,9 @@ import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 
-/** props
- * @title Props
- * @tip 这是 props 的tip信息
- * @description 通过设置 `@title: Props` 可覆盖默认的 title（属性）。
+/** props Props
+ * 通过设置 `@title: Props` 可覆盖默认的 title（属性）。
+ * @notice 这是 props 的tip信息
  */
 const props = withDefaults(
   defineProps<{
@@ -105,8 +103,8 @@ const props = withDefaults(
   }
 );
 /** emits
- * @tip 提示类信息可以设置一个，也可以设置多个
- * @warning 这是 emits 的 warning 信息
+ * @notice 提示类信息可以设置一个，也可以设置多个
+ * @notice {warning} 这是 emits 的 warning 信息
  */
 const emits = defineEmits([
   "update:modelValue", // 双向绑定（无Ts）
@@ -147,17 +145,16 @@ function handleEnter() {
   }
 }
 /** slots
- * @danger 这是 slots 的tip信息
+ * @notice {danger} 这是 slots 的tip信息
  */
 defineSlots<{
   default?: (props: { msg: string }) => any; //             默认插槽
   tempTest?: (props: { id: number }) => any; //这是临时写的用作测试的插槽
 }>();
 
-/** expose
- * @title 方法(expose)
- * @description 这是 expose 的 description。通过写入 description 获得
- * @warning 注意这部分的title——【方法(expose)】是通过写入覆盖默认值的
+/** expose 方法(expose)
+ * 这是 expose 的 description。通过写入 description 获得
+ * @notice {warning} 注意这部分的title——【方法(expose)】是通过写入覆盖默认值的
  */
 const refreshList = () => {};
 defineExpose({

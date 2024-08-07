@@ -151,12 +151,16 @@ function getItemsOfProps(list = []) {
   return list.map(item => {
     const { name, type, required, defaultValue, description, tags } = item;
     const { func, value } = defaultValue ?? {};
+    let defVal = value;
+    if (value) {
+      defVal = value.split("=>").at(-1).trim();
+    }
     return getTableRow(
       {
         name,
         type: getType(type, tags),
         required,
-        default: value,
+        defVal,
         desc: description,
       },
       true

@@ -1,7 +1,6 @@
-<!-- summary
-  @title 标准示例表单
-  @description 在这里，会以标准写法来完成文件
-  @tip 此表单仅做示例使用，不含任何业务功能
+<!-- summary 标准示例表单
+  在这里，会以标准写法来完成文件
+  @notice 此表单仅做示例使用，不含任何业务功能
  -->
 <template>
   <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
@@ -62,10 +61,9 @@ import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 
-/** props
- * @title Props
- * @description 描述信息（props）
- * @tip 这是 props 的 tip 信息
+/** props Props
+ * 描述信息（props）
+ * @notice 这是 props 的 tip 信息
  */
 const props = withDefaults(
   defineProps<{
@@ -102,7 +100,7 @@ const props = withDefaults(
 );
 
 /** emits
- * @warning 这是 emits 的 warning 信息
+ * @notice {warning} 这是 emits 的 warning 信息
  */
 const emits = defineEmits<{
   (e: "update:modelValue", args: CommonObj): void; //双向绑定值
@@ -144,17 +142,16 @@ function handleEnter() {
 }
 
 /** slots
- * @danger 这是 slots 的tip信息
+ * @notice {danger} 这是 slots 的tip信息
  */
 defineSlots<{
   default?: (props: { msg: string }) => any; //默认插槽
   item?: (props: { id: number }) => any; //item插槽
 }>();
 
-/** expose
- * @title 方法(expose)
- * @description 这是 expose 的 description。通过写入 description 获得
- * @warning 注意这部分的title——【方法(expose)】是通过写入覆盖默认值的
+/** expose 方法(expose)
+ * 这是 expose 的 description
+ * @notice {warning} 注意这部分的title——【方法(expose)】是通过写入覆盖默认值的
  */
 defineExpose<{
   formRef: any; //表单实例
