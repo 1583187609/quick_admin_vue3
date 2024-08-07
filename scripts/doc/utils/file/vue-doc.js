@@ -1,17 +1,26 @@
 import fs from "fs";
 import path from "path";
-import * as bt from "@babel/types";
-import { NodePath } from "ast-types";
-// import handlers from "./handlers.js";
-import { N, docsPath, getAtMdStr, getFileName, getTsTypeDeclare, needParam, toCodeBlock, writeFileSync } from "../index.js";
+// import * as bt from "@babel/types";
+// import { NodePath } from "ast-types";
+import {
+  N,
+  docsPath,
+  getBracesNum,
+  getFileName,
+  getTsTypeDeclare,
+  needParam,
+  typeOf,
+  upperFirst,
+  writeFileSync,
+} from "../index.js";
 import vueDocs from "vue-docgen-api";
-import { getTableRow } from "./vuets.js";
+import { getLineType, getTableRow, isVueDefineDeclare } from "./vuets-new.js";
 import { getNoticesStr, getNoticesFromTags, getTypeTable } from "../../create/component.js";
-import { demosPath, splitOrderChar } from "../consts.js";
+import { demosPath } from "../consts.js";
+// import handlers from "../../temp/handlers.js";
 
 const { parse, ScriptHandlers, TemplateHandlers } = vueDocs;
-// const infoStr = JSON.stringify(info);
-// fileStr += `${toCodeBlock(infoStr)}${N}`;
+
 export async function run(
   readPath = `${demosPath}/0_示例_demo/_components/StandardDemoForm.vue`,
   writePath = `${docsPath}/5_测试_test/1_测试专区1_test1.md`
@@ -30,6 +39,11 @@ export async function run(
  * 根据name从注释中获取信息
  * @param {string} filePath 要读取文件的路径
  * @param {summary|props|expose|emits|slots} type 要读取的注释类型
+ * @returns {
+ *  tags: [],
+ *  type: "",
+ *  title: "",
+ * }
  */
 export function getInfoFromAnnoByName(readPath = needParam(), name = "summary") {
   const readPathFull = path.join(process.cwd(), readPath);
@@ -38,7 +52,7 @@ export function getInfoFromAnnoByName(readPath = needParam(), name = "summary") 
   const jsRegStr = `(\\/\\*\\* *${name}.*?\\*\\/)`;
   const regStr = `${htmlRegStr}|${jsRegStr}`;
   const reg = new RegExp(regStr, "gs");
-  const info = { type: name, title: getFileName(readPath) };
+  const info = { type: name, title: upperFirst(name) };
   const matchStr = fileStr.match(reg)?.[0];
   if (!matchStr) return info;
   const lines = matchStr.split(N);
@@ -73,9 +87,66 @@ export function getInfoFromAnnoByName(readPath = needParam(), name = "summary") 
   return info;
 }
 
-async function getParseInfo(readPath = needParam()) {
+let expandSum = 0;
+/**
+ * 获取下一次遇到其他不同本行类型的行下标
+ * @param {string[]} rows 多行文本数据数组
+ * @param {number} nextInd 下一行的下标
+ * @parma {ts|arr|obj|["",""]} startType 刚开始查找时行文本的类型
+ */
+export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "ts") {
+  const t = typeOf(startType);
+  let nextLine = rows[nextInd];
+  if (nextLine === undefined) return -1;
+  nextLine = nextLine.trim();
+  if (t === "String") {
+    const isEnd = getLineType(nextLine) !== startType;
+    if (isEnd) return nextInd;
+    return getNearLineIndex(rows, ++nextInd, startType);
+  } else if (t === "Array") {
+    if (expandSum) {
+      expandSum = getBracesNum(nextLine, expandSum, startType);
+      const isEnd = expandSum === 0;
+      if (isEnd) return nextInd;
+      return getNearLineIndex(rows, ++nextInd, startType);
+    }
+  } else {
+    throw new Error(`暂未处理${t}类型`);
+  }
+}
+
+function getTempPathFull(readPath = "", tempPath = "/_cache/temp.vue") {
   const readPathFull = path.join(process.cwd(), readPath);
-  return await parse(readPathFull, {
+  const fileStr = fs.readFileSync(readPathFull, "utf-8");
+  const newLines = [];
+  const lines = fileStr.split(N);
+  let expandUntilInd = -1;
+  lines.forEach((line, ind) => {
+    if (expandUntilInd > ind) {
+      if (!line.includes("//")) return newLines.push(line);
+      const [codeStr, annoStr] = line.split("//").map(it => it.trim());
+      if (!annoStr) return newLines.push(codeStr);
+      const annos = ["/**", `* ${annoStr}`, "*/"];
+      if (codeStr) annos.push(codeStr);
+      return newLines.push(...annos);
+    }
+    const isDefine = isVueDefineDeclare(line, undefined, false);
+    if (!isDefine) return newLines.push(line);
+    expandSum = getBracesNum(line, expandSum, ["{", "}"]);
+    if (expandSum === 0) return newLines.push(line);
+    const nearInd = getNearLineIndex(lines, ind + 1, ["{", "}"]);
+    if (nearInd > ind) expandUntilInd = nearInd;
+    newLines.push(line);
+  });
+  const newFileStr = newLines.join(N);
+  const tempPathFull = path.join(process.cwd(), tempPath);
+  writeFileSync(tempPathFull, newFileStr);
+  return tempPathFull;
+}
+
+async function getParseInfo(readPath = needParam()) {
+  const tempPathFull = getTempPathFull(readPath);
+  return await parse(tempPathFull, {
     // alias: { "@": path.join(process.cwd(), "src") },
     // resolve: [path.join(process.cwd(), "src")],
     // ...handlers,
@@ -102,14 +173,9 @@ export function getSummaryFileStr(readPath = "") {
 
 export async function getApiTablesStr(readPath = needParam()) {
   const info = await getParseInfo(readPath);
-  // const { description, displayName, exportName, sourceFiles, tags } = info;
-  const { events, expose, props, slots } = info;
-  const data = {
-    props,
-    emits: events,
-    expose,
-    slots,
-  };
+  // const { description, displayName, exportName, sourceFiles, tags,expose, props, slots  } = info;
+  const { events, ...rest } = info;
+  const data = { emits: events, ...rest };
   let fileStr = "";
   const map = {
     props: getItemsOfProps,
@@ -135,7 +201,7 @@ function getItemsOfProps(list = []) {
   function getType(typeInfo = {}, tags = {}) {
     const { name, elements } = typeInfo;
     if (name === "Array") {
-      return `${elements.map(it => it.name).join(" | ")}[ ]`;
+      return `${elements.map(it => it.name).join(" | ")}[]`;
     } else if (name === "TSFunctionType") {
       const { params = [], returns = [], type } = tags;
       if (type) return type[0].type.name;

@@ -24,8 +24,9 @@
 ~~13、/demos 路径提取到变量中~~
 14、完善 vuets 文件（Vue ts 文件的解析）
 ~~15、换行符替换变量为 N~~
-~~16、替换注释中tip danger warning details的写法。默认为 tip~~
+~~16、替换注释中 tip danger warning details 的写法。默认为 tip~~
 17、多行注释默认 hidden。
-18、将docs和demos的路径整合成一样的
-19、把Quick Vitepress Docs 抽成 可配置型的
+18、将 docs 和 demos 的路径整合成一样的
+19、把 Quick Vitepress Docs 抽成 可配置型的
 20、把配置文件提取出来，如：docsPath、demosPath
+21、将 getNearLineIndex 的 sum 变量优化下

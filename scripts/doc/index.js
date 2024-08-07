@@ -14,8 +14,6 @@ import path from "path";
 import { writeComponentDoc, writeTestMdDoc } from "./create/index.js";
 import { demosPath, docsPath, splitOrderChar } from "./utils/consts.js";
 import { upperFirst } from "./utils/base.js";
-import { getDefineRowsMap } from "./utils/file/vuets.js";
-import { getTsOrObjStrByNameNew } from "./utils/index.js";
 import { run } from "./utils/file/vue-doc.js";
 
 /**
@@ -57,11 +55,11 @@ function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", di
   });
 }
 
-writeCommonTestDocs(); //生成组件文档页（通用方法）
+// writeCommonTestDocs(); //生成组件文档页（通用方法）
 // writeCommonTestDocs(false, true, "standard"); //生成组件文档页（通用方法）
 
-writeTestMdDoc(); //测试生成Md文档页示例
+// writeTestMdDoc(); //测试生成Md文档页示例
 
 // getTsOrObjStrByNameNew();
 
-// run();
+run();

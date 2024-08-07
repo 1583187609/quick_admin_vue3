@@ -1,65 +1,45 @@
 # ComplexDemoForm 复杂示例表单
 
+在这里，会考虑其他复杂边界情况的解析处理
+
+
+::: tip
+此表单仅做示例使用，不含任何业务功能
+:::
 
 
 
 
-### ComplexDemoForm
+### Props
 
+
+通过设置 `@title: Props` 可覆盖默认的 title（属性）。
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|-|`CommonObj`|-|
-|`fields`|-|`FormField[ ]`|-|
-|`pureText`|-|`boolean`|-|
-|`fetch`|-|`UniteFetchType`|-|
-|`fetchSuccess`|-|`FinallyNext`|-|
-|`fetchFail`|-|`FinallyNext`|-|
-|`span`|-|`string \| number`|-|
-|`footer`|-|`boolean`|-|
-|`submitText`|-|`string`|-|
-|`resetText`|-|`string`|-|
-|`extraParams`|-|`CommonObj`|-|
-|`moreBtns`|-|`BaseBtnType[ ]`|-|
-|`loading`|-|`boolean`|-|
-|`isOmit`|-|`boolean`|-|
-|`log`|-|`boolean`|-|
-|`debug`|-|`boolean`|-|
-|`isCache`|-|`boolean`|-|
-|`autoFixedFoot`|-|`boolean`|-|
-|`noSubmitProps`|-|`string[ ]`|-|
-|`handleRequest`|-|`() => void`|-|
+|`title`|-|`string`|"标题"|
+|`badge`|-|`number \| string`|`0`|
+|`max`|-|`number`|`99`|
+|`bodyClass`|-|`string`|""|
+|`foldable`|-|`boolean`|`false`|
+
+::: tip
+这是 `props `的`tip`信息
+:::
 
 
 
-### ComplexDemoForm
-
-|事件名称|说明|回调参数|
-|:---|:---|:---|
-|`update:modelValue`|-|-|
-|`submit`|-|-|
-|`change`|-|-|
-|`moreBtns`|-|-|
 
 
-
-### ComplexDemoForm
-
-|方法名|说明|类型|
-|:---|:---|:---|
-|`refreshList`|-|`() => void`|
-|`getList`|-|`() => void`|
-|`getQueryParams`|-|`() => void`|
-|`getQueryFields`|-|`() => void`|
-
-
-
-### ComplexDemoForm
+### Slots
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`currField.prop`|-|`name, field, form`|
+|`right`|-|-|
 |`default`|-|-|
-|`tempTest`|-|-|
+
+::: danger
+这是 `slots `的`tip`信息
+:::
 
 
 
@@ -67,6 +47,8 @@
 
 ## 类型声明
 ::: details
+/demos/0_示例_demo/_typescript/complex.ts
+
 <<< E:\Quick-Admin\quick_admin_vue3/demos/0_示例_demo/_typescript/complex.ts
 :::  
 

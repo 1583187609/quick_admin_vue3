@@ -1,13 +1,13 @@
 # SectionForm 分块表单
 
 
-## BasicUse
+## Summary
 ::: demo 
 /demos/2_表单_form/2_SectionForm 分块表单/1_BasicUse.vue
 :::
 
 
-## ParamsRules
+## Summary
 ::: demo 
 /demos/2_表单_form/2_SectionForm 分块表单/2_ParamsRules.vue
 :::

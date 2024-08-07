@@ -2,32 +2,34 @@
 
 
 
-### BasicDrawer
+### Props
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|-|`boolean`|-|
-|`body`|-|`any`|-|
-
-### BasicDrawer
-
-|事件名称|说明|回调参数|
-|:---|:---|:---|
-|`update:modelValue`|-|-|
+|`title`|-|`string`|"标题"|
+|`badge`|-|`number \| string`|`0`|
+|`max`|-|`number`|`99`|
+|`bodyClass`|-|`string`|""|
+|`foldable`|-|`boolean`|`false`|
 
 
-### BasicDrawer
+
+### Slots
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
+|`right`|-|-|
 |`default`|-|-|
 
 
 
 ## 类型声明
 ::: details
+/src/components/BasicDrawer.vue
+
 
 ``` ts
+
 
 ```
 

@@ -1,11 +1,9 @@
 /********************************************
- 文件处理相关*********************************
+ ***************** 文件处理相关 **************
  ********************************************/
 import fs from "fs";
 import path from "path";
-import { camelCase, needParam, typeOf } from "../base";
-import { docsPath, demosPath, readMeName } from "../consts";
-import { getDefineCodeType, getResolveInfo, isTypeDeclare } from "./vuets";
+import { docsPath, demosPath, readMeName } from "../consts.js";
 
 /**
  * 获取字符串中目标字符中最先出现的那个字符的下标（会忽略后半截的注释部分）
@@ -35,6 +33,9 @@ export function getIndexIgnoreAnno(str, chars = "", isLast = false) {
  * 注：nodejs不能一次性创建多层目录，需要递归处理
  * @param dirname 多层目录路径 示例： hello/a/b/c
  */
+// export function mkdirsSync(dirname, recursive = true) {
+//   fs.mkdirSync(dirname, { recursive });
+// }
 export function mkdirsSync(dirname) {
   if (fs.existsSync(dirname)) {
     return true;
@@ -110,102 +111,6 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
 }
 
 /**
- * 根据正则表达式获取部分文件字符串
- * @param {string} readPath 要读取的文件路径
- * @param {string|RegExp} reg 正则表达式的只读字符串或者正则表达式
- * @param {string|false} boundaryChars 边界符号：由起止符号构成
- * @returns {
- * matchStr {string} 匹配的文件字符串
- * strType {ts|arr|obj} 字符串的来源类型
- * type {props|emits|slots|expose}
- * }
- */
-export function getPartFileStr(readPath = needParam(), reg = needParam(), boundaryChars = false) {
-  const isReg = typeOf(reg) === "RegExp";
-  const regexp = isReg ? reg : new RegExp(reg);
-  const fullPath = path.join(process.cwd(), readPath);
-  const fileStr = fs.readFileSync(fullPath, "utf-8");
-  let matchStr = fileStr.match(regexp)?.[0];
-  if (!matchStr) return "";
-  // //是否是ts类型的字符串。也可能是其他开头的字符串，例：defineExpose<, defineExpose(, type = '', interface {}
-  // let strType = "obj";
-  // const tsList = ["defineProps<", "defineEmits<", "defineSlots<", "defineExpose<", "interface"];
-  // if (tsList.some(it => matchStr.startsWith(it))) strType = "ts";
-  // if (matchStr.startsWith("defineEmits([")) strType = "arr";
-
-  const strType = getDefineCodeType(matchStr);
-  const endInd = matchStr.indexOf(/[<\(]/);
-  let type = "";
-  if (matchStr.startsWith("define")) type = camelCase(matchStr.slice(6, endInd));
-  if (matchStr.startsWith("type")) type = "type";
-  if (matchStr.startsWith("interface")) type = "interface";
-  if (!type) throw new Error("未检测到type类型");
-  if (boundaryChars) {
-    // defineEmits(["update:modelValue"])
-    if (matchStr.startsWith("defineEmits([")) boundaryChars = "[]";
-    const [c1, c2] = boundaryChars;
-    const sInd = matchStr.indexOf(c1) + 1;
-    const eInd = matchStr.lastIndexOf(c2);
-    matchStr = matchStr.slice(sInd, eInd).trim();
-  }
-  return { matchStr, strType, type };
-}
-
-/**
- * 根据ts类型名称获取对应的文件片段
- * @param {string} readPath 读取的文件路径。例："/demos/0_示例_demo/_typescript/standard.ts"
- * @param {string} name ts类型名称。例："type FormItemType"  "interface FormFieldAttrs"
- * @param {boolean} noWrap 是否带壳
- */
-function getTsStr(readPath = needParam(), name = needParam(), noWrap = true) {
-  // const isType = isTypeDeclare(name);
-  const isType = name.startsWith("type");
-  if (!isType && !name.startsWith("interface")) throw new Error("ts文件必须以 type 或 interface 开头");
-  let boundaryChars = "{}";
-  if (noWrap) {
-    if (isType) boundaryChars = "=;";
-  } else {
-    boundaryChars = false;
-  }
-  const reg = isType ? `${name} =([^;]+);` : `${name} {[^}]+.*?[^}]+}`;
-  return getPartFileStr(readPath, reg, boundaryChars);
-}
-
-/**
- * 根据ts类型名称获取ts或obj（对象）类型的字符串（从vue文件或ts文件中获取）
- * @param {string} readPath 读取文件的路径。例："/src/components/form/BaseForm.vue"
- * @param {defineProps|type +|interface +} name ts类型名称。例"defineProps" "defineEmits" "defineSlots" "defineExpose" "type FormItemType"  "interface FormFieldAttrs"
- * @param {boolean} noWrap 是否去壳
- */
-export function getTsOrObjStrByName(readPath = needParam(), name = "defineProps", noWrap = false) {
-  let boundaryChars = "{}";
-  if (!noWrap) boundaryChars = false;
-  // 获取vue文件中的 defineProps 或 defineExpose
-  if (name.startsWith("define")) {
-    const ext = path.extname(readPath).slice(1);
-    if (ext !== "vue") throw new Error(`${ext}文件中不存在${ext}文件中的${name}`);
-    // let regStr = `${name}<{([^}]+)}>`;
-    // let regStr = `${name}[<\\(]{([\\s\\S]*)}[\\)>]`; // 匹配 defineExpose({}) 或 defineExpose<{}> 类型的字符串
-    // let regStr = `${name}[<\\(]{([^}]*)}[\\)>]`; // 匹配 defineExpose({}) 或 defineExpose<{}> 类型的字符串
-    const midRegStr = `<`;
-    // 匹配示例：defineExpose<{}>, defineExpose({}), defineEmits([])
-    let regStr = `(${name}<{[^${midRegStr}]+}>)|(${name}\\({[^${midRegStr}]+}\\))|(${name}\\(\\[[^${midRegStr}]+\\]\\);)`;
-    return getPartFileStr(readPath, regStr, boundaryChars);
-  }
-  return getTsStr(readPath, name, boundaryChars);
-}
-
-/**
- * 根据ts类型名称获取ts或obj（对象）类型的字符串（从vue文件或ts文件中获取）
- */
-export function getTsOrObjStrByNameNew(readPath = needParam(), name = "defineProps", noWrap = false) {
-  const fullPath = path.join(process.cwd(), readPath);
-  const fileStr = fs.readFileSync(fullPath, "utf-8");
-  const info = getResolveInfo(fileStr, false, true);
-  // console.log(info, "info---------123");
-}
-
-/**
  * 更改文件名称
  * @param {string} dirPath 要更改的父文件夹路径
  * @param {string} oldName 旧文件名称（带后缀名）
@@ -236,9 +141,7 @@ export function changeFileName(dirPath = demosPath, oldName = readMeName, newNam
  * @param {string} name 要递归删除的文件名
  */
 export function deleteFileByName(dirPath = demosPath, name = readMeName) {
-  // const fullDirPath = path.join(process.cwd(), dirPath, `/0_示例_demo/1_StandardDemoForm 标准示例表单/${name}`);
   const fullDirPath = path.join(process.cwd(), dirPath);
-  // fs.unlinkSync(fullDirPath);
   const dirNames = fs.readdirSync(fullDirPath);
   dirNames.forEach(file => {
     const currPath = path.join(fullDirPath, file);
@@ -254,8 +157,10 @@ export function deleteFileByName(dirPath = demosPath, name = readMeName) {
 }
 
 /**
- *
+ * 删除多余的文件
  * @param {string} byDirPath 参照（依据）文件夹路径
  * @param {string} delDirPath 要删除的文件所在文件夹的路径
  */
-export function deleteRemainFile(byDirPath = demosPath, delDirPath = docsPath) {}
+export function deleteRemainFile(byDirPath = demosPath, delDirPath = docsPath) {
+  //待完善
+}

@@ -9,20 +9,8 @@
  * @link https://www.cnblogs.com/mfyngu/p/13049965.html
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
-    <div
-      class="all-hide-scroll"
-      :class="[
-        newFields.length ? 'f-fs-fs-w' : 'f-c-c',
-        autoFixedFoot && 'auto-fixed-foot',
-      ]"
-    >
+  <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+    <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <FieldItem
@@ -80,10 +68,7 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
-import {
-  FormField,
-  FormFieldAttrs,
-} from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { merge } from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
@@ -97,82 +82,25 @@ import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
  */
 const props = withDefaults(
   defineProps<{
-    /**
-     * 表单数据的双向绑定值
-     */
-    modelValue?: CommonObj;
-    /**
-     * 表单字段项
-     */
-    fields: FormField[];
-    /**
-     * 是否纯文本展示
-     */
-    pureText?: boolean;
-    /**
-     * 请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-     */
-    fetch?: UniteFetchType;
-    /**
-     * fetch请求成功之后的回调方法
-     */
-    fetchSuccess?: FinallyNext;
-    /**
-     * fetch请求失败之后的回调方法
-     */
-    fetchFail?: FinallyNext;
-    /**
-     * 同ElementPlus 的span，1 ~ 24
-     */
-    span?: string | number;
-    /**
-     * 是否显示底部按钮
-     */
-    footer?: boolean;
-    /**
-     * 提交按钮的文字
-     */
-    submitText?: string;
-    /**
-     * 提交按钮的文字
-     */
-    resetText?: string;
-    /**
-     * 额外的参数
-     */
-    extraParams?: CommonObj;
-    /**
-     * 底部的额外更多按钮
-     */
-    moreBtns?: BaseBtnType[];
-    /**
-     * 提交按钮是否显示加载图标
-     */
-    loading?: boolean;
-    /**
-     * 是否剔除掉 undefined，'' 参数
-     */
-    isOmit?: boolean;
-    /**
-     * 是否通过 console.log 打印输出请求参数和响应参数
-     */
-    log?: boolean;
-    /**
-     * 是否终止提交，并打印传参
-     */
-    debug?: boolean;
-    /**
-     * 是否缓存
-     */
-    isCache?: boolean;
-    /**
-     * 是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-     */
-    autoFixedFoot?: boolean;
-    /**
-     * 提交表单时，不要提交的prop属性
-     */
-    noSubmitProps?: string[];
+    modelValue?: CommonObj; //表单数据的双向绑定值
+    fields: FormField[]; //表单字段项(数组)
+    pureText?: boolean; //是否纯文本展示
+    fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
+    fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    fetchFail?: FinallyNext; //fetch请求失败之后的回调方法
+    span?: string | number; //同ElementPlus 的span，1 ~ 24
+    footer?: boolean; //是否显示底部按钮
+    submitText?: string; //提交按钮的文字
+    resetText?: string; //提交按钮的文字
+    extraParams?: CommonObj; //额外的参数
+    moreBtns?: BaseBtnType[]; //底部的额外更多按钮
+    loading?: boolean; //提交按钮是否显示加载图标
+    isOmit?: boolean; //是否剔除掉 undefined，'' 参数
+    log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
+    debug?: boolean; //是否终止提交，并打印传参
+    isCache?: boolean; //是否缓存
+    autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
+    noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
     /**
      * 处理参数（如果有type，则返回type，否则返回 param 和 return 推导的类型
      * @type {(args: CommonObj) => CommonObj} TS类型
@@ -240,7 +168,7 @@ const params = computed(() => merge({}, formData.value, props.extraParams));
 
 watch(
   () => props.fields,
-  (newVal) => {
+  newVal => {
     const { modelValue } = props;
     const result = handleFields(newVal, emits, modelValue);
     const { data, fields } = result;

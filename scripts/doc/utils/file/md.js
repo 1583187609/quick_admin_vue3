@@ -1,18 +1,14 @@
 import path from "path";
-import { N, readMeName } from "../consts";
-import { needParam } from "../base";
-import { getTsDeclareFromVueFile } from "./vue";
+import { N, readMeName } from "../consts.js";
+import { needParam } from "../base.js";
+import { getVueScriptStr } from "./vue.js";
+import { getPartStrFromVueScript } from "./vuets-new.js";
 
 /**
  * 获取（计算出）md文档标识需要的正则表达式
  */
 // 下列依次为：匹配Ts的箭头函数、BaseBtnType[]、默认值展示（[]）、reactive({})或reactive()
-const specialRegStrs = [
-  `\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`,
-  `\\w+\\[ *\\]`,
-  `\\[ *\\]`,
-  `\\b\\w+\\b\\( *{* *}* *\\)`,
-];
+const specialRegStrs = [`\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, `\\w+\\[ *\\]`, `\\[ *\\]`, `\\b\\w+\\b\\( *{* *}* *\\)`];
 const tempRegStr = `(\\!*(\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. ]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
 function getMdRegexp() {
   const regStr = specialRegStrs.map(it => `(${it})`).join("|") + `|${tempRegStr}`;
@@ -45,17 +41,18 @@ export function getMdFileByPath(filePath = needParam(), rowsRange = "") {
 
 /**
  * 获取Ts类型
- * @param {string} filePath 要读取文件的路径。例："/src/components/form/_types.ts"
+ * @param {string} filePathHalf 要读取文件的路径。例："/src/components/form/_types.ts"
  */
-export function getTsTypeDeclare(filePath = needParam()) {
-  if (!filePath) return "";
-  let contStr = "";
-  const ext = path.extname(filePath);
+export function getTsTypeDeclare(filePathHalf = needParam()) {
+  if (!filePathHalf) return "";
+  let contStr = `${filePathHalf}${N}${N}`;
+  const ext = path.extname(filePathHalf);
   if (ext === ".ts") {
-    contStr = `<<< ${process.cwd()}${filePath}`;
+    contStr += `<<< ${process.cwd()}${filePathHalf}`;
   } else if (ext === ".vue") {
-    const scriptStr = getTsDeclareFromVueFile(filePath);
-    contStr = `${toCodeBlock(scriptStr, "ts")}`;
+    const scriptStr = getVueScriptStr(filePathHalf);
+    const tsStr = getPartStrFromVueScript(scriptStr, "ts");
+    contStr += `${toCodeBlock(tsStr, "ts")}`;
   } else {
     throw new Error(`暂未处理${ext}类型文件`);
   }
@@ -109,11 +106,6 @@ export function getTable(cols = needParam(), rows = []) {
     return `|${newCols.join("|")}|`;
   });
   let tableStr = headStrs.join(N);
-  // if (!rows?.length) {
-  //   const row = {};
-  //   props.forEach(prop => (row[prop] = "-"));
-  //   rows = [row];
-  // }
   rows.forEach(row => {
     const rowStr = `|${props.map(prop => row[prop]).join("|")}|`;
     tableStr += `${N}${rowStr}`;

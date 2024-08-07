@@ -1,82 +1,60 @@
 # BaseForm 基础表单
 
 
-## TestForm
-::: demo 
+## 测试表单
+::: demo 这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!
 /demos/2_表单_form/1_BaseForm 基础表单/0_TestForm.vue
 :::
 
+::: tip
+这是`tip`信息示例
+:::
 
-## AllFields
+
+## Summary
 ::: demo 
 /demos/2_表单_form/1_BaseForm 基础表单/1_AllFields.vue
 :::
 
 
-## ExtraAttrs
+## Summary
 ::: demo 
 /demos/2_表单_form/1_BaseForm 基础表单/2_ExtraAttrs.vue
 :::
 
 
-## ExtendMore
+## Summary
 ::: demo 
 /demos/2_表单_form/1_BaseForm 基础表单/5_ExtendMore.vue
 :::
 
 
 
-### BaseForm
+### Props
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|-|`CommonObj`|-|
-|`fields`|-|`FormField[ ]`|-|
-|`pureText`|-|`boolean`|-|
-|`fetch`|-|`UniteFetchType`|-|
-|`fetchSuccess`|-|`FinallyNext`|-|
-|`fetchFail`|-|`FinallyNext`|-|
-|`span`|-|`string \| number`|-|
-|`footer`|-|`boolean`|-|
-|`submitText`|-|`string`|-|
-|`resetText`|-|`string`|-|
-|`extraParams`|-|`CommonObj`|-|
-|`moreBtns`|-|`BaseBtnType[ ]`|-|
-|`loading`|-|`boolean`|-|
-|`isOmit`|-|`boolean`|-|
-|`log`|-|`boolean`|-|
-|`debug`|-|`boolean`|-|
-|`isCache`|-|`boolean`|-|
-|`autoFixedFoot`|-|`boolean`|-|
-|`noSubmitProps`|-|`string[ ]`|-|
-|`handleRequest`|-|`() => void`|-|
+|`title`|-|`string`|"标题"|
+|`badge`|-|`number \| string`|`0`|
+|`max`|-|`number`|`99`|
+|`bodyClass`|-|`string`|""|
+|`foldable`|-|`boolean`|`false`|
 
-### BaseForm
 
-|事件名称|说明|回调参数|
-|:---|:---|:---|
-|`update:modelValue`|-|-|
-|`submit`|-|-|
-|`change`|-|-|
-|`moreBtns`|-|-|
 
-### BaseForm
-
-|方法名|说明|类型|
-|:---|:---|:---|
-|`formRef`|-|`() => void`|
-|`formValidate`|-|`() => void`|
-
-### BaseForm
+### Slots
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`currField.prop`|-|`name, field, form`|
+|`right`|-|-|
+|`default`|-|-|
 
 
 
 ## 类型声明
 ::: details
+/src/components/form/_types.ts
+
 <<< E:\Quick-Admin\quick_admin_vue3/src/components/form/_types.ts
 :::  
 
