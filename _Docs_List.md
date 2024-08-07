@@ -14,7 +14,7 @@
 3、表单示例中，多个表单貌似共用了同一个实例。提交表单触发表单校验时，会自动触发其他表单的自动滚动位置
 ~~4、全局 Dialog 和 Drawer 不能正常打开。全局弹出层处理~~
 ~~5、tsPath 如果是 vue 文件，则获取其 ts 类型并展示出来~~
-6、换行符使用变量代替
+~~6、换行符使用变量代替~~
 ~~7、/src/examples 文件夹 改名为 /src/demos~~
 ~~8、从 vue 文件中读取 ts 声明类型，保留注释与写入顺序。~~
 9、把文件处理单独提取到一个文件夹中
@@ -23,6 +23,9 @@
 ~~12、处理 `getItemsFromObjStr` 中解析不正确的问题~~
 ~~13、/demos 路径提取到变量中~~
 14、完善 vuets 文件（Vue ts 文件的解析）
-15、换行符替换变量为 N
-16、替换注释中tip danger warning details的写法。默认为 tip
+~~15、换行符替换变量为 N~~
+~~16、替换注释中tip danger warning details的写法。默认为 tip~~
 17、多行注释默认 hidden。
+18、将docs和demos的路径整合成一样的
+19、把Quick Vitepress Docs 抽成 可配置型的
+20、把配置文件提取出来，如：docsPath、demosPath
