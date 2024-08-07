@@ -215,7 +215,7 @@ defineExpose<{
   /**
    * 表单校验
    */
-  formValidate: () => void;
+  formValidate: (str: string, arr: string[]) => any;
   /**
    * 临时的测试方法
    */
@@ -235,12 +235,10 @@ defineExpose<{
   formValidate(str: string, arr: string[]) {
     return footerBtnsRef.value.formValidate();
   },
-  /**
-   * 表单测试
-   * @returns {void}
-   */
+  //表单测试
   tempTestFn_1: () => {
     console.log("执行了临时的测试方法");
+    return 1;
   },
 });
 </script>
