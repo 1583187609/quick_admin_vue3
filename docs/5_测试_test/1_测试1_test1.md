@@ -1,4 +1,4 @@
-# 测试
+# 测试 1
 
 ## 自动打标签
 
@@ -26,7 +26,7 @@
 
 ## 类型声明
 ::: details
-/demos/0_示例_demo/_components/GlobalPopupDemo.vue
+/demos/4_示例_demo/2_文档生成_create/_components/GlobalPopupDemo.vue
 
 
 ``` ts

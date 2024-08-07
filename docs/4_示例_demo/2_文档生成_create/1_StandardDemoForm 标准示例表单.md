@@ -23,7 +23,7 @@
 
 ## 测试表单
 ::: demo 这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!
-/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/0_TestForm.vue
+/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/0_TestForm.vue
 :::
 
 ::: tip
@@ -33,19 +33,19 @@
 
 ## 全部控件类型
 ::: demo 全部控件类型包含：ElementPlus（input, select）、内置（BaseNumberRange）、自定义扩展（UserInfo）三部分。
-/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/1_AllFields.vue
+/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/1_AllFields.vue
 :::
 
 
 ## 额外属性
 ::: demo 除了ElementPlus的属性外，其他的功能属性一律添加在 extraAttrs 中
-/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
+/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
 :::
 
 
 ## 继承与扩展
 ::: demo 插槽及其他属性功能，完全继承自ElementPlus。需谨记 Dom嵌套跟JSON嵌套保持一致的原则
-/demos/0_示例_demo/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
+/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
 :::
 
 
@@ -56,11 +56,26 @@
 这是props的描述
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`title`|-|`string`|"标题"|
-|`badge`|-|`number \| string`|`0`|
-|`max`|-|`number`|`99`|
-|`bodyClass`|-|`string`|""|
-|`foldable`|-|`boolean`|`false`|
+|`modelValue`|表单数据的双向绑定值|`CommonObj`|`reactive({})`|
+|`fields`|表单字段项(数组)|`FormField[]`|`[]`|
+|`pureText`|是否纯文本展示|`boolean`|-|
+|`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
+|`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
+|`fetchFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
+|`span`|同`ElementPlus `的`span`，`1 ~ 24`|`string \| number`|`24`|
+|`footer`|是否显示底部按钮|`boolean`|`true`|
+|`submitText`|提交按钮的文字|`string`|-|
+|`resetText`|提交按钮的文字|`string`|-|
+|`extraParams`|额外的参数|`CommonObj`|-|
+|`moreBtns`|底部的额外更多按钮|`BaseBtnType[]`|-|
+|`loading`|提交按钮是否显示加载图标|`boolean`|-|
+|`isOmit`|是否剔除掉 `undefined`，'' 参数|`boolean`|`true`|
+|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|`!isProd`|
+|`debug`|是否终止提交，并打印传参|`boolean`|-|
+|`isCache`|是否缓存|`boolean`|-|
+|`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|
+|`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
+|`handleRequest`|处理参数（如果有`type`，则返回`type`，否则返回 `param `和 `return `推导的类型|`(args: CommonObj) => CommonObj`|-|
 
 ::: tip
 这是 `props `的 `tip `信息
@@ -68,14 +83,40 @@
 
 
 
+### Emits
+
+|事件名称|说明|回调参数|
+|:---|:---|:---|
+|`update:modelValue`|双向绑定更新值|(`vals: CommonObj`)|
+|`submit`|提交事件|(`args: CommonObj`)|
+|`change`|提交事件|(`prop: string, val: string \| number`)|
+|`moreBtns`|更多按钮|(`name: string, args: CommonObj, cb: FinallyNext`)|
+
+::: warning
+这是 `emits `的 `warning `信息
+:::
+
+
+
+### 方法(expose)
+
+
+这是 expose 的 description。通过写入 description 获得
+|方法名|说明|类型|
+|:---|:---|:---|
+|`formRef`|表单实例|`(str: string, arr: string[])=>void`|
+|`formValidate`|表单校验|`(str: string, arr: string[]) => void`|
+|`tempTestFn_1`|表单测试|`() => void`|
+
 
 
 ### Slots
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`right`|-|-|
-|`default`|-|-|
+|`currField.prop`|`prop `名称即为 插槽名称|`name, field, form`|
+|`defaultTest`|默认插槽|-|
+|`itemTest`|`item`插槽|-|
 
 ::: tip
 这是默认的 `tip `信息
@@ -99,9 +140,9 @@
 
 ## 类型声明
 ::: details
-/demos/0_示例_demo/_typescript/standard.ts
+/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
 
-<<< E:\Quick-Admin\quick_admin_vue3/demos/0_示例_demo/_typescript/standard.ts
+<<< E:\Quick-Admin\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
 :::  
 
 

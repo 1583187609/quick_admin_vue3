@@ -1,5 +1,4 @@
-import { needParam, typeOf } from "../base.js";
-import { N, getAtMdStr, getBracesNum, getIndexIgnoreAnno, unknownChar } from "../index.js";
+import { N, needParam, typeOf, getAtMdStr, getBracesNum, getIndexIgnoreAnno, unknownChar } from "../../utils/index.js";
 
 let initSum = 0;
 let fnSum = 0;
@@ -125,7 +124,7 @@ export function getLineType(line = needParam()) {
  * @param {number} nextInd 下一行的下标
  * @parma {ts|arr|obj|["",""]} startType 刚开始查找时行文本的类型
  */
-export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "ts", ignoreAnno = true) {
+export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "ts") {
   const t = typeOf(startType);
   let nextLine = rows[nextInd];
   if (nextLine === undefined) return -1;
@@ -133,38 +132,38 @@ export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "
   if (t === "String") {
     const isEnd = getLineType(nextLine) !== startType;
     if (isEnd) return nextInd;
-    return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+    return getNearLineIndex(rows, ++nextInd, startType);
   } else if (t === "Array") {
     if (initSum) {
-      initSum = getBracesNum(nextLine, initSum, startType, ignoreAnno);
+      initSum = getBracesNum(nextLine, initSum, startType);
       const isEnd = initSum === 0;
       if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+      return getNearLineIndex(rows, ++nextInd, startType);
     } else if (fnSum) {
-      fnSum = getBracesNum(nextLine, fnSum, startType, ignoreAnno);
+      fnSum = getBracesNum(nextLine, fnSum, startType);
       const isEnd = fnSum === 0;
       if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+      return getNearLineIndex(rows, ++nextInd, startType);
     } else if (infaSum) {
-      infaSum = getBracesNum(nextLine, infaSum, startType, ignoreAnno);
+      infaSum = getBracesNum(nextLine, infaSum, startType);
       const isEnd = infaSum === 0;
       if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+      return getNearLineIndex(rows, ++nextInd, startType);
     } else if (codeAnnoSum) {
-      codeAnnoSum = getBracesNum(nextLine, codeAnnoSum, startType, ignoreAnno);
+      codeAnnoSum = getBracesNum(nextLine, codeAnnoSum, startType);
       const isEnd = codeAnnoSum === 0;
       if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+      return getNearLineIndex(rows, ++nextInd, startType);
     } else if (expandSum) {
-      expandSum = getBracesNum(nextLine, expandSum, startType, ignoreAnno);
+      expandSum = getBracesNum(nextLine, expandSum, startType);
       const isEnd = expandSum === 0;
       if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+      return getNearLineIndex(rows, ++nextInd, startType);
     } else {
-      publicSum = getBracesNum(nextLine, publicSum, startType, ignoreAnno);
+      publicSum = getBracesNum(nextLine, publicSum, startType);
       const isEnd = publicSum === 0;
       if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType, ignoreAnno);
+      return getNearLineIndex(rows, ++nextInd, startType);
     }
   } else {
     throw new Error(`暂未处理${t}类型`);

@@ -15,7 +15,7 @@ import {
   configName,
   N,
 } from "../utils";
-import { getApiTablesStr, getInfoFromAnnoByName, getSummaryFileStr } from "../utils/file/vue-doc";
+import { getApiTablesStr, getInfoByAnnoName, getSummaryFileStr } from "../utils/file/vue-doc";
 
 export function getNoticesFromTags(tags = []) {
   if (!tags?.length) return;
@@ -61,8 +61,8 @@ export function getInitReadMeFile(title) {
 
 /**
  * 初始化配置文件
- * @param {string} apiPath api来源路径。例：`${dirPath}/0_示例_demo/_components/StandardDemoForm.vue`,
- * @param {string} tsPath ts类型声明来源路径。例：`${dirPath}/0_示例_demo/_typescript/standard.ts`
+ * @param {string} apiPath api来源路径。例：`${dirPath}/4_示例_demo/_components/StandardDemoForm.vue`,
+ * @param {string} tsPath ts类型声明来源路径。例：`${dirPath}/4_示例_demo/_typescript/standard.ts`
  * @returns
  */
 export function getInitConfigFile(apiPath = "", tsPath = "") {
@@ -74,10 +74,9 @@ export function getInitConfigFile(apiPath = "", tsPath = "") {
 
 /**
  * 生成代码示例
- * @param {string} readPath 读取文件的路径 例："/demos/2_表单_form/1_BaseForm 基础表单"
+ * @param {string} readPath 读取文件的路径 例：`${demosPath}/xxx/xx`
  * @link 参考链接：https://juejin.cn/post/7243520456979398693
  * @link 参考链接：https://zhuanlan.zhihu.com/p/450698973
- * @notice 完整路径：/demos/2_表单_form/1_BaseForm 基础表单/InlineForm
  * @returns
  */
 function getCodeDemos(readPath) {
@@ -90,7 +89,7 @@ function getCodeDemos(readPath) {
     const isDir = fs.lstatSync(curPath).isDirectory();
     if (isDir) throw new Error("暂未处理文件夹情况");
     const newFilePath = `${readPath}/${file}`;
-    const info = getInfoFromAnnoByName(path.join(readPath, file));
+    const info = getInfoByAnnoName(path.join(readPath, file));
     const { title, description = "", tags } = info ?? {};
     const notices = getNoticesFromTags(tags);
     mdStr += `
@@ -161,13 +160,12 @@ export function getTypeTable(type = "props", rows = [], info) {
 
 /**
  * 写入（生成）组件说明文档文件
- * @param {string} writePath 要写入的文件路径。例：`${docsPath}/4_示例_demo/2_文档生成_create`
- * @param {string} demoPath 要读取的文件路径。例："/demos/2_表单_form/1_BaseForm 基础表单"
+ * @param {string} writePath 要写入的文件路径。例：`${docsPath}/xxx/xx`
+ * @param {string} demoPath 要读取的文件路径。例："/xxx/xx"
  * @param {string} apiPath 读取api内容的路径
  * @param {string} tsPath 读取ts类型的文件路径
  * @advice 方法名建议 writeComponentDoc
  */
-// apiPath, tsPath
 export default async (writeFilePath = needParam(), demoPath = needParam()) => {
   let fileStr = "";
   // 获取apiPath, tsPath

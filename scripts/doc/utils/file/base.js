@@ -3,7 +3,7 @@
  ********************************************/
 import fs from "fs";
 import path from "path";
-import { docsPath, demosPath, readMeName } from "../consts.js";
+import { docsPath, demosPath, readMeName } from "../../utils/index.js";
 
 /**
  * 获取字符串中目标字符中最先出现的那个字符的下标（会忽略后半截的注释部分）
@@ -55,7 +55,7 @@ export function mkdirsSync(dirname) {
  */
 export function deleteFolderSync(folderPath, isDelSelf = true) {
   if (fs.existsSync(folderPath)) {
-    fs.readdirSync(folderPath).forEach((file, index) => {
+    fs.readdirSync(folderPath).forEach(file => {
       const curPath = path.join(folderPath, file);
       const isDir = fs.lstatSync(curPath).isDirectory();
       // 如果是文件夹则递归删除

@@ -11,10 +11,10 @@
 
 import fs from "fs";
 import path from "path";
-import { writeComponentDoc, writeTestMdDoc } from "./create/index.js";
+import { writeComponentDoc } from "./create/index.js";
 import { demosPath, docsPath, splitOrderChar } from "./utils/consts.js";
-import { upperFirst } from "./utils/base.js";
-import { run } from "./utils/file/vue-doc.js";
+import test1 from "../../demos/5_测试_test/1_测试1_test1/index.js";
+import test2 from "../../demos/5_测试_test/2_测试2_test2/index.js";
 
 /**
  * 触发热更新写入新文件的方法
@@ -22,44 +22,45 @@ import { run } from "./utils/file/vue-doc.js";
  */
 export function hotRun() {}
 
+const testFnMap = {
+  0: test1,
+  1: test2,
+};
+
 /***
  * 撰写通用组件文档
- * @param {boolean} withDoc 是否重写组件文档
- * @param {boolean} writeDemo 是否重写示例文档
- * @param {standard|complex|null|undefined|''} demoType 示例类型
+ * @param {(comp|demo|test)[]} parts 是否重写组件文档
  */
-function writeCommonTestDocs(withDoc = true, writeDemo = true, demoType = "", dirPath = demosPath) {
-  const fullDirPath = path.join(process.cwd(), dirPath);
-  const dirNames = fs.readdirSync(fullDirPath);
-  dirNames.forEach(parFile => {
-    const currPath = path.join(fullDirPath, parFile);
-    const isDir = fs.lstatSync(currPath).isDirectory();
+function writeCommonTestDocs(parts = []) {
+  const fullDemoPath = path.join(process.cwd(), demosPath);
+  const partNames = fs.readdirSync(fullDemoPath);
+  partNames.forEach(partName => {
+    const name = partName.split(splitOrderChar).at(-1);
+    if (parts?.length && !parts.includes(name)) return;
+    const partPath = path.join(fullDemoPath, partName);
+    const isDir = fs.lstatSync(partPath).isDirectory();
     if (!isDir) throw new Error("暂未处理不是文件夹的情况");
-    let readDirs = fs.readdirSync(currPath);
-    if (writeDemo && parFile === "0_示例_demo") {
-      readDirs = fs.readdirSync(currPath).filter(it => !it.startsWith("_"));
-      readDirs.forEach(file => {
-        if (demoType && !file.includes(upperFirst(demoType))) return;
-        const writePath = `${docsPath}/4_示例_demo/2_文档生成_create/${file}.md`;
-        const demoPath = `${dirPath}/${parFile}/${file}`;
-        writeComponentDoc(writePath, demoPath);
+    const pageNames = fs.readdirSync(partPath);
+    pageNames.forEach((pageName, ind) => {
+      if (name === "test") {
+        testFnMap[ind]();
+        return;
+      }
+      const pagePath = path.join(partPath, pageName);
+      const isDir = fs.lstatSync(pagePath).isDirectory();
+      if (!isDir) throw new Error("暂未处理不是文件夹的情况");
+      const fileNames = fs.readdirSync(pagePath).filter(it => !it.startsWith("_"));
+      fileNames.forEach(fileName => {
+        const midPath = `${partName}/${pageName}/${fileName}`;
+        const writeFilePath = `${docsPath}/${midPath}.md`;
+        const readDemoPath = `${demosPath}/${midPath}`;
+        writeComponentDoc(writeFilePath, readDemoPath);
       });
-      return;
-    }
-    if (!withDoc) return;
-    readDirs.forEach(file => {
-      const writePath = `${docsPath}/2_组件_comp/${parFile}/${file}.md`;
-      const demoPath = `${dirPath}/${parFile}/${file}`;
-      writeComponentDoc(writePath, demoPath);
     });
   });
 }
 
-// writeCommonTestDocs(); //生成组件文档页（通用方法）
-// writeCommonTestDocs(false, true, "standard"); //生成组件文档页（通用方法）
-
-// writeTestMdDoc(); //测试生成Md文档页示例
-
-// getTsOrObjStrByNameNew();
-
-run();
+writeCommonTestDocs(); //生成组件文档页（通用方法）
+// writeCommonTestDocs(['comp']);
+// writeCommonTestDocs(['demo']);
+// writeCommonTestDocs(['test']);

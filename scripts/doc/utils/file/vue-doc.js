@@ -4,39 +4,23 @@ import path from "path";
 // import { NodePath } from "ast-types";
 import {
   N,
-  docsPath,
   getBracesNum,
-  getFileName,
-  getTsTypeDeclare,
   needParam,
   typeOf,
   upperFirst,
   writeFileSync,
-} from "../index.js";
+  getLineType,
+  getTableRow,
+  isVueDefineDeclare,
+} from "../../utils/index.js";
 import vueDocs from "vue-docgen-api";
-import { getLineType, getTableRow, isVueDefineDeclare } from "./vuets-new.js";
 import { getNoticesStr, getNoticesFromTags, getTypeTable } from "../../create/component.js";
-import { demosPath } from "../consts.js";
 // import handlers from "../../temp/handlers.js";
 
 const { parse, ScriptHandlers, TemplateHandlers } = vueDocs;
 
-export async function run(
-  readPath = `${demosPath}/0_示例_demo/_components/StandardDemoForm.vue`,
-  writePath = `${docsPath}/5_测试_test/1_测试专区1_test1.md`
-) {
-  const title = getFileName(writePath);
-  const sumStr = getSummaryFileStr(readPath, title);
-  let fileStr = `${sumStr}${N}`;
-  fileStr += `## Info${N}`;
-  fileStr += `${await getApiTablesStr(readPath)}${N}`;
-  fileStr += `${getTsTypeDeclare(readPath)}${N}`;
-  writePath = path.join(process.cwd(), writePath);
-  writeFileSync(writePath, fileStr);
-}
-
 /**
- * 根据name从注释中获取信息
+ * 根据注释名称从注释中获取信息
  * @param {string} filePath 要读取文件的路径
  * @param {summary|props|expose|emits|slots} type 要读取的注释类型
  * @returns {
@@ -45,7 +29,7 @@ export async function run(
  *  title: "",
  * }
  */
-export function getInfoFromAnnoByName(readPath = needParam(), name = "summary") {
+export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
   const readPathFull = path.join(process.cwd(), readPath);
   const fileStr = fs.readFileSync(readPathFull, "utf-8");
   const htmlRegStr = `(<!-- *${name}.*?-->)`;
@@ -92,7 +76,7 @@ let expandSum = 0;
  * 获取下一次遇到其他不同本行类型的行下标
  * @param {string[]} rows 多行文本数据数组
  * @param {number} nextInd 下一行的下标
- * @parma {ts|arr|obj|["",""]} startType 刚开始查找时行文本的类型
+ * @param {ts|arr|obj|["",""]} startType 刚开始查找时行文本的类型
  */
 export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "ts") {
   const t = typeOf(startType);
@@ -115,6 +99,7 @@ export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "
   }
 }
 
+// 获取临时路径
 function getTempPathFull(readPath = "", tempPath = "/_cache/temp.vue") {
   const readPathFull = path.join(process.cwd(), readPath);
   const fileStr = fs.readFileSync(readPathFull, "utf-8");
@@ -132,9 +117,10 @@ function getTempPathFull(readPath = "", tempPath = "/_cache/temp.vue") {
     }
     const isDefine = isVueDefineDeclare(line, undefined, false);
     if (!isDefine) return newLines.push(line);
-    expandSum = getBracesNum(line, expandSum, ["{", "}"]);
+    const boundChars = ["{", "}"];
+    expandSum = getBracesNum(line, expandSum, boundChars);
     if (expandSum === 0) return newLines.push(line);
-    const nearInd = getNearLineIndex(lines, ind + 1, ["{", "}"]);
+    const nearInd = getNearLineIndex(lines, ind + 1, boundChars);
     if (nearInd > ind) expandUntilInd = nearInd;
     newLines.push(line);
   });
@@ -163,7 +149,7 @@ export function getSummaryFileStr(readPath = "") {
   let fileStr = "";
   if (!readPath) return fileStr;
   if (!readPath) return "";
-  const info = getInfoFromAnnoByName(readPath);
+  const info = getInfoByAnnoName(readPath);
   const { tags, description } = info;
   if (description) fileStr += `${description}${N}${N}`;
   const notices = getNoticesFromTags(tags);
@@ -185,7 +171,7 @@ export async function getApiTablesStr(readPath = needParam()) {
   };
   Object.keys(map).forEach(key => {
     const rows = map[key](data[key]);
-    const descInfo = getInfoFromAnnoByName(readPath, key);
+    const descInfo = getInfoByAnnoName(readPath, key);
     fileStr += `${getTypeTable(key, rows, descInfo)}${N}`;
   });
   return fileStr;

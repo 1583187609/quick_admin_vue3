@@ -1,46 +1,12 @@
 import fs from "fs";
 import path from "path";
-import { needParam } from "../base";
-import { Interface } from "readline";
-import { N } from "../consts";
+import { needParam, N } from "../../utils/index.js";
 import compiler from "@vue/compiler-sfc";
-
-/**
- * 根据类型获取html注释
- * @param {string} filePath 要读取文件的路径
- * @param {summary|props|expose|emits|slots} type 要读取的注释类型
- */
-export function getAnnotationByType(filePath = needParam(), type = "summary", noWrap = false) {
-  const isHtml = type === "summary";
-  const htmlRegStr = `(<!-- ${type}.*?-->)`;
-  const jsRegStr = `(\\/\\*\\* ${type}.*?\\*\\/)`;
-  const regStr = isHtml ? htmlRegStr : jsRegStr;
-  const reg = new RegExp(regStr, "gs");
-  let matchStr = "";
-  const fileStr = fs.readFileSync(filePath, "utf8");
-  const endStr = fileStr.replace(reg, a => {
-    if (!matchStr) matchStr = a; //只识别第一次匹配的，其他的则忽略
-    return "";
-  });
-  if (!noWrap) return matchStr;
-  const sInd = (isHtml ? 4 : 3) + 1 + type.length;
-  const eInd = isHtml ? -3 : -2;
-  matchStr = matchStr
-    .slice(sInd, eInd)
-    .split(N)
-    .map(it => {
-      if (!isHtml) it = it.replace("*", "");
-      return it.trim();
-    })
-    .filter(it => !!it)
-    .join(N);
-  return { matchStr, endStr };
-}
 
 /**
  * 判断 ts interface 行中{}的数量（为0时，说明完全左右{}数量一致
  * @param {string} line 行字符串
- * @param {type|Interface} type 处理字符串时要依据的处理类型
+ * @param {type|interface} type 处理字符串时要依据的处理类型
  * @param {string|[string,string]} chars 分界的字符串
  * @returns {boolean} 该行是否已结束
  */

@@ -30,3 +30,4 @@
 19、把 Quick Vitepress Docs 抽成 可配置型的
 20、把配置文件提取出来，如：docsPath、demosPath
 21、将 getNearLineIndex 的 sum 变量优化下
+22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`
