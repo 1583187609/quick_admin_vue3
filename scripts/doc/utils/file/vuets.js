@@ -1,11 +1,4 @@
-import { N, needParam, typeOf, getAtMdStr, getBracesNum, getIndexIgnoreAnno, unknownChar } from "../../utils/index.js";
-
-let initSum = 0;
-let fnSum = 0;
-let publicSum = 0;
-let infaSum = 0;
-let codeAnnoSum = 0;
-let expandSum = 0;
+import { N, needParam, getIndexIgnoreAnno, typeOf, getBracesNum } from "../index.js";
 
 const jsNameChar = `A-Za-z_0-9$`; //js命名可用的字符
 const defineKeywords = ["defineProps", "defineEmits", "defineSlots", "defineExpose"];
@@ -119,57 +112,6 @@ export function getLineType(line = needParam()) {
 }
 
 /**
- * 获取下一次遇到其他不同本行类型的行下标
- * @param {string[]} rows 多行文本数据数组
- * @param {number} nextInd 下一行的下标
- * @parma {ts|arr|obj|["",""]} startType 刚开始查找时行文本的类型
- */
-export function getNearLineIndex(rows = [], nextInd = needParam(), startType = "ts") {
-  const t = typeOf(startType);
-  let nextLine = rows[nextInd];
-  if (nextLine === undefined) return -1;
-  nextLine = nextLine.trim();
-  if (t === "String") {
-    const isEnd = getLineType(nextLine) !== startType;
-    if (isEnd) return nextInd;
-    return getNearLineIndex(rows, ++nextInd, startType);
-  } else if (t === "Array") {
-    if (initSum) {
-      initSum = getBracesNum(nextLine, initSum, startType);
-      const isEnd = initSum === 0;
-      if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType);
-    } else if (fnSum) {
-      fnSum = getBracesNum(nextLine, fnSum, startType);
-      const isEnd = fnSum === 0;
-      if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType);
-    } else if (infaSum) {
-      infaSum = getBracesNum(nextLine, infaSum, startType);
-      const isEnd = infaSum === 0;
-      if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType);
-    } else if (codeAnnoSum) {
-      codeAnnoSum = getBracesNum(nextLine, codeAnnoSum, startType);
-      const isEnd = codeAnnoSum === 0;
-      if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType);
-    } else if (expandSum) {
-      expandSum = getBracesNum(nextLine, expandSum, startType);
-      const isEnd = expandSum === 0;
-      if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType);
-    } else {
-      publicSum = getBracesNum(nextLine, publicSum, startType);
-      const isEnd = publicSum === 0;
-      if (isEnd) return nextInd;
-      return getNearLineIndex(rows, ++nextInd, startType);
-    }
-  } else {
-    throw new Error(`暂未处理${t}类型`);
-  }
-}
-/**
  * 提取出注释中的描述文字（过滤掉注释代码等）
  * @param {string} line 行文本数据
  */
@@ -250,6 +192,30 @@ function getDefineBoundChars(line = "") {
   const sChar = line[charInd];
   const eChar = endChars[starChars.indexOf(sChar)];
   return [sChar, eChar];
+}
+
+/**
+ * 获取下一次遇到其他不同本行类型的行下标
+ * @param {string[]} rows 多行文本数据数组
+ * @param {number} ind 当前行的下标
+ * @param {ts|arr|obj|["",""]} startType 刚开始查找时行文本的类型
+ * @param {number} sum 边界符号求和0
+ */
+export function getNearLineIndex(rows = [], ind = needParam(), startType = "ts", sum = 0, ignoreAnno = true) {
+  let line = rows[ind];
+  if (line === undefined) return -1;
+  const t = typeOf(startType);
+  if (!["String", "Array"].includes(t)) throw new Error(`暂未处理${t}类型`);
+  line = line.trim();
+  if (t === "String") {
+    const isEnd = getLineType(line) !== startType;
+    if (isEnd) return ind;
+    return getNearLineIndex(rows, ++ind, startType);
+  }
+  const newSum = getBracesNum(line, sum, startType, ignoreAnno);
+  const isEnd = newSum === 0;
+  if (isEnd) return ind;
+  return getNearLineIndex(rows, ++ind, startType, newSum, ignoreAnno);
 }
 
 /**
@@ -342,7 +308,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
         const isCodeAnno = getIsCodeAnno(line);
         if (isCodeAnno) return; // 要忽略掉代码注释，没有有效的描述文本
         annos.push(isTrim ? line : item);
-        const nearInd = getNearLineIndex(lines, ind + 1, "anno");
+        const nearInd = getNearLineIndex(lines, ind, "anno");
         if (nearInd > ind) annoUntilInd = nearInd;
         return;
       }
@@ -358,9 +324,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
       }
       const isDefine = isVueDefineDeclare(line);
       if (!isDefine) return;
-      const boundChars = getDefineBoundChars(line);
-      publicSum = getBracesNum(line, publicSum, boundChars);
-      const nearInd = getNearLineIndex(lines, ind + 1, boundChars);
+      const nearInd = getNearLineIndex(lines, ind, getDefineBoundChars(line));
       if (nearInd > ind) defUntilInd = nearInd;
       newLines.push(isTrim ? line : item);
       if (nearInd === ind + 1) {
@@ -383,16 +347,14 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
       }
       const isImport = isImportDeclare(line);
       if (isImport) {
-        const boundChars = ["{", "}"];
-        infaSum = getBracesNum(line, infaSum, boundChars);
-        const isSingle = infaSum === 0;
+        const nearInd = getNearLineIndex(lines, ind, ["{", "}"]);
+        const isSingle = nearInd === ind;
         if (isSingle) {
           const isImportType = !!getNewImportTypeLine(line);
           if (!isImportType) return;
           return newLines.push(isTrim ? line : item);
         }
         // 此处是多行
-        const nearInd = getNearLineIndex(lines, ind + 1, boundChars); //待完善
         const endInd = nearInd + 1;
         const sliceLines = lines.slice(ind, endInd);
         const imprTypeLine = getNewImportTypeLine(sliceLines.join(""));
@@ -408,13 +370,8 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
       const isTsDeclare = isTsKeywordsDeclare(line);
       if (isTsDeclare) {
         if (isInterfaceDeclare(line)) {
-          const boundChars = ["{", "}"];
-          infaSum = getBracesNum(line, infaSum, boundChars);
-          const isEnd = infaSum === 0;
-          if (!isEnd) {
-            const nearInd = getNearLineIndex(lines, ind + 1, boundChars); //待完善
-            infaUntilInd = nearInd;
-          }
+          const nearInd = getNearLineIndex(lines, ind, ["{", "}"]); //待完善
+          if (nearInd > ind) infaUntilInd = nearInd;
         } else {
           const isEnd = getTypeIsEnd(line);
           if (!isEnd) isAtType = true;
@@ -429,10 +386,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
         }
         const isCodeAnno = getIsCodeAnno(line);
         if (isCodeAnno) {
-          const boundChars = getDefineBoundChars(line);
-          codeAnnoSum = getBracesNum(line, codeAnnoSum, boundChars, false);
-          if (codeAnnoSum === 0) return;
-          const nearInd = getNearLineIndex(lines, ind + 1, boundChars, false);
+          const nearInd = getNearLineIndex(lines, ind, getDefineBoundChars(line), undefined, false);
           if (nearInd > ind) codeAnnoUntilInd = nearInd;
           return;
         }
@@ -440,7 +394,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
         const isMultiAnno = /^ *\/\*+$/.test(line);
         //是否是多行注释
         if (isMultiAnno) {
-          const nearInd = getNearLineIndex(lines, ind + 1, "anno");
+          const nearInd = getNearLineIndex(lines, ind, "anno");
           const nearLine = lines[nearInd];
           const isTsDeclare = isTsKeywordsDeclare(nearLine);
           if (!isTsDeclare) return;
@@ -458,22 +412,6 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
     newLines.push(isTrim ? line : item);
   });
   return newLines.join(nN);
-}
-
-/**
- * 获取表格的行数据
- * @param {{ name = "", type = "", desc = "", defVal = "", required = "" }} row 数据
- * @param {boolean} isAtMd 是否转成md标识英文的字符串
- */
-export function getTableRow(row = needParam(), isAtMd = false) {
-  const { name = unknownChar, type = unknownChar, desc = unknownChar, defVal = unknownChar, required = unknownChar } = row;
-  return {
-    name: isAtMd ? getAtMdStr(name) : name,
-    type: isAtMd ? getAtMdStr(type.replaceAll("|", "\\|")) : type,
-    desc: isAtMd ? getAtMdStr(desc) : desc,
-    default: isAtMd ? getAtMdStr(defVal) : defVal,
-    required,
-  };
 }
 
 // const vueStr = getVueScriptStr(mockVueFile);

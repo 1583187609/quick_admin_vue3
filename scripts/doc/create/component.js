@@ -5,50 +5,20 @@
 import fs from "fs";
 import path from "path";
 import {
+  N,
   getFileName,
   getTable,
   getTsTypeDeclare,
-  getAtMdStr,
   needParam,
   readMeName,
   writeFileSync,
   configName,
-  N,
-} from "../utils";
-import { getApiTablesStr, getInfoByAnnoName, getSummaryFileStr } from "../utils/file/vue-doc";
-
-export function getNoticesFromTags(tags = []) {
-  if (!tags?.length) return;
-  const notices = {};
-  tags.forEach(item => {
-    const { title, description } = item;
-    const type = item.type.name;
-    if (title === "notice") notices[type] = description;
-  });
-  return notices;
-}
-
-/**
- * 获取描述类md文本
- * @param {object} notices
- * @returns
- */
-// 示例
-// const tempDescs = {
-//   tip: "这是tip消息",
-//   warning: "这是warning消息",
-//   danger: "这是danger消息",
-//   details: "这是details消息",
-// };
-export function getNoticesStr(notices) {
-  if (!notices) return "";
-  let descStr = "";
-  for (const key in notices) {
-    const val = getAtMdStr(notices[key]);
-    descStr += `${N}::: ${key}${N}${val}${N}:::${N}`;
-  }
-  return descStr;
-}
+  getNoticesStr,
+  getNoticesFromTags,
+  getApiTablesStr,
+  getInfoByAnnoName,
+  getSummaryFileStr,
+} from "../utils/index.js";
 
 /**
  * 初始化ReadMe文件

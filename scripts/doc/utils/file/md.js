@@ -124,3 +124,25 @@ ${code}
 \`\`\`
 `;
 }
+
+/**
+ * 获取描述类md文本
+ * @param {object} notices
+ * @returns
+ */
+// 示例
+// const tempDescs = {
+//   tip: "这是tip消息",
+//   warning: "这是warning消息",
+//   danger: "这是danger消息",
+//   details: "这是details消息",
+// };
+export function getNoticesStr(notices) {
+  if (!notices) return "";
+  let descStr = "";
+  for (const key in notices) {
+    const val = getAtMdStr(notices[key]);
+    descStr += `${N}::: ${key}${N}${val}${N}:::${N}`;
+  }
+  return descStr;
+}

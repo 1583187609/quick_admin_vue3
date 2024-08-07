@@ -1,13 +1,13 @@
 # BaseCrud 基础增删改查
 
 
-## Summary
+## BasicUse
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
 
 
-## Summary
+## Embedded
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
 :::

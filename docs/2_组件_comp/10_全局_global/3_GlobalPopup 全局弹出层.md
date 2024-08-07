@@ -3,13 +3,13 @@
 
 
 
-## Summary
+## BasicUse
 ::: demo 
 /demos/2_组件_comp/10_全局_global/3_GlobalPopup 全局弹出层/1_BasicUse.vue
 :::
 
 
-## Summary
+## OpenClose
 ::: demo 
 /demos/2_组件_comp/10_全局_global/3_GlobalPopup 全局弹出层/2_OpenClose.vue
 :::

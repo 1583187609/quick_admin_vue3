@@ -22,12 +22,12 @@
 11、完善 demos 中更改文件或文件夹名之后，跟随删除 docs 中的文件及文件夹名逻辑处理
 ~~12、处理 `getItemsFromObjStr` 中解析不正确的问题~~
 ~~13、/demos 路径提取到变量中~~
-14、完善 vuets 文件（Vue ts 文件的解析）
+~~14、完善 vuets 文件（Vue ts 文件的解析）~~
 ~~15、换行符替换变量为 N~~
 ~~16、替换注释中 tip danger warning details 的写法。默认为 tip~~
 17、多行注释默认 hidden。
-18、将 docs 和 demos 的路径整合成一样的
+~~18、将 docs 和 demos 的路径整合成一样的嵌套结构~~
 19、把 Quick Vitepress Docs 抽成 可配置型的
-20、把配置文件提取出来，如：docsPath、demosPath
-21、将 getNearLineIndex 的 sum 变量优化下
+~~20、把配置文件提取出来，如：docsPath、demosPath~~
+~~21、将 getNearLineIndex 的 sum 变量优化下~~
 22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`

@@ -1,19 +1,19 @@
 # Echarts 图表
 
 
-## Summary
+## Line
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/1_Line.vue
 :::
 
 
-## Summary
+## Bar
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/2_Bar.vue
 :::
 
 
-## Summary
+## Pie
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/3_Pie.vue
 :::
