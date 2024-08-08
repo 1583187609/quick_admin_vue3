@@ -1,6 +1,6 @@
 // 这个文件仅供node环境使用，在浏览器中 from "path" 会提示路径错误，需要写成 "./path"或"/path"或"../path"等
 import fetch from "./fetch.js";
-import { writeFileSync, addToFileLineSync } from "./file/index.js";
+import { writeFileSync, addToFileLineSync } from "./index.js";
 
 /**
  * 爬取html页面

@@ -4,9 +4,7 @@
 
 import fs from "fs";
 import path from "path";
-import { docsPath, demosPath, readMeName, splitOrderChar } from "./consts";
-import { writeFileSync } from "./file";
-import { getInitReadMeFile } from "../create/component";
+import { getInitReadMeFile,docsPath, demosPath, readMeName, splitOrderChar, writeFileSync  } from "./index.js";
 
 /**
  * 递归创建临时目录(同步方法)

@@ -3,7 +3,7 @@
  ********************************************/
 
 import path from "path";
-import { isSimple, splitOrderChar } from "./consts";
+import { isSimple, splitOrderChar } from "./index.js";
 
 /**
  * 函数未传必填参数时的校验
