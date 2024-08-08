@@ -21,8 +21,10 @@
 ~~20、把配置文件提取出来，如：docsPath、demosPath~~
 ~~21、将 getNearLineIndex 的 sum 变量优化下~~
 22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`
-~~23、线上环境过滤docs 文件夹下的第一级 test、demo~~
+~~23、线上环境过滤 docs 文件夹下的第一级 test、demo~~
 ~~23、设置内容区域宽度~~
 24、完善首页信息描述，并生成首页
 25、将路径中空格后面的中文移出
 26、更改主题色
+~~27、console.log 标识打印颜色~~
+28、去除无效注释

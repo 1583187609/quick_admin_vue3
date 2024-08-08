@@ -4,7 +4,7 @@
 
 import fs from "fs";
 import path from "path";
-import { docsPath, indexName, splitOrderChar, sourceUrls, excludeNames, isSimple, getFileName } from "../utils/index.js";
+import { docsPath, indexName, splitOrderChar, excludeNames, isShortPath, getFileName, consoleLog } from "../utils/index.js";
 
 /**
  * 把字符串和对象排序，如果有数字前缀，则根据数字前缀排序
@@ -42,13 +42,13 @@ function sortPaths(paths = [], char = splitOrderChar) {
 /**
  * 获取过滤且排序后的文件名列表
  * @param {*} dirPath 要读取的文件所在文件夹路径
- * @param {*} excludeNames 要排除的文件夹名
+ * @param {*} excNames 要排除的文件夹名
  * @returns
  */
-function getSortReadFiles(dirPath, excludeNames) {
+function getSortReadFiles(dirPath, excNames) {
   let readFiles = fs.readdirSync(dirPath);
-  if (excludeNames?.length) {
-    readFiles = readFiles.filter(file => !excludeNames.some(it => file.includes(it)));
+  if (excNames?.length) {
+    readFiles = readFiles.filter(file => !excNames.some(it => file.includes(it)));
   }
   sortPaths(readFiles);
   return readFiles;
@@ -91,9 +91,13 @@ function getItems(paths = [], dirPath = "", file = "") {
   return paths.map(subPaths => {
     if (Array.isArray(subPaths)) {
       const [fileName, dirName] = subPaths;
+      let link = `${dirPath}/${file}/${fileName.slice(0, -3)}`;
+      // if (isShortPath) {
+      //   link = getShortPath(link).replace(docsPath, "");
+      // }
       return {
         text: getFileName(dirName),
-        link: `${dirPath}/${file}/${fileName.slice(0, -3)}`,
+        link,
       };
     } else {
       const { text, items } = subPaths;
@@ -124,9 +128,15 @@ function getFirstPath(children = []) {
     });
   }
   cycle(children);
-  if (!isSimple) return linkStr;
+  if (!isShortPath) return linkStr;
   const linkArr = linkStr.replace(docsPath, "").split("/");
-  const linkJoin = linkArr.map(it => getFileName(it, "en")).join("/");
+  const linkJoin = linkArr
+    .map(it => {
+      let enName = getFileName(it, "en");
+      if (enName.includes(" ")) enName = getFirstEnglishWords(enName);
+      return enName;
+    })
+    .join("/");
   return linkJoin;
 }
 
@@ -134,37 +144,52 @@ function getFirstPath(children = []) {
  * 获取顶部导航数据（即：themeConfig.nav）
  * @param dirPath string 文件夹路径
  */
-export function getNav(dirPath = docsPath, isDeep = false, endList = []) {
+export function getNavs(dirPath = docsPath, isDeep = false) {
   const newDirPath = path.join(process.cwd(), dirPath);
-  const list = [];
+  const navs = [];
   const readFiles = getSortReadFiles(newDirPath, excludeNames);
   readFiles.forEach(file => {
     const curPath = path.join(newDirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
-    const fileName = getFileName(file);
+    const cnName = getFileName(file);
     if (isDir) {
       const paths = getSubPaths(curPath);
       if (isDeep) {
-        list.push({
-          text: fileName,
+        navs.push({
+          text: cnName,
           items: getItems(paths, dirPath, file),
         });
       } else {
         const items = getItems(paths, dirPath, file);
-        list.push({
-          text: fileName,
+        navs.push({
+          text: cnName,
           link: getFirstPath(items),
         });
       }
     } else {
-      list.push({
-        text: fileName,
+      navs.push({
+        text: cnName,
         link: `${dirPath}/${file}`,
       });
     }
   });
-  list.push(...endList);
-  return list;
+  return navs;
+}
+
+/**
+ * 获取简短的英文路径
+ * @param {string} pathStr 要处理的路径字符串
+ * @returns
+ */
+function getShortPath(pathStr = "") {
+  return pathStr
+    .split("/")
+    .map(it => {
+      let enName = getFileName(it, "en");
+      if (enName.includes(" ")) enName = getFirstEnglishWords(enName);
+      return enName;
+    })
+    .join("/");
 }
 
 /**
@@ -185,13 +210,31 @@ function getSideNavs(dirPath) {
         items: getItems(paths, dirPath, file),
       };
     } else {
+      let link = `${dirPath}/${file.slice(0, -3)}`;
+      // if (isShortPath) {
+      //   link = getShortPath(link).replace(docsPath, "");
+      // }
       return {
-        text: fileName, //.slice(0, -3),
-        link: `${dirPath}/${file.slice(0, -3)}`,
+        text: fileName,
+        link,
       };
     }
   });
   return navs;
+}
+
+/**
+ * 从字符串中获取第一个英文单词
+ * @param {string} str 要处理的字符串
+ * @param {string} char 分隔符
+ * @returns
+ */
+function getFirstEnglishWords(str = "", char = " ") {
+  if (!str) return "";
+  return str.split(char).find(it => {
+    const wordsReg = /^\b\w+\b$/;
+    return wordsReg.test(it);
+  });
 }
 
 /**
@@ -205,8 +248,17 @@ function getRewrites(sidebar) {
       const { link, items } = item;
       if (link) {
         const sliceLink = link.slice(1);
-        const reLinks = isSimple ? link.replace(docsPath, "").slice(1).split("/") : sliceLink.split("/");
-        const reLink = reLinks.map(it => getFileName(it, "en")).join("/");
+        let reLinks = sliceLink.split("/");
+        if (isShortPath) reLinks = link.replace(docsPath, "").slice(1).split("/");
+
+        //示例：'docs/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单.md': 'demo/create/StandardDemoForm.md',
+        const reLink = reLinks
+          .map(it => {
+            let enName = getFileName(it, "en");
+            if (enName.includes(" ")) enName = getFirstEnglishWords(enName);
+            return enName;
+          })
+          .join("/");
         rewrites[sliceLink + ".md"] = reLink + ".md";
       } else {
         cycle(items);
@@ -216,6 +268,7 @@ function getRewrites(sidebar) {
   for (const key in sidebar) {
     cycle(sidebar[key]);
   }
+  // console.log(rewrites, "rewrites-----------");
   return rewrites;
 }
 
@@ -229,14 +282,15 @@ export function getSidebarAndRewrites(wrapPath = docsPath) {
   const sidebar = {};
   readFiles.map(file => {
     const dirPath = `${wrapPath}/${file}`;
-    if (isSimple) {
+    if (isShortPath) {
       sidebar[`/${getFileName(file, "en")}/`] = getSideNavs(dirPath);
     } else {
       sidebar[dirPath + "/"] = getSideNavs(dirPath);
     }
   });
+  // consoleLog(sidebar, "sideBar------------");
   return {
     sidebar,
-    rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isSimple ? getRewrites(sidebar) : {}),
+    rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isShortPath ? getRewrites(sidebar) : {}),
   };
 }

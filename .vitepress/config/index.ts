@@ -1,5 +1,5 @@
 import { defineConfig } from "vitepress";
-import { getNav, getSidebarAndRewrites } from "../../scripts/doc/menus/index.js";
+import { getNavs, getSidebarAndRewrites } from "../../scripts/doc/menus/index.js";
 import plugins from "./plugins.ts";
 import { hotRun } from "../../scripts/doc/index.js";
 
@@ -25,7 +25,7 @@ export default defineConfig({
   rewrites,
   // srcDir: "./src", //相对于项目根目录的 markdown 文件所在的文件夹
   // srcExclude: ['**/README.md', '**/TODO.md'], // 用于匹配应排除作为源内容输出的 markdown 文件
-  outDir: "./dist", //默认值："./.vitepress/dist"。项目的构建输出位置，相对于项目根目录
+  // outDir: "./dist", //默认值："./.vitepress/dist"。项目的构建输出位置，相对于项目根目录
   // assetsDir: "", // 指定放置生成的静态资源的目录。该路径应位于 outDir 内，并相对于它进行解析
   // cacheDir: "", //缓存文件的目录，相对于项目根目录
   // ignoreDeadLinks: false, //当设置为 true 时，VitePress 不会因为死链而导致构建失败。
@@ -40,10 +40,10 @@ export default defineConfig({
       lazyLoading: true, // 默认禁用图片懒加载
     },
     container: {
-      tipLabel: "温馨提示",
-      warningLabel: "注意事项",
-      dangerLabel: "特别注意",
-      infoLabel: "内容描述",
+      //   tipLabel: "温馨提示",
+      //   warningLabel: "注意事项",
+      //   dangerLabel: "特别注意",
+      //   infoLabel: "内容描述",
       detailsLabel: "查看详情",
     },
     config: md => plugins(md),
@@ -165,7 +165,7 @@ export default defineConfig({
     //     ],
     //   },
     // ],
-    nav: getNav(),
+    nav: getNavs(),
     // 文档页左侧导航，可以进一步将侧边栏项目嵌入到 6 级深度，从根级别上计数。请注意，深度超过 6 级将被忽略，并且不会在侧边栏上显示。
     // sidebar: [
     //   {

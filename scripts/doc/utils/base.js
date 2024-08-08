@@ -3,7 +3,9 @@
  ********************************************/
 
 import path from "path";
-import { isSimple, splitOrderChar } from "./index.js";
+import util from "util";
+
+import { isShortPath, splitOrderChar } from "./index.js";
 
 /**
  * 函数未传必填参数时的校验
@@ -73,11 +75,31 @@ export function camelCase(str = "", isToBy = true) {
 export function getFileName(filePath = needParam(), type = "cn", char = splitOrderChar) {
   const ext = path.extname(filePath);
   const file = path.basename(filePath, ext);
-  // file = file.split(".")[0];
-  if (!isSimple) return file;
+  if (!isShortPath) return file;
   if (!file.includes(char)) return file;
   const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名
   const hasNum = !isNaN(Number(num)); // 如果存在序号
   if (type === "en") return hasNum ? enName ?? cnName : cnName;
   return upperFirst(hasNum ? cnName : num);
+}
+
+export function consoleLog(data, type, ...rest) {
+  if (typeof type === "number") {
+    //设为 null 时， 是打印完整信息
+    const deepLog = util.inspect(data, { depth: type });
+    return console.log(deepLog, ...rest);
+  }
+  //  黑色(30), 红色(31), 绿色(32), 黄色(33), 蓝色(34), 紫色(35), 青色(36), 白色(37)
+  if (["danger", "success", "warning", "primary", "info"].includes(type)) {
+    const reset = "\x1b[0m";
+    const colorMap = {
+      danger: "\x1b[31m",
+      success: "\x1b[32m",
+      warning: "\x1b[33m",
+      primary: "\x1b[34m",
+      info: "\x1b[36m",
+    };
+    return console.log(`${colorMap[type]}%s${reset}`, data, ...rest);
+  }
+  return console.log(data, type, ...rest);
 }

@@ -15,8 +15,8 @@ export default (writePath = `${docsPath}/${indexName}`) => {
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home # 可选值：doc, page, home, false。默认为 doc。为false时，没有任何侧边栏、导航栏或页脚（例：想要一个完全可自定义的登录页面）
 hero:
-  name: "Quick Admin Vue3"
-  text: 一个以“快”著称的后台管理系统
+  name: "Vitepress Demo"
+  text: 一个“快”的后台管理系统
   tagline: 基于Vite+Vue3+ElementPlus+Pinia+TypeScript+Sass
   image:
     src: /logo.svg
