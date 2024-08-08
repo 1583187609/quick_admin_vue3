@@ -1,15 +1,6 @@
 # 待做事项
 
-1、组件文档 -> 类型声明 -> ts 文件在 md 展示时，对
-
-```ts
-/** hidden
- * 这是标准ts文件的示例
- */
-```
-
-这类的注释隐藏掉：凡是`/** hidden`后面跟了文字的，例如 hidden
-
+1、多行注释默认 hidden。对这类的注释隐藏掉：凡是`/** hidden`后面跟了文字的，例如 hidden
 2、菜单项高亮、上下一页失效问题处理
 3、表单示例中，多个表单貌似共用了同一个实例。提交表单触发表单校验时，会自动触发其他表单的自动滚动位置
 ~~4、全局 Dialog 和 Drawer 不能正常打开。全局弹出层处理~~
@@ -25,10 +16,13 @@
 ~~14、完善 vuets 文件（Vue ts 文件的解析）~~
 ~~15、换行符替换变量为 N~~
 ~~16、替换注释中 tip danger warning details 的写法。默认为 tip~~
-17、多行注释默认 hidden。
 ~~18、将 docs 和 demos 的路径整合成一样的嵌套结构~~
 19、把 Quick Vitepress Docs 抽成 可配置型的
 ~~20、把配置文件提取出来，如：docsPath、demosPath~~
 ~~21、将 getNearLineIndex 的 sum 变量优化下~~
 22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`
-23、线上环境过滤docs 文件夹下的第一级 test、demo
+~~23、线上环境过滤docs 文件夹下的第一级 test、demo~~
+~~23、设置内容区域宽度~~
+24、完善首页信息描述，并生成首页
+25、将路径中空格后面的中文移出
+26、更改主题色

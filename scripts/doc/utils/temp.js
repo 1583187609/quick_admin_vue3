@@ -4,7 +4,14 @@
 
 import fs from "fs";
 import path from "path";
-import { getInitReadMeFile,docsPath, demosPath, readMeName, splitOrderChar, writeFileSync  } from "./index.js";
+import {
+  docsPath,
+  demosPath,
+  readMeName,
+  splitOrderChar,
+  writeFileSync,
+} from "./index.js";
+import { getInitReadMeFile } from "../create/component.js";
 
 /**
  * 递归创建临时目录(同步方法)
@@ -20,16 +27,21 @@ export function mkdirsTempSync(pathStr) {
 }
 
 /**
- * 根据docs文件目录生成examples的文件目录
+ * 根据docs文件目录生成 examples 的文件目录
  * @param {string} readDir 读取文件夹路径
  * @param {string} writeDir 写入的文件夹路径
  */
-export function createDirToExamplesByDocsDirs(readDir = `${docsPath}/2_组件_comp`, writeDir = demosPath) {
+export function createDirToExamplesByDocsDirs(
+  readDir = `${docsPath}/2_组件_comp`,
+  writeDir = demosPath
+) {
   const fullReadDir = path.join(process.cwd(), readDir);
-  fs.readdirSync(fullReadDir).forEach(file => {
+  fs.readdirSync(fullReadDir).forEach((file) => {
     const currDirPath = path.join(process.cwd(), writeDir, file);
-    fs.readdirSync(path.join(fullReadDir, file)).forEach(f => {
-      const fullWriteDir = path.join(process.cwd(), writeDir, file, f).slice(0, -3);
+    fs.readdirSync(path.join(fullReadDir, file)).forEach((f) => {
+      const fullWriteDir = path
+        .join(process.cwd(), writeDir, file, f)
+        .slice(0, -3);
       const isExist = fs.existsSync(fullWriteDir);
       if (!isExist) {
         fs.mkdirSync(fullWriteDir, { recursive: true });
