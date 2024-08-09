@@ -117,6 +117,7 @@
 options
 -cascader
 -select
+69、把组件hooks等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 
 ## 二、优化清单
 
