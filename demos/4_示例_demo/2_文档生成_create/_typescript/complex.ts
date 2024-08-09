@@ -1,7 +1,3 @@
-/** hidden
- * 这是复杂ts文件的示例
- */
-
 import { FormRules } from "element-plus";
 import { RenderComponent, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";

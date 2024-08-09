@@ -77,6 +77,29 @@ export function getVueScriptStr(readPathHalf = needParam()) {
 }
 
 /**
+ * 获取信息注释的正则表达式
+ * @param {summary|hidden|props|emits|slots|expose|string} name 注释名称
+ * @param {string} modifier 正则表达式匹配的类型
+ */
+function getRegexpOfInfoAnno(name='\\w+', modifier='gs'){
+  const htmlRegStr = `(<!-- *${name}.*?-->)`;
+  const jsRegStr = `(\\/\\*\\* *${name}.*?\\*\\/)`;
+  const regStr = `${htmlRegStr}|${jsRegStr}`;
+  return new RegExp(regStr, modifier)
+}
+
+/**
+ * 获取文件中的有效片段，忽略掉生成 docs 需要的注释
+ * @param {string} fileStr 要处理的文件字符串
+ * @returns {string} 有效代码文件字符串
+ */
+export function getFileStrWithoutDocAnno(fileStr = needParam()) {
+  if (!fileStr) return "";
+  const infoAnnoReg = getRegexpOfInfoAnno();
+  return fileStr.replace(infoAnnoReg, () => "");
+}
+
+/**
  * 根据注释名称从注释中获取信息
  * @param {string} filePath 要读取文件的路径
  * @param {summary|props|expose|emits|slots} type 要读取的注释类型
@@ -89,10 +112,7 @@ export function getVueScriptStr(readPathHalf = needParam()) {
 export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
   const readPathFull = path.join(process.cwd(), readPath);
   const fileStr = fs.readFileSync(readPathFull, "utf-8");
-  const htmlRegStr = `(<!-- *${name}.*?-->)`;
-  const jsRegStr = `(\\/\\*\\* *${name}.*?\\*\\/)`;
-  const regStr = `${htmlRegStr}|${jsRegStr}`;
-  const reg = new RegExp(regStr, "gs");
+  const reg = getRegexpOfInfoAnno(name)
   const info = { type: name, title: name === "summary" ? getFileName(readPath) : upperFirst(name) };
   const matchStr = fileStr.match(reg)?.[0];
   if (!matchStr) return info;

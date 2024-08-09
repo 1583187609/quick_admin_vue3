@@ -181,10 +181,10 @@ function getTypeIsEnd(line = "") {
 }
 
 /**
- * 获取Vue defineXxx Api的边界字符串（将用它来作为边界开始和结束的依据）
+ * 获取代码块的边界字符串（将用它来作为边界开始和结束的依据）
  * @param {string} line 行文本字符串
  */
-function getDefineBoundChars(line = "") {
+function getCodeBoundChars(line = "") {
   const starChars = "<([{";
   const endChars = ">)]}";
   const charInd = getIndexIgnoreAnno(line, starChars);
@@ -324,7 +324,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
       }
       const isDefine = isVueDefineDeclare(line);
       if (!isDefine) return;
-      const nearInd = getNearLineIndex(lines, ind, getDefineBoundChars(line));
+      const nearInd = getNearLineIndex(lines, ind, getCodeBoundChars(line));
       if (nearInd > ind) defUntilInd = nearInd;
       newLines.push(isTrim ? line : item);
       if (nearInd === ind + 1) {
@@ -386,7 +386,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
         }
         const isCodeAnno = getIsCodeAnno(line);
         if (isCodeAnno) {
-          const nearInd = getNearLineIndex(lines, ind, getDefineBoundChars(line), undefined, false);
+          const nearInd = getNearLineIndex(lines, ind, getCodeBoundChars(line), undefined, false);
           if (nearInd > ind) codeAnnoUntilInd = nearInd;
           return;
         }

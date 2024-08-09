@@ -10,7 +10,7 @@ import { ApiTableContainer } from "../plugins/api-table";
 import type Token from "markdown-it/lib/token";
 import type Renderer from "markdown-it/lib/renderer";
 import type MarkdownIt from "markdown-it";
-import { demosPath } from "../../scripts/doc/utils";
+import { demosPath, getFileStrWithoutDocAnno } from "../../scripts/doc/utils";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {
@@ -41,8 +41,8 @@ export default (md: MarkdownIt) => {
 
         if (sourceFileToken.type === "inline") {
           const pathStr = path.join(process.cwd(), sourceFile);
-          source = fs.readFileSync(pathStr, "utf-8");
-          // 代码待精简，去掉hidden
+          // source = fs.readFileSync(pathStr, "utf-8");
+          source = getFileStrWithoutDocAnno(pathStr)
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
         return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\`\`\``))}" path="${sourceFile.replace(
