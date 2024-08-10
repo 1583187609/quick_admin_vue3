@@ -5,7 +5,7 @@
         <span class="line-1">{{ title }}</span>
         <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge"> </el-badge>
       </div>
-      <slot name="right"></slot>
+      <slot name="head-right"></slot>
       <BaseIcon
         @click="fold = !fold"
         class="fold-btn"
@@ -15,7 +15,7 @@
         v-if="foldable"
       />
     </div>
-    <div class="body" :class="{ [`${bodyClass}`]: true, fold }">
+    <div class="body" :class="{ [bodyClass]: true, fold }">
       <slot><BaseEmpty /></slot>
     </div>
   </div>

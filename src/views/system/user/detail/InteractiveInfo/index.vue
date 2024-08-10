@@ -1,7 +1,7 @@
 <!-- 互动信息 -->
 <template>
   <BaseSection class="inter-statistics" title="互动统计">
-    <template #right>
+    <template #head-right>
       <div>注册时间：3天</div>
     </template>
     <div class="group f-fs-fs-w">

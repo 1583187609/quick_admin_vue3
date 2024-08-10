@@ -2,7 +2,7 @@
 <template>
   <!-- 头像、图片 -->
   <BaseSection class="imgs" title="图片审核" bodyClass="f-fs-s p-o">
-    <template #right>
+    <template #head-right>
       <el-button type="primary" style="margin-left: auto">处理用户</el-button>
       <el-button type="info">注销用户</el-button>
     </template>
@@ -28,7 +28,7 @@
   </BaseSection>
   <!-- 基本信息 -->
   <BaseSection class="base-info" title="基本信息">
-    <template #right>
+    <template #head-right>
       <div class="f-1 f-sb-c">
         <div class="tags f-fs-c" style="margin-right: auto">
           <el-tag class="tag" v-bind="statusMap[status]">{{ statusMap[status].text }}</el-tag>
@@ -65,7 +65,7 @@
   </BaseSection>
   <!-- 详细信息 -->
   <BaseSection class="detail-info" title="详细信息">
-    <template #right>
+    <template #head-right>
       <el-tag :type="infoStatusMap['yes'].type" style="margin-right: auto">
         {{ infoStatusMap["yes"].text }}
       </el-tag>

@@ -21,7 +21,7 @@
                 </template>
               </el-popover>
             </div>
-            <slot :name="'right-' + (sItem.prop ?? sInd)"></slot>
+            <slot :name="'head-right-' + (sItem.prop ?? sInd)"></slot>
             <BaseIcon
               @click="folds[sInd] = !folds[sInd]"
               class="fold-btn f-0"

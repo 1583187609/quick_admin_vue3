@@ -1,39 +1,39 @@
 <!-- 认证信息 -->
 <template>
   <BaseSection title="认证信息">
-    <template #right>
+    <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
   </BaseSection>
   <BaseSection title="实名认证">
-    <template #right>
+    <template #head-right>
       <el-tag class="tag" type="success">已认证</el-tag>
       <el-tag class="tag">后台认证</el-tag>
     </template>
     <CellForm :fields="realNameFormFields" :footer="false"></CellForm>
   </BaseSection>
   <BaseSection title="学历认证">
-    <template #right>
+    <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
     <CellForm :fields="educationFormFields" :footer="false"></CellForm>
   </BaseSection>
   <BaseSection title="公司认证">
-    <template #right>
+    <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
     <CellForm :fields="companyFormFields" :footer="false"></CellForm>
   </BaseSection>
   <BaseSection title="公司认证记录">
-    <template #right>
+    <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
     <BaseTable :cols="companyCols" :rows="companyRows"></BaseTable>
   </BaseSection>
   <BaseSection title="学历认证记录">
-    <template #right>
+    <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
     <BaseTable :cols="educationCols" :rows="educationRows"></BaseTable>
@@ -54,7 +54,13 @@ const props = withDefaults(
 );
 const realNameFormFields: CellFormField[] = [
   { prop: "zsxm", label: "真实姓名" },
-  { prop: "sfzh", label: "身份证号/通信证号", valid: "identity" },
+  {
+    prop: "sfzh",
+    label: "身份证号/通信证号",
+    extraAttrs: {
+      valid: "identity",
+    },
+  },
   { prop: "hjcs", label: "户籍城市", type: "cascader" },
 ];
 const educationFormFields: CellFormField[] = [

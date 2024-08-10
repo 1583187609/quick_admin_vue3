@@ -2,7 +2,7 @@
 <template>
   <div class="page-view two f-sb-s">
     <SectionForm class="f-2" v-model="model" :fetch="handleFetch" :sections="sections">
-      <template #right-0>这是标题右侧的插槽</template>
+      <template #head-right-0>这是标题右侧的插槽</template>
       <template #zdy="{ form }">
         <el-input placeholder="这是自定义组件" v-model="form.zdy" clearable />
       </template>
@@ -244,7 +244,7 @@ const sections = computed<SectionFormItem[]>(() => {
 });
 //外层套用一层函数，可将参数进行转化处理再执行请求，也可传入handleParams属性
 function handleFetch(params: CommonObj) {
-  console.log(params, "parasms-----------");
+  console.log(params, "params-----------");
   return PostMockCommon(params);
 }
 </script>
