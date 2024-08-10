@@ -1,4 +1,4 @@
-import { PopupType } from "@/components/GlobalPopup.vue";
+import { PopupType } from "@/components/BasicPopup/_types";
 import { FormItemType } from "@/components/form";
 import { CommonObj, StrNum } from "@/vite-env";
 

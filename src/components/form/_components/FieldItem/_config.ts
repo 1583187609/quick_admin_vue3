@@ -225,7 +225,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     // BaseUpload: {
     //   attrs: {},
     // },
-    // BasicEditor: {
+    // BaseEditor: {
     //   attrs: {
     // style: { width: "100%" },
     //   },

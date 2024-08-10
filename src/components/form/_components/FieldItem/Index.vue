@@ -139,12 +139,12 @@
           v-model="newVal"
           v-else-if="newField.type === 'BaseUpload'"
         />
-        <!-- <BasicEditor
+        <!-- <BaseEditor
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
-          v-else-if="newField.type === 'BasicEditor'"
-        ></BasicEditor> -->
+          v-else-if="newField.type === 'BaseEditor'"
+        ></BaseEditor> -->
         <el-autocomplete
           :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"

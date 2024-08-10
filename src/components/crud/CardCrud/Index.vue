@@ -57,7 +57,7 @@ import { getAvatarRowData } from "./_utils";
 import { typeOf, showMessage } from "@/components/_utils";
 import { FilterByAuthFn, getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
 import { CommonObj } from "@/vite-env";
-import { ClosePopupType } from "@/components/GlobalPopup.vue";
+import { ClosePopupType } from "@/components/BasicPopup/_types";
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";
 export type ItemType = "avatar-audit" | "avatar-patrol" | "about" | "photo" | "face";
 export type AuditStatus = 0 | 1 | 2; // 0通过 1驳回 2未审核

@@ -1,6 +1,5 @@
 # 待做事项
 
-
 ~~1、多行注释默认 hidden。对这类的注释隐藏掉：凡是`/** hidden`后面跟了文字的，例如 hidden~~
 ~~4、全局 Dialog 和 Drawer 不能正常打开。全局弹出层处理~~
 ~~5、tsPath 如果是 vue 文件，则获取其 ts 类型并展示出来~~
@@ -29,5 +28,5 @@
 10、把文件改名、写入新文件等辅助方法提取到一个文件夹中
 26、更改主题色
 19、把 Quick Vitepress Docs 抽成 可配置型的
-22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`
-29、整合 GlobalPopup 组件，内部包含 BasicDialo 和 BasicDrawer 组件
+~~22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`~~
+~~29、整合 GlobalPopup 组件，内部包含 BasicDialog 和 BasicDrawer 组件~~

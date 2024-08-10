@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-editor">
+  <div class="base-editor">
     <Toolbar class="tool-bar" :editor="editorInst" :defaultConfig="toolbarCfg" :mode="mode" />
     <Editor
       class="editor"
@@ -20,7 +20,6 @@
 import { onBeforeUnmount, computed, onMounted } from "vue";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
-import { pickBy } from "lodash";
 import { showMessage, toCssVal } from "@/components/_utils";
 import { useFormItem } from "element-plus";
 import { merge } from "lodash";
@@ -178,7 +177,7 @@ defineExpose<{ editor: any }>({
 });
 </script>
 <style lang="scss" scoped>
-.basic-editor {
+.base-editor {
   border-radius: $radius-main;
   border: $border-main;
   overflow: hidden;

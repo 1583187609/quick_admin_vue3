@@ -21,7 +21,7 @@ export default (writePath = `${docsPath}/5_测试_test/1_测试1_test1.md`) => {
   fileStr += `### 复杂情况${NN}${getAtMdStr(complexStr)}${NN}`;
 
   fileStr += `## 从Vue文件中直接获取Ts类型${NN}`;
-  const globalPopupDemoPath = `${demosPath}/4_示例_demo/2_文档生成_create/_components/GlobalPopupDemo.vue`;
+  const globalPopupDemoPath = `${demosPath}/4_示例_demo/2_文档生成_create/_components/StandardDemoForm.vue`;
   const tsStr = getTsTypeDeclare(globalPopupDemoPath);
   fileStr += `${tsStr}${NN}`;
 

@@ -5,7 +5,7 @@
 <!-- summary
   @notice {warning} 这是warning信息示例
   @notice {danger} 这是danger信息示例
- -->
+-->
 <template>
   <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">

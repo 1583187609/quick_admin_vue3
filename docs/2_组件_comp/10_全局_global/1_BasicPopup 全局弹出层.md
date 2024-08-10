@@ -1,4 +1,18 @@
-# BasicDrawer 全局抽屉
+# BasicPopup 全局弹出层
+
+
+
+
+## BasicUse
+::: demo 
+/demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/1_BasicUse.vue
+:::
+
+
+## OpenClose
+::: demo 
+/demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/2_OpenClose.vue
+:::
 
 
 
@@ -56,10 +70,24 @@
 
 ## 类型声明
 ::: details
-/src/components/BasicDrawer.vue
+/src/components/BasicPopup/Index.vue
 
 
 ``` ts
+
+import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";
+
+
+
+
+
+
+
+
+
+    // 如果不是弹窗类型，则打开dialog，且type的值作为dialog的footer渲染
+
+
 
 
 ```

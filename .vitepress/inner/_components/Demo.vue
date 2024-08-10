@@ -2,7 +2,7 @@
 import { computed, getCurrentInstance, ref, toRef, onBeforeMount } from "vue";
 import { isClient, useClipboard, useToggle } from "@vueuse/core";
 import { ElMessage } from "element-plus";
-import { CaretTop } from "@element-plus/icons-vue";
+import { CaretTop, Edit } from "@element-plus/icons-vue";
 import { useSourceCode } from "../composables/source-code";
 import { usePlayground } from "../composables/use-playground";
 import Example from "./demo/vp-example.vue";
@@ -70,11 +70,11 @@ const formatPathDemos = computed(() => {
 const locale = computed(() => demoBlockLocale);
 const decodedDescription = computed(() => decodeURIComponent(props.description!));
 
-const onPlaygroundClick = () => {
-  const { link } = usePlayground(props.rawSource);
-  if (!isClient) return;
-  window.open(link);
-};
+// const onPlaygroundClick = () => {
+//   const { link } = usePlayground(props.rawSource);
+//   if (!isClient) return;
+//   window.open(link);
+// };
 
 const onSourceVisibleKeydown = (e: KeyboardEvent) => {
   if (["Enter", "Space"].includes(e.code)) {
@@ -106,7 +106,7 @@ const copyCode = async () => {
     <div class="example">
       <Example :file="path" :demo="formatPathDemos[path]" />
 
-      <ElDivider class="m-0" />
+      <ElDivider class="divider" />
 
       <div class="op-btns">
         <!-- <ElTooltip :content="locale['edit-in-editor']" :show-arrow="false" :trigger="['hover', 'focus']" :trigger-keys="[]">
@@ -125,17 +125,16 @@ const copyCode = async () => {
           </ElIcon>
         </ElTooltip> -->
         <ElTooltip :content="locale['edit-on-github']" :show-arrow="false" :trigger="['hover', 'focus']" :trigger-keys="[]">
-          <ElIcon :size="16" class="op-btn github" style="color: var(--text-color-light)">
-            <!-- <a :href="demoSourceUrl" :aria-label="locale['edit-on-github']" rel="noreferrer noopener" target="_blank">
+          <!-- <ElIcon :size="16" class="op-btn" style="color: var(--text-color-light)">
+            <a :href="demoSourceUrl" :aria-label="locale['edit-on-github']" rel="noreferrer noopener" target="_blank">
               <i-ri-github-line />
-            </a> -->
-            <!-- <BaseIcon name="IconGithub" /> -->
-            <!-- <BaseIcon name="IconGift" /> -->
-            <BaseIcon @click="ElMessage.warning('暂不支持在GitHub中编辑')" name="Brush" />
-          </ElIcon>
+            </a>
+          </ElIcon> -->
+          <!-- IconGithub -->
+          <BaseIcon :size="16" class="op-btn" @click="ElMessage.warning('暂不支持在GitHub中编辑')" name="Edit" />
         </ElTooltip>
         <ElTooltip :content="locale['copy-code']" :show-arrow="false" :trigger="['hover', 'focus']" :trigger-keys="[]">
-          <ElIcon
+          <!-- <ElIcon
             :size="16"
             :aria-label="locale['copy-code']"
             class="op-btn"
@@ -145,22 +144,29 @@ const copyCode = async () => {
             @keydown.prevent.enter="copyCode"
             @keydown.prevent.space="copyCode"
           >
-            <!-- <i-ri-file-copy-line /> -->
-            <BaseIcon name="DocumentCopy" />
-          </ElIcon>
+            <i-ri-file-copy-line />
+          </ElIcon> -->
+          <BaseIcon
+            :size="16"
+            class="op-btn"
+            name="DocumentCopy"
+            @click="copyCode"
+            @keydown.prevent.enter="copyCode"
+            @keydown.prevent.space="copyCode"
+          />
         </ElTooltip>
         <ElTooltip :content="locale['view-source']" :show-arrow="false" :trigger="['hover', 'focus']" :trigger-keys="[]">
-          <button
+          <!-- <button
             ref="sourceCodeRef"
             :aria-label="sourceVisible ? locale['hide-source'] : locale['view-source']"
             class="reset-btn el-icon op-btn"
             @click="toggleSourceVisible()"
           >
             <ElIcon :size="16">
-              <!-- <i-ri-code-line /> -->
-              <BaseIcon name="Document" />
+              <i-ri-code-line />
             </ElIcon>
-          </button>
+          </button> -->
+          <BaseIcon class="op-btn" @click="toggleSourceVisible()" :size="16" name="Document" />
         </ElTooltip>
       </div>
 
@@ -189,9 +195,14 @@ const copyCode = async () => {
 
 <style scoped lang="scss">
 .example {
-  border: 1px solid var(--border-color);
-  border-radius: var(--el-border-radius-base);
-
+  // border: 1px solid var(--border-color);
+  // border-radius: var(--el-border-radius-base);
+  border: $border-main;
+  border-radius: $radius-main;
+  .divider {
+    margin: 0;
+    border-top: $border-main;
+  }
   .op-btns {
     padding: 0.5rem;
     display: flex;
@@ -201,23 +212,26 @@ const copyCode = async () => {
 
     .el-icon {
       &:hover {
-        color: var(--text-color);
+        // color: var(--text-color);
+        color: $color-primary;
       }
     }
 
     .op-btn {
       margin: 0 0.5rem;
       cursor: pointer;
-      color: var(--text-color-lighter);
+      // color: var(--text-color-lighter);
       transition: 0.2s;
 
-      &.github a {
-        transition: 0.2s;
-        color: var(--text-color-lighter);
-
-        &:hover {
-          color: var(--text-color);
-        }
+      // &.github a {
+      //   transition: 0.2s;
+      //   color: var(--text-color-lighter);
+      //   &:hover {
+      //     color: var(--text-color);
+      //   }
+      // }
+      &:hover {
+        color: $color-primary;
       }
     }
   }
@@ -226,14 +240,17 @@ const copyCode = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid var(--border-color);
+    // border-top: 1px solid var(--border-color);
+    border-top: $border-main;
     height: 44px;
     box-sizing: border-box;
-    background-color: var(--bg-color, #fff);
+    // background-color: var(--bg-color, #fff);
+    background: #fff;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     margin-top: -1px;
-    color: var(--el-text-color-secondary);
+    // color: var(--el-text-color-secondary);
+    color: $color-text-light;
     cursor: pointer;
     position: sticky;
     left: 0;
@@ -246,7 +263,8 @@ const copyCode = async () => {
     }
 
     &:hover {
-      color: var(--el-color-primary);
+      // color: var(--el-color-primary);
+      color: $color-primary;
     }
   }
 }

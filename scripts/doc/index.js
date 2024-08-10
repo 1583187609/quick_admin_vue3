@@ -11,7 +11,7 @@
 
 import fs from "fs";
 import path from "path";
-import { writeComponentDoc } from "./create/index.js";
+import { writeComponentDoc, writeHomMdDoc } from "./create/index.js";
 import { demosPath, docsPath, splitOrderChar } from "./utils/consts.js";
 import test1 from "../../demos/5_测试_test/1_测试1_test1/index.js";
 import test2 from "../../demos/5_测试_test/2_测试2_test2/index.js";
@@ -60,6 +60,7 @@ function writeCommonTestDocs(parts = []) {
   });
 }
 
+// writeHomMdDoc();
 writeCommonTestDocs(); //生成组件文档页（通用方法）
 // writeCommonTestDocs(['comp']);
 // writeCommonTestDocs(['demo']);

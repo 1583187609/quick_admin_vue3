@@ -141,6 +141,21 @@ function getFirstPath(children = []) {
 }
 
 /**
+ * 获取某个内容部分的第一级菜单
+ * @param {string} name 内容部分名称
+ * @returns
+ */
+export function getPartFirstPathByName(name) {
+  let currName = `/${name}/`;
+  const { sidebar } = getSidebarAndRewrites();
+  const firstName = Object.keys(sidebar)[0];
+  if (!name) {
+    currName = firstName;
+  }
+  return getFirstPath(sidebar?.[currName] ?? sidebar[firstName]);
+}
+
+/**
  * 获取顶部导航数据（即：themeConfig.nav）
  * @param dirPath string 文件夹路径
  */

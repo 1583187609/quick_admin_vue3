@@ -5,6 +5,8 @@ export * from "./colors";
 export { isExternal, isActive } from "vitepress/dist/client/shared";
 export { ensureStartingSlash } from "vitepress/dist/client/theme-default/support/utils";
 
+import { demosPath } from "../../../scripts/doc/config/index";
+
 const endingSlashRE = /\/$/;
 export function utoa(data: string): string {
   return btoa(unescape(encodeURIComponent(data)));
@@ -34,13 +36,15 @@ export function createGitHubUrl(
   docsDir: string,
   docsBranch: string,
   path: string,
-  folder = "demos/",
+  folder = demosPath,
   ext = ".vue"
 ) {
-  const base = isExternal(docsRepo) ? docsRepo : `https://github.com/${docsRepo}`;
-  return `${base.replace(endingSlashRE, "")}/edit/${docsBranch}/${docsDir ? `${docsDir.replace(endingSlashRE, "")}/` : ""}${
-    folder || ""
-  }${path}${ext || ""}`;
+  let base = isExternal(docsRepo) ? docsRepo : `https://github.com/${docsRepo}`;
+  base = base.replace(endingSlashRE, "");
+  docsDir = docsDir ? `${docsDir.replace(endingSlashRE, "")}` : "";
+  folder = folder || "";
+  ext = ext || "";
+  return `${base}/edit/${docsBranch}/${docsDir}${folder}/${path}${ext}`;
 }
 
 export function createCrowdinUrl(targetLang: string) {

@@ -22,56 +22,24 @@ import { reactive, shallowReactive, provide } from "vue";
 import { showMessage, sortObjArrByKey } from "@/utils";
 import { SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
-import BasicDialog from "@/components/BasicDialog.vue";
-import BasicDrawer from "@/components/BasicDrawer.vue";
+import BasicDialog from "./_components/BasicDialog.vue";
+import BasicDrawer from "./_components/BasicDrawer.vue";
 import { BaseRenderData } from "@/components/BaseRender.vue";
 import config from "@/config";
 import { popupCloseAnimationDuration } from "@/utils";
-
-export type PopupType = "drawer" | "dialog"; //弹窗类型
-export type DialogId = `dialog-${number}`; //id必须大于等于0，示例："dialog-1"
-export type DrawerId = `drawer-${number}`; //id必须大于等于0，示例："drawer-1"
-export type FootRenderData = false | BaseRenderData;
-export interface DialogPopup {
-  id: number;
-  name: "dialog";
-  show: boolean;
-  attrs: {
-    title?: string;
-    [key: string]: any;
-  };
-  body: BaseRenderData;
-  foot?: FootRenderData; //底部按钮或自定义节点
-  createAt: number; //创建时间戳
-}
-export type DirectionType = "rtl" | "ltr" | "ttb" | "btt";
-export interface DrawerPopup {
-  id: number;
-  name: "drawer";
-  show: boolean;
-  attrs: {
-    title?: string;
-    direction?: DirectionType;
-    [key: string]: any;
-  };
-  body: BaseRenderData;
-  createAt: number; //创建时间戳
-}
-export interface DrawerHeadAttrs {
-  title?: string;
-  [key: string]: any;
-}
-export interface DialogHeadAttrs {
-  title?: string;
-  [key: string]: any;
-}
-//打开的弹窗类型
-export type OpenPopupTypes = PopupType | DialogPopup | DrawerPopup | DialogId | DrawerId;
-export type ClosePopupType = OpenPopupTypes | number | "all"; //关闭的弹窗类型：'all' 关闭所有dialog、drawer；number：关闭顶层的 n 个弹窗
-export type CloseDialogType = DialogPopup | DialogId | "all";
-export type CloseDrawerType = DrawerPopup | DrawerId | "all";
-export type DialogHeadTypes = string | DialogHeadAttrs;
-export type DrawerHeadTypes = string | DrawerHeadAttrs;
+import type {
+  PopupType,
+  DialogId,
+  DrawerId,
+  FootRenderData,
+  DialogPopup,
+  DrawerPopup,
+  ClosePopupType,
+  CloseDialogType,
+  CloseDrawerType,
+  DialogHeadTypes,
+  DrawerHeadTypes,
+} from "./_types";
 
 let dialogTimer: SetTimeout = null;
 let drawerTimer: SetTimeout = null;

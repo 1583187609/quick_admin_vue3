@@ -1,13 +1,13 @@
 <template>
-  <GlobalPopup>
+  <BasicPopup>
     <RouterView />
     <!-- 全局弹出层 -->
     <!-- 使用水印 -->
     <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
-  </GlobalPopup>
+  </BasicPopup>
 </template>
 <script lang="ts" setup>
-import GlobalPopup from "@/components/GlobalPopup.vue";
+import BasicPopup from "@/components/BasicPopup/Index.vue";
 //后续添加的
 import { ref, watch } from "vue";
 import WaterMark from "@/components/WaterMark.vue";

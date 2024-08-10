@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import IconPicker from "./_components/IconPicker.vue";
+import IconPicker from "./_components/IconPicker/Index.vue";
 import { GetAuthMenuInfo, PostAuthMenuAdd, PostAuthMenuUpdate } from "@/api-mock";
 import MenuTree from "./_components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";

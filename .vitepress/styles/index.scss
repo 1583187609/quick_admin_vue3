@@ -53,6 +53,13 @@
 //   }
 // }
 
+.vp-doc {
+  h2 {
+    border-top: none;
+    margin: $gap-two 0 $gap;
+  }
+}
+
 .VPDoc {
   &.has-aside {
     // 中间区域不要设置最大宽度

@@ -7,7 +7,7 @@
         <el-input placeholder="这是自定义组件" v-model="form.zdy" clearable />
       </template>
       <template #bjnr="{ form }">
-        <BasicEditor v-model="form.bjnr" />
+        <BaseEditor v-model="form.bjnr" />
       </template>
     </SectionForm>
     <ul class="f-1 ml-o tips-list">

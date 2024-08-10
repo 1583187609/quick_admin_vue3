@@ -41,8 +41,8 @@ export default (md: MarkdownIt) => {
 
         if (sourceFileToken.type === "inline") {
           const pathStr = path.join(process.cwd(), sourceFile);
-          // source = fs.readFileSync(pathStr, "utf-8");
-          source = getFileStrWithoutDocAnno(pathStr)
+          const fileStr = fs.readFileSync(pathStr, "utf-8");
+          source = getFileStrWithoutDocAnno(fileStr);
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
         return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\`\`\``))}" path="${sourceFile.replace(
