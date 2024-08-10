@@ -33,7 +33,7 @@ import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import config from "@/config";
 import { CommonObj, FinallyNext } from "@/vite-env";
-export type GroupBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
+export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
 export interface GroupBtnsAttrs {
   vertical?: boolean;
   maxNum?: number;

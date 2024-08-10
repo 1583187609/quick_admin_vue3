@@ -33,8 +33,8 @@
         round
         :disabled="isPatrol ? false : status !== 2"
         size="small"
-        @click="() => emits('groupBtn', btn)"
-        v-for="(btn, ind) in groupBtns"
+        @click="() => emits('operateBtns', btn)"
+        v-for="(btn, ind) in operateBtns"
         :key="ind"
       />
     </div>
@@ -44,7 +44,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { getTimeAgo } from "@/components/_utils";
 import { CommonObj, FetchType, FinallyNext, StrNum } from "@/vite-env";
-import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
+import { OperateBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
 const props = withDefaults(
   defineProps<{
@@ -52,7 +52,7 @@ const props = withDefaults(
     withMask?: boolean; //是否要用mask遮罩层来区分
     status?: AuditStatus;
     isPatrol?: boolean; //是否是巡查
-    groupBtns?: GroupBtnsType;
+    operateBtns?: OperateBtnsType;
   }>(),
   {
     row: () => ({
@@ -66,10 +66,10 @@ const props = withDefaults(
       updatedAt: 0,
       avatarData: () => {},
     }),
-    groupBtns: () => [],
+    operateBtns: () => [],
   }
 );
-const emits = defineEmits(["groupBtn"]);
+const emits = defineEmits(["operateBtns"]);
 const passed = computed(() => !props.isPatrol && props.status === 0);
 const rejected = computed(() => !props.isPatrol && props.status === 1);
 const showMask = computed(() => props.withMask && (passed.value || rejected.value));

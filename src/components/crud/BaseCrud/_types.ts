@@ -1,7 +1,7 @@
 import { CommonObj, StrNum } from "@/vite-env";
 import { TableField } from "@/components/table";
 import { FormField, FormFieldAttrs } from "@/components/form";
-import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
+import { OperateBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
 import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
 import { UniteFetchType, FinallyNext, CommonSize } from "@/vite-env";
@@ -27,7 +27,7 @@ export interface BaseCrudProps {
   // fetchFail?: (err: any) => void; //请求成功的回调函数
   // immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
   // extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
-  // groupBtns?: GroupBtnsType; //分组按钮，在表格的操作一栏
+  // operateBtns?: OperateBtnsType; //分组按钮，在表格的操作一栏
   // reqMap?: ReqMap; //请求参数的键名映射
   // resMap?: ResMap; //响应参数的键名映射
   // showPagination?: boolean;
@@ -105,4 +105,15 @@ export interface ResMap {
   total_num?: string;
   has_more?: string;
   records?: string;
+}
+
+export interface ExportCfg {
+  limit: number; //一次性导出数据的上限条数
+}
+export interface FormAttrs {
+  rowKey?: string;
+  [key: string]: any;
+}
+export interface TableAttrs {
+  [key: string]: any;
 }

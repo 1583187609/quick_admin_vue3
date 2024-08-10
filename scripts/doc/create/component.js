@@ -31,8 +31,8 @@ export function getInitReadMeFile(title) {
 
 /**
  * 初始化配置文件
- * @param {string} apiPath api来源路径。例：`${dirPath}/4_示例_demo/_components/StandardDemoForm.vue`,
- * @param {string} tsPath ts类型声明来源路径。例：`${dirPath}/4_示例_demo/_typescript/standard.ts`
+ * @param {string} apiPath api来源路径。例：`/xxx/xx.vue`,
+ * @param {string} tsPath ts类型声明来源路径。例：`/xxx/xx.ts`
  * @returns
  */
 export function getInitConfigFile(apiPath = "", tsPath = "") {
@@ -131,9 +131,7 @@ export function getTypeTable(type = "props", rows = [], info) {
 /**
  * 写入（生成）组件说明文档文件
  * @param {string} writePath 要写入的文件路径。例：`${docsPath}/xxx/xx`
- * @param {string} demoPath 要读取的文件路径。例："/xxx/xx"
- * @param {string} apiPath 读取api内容的路径
- * @param {string} tsPath 读取ts类型的文件路径
+ * @param {string} demoPath 要读取的文件路径。例："${demosPath}/xxx/xx"
  * @advice 方法名建议 writeComponentDoc
  */
 export default async (writeFilePath = needParam(), demoPath = needParam()) => {

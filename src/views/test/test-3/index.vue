@@ -4,7 +4,7 @@
 * to跳转目标地址可传入字符串，也可传入对象（route）、方法；
 * 内置按钮皆可简写成一个英文名，可传入text属性替换默认文本【详情】为【查看】或其他属性覆盖默认值；
 */ 
-:groupBtns="[
+:operateBtns="[
   'edit', 'reject','delete','download','pass',
   (row: CommonObj, rowInd: number)=> rowInd % 2 === 1 ? 'forbid' : 'enable',
   { name: 'view', to: `/system/user/detail?id=${12}`},
@@ -16,7 +16,7 @@
 * 可自定义一个按钮（文本、图标、样式完全自定义）
 * 按钮图标可传入字符串 'ElemeFilled'，也可传入引入的 ElemeFilled
 */ 
-:groupBtns="(row:CommonObj, rowInd: number)=>{
+:operateBtns="(row:CommonObj, rowInd: number)=>{
   const {id} = row;
   if(rowInd % 3===0){
     return ['edit','delete', 'reject','pass','download', rowInd % 2 === 0 ? 'forbid' : 'enable']
@@ -26,7 +26,7 @@
     return [{name: 'zdy',text: '自定义按钮',attrs: { type: 'primary', icon: 'ElemeFilled' }}]
   }
 }"
-// 下方的 extraBtns 同 groupBtns 的规则
+// 下方的 extraBtns 同 operateBtns 的规则
 -->
 <!-- 
 :sections="sections" //可将搜索条件分块显示
@@ -76,7 +76,7 @@
           attrs: { type: 'primary', icon: ElemeFilled },
         },
       ]"
-      :groupBtns="(row:CommonObj, rowInd: number)=>{
+      :operateBtns="(row:CommonObj, rowInd: number)=>{
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
@@ -86,8 +86,8 @@
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
         }
       }"
-      @extraBtn="onExtraBtn"
-      @groupBtn="onGroupBtn"
+      @extraBtns="onExtraBtns"
+      @operateBtns="onOperateBtns"
       :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"
       compact
       selection
@@ -408,7 +408,7 @@ const cols: TableField[] = [
     },
   },
 ];
-function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
+function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { exportRows } = restArgs;
   handleBtnNext(
     {
@@ -421,7 +421,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
     name
   );
 }
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

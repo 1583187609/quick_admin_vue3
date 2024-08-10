@@ -4,9 +4,9 @@
     :fields="fields"
     :fetch="GetAuthRoleList"
     :extraBtns="['add', 'delete']"
-    :groupBtns="['edit', 'delete']"
-    @extraBtn="onExtraBtn"
-    @groupBtn="onGroupBtn"
+    :operateBtns="['edit', 'delete']"
+    @extraBtns="onExtraBtns"
+    @operateBtns="onOperateBtns"
     selection
   >
   </BaseCrud>
@@ -50,7 +50,7 @@ const cols = ref<TableField[]>([
   { prop: "update_time", label: "修改时间", width: 180, sortable: true },
 ]);
 //点击操作栏的分组按钮
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
@@ -60,7 +60,7 @@ function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
   );
 }
 //点击列表上方的额外按钮
-function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
+function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { selectedKeys } = restArgs;
   handleBtnNext(
     {

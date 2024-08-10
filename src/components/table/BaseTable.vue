@@ -3,7 +3,7 @@
     <Column
       :col="col"
       :selection="!!selection"
-      @groupBtn="onGroupBtn"
+      @operateBtns="onOperateBtns"
       :groupBtnsAttrs="groupBtnsAttrs"
       :getGroupBtnsOfRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
       v-for="(col, cInd) in newCols"
@@ -45,7 +45,7 @@ const props = withDefaults(
     groupBtnsAttrs?: GroupBtnsAttrs;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
     filterBtnsByAuth?: (btns: BtnItem[]) => BtnItem[];
-    groupBtns?: BtnItem[];
+    operateBtns?: BtnItem[];
   }>(),
   {
     cols: () => [],
@@ -53,7 +53,7 @@ const props = withDefaults(
     summaryMethod: handleTableSummary,
   }
 );
-const emits = defineEmits(["groupBtn"]);
+const emits = defineEmits(["operateBtns"]);
 
 const tableRef = ref<any>();
 const newAttrs = reactive(merge({}, defaultTableAttrs));
@@ -72,14 +72,14 @@ const stopWatch = watchEffect(() => {
 });
 stopWatch();
 
-// function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-//   emits("groupBtn", btnObj, { $index, ...row }, next);
+// function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
+//   emits("operateBtns", btnObj, { $index, ...row }, next);
 // }
 
 //点击操作栏按钮
-function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, isRefreshList: boolean = true) {
+function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, isRefreshList: boolean = true) {
   const { name, text } = btnObj;
-  emits("groupBtn", name, { $index, ...row }, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
+  emits("operateBtns", name, { $index, ...row }, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     // isRefreshList && refreshList();
   });

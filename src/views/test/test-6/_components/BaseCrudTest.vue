@@ -8,9 +8,9 @@
       :cols="cols"
       :fetch="GetMockCommonList"
       :extraBtns="['add']"
-      :groupBtns="['delete', 'edit']"
-      @extraBtns="onExtraBtn"
-      @groupBtn="onGroupBtn"
+      :operateBtns="['delete', 'edit']"
+      @extraBtns="onExtraBtns"
+      @operateBtns="onOperateBtns"
       :gridAttrs="{ xs: 24, sm: 12, md: 12, lg: 8, xl: 6 }"
       :disabled="false"
       :readonly="true"
@@ -152,7 +152,7 @@ const cols = [
   { prop: "zdy", label: "自定义", type: "custom" },
 ];
 //点击列表上方的额外的按钮
-function onExtraBtn(name: BtnName, next: FinallyNext) {
+function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {
       // add: () => handleAddEdit(null, next),
@@ -160,7 +160,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext) {
     name
   );
 }
-function onGroupBtn(name: BtnName, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

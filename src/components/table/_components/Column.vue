@@ -56,7 +56,7 @@
             :row="{ ...row, $index }"
             :btns="getGroupBtnsOfRow?.(row, $index)"
             v-bind="groupBtnsAttrs"
-            @click="(btnObj, next) => onGroupBtn(btnObj, { row, col: newCol, $index }, next)"
+            @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
             v-else-if="newCol.type === 'operate'"
           >
           </GroupBtns>
@@ -141,11 +141,11 @@ const props = withDefaults(
   }>(),
   Object.assign({}, config?.BaseCrud?._components?.Column)
 );
-const emits = defineEmits(["groupBtn"]);
+const emits = defineEmits(["operateBtns"]);
 let popoverAttrs: PopoverAttrs | undefined;
 const newCol = getNewCol(props.col);
-function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  emits("groupBtn", btnObj, { row, col, $index }, next);
+function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
+  emits("operateBtns", btnObj, { row, col, $index }, next);
 }
 function getNewCol(col: TableColAttrs) {
   popoverAttrs = getPopoverAttrs(col.extraAttrs?.popover);

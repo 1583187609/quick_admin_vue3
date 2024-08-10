@@ -5,9 +5,9 @@
     :fields="fields"
     :fetch="GetUserList"
     :extraBtns="['add']"
-    :groupBtns="['edit', 'delete']"
-    @extraBtn="onExtraBtn"
-    @groupBtn="onGroupBtn"
+    :operateBtns="['edit', 'delete']"
+    @extraBtns="onExtraBtns"
+    @operateBtns="onOperateBtns"
   >
   </BaseCrud>
 </template>
@@ -62,7 +62,7 @@ const cols: TableField[] = [
   { prop: "bz", label: "备注", minWidth: 140 },
   { prop: "updated", label: "操作人", type: "update" },
 ];
-function onExtraBtn(name: BtnName, next: FinallyNext) {
+function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {
       add: () => handleAddEdit(null, next),
@@ -70,7 +70,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext) {
     name
   );
 }
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

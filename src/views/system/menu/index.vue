@@ -4,10 +4,10 @@
     :fields="fields"
     :fetch="handleFetch"
     :extraBtns="['add', 'delete']"
-    :groupBtns="['edit', 'delete', (row:CommonObj)=>row.status===1 ? 'forbid' : 'enable']"
+    :operateBtns="['edit', 'delete', (row:CommonObj)=>row.status===1 ? 'forbid' : 'enable']"
     :pagination="false"
-    @extraBtn="onExtraBtn"
-    @groupBtn="onGroupBtn"
+    @extraBtns="onExtraBtns"
+    @operateBtns="onOperateBtns"
     selection
   >
     <template #icon="{ row }">
@@ -87,7 +87,7 @@ const cols = ref<TableField[]>([
   { prop: "create_time", label: "创建时间" },
   { prop: "update_time", label: "创建时间" },
 ]);
-function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
+function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { selectedKeys } = restArgs;
   handleBtnNext(
     {
@@ -97,7 +97,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
     name
   );
 }
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),

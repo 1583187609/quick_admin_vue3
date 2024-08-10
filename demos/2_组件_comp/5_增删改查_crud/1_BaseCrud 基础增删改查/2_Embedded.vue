@@ -4,6 +4,7 @@
 -->
 <template>
   <BaseCrud
+    :style="{ height: showMaxHeight }"
     class="f-3"
     v-model="model"
     :cols="cols"
@@ -45,7 +46,7 @@
         attrs: { type: 'primary', icon: ElemeFilled },
       },
     ]"
-    :groupBtns="(row:CommonObj, rowInd: number)=>{
+    :operateBtns="(row:CommonObj, rowInd: number)=>{
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
@@ -55,8 +56,9 @@
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
         }
       }"
-    @extraBtn="onExtraBtn"
-    @groupBtn="onGroupBtn"
+    :gridAttrs="showGridAttrs"
+    @extraBtns="onExtraBtns"
+    @operateBtns="onOperateBtns"
     :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"
     compact
     selection
@@ -109,6 +111,7 @@ import { Postcard } from "@element-plus/icons-vue";
 // import CustomHead from "./_components/CustomHead.vue";
 import { SectionFieldsItemAttrs } from "@/components/form";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 
 const tempRow = {
   xm: "李四",
@@ -364,7 +367,7 @@ const cols: TableField[] = [
     },
   },
 ];
-function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
+function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { exportRows } = restArgs;
   handleBtnNext(
     {
@@ -377,7 +380,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs
     name
   );
 }
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

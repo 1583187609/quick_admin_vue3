@@ -16,7 +16,7 @@
       :refreshList="refreshList"
       :groupBtnsAttrs="groupBtnsAttrs"
       :getGroupBtnsOfRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
-      @groupBtn="onGroupBtn"
+      @operateBtns="onOperateBtns"
       :disabled="disabled"
       v-for="(col, cInd) in newCols"
       :key="cInd"
@@ -36,7 +36,7 @@ import { GroupBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import { BtnItem } from "@/components/BaseBtn";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
-import { GroupBtnsType } from "@/components/table/_components/GroupBtns.vue";
+import { OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
 import { getAddSpecialCols } from "@/components/crud/BaseCrud";
@@ -51,7 +51,7 @@ const props = withDefaults(
     loading?: boolean;
     cols: TableField[]; //表头
     rows: CommonObj[]; //表格行数据
-    groupBtns?: GroupBtnsType;
+    operateBtns?: OperateBtnsType;
     sort?: boolean | TableColAttrs; //是否显示排序列
     index?: boolean | TableColAttrs; //是否展示序号列
     selection?: boolean | TableColAttrs; //是否显示选择框
@@ -72,7 +72,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.QueryTable
   )
 );
-const emits = defineEmits(["update:cols", "selectionChange", "groupBtn", "change"]);
+const emits = defineEmits(["update:cols", "selectionChange", "operateBtns", "change"]);
 const $attrs = useAttrs();
 const { handleScroll } = useCacheScroll();
 let rowNum = props.showSummary ? 2 : 1;
@@ -125,8 +125,8 @@ const newAttrs = computed(() => {
 //   },
 //   { immediate: false }
 // );
-function onGroupBtn(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  emits("groupBtn", btnObj, { $index, ...row }, next);
+function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
+  emits("operateBtns", btnObj, { $index, ...row }, next);
 }
 //当选择项发生变化时会触发该事件
 function handleSelectionChange(rows: CommonObj[]) {

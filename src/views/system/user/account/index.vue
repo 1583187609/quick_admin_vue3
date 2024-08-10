@@ -4,7 +4,7 @@
     :fields="fields"
     :fetch="GetUserList"
     :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
-    :groupBtns="[
+    :operateBtns="[
       'edit',
       {
         name: 'edit',
@@ -15,8 +15,8 @@
       (row: CommonObj) => (row?.status === 1 ? 'forbid' : 'enable'),
       'view',
     ]"
-    @extraBtn="onExtraBtn"
-    @groupBtn="onGroupBtn"
+    @extraBtns="onExtraBtns"
+    @operateBtns="onOperateBtns"
     @dargSortEnd="handleDragSortEnd"
     selection
     index
@@ -75,7 +75,7 @@ const cols: TableField[] = [
   { prop: "status", label: "状态", type: "BaseTag" },
 ];
 //点击操作栏的分组按钮
-function onGroupBtn(name: BtnName, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
@@ -88,7 +88,7 @@ function onGroupBtn(name: BtnName, row: CommonObj, next: FinallyNext) {
   );
 }
 //点击列表上方的额外的按钮
-function onExtraBtn(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
+function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { selectedKeys } = restArgs;
   handleBtnNext(
     {

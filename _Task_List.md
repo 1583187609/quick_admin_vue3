@@ -39,7 +39,7 @@
 20、利用 color-scheme 设置夜间模式  
 21、用 TS 的 enum 类型替代 map 对象  
 22、文件目录结构改为 monorepo 式  
-~~23、BaseCrud 操作栏列：groupBtns 有值（有按钮）时才显示操作栏，反之不显示~~  
+~~23、BaseCrud 操作栏列：operateBtns 有值（有按钮）时才显示操作栏，反之不显示~~  
 ~~24、用文件夹形式优化代码结构（ts 类型和页面文件代码分开）~~  
 ~~1、根据文件路径自动生成路由~~  
 ~~2、刷新之后菜单状态保留~~  
@@ -131,7 +131,7 @@ options
 ~~6、删除 file-saver 包~~  
 ~~9、登录页面按 Enter 键时实现登录~~  
 ~~10、echarts 按需加载~~  
-~~11、传入对象优化 onGroupBtn 和 onExtraBtn~~  
+~~11、传入对象优化 onOperateBtns 和 onExtraBtns~~  
 ~~12、解决 开发环境中 mock 下的图片警告路径的问题~~  
 ~~13、统一 package.name 和 全局变量 VITE_APP_NAME，都统一使用 VITE_APP_NAME~~  
 ~~14、优化水印会加深的问题~~  

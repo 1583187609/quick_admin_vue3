@@ -9,8 +9,8 @@
               :row="getAvatarRowData({ ...row, $index })"
               :withMask="type === 'avatar-audit' ? [2, ''].includes(row.status) : false"
               :status="row[statusKey]"
-              :groupBtns="getGroupBtnsOfRow(row, $index)"
-              @groupBtn="(btn:BtnItem)=>onGroupBtn(btn,{ ...row, $index },rows,params)"
+              :operateBtns="getGroupBtnsOfRow(row, $index)"
+              @operateBtns="(btn:BtnItem)=>onOperateBtns(btn,{ ...row, $index },rows,params)"
               :isPatrol="type === 'avatar-patrol'"
             />
           </template>
@@ -18,8 +18,8 @@
             class="item"
             :row="{ ...row, $index }"
             :status="row[statusKey]"
-            :groupBtns="getGroupBtnsOfRow(row, $index)"
-            @groupBtn="(btn:BtnItem)=>onGroupBtn(btn,{ ...row, $index },rows,params)"
+            :operateBtns="getGroupBtnsOfRow(row, $index)"
+            @operateBtns="(btn:BtnItem)=>onOperateBtns(btn,{ ...row, $index },rows,params)"
             :bottomBar="row[statusKey] === 1 ? row.reason || '~原因为空~' : ''"
             v-else-if="type === 'about'"
           />
@@ -27,8 +27,8 @@
             class="item"
             :row="{ ...row, $index }"
             :status="row[statusKey]"
-            :groupBtns="getGroupBtnsOfRow(row, $index)"
-            @groupBtn="(btn:BtnItem)=>onGroupBtn(btn,{ ...row, $index },rows,params)"
+            :operateBtns="getGroupBtnsOfRow(row, $index)"
+            @operateBtns="(btn:BtnItem)=>onOperateBtns(btn,{ ...row, $index },rows,params)"
             :bottomBar="row[statusKey] === 1 ? row.rejectReason || '~原因为空~' : ''"
             v-else-if="type === 'face'"
           />
@@ -36,8 +36,8 @@
             class="item"
             :row="{ ...row, $index }"
             :status="row.status"
-            :groupBtns="getGroupBtnsOfRow(row, $index)"
-            @groupBtn="(btn:BtnItem)=>onGroupBtn(btn,{ ...row, $index },rows,params)"
+            :operateBtns="getGroupBtnsOfRow(row, $index)"
+            @operateBtns="(btn:BtnItem)=>onOperateBtns(btn,{ ...row, $index },rows,params)"
             v-else-if="type === 'photo'"
           />
         </template>
@@ -66,14 +66,14 @@ const props = withDefaults(
   defineProps<{
     type?: ItemType; //插入的item组件类型
     filterByAuth?: FilterByAuthFn;
-    groupBtns?: any;
+    operateBtns?: any;
     // extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
   }>(),
   {
     type: "avatar-audit",
   }
 );
-const emits = defineEmits(["groupBtn"]);
+const emits = defineEmits(["operateBtns"]);
 const statusKey = "status";
 const crudRef = ref<any>(null);
 const newRows = ref<CommonObj[]>([]);
@@ -82,15 +82,15 @@ function getRows(rows: CommonObj[], args: CommonObj) {
 }
 //获取每一行的分组按钮
 function getGroupBtnsOfRow(row: CommonObj, $rowInd: number) {
-  const { groupBtns } = props;
-  const tempBtns = getTempGroupBtnsOfRow(row, $rowInd, groupBtns);
+  const { operateBtns } = props;
+  const tempBtns = getTempGroupBtnsOfRow(row, $rowInd, operateBtns);
   return filterBtnsByAuth(tempBtns);
 }
 //点击分组按钮
-function onGroupBtn(btn: BtnItem, row: CommonObj, rows: CommonObj[], params?: CommonObj) {
+function onOperateBtns(btn: BtnItem, row: CommonObj, rows: CommonObj[], params?: CommonObj) {
   const { name, text } = btn;
   emits(
-    "groupBtn",
+    "operateBtns",
     name,
     row,
     (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {

@@ -4,7 +4,14 @@
     <BarsImg :src="row.url" :topBar="topBar" class="img" sizeType="default" :bottomBar="row.status === 1 ? row.reason : ''" />
     <div class="foot-box f-c-c-c f-0">
       <BaseCopy class="mb-q" :text="row.userId" />
-      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" :key="ind" />
+      <BaseBtn
+        :name="btn"
+        round
+        size="small"
+        @click="() => emits('operateBtns', btn)"
+        v-for="(btn, ind) in operateBtns"
+        :key="ind"
+      />
     </div>
   </div>
 </template>
@@ -19,12 +26,12 @@ const { getMap } = useDictMap();
 const props = withDefaults(
   defineProps<{
     row?: CommonObj;
-    groupBtns?: BtnItem[];
+    operateBtns?: BtnItem[];
     status?: AuditStatus;
   }>(),
   {
     row: () => ({}),
-    groupBtns: () => [],
+    operateBtns: () => [],
   }
 );
 const topBar = computed(() => {
@@ -38,7 +45,7 @@ const topBar = computed(() => {
     return undefined;
   }
 });
-const emits = defineEmits(["groupBtn"]);
+const emits = defineEmits(["operateBtns"]);
 //是否出现了滚动条
 const hasScroll = ref(false);
 const descRef = ref();

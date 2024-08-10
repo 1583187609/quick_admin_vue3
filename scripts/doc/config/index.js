@@ -5,6 +5,9 @@ export const readMeName = "Summary.md"; //examples下面的 ReadMe 文件的名�
 export const configName = "data.json"; //examples下面的配置文件的名称
 export const isShortPath = true; //是否缩短路径
 
+export const showMaxHeight = "calc(100vh - 150px)"; //视窗可看见的最高宽度
+export const showGridAttrs = { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 };
+
 export const projectInfo = {
   title: "Quick Admin Vue3",
   description: "一个快的后台管理系统",

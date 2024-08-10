@@ -1,3 +1,6 @@
+<!--  summary
+  这是常用的增删改查列表
+ -->
 <template>
   <div class="base-crud f-fs-s-c" ref="baseCrudRef">
     <QueryForm
@@ -12,12 +15,12 @@
       :inputDebounce="inputDebounce"
       :gridAttrs="gridAttrs"
       :compact="compact"
-      @reset="handleReset"
-      @search="handleSearch"
-      @change="handleChange"
       :size="size"
       :rowNum="rowNum"
       v-bind="formAttrs"
+      @reset="handleReset"
+      @search="handleSearch"
+      @change="handleChange"
       ref="queryFormRef"
     >
       <template #custom="{ field, form }">
@@ -32,12 +35,12 @@
       :btns="newExtraBtns"
       :isEmpty="!newRows?.length"
       :disabled="disabled"
-      @update:cols="(cols:TableField[])=>{newCols = cols}"
-      @click="onExtraBtn"
       :total="pageInfo.total"
       :batchBtn="batchBtn && selection"
       :size="size"
       ref="extraBtnsRef"
+      @update:cols="(cols:TableField[])=>{newCols = cols}"
+      @click="onExtraBtns"
       v-if="newExtraBtns.length"
     />
     <slot
@@ -46,7 +49,7 @@
       :total="pageInfo.total"
       :hasMore="pageInfo.hasMore"
       :params="params"
-      :onGroupBtn="onGroupBtn"
+      :onOperateBtns="onOperateBtns"
     >
       <QueryTable
         :groupBtnsAttrs="{
@@ -61,17 +64,17 @@
         :sort="!!sort"
         :index="index"
         :selection="selectable"
-        :groupBtns="groupBtns"
+        :operateBtns="operateBtns"
         :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
         :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
         :filterBtnsByAuth="filterBtnsByAuth"
         :refreshList="refreshList"
-        @groupBtn="onGroupBtn"
-        @selectionChange="handleSelectionChange"
-        @update:cols="(cols:TableField[])=>{allCols=cols}"
         :disabled="disabled"
         v-bind="tableAttrs"
         :size="size"
+        @operateBtns="onOperateBtns"
+        @selectionChange="handleSelectionChange"
+        @update:cols="(cols:TableField[])=>{allCols=cols}"
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
@@ -84,9 +87,9 @@
       v-model:currPage="currPageInfo[reqMap.curr_page]"
       v-model:pageSize="currPageInfo[reqMap.page_size]"
       :total="pageInfo.total"
+      :small="size === 'small'"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrChange"
-      :small="size === 'small'"
       v-if="pagination && showPagination"
     />
   </div>
@@ -114,7 +117,7 @@ import {
   defaultColSpanAttrs,
 } from "@/components/_utils";
 import Pagination from "./_components/Pagination.vue";
-import { GroupBtnsAttrs, GroupBtnsType } from "@/components/table/_components/GroupBtns.vue";
+import { GroupBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
@@ -128,45 +131,31 @@ import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 import { defaultFormAttrs } from "@/components/form/_config";
 import { defaultTableAttrs } from "@/components/table/_config";
 import config from "@/config";
+import { ExportCfg, FormAttrs, TableAttrs } from "./_types";
 
 const openPopup = inject<any>("openPopup");
 const allCols = ref<TableField[]>([]);
 const props = withDefaults(
   defineProps<{
-    modelValue?: CommonObj; //表单数据
-    //el-form 的属性配置
-    formAttrs?: {
-      rowKey?: string;
-      [key: string]: any;
-    };
-    //el-table 的属性配置
-    tableAttrs?: {
-      [key: string]: any;
-    };
-    pageAttrs?: CommonObj; //分页配置
-    pagination?: false | PaginationAttrs; //是否分页
-    showPagination?: boolean; //是否显示分页
-    disabled?: boolean; //是否禁用
-    readonly?: boolean; //是否只读
-    groupBtnsAttrs?: GroupBtnsAttrs; //分页配置
-    fields?: FormField[];
-    sections?: SectionFieldsItemAttrs[];
-    cols?: TableField[];
-    selectAll?: boolean;
-    fetch?: UniteFetchType;
-    immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
-    extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
-    groupBtns?: GroupBtnsType; //分组按钮，在表格的操作一栏
-    reqMap?: ReqMap; //请求参数的键名映射
-    resMap?: ResMap; //响应参数的键名映射
-    summaryList?: SummaryListType; //汇总请求数据的 list
+    modelValue?: CommonObj; //表单数据，可设默认值
+    fields?: FormField[]; //表单字段
+    sections?: SectionFieldsItemAttrs[]; //分块的表单字段
+    cols?: TableField[]; //表格列数据
+    fetch?: UniteFetchType; //列表请求接口
     sort?: boolean | UniteFetchType; //是否展示排序列
     index?: boolean; //是否展示序号列
     selection?: boolean; //是否展示选择框
+    immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
+    extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
+    operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
+    reqMap?: ReqMap; //请求参数的键名映射
+    resMap?: ResMap; //响应参数的键名映射
+    disabled?: boolean; //是否禁用
+    readonly?: boolean; //是否只读
+    selectAll?: boolean; //是否选择全部
+    groupBtnsAttrs?: GroupBtnsAttrs; // 操作栏按钮的配置
+    summaryList?: SummaryListType; //汇总请求数据的 list
     batchBtn?: boolean; //是否显示批量按钮
-    exportCfg?: {
-      limit: number; //一次性导出数据的上限条数
-    };
     importCfg?: TplCfgAttrs; //导入的下载模板配置
     extraParams?: CommonObj; //额外的参数
     log?: boolean; //是否console.log(rows)
@@ -174,8 +163,8 @@ const props = withDefaults(
     isOmit?: boolean; //是否剔除掉undefined, ''的属性值
     changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
     inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
-    filterByAuth?: FilterByAuthFn;
-    gridAttrs?: GridAttrs;
+    filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
+    gridAttrs?: GridAttrs; //栅格配置，同ElementPlus的el-col的属性
     compact?: boolean; //表单项之间排列是否紧凑点
     size?: CommonSize;
     rowNum?: number; //筛选条件的表单展示几行
@@ -183,12 +172,16 @@ const props = withDefaults(
     fetchFail?: (err: any) => void; //请求成功的回调函数
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
     handleResponse?: (res: any) => any; //处理响应数据
+    exportCfg?: ExportCfg; //导出配置
+    pageAttrs?: CommonObj; //分页配置
+    pagination?: false | PaginationAttrs; //是否分页
+    showPagination?: boolean; //是否显示分页
+    formAttrs?: FormAttrs; //el-form 的属性配置
+    tableAttrs?: TableAttrs; //el-table 的属性配置
   }>(),
   Object.assign(
     {
       log: !isProd,
-      formAttrs: () => defaultFormAttrs,
-      tableAttrs: () => defaultTableAttrs,
       fields: () => [],
       cols: () => [],
       immediate: true,
@@ -196,8 +189,6 @@ const props = withDefaults(
       batchBtn: false,
       isOmit: true,
       inputDebounce: true,
-      exportCfg: () => ({ limit: 10000 }),
-      // pageAttrs: () => ({}),
       showPagination: true,
       pagination: () => ({ currPage: 1, pageSize: 20 }),
       reqMap: () => defaultReqMap,
@@ -214,11 +205,15 @@ const props = withDefaults(
       // size: "small",
       compact: (_props: CommonObj) => _props.gridAttrs.xl < 6,
       filterByAuth: (auth: number[]) => true,
+      exportCfg: () => ({ limit: 10000 }),
+      // pageAttrs: () => ({}),
+      formAttrs: () => defaultFormAttrs,
+      tableAttrs: () => defaultTableAttrs,
     },
     config?.BaseCrud?.Index
   )
 );
-const emits = defineEmits(["update:modelValue", "extraBtn", "groupBtn", "selectionChange", "rows", "dargSortEnd"]);
+const emits = defineEmits(["update:modelValue", "extraBtns", "operateBtns", "selectionChange", "rows", "dargSortEnd"]);
 const closePopup: any = inject("closePopup");
 const queryTableRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
@@ -402,7 +397,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
     });
 }
 //点击额外的按钮
-function onExtraBtn(btnObj: BtnItem) {
+function onExtraBtns(btnObj: BtnItem) {
   const { exportCfg, importCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
   const { text } = btnObj;
@@ -426,9 +421,9 @@ function onExtraBtn(btnObj: BtnItem) {
   });
 }
 //点击操作栏按钮
-function onGroupBtn(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
+function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
   const { name, text } = btnObj;
-  emits("groupBtn", name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
+  emits("operateBtns", name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     isRefreshList && refreshList();
   });

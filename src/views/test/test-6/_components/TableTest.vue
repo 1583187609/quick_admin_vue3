@@ -8,8 +8,8 @@
       sort
       index
       selection
-      :groupBtns="['delete', 'edit']"
-      @groupBtn="onGroupBtn"
+      :operateBtns="['delete', 'edit']"
+      @operateBtns="onOperateBtns"
     >
       <template #zdy>这是自定义表格列</template>
     </BaseTable>
@@ -25,7 +25,7 @@ import { handleBtnNext } from "@/utils";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["sort", "index", "selection", "groupBtns"],
+    list: ["sort", "index", "selection", "operateBtns"],
   },
 };
 const cols = [
@@ -62,7 +62,7 @@ const rows = [
   { id: 13, zy: "大家看到", xb: "男" },
 ];
 
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

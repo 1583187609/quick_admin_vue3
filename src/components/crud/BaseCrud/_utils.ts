@@ -1,7 +1,7 @@
 import { ElMessageBox } from "element-plus";
 import { upperFirst } from "lodash";
 import { BtnName, BtnItem } from "@/components/BaseBtn";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { specialColMap } from "@/components/table";
 import {
@@ -42,7 +42,7 @@ export function handleClickExtraBtns({
 }: HandleClickExtraBtnsProps) {
   const { name = "", text, attrs, customRules } = btnObj;
   if (customRules)
-    return emits("extraBtn", name, next, {
+    return emits("extraBtns", name, next, {
       selectedKeys: [],
       selectedRows: [],
       exportRows: [],
@@ -96,7 +96,7 @@ export function handleClickExtraBtns({
               exportRows.push(list);
             });
           }
-          emits("extraBtn", name, next, {
+          emits("extraBtns", name, next, {
             selectedKeys: seledKeys,
             selectedRows: seledRows,
             exportRows,
@@ -108,7 +108,7 @@ export function handleClickExtraBtns({
     // () => import("./_components/ImportPopup.vue"),
     openPopup("温馨提示", h(ImportPopup, { tplCfg: importCfg, onChange: (arr: CommonObj[]) => emits("click", name, arr) }));
   } else {
-    emits("extraBtn", name, next, {
+    emits("extraBtns", name, next, {
       selectedKeys: [],
       selectedRows: [],
       exportRows: [],
@@ -120,8 +120,8 @@ export function handleClickExtraBtns({
  * 是否需要push某特殊列
  */
 export function needPushSpecialCol(key: SpecialBoolColType, props: CommonObj) {
-  const { groupBtns, cols = [] } = props;
-  if (key === "operate") return groupBtns && cols.slice(-1)?.[0]?.type !== "operate";
+  const { operateBtns, cols = [] } = props;
+  if (key === "operate") return operateBtns && cols.slice(-1)?.[0]?.type !== "operate";
   const isShow = props[key as keyof typeof props];
   return isShow && !cols.find((it: CommonObj) => it.type === key);
 }
@@ -164,9 +164,9 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: any) {
 }
 
 //获取每一行的分组按钮
-export function getTempGroupBtnsOfRow(row: CommonObj, $rowInd: number, groupBtns: any, attrs?: CommonObj) {
-  const isFn = typeOf(groupBtns) === "Function";
-  const btns = isFn ? (groupBtns as any)(row, $rowInd) : groupBtns;
+export function getTempGroupBtnsOfRow(row: CommonObj, $rowInd: number, operateBtns: any, attrs?: CommonObj) {
+  const isFn = typeOf(operateBtns) === "Function";
+  const btns = isFn ? (operateBtns as any)(row, $rowInd) : operateBtns;
   const tempBtns = btns?.map((btn: BaseBtnType) => getBtnObj(btn, row, attrs))?.filter((it: BtnItem) => !!it.name);
   return tempBtns ?? [];
 }

@@ -31,7 +31,7 @@ const testFnMap = {
  * 撰写通用组件文档
  * @param {(comp|demo|test)[]} parts 是否重写组件文档
  */
-function writeCommonTestDocs(parts = []) {
+function writeComponentDocs(parts = []) {
   const fullDemoPath = path.join(process.cwd(), demosPath);
   const partNames = fs.readdirSync(fullDemoPath);
   partNames.forEach(partName => {
@@ -61,7 +61,7 @@ function writeCommonTestDocs(parts = []) {
 }
 
 // writeHomMdDoc();
-writeCommonTestDocs(); //生成组件文档页（通用方法）
-// writeCommonTestDocs(['comp']);
-// writeCommonTestDocs(['demo']);
-// writeCommonTestDocs(['test']);
+// writeComponentDocs(); //生成组件文档页（通用方法）
+// writeComponentDocs(['comp']);
+// writeComponentDocs(['demo']);
+// writeComponentDocs(["test"]);

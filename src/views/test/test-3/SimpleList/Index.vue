@@ -12,7 +12,7 @@
         attrs: { type: 'primary', icon: 'Notification' },
       },
     ]"
-    @extraBtn="onExtraBtn"
+    @extraBtns="onExtraBtns"
     :grid="{ xs: 12, sm: 12, md: 8, lg: 4, xl: 3 }"
     size="small"
   ></BaseCrud>
@@ -53,7 +53,7 @@ const cols = [
   { prop: "cjsj", label: "创建时间" },
   { prop: "xgsj", label: "修改时间" },
 ];
-function onExtraBtn(name: BtnName, next: FinallyNext) {
+function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {
       open: () => openPopup("纯文本弹窗", "Hello！这是一个纯文本内容的弹窗示例"),

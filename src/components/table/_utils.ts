@@ -214,12 +214,12 @@ function getOperateColWidth(groupBtnsAttrs: GroupBtnsAttrs = {}, btns?: BtnItem[
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
 export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj, newCols: TableColAttrs[]) {
-  const { groupBtns = [], rows, groupBtnsAttrs, filterBtnsByAuth, disabled } = props;
+  const { operateBtns = [], rows, groupBtnsAttrs, filterBtnsByAuth, disabled } = props;
   let btnAttrs;
   if (disabled) {
     btnAttrs = { attrs: { disabled } };
   }
-  const tempBtns = getTempGroupBtnsOfRow(row, ind, groupBtns, btnAttrs);
+  const tempBtns = getTempGroupBtnsOfRow(row, ind, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns) ?? tempBtns;
   const width = getOperateColWidth(groupBtnsAttrs, filterBtns);
   if (ind < rows.length - 1) {

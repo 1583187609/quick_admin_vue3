@@ -5,9 +5,9 @@
     :fields="fields"
     :fetch="GetMockCommonList"
     :extraBtns="['add']"
-    :groupBtns="['edit', 'delete']"
-    @extraBtn="onExtraBtn"
-    @groupBtn="onGroupBtn"
+    :operateBtns="['edit', 'delete']"
+    @extraBtns="onExtraBtns"
+    @operateBtns="onOperateBtns"
     index
   >
   </BaseCrud>
@@ -41,7 +41,7 @@ const cols: TableField[] = [
     type: "update",
   },
 ];
-function onExtraBtn(name: BtnName, next: FinallyNext) {
+function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {
       add: () => handleAddEdit(null, next),
@@ -49,7 +49,7 @@ function onExtraBtn(name: BtnName, next: FinallyNext) {
     name
   );
 }
-function onGroupBtn(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

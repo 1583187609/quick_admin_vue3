@@ -25,7 +25,14 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn :name="btn" round size="small" @click="() => emits('groupBtn', btn)" v-for="(btn, ind) in groupBtns" :key="ind" />
+      <BaseBtn
+        :name="btn"
+        round
+        size="small"
+        @click="() => emits('operateBtns', btn)"
+        v-for="(btn, ind) in operateBtns"
+        :key="ind"
+      />
     </div>
   </div>
 </template>
@@ -60,17 +67,17 @@ const props = withDefaults(
   defineProps<{
     row?: CommonObj;
     sizeType?: "large" | "default" | "small";
-    groupBtns?: BtnItem[];
+    operateBtns?: BtnItem[];
     status?: AuditStatus;
     bottomBar?: string | DictItemProps;
   }>(),
   {
     row: () => ({}),
     sizeType: "default",
-    groupBtns: () => [],
+    operateBtns: () => [],
   }
 );
-const emits = defineEmits(["groupBtn"]);
+const emits = defineEmits(["operateBtns"]);
 //是否出现了滚动条
 const hasScroll = ref(false);
 const descRef = ref();
