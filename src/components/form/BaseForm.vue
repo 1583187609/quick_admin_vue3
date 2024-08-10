@@ -1,13 +1,20 @@
 <!-- 基础表单 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
-    <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="type"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
+    <el-row class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
-        <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <FieldItem
-          :className="`f-span-${field.extraAttrs?.span || span}`"
+          :grid="grid"
           :field="field"
-          :pureText="field.extraAttrs?.pureText || pureText"
+          :readonly="readonly"
+          :pureText="pureText"
           v-model="formData[field.prop as string]"
           @change="(prop:any,val:any)=>emits('change',prop,val)"
           :formRef="formRef"
@@ -20,7 +27,7 @@
         </FieldItem>
       </template>
       <template v-else>空空如也~</template>
-    </div>
+    </el-row>
     <FooterBtns
       :loading="loading"
       :moreBtns="moreBtns"
@@ -50,22 +57,26 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form/_components/FieldItem";
 import { merge } from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
+import { BaseFormType } from "./_types";
+
 const props = withDefaults(
   defineProps<{
+    type?: BaseFormType;
     modelValue?: CommonObj; //表单数据
     fields: FormField[]; //表单字段项
+    readonly?: boolean; //是否只读
     pureText?: boolean; //是否纯文本展示
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: FinallyNext; //fetch请求失败之后的回调方法
-    span?: string | number; //同ElementPlus 的span，1 ~ 24
+    grid?: GridValAttrs; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     footer?: boolean; //是否显示底部按钮
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
@@ -81,9 +92,10 @@ const props = withDefaults(
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
   {
+    type: "",
     modelValue: () => reactive({}),
     log: !isProd,
-    span: 24,
+    grid: 24,
     footer: true,
     isOmit: true,
     autoFixedFoot: true,
@@ -122,6 +134,7 @@ function handleEnter() {
     emits("submit", params.value);
   }
 }
+
 defineExpose<{
   formRef: any;
   formValidate: () => void;
@@ -132,12 +145,23 @@ defineExpose<{
   },
 });
 </script>
+<style lang="scss">
+.base-form {
+  &.cell {
+    outline: $border-main;
+    .el-form-item {
+      margin-bottom: 0;
+      background: $color-bg-main;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .base-form {
   height: 100%;
-}
-.auto-fixed-foot {
-  overflow: auto;
-  overscroll-behavior: auto;
+  .auto-fixed-foot {
+    overflow: auto;
+    overscroll-behavior: auto;
+  }
 }
 </style>

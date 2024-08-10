@@ -6,7 +6,6 @@ import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
 import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
 import { UniteFetchType, FinallyNext, CommonSize } from "@/vite-env";
 import { SectionFieldsItemAttrs } from "@/components/form";
-import { ColSpanAttrs } from "@/components/form";
 import { SummaryListType, PaginationAttrs } from "@/components/table";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 
@@ -47,7 +46,7 @@ export interface BaseCrudProps {
   // changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
   // inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
   // filterByAuth?: FilterByAuthFn;
-  // colSpanAttrs?: ColSpanAttrs;
+  // grid?: GridValAttrs;
   // compact?: boolean; //表单项之间排列是否紧凑点
   // size?: CommonSize;
   // rowNum?: number; //筛选条件的表单展示几行

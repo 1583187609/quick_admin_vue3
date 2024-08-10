@@ -3,11 +3,7 @@
   <el-form class="cell-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" ref="formRef">
     <div class="box all-hide-scroll" :class="[fields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="fields.length">
-        <el-col
-          v-bind="field.colAttrs || Object.assign({}, defaultColSpanAttrs, colSpanAttrs)"
-          v-for="(field, ind) in fields"
-          :key="ind"
-        >
+        <el-col v-bind="field.grid || Object.assign({}, defaultColSpanAttrs, grid)" v-for="(field, ind) in fields" :key="ind">
           <FieldItem
             :field="field"
             :pureText="field.extraAttrs?.pureText || pureText"
@@ -55,21 +51,20 @@ export default {
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { FormFieldAttrs } from "@/components/form";
+import { FormFieldAttrs, GridValAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
-import { ColSpanAttrs } from "../table/CellTable.vue";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 import { CommonObj, FinallyNext, FetchType } from "@/vite-env";
 
 export interface CellFormField extends FormFieldAttrs {
-  colAttrs?: ColSpanAttrs;
+  grid?: GridValAttrs;
 }
-const defaultColSpanAttrs: ColSpanAttrs = {
+const defaultColSpanAttrs: GridValAttrs = {
   // xs: 24, // <768
   // sm: 12, // >=768
   // md: 8, // >=992
@@ -90,7 +85,7 @@ const props = withDefaults(
     resetText?: string; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
-    colSpanAttrs?: ColSpanAttrs;
+    grid?: GridValAttrs;
     loading?: boolean; //提交按钮是否显示加载图标
     isOmit?: boolean; //是否剔除掉 undefined，'' 参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数

@@ -429,12 +429,12 @@ $flexDirection: (
   c: column,
   // r: row,
   // rr: row-reverse,
-  // cr: column-reverse,
+  // cr: column-reverse,,
 );
 $flexWrap: (
   w: wrap,
   // n: nowrap,
-  // wr: wrap-reverse,
+  // wr: wrap-reverse,,
 );
 //下面的太多了，且用的少，故不生成
 // $alignContent: (
@@ -617,11 +617,11 @@ $gapNumMax: 16;
 * flex-basis 
 * f-span-1 ~ f-span-24
 */
-@for $i from 1 through 24 {
-  .f-span-#{$i} {
-    flex-basis: calc(100% * ($i / 24));
-  }
-}
+// @for $i from 1 through 24 {
+//   .f-span-#{$i} {
+//     flex-basis: calc(100% * ($i / 24));
+//   }
+// }
 
 /**
 * 字体大小

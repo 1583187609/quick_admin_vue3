@@ -3,6 +3,7 @@ import { upperFirst } from "lodash";
 import { BtnName, BtnItem } from "@/components/BaseBtn";
 import { CommonObj, StrNum } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
+import { specialColMap } from "@/components/table";
 import {
   rangeJoinChar,
   typeOf,
@@ -120,12 +121,23 @@ export function handleClickExtraBtns({
  */
 export function needPushSpecialCol(key: SpecialBoolColType, props: CommonObj) {
   const { groupBtns, cols = [] } = props;
-  if (key === "operate") {
-    return groupBtns && cols.slice(-1)?.[0]?.type !== "operate";
-  } else {
-    const isShow = props[key as keyof typeof props];
-    return isShow && !cols.find((it: CommonObj) => it.type === key);
-  }
+  if (key === "operate") return groupBtns && cols.slice(-1)?.[0]?.type !== "operate";
+  const isShow = props[key as keyof typeof props];
+  return isShow && !cols.find((it: CommonObj) => it.type === key);
+}
+
+export function getAddSpecialCols(props: CommonObj) {
+  const { cols, currPage, pageSize } = props;
+  const keys: SpecialBoolColType[] = ["index", "sort", "selection", "operate"];
+  keys.forEach(key => {
+    if (!needPushSpecialCol(key, props)) return;
+    const specialCol = specialColMap[key];
+    if (key === "index" && currPage !== undefined && pageSize !== undefined) {
+      specialCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
+    }
+    cols.unshift(typeof props[key] === "object" ? { ...specialCol, ...props[key] } : specialCol);
+  });
+  return cols;
 }
 
 /**
@@ -152,9 +164,9 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: any) {
 }
 
 //获取每一行的分组按钮
-export function getTempGroupBtnsOfRow(row: CommonObj, $rowInd: number, groupBtns: any) {
+export function getTempGroupBtnsOfRow(row: CommonObj, $rowInd: number, groupBtns: any, attrs?: CommonObj) {
   const isFn = typeOf(groupBtns) === "Function";
   const btns = isFn ? (groupBtns as any)(row, $rowInd) : groupBtns;
-  const tempBtns = btns?.map((btn: BaseBtnType) => getBtnObj(btn, row))?.filter((it: BtnItem) => !!it.name);
+  const tempBtns = btns?.map((btn: BaseBtnType) => getBtnObj(btn, row, attrs))?.filter((it: BtnItem) => !!it.name);
   return tempBtns ?? [];
 }

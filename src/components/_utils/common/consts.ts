@@ -4,7 +4,7 @@
 
 import { getExportData } from "@/components/_utils";
 import { ReqMap, ResMap } from "@/components/crud/BaseCrud";
-import { ColSpanAttrs } from "@/components/form";
+import { ColAttrs } from "@/components/form";
 import config from "@/config";
 
 const { table, form, homePath, widgetSize } = config;
@@ -28,7 +28,7 @@ export const defaultResMap: ResMap = {
   has_more: "has_more",
   records: "records",
 };
-export const defaultColSpanAttrs: ColSpanAttrs = {
+export const defaultColSpanAttrs: ColAttrs = {
   xs: 12,
   sm: 12,
   md: 8,

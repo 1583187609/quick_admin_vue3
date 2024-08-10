@@ -6,8 +6,8 @@
     v-model:pageSize="newPageSize"
     :total="total"
     :pageSizes="pageSizes"
-    @size-change="(val:number)=>emits('update:sizeChange',val)"
-    @current-change="(val:number)=>emits('update:currentChange',val)"
+    @size-change="(val: number)=>emits('update:sizeChange', val)"
+    @current-change="(val: number)=>emits('update:currentChange', val)"
     v-bind="defaultPaginationAttrs"
   />
 </template>

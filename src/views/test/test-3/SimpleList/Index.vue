@@ -13,7 +13,7 @@
       },
     ]"
     @extraBtn="onExtraBtn"
-    :colSpanAttrs="{ xs: 12, sm: 12, md: 8, lg: 4, xl: 3 }"
+    :grid="{ xs: 12, sm: 12, md: 8, lg: 4, xl: 3 }"
     size="small"
   ></BaseCrud>
 </template>

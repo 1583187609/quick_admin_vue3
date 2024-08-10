@@ -93,7 +93,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.breadcrumb.label"),
           type: "switch",
           extraAttrs: {
-            span: model.bread === 1 ? 8 : undefined,
+            grid: model.bread === 1 ? 8 : undefined,
           },
           attrs: showHideSwitchAttrs,
         },
@@ -102,7 +102,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.breadcrumb.icon"),
           type: "switch",
           extraAttrs: {
-            span: 12,
+            grid: 12,
           },
           attrs: showHideSwitchAttrs,
         },
@@ -111,7 +111,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.pageTag.label"),
           type: "switch",
           extraAttrs: {
-            span: model.page_tag === 1 ? 8 : undefined,
+            grid: model.page_tag === 1 ? 8 : undefined,
           },
           attrs: showHideSwitchAttrs,
         },
@@ -120,7 +120,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.pageTag.icon"),
           type: "switch",
           extraAttrs: {
-            span: 12,
+            grid: 12,
           },
           attrs: showHideSwitchAttrs,
         },

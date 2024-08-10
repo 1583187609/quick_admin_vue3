@@ -108,7 +108,7 @@ const config = {
       filterByAuth: (auth: number[]) => auth.includes(getUserInfo()?.type),
       // filterByAuth: (auth: number[]) => true,
       //跟下面的size  small 搭配使用
-      // colSpanAttrs: () => ({
+      // grid: () => ({
       //   xs: 12,
       //   sm: 12,
       //   md: 8,
@@ -116,7 +116,7 @@ const config = {
       //   xl: 3,
       // }),
       // size: isSmall ? "small" : undefined,
-      // compact: (_props: CommonObj) => _props.colSpanAttrs.xl < 6,
+      // compact: (_props: CommonObj) => _props.grid.xl < 6,
     },
     // _components: {
     //   ExtraBtns: undefined,

@@ -1,23 +1,22 @@
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
 import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 import { merge } from "lodash";
 import { handleFormInitData } from "@/components/_utils";
 
 //处理属性继承
-function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {
-  if (!inheritAttrs) return;
-  const { attrs, children } = field;
-  const { attrs: subAttrs, ...fieAttrs } = inheritAttrs;
-  field.attrs = attrs ? merge({}, subAttrs, attrs) : subAttrs;
-  children?.forEach((subField: FormField) => {
-    if (typeOf(subField) !== "Object") return false;
-    handleAttrsInherit(subField as FormFieldAttrs, inheritAttrs);
-  });
-  //使用JSON.stringify是为了能够直接修改field对象，且最后以field对象的属性为准
-  merge(field, fieAttrs, JSON.parse(JSON.stringify(field)));
-  // merge(field, fieAttrs, structuredClone(field));
-}
+// function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {
+//   if (!inheritAttrs) return;
+//   const { attrs, children } = field;
+//   const { attrs: subAttrs, ...fieAttrs } = inheritAttrs;
+//   field.attrs = attrs ? merge({}, subAttrs, attrs) : subAttrs;
+//   children?.forEach((subField: FormField) => {
+//     if (typeOf(subField) !== "Object") return false;
+//     handleAttrsInherit(subField as FormFieldAttrs, inheritAttrs);
+//   });
+//   //使用JSON.stringify是为了能够直接修改field对象，且最后以field对象的属性为准
+//   merge(field, fieAttrs, JSON.parse(JSON.stringify(field)));
+// }
 
 /**
  * 获取AddDel分组的每个数组项对象数据
@@ -39,7 +38,6 @@ export function getAddDelItem(fields?: FormField[]) {
  * @param field 字段对象属性
  * @param emits vue emits
  * @param model 表单初始值
- * @param inheritAttrs 表单控件继承父级的属性，例：disabled
  * @return boolean 这个字段属性是否合法（是否是对象）
  */
 interface ResObj {
@@ -104,7 +102,8 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
       throw new Error(`暂未处理prop为${propType}类型的值`);
     }
     //继承父级的属性
-    handleAttrsInherit(field as FormFieldAttrs, inheritAttrs);
+    // handleAttrsInherit(field as FormFieldAttrs, inheritAttrs);
+    if (inheritAttrs) merge(field, inheritAttrs);
     //让子级元素的label宽度自动统一
     if (children?.length) {
       // const maxLabelLen = getMaxLength(children);
@@ -120,3 +119,30 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
   });
   return resObj;
 }
+
+/**
+ * 获取栅格属性
+ * @param grid 栅格属性
+ * @returns
+ */
+export function getColValAttrs(grid: GridValAttrs = 24) {
+  if (typeof grid === "number") return { span: grid };
+  if (typeof grid === "string") {
+    const colNum = Number(grid);
+    if (isNaN(colNum)) throw new Error(`请传入数字类型`);
+    return { span: colNum };
+  }
+  return grid;
+}
+
+// export function getRowColAttrs(grid: GridTypeAttrs = 24): GridTypeAttrs {
+//   if (typeof grid === "number") return { colAttrs: { span: grid } };
+//   if (typeof grid === "string") {
+//     const colNum = Number(grid);
+//     if (isNaN(colNum)) throw new Error(`请传入数字类型`);
+//     return getRowColAttrs(colNum);
+//   }
+//   const { rowAttrs, colAttrs } = grid;
+//   if (rowAttrs ?? colAttrs) return grid;
+//   return { colAttrs: grid };
+// }

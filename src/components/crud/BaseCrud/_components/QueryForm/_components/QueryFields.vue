@@ -1,20 +1,19 @@
 <!-- 页面-简介 -->
 <template>
-  <el-col class="query-fields">
-    <FieldItem
-      style="width: 100%"
-      :className="className"
-      :field="field"
-      :inputDebounce="inputDebounce"
-      :size="size"
-      @change="(key:string, val:any)=>emits('change', key,val)"
-      v-model="model[field!.prop as string]"
-    >
-      <template #custom="{ field: currField }">
-        <slot name="custom" :field="currField"></slot>
-      </template>
-    </FieldItem>
-  </el-col>
+  <FieldItem
+    style="width: 100%; margin-bottom: 8px"
+    :field="field"
+    :disabled="field?.extraAttrs?.disabled ?? disabled"
+    :readonly="field?.extraAttrs?.readonly ?? readonly"
+    :size="field?.size ?? size"
+    :inputDebounce="inputDebounce"
+    @change="(key:string, val:any)=>emits('change', key,val)"
+    v-model="model[field!.prop as string]"
+  >
+    <template #custom="{ field: currField }">
+      <slot name="custom" :field="currField"></slot>
+    </template>
+  </FieldItem>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
@@ -27,7 +26,9 @@ const props = withDefaults(
     modelValue?: CommonObj;
     field?: FormFieldAttrs;
     size?: string;
-    className?: string;
+    small?: boolean;
+    disabled?: boolean;
+    readonly?: boolean;
     inputDebounce?: boolean;
   }>(),
   {
@@ -36,22 +37,13 @@ const props = withDefaults(
 );
 const emits = defineEmits(["update:modelValue", "change"]);
 const model = computed<CommonObj>({
-  get() {
-    return props.modelValue;
-  },
-  set(val: any) {
-    emits("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val: any) => emits("update:modelValue", val),
 });
 </script>
 <style lang="scss" scoped>
-.mb-half {
-  margin-bottom: $gap-half;
-}
-.mb-qtr {
-  margin-bottom: $gap-qtr;
-}
 :deep(.el-form-item__label) {
   margin-left: $gap-half;
+  // background: red;
 }
 </style>

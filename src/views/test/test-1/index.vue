@@ -162,14 +162,18 @@ const fields = computed<FormField[]>(() => {
           label: "一",
           required: true,
           labelWidth: "0",
-          extraAttrs: {},
+          extraAttrs: {
+            // grid: 12,
+          },
         },
         {
           prop: "two",
           label: "二",
           required: true,
           labelWidth: "0",
-          extraAttrs: {},
+          extraAttrs: {
+            // grid: 12,
+          },
         },
       ],
     },
@@ -184,14 +188,18 @@ const fields = computed<FormField[]>(() => {
           label: "一",
           required: true,
           labelWidth: "0",
-          extraAttrs: {},
+          extraAttrs: {
+            grid: 12,
+          },
         },
         {
           prop: "two",
           label: "二",
           required: true,
           labelWidth: "0",
-          extraAttrs: {},
+          extraAttrs: {
+            grid: 12,
+          },
         },
       ],
     },
@@ -374,7 +382,7 @@ const fields = computed<FormField[]>(() => {
       prop: "bpzs1",
       label: "并排展示1",
       extraAttrs: {
-        span: 12,
+        grid: 12,
         tips: "表单项禁用",
       },
       attrs: {
@@ -387,7 +395,7 @@ const fields = computed<FormField[]>(() => {
       type: "select",
       extraAttrs: {
         tips: "纯文本展示",
-        span: 12,
+        grid: 12,
         pureText: true,
       },
       options: [

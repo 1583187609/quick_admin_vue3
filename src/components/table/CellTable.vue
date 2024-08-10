@@ -17,16 +17,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { getMaxLength, getScreenSizeType } from "@/components/_utils";
 import { useEvent } from "@/hooks";
 import { CommonObj, OptionItem } from "@/vite-env";
-import { FormField, FormItemType, ValidType } from "@/components/form";
-export interface ColSpanAttrs {
-  xs?: number; // <768
-  sm?: number; // >=768
-  md?: number; // >=992
-  lg?: number; // >=1200
-  xl?: number; // >=1920
-  //其他
-  span?: number;
-}
+import { FormField, FormItemType, GridValAttrs, ValidType } from "@/components/form";
 export type CellTableFieldType = "text" | "custom" | "custom-all" | "none" | FormItemType;
 export interface CellTableFieldItem {
   prop: string;
@@ -34,7 +25,7 @@ export interface CellTableFieldItem {
   type?: CellTableFieldType;
   required?: boolean;
   attrs?: CommonObj;
-  colAttrs?: ColSpanAttrs;
+  grid?: GridValAttrs;
   vertical?: boolean;
   options?: OptionItem[];
   direction?: "vertical" | "horizontal";
@@ -55,7 +46,7 @@ const props = withDefaults(
   defineProps<{
     data?: CommonObj;
     fields?: CellTableFieldItem[];
-    colSpanAttrs?: ColSpanAttrs;
+    grid?: GridValAttrs;
   }>(),
   {
     data: () => ({}),
@@ -65,13 +56,13 @@ const props = withDefaults(
 const spaceCell = ref(true);
 const newColAttrs = computed(() => {
   return (field: CellTableFieldItem) => {
-    return field.colAttrs || Object.assign({}, defaultColSpanAttrs, props.colSpanAttrs);
+    return field.grid || Object.assign({}, defaultColSpanAttrs, props.grid);
   };
 });
 const newFields = computed(() => {
   const { fields, data } = props;
   return fields.map((item: CellTableFieldItem, ind: number) => {
-    const { prop, value } = item;
+    const { prop } = item;
     const val = data[prop];
     if (val !== undefined) {
       item.value = val;
@@ -84,8 +75,8 @@ useEvent(
   () => {
     let total = 0;
     const size = getScreenSizeType();
-    props.fields.map(({ colAttrs }, ind) => {
-      const cAttrs = Object.assign({}, defaultColSpanAttrs, props.colSpanAttrs, colAttrs);
+    props.fields.map(({ grid }, ind) => {
+      const cAttrs = Object.assign({}, defaultColSpanAttrs, props.grid, grid);
       total += cAttrs?.[size] || cAttrs.span || 0;
     });
     spaceCell.value = total % 24 !== 0;

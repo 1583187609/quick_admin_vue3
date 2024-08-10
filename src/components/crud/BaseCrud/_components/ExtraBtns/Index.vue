@@ -21,6 +21,7 @@
       <el-button
         :style="{ marginLeft: ind === 0 ? 'auto' : undefined }"
         :size="size"
+        :disabled="disabled"
         @click="onToolBtn(btn.name)"
         v-bind="btn.attrs"
       />
@@ -70,6 +71,7 @@ const props = withDefaults(
     // checked?: boolean; //是否有选中的行
     total?: number; //记录总条数
     isEmpty?: boolean;
+    disabled?: boolean;
     batchBtn?: boolean;
     size?: CommonSize;
     allSelection?: () => void;

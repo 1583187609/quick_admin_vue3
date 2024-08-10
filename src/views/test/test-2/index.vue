@@ -45,7 +45,6 @@ const sections = computed<SectionFormItem[]>(() => {
       title: "基础信息",
       // pureText: true,
       popover: "纯文本展示",
-      fieldAttrs: { span: 8 },
       fields: [
         {
           prop: "xm",
@@ -57,7 +56,7 @@ const sections = computed<SectionFormItem[]>(() => {
           type: "select",
           options: "Gender",
           extraAttrs: {
-            span: 6,
+            grid: 6,
           },
         },
         {
@@ -65,7 +64,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "年龄",
           type: "input-number",
           extraAttrs: {
-            span: 6,
+            grid: 6,
             valid: "age",
           },
         },
@@ -73,7 +72,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "dhhm",
           label: "电话",
           extraAttrs: {
-            span: 12,
+            grid: 12,
             valid: "phone",
           },
         },
@@ -104,7 +103,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "bz",
           label: "备注",
           extraAttrs: {
-            span: 24,
+            grid: 24,
           },
           attrs: {
             type: "textarea",
@@ -116,13 +115,13 @@ const sections = computed<SectionFormItem[]>(() => {
       // prop: "debf",
       title: "第二部分",
       popover: "属性继承（例：disabled）",
-      fieldAttrs: { attrs: { disabled: true } },
+      disabled: true,
       fields: [
         {
           prop: "sfzh",
           label: "身份证号",
           extraAttrs: {
-            span: 12,
+            grid: 12,
             valid: "identity",
           },
         },
@@ -130,7 +129,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "zsbh",
           label: "证书证号",
           extraAttrs: {
-            span: 12,
+            grid: 12,
           },
           attrs: {
             maxlength: 11,
@@ -157,7 +156,7 @@ const sections = computed<SectionFormItem[]>(() => {
           required: false,
           type: "BaseUpload",
           extraAttrs: {
-            span: 12,
+            grid: 12,
           },
         },
         {
@@ -166,7 +165,7 @@ const sections = computed<SectionFormItem[]>(() => {
           required: false,
           type: "BaseUpload",
           extraAttrs: {
-            span: 12,
+            grid: 12,
           },
         },
         {

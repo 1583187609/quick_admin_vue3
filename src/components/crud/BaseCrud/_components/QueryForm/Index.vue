@@ -15,11 +15,12 @@
           <QueryFields
             v-model="formData"
             :field="field"
-            :className="isSmall ? 'mb-qtr' : 'mb-half'"
+            :disabled="disabled"
+            :readonly="readonly"
+            :small="isSmall"
             :inputDebounce="inputDebounce"
             :size="$attrs.size"
             @change="(key:string, val:any)=>emits('change', {[key]: val})"
-            v-bind="getColAttrs(field)"
             v-for="(field, ind) in sItem.fields.slice(0, sliceInd?.(sInd))"
             :key="ind"
           >
@@ -28,7 +29,6 @@
             </template>
           </QueryFields>
           <QueryBtns
-            :class="[isSmall ? 'mb-qtr' : 'mb-half']"
             :small="isSmall"
             :compact="compact"
             :loading="loading"
@@ -37,7 +37,7 @@
             @submit="handleSubmit"
             @fold="isFold = !isFold"
             @reset="resetForm"
-            v-bind="colSpanAttrs"
+            v-bind="gridAttrs"
             v-if="
               newSections.length <= rowNum
                 ? sInd === newSections.length - 1
@@ -53,11 +53,10 @@
       <QueryFields
         v-model="formData"
         :field="field"
-        :className="isSmall ? 'mb-qtr' : 'mb-half'"
+        :small="isSmall"
         :inputDebounce="inputDebounce"
         :size="$attrs.size"
         @change="(key:string, val:any)=>emits('change', {[key]: val})"
-        v-bind="getColAttrs(field)"
         v-for="(field, ind) in newFields.slice(0, sliceInd)"
         :key="ind"
       >
@@ -66,7 +65,6 @@
         </template>
       </QueryFields>
       <QueryBtns
-        :class="[isSmall ? 'mb-qtr' : 'mb-half']"
         :small="isSmall"
         :compact="compact"
         :loading="loading"
@@ -75,7 +73,7 @@
         @submit="handleSubmit"
         @fold="isFold = !isFold"
         @reset="resetForm"
-        v-bind="colSpanAttrs"
+        v-bind="gridAttrs"
       />
     </div>
   </el-form>
@@ -85,7 +83,7 @@
 import { ref, reactive, inject, computed, watch, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/components/_utils";
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, GridAttrs, GridValAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { CommonObj } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";
@@ -93,7 +91,7 @@ import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
 import { useEvent } from "@/hooks";
 import { handleFields } from "@/components/form/_utils";
-import { ColSpanAttrs, SectionFieldsItemAttrs, defaultFormAttrs } from "@/components/form";
+import { SectionFieldsItemAttrs, defaultFormAttrs } from "@/components/form";
 
 const props = withDefaults(
   defineProps<{
@@ -101,10 +99,12 @@ const props = withDefaults(
     fields: FormField[]; //表单字段项
     sections?: SectionFieldsItemAttrs[];
     loading?: boolean;
+    disabled?: boolean;
+    readonly?: boolean;
     rowNum?: number;
     extraParams?: CommonObj; //额外的参数
     inputDebounce?: boolean;
-    colSpanAttrs?: ColSpanAttrs;
+    gridAttrs: GridAttrs;
     compact?: boolean; //是否是紧凑的
     noFieldsHide?: boolean; //没有字段时是否不显示表单内容
   }>(),
@@ -176,8 +176,8 @@ watch(
   () => props.fields,
   (newVal: FormField[]) => {
     if (props.sections?.length) return;
-    const { modelValue } = props;
-    const result = handleFields(newVal, undefined, modelValue);
+    const { modelValue, gridAttrs } = props;
+    const result = handleFields(newVal, undefined, modelValue, { extraAttrs: { grid: gridAttrs } });
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -213,20 +213,13 @@ function getMaxHeight() {
 }
 //设置屏幕宽度类型
 function getColNum() {
-  const { colSpanAttrs } = props;
+  const { gridAttrs } = props;
   const colNumMap: CommonObj = {};
   const size = getScreenSizeType();
-  for (const key in colSpanAttrs) {
-    colNumMap[key] = 24 / colSpanAttrs[key];
+  for (const key in gridAttrs) {
+    colNumMap[key] = 24 / gridAttrs[key];
   }
   return colNumMap[size];
-}
-//获取列属性
-function getColAttrs(field: FormFieldAttrs) {
-  const { colSpanAttrs } = props;
-  const { span, type } = field;
-  if (span) return { span };
-  return colSpanAttrs;
 }
 //提交表单
 function handleSubmit() {
@@ -286,12 +279,6 @@ defineExpose({
       padding: $gap-qtr;
     }
   }
-}
-.mb-half {
-  margin-bottom: $gap-half;
-}
-.mb-qtr {
-  margin-bottom: $gap-qtr;
 }
 .wrap-box {
   overflow: auto;

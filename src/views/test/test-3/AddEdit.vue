@@ -45,7 +45,7 @@ const fields = computed<FormField[]>(() => {
       type: "select",
       options: "Gender",
       extraAttrs: {
-        span: 12,
+        grid: 12,
       },
     },
     {
@@ -53,7 +53,7 @@ const fields = computed<FormField[]>(() => {
       label: "年龄",
       type: "input-number",
       extraAttrs: {
-        span: 12,
+        grid: 12,
         valid: "age",
       },
     },

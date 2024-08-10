@@ -96,6 +96,34 @@ onMounted(() => {
 });
 useEvent("resize", initBodyHeight);
 </script>
+<style lang="scss">
+.basic-dialog {
+  padding: 0;
+  &.top-compact {
+    margin: $dialog-top auto;
+  }
+  .section-form,
+  .base-form,
+  .base-crud,
+  .cell-form {
+    height: 100%;
+    max-height: calc(100vh - $dialog-top * 2 - 90px);
+  }
+  .el-dialog__body {
+    padding: $gap;
+    max-height: calc(100vh - $dialog-top * 2 - 58px);
+    // 当在dialog中，出现垂直滚动条时，才让此属性生效，这样能避免展示条数最多（此时有额外按钮，筛选条件）时，最后一条看不到的问题
+    // height: calc(100vh - $dialog-top * 2 - 58px);
+    overflow: auto;
+  }
+  //对话框（dialog）
+  .el-dialog__header {
+    padding: $gap;
+    border-bottom: $border-main;
+    margin: 0;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .basic-dialog {
   .foot {

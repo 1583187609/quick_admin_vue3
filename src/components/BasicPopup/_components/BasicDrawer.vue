@@ -32,23 +32,18 @@ const show = computed({
   },
 });
 </script>
-<style lang="scss" scoped>
-// :deep(.el-drawer__header) {
-//   font-weight: 700;
-//   font-size: 28px;
-//   margin-bottom: 0 !important;
-// }
-// ::v-deep {
-//   // .el-drawer {
-//   .el-drawer__header {
-//     margin-bottom: 0 !important;
-//   }
-//   // }
-// }
-// :deep(.el-drawer .el-drawer__header) {
-//   margin-bottom: 0 !important;
-// }
-// .el-drawer__header {
-//   margin-bottom: 0 !important;
-// }
+<style lang="scss">
+.basic-drawer {
+  // 抽屉（drawer)
+  .el-drawer__header {
+    // font-weight: 600;
+    margin-bottom: 0;
+    padding-bottom: $gap-half;
+    // background: $color-bg-light;
+    border-bottom: $border-main;
+  }
+  .el-drawer__title {
+    font-size: $font-size-heavyer;
+  }
+}
 </style>

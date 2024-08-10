@@ -9,14 +9,13 @@
     @scroll.capture="handleScroll"
     v-bind="newAttrs"
     ref="tableRef"
-    v-if="newCols.length"
   >
     <Column
       :col="col"
-      :selection="selection"
+      :selection="!!selection"
       :refreshList="refreshList"
       :groupBtnsAttrs="groupBtnsAttrs"
-      :getGroupBtnsOfRow="getGroupBtnsOfRow"
+      :getGroupBtnsOfRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
       @groupBtn="onGroupBtn"
       :disabled="disabled"
       v-for="(col, cInd) in newCols"
@@ -33,17 +32,17 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, watchEffect, useAttrs, reactive } from "vue";
-import { GroupBtnsAttrs } from "./GroupBtns.vue";
-import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
-import { typeOf, handleTableSummary, defaultGroupBtnsMaxNum, getChinaCharLength } from "@/components/_utils";
+import { GroupBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
+import { BtnItem } from "@/components/BaseBtn";
+import { typeOf, handleTableSummary } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
-import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import Column, { RefreshListFn, RowBtnInfo } from "@/components/crud/BaseCrud/_components/Column.vue";
-import { needPushSpecialCol } from "@/components/crud/BaseCrud";
-import { getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
-import { TableColAttrs, TableField, defaultTableAttrs, getColLevel, getSpecialColMap } from "@/components/table";
+import { GroupBtnsType } from "@/components/table/_components/GroupBtns.vue";
+import { CommonObj, FinallyNext } from "@/vite-env";
+import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
+import { getAddSpecialCols } from "@/components/crud/BaseCrud";
+import { TableColAttrs, TableField, defaultTableAttrs, getColLevel, specialColMap } from "@/components/table";
 import config from "@/config";
+import { getGroupBtnsOfRow } from "@/components/table/_utils";
 
 const props = withDefaults(
   defineProps<{
@@ -53,10 +52,10 @@ const props = withDefaults(
     cols: TableField[]; //表头
     rows: CommonObj[]; //表格行数据
     groupBtns?: GroupBtnsType;
-    sort?: boolean; //是否显示排序列
-    index?: boolean; //是否展示序号列
+    sort?: boolean | TableColAttrs; //是否显示排序列
+    index?: boolean | TableColAttrs; //是否展示序号列
+    selection?: boolean | TableColAttrs; //是否显示选择框
     disabled?: boolean;
-    selection?: boolean; //是否显示选择框
     showSummary?: boolean; //是否显示汇总行
     currPage: number; //当前分页页码
     pageSize: number; //每页多少条
@@ -76,7 +75,6 @@ const props = withDefaults(
 const emits = defineEmits(["update:cols", "selectionChange", "groupBtn", "change"]);
 const $attrs = useAttrs();
 const { handleScroll } = useCacheScroll();
-let operateWidth = 0; //操作栏的宽度
 let rowNum = props.showSummary ? 2 : 1;
 const tableRef = ref<any>(null);
 const seledRows = ref<CommonObj[]>([]);
@@ -88,14 +86,14 @@ const seledRows = ref<CommonObj[]>([]);
 const newCols = reactive<TableColAttrs[]>([]);
 //调用stopWatch（），确保下面的方法只执行一次
 const stopWatch = watchEffect(() => {
-  const { cols, currPage, pageSize } = props;
-  const specialColMap = getSpecialColMap(currPage, pageSize);
-  const { index, sort, selection, operate } = specialColMap;
-  needPushSpecialCol("index", props) && cols.unshift(index);
-  needPushSpecialCol("sort", props) && cols.unshift(sort);
-  needPushSpecialCol("selection", props) && cols.unshift(selection);
-  needPushSpecialCol("operate", props) && cols.push(operate);
-  const levels = cols.map(col => {
+  // const { cols, currPage, pageSize } = props;
+  // const { index, sort, selection, operate } = specialColMap;
+  // needPushSpecialCol("index", props) && cols.unshift(index);
+  // needPushSpecialCol("sort", props) && cols.unshift(sort);
+  // needPushSpecialCol("selection", props) && cols.unshift(selection);
+  // needPushSpecialCol("operate", props) && cols.push(operate);
+  // const levels = cols.map(col => {
+  const levels = getAddSpecialCols(props).map(col => {
     if (typeOf(col) !== "Object") return 1;
     const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, specialColMap, $attrs.size === "small");
     newCols.push(newCol);
@@ -135,65 +133,6 @@ function handleSelectionChange(rows: CommonObj[]) {
   seledRows.value = rows;
   const keys = rows.map(it => it[newAttrs.value.rowKey]);
   emits("selectionChange", rows, keys);
-}
-// 获取每一行的分组按钮
-function getGroupBtnsOfRow(row: CommonObj, ind: number) {
-  const { groupBtns = [], rows, filterBtnsByAuth } = props;
-  const tempBtns = getTempGroupBtnsOfRow(row, ind, groupBtns);
-  const filterBtns = filterBtnsByAuth(tempBtns);
-  const width = getOperateColWidth(filterBtns);
-  if (ind < rows.length - 1) {
-    if (operateWidth < width) {
-      operateWidth = width;
-      newCols.slice(-1)[0].minWidth = operateWidth;
-    }
-  } else {
-    //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
-    if (operateWidth < 30) {
-      operateWidth = getOperateColWidth();
-      newCols.slice(-1)[0].minWidth = operateWidth;
-    }
-  }
-  return filterBtns;
-}
-//获取操作栏的宽度
-function getOperateColWidth(btns?: BtnItem[]): number {
-  //按钮size为default时
-  // const fontSize = 12;
-  // const btnPadding = 11;
-  // const btnMargin = 12;
-  // const cellPadding = 12;
-  //按钮size为small时
-  const fontSize = 12;
-  const btnPadding = 3;
-  const btnMargin = 12;
-  const cellPadding = 12;
-  //最小宽度
-  if (!btns) return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
-  let em = 0; //按钮文字字符数量
-  let width = 0;
-  const { groupBtnsAttrs = {} } = props;
-  const { vertical, maxNum = defaultGroupBtnsMaxNum } = groupBtnsAttrs as GroupBtnsAttrs;
-  if (btns.length > maxNum) {
-    btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
-  }
-  if (vertical) {
-    btns.forEach((item: BtnItem) => {
-      // if (!item) return; //已经过滤过了，所以注释掉
-      em = getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
-      const currWidth = em * fontSize + btnPadding * 2 + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
-      if (currWidth > width) {
-        width = currWidth;
-      }
-    });
-  } else {
-    btns.forEach((item: BtnItem) => {
-      // if (!item) return; //已经过滤过了，所以注释掉
-      em += getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
-    });
-    width = em * fontSize + btns.length * btnPadding * 2 + (btns.length - 1) * btnMargin + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
-  }
-  return width;
 }
 //暴露的方法
 //参考：https://juejin.cn/post/6844903864039145485

@@ -117,7 +117,7 @@
 options
 -cascader
 -select
-69、把组件hooks等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
+69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 
 ## 二、优化清单
 
@@ -171,7 +171,6 @@ options
 ~~40、国际化处理的配置文件（languages）应该分别放在各个模块下方~~  
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置
-
 
 ## 三、Bug 清单
 
@@ -245,10 +244,13 @@ options
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
 ~~69、http 请求封装增加取消请求功能~~  
 70、工程量大了后，全局字典，以及命名是否会重复的优化处理手段
+71、BaseForm 上设置 `label-suffix="："` 不生效
 
 ## 四、Vue 极致优化清单
 
 1、BaseCopy 中的复制图标采用按需引入方式
+2、将全局的覆盖样式写到各个组件里
+3、将 CellForm、CellTable 融合到 BaseForm 里面，只更改样式就行了
 
 ### 动画优化相关
 
@@ -302,3 +304,8 @@ const emit = defineEmits<{
 ## 一些参照链接地址
 
 ~~1、配置 husky：https://juejin.cn/post/7261862616095146042~~
+
+## 调整后的问题待处理清单
+
+1、 处理 BaseCrud 操作栏按钮显示不全的问题，复现页面：`/test/3`
+~~2、处理 getSpecialColMap 中的 index 根据 currPage、pageSize 的问题~~

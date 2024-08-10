@@ -58,7 +58,7 @@ const fields = ref<FormField[]>([
       type: "button",
     },
     extraAttrs: {
-      span: 12,
+      grid: 12,
     },
   },
   {
@@ -66,7 +66,7 @@ const fields = ref<FormField[]>([
     label: "年龄",
     type: "input-number",
     extraAttrs: {
-      span: 12,
+      grid: 12,
     },
     attrs: {
       min: 0,
@@ -79,7 +79,7 @@ const fields = ref<FormField[]>([
     type: "select",
     required: true,
     extraAttrs: {
-      span: 12,
+      grid: 12,
     },
     options: "RoleType",
   },
@@ -89,7 +89,7 @@ const fields = ref<FormField[]>([
     type: "radio-group",
     required: true,
     extraAttrs: {
-      span: 12,
+      grid: 12,
     },
     options: "EnableStatus",
     attrs: {
@@ -97,8 +97,8 @@ const fields = ref<FormField[]>([
     },
   },
 
-  { prop: "phone", label: "电话", required: true, extraAttrs: { span: 12, valid: "phone" } },
-  { prop: "psd", label: "密码", required: true, extraAttrs: { span: 12, valid: "password" } },
+  { prop: "phone", label: "电话", required: true, extraAttrs: { grid: 12, valid: "phone" } },
+  { prop: "psd", label: "密码", required: true, extraAttrs: { grid: 12, valid: "password" } },
   {
     prop: "address",
     label: "居住地址",

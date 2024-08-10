@@ -38,8 +38,9 @@ function getPopconfirmAttrs(popconfirm: string | boolean | CommonObj, btnObj: Bt
 /**
  * 根据按钮名或按钮对象获取按钮对象
  * @param btn string | object | function 按钮名或按钮对象或方法函数
+ * @param addBtnAttrs CommonObj 额外添加的属性，用来覆盖
  */
-export function getBtnObj(btn: BaseBtnType, row?: CommonObj): BtnItem {
+export function getBtnObj(btn: BaseBtnType, row?: CommonObj, addBtnAttrs?: CommonObj): BtnItem {
   const t = typeOf(btn);
   // const $slots = useSlots();
   let btnObj: BtnItem = { name: "" };
@@ -79,5 +80,6 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj): BtnItem {
     const currIcon = Icons[icon as keyof typeof Icons];
     attrs ? (attrs.icon = currIcon) : (btnObj.attrs = { icon: currIcon });
   }
+  if (addBtnAttrs) merge(btnObj, addBtnAttrs);
   return btnObj;
 }

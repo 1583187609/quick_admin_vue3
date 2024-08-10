@@ -43,6 +43,12 @@ const emits = defineEmits(["submit", "reset", "fold"]);
       padding: 0 $gap-half;
     }
   }
+  .el-button {
+    padding: 0 $gap-half;
+    + .el-button {
+      margin-left: $gap-half;
+    }
+  }
   &.small {
     .el-button {
       padding: 0 $gap-qtr;

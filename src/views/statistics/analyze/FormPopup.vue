@@ -33,8 +33,20 @@ const sections: SectionFormItem[] = [
   {
     title: "代理账户",
     fields: [
-      { prop: "zfbxm", label: "支付宝姓名", span: 12 },
-      { prop: "zfbzh", label: "支付宝账户", span: 12 },
+      {
+        prop: "zfbxm",
+        label: "支付宝姓名",
+        extraAttrs: {
+          grid: 12,
+        },
+      },
+      {
+        prop: "zfbzh",
+        label: "支付宝账户",
+        extraAttrs: {
+          grid: 12,
+        },
+      },
     ],
   },
   {

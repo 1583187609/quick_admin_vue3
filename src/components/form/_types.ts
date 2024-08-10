@@ -1,17 +1,9 @@
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
 import { CommonObj, StrNum } from "@/vite-env";
 
 export * from "@/components/form/_components/FieldItem";
 
-//表格列的span属性
-export interface ColSpanAttrs {
-  xs?: number; // <768
-  sm?: number; // >=768
-  md?: number; // >=992
-  lg?: number; // >=1200
-  xl?: number; // >=1920
-  span?: number;
-}
+export type BaseFormType = "cell" | "";
 
 export interface SectionFieldsItemAttrs {
   label: string;
@@ -25,17 +17,10 @@ export interface SectionFormItemAttrs {
   type?: SectionFormItemType;
   fields?: FormField[];
   fold?: boolean;
-  span?: number;
-  //表单项及其子级控件的属性
-  fieldAttrs?: {
-    span?: number; //表单项的属性
-    // 所有子级控件的属性
-    attrs?: {
-      disabled?: boolean;
-    };
-    [key: string]: any;
-  };
+  grid?: GridValAttrs;
   pureText?: boolean; //是否是纯文本（会影响当前块的所有子级）
+  readonly?: boolean; //是否只读
+  disabled?: boolean; //是否禁用
   popover?: string | CommonObj;
   labelWidth?: StrNum;
 }

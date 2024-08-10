@@ -1,0 +1,174 @@
+<!-- 基础的增删改查测试 -->
+<template>
+  <TestView :records="records">
+    <BaseCrud
+      style="width: calc(100vw - 600px)"
+      v-model="model"
+      :fields="fields"
+      :cols="cols"
+      :fetch="GetMockCommonList"
+      :extraBtns="['add']"
+      :groupBtns="['delete', 'edit']"
+      @extraBtns="onExtraBtn"
+      @groupBtn="onGroupBtn"
+      :gridAttrs="{ xs: 24, sm: 12, md: 12, lg: 8, xl: 6 }"
+      :disabled="false"
+      :readonly="true"
+    >
+      <template #middle>
+        <div class="p-h f-c-c">这是中间内容</div>
+      </template>
+      <template #zdy>这是自定义表格列</template>
+    </BaseCrud>
+    <!-- <template #side> </template> -->
+  </TestView>
+</template>
+<script lang="ts" setup>
+import { ref, reactive, watch, computed } from "vue";
+import { CommonObj, FinallyNext } from "@/vite-env";
+import TestView from "@/components/TestView.vue";
+import { handleBtnNext } from "@/utils";
+import { FormFieldAttrs } from "@/components/form";
+import { useSelectOpts } from "@/hooks";
+import { GetMockCommonList } from "@/api-mock";
+import { BaseBtnType, BtnName } from "@/components/BaseBtn";
+
+const records = {
+  hasTest: {
+    title: "已测试属性",
+    list: ["gridAttrs", "disabled", "自定义列"],
+  },
+};
+
+const { getSearchOpts } = useSelectOpts();
+
+//默认搜索值
+const model = reactive<CommonObj>({
+  xm: "张三",
+  multi_tag: [0],
+  date_range_def_val: ["2023-08-19", "2023-08-27"],
+  num_range_def_val: [10, 20],
+});
+//搜索表单
+const fields: FormFieldAttrs[] = [
+  {
+    prop: "xm",
+    label: "姓名",
+  },
+  {
+    prop: "qyzt",
+    label: "启用状态",
+    type: "select",
+    options: "EnableStatus",
+  },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchAsync" },
+  {
+    prop: "multi_tag",
+    label: "多标签",
+    type: "select",
+    options: "RoleType",
+    attrs: {
+      multiple: true,
+    },
+  },
+  {
+    prop: "liveCity",
+    label: "居住地址",
+    type: "cascader",
+    options: "Region",
+    attrs: {
+      filterable: true,
+    },
+  },
+  getSearchOpts("school", {
+    prop: "schoolId",
+    label: "学校",
+    extraAttrs: {
+      popover: "采用hooks封装复杂逻辑",
+    },
+  }),
+  getSearchOpts("company", {
+    prop: "companyId",
+    label: "公司",
+    extraAttrs: {
+      popover: "hooks封装且自定义选择下拉项",
+    },
+  }),
+  {
+    prop: "num_range_arr",
+    label: "数字(数组)",
+    type: "BaseNumberRange",
+  },
+  {
+    prop: ["num_range_min", "num_range_max"],
+    label: "数字(对象)",
+    type: "BaseNumberRange",
+  },
+  {
+    prop: "num_range_def_val",
+    label: "数字(默值)",
+    type: "BaseNumberRange",
+  },
+  {
+    prop: "date_range",
+    label: "日期(数组)",
+    type: "date-picker",
+  },
+  {
+    prop: ["date_range_min", "date_range_max"],
+    label: "日期(对象)",
+    type: "date-picker",
+  },
+  {
+    prop: "date_range_def_val",
+    label: "日期(默值)",
+    type: "date-picker",
+  },
+  {
+    prop: "zdy",
+    label: "自定义",
+    type: "custom",
+    extraAttrs: {
+      popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
+    },
+  },
+];
+const cols = [
+  { prop: "id", label: "用户ID", fixed: "left", type: "UserInfo" },
+  { prop: "nc", label: "昵称" },
+  {
+    prop: "zy",
+    label: "职业",
+    type: "BaseImg",
+  },
+  { prop: "xm", label: "姓名" },
+  { prop: "xb", label: "性别" },
+  { prop: "nl", label: "年龄" },
+  { prop: "xx", label: "学校" },
+  { prop: "jg", label: "籍贯" },
+  { prop: "xjd", label: "现居地" },
+  { prop: "ip", label: "IP地址" },
+  { prop: "dh", label: "电话" },
+  { prop: "zdy", label: "自定义", type: "custom" },
+];
+//点击列表上方的额外的按钮
+function onExtraBtn(name: BtnName, next: FinallyNext) {
+  handleBtnNext(
+    {
+      // add: () => handleAddEdit(null, next),
+    },
+    name
+  );
+}
+function onGroupBtn(name: BtnName, row: CommonObj, next: FinallyNext) {
+  const { id } = row;
+  handleBtnNext(
+    {
+      // edit: () => handleAddEdit(row, next),
+      // delete: () => DeleteUserList({ id }).then(() => next()),
+    },
+    name
+  );
+}
+</script>
+<style lang="scss" scoped></style>

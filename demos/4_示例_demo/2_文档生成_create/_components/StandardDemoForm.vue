@@ -112,7 +112,7 @@ const props = withDefaults(
   {
     modelValue: () => reactive({}),
     log: !isProd,
-    span: 24,
+    grid: 24,
     footer: true,
     isOmit: true,
     autoFixedFoot: true,

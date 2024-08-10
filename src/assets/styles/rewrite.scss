@@ -5,51 +5,6 @@
 .el-overlay-dialog {
   overflow: hidden;
 }
-.basic-dialog {
-  padding: 0;
-  &.top-compact {
-    margin: $dialog-top auto;
-  }
-  .section-form,
-  .base-form,
-  .base-crud,
-  .cell-form {
-    height: 100%;
-    max-height: calc(100vh - $dialog-top * 2 - 90px);
-  }
-  .el-dialog__body {
-    padding: $gap;
-    max-height: calc(100vh - $dialog-top * 2 - 58px);
-    // 当在dialog中，出现垂直滚动条时，才让此属性生效，这样能避免展示条数最多（此时有额外按钮，筛选条件）时，最后一条看不到的问题
-    // height: calc(100vh - $dialog-top * 2 - 58px);
-    overflow: auto;
-  }
-  //对话框（dialog）
-  .el-dialog__header {
-    padding: $gap;
-    border-bottom: $border-main;
-    margin: 0;
-  }
-}
-.base-empty {
-  .el-empty__description {
-    margin-top: 0;
-    line-height: 2;
-  }
-}
-.basic-drawer {
-  // 抽屉（drawer)
-  .el-drawer__header {
-    // font-weight: 600;
-    margin-bottom: 0;
-    padding-bottom: $gap-half;
-    // background: $color-bg-light;
-    border-bottom: $border-main;
-  }
-  .el-drawer__title {
-    font-size: $font-size-heavyer;
-  }
-}
 
 // 菜单（menu)
 .el-menu-item.is-active {
@@ -82,7 +37,12 @@ $thead-bg: $color-bg-light;
 .el-table__header-wrapper tr th.el-table-fixed-column--right {
   background: $thead-bg;
 }
-
+// .el-table.is-scrolling-middle .el-table-fixed-column--left.is-last-column.el-table__cell {
+//   background: $thead-bg;
+// }
+// .el-table.is-scrolling-right .el-table-fixed-column--left.is-last-column.el-table__cell {
+//   background: $thead-bg;
+// }
 .el-table {
   .el-table__cell.sort-cell {
     cursor: move;
@@ -134,10 +94,3 @@ $thead-bg: $color-bg-light;
   overflow: auto;
   border-radius: $radius-main;
 }
-
-// ::v-deep .node-none {
-//   display: none;
-// }
-// :deep(.node-none) {
-//   display: none;
-// }

@@ -34,9 +34,27 @@ const sections: SectionFormItem[] = [
     prop: "part_3",
     title: "第三部分",
     fields: [
-      { prop: "height", label: "身高", span: 12 },
-      { prop: "weight", label: "体重", span: 12 },
-      { prop: "age", label: "年龄", span: 12 },
+      {
+        prop: "height",
+        label: "身高",
+        extraAttrs: {
+          grid: 12,
+        },
+      },
+      {
+        prop: "weight",
+        label: "体重",
+        extraAttrs: {
+          grid: 12,
+        },
+      },
+      {
+        prop: "age",
+        label: "年龄",
+        extraAttrs: {
+          grid: 12,
+        },
+      },
     ],
   },
 ];

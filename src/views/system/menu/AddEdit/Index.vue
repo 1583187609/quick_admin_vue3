@@ -136,7 +136,7 @@ const fields = computed(() => {
             required: true,
             options: "YesNoStatus",
             extraAttrs: {
-              span: 12,
+              grid: 12,
               popover: "是否缓存该页面",
             },
           },
@@ -147,7 +147,7 @@ const fields = computed(() => {
             required: true,
             options: "YesNoStatus",
             extraAttrs: {
-              span: 12,
+              grid: 12,
               popover: "在菜单目录中是否可见",
             },
           },
@@ -158,7 +158,7 @@ const fields = computed(() => {
             type: "radio-group",
             options: "YesNoStatus",
             extraAttrs: {
-              span: 12,
+              grid: 12,
             },
           },
           model.is_link === 1 && {
@@ -168,7 +168,7 @@ const fields = computed(() => {
             type: "radio-group",
             options: "YesNoStatus",
             extraAttrs: {
-              span: 12,
+              grid: 12,
             },
           },
         ]
@@ -180,7 +180,7 @@ const fields = computed(() => {
       type: "radio-group",
       options: "EnableStatus",
       extraAttrs: {
-        span: 12,
+        grid: 12,
         popover: "启用后，在菜单中可见，否则不可见",
       },
     },

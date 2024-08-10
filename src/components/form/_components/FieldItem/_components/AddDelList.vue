@@ -1,18 +1,24 @@
 <!-- 页面-简介 -->
 <template>
-  <el-form-item style="margin-bottom: 18px; width: 100%" v-for="(item, ind) in newList" :key="ind">
+  <el-form-item
+    style="width: 100%"
+    :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }"
+    v-for="(item, ind) in newList"
+    :key="ind"
+  >
     <!-- <el-space> -->
-    <FieldItem
-      :prefixProp="`${parentProp}[${ind}]`"
-      :field="field"
-      :pureText="field.extraAttrs?.pureText || pureText"
-      v-model="newList[ind][field.prop as string]"
-      className="mr-o"
-      v-bind="field"
-      :ref="el => initRefsList(el, ind)"
-      v-for="(field, fInd) in newFields"
-      :key="fInd"
-    />
+    <el-row>
+      <FieldItem
+        :prefixProp="`${parentProp}[${ind}]`"
+        :field="field"
+        :pureText="field.extraAttrs?.pureText || pureText"
+        v-model="newList[ind][field.prop as string]"
+        v-bind="field"
+        :ref="el => initRefsList(el, ind)"
+        v-for="(field, fInd) in newFields"
+        :key="fInd"
+      />
+    </el-row>
     <AddDelBtn @click="(type:AddDelBtnType)=>handleAddDel(type,ind)" :type="ind < newList.length - 1 ? 'del' : 'add'" />
     <!-- </el-space> -->
   </el-form-item>

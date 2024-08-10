@@ -5,11 +5,12 @@
       :class="size === 'small' ? 'mb-6' : 'mb-h'"
       v-model="model"
       :disabled="disabled"
+      :readonly="readonly"
       :fields="fields"
       :sections="sections"
       :loading="loading"
       :inputDebounce="inputDebounce"
-      :colSpanAttrs="colSpanAttrs"
+      :gridAttrs="gridAttrs"
       :compact="compact"
       @reset="handleReset"
       @search="handleSearch"
@@ -30,6 +31,7 @@
       :allColumns="allCols"
       :btns="newExtraBtns"
       :isEmpty="!newRows?.length"
+      :disabled="disabled"
       @update:cols="(cols:TableField[])=>{newCols = cols}"
       @click="onExtraBtn"
       :total="pageInfo.total"
@@ -60,8 +62,8 @@
         :index="index"
         :selection="selectable"
         :groupBtns="groupBtns"
-        :currPage="pagination ? currPageInfo[reqMap!.curr_page] : 1"
-        :pageSize="pagination ? currPageInfo[reqMap!.page_size] : 20"
+        :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
+        :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
         :filterBtnsByAuth="filterBtnsByAuth"
         :refreshList="refreshList"
         @groupBtn="onGroupBtn"
@@ -79,8 +81,8 @@
     </slot>
     <Pagination
       v-bind="pageAttrs"
-      v-model:currPage="currPageInfo[reqMap!.curr_page]"
-      v-model:pageSize="currPageInfo[reqMap!.page_size]"
+      v-model:currPage="currPageInfo[reqMap.curr_page]"
+      v-model:pageSize="currPageInfo[reqMap.page_size]"
       :total="pageInfo.total"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrChange"
@@ -91,11 +93,10 @@
 </template>
 <script lang="ts" name="BaseCrud" setup>
 import { ref, reactive, watch, computed, onMounted, inject } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, GridAttrs } from "@/components/form";
 import { TableField } from "@/components/table";
-import { GroupBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
-import { pickBy, cloneDeep, merge, upperFirst } from "lodash";
-import ExtraBtns, { ToolBtnName } from "./_components/ExtraBtns/Index.vue";
+import { cloneDeep, merge } from "lodash";
+import ExtraBtns from "./_components/ExtraBtns/Index.vue";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
@@ -113,45 +114,51 @@ import {
   defaultColSpanAttrs,
 } from "@/components/_utils";
 import Pagination from "./_components/Pagination.vue";
-import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
+import { GroupBtnsAttrs, GroupBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
-import { CommonObj, FetchType, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
+import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
 import { SectionFieldsItemAttrs } from "@/components/form";
-import { ColSpanAttrs } from "@/components/form";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
-import config from "@/config";
 import { SummaryListType, PaginationAttrs } from "@/components/table";
 import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud";
 import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
+import { defaultFormAttrs } from "@/components/form/_config";
+import { defaultTableAttrs } from "@/components/table/_config";
+import config from "@/config";
 
 const openPopup = inject<any>("openPopup");
 const allCols = ref<TableField[]>([]);
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据
-    rowKey?: string;
-    formAttrs?: CommonObj; //el-form的属性配置
-    tableAttrs?: CommonObj; //el-table的属性配置
+    //el-form 的属性配置
+    formAttrs?: {
+      rowKey?: string;
+      [key: string]: any;
+    };
+    //el-table 的属性配置
+    tableAttrs?: {
+      [key: string]: any;
+    };
     pageAttrs?: CommonObj; //分页配置
-    disabled?: boolean; //是否禁用
-    groupBtnsAttrs?: GroupBtnsAttrs; //分页配置
     pagination?: false | PaginationAttrs; //是否分页
+    showPagination?: boolean; //是否显示分页
+    disabled?: boolean; //是否禁用
+    readonly?: boolean; //是否只读
+    groupBtnsAttrs?: GroupBtnsAttrs; //分页配置
     fields?: FormField[];
     sections?: SectionFieldsItemAttrs[];
     cols?: TableField[];
     selectAll?: boolean;
     fetch?: UniteFetchType;
-    fetchSuccess?: (res: any) => void; //请求成功的回调函数
-    fetchFail?: (err: any) => void; //请求成功的回调函数
     immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
     extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
     groupBtns?: GroupBtnsType; //分组按钮，在表格的操作一栏
     reqMap?: ReqMap; //请求参数的键名映射
     resMap?: ResMap; //响应参数的键名映射
-    showPagination?: boolean;
     summaryList?: SummaryListType; //汇总请求数据的 list
     sort?: boolean | UniteFetchType; //是否展示排序列
     index?: boolean; //是否展示序号列
@@ -168,17 +175,20 @@ const props = withDefaults(
     changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
     inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
     filterByAuth?: FilterByAuthFn;
-    colSpanAttrs?: ColSpanAttrs;
+    gridAttrs?: GridAttrs;
     compact?: boolean; //表单项之间排列是否紧凑点
     size?: CommonSize;
     rowNum?: number; //筛选条件的表单展示几行
+    fetchSuccess?: (res: any) => void; //请求成功的回调函数
+    fetchFail?: (err: any) => void; //请求成功的回调函数
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
     handleResponse?: (res: any) => any; //处理响应数据
   }>(),
   Object.assign(
     {
-      rowKey: "id",
       log: !isProd,
+      formAttrs: () => defaultFormAttrs,
+      tableAttrs: () => defaultTableAttrs,
       fields: () => [],
       cols: () => [],
       immediate: true,
@@ -187,13 +197,14 @@ const props = withDefaults(
       isOmit: true,
       inputDebounce: true,
       exportCfg: () => ({ limit: 10000 }),
+      // pageAttrs: () => ({}),
+      showPagination: true,
       pagination: () => ({ currPage: 1, pageSize: 20 }),
       reqMap: () => defaultReqMap,
       resMap: () => defaultResMap,
-      showPagination: true,
-      colSpanAttrs: () => defaultColSpanAttrs,
+      gridAttrs: () => defaultColSpanAttrs,
       // 跟下面的size: "small" 搭配使用，会，会使得排版布局更加紧凑
-      // colSpanAttrs: () => ({
+      // gridAttrs: () => ({
       //  xs: 12,
       //   sm: 12,
       //   md: 8,
@@ -201,7 +212,7 @@ const props = withDefaults(
       //   xl: 3,
       // }),
       // size: "small",
-      compact: (_props: CommonObj) => _props.colSpanAttrs.xl < 6,
+      compact: (_props: CommonObj) => _props.gridAttrs.xl < 6,
       filterByAuth: (auth: number[]) => true,
     },
     config?.BaseCrud?.Index
@@ -213,11 +224,13 @@ const queryTableRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
 const extraBtnsRef = ref<any>(null);
 const baseCrudRef = ref<any>(null);
-const { reqMap, resMap, extraParams = {} } = props;
+const { extraParams = {} } = props;
+const reqMap: GetRequired<ReqMap> = props.reqMap;
+const resMap: GetRequired<ResMap> = props.resMap;
 const initPageInfo = props.pagination
   ? {
-      [`${reqMap!.curr_page}`]: props.pagination.currPage,
-      [`${reqMap!.page_size}`]: props.pagination.pageSize,
+      [`${reqMap.curr_page}`]: props.pagination.currPage,
+      [`${reqMap.page_size}`]: props.pagination.pageSize,
     }
   : {};
 const initParams = {
@@ -230,12 +243,8 @@ const loading = ref(false);
 const newRows = ref([]);
 const seledRows = ref<CommonObj[]>([]);
 const model = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: any) {
-    emits("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val: any) => emits("update:modelValue", val),
 });
 //请求参数
 let params: CommonObj = cloneDeep(initParams);
@@ -246,15 +255,15 @@ const newExtraBtns = computed<BtnItem[]>(() => {
     const { name, attrs, customRules } = btnObj;
     if (batchBtnNames?.includes(name as string)) {
       btnObj.popconfirm = false;
-      if (customRules) {
-        attrs!.disabled = !pageInfo.total;
-      } else {
-        attrs!.disabled = !seledRows.value.length;
+      if (attrs) {
+        if (customRules) {
+          attrs.disabled = !pageInfo.total;
+        } else {
+          attrs.disabled = !seledRows.value.length;
+        }
       }
     }
-    if (disabled) {
-      attrs!.disabled = disabled;
-    }
+    if (disabled) attrs!.disabled = disabled;
     return btnObj;
   });
   return filterBtnsByAuth(btns);
@@ -288,38 +297,38 @@ function handleReset() {
  * 判断是否位于 dialog 弹窗中
  * @notice 先不要删除，后面可能会有用
  */
-function judgeIsInDialog(className: string = "basic-dialog", startLevel: number = 5) {
-  let isInDia = false;
-  getTargetPar(startLevel);
-  function getTargetPar(sLevel = 0) {
-    let targetPar = baseCrudRef.value.parentNode;
-    while (sLevel > 0) {
-      targetPar = targetPar?.parentNode;
-      sLevel--;
-      if (targetPar?.classList?.contains(className)) {
-        isInDia = true;
-        break;
-      }
-    }
-  }
-  return isInDia;
-}
+// function judgeIsInDialog(className: string = "basic-dialog", startLevel: number = 5) {
+//   let isInDia = false;
+//   getTargetPar(startLevel);
+//   function getTargetPar(sLevel = 0) {
+//     let targetPar = baseCrudRef.value.parentNode;
+//     while (sLevel > 0) {
+//       targetPar = targetPar?.parentNode;
+//       sLevel--;
+//       if (targetPar?.classList?.contains(className)) {
+//         isInDia = true;
+//         break;
+//       }
+//     }
+//   }
+//   return isInDia;
+// }
 //点击搜索
 function handleSearch(data: CommonObj) {
-  Object.assign(params, { [`${reqMap!.curr_page as string}`]: 1 });
+  Object.assign(params, { [`${reqMap.curr_page as string}`]: 1 });
   getList(params, undefined, "search");
 }
 //每页条数变化时
 function handleSizeChange(val: number) {
   Object.assign(params, {
-    [`${reqMap!.curr_page as string}`]: 1,
-    [`${reqMap!.page_size as string}`]: val,
+    [`${reqMap.curr_page as string}`]: 1,
+    [`${reqMap.page_size as string}`]: val,
   });
   getList(params, undefined, "sizeChange");
 }
 //当前页码变化时
 function handleCurrChange(val: number) {
-  Object.assign(params, { [`${reqMap!.curr_page as string}`]: val });
+  Object.assign(params, { [`${reqMap.curr_page as string}`]: val });
   getList(params, undefined, "currChange");
 }
 /**
@@ -335,8 +344,8 @@ function handleChange(changedVals: CommonObj, withModelData?: boolean) {
     Object.assign(initParams, params);
   } else {
     if (!changeFetch) return;
-    // merge(params, changedVals, { [`${reqMap!.curr_page}`]: 1 }); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
-    Object.assign(params, changedVals, { [`${reqMap!.curr_page}`]: 1 });
+    // merge(params, changedVals, { [`${reqMap.curr_page}`]: 1 }); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
+    Object.assign(params, changedVals, { [`${reqMap.curr_page}`]: 1 });
   }
   immediate && getList(params, undefined, "change");
 }
@@ -353,10 +362,10 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
     .then((res: any) => {
       if (!res) return;
       if (handleResponse) res = handleResponse(res);
-      const newList = res[resMap!.records as string];
+      const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请自测：", res);
       log && printLog(newList, "res");
-      const _currPage = args[reqMap!.curr_page as string];
+      const _currPage = args[reqMap.curr_page as string];
       if (summaryList) {
         const t = typeOf(summaryList);
         const oldList = newRows.value;
@@ -371,12 +380,12 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
         newRows.value = newList;
       }
       Object.assign(pageInfo, {
-        total: res[resMap!.total_num as string],
-        hasMore: res[resMap!.has_more as string],
+        total: res[resMap.total_num as string],
+        hasMore: res[resMap.has_more as string],
       });
       Object.assign(currPageInfo, {
-        [reqMap!.curr_page]: _currPage,
-        [reqMap!.page_size]: args[reqMap!.page_size as string],
+        [reqMap.curr_page]: _currPage,
+        [reqMap.page_size]: args[reqMap.page_size as string],
       });
       if (selectAll) {
         seledRows.value = newList;
@@ -394,7 +403,8 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 }
 //点击额外的按钮
 function onExtraBtn(btnObj: BtnItem) {
-  const { rowKey, exportCfg, importCfg } = props;
+  const { exportCfg, importCfg, tableAttrs } = props;
+  const { rowKey } = tableAttrs;
   const { text } = btnObj;
   handleClickExtraBtns({
     btnObj,
@@ -449,7 +459,7 @@ defineExpose({
   getQueryParams(isOmit = props.isOmit) {
     return isOmit ? omitAttrs(params) : params;
   },
-  getQueryFields(excludeKeys = [reqMap!.curr_page, reqMap!.page_size]) {
+  getQueryFields(excludeKeys = [reqMap.curr_page, reqMap.page_size]) {
     const queryFields: QueryFieldsItem[] = [];
     const rangeKeys: string[] = [];
     const propFields = queryFormRef.value.getFields() as FormFieldAttrs[];
@@ -490,7 +500,8 @@ defineExpose({
 });
 // 拖拽排序
 function handleDragSort(ele = queryTableRef.value.tableRef.$el.querySelector(".el-table__body-wrapper tbody") as HTMLElement) {
-  const { rowKey } = props;
+  const { tableAttrs } = props;
+  const { rowKey } = tableAttrs;
   Sortable.create(ele, {
     handle: ".sort-cell",
     animation: 300,

@@ -3,14 +3,7 @@
   <el-form class="section-form f-fs-s-c" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
-        <section
-          class="section"
-          :class="{
-            [`f-span-${sItem.span ?? 24}`]: true,
-          }"
-          v-for="(sItem, sInd) in newSections"
-          :key="sInd"
-        >
+        <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
           <!-- @click="toggleFold($event, sInd)" -->
           <div class="head f-sb-c">
             <div class="title f-fs-c">
@@ -21,7 +14,7 @@
                 </template>
               </el-popover>
             </div>
-            <slot :name="'head-right-' + (sItem.prop ?? sInd)"></slot>
+            <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)"></slot>
             <BaseIcon
               @click="folds[sInd] = !folds[sInd]"
               class="fold-btn f-0"
@@ -31,14 +24,17 @@
               v-if="foldable"
             />
           </div>
-          <div class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
+          <el-row class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
             <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItem
-                  :className="`f-span-${field.extraAttrs?.span || span}`"
                   :field="field"
-                  :pureText="field?.extraAttrs?.pureText || sItem.pureText || pureText"
+                  :grid="field?.extraAttrs?.grid ?? sItem.grid ?? grid"
+                  :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
+                  :pureText="field?.extraAttrs?.pureText ?? sItem.pureText ?? pureText"
+                  :disabled="field?.extraAttrs?.disabled ?? sItem.disabled ?? disabled"
+                  :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
                   v-model="formData[sItem.prop][field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
                   :formRef="formRef"
@@ -49,9 +45,12 @@
                   </template>
                 </FieldItem>
                 <FieldItem
-                  :className="`f-span-${field?.extraAttrs?.span || span}`"
                   :field="field"
-                  :pureText="field?.extraAttrs?.pureText || sItem?.extraAttrs?.pureText || pureText"
+                  :grid="field?.extraAttrs?.grid ?? sItem.grid ?? grid"
+                  :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
+                  :pureText="field?.extraAttrs?.pureText ?? sItem?.pureText ?? pureText"
+                  :disabled="field?.extraAttrs?.disabled ?? sItem.disabled ?? disabled"
+                  :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
                   v-model="formData[field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
                   :formRef="formRef"
@@ -63,7 +62,7 @@
                 </FieldItem>
               </template>
             </template>
-          </div>
+          </el-row>
         </section>
       </template>
       <div class="f-c-c pb-o" v-else>空空如也~</div>
@@ -96,7 +95,7 @@
 import { ref, reactive, computed, watch, watchEffect } from "vue";
 import { FormInstance } from "element-plus";
 import { getMaxLength, typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
@@ -111,12 +110,15 @@ const props = withDefaults(
     modelValue?: CommonObj; //表单数据
     sections?: SectionFormItem[];
     pureText?: boolean; //是否纯文本展示
+    readonly?: boolean; //是否只读
+    disabled?: boolean; //是否禁用
+    labelWidth?: string; //label的宽度
     foldable?: boolean; //是否允许折叠
     fetch?: UniteFetchType; //接口请求
     fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: () => void; //fetch请求失败之后的回调方法
     footer?: boolean; //是否显示底部按钮
-    span?: number | string; // 同ElementPlus的span，1~24
+    grid?: GridValAttrs; // 同ElementPlus的el-col的属性，可为数值：1~24
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
@@ -127,18 +129,18 @@ const props = withDefaults(
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
     noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
-    labelWidthBySection?: boolean; //表单项的labelWidth根据各部分的label文字自动确定宽度
+    // labelWidthBySection?: boolean; //表单项的labelWidth根据各部分的label文字自动确定宽度
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
   {
     modelValue: () => reactive({}),
     log: !isProd,
-    span: 24,
+    grid: 24,
     footer: true,
     isOmit: true,
     foldable: true,
     autoFixedFoot: true,
-    labelWidthBySection: true,
+    // labelWidthBySection: true,
     sections: () => [],
   }
 );
@@ -159,29 +161,23 @@ const params = computed(() => merge({}, formData.value, props.extraParams));
 watch(
   () => props.sections,
   newVals => {
-    const { modelValue, labelWidthBySection } = props;
+    const { modelValue } = props;
     newSections.value = newVals.filter((secItem: SectionFormItem) => {
       if (typeOf(secItem) !== "Object") return false;
-      const { type, prop, fields, fieldAttrs } = secItem as SectionFormItemAttrs;
+      const { type, prop, fields } = secItem as SectionFormItemAttrs;
       if (typeOf(prop) !== "Undefined") {
         const defVal = modelValue?.[prop as string];
         formData.value[prop as string] = type === "custom" ? defVal : handleFields(fields, emits, defVal).data;
       } else {
-        const result = handleFields(fields, emits, modelValue, fieldAttrs);
+        const result = handleFields(fields, emits, modelValue);
         let { fields: _fields } = result;
         const { data } = result;
         merge(formData.value, data);
-        if (labelWidthBySection) {
-          const labelLen = getMaxLength(fields);
-          _fields = _fields.map((field: FormFieldAttrs, ind: number) => {
-            field.labelWidth = labelLen + "em";
-            return field;
-          });
-        }
         (secItem as SectionFormItemAttrs).fields = _fields;
       }
       return true;
     }) as SectionFormItemAttrs[];
+    console.log(newSections.value, "newSections.value------------");
   },
   { immediate: true, deep: true }
 );
