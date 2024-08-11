@@ -1,7 +1,7 @@
 <!-- 分块表单测试 -->
 <template>
   <TestView :records="records">
-    <SectionForm class="f-2" v-model="model" :sections="sections" label-suffix="：" :grid="12" labelWidth="8em">
+    <SectionForm class="f-2" v-model="model" :sections="sections" label-suffix="：" :grid="12" labelWidth="8em" :size="size">
       <template #head-right-partThree>这是第三部分的Head的插槽，有prop属性：【head-right-partThree】</template>
       <template #head-right-4>这是第四部分的Head的插槽，无prop属性：【head-right-4】</template>
       <template #zdy>这是自定义的表单字段</template>
@@ -11,16 +11,28 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
 import SectionForm from "@/components/form/SectionForm.vue";
 
+const records = {
+  hasTest: {
+    title: "已测试属性",
+    list: ["grid", "labelWidth", "readonly", "disabled", "pureText", "SectionItem 的prop"],
+  },
+  waitBetter: {
+    title: "待完善属性",
+    list: [],
+  },
+};
+const size: CommonSize = "large"; // large, default, small
 const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "张三", partThree: { xjd: "成都" } });
 const sections = [
   {
     title: "第一部分",
     pureText: true,
-    popover: "块级设置 {pureText: true}",
+    size: "small",
+    popover: "块级设置 {pureText: true, size: 'small'}",
     fields: [
       {
         prop: "id",
@@ -48,8 +60,8 @@ const sections = [
     popover: "块级设置 {readonly: true}",
     fields: [
       { prop: "xm", label: "姓名", extraAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
-      { prop: "xb", label: "性别", extraAttrs: {} },
-      { prop: "nl", label: "年龄", extraAttrs: {} },
+      { prop: "xb", label: "性别", size: "default", extraAttrs: {} },
+      { prop: "nl", label: "年龄", attrs: { size: "small" }, extraAttrs: {} },
     ],
   },
   {
@@ -57,8 +69,14 @@ const sections = [
     popover: "块级设置 prop 属性",
     prop: "partThree",
     fields: [
-      { prop: "xjd", label: "现居地", extraAttrs: { grid: 12 } },
-      { prop: "ip", label: "IP地址", extraAttrs: { grid: 12 } },
+      { prop: "xjd", label: "现居地", size: "default", extraAttrs: { grid: 12, tips: "字段级的size【el-form-item】" } },
+      {
+        prop: "ip",
+        label: "IP地址",
+        size: "default",
+        attrs: { size: "small" },
+        extraAttrs: { grid: 12, tips: "控件级的size【el-input】" },
+      },
     ],
   },
   {
@@ -80,11 +98,5 @@ const sections = [
     ],
   },
 ];
-const records = {
-  hasTest: {
-    title: "已测试属性",
-    list: ["grid", "labelWidth", "readonly", "disabled", "pureText", "SectionItem 的prop"],
-  },
-};
 </script>
 <style lang="scss" scoped></style>

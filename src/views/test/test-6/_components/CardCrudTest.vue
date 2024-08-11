@@ -1,4 +1,4 @@
-<!-- 基础的增删改查测试 -->
+<!-- 卡片增删改查测试 -->
 <template>
   <TestView :records="records">
     <BaseCrud
@@ -13,17 +13,8 @@
       :size="size"
       :extraBtns="['add']"
       :operateBtns="['delete', 'edit']"
-      :rowNum="3"
       @extraBtns="onExtraBtns"
       @operateBtns="onOperateBtns"
-      :formAttrs="{
-        // size: 'large',
-        labelWidth: '10em',
-      }"
-      :tableAttrs="{
-        border: false,
-        // size: 'small',
-      }"
     >
       <template #middle>
         <div class="f-c-c">这是中间内容</div>
@@ -46,11 +37,11 @@ import { BaseBtnType, BtnName } from "@/components/BaseBtn";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["grid", "disabled", "自定义列"],
+    list: [],
   },
   waitBetter: {
     title: "待完善属性",
-    list: ["size", "查询条件sections"],
+    list: [],
   },
 };
 const size: CommonSize = "default"; // large, default, small

@@ -1,12 +1,6 @@
 import { CommonObj, StrNum } from "@/vite-env";
 import { TableField } from "@/components/table";
-import { FormField, FormFieldAttrs } from "@/components/form";
-import { OperateBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
-import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
-import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
-import { UniteFetchType, FinallyNext, CommonSize } from "@/vite-env";
-import { SectionFieldsItemAttrs } from "@/components/form";
-import { SummaryListType, PaginationAttrs } from "@/components/table";
+import { BtnItem } from "@/components/BaseBtn";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 
 export interface BaseCrudProps {
@@ -16,7 +10,7 @@ export interface BaseCrudProps {
   // tableAttrs?: CommonObj; //el-table的属性配置
   // pageAttrs?: CommonObj; //分页配置
   // disabled?: boolean; //是否禁用
-  // groupBtnsAttrs?: GroupBtnsAttrs; //分页配置
+  // operateBtnsAttrs?: OperateBtnsAttrs; //分页配置
   // pagination?: false | PaginationAttrs; //是否分页
   // fields?: FormField[];
   // sections?: SectionFieldsItemAttrs[];

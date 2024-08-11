@@ -3,7 +3,7 @@
   <el-form class="cell-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" ref="formRef">
     <div class="box all-hide-scroll" :class="[fields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="fields.length">
-        <el-col v-bind="field.grid || Object.assign({}, defaultColSpanAttrs, grid)" v-for="(field, ind) in fields" :key="ind">
+        <el-col v-bind="field.grid || Object.assign({}, defaultGridAttrs, grid)" v-for="(field, ind) in fields" :key="ind">
           <FieldItem
             :field="field"
             :pureText="field.extraAttrs?.pureText || pureText"
@@ -43,11 +43,6 @@
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
@@ -60,18 +55,16 @@ import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 import { CommonObj, FinallyNext, FetchType } from "@/vite-env";
+import { defaultGridAttrs } from "@/components/form/_config";
 
 export interface CellFormField extends FormFieldAttrs {
   grid?: GridValAttrs;
 }
-const defaultColSpanAttrs: GridValAttrs = {
-  // xs: 24, // <768
-  // sm: 12, // >=768
-  // md: 8, // >=992
-  // lg: 6, // >=1200
-  // xl: 4, // >=1920
-  span: 6,
-};
+
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据

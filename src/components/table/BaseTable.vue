@@ -1,10 +1,11 @@
 <template>
-  <el-table class="base-table" :data="rows" v-bind="newAttrs" ref="tableRef">
+  <el-table class="base-table" :data="rows" v-bind="defaultTableAttrs" :size="size" ref="tableRef">
     <Column
       :col="col"
+      :size="size"
       :selection="!!selection"
       @operateBtns="onOperateBtns"
-      :groupBtnsAttrs="groupBtnsAttrs"
+      :operateBtnsAttrs="operateBtnsAttrs"
       :getGroupBtnsOfRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
       v-for="(col, cInd) in newCols"
       :key="cInd"
@@ -29,10 +30,10 @@ import { specialColMap } from "@/components/table";
 import { defaultTableAttrs } from "@/components/table";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn";
-import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
+import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
-import { getGroupBtnsOfRow } from "./_utils";
-import { getAddSpecialCols } from "@/components/crud/BaseCrud/_utils";
+import { getGroupBtnsOfRow, getAddSpecialCols } from "./_utils";
+import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{
@@ -41,13 +42,15 @@ const props = withDefaults(
     sort?: boolean | TableColAttrs; //是否显示排序列
     index?: boolean | TableColAttrs; //是否展示序号列
     selection?: boolean | TableColAttrs; //是否显示选择框
+    size?: CommonSize;
     showSummary?: boolean; //是否显示汇总行
-    groupBtnsAttrs?: GroupBtnsAttrs;
+    operateBtnsAttrs?: OperateBtnsAttrs;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
     filterBtnsByAuth?: (btns: BtnItem[]) => BtnItem[];
     operateBtns?: BtnItem[];
   }>(),
   {
+    size: defaultCommonSize,
     cols: () => [],
     rows: () => [],
     summaryMethod: handleTableSummary,
@@ -56,7 +59,6 @@ const props = withDefaults(
 const emits = defineEmits(["operateBtns"]);
 
 const tableRef = ref<any>();
-const newAttrs = reactive(merge({}, defaultTableAttrs));
 const newCols = reactive<TableColAttrs[]>([]);
 //调用stopWatch（），确保下面的方法只执行一次
 const stopWatch = watchEffect(() => {

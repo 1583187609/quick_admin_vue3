@@ -20,7 +20,7 @@
       (row: CommonObj) => (row?.status === 1 ? 'forbid' : 'enable'),
       'view',
     ]"
-    :gridAttrs="showGridAttrs"
+    :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
     @dargSortEnd="handleDragSortEnd"

@@ -1,5 +1,5 @@
-import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
-import { CommonObj, StrNum } from "@/vite-env";
+import { FormField, FormFieldAttrs, GridValAttrs, PopoverAttrs, PopoverValAttrs } from "@/components/form";
+import { CommonObj, CommonSize, StrNum } from "@/vite-env";
 
 export * from "@/components/form/_components/FieldItem";
 
@@ -21,7 +21,8 @@ export interface SectionFormItemAttrs {
   pureText?: boolean; //是否是纯文本（会影响当前块的所有子级）
   readonly?: boolean; //是否只读
   disabled?: boolean; //是否禁用
-  popover?: string | CommonObj;
+  size?: CommonSize; //是否禁用
+  popover?: string | PopoverAttrs;
   labelWidth?: StrNum;
 }
 export type SectionFormItem = false | SectionFormItemAttrs;

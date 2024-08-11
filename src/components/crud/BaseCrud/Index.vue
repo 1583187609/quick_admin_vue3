@@ -5,7 +5,7 @@
   <div class="base-crud f-fs-s-c" ref="baseCrudRef">
     <QueryForm
       class="f-0"
-      :class="size === 'small' ? 'mb-6' : 'mb-h'"
+      :class="formAttrs?.size ?? size"
       v-model="model"
       :disabled="disabled"
       :readonly="readonly"
@@ -13,9 +13,9 @@
       :sections="sections"
       :loading="loading"
       :inputDebounce="inputDebounce"
-      :gridAttrs="gridAttrs"
+      :grid="grid"
       :compact="compact"
-      :size="size"
+      :size="formAttrs?.size ?? size"
       :rowNum="rowNum"
       v-bind="formAttrs"
       @reset="handleReset"
@@ -27,7 +27,9 @@
         <slot :name="field.prop" :field="field" :form="form"></slot>
       </template>
     </QueryForm>
-    <slot name="middle"></slot>
+    <div class="middle" :class="tableAttrs?.size ?? size" v-if="$slots.middle">
+      <slot name="middle"></slot>
+    </div>
     <ExtraBtns
       class="f-0"
       :columns="newCols"
@@ -37,7 +39,7 @@
       :disabled="disabled"
       :total="pageInfo.total"
       :batchBtn="batchBtn && selection"
-      :size="size"
+      :size="tableAttrs?.size ?? size"
       ref="extraBtnsRef"
       @update:cols="(cols:TableField[])=>{newCols = cols}"
       @click="onExtraBtns"
@@ -52,11 +54,7 @@
       :onOperateBtns="onOperateBtns"
     >
       <QueryTable
-        :groupBtnsAttrs="{
-          compact,
-          small: size === 'small',
-          ...groupBtnsAttrs,
-        }"
+        :compact="compact"
         :loading="loading"
         :cols="newCols"
         :rows="newRows"
@@ -70,8 +68,9 @@
         :filterBtnsByAuth="filterBtnsByAuth"
         :refreshList="refreshList"
         :disabled="disabled"
+        :size="tableAttrs?.size ?? size"
+        :operateBtnsAttrs="operateBtnsAttrs"
         v-bind="tableAttrs"
-        :size="size"
         @operateBtns="onOperateBtns"
         @selectionChange="handleSelectionChange"
         @update:cols="(cols:TableField[])=>{allCols=cols}"
@@ -87,7 +86,7 @@
       v-model:currPage="currPageInfo[reqMap.curr_page]"
       v-model:pageSize="currPageInfo[reqMap.page_size]"
       :total="pageInfo.total"
-      :small="size === 'small'"
+      :size="tableAttrs?.size ?? size"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrChange"
       v-if="pagination && showPagination"
@@ -95,8 +94,8 @@
   </div>
 </template>
 <script lang="ts" name="BaseCrud" setup>
-import { ref, reactive, watch, computed, onMounted, inject } from "vue";
-import { FormField, FormFieldAttrs, GridAttrs } from "@/components/form";
+import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
+import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
 import { TableField } from "@/components/table";
 import { cloneDeep, merge } from "lodash";
 import ExtraBtns from "./_components/ExtraBtns/Index.vue";
@@ -114,10 +113,9 @@ import {
   emptyVals,
   defaultReqMap,
   defaultResMap,
-  defaultColSpanAttrs,
 } from "@/components/_utils";
 import Pagination from "./_components/Pagination.vue";
-import { GroupBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
+import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
@@ -128,56 +126,64 @@ import { SummaryListType, PaginationAttrs } from "@/components/table";
 import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud";
 import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
-import { defaultFormAttrs } from "@/components/form/_config";
+import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
 import { defaultTableAttrs } from "@/components/table/_config";
 import config from "@/config";
 import { ExportCfg, FormAttrs, TableAttrs } from "./_types";
+import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
 
+const $slots = useSlots();
 const openPopup = inject<any>("openPopup");
 const allCols = ref<TableField[]>([]);
 const props = withDefaults(
   defineProps<{
+    /** 表单相关 **/
     modelValue?: CommonObj; //表单数据，可设默认值
     fields?: FormField[]; //表单字段
     sections?: SectionFieldsItemAttrs[]; //分块的表单字段
-    cols?: TableField[]; //表格列数据
     fetch?: UniteFetchType; //列表请求接口
-    sort?: boolean | UniteFetchType; //是否展示排序列
-    index?: boolean; //是否展示序号列
-    selection?: boolean; //是否展示选择框
     immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
-    extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
-    operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
-    reqMap?: ReqMap; //请求参数的键名映射
-    resMap?: ResMap; //响应参数的键名映射
-    disabled?: boolean; //是否禁用
-    readonly?: boolean; //是否只读
-    selectAll?: boolean; //是否选择全部
-    groupBtnsAttrs?: GroupBtnsAttrs; // 操作栏按钮的配置
-    summaryList?: SummaryListType; //汇总请求数据的 list
-    batchBtn?: boolean; //是否显示批量按钮
-    importCfg?: TplCfgAttrs; //导入的下载模板配置
     extraParams?: CommonObj; //额外的参数
-    log?: boolean; //是否console.log(rows)
-    debug?: boolean; //是否在打印请求数据之后不执行请求的逻辑
-    isOmit?: boolean; //是否剔除掉undefined, ''的属性值
     changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
     inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
-    filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
-    gridAttrs?: GridAttrs; //栅格配置，同ElementPlus的el-col的属性
-    compact?: boolean; //表单项之间排列是否紧凑点
-    size?: CommonSize;
-    rowNum?: number; //筛选条件的表单展示几行
+    grid?: GridValAttrs; //栅格配置，同ElementPlus的el-col的属性
+    rowNum?: number; // 筛选条件的(表单)展示几行
+    /** 对请求数据的处理 **/
+    reqMap?: ReqMap; //请求参数的键名映射
+    resMap?: ResMap; //响应参数的键名映射
     fetchSuccess?: (res: any) => void; //请求成功的回调函数
     fetchFail?: (err: any) => void; //请求成功的回调函数
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
     handleResponse?: (res: any) => any; //处理响应数据
+    /** 中间按钮项 **/
+    extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
+    importCfg?: TplCfgAttrs; //导入的下载模板配置
     exportCfg?: ExportCfg; //导出配置
+    /** 表格相关 **/
+    cols?: TableField[]; //表格列数据
+    sort?: boolean | UniteFetchType; //是否展示排序列
+    index?: boolean; //是否展示序号列
+    selection?: boolean; //是否展示选择框
+    operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
+    operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
+    filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
+    formAttrs?: FormAttrs; //el-form 的属性配置
+    /** 对表单、表格的整体控制 **/
+    disabled?: boolean; //是否禁用
+    readonly?: boolean; //是否只读
+    log?: boolean; //是否console.log(rows)
+    debug?: boolean; //是否在打印请求数据之后不执行请求的逻辑
+    isOmit?: boolean; //是否剔除掉undefined, ''的属性值
+    size?: CommonSize; //整体的控件大小
+    compact?: boolean; //表单项、表格列之间排列是否紧凑点
+    tableAttrs?: TableAttrs; //el-table 的属性配置
     pageAttrs?: CommonObj; //分页配置
     pagination?: false | PaginationAttrs; //是否分页
     showPagination?: boolean; //是否显示分页
-    formAttrs?: FormAttrs; //el-form 的属性配置
-    tableAttrs?: TableAttrs; //el-table 的属性配置
+    /** 下面是待确定项，可以更改名称，可能移除或替换 **/
+    selectAll?: boolean; //是否选择全部
+    summaryList?: SummaryListType; //汇总请求数据的 list
+    batchBtn?: boolean; //是否显示批量按钮
   }>(),
   Object.assign(
     {
@@ -187,23 +193,15 @@ const props = withDefaults(
       immediate: true,
       changeFetch: true,
       batchBtn: false,
+      size: defaultCommonSize,
       isOmit: true,
       inputDebounce: true,
       showPagination: true,
       pagination: () => ({ currPage: 1, pageSize: 20 }),
       reqMap: () => defaultReqMap,
       resMap: () => defaultResMap,
-      gridAttrs: () => defaultColSpanAttrs,
-      // 跟下面的size: "small" 搭配使用，会，会使得排版布局更加紧凑
-      // gridAttrs: () => ({
-      //  xs: 12,
-      //   sm: 12,
-      //   md: 8,
-      //   lg: 4,
-      //   xl: 3,
-      // }),
-      // size: "small",
-      compact: (_props: CommonObj) => _props.gridAttrs.xl < 6,
+      grid: () => defaultGridAttrs,
+      compact: (_props: CommonObj) => _props.grid.xl < 6,
       filterByAuth: (auth: number[]) => true,
       exportCfg: () => ({ limit: 10000 }),
       // pageAttrs: () => ({}),
@@ -288,26 +286,6 @@ function handleReset() {
   params = cloneDeep(initParams);
   getList(params, undefined, "reset");
 }
-/**
- * 判断是否位于 dialog 弹窗中
- * @notice 先不要删除，后面可能会有用
- */
-// function judgeIsInDialog(className: string = "basic-dialog", startLevel: number = 5) {
-//   let isInDia = false;
-//   getTargetPar(startLevel);
-//   function getTargetPar(sLevel = 0) {
-//     let targetPar = baseCrudRef.value.parentNode;
-//     while (sLevel > 0) {
-//       targetPar = targetPar?.parentNode;
-//       sLevel--;
-//       if (targetPar?.classList?.contains(className)) {
-//         isInDia = true;
-//         break;
-//       }
-//     }
-//   }
-//   return isInDia;
-// }
 //点击搜索
 function handleSearch(data: CommonObj) {
   Object.assign(params, { [`${reqMap.curr_page as string}`]: 1 });
@@ -519,6 +497,17 @@ function handleDragSort(ele = queryTableRef.value.tableRef.$el.querySelector(".e
 .base-crud {
   height: 100%;
   width: 100%;
-  // overflow: auto;
+  .query-form,
+  .middle {
+    &.large {
+      margin-bottom: $gap-large;
+    }
+    &.default {
+      margin-bottom: $gap-default;
+    }
+    &.small {
+      margin-bottom: $gap-small;
+    }
+  }
 }
 </style>

@@ -47,9 +47,9 @@ export interface BtnItem {
   auth?: number[]; //权限
   to?: string | CommonObj | ((row: CommonObj) => string | CommonObj); //点击按钮时要跳转的页面地址
   customRules?: boolean; //是否自定义该按钮的逻辑规则（目前只有导出按钮用到了此属性）
-  attrs?: BtnAttrs; //按钮属性
   validate?: boolean; //是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
   popconfirm?: boolean | PopconfirmAttrs;
+  attrs?: BtnAttrs; //按钮属性
 }
 export type BtnFn = (row: CommonObj) => BtnName | BtnItem;
 export type BaseBtnType = BtnName | BtnItem | BtnFn;

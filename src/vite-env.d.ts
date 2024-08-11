@@ -110,3 +110,9 @@ type RequiredUser = GetRequired<User>;
 type PickUser = GetPick<User, "age" | "name">;
 type ExcludeUser = GetExclude<"a" | "b" | "c", "a" | "c">;
 type OmitUser = GetOmit<User, "age">;
+
+// 临时记录，后续整理
+
+type CommonButtonSize = "large" | "default" | "small";
+type CommonFormSize = "large" | "default" | "small";
+type CommonTableSize = "large" | "default" | "small";

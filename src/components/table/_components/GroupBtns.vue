@@ -1,22 +1,34 @@
 <template>
-  <div class="group-btns" :class="[vertical ? 'f-c-c-c' : 'f-c-c']">
+  <div class="group-btns" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
     <BaseBtn
-      :class="{ 'ml-0-i': vertical }"
       :name="btn"
       :data="row"
+      :attrs="{
+        class: ['btn', vertical ? 'vertical' : ''],
+        size,
+        ...defaultBtnAttrs,
+      }"
       @click="handleClick(btn)"
-      v-bind="defaultBtnAttrs"
       v-for="(btn, ind) in newBtns.slice(0, isOver ? maxNum - 1 : maxNum)"
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="ml-12" :class="[vertical ? 'ml-0-i' : '']" :icon="ArrowDown" type="primary" v-bind="defaultBtnAttrs">
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs">
         更多
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
-            <BaseBtn :name="btn" :data="row" @click="handleClick(btn)" v-bind="defaultBtnAttrs" />
+            <BaseBtn
+              :name="btn"
+              :data="row"
+              :attrs="{
+                class: ['btn', vertical ? 'vertical' : ''],
+                size,
+                ...defaultBtnAttrs,
+              }"
+              @click="handleClick(btn)"
+            />
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -33,18 +45,20 @@ import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import config from "@/config";
 import { CommonObj, FinallyNext } from "@/vite-env";
+import { defaultCommonSize } from "@/components/_utils";
+
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
-export interface GroupBtnsAttrs {
+export interface OperateBtnsAttrs {
   vertical?: boolean;
   maxNum?: number;
   compact?: boolean; //是否紧凑型
   small?: boolean; //是否小型
 }
 const defaultBtnAttrs = {
-  size: "small",
+  // size: "large",
   plain: true,
   text: true,
-  style: "padding: 0",
+  // style: "padding: 0",
 };
 const router = useRouter();
 const closePopup: any = inject("closePopup");
@@ -52,6 +66,7 @@ const props = withDefaults(
   defineProps<{
     btns?: BaseBtnType[];
     row?: CommonObj;
+    size?: CommonSize;
     maxNum?: number;
     vertical?: boolean;
     emptyStr?: any;
@@ -60,6 +75,7 @@ const props = withDefaults(
   }>(),
   Object.assign(
     {
+      size: defaultCommonSize,
       btns: () => [],
       maxNum: defaultGroupBtnsMaxNum,
       emptyStr: "-",
@@ -93,8 +109,49 @@ function handleClick(btnObj: BtnItem) {
 </script>
 <style lang="scss" scoped>
 .group-btns {
-}
-.ml-0-i {
-  margin-left: 0 !important;
+  .btn {
+    &.vertical {
+      margin-left: 0 !important;
+    }
+  }
+  &.large {
+    .el-button {
+      + .el-button {
+        margin-left: $gap-large;
+      }
+    }
+    .btn {
+      padding: $gap-large;
+      &.more {
+        margin-left: $gap-large;
+      }
+    }
+  }
+  &.default {
+    .el-button {
+      + .el-button {
+        margin-left: $gap-default;
+      }
+    }
+    .btn {
+      padding: $gap-default;
+      &.more {
+        margin-left: $gap-default;
+      }
+    }
+  }
+  &.small {
+    .el-button {
+      + .el-button {
+        margin-left: $gap-small;
+      }
+    }
+    .btn {
+      padding: $gap-small;
+      &.more {
+        margin-left: $gap-small;
+      }
+    }
+  }
 }
 </style>

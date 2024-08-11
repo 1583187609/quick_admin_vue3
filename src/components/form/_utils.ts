@@ -121,16 +121,31 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
 }
 
 /**
+ * 获取el-col的属性
+ * @param grid 栅格属性
+ * @returns
+ */
+export function getElColAttrs(grid: GridValAttrs = 24, colAttrs?: CommonObj) {
+  if (typeof grid === "number") return { span: grid, ...colAttrs };
+  if (typeof grid === "string") {
+    const colNum = Number(grid);
+    if (isNaN(colNum)) throw new Error(`请传入数字类型`);
+    return getElColAttrs(colNum, colAttrs);
+  }
+  return { ...grid, ...colAttrs };
+}
+
+/**
  * 获取栅格属性
  * @param grid 栅格属性
  * @returns
  */
-export function getColValAttrs(grid: GridValAttrs = 24) {
-  if (typeof grid === "number") return { span: grid };
+export function getGridAttrs(grid: GridValAttrs = 24) {
+  if (typeof grid === "number") return { xs: grid, sm: grid, md: grid, lg: grid, xl: grid };
   if (typeof grid === "string") {
     const colNum = Number(grid);
     if (isNaN(colNum)) throw new Error(`请传入数字类型`);
-    return { span: colNum };
+    return getGridAttrs(colNum);
   }
   return grid;
 }

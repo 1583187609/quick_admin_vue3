@@ -1,7 +1,7 @@
 <template>
   <el-form
     class="query-form"
-    :class="{ compact, small: isSmall }"
+    :class="{ compact, [size]: true }"
     :model="formData"
     v-bind="defaultFormAttrs"
     @keyup.enter="handleSubmit"
@@ -17,9 +17,8 @@
             :field="field"
             :disabled="disabled"
             :readonly="readonly"
-            :small="isSmall"
+            :size="size"
             :inputDebounce="inputDebounce"
-            :size="$attrs.size"
             @change="(key:string, val:any)=>emits('change', {[key]: val})"
             v-for="(field, ind) in sItem.fields.slice(0, sliceInd?.(sInd))"
             :key="ind"
@@ -29,7 +28,7 @@
             </template>
           </QueryFields>
           <QueryBtns
-            :small="isSmall"
+            :size="size"
             :compact="compact"
             :loading="loading"
             :isFold="isFold"
@@ -37,7 +36,7 @@
             @submit="handleSubmit"
             @fold="isFold = !isFold"
             @reset="resetForm"
-            v-bind="gridAttrs"
+            v-bind="getGridAttrs(grid)"
             v-if="
               newSections.length <= rowNum
                 ? sInd === newSections.length - 1
@@ -53,9 +52,8 @@
       <QueryFields
         v-model="formData"
         :field="field"
-        :small="isSmall"
+        :size="size"
         :inputDebounce="inputDebounce"
-        :size="$attrs.size"
         @change="(key:string, val:any)=>emits('change', {[key]: val})"
         v-for="(field, ind) in newFields.slice(0, sliceInd)"
         :key="ind"
@@ -65,7 +63,7 @@
         </template>
       </QueryFields>
       <QueryBtns
-        :small="isSmall"
+        :size="size"
         :compact="compact"
         :loading="loading"
         :isFold="isFold"
@@ -73,7 +71,7 @@
         @submit="handleSubmit"
         @fold="isFold = !isFold"
         @reset="resetForm"
-        v-bind="gridAttrs"
+        v-bind="getGridAttrs(grid)"
       />
     </div>
   </el-form>
@@ -90,8 +88,9 @@ import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
 import { useEvent } from "@/hooks";
-import { handleFields } from "@/components/form/_utils";
+import { handleFields, getGridAttrs } from "@/components/form/_utils";
 import { SectionFieldsItemAttrs, defaultFormAttrs } from "@/components/form";
+import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{
@@ -101,15 +100,17 @@ const props = withDefaults(
     loading?: boolean;
     disabled?: boolean;
     readonly?: boolean;
+    size?: CommonSize;
     rowNum?: number;
     extraParams?: CommonObj; //额外的参数
     inputDebounce?: boolean;
-    gridAttrs: GridAttrs;
+    grid: GridAttrs;
     compact?: boolean; //是否是紧凑的
     noFieldsHide?: boolean; //没有字段时是否不显示表单内容
   }>(),
   Object.assign(
     {
+      size: defaultCommonSize,
       rowNum: 2,
       fields: () => [],
       modelValue: () => reactive({}),
@@ -120,13 +121,11 @@ const props = withDefaults(
 );
 const emits = defineEmits(["update:modelValue", "search", "change", "reset"]);
 let isFirst = true;
-const $attrs = useAttrs();
 const formRef = ref<FormInstance>();
 const colNum = ref(2);
 const isFold = ref(true);
 const newFields = ref<FormFieldAttrs[]>([]);
 const newSections = ref<SectionFieldsItemAttrs[]>([]);
-const isSmall = $attrs.size === "small";
 //折叠或展开时，要截取的fields的长度的第二个参数的下标
 const sliceInd = computed((): any => {
   if (!isFold.value) return;
@@ -176,8 +175,8 @@ watch(
   () => props.fields,
   (newVal: FormField[]) => {
     if (props.sections?.length) return;
-    const { modelValue, gridAttrs } = props;
-    const result = handleFields(newVal, undefined, modelValue, { extraAttrs: { grid: gridAttrs } });
+    const { modelValue, grid } = props;
+    const result = handleFields(newVal, undefined, modelValue, { extraAttrs: { grid: getGridAttrs(grid) } });
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -207,19 +206,27 @@ watch(
 );
 useEvent("resize", () => (colNum.value = getColNum()), true);
 function getMaxHeight() {
+  const { rowNum, size } = props;
+  const sizeMap = {
+    small: 28,
+    default: 40,
+    large: 50,
+  };
+  const h = sizeMap[size];
   if (!isFold.value) return "35vh";
-  const rows = colNum.value > 1 ? props.rowNum : props.rowNum + 1;
-  return rows * (isSmall ? 28 : 40) + "px";
+  const rows = colNum.value > 1 ? rowNum : rowNum + 1;
+  return rows * h + "px";
 }
 //设置屏幕宽度类型
 function getColNum() {
-  const { gridAttrs } = props;
+  const { grid } = props;
+  const gridAttrs = getGridAttrs(grid);
   const colNumMap: CommonObj = {};
-  const size = getScreenSizeType();
+  const sizeType = getScreenSizeType();
   for (const key in gridAttrs) {
     colNumMap[key] = 24 / gridAttrs[key];
   }
-  return colNumMap[size];
+  return colNumMap[sizeType];
 }
 //提交表单
 function handleSubmit() {
@@ -251,34 +258,42 @@ defineExpose({
 </script>
 <style lang="scss" scoped>
 .query-form {
-  padding: $gap-half $gap-half 0 0;
   border-radius: $radius-main;
   background: #fff;
   @include shadow-main();
-  //是否是紧凑型
-  &.compact {
-    :deep(.el-form-item__label) {
-      padding: 0 $gap-qtr 0 0;
-    }
+  &.large {
+    padding: $gap-large $gap-large 0 0;
   }
-  //是否是小型
+  &.default {
+    padding: $gap-default $gap-default 0 0;
+  }
   &.small {
-    padding: $gap-qtr $gap-qtr 0 0;
-    :deep(.el-form-item__label) {
-      padding: 0 2px 0 0;
-    }
-    //去掉日期组件前面的图标
-    :deep(.el-date-editor .el-range__icon) {
-      display: none;
-    }
-    //elementPlus中没有提供对应的scss变量，故在此处写死
-    :deep(.el-range-editor.el-input__wrapper) {
-      padding: 0 $gap-qtr;
-    }
-    .sec-label {
-      padding: $gap-qtr;
-    }
+    padding: $gap-small $gap-small 0 0;
   }
+  // //是否是紧凑型
+  // &.compact {
+  //   :deep(.el-form-item__label) {
+  //     padding: 0 $gap-qtr 0 0;
+  //   }
+  // }
+  // //是否是小型
+  // &.small {
+  //   padding: $gap-qtr $gap-qtr 0 0;
+  //   :deep(.el-form-item__label) {
+  //     padding: 0 2px 0 0;
+  //   }
+  //   //去掉日期组件前面的图标
+  //   :deep(.el-date-editor .el-range__icon) {
+  //     display: none;
+  //   }
+  //   //elementPlus中没有提供对应的scss变量，故在此处写死
+  //   :deep(.el-range-editor.el-input__wrapper) {
+  //     padding: 0 $gap-qtr;
+  //   }
+  //   .sec-label {
+  //     padding: $gap-qtr;
+  //   }
+  // }
 }
 .wrap-box {
   overflow: auto;

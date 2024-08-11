@@ -48,7 +48,7 @@
 </template>
 <script lang="ts" name="CardCrud" setup>
 import { ref, reactive, watch, computed, useAttrs, inject } from "vue";
-import { BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
+import { BaseBtnType, BtnItem } from "@/components/BaseBtn";
 import AvatarItem from "./_components/AvatarItem.vue";
 import AboutItem from "./_components/AboutItem.vue";
 import FaceItem from "./_components/FaceItem.vue";

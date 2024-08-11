@@ -14,7 +14,6 @@
       <template v-if="newFields.length">
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <FieldItem
-          :className="`f-span-${field.extraAttrs?.span || span}`"
           :field="field"
           :pureText="field.extraAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"

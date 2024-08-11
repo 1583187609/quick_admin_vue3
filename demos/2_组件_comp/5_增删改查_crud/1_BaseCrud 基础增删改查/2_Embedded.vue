@@ -56,7 +56,7 @@
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
         }
       }"
-    :gridAttrs="showGridAttrs"
+    :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
     :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"

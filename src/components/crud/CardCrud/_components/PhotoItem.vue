@@ -6,8 +6,7 @@
       <BaseCopy class="mb-q" :text="row.userId" />
       <BaseBtn
         :name="btn"
-        round
-        size="small"
+        :attrs="{ round: true, size: 'small' }"
         @click="() => emits('operateBtns', btn)"
         v-for="(btn, ind) in operateBtns"
         :key="ind"

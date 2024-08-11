@@ -2,7 +2,7 @@
 * @link 全局css变量 https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
 */
 :root {
-  // --vp-sidebar-width: 2100x; //左侧边栏的宽度
+  --vp-sidebar-width: 300px; //左侧边栏的宽度
   --vp-layout-max-width: 100vw;
 
   // 主题色
@@ -52,6 +52,12 @@
 //     }
 //   }
 // }
+.title-badge {
+  font-size: 0.6em;
+  font-weight: 500;
+  padding: 0.2em 0.5em;
+  border-radius: 1em;
+}
 
 .vp-doc {
   h2 {

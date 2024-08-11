@@ -1,5 +1,5 @@
 <template>
-  <div class="extra-btns f-fs-c-w">
+  <div class="extra-btns f-fs-fs-w">
     <BatchBtns
       class="mr-12"
       :allSelection="allSelection"
@@ -10,16 +10,18 @@
       v-if="batchBtn"
     />
     <BaseBtn
-      @click="handleClick(btn)"
-      :class="size === 'small' ? 'mb-q' : 'mb-h'"
       :name="btn"
-      :size="size"
+      :attrs="{
+        class: ['btn-item', size],
+        size,
+      }"
+      @click="handleClick(btn)"
       v-for="(btn, ind) in newBtns"
       :key="ind"
     />
     <el-tooltip :content="btn.title" :show-after="500" v-for="(btn, ind) in newToolBtns" :key="ind">
       <el-button
-        :style="{ marginLeft: ind === 0 ? 'auto' : undefined }"
+        :class="{ 'ml-auto': ind === 0 }"
         :size="size"
         :disabled="disabled"
         @click="onToolBtn(btn.name)"
@@ -39,6 +41,8 @@ import SetPrint from "../SetPrint.vue";
 import BatchBtns from "./_components/BatchBtns.vue";
 import config from "@/config";
 import { CommonObj, FinallyNext, CommonSize } from "@/vite-env";
+import { defaultCommonSize } from "@/components/_utils";
+
 export type ToolBtnName = "colSet" | "print";
 const toolsMap: CommonObj = {
   print: {
@@ -66,6 +70,7 @@ const props = withDefaults(
   defineProps<{
     columns?: TableField[];
     allColumns?: TableField[];
+    size?: CommonSize;
     btns?: BaseBtnType[];
     toolBtns?: string[];
     // checked?: boolean; //是否有选中的行
@@ -73,7 +78,6 @@ const props = withDefaults(
     isEmpty?: boolean;
     disabled?: boolean;
     batchBtn?: boolean;
-    size?: CommonSize;
     allSelection?: () => void;
     clearSelection?: () => void;
     invertSelection?: () => void;
@@ -82,6 +86,7 @@ const props = withDefaults(
     {
       columns: () => [],
       allColumns: () => [],
+      size: defaultCommonSize,
       btns: () => [],
       toolBtns: () => ["set"], //"print",
       // checked: false,
@@ -178,4 +183,19 @@ function handleResetColSet() {
   });
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-item {
+  &.large {
+    margin-bottom: $gap-large;
+  }
+  &.default {
+    margin-bottom: $gap-default;
+  }
+  &.small {
+    margin-bottom: $gap-small;
+  }
+}
+.ml-auto {
+  margin-left: auto;
+}
+</style>

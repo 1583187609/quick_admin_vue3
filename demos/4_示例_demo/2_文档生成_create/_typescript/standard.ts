@@ -63,7 +63,6 @@ export interface FormFieldAttrs {
   //   valid?: ValidType; //校验类型
   //   before?: any; //字段前面拼接的内容，可以是文本、组件等
   //   after?: any; //字段后面拼接的内容，可以是文本、组件等
-  //   className?: string | CommonObj | any[]; //写在el-form-item上的类名
   // };
   children?: FormField[];
   //控件的属性，例：placeholder

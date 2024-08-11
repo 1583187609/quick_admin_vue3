@@ -1,4 +1,4 @@
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, StrNum } from "@/vite-env";
 import {
   typeOf,
   propsJoinChar,
@@ -8,13 +8,15 @@ import {
   renderValue,
   defaultGroupBtnsMaxNum,
   getChinaCharLength,
+  defaultCommonSize,
 } from "@/components/_utils";
 import { TableField, TableColAttrs, defaultColumnAttrs } from "@/components/table";
 import { merge } from "lodash";
 import config from "@/config";
 import { BtnItem } from "@/components/BaseBtn";
-import { GroupBtnsAttrs } from "./_components/GroupBtns.vue";
-import { getTempGroupBtnsOfRow } from "../crud/BaseCrud";
+import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
+import { SpecialBoolColType, getTempGroupBtnsOfRow } from "../crud/BaseCrud";
+import cssVars from "@/assets/styles/_var.module.scss";
 
 /**
  * 表格特殊列
@@ -126,7 +128,12 @@ export const specialColMap: CommonObj = Object.assign(
 );
 
 // 获取col和level
-export function getColLevel(col: TableColAttrs, lev = 0, specialColMap: CommonObj, isSmall?: boolean): CommonObj {
+export function getColLevel(
+  col: TableColAttrs,
+  lev = 0,
+  specialColMap: CommonObj,
+  size: CommonSize = defaultCommonSize
+): CommonObj {
   let newLev = lev;
   const { children, type, prop, label, minWidth } = col;
   const specialColAttrs = specialColMap[type as string];
@@ -149,12 +156,16 @@ export function getColLevel(col: TableColAttrs, lev = 0, specialColMap: CommonOb
   if (typeOf(newCol.prop) === "Array") {
     newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   }
-  //如果是小型的紧凑型，那么所有的宽度均要减少20px
-  if (isSmall) {
-    const { width, minWidth } = newCol;
-    width && (newCol.width -= 20);
-    minWidth && (newCol.minWidth -= 20);
-  }
+  //如果是大/小型的紧凑型，那么所有的宽度均要增加/减少20px
+  // const numMap = {
+  //   small: -20,
+  //   large: 20,
+  // };
+  // if (size !== "default") {
+  //   const { width, minWidth } = newCol;
+  //   width && (newCol.width += numMap[size]);
+  //   minWidth && (newCol.minWidth += numMap[size]);
+  // }
   // if (minWidth) {
   //   delete newCol.width;
   // }
@@ -172,23 +183,35 @@ export function getColLevel(col: TableColAttrs, lev = 0, specialColMap: CommonOb
 }
 
 //获取操作栏的宽度
-function getOperateColWidth(groupBtnsAttrs: GroupBtnsAttrs = {}, btns?: BtnItem[]): number {
-  //按钮size为default时
-  // const fontSize = 12;
-  // const btnPadding = 11;
-  // const btnMargin = 12;
-  // const cellPadding = 12;
-  //按钮size为small时
-  const fontSize = 12;
-  const btnPadding = 3;
-  const btnMargin = 12;
-  const cellPadding = 12;
+const { gapLarge, gapDefault, gapSmall } = cssVars;
+const sizeMap = {
+  large: {
+    fontSize: 14,
+    btnPadding: parseInt(gapLarge),
+    btnMargin: parseInt(gapLarge),
+    cellPadding: parseInt(gapLarge) + 12,
+  },
+  default: {
+    fontSize: 14,
+    btnPadding: parseInt(gapDefault),
+    btnMargin: parseInt(gapDefault),
+    cellPadding: parseInt(gapDefault) + 12,
+  },
+  small: {
+    fontSize: 12,
+    btnPadding: parseInt(gapSmall),
+    btnMargin: parseInt(gapSmall),
+    cellPadding: parseInt(gapSmall) + 12,
+  },
+};
+function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnItem[], size: CommonSize = "large"): number {
+  const { fontSize, btnPadding, btnMargin, cellPadding } = sizeMap[size] as CommonObj;
   //最小宽度
   if (!btns) return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
   let em = 0; //按钮文字字符数量
   let width = 0;
-  // const { groupBtnsAttrs = {} } = props;
-  const { vertical, maxNum = defaultGroupBtnsMaxNum } = groupBtnsAttrs as GroupBtnsAttrs;
+  // const { operateBtnsAttrs = {} } = props;
+  const { vertical, maxNum = defaultGroupBtnsMaxNum } = operateBtnsAttrs as OperateBtnsAttrs;
   if (btns.length > maxNum) {
     btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
   }
@@ -214,14 +237,11 @@ function getOperateColWidth(groupBtnsAttrs: GroupBtnsAttrs = {}, btns?: BtnItem[
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
 export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj, newCols: TableColAttrs[]) {
-  const { operateBtns = [], rows, groupBtnsAttrs, filterBtnsByAuth, disabled } = props;
-  let btnAttrs;
-  if (disabled) {
-    btnAttrs = { attrs: { disabled } };
-  }
+  const { operateBtns = [], rows, operateBtnsAttrs, filterBtnsByAuth, disabled, size } = props;
+  const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, ind, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns) ?? tempBtns;
-  const width = getOperateColWidth(groupBtnsAttrs, filterBtns);
+  const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
   if (ind < rows.length - 1) {
     if (operateWidth < width) {
       operateWidth = width;
@@ -230,9 +250,39 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
   } else {
     //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
     if (operateWidth < 30) {
-      operateWidth = getOperateColWidth(groupBtnsAttrs);
+      operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
       newCols.slice(-1)[0].minWidth = operateWidth;
     }
   }
   return filterBtns;
+}
+
+/**
+ * 是否需要push某特殊列
+ */
+export function needPushSpecialCol(key: SpecialBoolColType, props: CommonObj) {
+  const { operateBtns, cols = [] } = props;
+  if (key === "operate") return operateBtns && cols.slice(-1)?.[0]?.type !== "operate";
+  const isShow = props[key as keyof typeof props];
+  return isShow && !cols.find((it: CommonObj) => it.type === key);
+}
+
+/**
+ * 获取添加特殊列之后的列
+ * @param props 传入的属性
+ * @returns
+ */
+export function getAddSpecialCols(props: CommonObj) {
+  const { cols, currPage, pageSize } = props;
+  const keys: SpecialBoolColType[] = ["index", "sort", "selection", "operate"];
+  keys.forEach(key => {
+    if (!needPushSpecialCol(key, props)) return;
+    const specialCol = specialColMap[key];
+    if (key === "index" && currPage !== undefined && pageSize !== undefined) {
+      specialCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
+    }
+    const col = typeof props[key] === "object" ? { ...specialCol, ...props[key] } : specialCol;
+    key === "operate" ? cols.push(col) : cols.unshift(col);
+  });
+  return cols;
 }

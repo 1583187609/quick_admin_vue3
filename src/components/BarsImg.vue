@@ -25,12 +25,6 @@
     >
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
 <script lang="ts" setup>
 import { reactive, ref, toRefs, computed, useAttrs } from "vue";
 import { useRouter } from "vue-router";
@@ -45,6 +39,11 @@ export interface BarAttrs {
     type?: TagType;
   };
 }
+
+defineOptions({
+  inheritAttrs: false,
+});
+
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4

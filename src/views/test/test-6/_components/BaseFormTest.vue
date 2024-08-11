@@ -1,7 +1,7 @@
-<!-- 表单测试 -->
+<!-- 基础表单测试 -->
 <template>
   <TestView :records="records">
-    <BaseForm class="f-2" v-model="model" :fields="fields" grid="12" label-suffix="：">
+    <BaseForm class="f-2" v-model="model" :fields="fields" grid="12" label-suffix="：" :size="size">
       <template #zdy>这是自定义的表单字段</template>
     </BaseForm>
     <template #side>
@@ -15,9 +15,19 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
-
+const records = {
+  hasTest: {
+    title: "已测试属性",
+    list: ["readonly", "pureText", "labelWidth", "disabled", "size", "自定义表单字段项"],
+  },
+  waitBetter: {
+    title: "待完善属性",
+    list: [`type="cell"`, "label-suffix"],
+  },
+};
+const size: CommonSize = "default"; // large, default, small
 const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
 const fields = [
   { prop: "id", label: "用户ID", extraAttrs: {} },
@@ -42,15 +52,5 @@ const fields = [
   { prop: "dh", label: "电话", extraAttrs: { grid: 6 } },
   { prop: "zdy", label: "自定义", type: "custom" },
 ];
-const records = {
-  hasTest: {
-    title: "已测试属性",
-    list: ["readonly", "pureText", "labelWidth", "disabled", `type="cell"`, "label-suffix"],
-  },
-  other: {
-    title: "其他待记事项",
-    list: ["readonly", "pureText", "labelWidth", "disabled", `type="cell"`, "label-suffix", "自定义表单字段项"],
-  },
-};
 </script>
 <style lang="scss" scoped></style>

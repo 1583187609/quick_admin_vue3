@@ -18,6 +18,7 @@ import {
   getApiTablesStr,
   getInfoByAnnoName,
   getSummaryFileStr,
+  betaReg,
 } from "../utils/index.js";
 
 /**
@@ -143,8 +144,10 @@ export default async (writeFilePath = needParam(), demoPath = needParam()) => {
   !isExist && writeFileSync(fullFilePath, dataStr);
   const { apiPath, tsPath } = JSON.parse(dataStr);
 
-  const title = getFileName(writeFilePath);
-  fileStr += `# ${title}${N}${N}`;
+  const title = getFileName(writeFilePath, undefined, undefined, true);
+  const beta = writeFilePath.match(betaReg)?.[0];
+  const betaStr = beta ? `  <Badge class="title-badge" type="danger" text="${beta.slice(1, -1)}" />` : "";
+  fileStr += `# ${title}${betaStr}${N}${N}`;
   const oldFileStr = fileStr;
 
   // 从ReadMe文件中读取摘要信息

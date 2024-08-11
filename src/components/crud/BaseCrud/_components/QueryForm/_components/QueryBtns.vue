@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <el-col class="query-btns f-fe-fs" :class="{ compact, small }">
+  <el-col class="query-btns f-fe-fs" :class="{ compact, [size]: true }">
     <el-button type="primary" v-debounce.immediate="() => emits('submit')" :disabled="loading">
       <template #icon>
         <BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : 'Search'"></BaseIcon>
@@ -20,16 +20,19 @@
 import { ref, reactive, watch, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { defaultCommonSize } from "@/components/_utils";
+
 const props = withDefaults(
   defineProps<{
     isFold?: boolean;
     loading?: boolean;
     showFoldBtn?: boolean;
     compact?: boolean;
-    small?: boolean;
+    size?: CommonSize;
   }>(),
   {
     isFold: true,
+    size: defaultCommonSize,
   }
 );
 const emits = defineEmits(["submit", "reset", "fold"]);
@@ -38,24 +41,34 @@ const emits = defineEmits(["submit", "reset", "fold"]);
 .query-btns {
   display: flex;
   margin-left: auto;
-  &.compact {
+  &.large {
     .el-button {
-      padding: 0 $gap-half;
+      padding: 0 $gap-large;
+      + .el-button {
+        margin-left: $gap-large;
+      }
     }
   }
-  .el-button {
-    padding: 0 $gap-half;
-    + .el-button {
-      margin-left: $gap-half;
+  &.default {
+    .el-button {
+      padding: 0 $gap-default;
+      + .el-button {
+        margin-left: $gap-default;
+      }
     }
   }
   &.small {
     .el-button {
-      padding: 0 $gap-qtr;
+      padding: 0 $gap-small;
       + .el-button {
-        margin-left: $gap-qtr;
+        margin-left: $gap-small;
       }
     }
   }
+  // &.compact {
+  //   .el-button {
+  //     padding: 0 $gap-half;
+  //   }
+  // }
 }
 </style>

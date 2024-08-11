@@ -21,7 +21,7 @@
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
     :tableAttrs="{ showSummary: true }"
-    :groupBtnsAttrs="{ vertical: true }"
+    :operateBtnsAttrs="{ vertical: true }"
   >
   </BaseCrud>
 </template>

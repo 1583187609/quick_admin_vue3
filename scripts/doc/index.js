@@ -61,7 +61,7 @@ function writeComponentDocs(parts = []) {
 }
 
 // writeHomMdDoc();
-// writeComponentDocs(); //生成组件文档页（通用方法）
+writeComponentDocs(); //生成组件文档页（通用方法）
 // writeComponentDocs(['comp']);
 // writeComponentDocs(['demo']);
 // writeComponentDocs(["test"]);

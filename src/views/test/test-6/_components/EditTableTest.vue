@@ -1,4 +1,4 @@
-<!-- 表格测试 -->
+<!-- 可编辑表格测试 -->
 <template>
   <TestView :records="records">
     <BaseTable
@@ -8,8 +8,9 @@
       sort
       index
       selection
-      :operateBtns="['delete', 'edit']"
+      :operateBtns="['edit', 'delete']"
       @operateBtns="onOperateBtns"
+      :size="size"
     >
       <template #zdy>这是自定义表格列</template>
     </BaseTable>
@@ -18,7 +19,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
 
@@ -27,7 +28,12 @@ const records = {
     title: "已测试属性",
     list: ["sort", "index", "selection", "operateBtns"],
   },
+  waitBetter: {
+    title: "待完善属性",
+    list: ["size（操作栏宽度等）"],
+  },
 };
+const size: CommonSize = "large"; // large, default, small
 const cols = [
   { prop: "id", label: "用户ID", fixed: "left" },
   { prop: "nc", label: "昵称" },

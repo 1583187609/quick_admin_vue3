@@ -315,3 +315,25 @@ export function getBrowserLang() {
   const lang = (navigator.language ?? navigator.browserLanguage).toLowerCase();
   return ["cn", "zh", "zh-cn"].includes(lang) ? "zh" : "en";
 }
+
+/**
+ * 判断是否位于 dialog 弹窗中
+ * @notice 先不要删除，后面可能会有用
+ * @example 使用示例 judgeIsInDialog("basic-dialog");
+ */
+export function judgeIsInDialog(selectorClassName: string = "basic-dialog", startLevel: number = 5, baseCrudRef: any) {
+  let isInDia = false;
+  getTargetPar(startLevel);
+  function getTargetPar(sLevel = 0) {
+    let targetPar = baseCrudRef.value.parentNode;
+    while (sLevel > 0) {
+      targetPar = targetPar?.parentNode;
+      sLevel--;
+      if (targetPar?.classList?.contains(selectorClassName)) {
+        isInDia = true;
+        break;
+      }
+    }
+  }
+  return isInDia;
+}

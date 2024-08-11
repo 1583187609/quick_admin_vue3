@@ -30,9 +30,11 @@
     <div class="foot-box f-c-c">
       <BaseBtn
         :name="btn"
-        round
-        :disabled="isPatrol ? false : status !== 2"
-        size="small"
+        :attrs="{
+          round: true,
+          disabled: isPatrol ? false : status !== 2,
+          size: 'small',
+        }"
         @click="() => emits('operateBtns', btn)"
         v-for="(btn, ind) in operateBtns"
         :key="ind"

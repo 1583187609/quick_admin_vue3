@@ -1,6 +1,6 @@
 import { PopupType } from "@/components/BasicPopup/_types";
 import { FormItemType } from "@/components/form";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, StrNum } from "@/vite-env";
 
 //配置合并的策略
 export type ConfigMergeStrategy = false | "merge" | "assign" | "alert" | "auto";
@@ -31,6 +31,7 @@ export interface BaseComponentsConfig {
     defaultFieldAttrs?: CommonObj;
     defaultPopoverAttrs?: CommonObj;
     defaultValidTypes?: CommonObj;
+    defaultCommonSize?: CommonSize;
     // specialColMap?:
     //   | CommonObj
     //   | ((currPage: StrNum, pageSize: StrNum) => CommonObj);

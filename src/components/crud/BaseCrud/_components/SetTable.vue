@@ -1,5 +1,5 @@
 <template>
-  <BaseTable style="width: 400px" :cols="cols" :rows="rows" submitText="确定" :key="tableKey" :size="size">
+  <BaseTable style="width: 400px" :cols="cols" :rows="rows" :size="size" :key="tableKey">
     <template #isShow="{ row, col, $index }">
       <el-switch
         @change="(val: boolean) => handleShowChange(row.colProp, val, $index)"

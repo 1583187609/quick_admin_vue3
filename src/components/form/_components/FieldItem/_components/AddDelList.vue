@@ -11,9 +11,16 @@
       <FieldItem
         :prefixProp="`${parentProp}[${ind}]`"
         :field="field"
-        :pureText="field.extraAttrs?.pureText || pureText"
+        :grid="field?.extraAttrs?.grid ?? grid"
+        :readonly="field?.extraAttrs?.readonly ?? readonly"
+        :pureText="field?.extraAttrs?.pureText ?? pureText"
+        :disabled="field?.extraAttrs?.disabled ?? disabled"
+        :size="field?.attrs?.size ?? field.size ?? size"
+        :labelWidth="field?.labelWidth ?? labelWidth"
+        :showChildrenLabel="showChildrenLabel"
         v-model="newList[ind][field.prop as string]"
         v-bind="field"
+        isChild
         :ref="el => initRefsList(el, ind)"
         v-for="(field, fInd) in newFields"
         :key="fInd"
@@ -39,6 +46,13 @@ const props = withDefaults(
     parentProp: string;
     fields: FormField[];
     pureText?: boolean;
+    grid?: GridValAttrs;
+    size?: CommonSize;
+    readonly?: boolean;
+    pureText?: boolean;
+    disabled?: boolean;
+    labelWidth?: string;
+    showChildrenLabel?: boolean; //是否显示子级的label
     formRef?: any;
   }>(),
   {
@@ -54,12 +68,8 @@ const initRefsList = (el, ind) => {
 };
 const listItem = getAddDelItem(props.fields);
 const newList = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: any) {
-    emits("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val: any) => emits("update:modelValue", val),
 });
 const newFields = ref<FormFieldAttrs[]>([]);
 const formData = reactive<CommonObj>({});

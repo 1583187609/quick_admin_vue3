@@ -9,9 +9,10 @@
     <el-table-column v-bind="deleteAttrs(newCol, ['children'])" :reserve-selection="selection" v-if="newCol.children?.length">
       <Column
         :col="subCol"
+        :size="size"
         :selection="selection"
         :refreshList="refreshList"
-        :groupBtnsAttrs="groupBtnsAttrs"
+        :operateBtnsAttrs="operateBtnsAttrs"
         :getGroupBtnsOfRow="getGroupBtnsOfRow"
         :disabled="disabled"
         v-for="(subCol, subInd) in newCol?.children"
@@ -53,9 +54,10 @@
             {{ renderValue(row[newCol.prop as string]) }}
           </template>
           <GroupBtns
+            :size="size"
             :row="{ ...row, $index }"
             :btns="getGroupBtnsOfRow?.(row, $index)"
-            v-bind="groupBtnsAttrs"
+            v-bind="operateBtnsAttrs"
             @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
             v-else-if="newCol.type === 'operate'"
           >
@@ -117,13 +119,15 @@ import { ref, reactive, watch, computed, h } from "vue";
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn";
 import { TableColAttrs } from "@/components/table";
-import GroupBtns, { GroupBtnsAttrs } from "./GroupBtns.vue";
+import GroupBtns, { OperateBtnsAttrs } from "./GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import BaseRender from "@/components/BaseRender.vue";
 import { PopoverAttrs } from "@/components/form";
+import { defaultCommonSize } from "@/components/_utils";
+
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
   row: CommonObj;
@@ -133,13 +137,20 @@ export interface RowBtnInfo {
 const props = withDefaults(
   defineProps<{
     col: TableColAttrs;
+    size?: CommonSize;
     disabled?: boolean;
+    compact?: boolean; //是否紧凑
     selection?: boolean;
     refreshList?: RefreshListFn;
-    groupBtnsAttrs?: GroupBtnsAttrs;
+    operateBtnsAttrs?: OperateBtnsAttrs;
     getGroupBtnsOfRow?: (row: CommonObj, $rowInd: number) => BtnItem[];
   }>(),
-  Object.assign({}, config?.BaseCrud?._components?.Column)
+  Object.assign(
+    {
+      size: defaultCommonSize,
+    },
+    config?.BaseCrud?._components?.Column
+  )
 );
 const emits = defineEmits(["operateBtns"]);
 let popoverAttrs: PopoverAttrs | undefined;

@@ -155,7 +155,8 @@ const fields = computed<FormField[]>(() => {
     {
       label: "嵌套（对象）",
       prop: "inner_obj",
-      required: true,
+      // required: true,
+      // showChildrenLabel: true,
       children: [
         {
           prop: "one",
@@ -182,6 +183,7 @@ const fields = computed<FormField[]>(() => {
       prop: "inner_arr",
       required: true,
       type: "addDel",
+      // showChildrenLabel: true,
       children: [
         {
           prop: "one",

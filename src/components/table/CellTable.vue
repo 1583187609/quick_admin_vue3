@@ -18,6 +18,8 @@ import { getMaxLength, getScreenSizeType } from "@/components/_utils";
 import { useEvent } from "@/hooks";
 import { CommonObj, OptionItem } from "@/vite-env";
 import { FormField, FormItemType, GridValAttrs, ValidType } from "@/components/form";
+import { defaultGridAttrs } from "@/components/form/_config";
+
 export type CellTableFieldType = "text" | "custom" | "custom-all" | "none" | FormItemType;
 export interface CellTableFieldItem {
   prop: string;
@@ -34,14 +36,6 @@ export interface CellTableFieldItem {
     valid?: ValidType;
   };
 }
-const defaultColSpanAttrs: CommonObj = {
-  // xs: 24, // <768
-  // sm: 12, // >=768
-  // md: 8, // >=992
-  // lg: 6, // >=1200
-  // xl: 4, // >=1920
-  span: 6,
-};
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -56,7 +50,7 @@ const props = withDefaults(
 const spaceCell = ref(true);
 const newColAttrs = computed(() => {
   return (field: CellTableFieldItem) => {
-    return field.grid || Object.assign({}, defaultColSpanAttrs, props.grid);
+    return field.grid || Object.assign({}, defaultGridAttrs, props.grid);
   };
 });
 const newFields = computed(() => {
@@ -76,7 +70,7 @@ useEvent(
     let total = 0;
     const size = getScreenSizeType();
     props.fields.map(({ grid }, ind) => {
-      const cAttrs = Object.assign({}, defaultColSpanAttrs, props.grid, grid);
+      const cAttrs = Object.assign({}, defaultGridAttrs, props.grid, grid);
       total += cAttrs?.[size] || cAttrs.span || 0;
     });
     spaceCell.value = total % 24 !== 0;

@@ -1,9 +1,13 @@
 <template>
   <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
   <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
-  <el-col v-bind="getColValAttrs(newField.extraAttrs?.grid ?? grid)">
-    <el-form-item class="field-item" v-bind="getFormItemAttrs()" :class="className">
-      <template #label v-if="!prefixProp || newField.labelWidth">
+  <el-col class="field-item" v-bind="getElColAttrs(newField.extraAttrs?.grid ?? grid, colAttrs)">
+    <el-form-item
+      :class="$attrs.class"
+      :style="$attrs.style"
+      v-bind="deleteAttrs(newField, ['children', 'attrs', 'extraAttrs', 'options'])"
+    >
+      <template #label v-if="(!prefixProp || newField.labelWidth) && newField.label">
         <BaseRender :data="newField.label" />
         <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
           <template #reference>
@@ -195,36 +199,46 @@
       <!-- 当有子项表单时 -->
       <template v-else>
         <AddDelList
-          :parentProp="newField.prop"
-          :fields="subFields"
-          :pureText="pureText"
           v-model="newVal"
+          :fields="subFields"
+          :parentProp="newField.prop"
+          :grid="grid"
+          :size="size"
+          :disabled="disabled"
+          :readonly="readonly"
+          :pureText="pureText"
+          :showChildrenLabel="newField.showChildrenLabel"
           :formRef="formRef"
           v-if="newField.type === 'addDel'"
         />
-        <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
-          <!-- :field="deleteAttrs(cField, ['label'])" -->
+        <AnyList
+          v-model="newVal"
+          :fields="subFields"
+          :prefixProp="newField.prop"
+          :grid="grid"
+          :size="size"
+          :disabled="disabled"
+          :readonly="readonly"
+          :pureText="pureText"
+          :showChildrenLabel="newField.showChildrenLabel"
+          v-else
+        />
+        <!-- :field="deleteAttrs(cField, ['label'])" -->
+        <!-- <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
           <el-row>
             <FieldItem
               :prefixProp="newField.prop as string"
               :field="cField"
               :pureText="cField.extraAttrs?.pureText ?? pureText"
               v-model="newVal[cField.prop as string]"
-              className="mr-t"
               v-bind="cField"
             />
           </el-row>
-        </template>
+        </template> -->
       </template>
     </el-form-item>
   </el-col>
 </template>
-<script lang="ts">
-export default {
-  name: "FieldItem",
-  inheritAttrs: false,
-};
-</script>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, reactive, watch, useAttrs, computed } from "vue";
@@ -236,30 +250,33 @@ import { GridValAttrs, FormField, FormFieldAttrs } from "./index";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "./_components/AddDelList.vue";
+import AnyList from "./_components/AnyList.vue";
 import { rangeJoinChar, emptyVals } from "@/components/_utils";
 import { useDictMap } from "@/hooks";
 import { CascaderName, DictName } from "@/dict";
 import { RuleItem } from "./_types";
-import { getColValAttrs } from "@/components/form/_utils";
+import { getElColAttrs } from "@/components/form/_utils";
 
 defineOptions({
+  name: "FieldItem",
   inheritAttrs: false,
 });
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
-    className?: any;
     prefixProp?: string; //前置prop属性
+    colAttrs?: CommonObj; //el-col的属性
     grid?: GridValAttrs;
-    // isLastChild?: boolean; // 是否是 addDel 列表中的最后一个 child
+    size?: CommonSize;
     field: FormFieldAttrs;
     pureText?: boolean; //是否展示纯文本
     disabled?: boolean; //是否禁用
     readonly?: boolean; //是否只读
     labelWidth?: string; //label宽度
     inputDebounce?: boolean;
-    size?: CommonSize;
     formRef?: any;
+    showChildrenLabel?: boolean; //子项的label是否显示
+    isChild?: boolean; //是否是父级children 的子级
   }>(),
   {
     grid: 24,
@@ -276,11 +293,12 @@ let popoverAttrs: any;
 const { getCascaderOpts, getOpts } = useDictMap();
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
-  const { prefixProp, field, size, readonly, disabled, labelWidth } = props;
+  const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
   const { type: fType, label, extraAttrs = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
+  const hasChildren = !!children?.length;
   // let tempField: FormFieldAttrs = field;
-  if (children?.length) {
+  if (hasChildren) {
     const { required } = field;
     subFields.value = children as FormFieldAttrs[];
     // // 当是 addDel 类型的子项时，如果子项都未设置 required，则默认父级需显示必传红星符号
@@ -327,6 +345,7 @@ const newField = computed<FormFieldAttrs>(() => {
   if (tempField.attrs) {
     if (readonly && tempField.attrs.readonly === undefined) tempField.attrs.readonly = true;
     if (disabled && tempField.attrs.disabled === undefined) tempField.attrs.disabled = true;
+    if (size) tempField.size = size;
   }
   if (labelWidth && tempField.labelWidth === undefined) tempField.labelWidth = labelWidth;
   // if (size === "small" && type === "date-picker") {
@@ -334,6 +353,9 @@ const newField = computed<FormFieldAttrs>(() => {
   // }
   // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
   // delete tempField.extraAttrs; //此处不能删除
+  if (isChild && !showChildrenLabel) {
+    delete tempField.label;
+  }
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   return tempField;
 });
@@ -447,16 +469,6 @@ function handleInput(e: any, prop: string) {
     emits("change", prop, val);
   }
 }
-function getFormItemAttrs() {
-  const { prefixProp } = props;
-  let newAttrs = Object.assign({}, $attrs, newField.value);
-  const delKeys = ["attrs", "extraAttrs"];
-  if (prefixProp && !newField.value.labelWidth) {
-    delKeys.push("label");
-  }
-  newAttrs = deleteAttrs(newAttrs, delKeys);
-  return newAttrs;
-}
 
 defineExpose({});
 </script>
@@ -467,8 +479,15 @@ defineExpose({});
   color: $color-danger;
 }
 .icon-popover {
-  margin-left: 2px;
-  margin-top: 9px;
+  font-size: 1.1em;
+  &.large {
+    margin-left: 4px;
+    margin-top: 12px;
+  }
+  &.default {
+    margin-left: 2px;
+    margin-top: 9px;
+  }
   &.small {
     margin-left: 0;
     margin-top: 7px;

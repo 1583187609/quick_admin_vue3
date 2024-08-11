@@ -15,6 +15,7 @@ export const defaultWidgetSize = getExportData("medium", widgetSize); //控件�
 
 export const defaultIconName = "ElemeFilled"; //默认图标
 
+export const defaultCommonSize = getExportData("default", form?.defaultCommonSize);
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
 export const defaultReqMap: ReqMap = {
@@ -27,13 +28,6 @@ export const defaultResMap: ResMap = {
   total_num: "total_num",
   has_more: "has_more",
   records: "records",
-};
-export const defaultColSpanAttrs: ColAttrs = {
-  xs: 12,
-  sm: 12,
-  md: 8,
-  lg: 6,
-  xl: 4,
 };
 export const popupCloseAnimationDuration = 300; // 弹出层dialog、drawer关闭时的动画持续时间，单位：毫秒
 export const propsJoinChar = ","; //双props的连接符号

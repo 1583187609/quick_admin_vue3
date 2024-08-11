@@ -34,6 +34,7 @@
                   :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
                   :pureText="field?.extraAttrs?.pureText ?? sItem.pureText ?? pureText"
                   :disabled="field?.extraAttrs?.disabled ?? sItem.disabled ?? disabled"
+                  :size="field?.attrs?.size ?? field.size ?? sItem.size ?? size"
                   :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
                   v-model="formData[sItem.prop][field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
@@ -50,6 +51,7 @@
                   :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
                   :pureText="field?.extraAttrs?.pureText ?? sItem?.pureText ?? pureText"
                   :disabled="field?.extraAttrs?.disabled ?? sItem.disabled ?? disabled"
+                  :size="field?.attrs?.size ?? field.size ?? sItem.size ?? size"
                   :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
                   v-model="formData[field.prop as string]"
                   @change="(prop:any,val:any)=>emits('change',prop,val)"
@@ -112,6 +114,7 @@ const props = withDefaults(
     pureText?: boolean; //是否纯文本展示
     readonly?: boolean; //是否只读
     disabled?: boolean; //是否禁用
+    size?: CommonSize; //是否禁用
     labelWidth?: string; //label的宽度
     foldable?: boolean; //是否允许折叠
     fetch?: UniteFetchType; //接口请求

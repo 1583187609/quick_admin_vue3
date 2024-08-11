@@ -6,7 +6,7 @@ import { merge, upperFirst } from "lodash";
 import btnsMap from ".";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/vite-env";
-import { PopconfirmAttrs, BaseBtnType, BtnItem, BtnName, BtnFn } from "./_types";
+import { PopconfirmAttrs, BaseBtnType, BtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/components/crud/BaseCrud";
 
 /**
@@ -16,7 +16,7 @@ import { FilterAuthItem } from "@/components/crud/BaseCrud";
  */
 function getPopconfirmAttrs(popconfirm: string | boolean | CommonObj, btnObj: BtnItem): PopconfirmAttrs {
   const { text, attrs = {} } = btnObj;
-  const title = `确认${text}？`;
+  const title = `确认${text}吗？`;
   const t = typeOf(popconfirm);
   if (t === "String") {
     return { title: popconfirm as string };
@@ -38,9 +38,9 @@ function getPopconfirmAttrs(popconfirm: string | boolean | CommonObj, btnObj: Bt
 /**
  * 根据按钮名或按钮对象获取按钮对象
  * @param btn string | object | function 按钮名或按钮对象或方法函数
- * @param addBtnAttrs CommonObj 额外添加的属性，用来覆盖
+ * @param baseBtnAttrs CommonObj 额外添加的属性，用来覆盖
  */
-export function getBtnObj(btn: BaseBtnType, row?: CommonObj, addBtnAttrs?: CommonObj): BtnItem {
+export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): BtnItem {
   const t = typeOf(btn);
   // const $slots = useSlots();
   let btnObj: BtnItem = { name: "" };
@@ -80,6 +80,15 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, addBtnAttrs?: Commo
     const currIcon = Icons[icon as keyof typeof Icons];
     attrs ? (attrs.icon = currIcon) : (btnObj.attrs = { icon: currIcon });
   }
-  if (addBtnAttrs) merge(btnObj, addBtnAttrs);
+  if (baseBtnAttrs) {
+    const { attrs, ...rest } = baseBtnAttrs;
+    merge(btnObj.attrs, attrs);
+    if (rest) {
+      for (const key in rest) {
+        if (rest[key] === undefined) continue;
+        btnObj[key] = rest[key];
+      }
+    }
+  }
   return btnObj;
 }

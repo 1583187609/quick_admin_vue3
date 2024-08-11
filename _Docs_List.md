@@ -30,3 +30,4 @@
 19、把 Quick Vitepress Docs 抽成 可配置型的
 ~~22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`~~
 ~~29、整合 GlobalPopup 组件，内部包含 BasicDialog 和 BasicDrawer 组件~~
+30、对不确定的增加 beta 标识

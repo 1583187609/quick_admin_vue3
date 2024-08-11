@@ -5,7 +5,7 @@
 import path from "path";
 import util from "util";
 
-import { isShortPath, splitOrderChar } from "./index.js";
+import { betaReg, isShortPath, splitOrderChar } from "./index.js";
 
 /**
  * 函数未传必填参数时的校验
@@ -71,16 +71,26 @@ export function camelCase(str = "", isToBy = true) {
  * 获取剔除下划线后的文件名
  * @param {string} filePath 文件路径
  * @param {cn|en} type 获取的文件名类型，中文名或英文名
+ * @param {boolean} removeBeta 是否移除徽章文本
  */
-export function getFileName(filePath = needParam(), type = "cn", char = splitOrderChar) {
+export function getFileName(filePath = needParam(), type = "cn", char = splitOrderChar, removeBeta = false) {
   const ext = path.extname(filePath);
   const file = path.basename(filePath, ext);
   if (!isShortPath) return file;
-  if (!file.includes(char)) return file;
+  if (!file.includes(char)) {
+    if (!removeBeta) return file;
+    return file.replace(betaReg, () => "");
+  }
   const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名
   const hasNum = !isNaN(Number(num)); // 如果存在序号
-  if (type === "en") return hasNum ? enName ?? cnName : cnName;
-  return upperFirst(hasNum ? cnName : num);
+  if (type === "en") {
+    const name = hasNum ? enName ?? cnName : cnName;
+    if (!removeBeta) return name;
+    return name.replace(betaReg, () => "");
+  }
+  const name = hasNum ? cnName : num;
+  if (!removeBeta) return name;
+  return upperFirst(name.replace(betaReg, () => ""));
 }
 
 export function consoleLog(data, type, ...rest) {
