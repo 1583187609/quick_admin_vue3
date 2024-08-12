@@ -30,7 +30,7 @@ const records = {
 const size: CommonSize = "default"; // large, default, small
 const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
 const fields = [
-  { prop: "id", label: "用户ID", extraAttrs: {} },
+  { prop: "id", label: "用户ID", required: true, extraAttrs: {} },
   { prop: "nc", label: "昵称", extraAttrs: {} },
   {
     prop: "zy",

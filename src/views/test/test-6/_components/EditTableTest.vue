@@ -1,9 +1,9 @@
 <!-- 可编辑表格测试 -->
 <template>
   <TestView :records="records">
-    <BaseTable
+    <EditTable
+      v-model="rows"
       :cols="cols"
-      :rows="rows"
       style="width: calc(100vw - 600px)"
       sort
       index
@@ -13,14 +13,14 @@
       :size="size"
     >
       <template #zdy>这是自定义表格列</template>
-    </BaseTable>
-    <!-- <template #side> </template> -->
+    </EditTable>
   </TestView>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
+import EditTable from "@/components/table/EditTable.vue";
 import { handleBtnNext } from "@/utils";
 
 const records = {
@@ -33,39 +33,39 @@ const records = {
     list: ["size（操作栏宽度等）"],
   },
 };
-const size: CommonSize = "large"; // large, default, small
+const size: CommonSize = "default"; // large, default, small
 const cols = [
-  { prop: "id", label: "用户ID", fixed: "left" },
-  { prop: "nc", label: "昵称" },
+  { prop: "id", label: "用户ID", width: 80, required: true, fixed: "left" },
+  { prop: "nc", label: "昵称", width: 200, required: true, field: { type: "input" } },
   {
     prop: "zy",
-    label: "职业",
+    label: "角色",
+    width: 200,
+    field: { type: "select", options: "RoleType" },
   },
-  { prop: "xm", label: "姓名", type: "UserInfo" },
-  { prop: "xb", label: "性别" },
-  { prop: "nl", label: "年龄" },
-  { prop: "xx", label: "学校" },
-  { prop: "jg", label: "籍贯" },
-  { prop: "xjd", label: "现居地" },
-  { prop: "ip", label: "IP地址" },
-  { prop: "dh", label: "电话" },
-  { prop: "zdy", label: "自定义", type: "custom" },
+  { prop: "xb", label: "性别", required: true, width: 180, field: { type: "radio-group", options: "Gender" } },
+  { prop: "nl", label: "年龄", required: true, width: 200, field: { extraAttrs: { valid: "age" } } },
+  // { prop: "xx", label: "学校" },
+  { prop: "zt", label: "状态", width: 70, field: { type: "switch" } },
+  { prop: "xjd", label: "现居地", width: 200, field: { type: "cascader", options: "Region" } },
+  { prop: "dh", label: "电话", width: 200, field: { extraAttrs: { valid: "phone" } } },
+  { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
 ];
 
 const rows = [
-  { id: 1, zy: "大家看到", xb: "男" },
-  { id: 2, zy: "大家看到", xb: "男" },
-  { id: 3, zy: "大家看到", xb: "男" },
-  { id: 4, zy: "大家看到", xb: "男" },
-  { id: 5, zy: "大家看到", xb: "男" },
-  { id: 6, zy: "大家看到", xb: "男" },
-  { id: 7, zy: "大家看到", xb: "男" },
-  { id: 8, zy: "大家看到", xb: "男" },
-  { id: 9, zy: "大家看到", xb: "男" },
-  { id: 10, zy: "大家看到", xb: "男" },
-  { id: 11, zy: "大家看到", xb: "男" },
-  { id: 12, zy: "大家看到", xb: "男" },
-  { id: 13, zy: "大家看到", xb: "男" },
+  { id: 1, zy: 0, xb: 0, nl: 23, zt: 0 },
+  { id: 2, zy: 0, xb: 1, nl: 23, zt: 0 },
+  { id: 3, zy: 0, xb: 1, nl: 23, zt: 0 },
+  { id: 4, zy: 0, xb: 1, nl: 23, zt: 0 },
+  { id: 5, zy: 0, xb: 0, nl: 23, zt: 0 },
+  { id: 6, zy: 0, xb: 0, nl: 23, zt: 0 },
+  { id: 7, zy: 0, xb: 2, nl: 23, zt: 0 },
+  { id: 8, zy: 0, xb: 0, nl: 23, zt: 0 },
+  { id: 9, zy: 0, xb: 2, nl: 23, zt: 0 },
+  { id: 10, zy: 0, xb: 0, nl: 23, zt: 0 },
+  { id: 11, zy: 0, xb: 2, nl: 23, zt: 0 },
+  { id: 12, zy: 0, xb: 2, nl: 23, zt: 0 },
+  { id: 13, zy: 0, xb: 2, nl: 23, zt: 0 },
 ];
 
 function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {

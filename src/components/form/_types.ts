@@ -1,7 +1,5 @@
-import { FormField, FormFieldAttrs, GridValAttrs, PopoverAttrs, PopoverValAttrs } from "@/components/form";
+import { FormField, GridValAttrs, PopoverAttrs } from "@/components/form/_components/FieldItem";
 import { BaseDataType, CommonObj, CommonSize, StrNum } from "@/vite-env";
-
-export * from "@/components/form/_components/FieldItem";
 
 export type BaseFormType = "cell" | "";
 

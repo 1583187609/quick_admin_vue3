@@ -11,7 +11,7 @@ export const vueStr = `
     <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
-        <FieldItem
+        <FieldItemCol
           :field="field"
           :pureText="field.extraAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
@@ -23,7 +23,7 @@ export const vueStr = `
           <template #custom="{ field: currField }">
             <slot :name="currField.prop" :field="currField" :form="formData"></slot>
           </template>
-        </FieldItem>
+        </FieldItemCol>
       </template>
       <BaseEmpty v-else/>
     </div>
@@ -55,8 +55,8 @@ export const vueStr = `
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItemCol";
 import { merge } from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";

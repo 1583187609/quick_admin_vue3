@@ -3,7 +3,7 @@
 <template>
   <template v-for="(field, ind) in fields" :key="ind">
     <el-row :gutter="16">
-      <FieldItem
+      <FieldItemCol
         v-model="modelData[field.prop as string]"
         :prefixProp="prefixProp"
         :field="field"
@@ -23,8 +23,8 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
-import { GridValAttrs, FormField, FormFieldAttrs } from "./FieldItem/_types";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+import { GridValAttrs, FormField, FormFieldAttrs } from "./FieldItemCol/_types";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 
 const props = withDefaults(
   defineProps<{

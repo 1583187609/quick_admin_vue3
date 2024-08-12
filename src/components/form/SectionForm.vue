@@ -2,7 +2,14 @@
   分块（组）表单
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    :class="type"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -30,7 +37,7 @@
             <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
-                <FieldItem
+                <FieldItemCol
                   :field="field"
                   :grid="field?.extraAttrs?.grid ?? sItem.grid ?? grid"
                   :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
@@ -46,8 +53,8 @@
                   <template #custom="{ field: currField }">
                     <slot :name="currField.prop" :field="currField" :form="formData"></slot>
                   </template>
-                </FieldItem>
-                <FieldItem
+                </FieldItemCol>
+                <FieldItemCol
                   :field="field"
                   :grid="field?.extraAttrs?.grid ?? sItem.grid ?? grid"
                   :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
@@ -63,13 +70,13 @@
                   <template #custom="{ field: currField }">
                     <slot :name="currField.prop" :field="currField" :form="formData"></slot>
                   </template>
-                </FieldItem>
+                </FieldItemCol>
               </template>
             </template>
           </el-row>
         </section>
       </template>
-      <BaseEmpty v-else/>
+      <BaseEmpty v-else />
     </div>
     <FooterBtns
       :loading="loading"
@@ -106,12 +113,14 @@ import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { SectionFormItemAttrs, SectionFormItem, defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType, StrNum } from "@/vite-env";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
+import { BaseFormType } from "./_types";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据
+    type?: BaseFormType;
     sections?: SectionFormItem[];
     pureText?: boolean; //是否纯文本展示
     readonly?: boolean; //是否只读
@@ -137,6 +146,7 @@ const props = withDefaults(
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
   {
+    type: "",
     modelValue: () => reactive({}),
     log: !isProd,
     grid: 24,
@@ -180,7 +190,7 @@ watch(
       }
       return true;
     }) as SectionFormItemAttrs[];
-    console.log(newSections.value, "newSections.value------------");
+    // console.log(newSections.value, "newSections.value------------");
   },
   { immediate: true, deep: true }
 );
@@ -204,6 +214,40 @@ defineExpose({
   },
 });
 </script>
+<style lang="scss">
+// $border-main: 1px solid red;
+$g: 4px; // 2px 4px 6px small default large
+.section-form {
+  &.cell {
+    .section {
+      outline: $border-main;
+      border: $border-main;
+      border-radius: $radius-main;
+      .head {
+        background: $color-bg-main;
+      }
+      .body {
+        margin: 0;
+        // border-top: 1px solid $color-border-main;
+      }
+      .el-form-item__label-wrap {
+        border-right: 2px solid $color-border-main;
+        padding: $g 0 $g $g;
+      }
+      .el-form-item__content {
+        padding: $g;
+      }
+      .el-form-item {
+        margin: 0;
+        outline: $border-main;
+      }
+      .el-form-item__error {
+        display: none;
+      }
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .section-form {
   height: 100%;
@@ -237,7 +281,7 @@ defineExpose({
     }
   }
   .body {
-    padding: $gap 0 0;
+    margin: $gap 0 0;
     width: 100%;
     transition: max-height $transition-time-main;
     overflow: hidden;

@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <FieldItem
+  <FieldItemCol
     :colAttrs="{ class: 'query-field-item' }"
     class="form-item"
     :class="currSize"
@@ -15,12 +15,12 @@
     <template #custom="{ field: currField }">
       <slot name="custom" :field="currField"></slot>
     </template>
-  </FieldItem>
+  </FieldItemCol>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs } from "@/components/form";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 

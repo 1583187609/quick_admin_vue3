@@ -22,27 +22,36 @@
     <template v-else>
       <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
       <el-table-column v-bind="newCol" :formatter="newCol.formatter" :reserve-selection="selection" v-if="newCol.formatter">
-        <template #header="{ column, $index, store, _self }">
-          <BaseRender :data="column.label" />
-          <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-            <template #reference>
-              <BaseIcon :color="cssVars.colorInfo" name="QuestionFilled" />
-            </template>
-            <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
-          </el-popover>
+        <template #header="scope">
+          <slot name="header" v-bind="{ ...scope, col: newCol }">
+            <BaseRender :data="scope.column.label" />
+            <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
+              <template #reference>
+                <BaseIcon :color="cssVars.colorInfo" name="QuestionFilled" />
+              </template>
+              <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
+            </el-popover>
+          </slot>
         </template>
       </el-table-column>
       <el-table-column v-bind="newCol" :reserve-selection="selection" v-else>
-        <template #header="{ column, $index, store, _self }">
-          <!--{{ column.label }} -->
-          <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
-          <BaseRender :data="devErrorTips(column.label, getIsHandle(_self, column) ? undefined : '')" v-else />
-          <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-            <template #reference>
-              <BaseIcon :color="getIsHandle(_self, column) ? cssVars.colorDanger : cssVars.colorInfo" name="QuestionFilled" />
-            </template>
-            <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
-          </el-popover>
+        <template #header="scope">
+          <slot name="header" v-bind="{ ...scope, col: newCol }">
+            <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
+            <BaseRender
+              :data="devErrorTips(scope.column.label, getIsHandle(scope._self, scope.column) ? undefined : '')"
+              v-else
+            />
+            <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
+              <template #reference>
+                <BaseIcon
+                  :color="getIsHandle(scope._self, scope.column) ? cssVars.colorDanger : cssVars.colorInfo"
+                  name="QuestionFilled"
+                />
+              </template>
+              <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
+            </el-popover>
+          </slot>
         </template>
         <template #default="{ row, column, $index }">
           <!-- <BaseRender
@@ -51,7 +60,7 @@
           /> -->
           <!-- <template v-else> -->
           <template v-if="!newCol.type">
-            {{ renderValue(row[newCol.prop as string]) }}
+            <slot v-bind="{ row, column, $index, col: newCol }">{{ renderValue(row[newCol.prop as string]) }}</slot>
           </template>
           <GroupBtns
             :size="size"

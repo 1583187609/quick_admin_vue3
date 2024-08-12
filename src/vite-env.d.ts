@@ -23,6 +23,8 @@ interface Window {
   dir: () => void;
 }
 
+type ClassType = any;
+type StyleType = any;
 type FetchType = (data?: CommonObj) => Promise<AxiosResponse<any, any>>;
 type UniteFetchType = FetchType | ((params: CommonObj) => FetchType);
 type SetTimeout = null | NodeJS.Timeout;

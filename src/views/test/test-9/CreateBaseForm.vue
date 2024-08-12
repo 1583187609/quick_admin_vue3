@@ -5,7 +5,7 @@
     <!-- <BaseSection class="create-base-form f-3" title="第一部分">
       <el-form>
         <template v-for="(field, ind) in getFields()" :key="ind">
-          <FieldItem :field="field" v-model="fieldsArr[ind]" />
+          <FieldItemCol :field="field" v-model="fieldsArr[ind]" />
         </template>
       </el-form>
     </BaseSection> -->
@@ -36,7 +36,7 @@ import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem, SectionFormItemAttrs } from "@/components/form";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 
 const openPopup = inject<any>("openPopup");
 const props = withDefaults(

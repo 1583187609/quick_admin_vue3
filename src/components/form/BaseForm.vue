@@ -10,10 +10,13 @@
     @keyup.enter="handleEnter"
     ref="formRef"
   >
-    <!-- <slot> -->
-      <el-row class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
+    <slot>
+      <el-row
+        class="section all-hide-scroll"
+        :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+      >
         <template v-if="newFields.length">
-          <FieldItem
+          <FieldItemCol
             :grid="grid"
             :field="field"
             :readonly="readonly"
@@ -27,11 +30,11 @@
             <template #custom="{ field: currField }">
               <slot :name="currField.prop" :field="currField" :form="formData"></slot>
             </template>
-          </FieldItem>
+          </FieldItemCol>
         </template>
-        <BaseEmpty v-else/>
+        <BaseEmpty v-else />
       </el-row>
-    <!-- </slot> -->
+    </slot>
     <FooterBtns
       :loading="loading"
       :moreBtns="moreBtns"
@@ -57,11 +60,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch } from "vue";
+import { ref, reactive, computed, watch, useSlots } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
-import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form/_components/FieldItem";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
+import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form/_components/FieldItemCol";
 import { merge } from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
@@ -70,11 +73,12 @@ import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import { BaseFormType } from "./_types";
 
+const $slots = useSlots();
 const props = withDefaults(
   defineProps<{
     type?: BaseFormType;
     modelValue?: CommonObj; //表单数据
-    fields: FormField[]; //表单字段项
+    fields?: FormField[]; //表单字段项
     readonly?: boolean; //是否只读
     pureText?: boolean; //是否纯文本展示
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
@@ -150,12 +154,28 @@ defineExpose<{
 });
 </script>
 <style lang="scss">
+// $border-main: 1px solid red;
+$g: 4px; // 2px 4px 6px small default large
 .base-form {
   &.cell {
-    outline: $border-main;
-    .el-form-item {
-      margin-bottom: 0;
-      background: $color-bg-main;
+    .section {
+      outline: $border-main;
+      border: $border-main;
+      border-radius: $radius-main;
+      .el-form-item__label-wrap {
+        border-right: 2px solid $color-border-main;
+        padding: $g 0 $g $g;
+      }
+      .el-form-item__content {
+        padding: $g;
+      }
+      .el-form-item {
+        margin: 0;
+        outline: $border-main;
+      }
+      .el-form-item__error {
+        display: none;
+      }
     }
   }
 }

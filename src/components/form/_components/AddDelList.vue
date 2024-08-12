@@ -8,7 +8,7 @@
   >
     <!-- <el-space> -->
     <el-row>
-      <FieldItem
+      <FieldItemCol
         :prefixProp="`${parentProp}[${ind}]`"
         :field="field"
         :grid="field?.extraAttrs?.grid ?? grid"
@@ -38,7 +38,7 @@ import { merge } from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";
 import { CommonObj } from "@/vite-env";
 import { showMessage } from "@/components/_utils";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 
 const props = withDefaults(
   defineProps<{

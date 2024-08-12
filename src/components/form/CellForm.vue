@@ -6,7 +6,7 @@
     <div class="box all-hide-scroll" :class="[fields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="fields.length">
         <el-col v-bind="field.grid || Object.assign({}, defaultGridAttrs, grid)" v-for="(field, ind) in fields" :key="ind">
-          <FieldItem
+          <FieldItemCol
             :field="field"
             :pureText="field.extraAttrs?.pureText || pureText"
             v-model="formData[field.prop as string]"
@@ -16,10 +16,10 @@
             <template #custom="{ field: currField }">
               <slot :name="currField.prop" :field="currField" :form="formData"></slot>
             </template>
-          </FieldItem>
+          </FieldItemCol>
         </el-col>
       </template>
-      <BaseEmpty v-else/>
+      <BaseEmpty v-else />
     </div>
     <FooterBtns
       :loading="loading"
@@ -55,7 +55,7 @@ import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn";
 import { defaultFormAttrs } from "@/components/form";
-import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { CommonObj, FinallyNext, FetchType } from "@/vite-env";
 import { defaultGridAttrs } from "@/components/form/_config";
 

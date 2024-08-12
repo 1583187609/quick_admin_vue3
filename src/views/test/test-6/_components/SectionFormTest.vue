@@ -60,7 +60,7 @@ const sections = [
     popover: "块级设置 {readonly: true}",
     fields: [
       { prop: "xm", label: "姓名", extraAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
-      { prop: "xb", label: "性别", size: "default", extraAttrs: {} },
+      { prop: "xb", label: "性别", required: true, size: "default", extraAttrs: {} },
       { prop: "nl", label: "年龄", attrs: { size: "small" }, extraAttrs: {} },
     ],
   },
