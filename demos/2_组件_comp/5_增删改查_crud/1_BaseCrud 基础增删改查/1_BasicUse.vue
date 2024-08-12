@@ -1,6 +1,5 @@
-<!-- summary 
-@title 基础用法
-@description 摘要介绍暂时略
+<!-- summary 基础用法
+  摘要介绍暂时略
 -->
 <template>
   <BaseCrud

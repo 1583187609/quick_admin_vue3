@@ -26,13 +26,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, toRefs, computed, useAttrs } from "vue";
-import { useRouter } from "vue-router";
-import { toCssVal, typeOf } from "@/components/_utils";
+import { computed, useAttrs } from "vue";
+import { defaultCommonSize, toCssVal } from "@/components/_utils";
 import { TagType } from "@/components/BaseTag.vue";
 import { getBarObj } from "@/components/crud/CardCrud/_utils";
-import { CommonObj, FetchType, FinallyNext } from "@/vite-env";
-export type TagSize = "large" | "default" | "small" | "";
+import { CommonObj, CommonSize } from "@/vite-env";
 export interface BarAttrs {
   text: string;
   attrs?: {
@@ -60,7 +58,7 @@ const sizeMap: CommonObj = {
 };
 const props = withDefaults(
   defineProps<{
-    sizeType?: "large" | "default" | "small";
+    sizeType?: CommonSize;
     topBar?: string | BarAttrs;
     bottomBar?: string | BarAttrs;
     leftTags?: (string | BarAttrs)[];
@@ -68,12 +66,10 @@ const props = withDefaults(
     //其他属性则按照 BaseImg 的属性来设置
   }>(),
   {
-    sizeType: "default",
+    sizeType: defaultCommonSize,
     hoverMove: true,
   }
 );
-const emits = defineEmits(["click", "error"]);
-const router = useRouter();
 const $attrs = useAttrs();
 const currSize = sizeMap[props.sizeType];
 const newStyle = computed(() => {

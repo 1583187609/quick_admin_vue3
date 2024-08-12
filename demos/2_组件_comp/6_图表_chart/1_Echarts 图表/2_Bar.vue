@@ -1,6 +1,5 @@
-<!-- summary
-@title 柱状图（Bar）
-@description 只需传入一个简单的二维数组即可展示图表
+<!-- summary 柱状图（Bar）
+  只需传入一个简单的二维数组即可展示图表
 -->
 <template>
   <ChartBar :data="data" />

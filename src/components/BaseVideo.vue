@@ -8,8 +8,6 @@
   </video>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
     src?: string;

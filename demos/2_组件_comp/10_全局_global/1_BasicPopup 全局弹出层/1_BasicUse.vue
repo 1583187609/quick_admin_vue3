@@ -1,6 +1,5 @@
-<!-- summary
-@title 基础使用
-@description 打开弹窗示例。默认是打开Dialog。
+<!-- summary 基础使用
+打开弹窗示例。默认是打开Dialog。
 -->
 <template>
   <div>

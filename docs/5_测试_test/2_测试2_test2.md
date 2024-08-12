@@ -22,7 +22,7 @@
 |:---|:---|:---|:---|
 |`modelValue`|表单数据，可设默认值|`CommonObj`|-|
 |`fields`|表单字段|`FormField[]`|-|
-|`sections`|分块的表单字段|`SectionFieldsItemAttrs[]`|-|
+|`sections`|分块的表单字段|`SectionFormItemAttrs[]`|-|
 |`fetch`|列表请求接口|`UniteFetchType`|-|
 |`immediate`|页面刚创建时是否立即发起请求获取数据|`boolean`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|

@@ -22,9 +22,8 @@ export const themeMap = {
 };
 
 /**
- * 展示message提示信息
+ * 展示message提示信息，默认展示成功通知
  * @param hint string, MessageParams 提示内容
- * @description 默认展示成功通知
  */
 export function showMessage(hint: string | MessageParams, type: TostMessageType = "success") {
   if (!hint) return;

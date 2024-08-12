@@ -27,7 +27,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useFormItem,type FormRules, type FormItemRule} from "element-plus";
+import { type FormItemRule} from "element-plus";
 import { CommonObj, StrNum, CommonSize } from "@/vite-env";
 import { propsJoinChar, rangeJoinChar, showMessage } from "@/components/_utils";
 
@@ -53,7 +53,6 @@ const props = withDefaults(
   }
 );
 const emits = defineEmits(["update:modelValue", "change", "clear"]);
-const { formItem } = useFormItem();
 const [minProp, maxProp] = [`${props.prop}[0]`, `${props.prop}[1]`];
 const minVal = computed<StrNumUnd>({
   get: ()=>props.modelValue?.[0],

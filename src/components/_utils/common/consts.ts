@@ -4,7 +4,6 @@
 
 import { getExportData } from "@/components/_utils";
 import { ReqMap, ResMap } from "@/components/crud/BaseCrud";
-import { ColAttrs } from "@/components/form";
 import config from "@/config";
 
 const { table, form, homePath, widgetSize } = config;

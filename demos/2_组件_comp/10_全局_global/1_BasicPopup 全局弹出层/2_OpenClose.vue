@@ -1,6 +1,5 @@
-<!-- summary
-@title 打开与关闭
-@description 打开弹出层可自动叠加。关闭弹出层每次默认关闭最顶层
+<!-- summary 打开与关闭
+打开弹出层可自动叠加。关闭弹出层每次默认关闭最顶层
 -->
 <template>
   <div>

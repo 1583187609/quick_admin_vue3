@@ -36,7 +36,7 @@
           </template>
         </FieldItem>
       </template>
-      <template v-else>空空如也~</template>
+      <BaseEmpty v-else/>
     </div>
     <FooterBtns
       :loading="loading"

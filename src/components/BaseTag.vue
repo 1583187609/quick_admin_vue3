@@ -16,9 +16,10 @@ import { CommonObj, StrNum } from "@/vite-env";
 import { emptyVals } from "@/components/_utils";
 import type { TagProps } from "element-plus";
 import { useDictMap } from "@/hooks";
-export type BaseDictType = "tag" | "text";
+
 export type TagType = TagProps["type"];
 export type TagEffect = TagProps["effect"];
+
 const { getMap } = useDictMap();
 const props = withDefaults(
   defineProps<{

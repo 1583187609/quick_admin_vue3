@@ -31,3 +31,27 @@
 ~~22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`~~
 ~~29、整合 GlobalPopup 组件，内部包含 BasicDialog 和 BasicDrawer 组件~~
 30、对不确定的增加 beta 标识
+
+
+# 组件优化事项
+
+1、BarsImg
+2、AddDelTag
+3、BaseAudio
+3、BaseVideo
+4、BaseCopy 图标换用 DocumentCopy
+5、BaseEditor
+6、完善BaseKeyVal 的 optsName
+7、BaseNum
+8、BaseQrcode
+9、LoadMore
+10、OpenFile 考虑看要不要移出
+11、TestView 考虑改名
+12、CellTable 考虑用其他方式替代，并移出这个组件
+13、ValidTable 考虑用其他方式替代，并移出这个组件
+14、BaseTree
+14、AuthTree
+15、BaseUpload、及其同类型的三个
+
+## 重大尝试革新
+1、将.vue文件放入文件夹中，通过export default 暴露出来，保持原有引用路径不变

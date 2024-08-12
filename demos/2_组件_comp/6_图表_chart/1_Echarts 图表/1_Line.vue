@@ -1,6 +1,5 @@
-<!-- summary
-@title 折线图（Line）
-@description 只需传入一个简单的二维数组即可展示图表
+<!-- summary 折线图（Line）
+  只需传入一个简单的二维数组即可展示图表
 -->
 <template>
   <ChartLine :data="data" />

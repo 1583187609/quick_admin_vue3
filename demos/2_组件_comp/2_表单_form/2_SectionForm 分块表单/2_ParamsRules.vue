@@ -1,6 +1,5 @@
-<!-- summary
-  @title 传参规则
-  @description 这是分块表单传参规则的介绍内容，待完善。
+<!-- summary 传参规则
+  这是分块表单传参规则的介绍内容，待完善。
  -->
 <template>
   <SectionForm v-model="model" :sections="sections" :fetch="PostMockCommon"></SectionForm>

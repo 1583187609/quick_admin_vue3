@@ -1,5 +1,5 @@
 <!-- summary
-@description 提供了两个弹出层dialog和drawer。默认dialog，可在全局配置中进行配置
+提供了两个弹出层dialog和drawer。默认dialog，可在全局配置中进行配置
 -->
 <template>
   <BasicPopup>

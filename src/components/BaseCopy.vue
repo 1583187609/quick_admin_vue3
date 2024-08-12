@@ -17,6 +17,7 @@
 import { StrNum } from "@/vite-env";
 import { showMessage } from "./_utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
+
 const props = withDefaults(
   defineProps<{
     text?: StrNum;
@@ -39,9 +40,7 @@ function handleClick(e) {
   document.body.appendChild(input);
   input.select();
   const copyText = document.execCommand("copy");
-  if (copyText) {
-    showMessage("复制成功！", "success");
-  }
+  if (copyText) showMessage("复制成功！", "success");
   document.body.removeChild(input);
 }
 </script>

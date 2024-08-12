@@ -1,6 +1,5 @@
-<!-- summary 
-@title 内嵌组件
-@description 内嵌组件的说明
+<!-- summary 内嵌组件
+  内嵌组件的说明
 -->
 <template>
   <BaseCrud
@@ -96,7 +95,6 @@ import { ref, reactive, inject, isVNode, h } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/form";
 import { TableField, TableColAttrs } from "@/components/table";
-// import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
@@ -106,10 +104,6 @@ import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
-// import SimpleList from "./SimpleList/Index.vue";
-// import SimpleForm from "./SimpleForm/Index.vue";
-// import CustomHead from "./_components/CustomHead.vue";
-import { SectionFieldsItemAttrs } from "@/components/form";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 

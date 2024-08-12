@@ -4,9 +4,7 @@
   </el-empty>
 </template>
 <script lang="ts" setup>
-import { toCssVal } from "@/components/_utils";
 import { StrNum } from "@/vite-env";
-import { ref, reactive } from "vue";
 const props = withDefaults(
   defineProps<{
     tips?: string;

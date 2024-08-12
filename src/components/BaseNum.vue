@@ -7,7 +7,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 
 const props = withDefaults(
   defineProps<{

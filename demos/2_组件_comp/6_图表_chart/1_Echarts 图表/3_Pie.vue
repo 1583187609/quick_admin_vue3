@@ -1,6 +1,5 @@
-<!-- summary
-@title 饼图（Pie）
-@description 只需传入一个简单的一维数组即可展示图表
+<!-- summary 饼图（Pie）
+  只需传入一个简单的一维数组即可展示图表
 -->
 <template>
   <ChartPie :data="data" />

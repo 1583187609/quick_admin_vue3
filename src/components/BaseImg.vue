@@ -29,13 +29,13 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs, computed } from "vue";
+import {  computed } from "vue";
 import { useRouter } from "vue-router";
-import { toCssVal } from "@/components/_utils";
-import { typeOf } from "@/components/_utils";
+import { defaultCommonSize, toCssVal } from "@/components/_utils";
 import { TagType } from "@/components/BaseTag.vue";
-import { CommonObj, FetchType, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/vite-env";
 import emptyImg from "@/assets/images/default/img.png";
+
 export type TagSize = "large" | "default" | "small" | "";
 export type ImgFitType = "" | "fill" | "contain" | "cover" | "none" | "scale-down";
 export interface BarAttrs {
@@ -53,7 +53,7 @@ const router = useRouter();
 const props = withDefaults(
   defineProps<{
     size?: number | string;
-    sizeType?: "large" | "default" | "small";
+    sizeType?: CommonSize;
     width?: number | string;
     height?: number | string;
     src?: string;
@@ -70,7 +70,7 @@ const props = withDefaults(
   }>(),
   {
     fit: "cover",
-    sizeType: "default",
+    sizeType: defaultCommonSize,
     loadTips: "玩命加载中…",
     errTips: "加载失败",
     preview: (props: CommonObj) => props.to === undefined,
@@ -87,7 +87,7 @@ const newStyle = computed(() => {
 //处理点击图片
 function handleClick(e: any) {
   const { preview, to, stopPropagation } = props;
-  to ? router.push(to) : emits("click");
+  to ? router.push(to) : emits("click", e);
   if (stopPropagation) e.stopImmediatePropagation();
 }
 </script>
