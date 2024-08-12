@@ -1,14 +1,9 @@
 import { FormField, FormFieldAttrs, GridValAttrs, PopoverAttrs, PopoverValAttrs } from "@/components/form";
-import { CommonObj, CommonSize, StrNum } from "@/vite-env";
+import { BaseDataType, CommonObj, CommonSize, StrNum } from "@/vite-env";
 
 export * from "@/components/form/_components/FieldItem";
 
 export type BaseFormType = "cell" | "";
-
-export interface SectionFieldsItemAttrs {
-  label: string;
-  fields: (FormField | FormFieldAttrs)[];
-}
 
 export type SectionFormItemType = "custom";
 export interface SectionFormItemAttrs {
@@ -25,4 +20,4 @@ export interface SectionFormItemAttrs {
   popover?: string | PopoverAttrs;
   labelWidth?: StrNum;
 }
-export type SectionFormItem = false | SectionFormItemAttrs;
+export type SectionFormItem = BaseDataType | SectionFormItemAttrs;

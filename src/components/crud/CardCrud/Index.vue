@@ -1,3 +1,6 @@
+<!--  summary
+  这是卡片式的增删改查列表
+ -->
 <template>
   <BaseCrud class="card-crud" @rows="getRows" ref="crudRef" selectAll>
     <template #default="{ loading, params, rows }">

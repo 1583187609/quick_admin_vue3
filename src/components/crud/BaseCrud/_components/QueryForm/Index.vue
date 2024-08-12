@@ -89,14 +89,14 @@ import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
 import { useEvent } from "@/hooks";
 import { handleFields, getGridAttrs } from "@/components/form/_utils";
-import { SectionFieldsItemAttrs, defaultFormAttrs } from "@/components/form";
+import { SectionFormItemAttrs, defaultFormAttrs } from "@/components/form";
 import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据
     fields: FormField[]; //表单字段项
-    sections?: SectionFieldsItemAttrs[];
+    sections?: SectionFormItemAttrs[];
     loading?: boolean;
     disabled?: boolean;
     readonly?: boolean;
@@ -125,7 +125,7 @@ const formRef = ref<FormInstance>();
 const colNum = ref(2);
 const isFold = ref(true);
 const newFields = ref<FormFieldAttrs[]>([]);
-const newSections = ref<SectionFieldsItemAttrs[]>([]);
+const newSections = ref<SectionFormItemAttrs[]>([]);
 //折叠或展开时，要截取的fields的长度的第二个参数的下标
 const sliceInd = computed((): any => {
   if (!isFold.value) return;
@@ -148,7 +148,7 @@ const sliceInd = computed((): any => {
 const showFoldBtn = computed(() => {
   const { sections, rowNum } = props;
   if (sections) {
-    const numArr = newSections.value.map((item: SectionFieldsItemAttrs, ind: number) => {
+    const numArr = newSections.value.map((item: SectionFormItemAttrs, ind: number) => {
       const isLast = ind === newSections.value.length - 1;
       return item.fields.length <= colNum.value - (isLast ? 1 : 0) ? 1 : 2;
     });
@@ -187,11 +187,11 @@ watch(
 );
 watch(
   () => props.sections,
-  (newVal: SectionFieldsItemAttrs[]) => {
+  (newVal: SectionFormItemAttrs[]) => {
     if (!newVal) return;
     const { modelValue } = props;
     newSections.value =
-      newVal?.map((item: SectionFieldsItemAttrs) => {
+      newVal?.map((item: SectionFormItemAttrs) => {
         const { label, fields: secFields } = item;
         const result = handleFields(secFields, undefined, modelValue);
         const { data, fields } = result;
@@ -252,7 +252,7 @@ defineExpose({
   formRef,
   getFields() {
     if (!props.sections?.length) return newFields.value;
-    return newSections.value.map((item: SectionFieldsItemAttrs) => item.fields).flat(1);
+    return newSections.value.map((item: SectionFormItemAttrs) => item.fields).flat(1);
   },
 });
 </script>

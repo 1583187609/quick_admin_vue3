@@ -1,9 +1,12 @@
+<!-- summary
+  可编辑表格
+-->
 <template>
   <el-form ref="formRef" class="edit-table f-fs-s-c" :model="newRows">
     <el-table :data="newRows" v-bind="newAttrs" class="table" v-if="newCols.length">
       <template v-for="(col, cInd) in newCols" :key="cInd">
         <el-table-column v-bind="col">
-          <template #header="{ row, colum, $index }">
+          <template #header="{ row, column, $index }">
             <span>
               <span v-if="col.required" class="required">*</span>
               {{ col.label }}
@@ -29,10 +32,10 @@
         </el-table-column>
       </template>
       <template #empty>
-        <BaseEmpty></BaseEmpty>
+        <BaseEmpty/>
       </template>
     </el-table>
-    <div class="f-c-c" v-else>空空如也~</div>
+    <BaseEmpty v-else/>
     <div class="f-c-c f-0 pt-h pb-h" style="width: 100%" v-if="!text && footer">
       <el-button type="primary" v-debounce.immediate="onSubmit" :disabled="loading">
         <template #icon>

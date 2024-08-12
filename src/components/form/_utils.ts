@@ -4,20 +4,6 @@ import { CommonObj } from "@/vite-env";
 import { merge } from "lodash";
 import { handleFormInitData } from "@/components/_utils";
 
-//处理属性继承
-// function handleAttrsInherit(field: FormFieldAttrs, inheritAttrs?: CommonObj) {
-//   if (!inheritAttrs) return;
-//   const { attrs, children } = field;
-//   const { attrs: subAttrs, ...fieAttrs } = inheritAttrs;
-//   field.attrs = attrs ? merge({}, subAttrs, attrs) : subAttrs;
-//   children?.forEach((subField: FormField) => {
-//     if (typeOf(subField) !== "Object") return false;
-//     handleAttrsInherit(subField as FormFieldAttrs, inheritAttrs);
-//   });
-//   //使用JSON.stringify是为了能够直接修改field对象，且最后以field对象的属性为准
-//   merge(field, fieAttrs, JSON.parse(JSON.stringify(field)));
-// }
-
 /**
  * 获取AddDel分组的每个数组项对象数据
  * @param fields 每个组的字段集和
@@ -101,8 +87,6 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
     } else {
       throw new Error(`暂未处理prop为${propType}类型的值`);
     }
-    //继承父级的属性
-    // handleAttrsInherit(field as FormFieldAttrs, inheritAttrs);
     if (inheritAttrs) merge(field, inheritAttrs);
     //让子级元素的label宽度自动统一
     if (children?.length) {

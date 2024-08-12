@@ -24,7 +24,7 @@
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
-      <template #custom="{ row, col: c, ind }">
+      <template #custom="{ row, col: c, $index: ind }">
         <slot name="custom" v-bind="{ row, col: c, $index: ind }"></slot>
       </template>
     </Column>

@@ -1,3 +1,6 @@
+<!-- summary
+基础按钮，用于增删改查列表页中间或表格操作栏按钮的权限、图标、样式、位置等的统一
+-->
 <template>
   <el-popconfirm @confirm="handleClick" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
@@ -11,8 +14,8 @@
   </el-button>
 </template>
 <script lang="ts" name="BaseBtn" setup>
-import { computed, useAttrs, inject } from "vue";
-import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";
+import { computed } from "vue";
+import { getBtnObj } from "@/components/BaseBtn";
 import { typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { PopconfirmAttrs } from "./index";
@@ -23,6 +26,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
+const router = useRouter();
 const props = withDefaults(
   defineProps<{
     name?: BtnName; //可以不传值
@@ -43,21 +47,22 @@ const props = withDefaults(
     popconfirm: undefined,
   }
 );
-// const $attrs = useAttrs();
-const router = useRouter();
-const emits = defineEmits(["click"]);
+const emits = defineEmits<{
+  /**
+   * 点击事件
+   * @type {name: BtnName}
+   */
+  click: [BtnName];
+}>();
 const newBtn: any = computed(() => {
   const { name, ...restProps } = props;
   return getBtnObj(name, undefined, restProps);
 });
 function handleClick() {
   const { name, to, attrs, customRules } = newBtn.value;
-  if (to === undefined) {
-    emits("click", name);
-  } else {
-    const t = typeOf(to);
-    router.push(t === "Function" ? to(props.data) : to);
-  }
+  if (to === undefined) return emits("click", name);
+  const t = typeOf(to);
+  router.push(t === "Function" ? to(props.data) : to);
 }
 </script>
 <style lang="scss" scoped></style>

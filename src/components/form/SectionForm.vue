@@ -1,4 +1,6 @@
-<!-- 分块（组）表单 -->
+<!-- summary
+  分块（组）表单
+-->
 <template>
   <el-form class="section-form f-fs-s-c" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
@@ -67,7 +69,7 @@
           </el-row>
         </section>
       </template>
-      <div class="f-c-c pb-o" v-else>空空如也~</div>
+      <BaseEmpty v-else/>
     </div>
     <FooterBtns
       :loading="loading"
@@ -96,8 +98,8 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, watchEffect } from "vue";
 import { FormInstance } from "element-plus";
-import { getMaxLength, typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
-import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
+import { typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
+import { GridValAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
@@ -132,7 +134,6 @@ const props = withDefaults(
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
     noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
-    // labelWidthBySection?: boolean; //表单项的labelWidth根据各部分的label文字自动确定宽度
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
   {
@@ -143,7 +144,6 @@ const props = withDefaults(
     isOmit: true,
     foldable: true,
     autoFixedFoot: true,
-    // labelWidthBySection: true,
     sections: () => [],
   }
 );

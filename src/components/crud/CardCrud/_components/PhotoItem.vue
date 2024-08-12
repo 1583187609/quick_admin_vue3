@@ -1,7 +1,7 @@
 <!-- 组件 - 资料巡查 -->
 <template>
   <div class="photo-item f-fs-s-c" :class="{ passed: status === 0, rejected: status === 1 }">
-    <BarsImg :src="row.url" :topBar="topBar" class="img" sizeType="default" :bottomBar="row.status === 1 ? row.reason : ''" />
+    <BarsImg :src="row.url" :topBar="topBar" class="img" :bottomBar="row.status === 1 ? row.reason : ''" />
     <div class="foot-box f-c-c-c f-0">
       <BaseCopy class="mb-q" :text="row.userId" />
       <BaseBtn

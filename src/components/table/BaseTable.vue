@@ -1,3 +1,6 @@
+<!-- summary
+  基础表格
+-->
 <template>
   <el-table class="base-table" :data="rows" v-bind="defaultTableAttrs" :size="size" ref="tableRef">
     <Column
@@ -10,7 +13,7 @@
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
-      <template #custom="{ row, col: c, ind }">
+      <template #custom="{ row, col: c, $index: ind }">
         <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }"></slot>
       </template>
     </Column>
@@ -20,7 +23,6 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { merge } from "lodash";
 import { ref, reactive, watchEffect } from "vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
@@ -87,7 +89,7 @@ function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: 
   });
 }
 defineExpose({
-  tableRef,
+  ...tableRef.value,
 });
 </script>
 <style lang="scss" scoped>

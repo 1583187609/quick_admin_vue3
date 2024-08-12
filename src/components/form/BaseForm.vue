@@ -1,4 +1,6 @@
-<!-- 基础表单 -->
+<!-- summary
+  基础表单
+-->
 <template>
   <el-form
     class="base-form f-fs-s-c f-1"
@@ -8,26 +10,28 @@
     @keyup.enter="handleEnter"
     ref="formRef"
   >
-    <el-row class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
-      <template v-if="newFields.length">
-        <FieldItem
-          :grid="grid"
-          :field="field"
-          :readonly="readonly"
-          :pureText="pureText"
-          v-model="formData[field.prop as string]"
-          @change="(prop:any,val:any)=>emits('change',prop,val)"
-          :formRef="formRef"
-          v-for="(field, ind) in newFields"
-          :key="field.key ?? ind"
-        >
-          <template #custom="{ field: currField }">
-            <slot :name="currField.prop" :field="currField" :form="formData"></slot>
-          </template>
-        </FieldItem>
-      </template>
-      <template v-else>空空如也~</template>
-    </el-row>
+    <!-- <slot> -->
+      <el-row class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
+        <template v-if="newFields.length">
+          <FieldItem
+            :grid="grid"
+            :field="field"
+            :readonly="readonly"
+            :pureText="pureText"
+            v-model="formData[field.prop as string]"
+            @change="(prop:any,val:any)=>emits('change',prop,val)"
+            :formRef="formRef"
+            v-for="(field, ind) in newFields"
+            :key="field.key ?? ind"
+          >
+            <template #custom="{ field: currField }">
+              <slot :name="currField.prop" :field="currField" :form="formData"></slot>
+            </template>
+          </FieldItem>
+        </template>
+        <BaseEmpty v-else/>
+      </el-row>
+    <!-- </slot> -->
     <FooterBtns
       :loading="loading"
       :moreBtns="moreBtns"

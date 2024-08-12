@@ -31,7 +31,7 @@ export function checkObjKeyError(obj_1: CommonObj = {}, obj_2: CommonObj = {}) {
 }
 
 /**
- * @description 全局代码错误捕捉
+ * 全局代码错误捕捉
  * */
 export function handleError(error: any) {
   // 过滤 HTTP 请求错误

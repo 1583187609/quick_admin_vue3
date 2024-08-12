@@ -1,3 +1,6 @@
+<!--  summary
+  这是自定义的增删改查列表
+ -->
 <template>
   <BaseCrud class="custom-crud" :summaryList="summaryList" :showPagination="!summaryList" ref="crudRef">
     <template #default="{ loading, params, rows, total, hasMore }">

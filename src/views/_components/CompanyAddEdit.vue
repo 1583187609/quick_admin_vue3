@@ -21,7 +21,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/form";
 import { GetAuthRoleList } from "@/api-mock";
-import AddDelTag from "@/components/AddDelTag.vue";
+import AddDelTag from "@/components/form/_components/AddDelTag.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 
 //是否支持： 0否;1=是

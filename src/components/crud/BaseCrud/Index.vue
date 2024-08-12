@@ -120,7 +120,7 @@ import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
-import { SectionFieldsItemAttrs } from "@/components/form";
+import { SectionFormItemAttrs } from "@/components/form";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import { SummaryListType, PaginationAttrs } from "@/components/table";
 import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud";
@@ -140,7 +140,7 @@ const props = withDefaults(
     /** 表单相关 **/
     modelValue?: CommonObj; //表单数据，可设默认值
     fields?: FormField[]; //表单字段
-    sections?: SectionFieldsItemAttrs[]; //分块的表单字段
+    sections?: SectionFormItemAttrs[]; //分块的表单字段
     fetch?: UniteFetchType; //列表请求接口
     immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
     extraParams?: CommonObj; //额外的参数

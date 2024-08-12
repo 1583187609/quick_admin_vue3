@@ -62,7 +62,7 @@ router.afterEach((to, from) => {
 });
 
 /**
- * @description 路由跳转错误
+ * 路由跳转错误
  * */
 router.onError((error, to) => {
   console.error("路由错误", error.message);

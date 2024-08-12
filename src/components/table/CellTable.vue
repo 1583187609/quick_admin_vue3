@@ -1,4 +1,6 @@
-<!-- 单元格表格 -->
+<!-- summary
+  单元格表格
+-->
 <template>
   <el-row class="cell-table f-fs-s-w">
     <el-col class="cell" v-bind="newColAttrs(field)" v-for="(field, ind) in newFields" :key="ind">

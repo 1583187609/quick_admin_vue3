@@ -68,7 +68,7 @@
             {{ renderValue(row?.[newCol.prop as string]) }}
           </template>
           <!-- 自定义列 -->
-          <slot name="custom" v-bind="{ row, col: newCol, ind: $index }" v-else-if="newCol.type === 'custom'"></slot>
+          <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'"></slot>
           <!-- 创建和修改列（后面再考虑优化） -->
           <template v-else-if="['create', 'update'].includes(newCol.type)">
             <!-- {{ getSplitPropsVal(row, newCol.prop) }} -->

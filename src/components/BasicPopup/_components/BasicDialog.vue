@@ -35,7 +35,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, useAttrs, computed, onMounted } from "vue";
+import { ref, useAttrs, computed, onMounted } from "vue";
 import { popupCloseAnimationDuration, showMessage } from "@/components/_utils";
 import { useEvent } from "@/hooks";
 const defaultAttrs = {

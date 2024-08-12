@@ -1,4 +1,6 @@
-<!-- 单元格表单 -->
+<!-- summary
+  单元格表单
+-->
 <template>
   <el-form class="cell-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" ref="formRef">
     <div class="box all-hide-scroll" :class="[fields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
@@ -17,7 +19,7 @@
           </FieldItem>
         </el-col>
       </template>
-      <template v-else>空空如也~</template>
+      <BaseEmpty v-else/>
     </div>
     <FooterBtns
       :loading="loading"

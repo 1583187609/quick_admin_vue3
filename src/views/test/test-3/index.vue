@@ -144,7 +144,7 @@ import { Postcard } from "@element-plus/icons-vue";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
 import CustomHead from "./_components/CustomHead.vue";
-import { SectionFieldsItemAttrs } from "@/components/form";
+import { SectionFormItemAttrs } from "@/components/form";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { h } from "vue";
 
@@ -259,7 +259,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
 ];
-const sections: SectionFieldsItemAttrs[] = [
+const sections: SectionFormItemAttrs[] = [
   { label: "基础", fields: fields.slice(0, 4) },
   { label: "远程", fields: fields.slice(4, 6) },
   { label: "数字", fields: fields.slice(6, 9) },

@@ -34,13 +34,13 @@ const props = withDefaults(
     isOmit?: boolean;
     log?: boolean;
     debug?: boolean;
+    disabled?: boolean; //是否禁用按钮
     params?: any;
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     fetchSuccess?: FinallyNext;
     fetchFail?: FinallyNext;
     noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
-    disabled?: boolean; //是否禁用按钮
   }>(),
   {
     isOmit: true,

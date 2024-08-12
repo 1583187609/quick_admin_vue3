@@ -129,7 +129,7 @@ export function getLastTimeStr(time: any) {
 
 /**
  * 处理平台默认值问题 Form echo data
- * @description 后端的数据库日期必须有一个默认值，回显的时候会显示这个默认值，因为数据量较多，改动较大，所以由前端统一处理
+ * @tips 后端的数据库日期必须有一个默认值，回显的时候会显示这个默认值，因为数据量较多，改动较大，所以由前端统一处理
  */
 export function handleFormInitData(field: FormFieldAttrs, modelValue?: CommonObj) {
   if (!modelValue || emptyVals.includes(emptyTime)) return;
@@ -308,7 +308,7 @@ export function downloadByBuffer(buffer, name?: string) {
 }
 
 /**
- * @description 获取浏览器默认语言
+ * 获取浏览器默认语言
  * @returns {String}
  */
 export function getBrowserLang() {

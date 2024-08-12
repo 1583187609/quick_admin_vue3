@@ -249,8 +249,8 @@ import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
 import { GridValAttrs, FormField, FormFieldAttrs } from "./index";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
-import AddDelList from "./_components/AddDelList.vue";
-import AnyList from "./_components/AnyList.vue";
+import AddDelList from "../AddDelList.vue";
+import AnyList from "../AnyList.vue";
 import { rangeJoinChar, emptyVals } from "@/components/_utils";
 import { useDictMap } from "@/hooks";
 import { CascaderName, DictName } from "@/dict";
@@ -258,7 +258,7 @@ import { RuleItem } from "./_types";
 import { getElColAttrs } from "@/components/form/_utils";
 
 defineOptions({
-  name: "FieldItem",
+  // name: "FieldItem", //可以不写，已在 vite.config.js 中自动生成了组件名
   inheritAttrs: false,
 });
 const props = withDefaults(
@@ -274,9 +274,9 @@ const props = withDefaults(
     readonly?: boolean; //是否只读
     labelWidth?: string; //label宽度
     inputDebounce?: boolean;
-    formRef?: any;
     showChildrenLabel?: boolean; //子项的label是否显示
     isChild?: boolean; //是否是父级children 的子级
+    formRef?: any;
   }>(),
   {
     grid: 24,

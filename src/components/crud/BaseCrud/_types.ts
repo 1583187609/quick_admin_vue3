@@ -13,7 +13,7 @@ export interface BaseCrudProps {
   // operateBtnsAttrs?: OperateBtnsAttrs; //分页配置
   // pagination?: false | PaginationAttrs; //是否分页
   // fields?: FormField[];
-  // sections?: SectionFieldsItemAttrs[];
+  // sections?: SectionFormItemAttrs[];
   // cols?: TableField[];
   // selectAll?: boolean;
   // fetch?: UniteFetchType;
