@@ -29,11 +29,11 @@ import TestView from "@/components/TestView.vue";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["readonly", "pureText", "labelWidth", "disabled", "size", "自定义表单字段项"],
+    list: [],
   },
   waitBetter: {
     title: "待完善属性",
-    list: [`type="cell"`, "label-suffix"],
+    list: [],
   },
 };
 const size: CommonSize = "default"; // large, default, small

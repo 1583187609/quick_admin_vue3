@@ -16,14 +16,16 @@
           <!-- @click="toggleFold($event, sInd)" -->
           <div class="head f-sb-c">
             <div class="title f-fs-c">
-              <span class="line-1">{{ sItem.title }}</span>
+              <span class="f-0">{{ sItem.title }}</span>
               <el-popover v-bind="getPopoverAttrs(sItem.popover)" v-if="sItem.popover">
                 <template #reference>
-                  <BaseIcon :color="cssVars.colorInfo" class="ml-q" name="QuestionFilled" v-if="sItem.popover"></BaseIcon>
+                  <BaseIcon :color="cssVars.colorInfo" class="ml-q f-0" name="QuestionFilled" v-if="sItem.popover"></BaseIcon>
                 </template>
               </el-popover>
             </div>
-            <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)"></slot>
+            <slot name="head-right" :section="sItem" :index="sInd">
+              <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)"></slot>
+            </slot>
             <BaseIcon
               @click="folds[sInd] = !folds[sInd]"
               class="fold-btn f-0"
@@ -34,7 +36,10 @@
             />
           </div>
           <el-row class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
-            <slot :name="sItem.prop" :form="formData" v-if="sItem.type === 'custom'"></slot>
+            <slot name="body" :section="sItem" :index="sInd" v-if="sItem.type === 'custom'">
+              <slot :name="sItem.prop"></slot>
+            </slot>
+            <!-- <slot :name="sItem.prop" v-if="sItem.type === 'custom'"></slot> -->
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItemCol
@@ -50,8 +55,10 @@
                   :formRef="formRef"
                   v-if="sItem.prop"
                 >
-                  <template #custom="{ field: currField }">
-                    <slot :name="currField.prop" :field="currField" :form="formData"></slot>
+                  <template #custom="scope">
+                    <slot name="field" :field="scope.field">
+                      <slot :name="scope.field.prop" :field="scope.field"></slot>
+                    </slot>
                   </template>
                 </FieldItemCol>
                 <FieldItemCol
@@ -67,8 +74,10 @@
                   :formRef="formRef"
                   v-else
                 >
-                  <template #custom="{ field: currField }">
-                    <slot :name="currField.prop" :field="currField" :form="formData"></slot>
+                  <template #custom="scope">
+                    <slot name="field" :field="scope.field">
+                      <slot :name="scope.field.prop" :field="scope.field"></slot>
+                    </slot>
                   </template>
                 </FieldItemCol>
               </template>
@@ -163,12 +172,8 @@ const folds = ref<boolean[]>([]);
 const formRef = ref<FormInstance>();
 const newSections = ref<SectionFormItemAttrs[]>([]);
 const formData = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: CommonObj) {
-    emits("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val: CommonObj) => emits("update:modelValue", val),
 });
 const params = computed(() => merge({}, formData.value, props.extraParams));
 watch(

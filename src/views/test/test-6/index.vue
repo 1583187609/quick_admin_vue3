@@ -7,6 +7,9 @@
     <el-tab-pane label="分块表单" name="sectionForm">
       <SectionFormTest />
     </el-tab-pane>
+    <el-tab-pane label="步骤表单？" name="stepForm">
+      <StepFormTest />
+    </el-tab-pane>
     <el-tab-pane label="单元格表单？" name="cellForm">
       <CellFormTest />
     </el-tab-pane>
@@ -37,13 +40,14 @@ import BaseFormTest from "./_components/BaseFormTest.vue";
 import CellFormTest from "./_components/CellFormTest.vue";
 import NestedFormTest from "./_components/NestedFormTest.vue";
 import SectionFormTest from "./_components/SectionFormTest.vue";
+import StepFormTest from "./_components/StepFormTest.vue";
 import BaseTableTest from "./_components/BaseTableTest.vue";
 import EditTableTest from "./_components/EditTableTest.vue";
 import BaseCrudTest from "./_components/BaseCrudTest.vue";
 import CardCrudTest from "./_components/CardCrudTest.vue";
 import CustomCrudTest from "./_components/CustomCrudTest.vue";
 
-const activeName = ref("cellForm");
+const activeName = ref("stepForm");
 
 const cols = [
   { prop: "id", label: "用户ID" },
