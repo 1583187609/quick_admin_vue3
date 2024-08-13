@@ -2,6 +2,8 @@ import { TagType, TagEffect } from "@/components/BaseTag.vue";
 import dict from ".";
 import { tagColorMap } from "./_config";
 
+export * from "./cascader"
+
 export type DictName = keyof typeof dict;
 export type TagColorName = keyof typeof tagColorMap;
 // export type DictName = keyof InstanceType<typeof dict>;

@@ -153,14 +153,14 @@ function fetch(
  * @param {number} max 请求失败后，最大重新请求次数
  * @returns
  */
-function http(
+function http<T,K>(
   method: string,
   url: string,
-  data: any,
+  data: T,
   customCfg?: CustomRequestConfig,
   othersCfg?: AxiosRequestConfig,
   max = customCfg?.maxCount ?? defaultCustomCfg.maxCount
-): Promise<any> {
+): Promise<K> {
   customCfg = customCfg ? Object.assign({}, defaultCustomCfg, customCfg) : defaultCustomCfg;
   const maxCount = customCfg.maxCount!;
   // console.log(source.token._listeners, "source--------------");

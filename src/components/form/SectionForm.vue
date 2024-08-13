@@ -88,7 +88,7 @@
       <BaseEmpty v-else />
     </div>
     <FooterBtns
-      :loading="loading"
+      v-model:loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"
@@ -112,24 +112,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, watchEffect } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
-import { GridValAttrs } from "@/components/form";
 import { merge } from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
-import { BaseBtnType } from "@/components/BaseBtn";
-import { SectionFormItemAttrs, SectionFormItem, defaultFormAttrs } from "@/components/form";
-import { CommonObj, FinallyNext, UniteFetchType, StrNum } from "@/vite-env";
+import { BaseBtnType } from "@/components/BaseBtn/_types";
+import { SectionFormItemAttrs, SectionFormItem } from "@/components/form/_types";
+import { defaultFormAttrs } from "@/components/form";
+import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
-import { BaseFormType } from "./_types";
+import { FormStyleType } from "./_types";
+import { Grid } from "./_components/FieldItem/_types";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据
-    type?: BaseFormType;
+    type?: FormStyleType;
     sections?: SectionFormItem[];
     pureText?: boolean; //是否纯文本展示
     readonly?: boolean; //是否只读
@@ -141,7 +142,7 @@ const props = withDefaults(
     fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: () => void; //fetch请求失败之后的回调方法
     footer?: boolean; //是否显示底部按钮
-    grid?: GridValAttrs; // 同ElementPlus的el-col的属性，可为数值：1~24
+    grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数

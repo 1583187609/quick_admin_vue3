@@ -36,20 +36,21 @@
 <script lang="ts" setup>
 import { ref, computed, watchEffect, reactive } from "vue";
 import { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
-import { BtnItem } from "@/components/BaseBtn";
+import { BtnItem } from "@/components/BaseBtn/_types";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
 import { OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
-import { TableColAttrs, TableField, defaultTableAttrs, getColLevel, specialColMap } from "@/components/table";
+import {  defaultTableAttrs, getColLevel, specialColMap } from "@/components/table";
+import { TableColAttrs, TableCol } from "@/components/table/_types";
 import config from "@/config";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "@/components/table/_utils";
 import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{
-    cols: TableField[]; //表头
+    cols: TableCol[]; //表头
     rows: CommonObj[]; //表格行数据
     size?: CommonSize;
     compact?: boolean; //是否紧凑
@@ -137,7 +138,6 @@ function handleSelectionChange(rows: CommonObj[]) {
  * @link 参考：https://blog.csdn.net/qq_26018335/article/details/127348107
  */
 defineExpose({
-  tableRef,
   //全不选
   clearSelection() {
     return tableRef?.value?.clearSelection();
@@ -156,6 +156,7 @@ defineExpose({
       tableRef?.value?.toggleRowSelection(row, false);
     });
   },
+  ...tableRef.value,
 });
 </script>
 <style lang="scss" scoped>

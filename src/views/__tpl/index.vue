@@ -12,14 +12,14 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, h } from "vue";
+import { inject, h } from "vue";
 import { GetUserList, DeleteUserList } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
-import { BtnName } from "@/components/BaseBtn";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { BtnName } from "@/components/BaseBtn/_types";
+import { CommonObj, FinallyNext } from "@/vite-env";
 const openPopup: any = inject("openPopup");
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
@@ -33,7 +33,7 @@ const fields: FormField[] = [
   { prop: "bz", label: "备注" },
   { prop: "ffsj", label: "发放时间", type: "date-picker" },
 ];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   {
     prop: "ffcgyhid",
     label: "发放成功用户ID",

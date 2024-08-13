@@ -26,7 +26,7 @@ const defaultTplCfg: TplCfgAttrs = {
   name: "XXX模板示例", //用户权限导入模板
   cols: [], // [{ prop: "userName", label: "用户姓名" },{ prop: "phone", label: "电话号码" },{ prop: "labelName", label: "标签名称" }]
 };
-const closePopup = inject<any>("closePopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     tips?: string;

@@ -41,10 +41,11 @@ import { computed, inject } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum } from "@/components/_utils";
-import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
+import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
+import { getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import config from "@/config";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);

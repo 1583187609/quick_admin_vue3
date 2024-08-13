@@ -1,5 +1,5 @@
 import { PopupType } from "@/components/BasicPopup/_types";
-import { FormItemType } from "@/components/form";
+import { FormItemType } from "@/components/form/_types";
 import { CommonObj, CommonSize, StrNum } from "@/vite-env";
 
 //配置合并的策略

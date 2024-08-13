@@ -17,13 +17,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, watch, computed } from "vue";
+import {inject, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
-import { BaseBtnType, BtnItem, getBtnObj } from "@/components/BaseBtn";
+import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
+import { getBtnObj } from "@/components/BaseBtn";
 import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/components/_utils";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
-import { ClosePopupType } from "@/components/BasicPopup/_types";
-const closePopup: any = inject("closePopup");
+import { ClosePopupInject, ClosePopupType } from "@/components/BasicPopup/_types";
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     loading?: boolean;
@@ -49,15 +50,12 @@ const props = withDefaults(
     moreBtns: () => [],
   }
 );
-const emits = defineEmits(["moreBtns", "submit"]);
-const isLoading = ref(false);
+const emits = defineEmits(["moreBtns", "submit", "update:loading"]);
+const isLoading = computed({
+  get: ()=> props.loading,
+  set: (val:boolean)=>emits("update:loading",val)
+});
 const newMoreBtns = computed(() => props.moreBtns.map((btn: BaseBtnType) => getBtnObj(btn)));
-watch(
-  () => props.loading,
-  newVal => {
-    isLoading.value = newVal;
-  }
-);
 //处理校验逻辑
 function handleValidate() {
   const { log, debug, isOmit, noSubmitProps } = props;

@@ -1,3 +1,7 @@
+import Index from "./Index.vue";
+
 export * from "./_config";
 export * from "./_utils";
-export * from "./_types";
+
+
+export default Index

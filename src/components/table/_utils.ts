@@ -1,21 +1,21 @@
-import { CommonObj, CommonSize, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/vite-env";
 import {
   typeOf,
   propsJoinChar,
   emptyTime,
-  devErrorTips,
-  emptyVals,
   renderValue,
   defaultGroupBtnsMaxNum,
   getChinaCharLength,
   defaultCommonSize,
 } from "@/components/_utils";
-import { TableField, TableColAttrs, defaultColumnAttrs } from "@/components/table";
+import { TableCol, TableColAttrs } from "@/components/table/_types";
+import {  defaultColumnAttrs } from "@/components/table";
 import { merge } from "lodash";
 import config from "@/config";
-import { BtnItem } from "@/components/BaseBtn";
+import { BtnItem } from "@/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
-import { SpecialBoolColType, getTempGroupBtnsOfRow } from "../crud/BaseCrud";
+import {getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
+import {SpecialTableColType} from "@/components/table/_types"
 import cssVars from "@/assets/styles/_var.module.scss";
 
 /**
@@ -170,7 +170,7 @@ export function getColLevel(
   //   delete newCol.width;
   // }
   if (children?.length) {
-    newCol.children = children.map((item: TableField) => {
+    newCol.children = children.map((item: TableCol) => {
       if (typeOf(item) !== "Object") return 0;
       const { col, level } = getColLevel(item as TableColAttrs, lev++, specialColMap);
       if (level > newLev) {
@@ -260,7 +260,7 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
 /**
  * 是否需要push某特殊列
  */
-export function needPushSpecialCol(key: SpecialBoolColType, props: CommonObj) {
+export function needPushSpecialCol(key: SpecialTableColType, props: CommonObj) {
   const { operateBtns, cols = [] } = props;
   if (key === "operate") return operateBtns && cols.slice(-1)?.[0]?.type !== "operate";
   const isShow = props[key as keyof typeof props];
@@ -274,7 +274,7 @@ export function needPushSpecialCol(key: SpecialBoolColType, props: CommonObj) {
  */
 export function getAddSpecialCols(props: CommonObj) {
   const { cols, currPage, pageSize } = props;
-  const keys: SpecialBoolColType[] = ["index", "sort", "selection", "operate"];
+  const keys: SpecialTableColType[] = ["index", "sort", "selection", "operate"];
   keys.forEach(key => {
     if (!needPushSpecialCol(key, props)) return;
     const specialCol = specialColMap[key];

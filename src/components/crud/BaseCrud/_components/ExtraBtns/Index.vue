@@ -31,16 +31,17 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, h, inject, ref } from "vue";
-import { Setting, Printer, CircleCheck } from "@element-plus/icons-vue";
+import { computed, h, inject } from "vue";
+import { Setting, Printer } from "@element-plus/icons-vue";
 import { sortObjArrByKey } from "@/components/_utils";
-import { BaseBtnType, BtnItem, BtnName, getBtnObj } from "@/components/BaseBtn";
-import { TableField } from "@/components/table";
+import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
+import { getBtnObj } from "@/components/BaseBtn";
+import { TableCol } from "@/components/table/_types";
 import SetTable from "../SetTable.vue";
 import SetPrint from "../SetPrint.vue";
 import BatchBtns from "./_components/BatchBtns.vue";
 import config from "@/config";
-import { CommonObj, FinallyNext, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 
 export type ToolBtnName = "colSet" | "print";
@@ -68,8 +69,8 @@ const toolsMap: CommonObj = {
 };
 const props = withDefaults(
   defineProps<{
-    columns?: TableField[];
-    allColumns?: TableField[];
+    columns?: TableCol[];
+    allColumns?: TableCol[];
     size?: CommonSize;
     btns?: BaseBtnType[];
     toolBtns?: string[];

@@ -1,4 +1,4 @@
-import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 import { merge } from "lodash";
@@ -109,7 +109,7 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
  * @param grid 栅格属性
  * @returns
  */
-export function getElColAttrs(grid: GridValAttrs = 24, colAttrs?: CommonObj) {
+export function getElColAttrs(grid: Grid = 24, colAttrs?: CommonObj) {
   if (typeof grid === "number") return { span: grid, ...colAttrs };
   if (typeof grid === "string") {
     const colNum = Number(grid);
@@ -124,7 +124,7 @@ export function getElColAttrs(grid: GridValAttrs = 24, colAttrs?: CommonObj) {
  * @param grid 栅格属性
  * @returns
  */
-export function getGridAttrs(grid: GridValAttrs = 24) {
+export function getGridAttrs(grid: Grid = 24) {
   if (typeof grid === "number") return { xs: grid, sm: grid, md: grid, lg: grid, xl: grid };
   if (typeof grid === "string") {
     const colNum = Number(grid);

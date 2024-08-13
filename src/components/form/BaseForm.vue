@@ -10,33 +10,33 @@
     @keyup.enter="handleEnter"
     ref="formRef"
   >
-    <slot>
-      <el-row
-        class="section all-hide-scroll"
-        :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-      >
-        <template v-if="newFields.length">
-          <FieldItemCol
-            :grid="grid"
-            :field="field"
-            :readonly="readonly"
-            :pureText="pureText"
-            v-model="formData[field.prop as string]"
-            @change="(prop:any,val:any)=>emits('change',prop,val)"
-            :formRef="formRef"
-            v-for="(field, ind) in newFields"
-            :key="field.key ?? ind"
-          >
-            <template #custom="{ field: currField }">
-              <slot :name="currField.prop" :field="currField" :form="formData"></slot>
-            </template>
-          </FieldItemCol>
-        </template>
-        <BaseEmpty v-else />
-      </el-row>
-    </slot>
+    <slot name="custom" v-if="$slots.custom"></slot>
+    <el-row
+      class="section all-hide-scroll"
+      :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+      v-else
+    >
+      <template v-if="newFields.length">
+        <FieldItemCol
+          :grid="grid"
+          :field="field"
+          :readonly="readonly"
+          :pureText="pureText"
+          v-model="formData[field.prop as string]"
+          @change="(prop:any,val:any)=>emits('change',prop,val)"
+          :formRef="formRef"
+          v-for="(field, ind) in newFields"
+          :key="field.key ?? ind"
+        >
+          <template #custom="{ field: currField }">
+            <slot :name="currField.prop" :field="currField" :form="formData"></slot>
+          </template>
+        </FieldItemCol>
+      </template>
+      <BaseEmpty v-else/>
+    </el-row>
     <FooterBtns
-      :loading="loading"
+      v-model:loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"
@@ -63,20 +63,20 @@
 import { ref, reactive, computed, watch, useSlots } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
-import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form/_components/FieldItemCol";
+import FieldItemCol from "@/components/form/_components/FieldItemCol";
+import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { merge } from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
-import { BaseBtnType } from "@/components/BaseBtn";
+import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
-import { BaseFormType } from "./_types";
+import { FormStyleType } from "./_types";
 
 const $slots = useSlots();
 const props = withDefaults(
   defineProps<{
-    type?: BaseFormType;
+    type?: FormStyleType;
     modelValue?: CommonObj; //表单数据
     fields?: FormField[]; //表单字段项
     readonly?: boolean; //是否只读
@@ -84,7 +84,7 @@ const props = withDefaults(
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: FinallyNext; //fetch请求失败之后的回调方法
-    grid?: GridValAttrs; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
+    grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     footer?: boolean; //是否显示底部按钮
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
@@ -103,7 +103,7 @@ const props = withDefaults(
     type: "",
     modelValue: () => reactive({}),
     log: !isProd,
-    grid: 24,
+    grid: (_props: CommonObj)=>_props.type === 'cell' ? 8 : 24,
     footer: true,
     isOmit: true,
     autoFixedFoot: true,
@@ -115,12 +115,8 @@ const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);
 const formData = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: CommonObj) {
-    emits("update:modelValue", val);
-  },
+  get: ()=>props.modelValue,
+  set: (val: CommonObj) => emits("update:modelValue", val),
 });
 const params = computed(() => merge({}, formData.value, props.extraParams));
 watch(
@@ -144,10 +140,10 @@ function handleEnter() {
 }
 
 defineExpose<{
-  formRef: any;
   formValidate: () => void;
+  [key:string]: any;
 }>({
-  formRef,
+  ...formRef.value,
   formValidate() {
     return footerBtnsRef.value.formValidate();
   },

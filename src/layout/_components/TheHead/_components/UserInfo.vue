@@ -18,9 +18,9 @@
 import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
 import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form";
+import { FormFieldAttrs } from "@/components/form/_types";
 import { GetUserList } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn";
+import { BtnName } from "@/components/BaseBtn/_types";
 
 const editEnable = ref(false);
 const model = reactive<CommonObj>(getUserInfo());
@@ -81,7 +81,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         disabled: !editEnable.value,
       },
       extraAttrs: {
-        valid: "phone",
+        validType: "phone",
       },
     },
     ...(editEnable.value
@@ -93,7 +93,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
               type: "password",
             },
             extraAttrs: {
-              valid: "password",
+              validType: "password",
             },
           },
           {
@@ -104,7 +104,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
               type: "password",
             },
             extraAttrs: {
-              valid: "password",
+              validType: "password",
             },
           },
         ]

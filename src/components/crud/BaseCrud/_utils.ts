@@ -1,9 +1,9 @@
 import { ElMessageBox } from "element-plus";
 import { upperFirst } from "lodash";
-import { BtnName, BtnItem, BtnAttrs } from "@/components/BaseBtn";
+import { BtnName, BtnItem, BtnAttrs,BaseBtnType, } from "@/components/BaseBtn/_types";
+import { getBtnObj } from "@/components/BaseBtn";
 import { CommonObj } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
-import { specialColMap } from "@/components/table";
 import {
   rangeJoinChar,
   typeOf,
@@ -12,11 +12,10 @@ import {
   defaultFormItemType,
   showMessage,
 } from "@/components/_utils";
-import { TableField, TableColAttrs } from "@/components/table";
-import { FormFieldAttrs } from "@/components/form";
-import { HandleClickExtraBtnsProps, SpecialBoolColType } from "./_types";
+import { TableCol, TableColAttrs } from "@/components/table/_types";
+import { FormFieldAttrs } from "@/components/form/_types";
+import { HandleClickExtraBtnsProps } from "./_types";
 import { batchBtnNames } from ".";
-import { BaseBtnType, getBtnObj } from "@/components/BaseBtn";
 import ImportPopup from "./_components/ImportPopup.vue";
 import { h } from "vue";
 
@@ -78,7 +77,7 @@ export function handleClickExtraBtns({
         .then(() => {
           const exportRows: any[] = [];
           if (name === "export") {
-            const newCols = (cols?.filter((it: TableField) => {
+            const newCols = (cols?.filter((it: TableCol) => {
               if (typeOf(it) !== "Object") return false;
               return !(it as TableColAttrs)?.prop?.startsWith("$");
             }) || []) as TableColAttrs[];

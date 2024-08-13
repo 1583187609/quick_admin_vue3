@@ -23,9 +23,9 @@
   </el-col>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, useAttrs, computed } from "vue";
-import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
-import { GridValAttrs, FormField, FormFieldAttrs } from "./index";
+import {  useAttrs, computed } from "vue";
+import { CommonObj, CommonSize } from "@/vite-env";
+import { Grid, FormFieldAttrs } from "@/components/form/_types";
 import { getElColAttrs } from "@/components/form/_utils";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 
@@ -39,7 +39,7 @@ const props = withDefaults(
     modelValue?: any;
     prefixProp?: string; //前置prop属性
     colAttrs?: CommonObj; //el-col的属性
-    grid?: GridValAttrs;
+    grid?: Grid;
     size?: CommonSize;
     field: FormFieldAttrs;
     pureText?: boolean; //是否展示纯文本

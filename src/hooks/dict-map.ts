@@ -1,8 +1,8 @@
 import { useDictStore } from "@/store";
 import { merge } from "lodash";
-import dict, { CascaderName, DictName } from "@/dict";
-import { printLog, storage, typeOf } from "@/utils";
-import { CommonObj, StrNum, OptionItem, FetchType } from "@/vite-env";
+import { CascaderName, DictName } from "@/dict/_types";
+import { typeOf } from "@/utils";
+import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 
 export default () => {
   const { dictMap, cascaderMap } = useDictStore();

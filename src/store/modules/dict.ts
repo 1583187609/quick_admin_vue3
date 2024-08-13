@@ -1,8 +1,7 @@
-import { merge } from "lodash";
-import { reactive, ref, computed } from "vue";
-import dict, { DictName } from "@/dict";
+import { reactive } from "vue";
+import dict from "@/dict";
 import cascader from "@/dict/cascader";
-import { CommonObj, StrNum, OptionItem, FetchType } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import { defineStore } from "pinia";
 
 /**

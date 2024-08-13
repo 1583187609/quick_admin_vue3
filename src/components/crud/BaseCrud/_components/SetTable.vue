@@ -30,9 +30,9 @@
     <BaseBtn @click="handleResetColSet" name="reset" />
 </div> -->
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref } from "vue";
 import BaseTable from "@/components/table/BaseTable.vue";
-import { TableColAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table/_types";
 import { CommonObj, CommonSize } from "@/vite-env";
 import config from "@/config";
 import { showMessage } from "@/components/_utils";

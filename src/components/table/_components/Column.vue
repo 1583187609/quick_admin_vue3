@@ -124,18 +124,17 @@
   </template>
 </template>
 <script lang="ts" name="Column" setup>
-import { ref, reactive, watch, computed, h } from "vue";
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
-import { BtnItem } from "@/components/BaseBtn";
-import { TableColAttrs } from "@/components/table";
+import { BtnItem } from "@/components/BaseBtn/_types";
+import { TableColAttrs } from "@/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "./GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import BaseRender from "@/components/BaseRender.vue";
-import { PopoverAttrs } from "@/components/form";
 import { defaultCommonSize } from "@/components/_utils";
+import { PopoverAttrs } from "@/components/_types";
 
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {

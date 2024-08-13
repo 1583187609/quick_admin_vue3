@@ -36,12 +36,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, nextTick, inject } from "vue";
+import { ref } from "vue";
 import { CommonObj } from "@/vite-env";
-import { BtnItem } from "@/components/BaseBtn";
-import { getTimeAgo, typeOf } from "@/components/_utils";
+import { BtnItem } from "@/components/BaseBtn/_types";
+import { getTimeAgo } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
-import { DictItemProps } from "@/dict";
+import { DictItemProps } from "@/dict/_types";
 import { getBarObj } from "@/components/crud/CardCrud/_utils";
 const sizeMap: CommonObj = {
   large: {

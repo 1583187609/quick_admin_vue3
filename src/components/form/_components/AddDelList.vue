@@ -32,7 +32,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs } from "@/components/form/_types";
 import AddDelBtn, { AddDelBtnType } from "@/components/form/_components/AddDelBtn.vue";
 import { merge } from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";
@@ -46,7 +46,7 @@ const props = withDefaults(
     parentProp: string;
     fields: FormField[];
     pureText?: boolean;
-    grid?: GridValAttrs;
+    grid?: Grid;
     size?: CommonSize;
     readonly?: boolean;
     pureText?: boolean;

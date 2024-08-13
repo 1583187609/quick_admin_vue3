@@ -20,11 +20,12 @@
   </BaseCrud>
 </template>
 <script lang="ts" name="CustomCrud" setup>
-import { ref, reactive, watch, computed, inject, useSlots } from "vue";
+import { ref} from "vue";
 import LoadMore from "@/components/LoadMore.vue";
-import { PaginationAttrs, SummaryListType } from "@/components/table";
-import { CommonObj, UniteFetchType, FinallyNext } from "@/vite-env";
-import { FilterByAuthFn } from "../BaseCrud";
+import { SummaryListType } from "@/components/table/_types";
+import { CommonObj } from "@/vite-env";
+import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
+
 const props = withDefaults(
   defineProps<{
     summaryList?: SummaryListType; //汇总请求数据的 list
@@ -42,7 +43,9 @@ function handleReachBottom(params: CommonObj) {
   params.page = params.page + 1;
   crudRef.value.getList(params);
 }
-defineExpose(crudRef.value);
+defineExpose({
+  ...crudRef.value
+});
 </script>
 <style lang="scss" scoped>
 .custom-crud {

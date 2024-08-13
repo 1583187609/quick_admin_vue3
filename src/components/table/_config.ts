@@ -1,7 +1,7 @@
-import { CommonObj } from "@/vite-env";
+import { TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
 
 //el-table 的属性，除了（data）
-export const defaultTableAttrs: CommonObj = {
+export const defaultTableAttrs: TableAttrs = {
   // stripe: true,
   rowKey: "id",
   border: true,
@@ -11,13 +11,14 @@ export const defaultTableAttrs: CommonObj = {
   defaultExpandAll: false, //为树形表格时，展开所有节点
 };
 
-//col-table-column 的属性
-export const defaultColumnAttrs = {
+// el-table-column 的属性
+export const defaultColumnAttrs: TableColumnAttrs = {
   align: "center",
   headerAlign: "center",
 };
 
-export const defaultPaginationAttrs = {
+// el-pagination 的属性
+export const defaultPaginationAttrs:TablePaginationAttrs = {
   // small: true,
   background: true,
   layout: "total, sizes, prev, pager, next, jumper",

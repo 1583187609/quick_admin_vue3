@@ -12,8 +12,7 @@
   />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, toRefs } from "vue";
-import { CommonObj } from "@/vite-env";
+import {  computed } from "vue";
 import config from "@/config";
 import { defaultPaginationAttrs } from "@/components/table";
 

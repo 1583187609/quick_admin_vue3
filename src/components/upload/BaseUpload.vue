@@ -42,12 +42,13 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, computed } from "vue";
+import {  ref, computed } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
-import { storage, toCssVal, isProd, showMessage } from "@/components/_utils";
+import {  toCssVal,  showMessage } from "@/components/_utils";
 import config from "@/config";
-import { StrNum, CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
+
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
@@ -64,6 +65,7 @@ const props = withDefaults(
   }>(),
   Object.assign(
     {
+      modelValue: "",
       size: 100,
       fit: "cover",
       showFileList: false,
@@ -93,9 +95,7 @@ const disabled = ref(useFormDisabled().value);
 const newSize = toCssVal(props.size);
 const errSrc = ref(""); //上传失败图片的地址(本地生成)
 const src = computed({
-  get() {
-    return props.modelValue || "";
-  },
+  get:()=>props.modelValue,
   set(val: string) {
     emits("update:modelValue", val);
     formItem?.validate("blur");
@@ -160,14 +160,8 @@ function getAcceptTypeStr(accept: string): string {
  */
 function getLimitSizeStr(limitSize: number): string {
   let size = limitSize / 1024;
-  let sizeStr = "";
-  if (size < 1024) {
-    sizeStr = `${size.toFixed(1)}kb`;
-  } else {
-    size = size / 1024;
-    sizeStr = `${size.toFixed(1)}Mb`;
-  }
-  return sizeStr;
+  if (size < 1024)  return `${size.toFixed(1)}kb`;
+  return `${(size / 1024).toFixed(1)}Mb`;
 }
 
 /**
@@ -176,12 +170,9 @@ function getLimitSizeStr(limitSize: number): string {
  * @param fileType string  image/png,image/jpeg
  */
 function validType(accept: string, fileType: string): string {
-  let tips = "";
   const acceptTypes = accept.split(",");
-  if (!acceptTypes.includes(fileType)) {
-    tips = `仅支持上传${getAcceptTypeStr(accept)}格式的图片`;
-  }
-  return tips;
+  if (acceptTypes.includes(fileType))  return '';
+  return `仅支持上传${getAcceptTypeStr(accept)}格式的图片`;
 }
 
 /**
@@ -190,7 +181,8 @@ function validType(accept: string, fileType: string): string {
  * @param type string  image/png,image/jpeg
  */
 function validSize(limitSize: number, fileSize: number) {
-  return fileSize > limitSize ? `图片大小不能超过${getLimitSizeStr(limitSize)}` : "";
+  if(fileSize <= limitSize) return "";
+  return `图片大小不能超过${getLimitSizeStr(limitSize)}`;
 }
 </script>
 

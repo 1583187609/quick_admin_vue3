@@ -111,7 +111,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, nextTick } from "vue";
+import { ref, inject, onMounted, nextTick, h} from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useRouter } from "vue-router";
@@ -130,9 +130,8 @@ import screenfull from "screenfull";
 import logoImg from "@/assets/images/logo.png";
 import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
-import "driver.js/dist/driver.css";
-import { h } from "vue";
 import { useI18n } from "vue-i18n";
+import "driver.js/dist/driver.css";
 
 const { tm: $t } = useI18n();
 const { VITE_APP_NAME } = import.meta.env;

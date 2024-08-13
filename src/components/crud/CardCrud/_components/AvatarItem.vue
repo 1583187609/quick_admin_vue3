@@ -43,11 +43,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { computed } from "vue";
 import { getTimeAgo } from "@/components/_utils";
-import { CommonObj, FetchType, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import { OperateBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
+import BarsImg from "@/components/img/BarsImg.vue"
+
 const props = withDefaults(
   defineProps<{
     row: CommonObj;

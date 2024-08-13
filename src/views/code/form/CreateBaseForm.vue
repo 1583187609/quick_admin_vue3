@@ -29,16 +29,14 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject, h } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form";
-import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
+import { FormField, FormFieldAttrs,SectionFormItemAttrs } from "@/components/form/_types";
+import { CommonObj, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { SectionFormItem, SectionFormItemAttrs } from "@/components/form";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
-import FieldItem from "@/components/form/_components/FieldItemCol/Index.vue";
 
-const openPopup = inject<any>("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;
@@ -164,7 +162,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       },
     },
     {
-      prop: "valid",
+      prop: "validType",
       label: "校验类型",
       type: "select",
       options: validOpts,

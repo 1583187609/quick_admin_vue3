@@ -19,7 +19,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { GetAuthRoleList } from "@/api-mock";
 import AddDelTag from "@/components/form/_components/AddDelTag.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";

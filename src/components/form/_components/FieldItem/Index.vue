@@ -1,6 +1,4 @@
 <template>
-  <!-- 如果下面这样写，会导致内置的表单校验pattern失效 -->
-  <!-- v-bind="deleteAttrs(newField, ['children', 'popover', 'attrs'])" -->
   <el-form-item class="field-item" v-bind="deleteAttrs(newField, ['children', 'attrs', 'extraAttrs', 'options'])">
     <template #label v-if="(!prefixProp || newField.labelWidth) && newField.label">
       <BaseRender :data="newField.label" />
@@ -48,6 +46,12 @@
             <BaseRender :data="val" />
           </template>
         </el-select>
+        <el-tree-select 
+         :class="flexClass" 
+         @change="(val:any)=> emits('change', newField.prop, val ?? '')" 
+         v-model="newVal"
+         v-bind="newField.attrs" 
+         v-else-if="newField.type === 'tree-select'"/>
         <el-date-picker
           :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
@@ -206,7 +210,7 @@
         :formRef="formRef"
         v-if="newField.type === 'addDel'"
       />
-      <AnyList
+      <AnyEleList
         v-model="newVal"
         :fields="subFields"
         :prefixProp="newField.prop"
@@ -218,45 +222,31 @@
         :showChildrenLabel="newField.showChildrenLabel"
         v-else
       />
-      <!-- :field="deleteAttrs(cField, ['label'])" -->
-      <!-- <template v-for="(cField, cInd) in subFields" :key="cInd" v-else>
-          <el-row>
-            <FieldItemCol
-              :prefixProp="newField.prop as string"
-              :field="cField"
-              :pureText="cField.extraAttrs?.pureText ?? pureText"
-              v-model="newVal[cField.prop as string]"
-              v-bind="cField"
-            />
-          </el-row>
-        </template> -->
     </template>
   </el-form-item>
-  <!-- </el-col> -->
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { ref, reactive, watch, useAttrs, computed } from "vue";
+import { ref, useAttrs, computed } from "vue";
 import { merge } from "lodash";
 import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
-import { CommonObj, OptionItem, StrNum, CommonSize } from "@/vite-env";
-import { GridValAttrs, FormField, FormFieldAttrs } from "./index";
+import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
+import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "../AddDelList.vue";
-import AnyList from "../AnyList.vue";
+import AnyEleList from "../AnyEleList.vue";
 import { rangeJoinChar, emptyVals } from "@/components/_utils";
 import { useDictMap } from "@/hooks";
-import { CascaderName, DictName } from "@/dict";
+import { CascaderName, DictName } from "@/dict/_types";
 import { RuleItem } from "./_types";
-import { getElColAttrs } from "@/components/form/_utils";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
     prefixProp?: string; //前置prop属性
-    grid?: GridValAttrs;
+    grid?: Grid;
     size?: CommonSize;
     field: FormFieldAttrs;
     pureText?: boolean; //是否展示纯文本
@@ -310,8 +300,8 @@ const newField = computed<FormFieldAttrs>(() => {
     }
     // }
   } else {
-    const { valid = "" } = extraAttrs;
-    const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
+    const { validType = "" } = extraAttrs;
+    const validField: CommonObj = validType ? defaultValidTypes[validType] : {};
     const { type: vType } = validField;
     const type = fType ?? vType ?? defaultFormItemType;
     const defField = defaultFieldAttrs[type];
@@ -364,8 +354,8 @@ function getPlaceholder(field: FormFieldAttrs) {
  */
 function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
   const { label = "", required, extraAttrs = {} } = field;
-  const { valid } = extraAttrs;
-  const validField: CommonObj = valid ? defaultValidTypes[valid] : {};
+  const { validType } = extraAttrs;
+  const validField: CommonObj = validType ? defaultValidTypes[validType] : {};
   const newRules: FormItemRule[] = [
     ...(validField.rules ?? []),
     ...(required ? [{ required, message: label + "必填", trigger: "blur" }] : []),

@@ -1,5 +1,4 @@
-<!-- 页面-简介 -->
-<!-- :field="deleteAttrs(field, ['label'])" -->
+<!-- 任意元素的字段列表 -->
 <template>
   <template v-for="(field, ind) in fields" :key="ind">
     <el-row :gutter="16">
@@ -21,9 +20,9 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
-import { GridValAttrs, FormField, FormFieldAttrs } from "./FieldItemCol/_types";
+import { computed } from "vue";
+import { CommonObj, CommonSize } from "@/vite-env";
+import { Grid, FormFieldAttrs } from "./FieldItemCol/_types";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 
 const props = withDefaults(
@@ -31,7 +30,7 @@ const props = withDefaults(
     modelValue: CommonObj;
     prefixProp?: string;
     fields?: FormFieldAttrs[];
-    grid?: GridValAttrs;
+    grid?: Grid;
     size?: CommonSize;
     readonly?: boolean;
     pureText?: boolean;

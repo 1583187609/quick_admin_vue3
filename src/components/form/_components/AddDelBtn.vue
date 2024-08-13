@@ -18,10 +18,9 @@
   ></el-button>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CirclePlusFilled, RemoveFilled, CirclePlus, Remove } from "@element-plus/icons-vue";
+import { CirclePlusFilled, RemoveFilled } from "@element-plus/icons-vue";
 import { toCssVal } from "@/components/_utils";
-import { CommonObj, StrNum } from "@/vite-env";
+
 export type AddDelBtnType = "add" | "del";
 const props = withDefaults(
   defineProps<{

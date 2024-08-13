@@ -1,3 +1,6 @@
+<!--  summary
+ 权限树
+-->
 <template>
   <el-tree :props="props" :load="loadNode" lazy show-checkbox @check-change="handleCheckChange" />
 </template>

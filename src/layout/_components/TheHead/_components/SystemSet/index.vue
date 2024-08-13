@@ -19,11 +19,11 @@
   </SectionForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive,  computed } from "vue";
 import { useI18n } from "vue-i18n";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
-import { SectionFormItemAttrs } from "@/components/form";
+import { CommonObj, OptionItem} from "@/vite-env";
+import { SectionFormItemAttrs } from "@/components/form/_types";
 import LayoutStyle from "./_components/LayoutStyle.vue";
 import { getIsUpdated } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";

@@ -3,7 +3,7 @@ import { ref, computed, nextTick, h } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
 import { GetOptionsSchool, GetOptionsCompany } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form";
+import { FormFieldAttrs } from "@/components/form/_types";
 
 export type SelectSearchType = "school" | "company";
 

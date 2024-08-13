@@ -32,12 +32,10 @@
 import { ref, reactive, watchEffect } from "vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
-import { TableColAttrs } from "@/components/table";
-import { getColLevel } from "@/components/table";
-import { specialColMap } from "@/components/table";
-import { defaultTableAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table/_types";
+import { getColLevel, specialColMap, defaultTableAttrs } from "@/components/table";
 import { typeOf, handleTableSummary } from "@/components/_utils";
-import { BtnItem } from "@/components/BaseBtn";
+import { BtnItem } from "@/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "./_utils";

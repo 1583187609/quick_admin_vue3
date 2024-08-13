@@ -24,7 +24,7 @@
 import { ref, watch, nextTick } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
-import { showMessage } from "../../_utils";
+import { showMessage } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{

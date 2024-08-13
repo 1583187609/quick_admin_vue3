@@ -15,10 +15,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, unref, nextTick, inject } from "vue";
+import { ref,  computed, nextTick } from "vue";
 import { CommonObj } from "@/vite-env";
-import { BtnItem } from "@/components/BaseBtn";
-import BarsImg from "@/components/BarsImg.vue";
+import { BtnItem } from "@/components/BaseBtn/_types";
+import BarsImg from "@/components/img/BarsImg.vue";
 import { AuditStatus } from "../Index.vue";
 import { useDictMap } from "@/hooks";
 const { getMap } = useDictMap();

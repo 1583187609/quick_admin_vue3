@@ -13,14 +13,14 @@
     <slot>{{ newBtn?.text || "-" }}</slot>
   </el-button>
 </template>
-<script lang="ts" name="BaseBtn" setup>
+<script lang="ts" setup>
 import { computed } from "vue";
 import { getBtnObj } from "@/components/BaseBtn";
 import { typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
-import { PopconfirmAttrs } from "./index";
 import { CommonObj } from "@/vite-env";
 import { BtnAttrs } from "./_types";
+import { PopconfirmAttrs } from "../_types";
 
 defineOptions({
   inheritAttrs: false,

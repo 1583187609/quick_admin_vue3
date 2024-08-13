@@ -44,3 +44,7 @@ export type CloseDialogType = DialogPopup | DialogId | "all";
 export type CloseDrawerType = DrawerPopup | DrawerId | "all";
 export type DialogHeadTypes = string | DialogHeadAttrs;
 export type DrawerHeadTypes = string | DrawerHeadAttrs;
+
+
+export type OpenPopupInject = any;
+export type ClosePopupInject = any;

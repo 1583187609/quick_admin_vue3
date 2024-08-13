@@ -78,10 +78,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, inject, computed, watch, useAttrs } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/components/_utils";
-import { FormField, FormFieldAttrs, GridAttrs, GridValAttrs } from "@/components/form";
+import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { merge } from "lodash";
 import { CommonObj } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";
@@ -89,7 +89,8 @@ import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
 import { useEvent } from "@/hooks";
 import { handleFields, getGridAttrs } from "@/components/form/_utils";
-import { SectionFormItemAttrs, defaultFormAttrs } from "@/components/form";
+import { SectionFormItemAttrs } from "@/components/form/_types";
+import {  defaultFormAttrs } from "@/components/form";
 import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
@@ -104,7 +105,7 @@ const props = withDefaults(
     rowNum?: number;
     extraParams?: CommonObj; //额外的参数
     inputDebounce?: boolean;
-    grid: GridAttrs;
+    grid: Grid;
     compact?: boolean; //是否是紧凑的
     noFieldsHide?: boolean; //没有字段时是否不显示表单内容
   }>(),

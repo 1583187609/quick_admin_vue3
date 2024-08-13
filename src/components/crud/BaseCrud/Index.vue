@@ -41,7 +41,7 @@
       :batchBtn="batchBtn && selection"
       :size="tableAttrs?.size ?? size"
       ref="extraBtnsRef"
-      @update:cols="(cols:TableField[])=>{newCols = cols}"
+      @update:cols="(cols:TableCol[])=>{newCols = cols}"
       @click="onExtraBtns"
       v-if="newExtraBtns.length"
     />
@@ -73,7 +73,7 @@
         v-bind="tableAttrs"
         @operateBtns="onOperateBtns"
         @selectionChange="handleSelectionChange"
-        @update:cols="(cols:TableField[])=>{allCols=cols}"
+        @update:cols="(cols:TableCol[])=>{allCols=cols}"
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
@@ -95,13 +95,14 @@
 </template>
 <script lang="ts" name="BaseCrud" setup>
 import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
-import { FormField, FormFieldAttrs, GridValAttrs } from "@/components/form";
-import { TableField } from "@/components/table";
+import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 import { cloneDeep, merge } from "lodash";
-import ExtraBtns from "./_components/ExtraBtns/Index.vue";
+import ExtraBtns from "./_components/ExtraBtns";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
-import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
-import { BtnName, BaseBtnType, getBtnObj, BtnItem } from "@/components/BaseBtn";
+import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm";
+import { BtnName, BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
+import { getBtnObj } from "@/components/BaseBtn";
 import {
   isProd,
   omitAttrs,
@@ -118,23 +119,26 @@ import Pagination from "./_components/Pagination.vue";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
-import { FilterByAuthFn, batchBtnNames } from "@/components/crud/BaseCrud";
-import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize } from "@/vite-env";
-import { SectionFormItemAttrs } from "@/components/form";
+import {  batchBtnNames } from "@/components/crud/BaseCrud";
+import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
+import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired } from "@/vite-env";
+import { SectionFormItemAttrs } from "@/components/form/_types";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
-import { SummaryListType, PaginationAttrs } from "@/components/table";
-import { QueryFieldsItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud";
+import { SummaryListType, TablePaginationAttrs } from "@/components/table/_types";
+import { KeyValItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud/_types";
 import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
 import { defaultTableAttrs } from "@/components/table/_config";
 import config from "@/config";
-import { ExportCfg, FormAttrs, TableAttrs } from "./_types";
+import { ExportCfg } from "./_types";
+import {FormAttrs} from "@/components/form/_types"
+import {TableAttrs} from "@/components/table/_types"
 import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
 
 const $slots = useSlots();
-const openPopup = inject<any>("openPopup");
-const allCols = ref<TableField[]>([]);
+const openPopup = inject<OpenPopupInject>("openPopup");
+const allCols = ref<TableCol[]>([]);
 const props = withDefaults(
   defineProps<{
     /** 表单相关 **/
@@ -146,7 +150,7 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
     inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
-    grid?: GridValAttrs; //栅格配置，同ElementPlus的el-col的属性
+    grid?: Grid; //栅格配置，同ElementPlus的el-col的属性
     rowNum?: number; // 筛选条件的(表单)展示几行
     /** 对请求数据的处理 **/
     reqMap?: ReqMap; //请求参数的键名映射
@@ -160,7 +164,7 @@ const props = withDefaults(
     importCfg?: TplCfgAttrs; //导入的下载模板配置
     exportCfg?: ExportCfg; //导出配置
     /** 表格相关 **/
-    cols?: TableField[]; //表格列数据
+    cols?: TableCol[]; //表格列数据
     sort?: boolean | UniteFetchType; //是否展示排序列
     index?: boolean; //是否展示序号列
     selection?: boolean; //是否展示选择框
@@ -178,7 +182,7 @@ const props = withDefaults(
     compact?: boolean; //表单项、表格列之间排列是否紧凑点
     tableAttrs?: TableAttrs; //el-table 的属性配置
     pageAttrs?: CommonObj; //分页配置
-    pagination?: false | PaginationAttrs; //是否分页
+    pagination?: false | TablePaginationAttrs; //是否分页
     showPagination?: boolean; //是否显示分页
     /** 下面是待确定项，可以更改名称，可能移除或替换 **/
     selectAll?: boolean; //是否选择全部
@@ -266,7 +270,7 @@ const existBatchBtns = computed<boolean>(() => {
   return !!newExtraBtns.value.find((it: BtnItem) => batchBtnNames.includes(it.name as BtnName) && !it.customRules);
 });
 const selectable = computed(() => props.selection || existBatchBtns.value);
-const newCols = ref<TableField[]>(props.cols.slice());
+const newCols = ref<TableCol[]>(props.cols.slice());
 //当额外参数改变时，发起请求
 watch(
   () => props.extraParams,
@@ -426,6 +430,27 @@ function filterBtnsByAuth(btns: BtnItem[] = []) {
 function refreshList(cb?: () => void) {
   getList(params, cb, "refresh");
 }
+// 拖拽排序
+function handleDragSort(ele = queryTableRef.value.tableRef.$el.querySelector(".el-table__body-wrapper tbody") as HTMLElement) {
+  const { tableAttrs } = props;
+  const { rowKey } = tableAttrs;
+  Sortable.create(ele, {
+    handle: ".sort-cell",
+    animation: 300,
+    onEnd(res: CommonObj) {
+      const { newIndex, oldIndex } = res;
+      if (typeof props.sort === "boolean") {
+        emits("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => {
+          // const removeItem = newRows.value.splice(oldIndex, 1)[0];
+          // newRows.value.splice(newIndex, 0, removeItem);
+          showMessage(tips);
+        });
+      } else {
+        // (props.sort as any)({[rowKey]})
+      }
+    },
+  });
+}
 defineExpose({
   refreshList,
   getList,
@@ -433,7 +458,7 @@ defineExpose({
     return isOmit ? omitAttrs(params) : params;
   },
   getQueryFields(excludeKeys = [reqMap.curr_page, reqMap.page_size]) {
-    const queryFields: QueryFieldsItem[] = [];
+    const queryFields: KeyValItem[] = [];
     const rangeKeys: string[] = [];
     const propFields = queryFormRef.value.getFields() as FormFieldAttrs[];
     propFields.forEach((it: FormFieldAttrs) => {
@@ -470,28 +495,9 @@ defineExpose({
     });
     return queryFields;
   },
+  ...queryFormRef.value,
+  ...queryTableRef.value,
 });
-// 拖拽排序
-function handleDragSort(ele = queryTableRef.value.tableRef.$el.querySelector(".el-table__body-wrapper tbody") as HTMLElement) {
-  const { tableAttrs } = props;
-  const { rowKey } = tableAttrs;
-  Sortable.create(ele, {
-    handle: ".sort-cell",
-    animation: 300,
-    onEnd(res: CommonObj) {
-      const { newIndex, oldIndex } = res;
-      if (typeof props.sort === "boolean") {
-        emits("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => {
-          // const removeItem = newRows.value.splice(oldIndex, 1)[0];
-          // newRows.value.splice(newIndex, 0, removeItem);
-          showMessage(tips);
-        });
-      } else {
-        // (props.sort as any)({[rowKey]})
-      }
-    },
-  });
-}
 </script>
 <style lang="scss" scoped>
 .base-crud {

@@ -1,4 +1,4 @@
-import { BtnName, BtnItem } from "@/components/BaseBtn";
+import { BtnName, BtnItem } from "@/components/BaseBtn/_types";
 
 /**
  * 可以进行批量操作的按钮；

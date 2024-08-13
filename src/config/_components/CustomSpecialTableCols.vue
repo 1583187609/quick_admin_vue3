@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import UserInfo from "@/views/_components/UserInfo.vue";
-import { TableColAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table/_types";
 import { CommonObj } from "@/vite-env";
 export type CustomSpecialColType = "UserInfo";
 const props = withDefaults(

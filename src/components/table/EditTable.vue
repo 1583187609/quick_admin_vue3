@@ -3,32 +3,28 @@
 -->
 <template>
   <BaseForm v-bind="formAttrs" :style="style" :class="class" v-model="model" :fields="fields" class="edit-table" ref="formRef">
-    <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="tableRef">
-      <template #header="{ column, col }">
-        <span :class="{ required: col?.required && col.field }">{{ column.label }}</span>
-      </template>
-      <template #default="scope">
-        <template v-if="scope.col.field">
-          <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'custom'"></slot>
-          <FieldItem style="margin-bottom: 0" v-model="scope.row[scope.col.prop]" :field="scope.col.field" v-else />
+    <template #custom>
+      <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="tableRef">
+        <template #header="{ column, col }">
+          <span :class="{ required: col?.required && col.field }">{{ column.label }}</span>
         </template>
-        <template v-else>{{ scope.row[scope.col.prop] }}</template>
-      </template>
-    </BaseTable>
+        <template #default="scope">
+          <template v-if="scope.col.field">
+            <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'custom'"></slot>
+            <FieldItem style="margin-bottom: 0" v-model="scope.row[scope.col.prop]" :field="scope.col.field" v-else />
+          </template>
+          <template v-else>{{ scope.row[scope.col.prop] }}</template>
+        </template>
+      </BaseTable>
+    </template>
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, computed, useAttrs, inject, watch } from "vue";
-import { merge } from "lodash";
-import { Delete, RefreshLeft } from "@element-plus/icons-vue";
+import { ref, reactive, computed, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
 import { CommonObj, ClassType, StyleType } from "@/vite-env";
-import { TableColAttrs, defaultColumnAttrs, defaultTableAttrs } from "@/components/table";
-import { showMessage } from "@/utils";
+import { TableColAttrs} from "@/components/table/_types";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
-import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
-
-export type CellType = "" | "input" | "select" | "switch" | "custom" | "operate";
 
 defineOptions({
   inheritAttrs: false,

@@ -1,10 +1,9 @@
 import { BaseComponentsConfig } from "./_types";
-import { TableColAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table/_types";
 import { getUserInfo, storage } from "@/utils";
 import { CommonObj } from "@/vite-env";
-export * from "./_types";
 
-const isSmall = true;
+// const isSmall = true;
 const isProd = import.meta.env.MODE === "production";
 // 首页地址（默认）
 

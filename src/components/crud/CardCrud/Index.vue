@@ -50,14 +50,14 @@
   </BaseCrud>
 </template>
 <script lang="ts" name="CardCrud" setup>
-import { ref, reactive, watch, computed, useAttrs, inject } from "vue";
-import { BaseBtnType, BtnItem } from "@/components/BaseBtn";
+import { ref,  inject } from "vue";
+import {  BtnItem } from "@/components/BaseBtn/_types";
 import AvatarItem from "./_components/AvatarItem.vue";
 import AboutItem from "./_components/AboutItem.vue";
 import FaceItem from "./_components/FaceItem.vue";
 import PhotoItem from "./_components/PhotoItem.vue";
 import { getAvatarRowData } from "./_utils";
-import { typeOf, showMessage } from "@/components/_utils";
+import {  showMessage } from "@/components/_utils";
 import { FilterByAuthFn, getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
 import { CommonObj } from "@/vite-env";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
@@ -116,7 +116,9 @@ function filterBtnsByAuth(btns: BtnItem[] = []) {
     return auth?.length ? filterByAuth(auth) : true;
   });
 }
-defineExpose(crudRef.value);
+defineExpose({
+  ...crudRef.value
+});
 </script>
 <style lang="scss" scoped>
 .card-crud {
