@@ -3,19 +3,20 @@
 这是常用的增删改查列表
 
 
-## BasicUse
-::: demo 
+## 基础用法
+::: demo 摘要介绍暂时略
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
 
 
-## Embedded
-::: demo 
+## 内嵌组件
+::: demo 内嵌组件的说明
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
 :::
 
 
 
+## API 
 ### Props
 
 |属性|说明|类型|默认值|
@@ -28,7 +29,7 @@
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|-|
 |`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|-|
-|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`GridValAttrs`|-|
+|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`Grid`|-|
 |`rowNum`|筛选条件的(表单)展示几行|`number`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|-|
 |`resMap`|响应参数的键名映射|`ResMap`|-|
@@ -39,7 +40,7 @@
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
 |`importCfg`|导入的下载模板配置|`TplCfgAttrs`|-|
 |`exportCfg`|导出配置|`ExportCfg`|-|
-|`cols`|表格列数据|`TableField[]`|-|
+|`cols`|表格列数据|`TableCol[]`|-|
 |`sort`|是否展示排序列|`boolean \| UniteFetchType`|-|
 |`index`|是否展示序号列|`boolean`|-|
 |`selection`|是否展示选择框|`boolean`|-|
@@ -56,7 +57,7 @@
 |`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|-|
 |`tableAttrs`|`el-table `的属性配置|`TableAttrs`|-|
 |`pageAttrs`|分页配置|`CommonObj`|-|
-|`pagination`|是否分页|`false \| PaginationAttrs`|-|
+|`pagination`|是否分页|`false \| TablePaginationAttrs`|-|
 |`showPagination`|是否显示分页|`boolean`|-|
 |`selectAll`|是否选择全部|`boolean`|-|
 |`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|

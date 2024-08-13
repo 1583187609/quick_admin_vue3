@@ -71,8 +71,8 @@ export function getVueScriptStr(readPathHalf = needParam()) {
   //   slotted,
   //   shouldForceReload,
   // } = sfc.descriptor;
-  const { scriptSetup } = sfc.descriptor;
-  const scriptContent = scriptSetup.content;
+  const { scriptSetup, script } = sfc.descriptor;
+  const scriptContent = scriptSetup?.content ?? script?.content;
   return scriptContent;
 }
 

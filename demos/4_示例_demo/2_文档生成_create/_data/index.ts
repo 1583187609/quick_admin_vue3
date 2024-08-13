@@ -28,7 +28,7 @@ export const vueStr = `
       <BaseEmpty v-else/>
     </div>
     <FooterBtns
-      v-model:loading="loading"
+      :loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"

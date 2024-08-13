@@ -46,12 +46,13 @@
             <BaseRender :data="val" />
           </template>
         </el-select>
-        <el-tree-select 
-         :class="flexClass" 
-         @change="(val:any)=> emits('change', newField.prop, val ?? '')" 
-         v-model="newVal"
-         v-bind="newField.attrs" 
-         v-else-if="newField.type === 'tree-select'"/>
+        <el-tree-select
+          :class="flexClass"
+          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          v-model="newVal"
+          v-bind="newField.attrs"
+          v-else-if="newField.type === 'tree-select'"
+        />
         <el-date-picker
           :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
@@ -123,7 +124,7 @@
           </template>
         </el-cascader>
         <slot name="custom" :field="newField" v-else-if="newField.type === 'custom'">
-          <div class="err">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
+          <div class="color-danger">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
         </slot>
         <BaseNumberRange
           :class="flexClass"
@@ -186,7 +187,7 @@
           v-else-if="newField.type === 'time-select'"
         /> -->
         <div class="empty" v-bind="newField.attrs" v-else-if="newField.type === 'empty'"></div>
-        <div class="err" v-else>【不存在】{{ newField.type }}</div>
+        <div class="color-danger" v-else>【不存在】{{ newField.type }}</div>
         <div class="ml-h" v-if="newField.extraAttrs?.after">
           <BaseRender :data="newField.extraAttrs?.after" />
         </div>
@@ -241,6 +242,7 @@ import { rangeJoinChar, emptyVals } from "@/components/_utils";
 import { useDictMap } from "@/hooks";
 import { CascaderName, DictName } from "@/dict/_types";
 import { RuleItem } from "./_types";
+import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{
@@ -260,6 +262,7 @@ const props = withDefaults(
   }>(),
   {
     grid: 24,
+    size: defaultCommonSize,
   }
 );
 
@@ -454,9 +457,6 @@ defineExpose({});
 </script>
 <style lang="scss" scoped>
 .field-item {
-}
-.err {
-  color: $color-danger;
 }
 .icon-popover {
   font-size: 1.1em;

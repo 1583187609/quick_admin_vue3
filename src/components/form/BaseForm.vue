@@ -19,6 +19,7 @@
       <template v-if="newFields.length">
         <FieldItemCol
           :grid="grid"
+          :size="size"
           :field="field"
           :readonly="readonly"
           :pureText="pureText"
@@ -33,10 +34,10 @@
           </template>
         </FieldItemCol>
       </template>
-      <BaseEmpty v-else/>
+      <BaseEmpty v-else />
     </el-row>
     <FooterBtns
-      v-model:loading="loading"
+      :loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"
@@ -63,7 +64,7 @@
 import { ref, reactive, computed, watch, useSlots } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
-import FieldItemCol from "@/components/form/_components/FieldItemCol";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { merge } from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
@@ -72,11 +73,13 @@ import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import { FormStyleType } from "./_types";
+import { defaultCommonSize } from "@/components/_utils";
 
 const $slots = useSlots();
 const props = withDefaults(
   defineProps<{
     type?: FormStyleType;
+    size?: CommonSize;
     modelValue?: CommonObj; //表单数据
     fields?: FormField[]; //表单字段项
     readonly?: boolean; //是否只读
@@ -101,9 +104,10 @@ const props = withDefaults(
   }>(),
   {
     type: "",
+    size: defaultCommonSize,
     modelValue: () => reactive({}),
     log: !isProd,
-    grid: (_props: CommonObj)=>_props.type === 'cell' ? 8 : 24,
+    grid: (_props: CommonObj) => (_props.type === "cell" ? 8 : 24),
     footer: true,
     isOmit: true,
     autoFixedFoot: true,
@@ -115,7 +119,7 @@ const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);
 const formData = computed({
-  get: ()=>props.modelValue,
+  get: () => props.modelValue,
   set: (val: CommonObj) => emits("update:modelValue", val),
 });
 const params = computed(() => merge({}, formData.value, props.extraParams));
@@ -141,7 +145,7 @@ function handleEnter() {
 
 defineExpose<{
   formValidate: () => void;
-  [key:string]: any;
+  [key: string]: any;
 }>({
   ...formRef.value,
   formValidate() {

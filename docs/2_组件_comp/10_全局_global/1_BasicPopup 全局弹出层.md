@@ -1,21 +1,22 @@
 # BasicPopup 全局弹出层
 
+提供了两个弹出层dialog和drawer。默认dialog，可在全局配置中进行配置
 
 
-
-## BasicUse
-::: demo 
+## 基础使用
+::: demo 打开弹窗示例。默认是打开Dialog。
 /demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/1_BasicUse.vue
 :::
 
 
-## OpenClose
-::: demo 
+## 打开与关闭
+::: demo 打开弹出层可自动叠加。关闭弹出层每次默认关闭最顶层
 /demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/2_OpenClose.vue
 :::
 
 
 
+## API 
 ### Props
 
 |属性|说明|类型|默认值|
@@ -28,7 +29,7 @@
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|-|
 |`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|-|
-|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`GridValAttrs`|-|
+|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`Grid`|-|
 |`rowNum`|筛选条件的(表单)展示几行|`number`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|-|
 |`resMap`|响应参数的键名映射|`ResMap`|-|
@@ -39,7 +40,7 @@
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
 |`importCfg`|导入的下载模板配置|`TplCfgAttrs`|-|
 |`exportCfg`|导出配置|`ExportCfg`|-|
-|`cols`|表格列数据|`TableField[]`|-|
+|`cols`|表格列数据|`TableCol[]`|-|
 |`sort`|是否展示排序列|`boolean \| UniteFetchType`|-|
 |`index`|是否展示序号列|`boolean`|-|
 |`selection`|是否展示选择框|`boolean`|-|
@@ -56,7 +57,7 @@
 |`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|-|
 |`tableAttrs`|`el-table `的属性配置|`TableAttrs`|-|
 |`pageAttrs`|分页配置|`CommonObj`|-|
-|`pagination`|是否分页|`false \| PaginationAttrs`|-|
+|`pagination`|是否分页|`false \| TablePaginationAttrs`|-|
 |`showPagination`|是否显示分页|`boolean`|-|
 |`selectAll`|是否选择全部|`boolean`|-|
 |`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|
@@ -100,19 +101,7 @@
 
 ``` ts
 
-import type {
-  PopupType,
-  DialogId,
-  DrawerId,
-  FootRenderData,
-  DialogPopup,
-  DrawerPopup,
-  ClosePopupType,
-  CloseDialogType,
-  CloseDrawerType,
-  DialogHeadTypes,
-  DrawerHeadTypes,
-} from "./_types";
+import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";
 
 
 

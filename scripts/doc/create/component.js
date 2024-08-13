@@ -145,17 +145,27 @@ export default async (writeFilePath = needParam(), demoPath = needParam()) => {
   const { apiPath, tsPath } = JSON.parse(dataStr);
 
   const title = getFileName(writeFilePath, undefined, undefined, true);
-  const badge = writeFilePath.match(badgeReg)?.[0]?.slice(1,-1);
+  const badge = writeFilePath.match(badgeReg)?.[0]?.slice(1, -1);
   let badgeStr = "";
-  if(badge){
-    const typeMap={ beta: 'warning', wait: 'danger'};
-    const type = typeMap[badge] ?? 'info'
+  let noticeStr = "";
+  if (badge) {
+    const typeMap = {
+      beta: {
+        type: "warning",
+        title: "实验性",
+        notice: "本功能处于实验性阶段，谨慎使用！",
+      },
+      wait: {
+        type: "danger",
+        title: "待完善",
+        notice: "本功能暂不可用，敬请期待！",
+      },
+    };
+    const { type = "info", notice = "无", title: tit } = typeMap[badge] ?? {};
     badgeStr = `  <Badge class="title-badge" type="${type}" text="${badge}" />`;
+    noticeStr = `${getNoticesStr({ [type]: notice }, tit)}${N}${N}`;
   }
-  fileStr += `# ${title}${badgeStr}${N}${N}`;
-  if(badge==='wait'){
-    fileStr += `${getNoticesStr({danger: "功能待完善（暂不可用），敬请期待！"})}${N}${N}`;
-  }
+  fileStr += `# ${title}${badgeStr}${N}${N}${noticeStr}`;
   const oldFileStr = fileStr;
 
   // 从ReadMe文件中读取摘要信息

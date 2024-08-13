@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {inject, computed } from "vue";
+import { ref, watch, inject, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
@@ -50,11 +50,14 @@ const props = withDefaults(
     moreBtns: () => [],
   }
 );
-const emits = defineEmits(["moreBtns", "submit", "update:loading"]);
-const isLoading = computed({
-  get: ()=> props.loading,
-  set: (val:boolean)=>emits("update:loading",val)
-});
+const emits = defineEmits(["moreBtns", "submit"]);
+const isLoading = ref(props.loading);
+watch(
+  () => props.loading,
+  (newVal, oldVal) => {
+    isLoading.value = newVal;
+  }
+);
 const newMoreBtns = computed(() => props.moreBtns.map((btn: BaseBtnType) => getBtnObj(btn)));
 //处理校验逻辑
 function handleValidate() {

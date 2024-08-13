@@ -23,33 +23,39 @@ const testFnMap = {
  * 撰写通用组件文档
  * @param {(comp|demo|test)[]} parts 是否重写组件文档
  */
-function writeComponentDocs(parts = []) {
+async function writeComponentDocs(parts = []) {
   const fullDemoPath = path.join(process.cwd(), demosPath);
   const partNames = fs.readdirSync(fullDemoPath);
-  partNames.forEach(partName => {
-    const name = partName.split(splitOrderChar).at(-1);
-    if (parts?.length && !parts.includes(name)) return;
-    const partPath = path.join(fullDemoPath, partName);
-    const isDir = fs.lstatSync(partPath).isDirectory();
-    if (!isDir) throw new Error("暂未处理不是文件夹的情况");
-    const pageNames = fs.readdirSync(partPath);
-    pageNames.forEach((pageName, ind) => {
-      if (name === "test") {
-        testFnMap[ind]();
-        return;
-      }
-      const pagePath = path.join(partPath, pageName);
-      const isDir = fs.lstatSync(pagePath).isDirectory();
+  await Promise.all(
+    partNames.map(async partName => {
+      const name = partName.split(splitOrderChar).at(-1);
+      if (parts?.length && !parts.includes(name)) return;
+      const partPath = path.join(fullDemoPath, partName);
+      const isDir = fs.lstatSync(partPath).isDirectory();
       if (!isDir) throw new Error("暂未处理不是文件夹的情况");
-      const fileNames = fs.readdirSync(pagePath).filter(it => !it.startsWith("_"));
-      fileNames.forEach(fileName => {
-        const midPath = `${partName}/${pageName}/${fileName}`;
-        const writeFilePath = `${docsPath}/${midPath}.md`;
-        const readDemoPath = `${demosPath}/${midPath}`;
-        writeComponentDoc(writeFilePath, readDemoPath);
-      });
-    });
-  });
+      const pageNames = fs.readdirSync(partPath);
+      await Promise.all(
+        pageNames.map(async (pageName, ind) => {
+          if (name === "test") {
+            testFnMap[ind]();
+            return;
+          }
+          const pagePath = path.join(partPath, pageName);
+          const isDir = fs.lstatSync(pagePath).isDirectory();
+          if (!isDir) throw new Error("暂未处理不是文件夹的情况");
+          const fileNames = fs.readdirSync(pagePath).filter(it => !it.startsWith("_"));
+          await Promise.all(
+            fileNames.map(async fileName => {
+              const midPath = `${partName}/${pageName}/${fileName}`;
+              const writeFilePath = `${docsPath}/${midPath}.md`;
+              const readDemoPath = `${demosPath}/${midPath}`;
+              await writeComponentDoc(writeFilePath, readDemoPath);
+            })
+          );
+        })
+      );
+    })
+  );
 }
 
 // writeHomMdDoc();

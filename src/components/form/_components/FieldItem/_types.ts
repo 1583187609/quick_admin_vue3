@@ -1,8 +1,9 @@
 import { FormRules } from "element-plus";
 import { SlotsType } from "@/components/BaseRender.vue";
-import { BaseDataType,  CommonSize, OptionItem, StrNum } from "@/vite-env";
+import { BaseDataType, CommonSize, OptionItem, StrNum } from "@/vite-env";
 import { defaultValidTypes } from "./_config";
 import { CascaderName, DictName } from "@/dict/_types";
+import { Popover } from "@/components/_types";
 
 export type ValidType = keyof typeof defaultValidTypes;
 

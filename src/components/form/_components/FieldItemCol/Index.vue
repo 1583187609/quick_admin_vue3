@@ -23,7 +23,7 @@
   </el-col>
 </template>
 <script lang="ts" setup>
-import {  useAttrs, computed } from "vue";
+import { useAttrs, computed } from "vue";
 import { CommonObj, CommonSize } from "@/vite-env";
 import { Grid, FormFieldAttrs } from "@/components/form/_types";
 import { getElColAttrs } from "@/components/form/_utils";
@@ -55,7 +55,6 @@ const props = withDefaults(
     grid: 24,
   }
 );
-
 const emits = defineEmits(["update:modelValue"]);
 const newVal = computed({
   get: () => props.modelValue,

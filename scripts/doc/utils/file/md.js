@@ -4,8 +4,12 @@ import { N, readMeName, needParam, getVueScriptStr, getPartStrFromVueScript } fr
 /**
  * 获取（计算出）md文档标识需要的正则表达式
  */
-// 下列依次为：匹配Ts的箭头函数、BaseBtnType[]、默认值展示（[]）、reactive({})或reactive()
-const specialRegStrs = [`\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, `\\w+\\[ *\\]`, `\\[ *\\]`, `\\b\\w+\\b\\( *{* *}* *\\)`];
+const specialRegStrs = [
+  `\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, //Ts的箭头函数
+  `\\w+\\[ *\\]`, //BaseBtnType[]
+  `\\[ *\\]`, //默认值展示（[]）
+  `\\b\\w+\\b\\( *[{\\[]* *[\\]}]* *\\)`, //reactive({})或reactive()或reactive([])
+];
 const tempRegStr = `(\\!*(\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. ]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
 function getMdRegexp() {
   const regStr = specialRegStrs.map(it => `(${it})`).join("|") + `|${tempRegStr}`;
@@ -107,7 +111,7 @@ export function getTable(cols = needParam(), rows = []) {
     const rowStr = `|${props.map(prop => row[prop]).join("|")}|`;
     tableStr += `${N}${rowStr}`;
   });
-  return tableStr;
+  return `${tableStr}${N}`;
 }
 
 /**
@@ -137,12 +141,13 @@ ${code}
 //   danger: "这是danger消息",
 //   details: "这是details消息",
 // };
-export function getNoticesStr(notices) {
+export function getNoticesStr(notices, title = "") {
   if (!notices) return "";
   let descStr = "";
   for (const key in notices) {
     const val = getAtMdStr(notices[key]);
-    descStr += `${N}::: ${key}${N}${val}${N}:::${N}`;
+    if (title) title = ` ${title}`;
+    descStr += `${N}::: ${key}${title}${N}${val}${N}:::${N}`;
   }
   return descStr;
 }

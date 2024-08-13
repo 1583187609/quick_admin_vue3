@@ -2,7 +2,7 @@ import { TagType, TagEffect } from "@/components/BaseTag.vue";
 import dict from ".";
 import { tagColorMap } from "./_config";
 
-export * from "./cascader"
+export * from "./cascader";
 
 export type DictName = keyof typeof dict;
 export type TagColorName = keyof typeof tagColorMap;
@@ -22,6 +22,6 @@ export interface DictItemProps {
 
 export interface DictMap {
   [key: string]: {
-    [key: string]: DictItemProps;
+    [key: string]: string | DictItemProps;
   };
 }

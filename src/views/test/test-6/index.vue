@@ -47,7 +47,7 @@ import BaseCrudTest from "./_components/BaseCrudTest.vue";
 import CardCrudTest from "./_components/CardCrudTest.vue";
 import CustomCrudTest from "./_components/CustomCrudTest.vue";
 
-const activeName = ref("stepForm");
+const activeName = ref("nestedForm");
 
 const cols = [
   { prop: "id", label: "用户ID" },

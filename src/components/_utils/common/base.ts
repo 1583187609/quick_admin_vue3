@@ -40,6 +40,7 @@ export type TypeOfReturn =
   | "Object"
   | "Date"
   | "Function"
+  | "AsyncFunction"
   | "RegExp"
   | "Error"
   | "HTMLDocument"

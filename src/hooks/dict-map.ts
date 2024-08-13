@@ -14,14 +14,22 @@ export default () => {
   function getMap(name: DictName, codeMap?: CommonObj) {
     const currMap = dictMap[name];
     if (!currMap) return console.error("未找到name为" + name + "的tagMap");
-    if (codeMap) {
+    const t = typeOf(currMap);
+    if (t === "Object") {
+      if (!codeMap) return currMap;
       const tempMap: CommonObj = {};
       for (const key in codeMap) {
         tempMap[key] = currMap[codeMap[key]];
       }
       return merge({}, currMap, tempMap); //是为了可以不写完所有code（只写出需要对调的code即可）
     }
-    return currMap;
+    if (t === "Function") return currMap();
+    if (t === "AsyncFunction") {
+      console.error(`暂未处理此种类型：${t}`);
+      return {};
+      //return await currMap()
+    }
+    throw new Error(`暂未处理此种类型：${t}`);
   }
 
   /**
@@ -32,7 +40,9 @@ export default () => {
    */
   function getText(name: DictName, key: StrNum, char = "-"): string {
     const currMap = getMap(name);
-    return currMap[key]?.text || char;
+    const val = currMap[key];
+    if (typeof val === "string") return val || char;
+    return val?.text || char;
   }
 
   /**
@@ -41,26 +51,19 @@ export default () => {
    * @param includeKeys string[] 过滤时要包含的keys
    * @param isExclude boolean 是否排除掉要包含的keys
    */
-  function getOpts(name: DictName, includeKeys: StrNum[] = [], isExclude = false): OptionItem[] {
+  function getOpts(name: DictName, includeKeys?: StrNum[], isExclude?: boolean): OptionItem[] {
     const currMap = getMap(name);
     let opts: OptionItem[] = [];
     for (const key in currMap) {
-      const { text, disabled } = currMap[key];
       const val = isNaN(Number(key)) ? key : Number(key);
+      const isInclude = includeKeys?.includes(val as StrNum) ?? true;
+      if (isExclude ? isInclude : !isInclude) continue;
+      let value = currMap[key];
+      if (typeof value === "string") value = { text: value };
+      const { text, disabled } = value;
       const opt: OptionItem = { label: text, value: val };
-      if (disabled !== undefined) {
-        opt.disabled = disabled;
-      }
+      if (disabled !== undefined) opt.disabled = disabled;
       opts.push(opt);
-    }
-    if (typeOf(includeKeys) !== "Array") {
-      throw new Error("请传入一个数组");
-    }
-    if (includeKeys?.length) {
-      opts = opts.filter(it => {
-        const isInclude = includeKeys.includes(it.value as StrNum);
-        return isExclude ? !isInclude : isInclude;
-      });
     }
     return opts;
   }
@@ -74,9 +77,7 @@ export default () => {
     regions.find(item => {
       const { label, children = [] } = item;
       const target = children.find((it: OptionItem) => it.value === val);
-      if (target) {
-        text = `${label}${char}${target.label}`;
-      }
+      if (target) text = `${label}${char}${target.label}`;
       return !!target;
     });
     return text;

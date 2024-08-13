@@ -98,9 +98,9 @@ import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import { cloneDeep, merge } from "lodash";
-import ExtraBtns from "./_components/ExtraBtns";
+import ExtraBtns from "./_components/ExtraBtns/Index.vue";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
-import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm";
+import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BtnName, BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import {
@@ -119,7 +119,7 @@ import Pagination from "./_components/Pagination.vue";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
-import {  batchBtnNames } from "@/components/crud/BaseCrud";
+import { batchBtnNames } from "@/components/crud/BaseCrud";
 import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired } from "@/vite-env";
 import { SectionFormItemAttrs } from "@/components/form/_types";
@@ -132,8 +132,8 @@ import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
 import { defaultTableAttrs } from "@/components/table/_config";
 import config from "@/config";
 import { ExportCfg } from "./_types";
-import {FormAttrs} from "@/components/form/_types"
-import {TableAttrs} from "@/components/table/_types"
+import { FormAttrs } from "@/components/form/_types";
+import { TableAttrs } from "@/components/table/_types";
 import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
 
 const $slots = useSlots();

@@ -43,7 +43,9 @@ const tag = computed(() => {
   if (emptyVals.includes(value as string)) return null;
   let currMap: CommonObj = {};
   currMap = getMap(name, codeMap);
-  return currMap[value as string] || {};
+  const val = currMap[value as string] ?? {};
+  if (typeof val === "string") return { text: val };
+  return val;
 });
 </script>
 <style lang="scss" scoped>

@@ -88,7 +88,7 @@
       <BaseEmpty v-else />
     </div>
     <FooterBtns
-      v-model:loading="loading"
+      :loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"
@@ -126,6 +126,7 @@ import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
+import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(
   defineProps<{
@@ -157,6 +158,7 @@ const props = withDefaults(
   }>(),
   {
     type: "",
+    size: defaultCommonSize,
     modelValue: () => reactive({}),
     log: !isProd,
     grid: 24,

@@ -12,6 +12,7 @@ import {
   getInfoByAnnoName,
   getNearLineIndex,
   getAtMdStr,
+  cachePath,
 } from "../../utils/index.js";
 import { getTypeTable } from "../../create/component.js";
 // import handlers from "../../temp/handlers.js";
@@ -19,7 +20,7 @@ import { getTypeTable } from "../../create/component.js";
 const { parse, ScriptHandlers, TemplateHandlers } = vueDocs;
 
 // 获取临时路径
-function getTempPathFull(readPath = "", tempPath = "/_cache/temp.vue") {
+function getTempPathFull(readPath = "", tempDir = cachePath) {
   const readPathFull = path.join(process.cwd(), readPath);
   const fileStr = fs.readFileSync(readPathFull, "utf-8");
   const newLines = [];
@@ -41,7 +42,8 @@ function getTempPathFull(readPath = "", tempPath = "/_cache/temp.vue") {
     newLines.push(line);
   });
   const newFileStr = newLines.join(N);
-  const tempPathFull = path.join(process.cwd(), tempPath);
+  const fileName = path.basename(readPath);
+  const tempPathFull = path.join(process.cwd(), `${tempDir}/${fileName}`);
   writeFileSync(tempPathFull, newFileStr);
   return tempPathFull;
 }
@@ -53,12 +55,13 @@ function getTempPathFull(readPath = "", tempPath = "/_cache/temp.vue") {
  */
 async function getParseInfo(readPath = needParam()) {
   const tempPathFull = getTempPathFull(readPath);
-  return await parse(tempPathFull, {
+  const options = {
     // alias: { "@": path.join(process.cwd(), "src") },
     // resolve: [path.join(process.cwd(), "src")],
     // ...handlers,
     // validExtends(){},
-  });
+  };
+  return await parse(tempPathFull, options);
 }
 
 /**
@@ -241,7 +244,8 @@ export async function getApiTablesStr(readPath = needParam()) {
   Object.keys(map).forEach(key => {
     const rows = map[key](data[key]);
     const descInfo = getInfoByAnnoName(readPath, key);
-    fileStr += `${getTypeTable(key, rows, descInfo)}${N}`;
+    fileStr += `${getTypeTable(key, rows, descInfo)}`;
   });
+  if (fileStr) return `## API ${N}${fileStr}`;
   return fileStr;
 }

@@ -30,7 +30,7 @@
       </template>
     </div>
     <FooterBtns
-      v-model:loading="loading"
+      :loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"
@@ -57,7 +57,7 @@
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
-import FieldItemCol from "@/components/form/_components/FieldItemCol";
+import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItemCol/_types";
 import { merge } from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
