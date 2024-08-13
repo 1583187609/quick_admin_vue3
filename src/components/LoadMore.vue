@@ -18,9 +18,10 @@
   </el-scrollbar>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, onMounted } from "vue";
-import { CommonObj, FinallyNext, StrNum, SetTimeout } from "@/vite-env";
+import { ref,  onMounted } from "vue";
+import {  StrNum, SetTimeout } from "@/vite-env";
 import { toCssVal } from "@/components/_utils";
+
 let timeout: SetTimeout = null;
 const noMoreTipsDuration = 2000;
 const props = withDefaults(
@@ -75,7 +76,7 @@ function handleMousewheel(e: any) {
         timeout = null;
       }, debounceDelay);
       if (canExe) {
-        console.log("触底------");
+        // console.log("触底------");
         emits("reachBottom", e);
         isReachBottom.value = true;
         setTimeout(() => {

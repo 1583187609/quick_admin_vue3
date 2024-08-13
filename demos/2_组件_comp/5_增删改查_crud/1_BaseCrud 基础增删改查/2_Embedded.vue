@@ -93,12 +93,12 @@
 <script lang="ts" name="TestThree" setup>
 import { ref, reactive, inject, isVNode, h } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/form";
-import { TableField, TableColAttrs } from "@/components/table";
+import { FormField, FormFieldAttrs } from "@/components/form/_types";
+import { TableCol, TableColAttrs } from "@/components/table";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
-import { BtnName } from "@/components/BaseBtn";
+import { BtnName } from "@/components/BaseBtn/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
@@ -218,7 +218,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
 ];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   //表格表头
   {
     // prop: "userData",

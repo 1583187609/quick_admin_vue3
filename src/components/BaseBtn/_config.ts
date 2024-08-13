@@ -4,7 +4,7 @@ import cssVars from "@/assets/styles/_var.module.scss";
 
 const { colorDanger, colorSuccess, colorWarning } = cssVars;
 
-export const btnsMap: CommonObj = {
+export default {
   add: {
     name: "add",
     text: "新增",
@@ -230,4 +230,4 @@ export const btnsMap: CommonObj = {
       type: "danger",
     },
   },
-};
+} as CommonObj;

@@ -1,4 +1,6 @@
-<!-- 页面-简介 -->
+<!-- summary Tag标签
+  el-tag标签的升级版，可以解析字典映射、纯文本显示等
+-->
 <template>
   <span class="base-tag span m-2" :class="tag?.attrs?.type ?? 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">
     <slot :tag="tag">{{ tag?.text || empty }}</slot>
@@ -10,14 +12,15 @@
   </el-tag>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { DictName } from "@/dict";
+import { computed } from "vue";
+import { DictName } from "@/dict/_types";
 import { CommonObj, StrNum } from "@/vite-env";
 import { emptyVals } from "@/components/_utils";
 import type { TagProps } from "element-plus";
 import { useDictMap } from "@/hooks";
 
 export type TagType = TagProps["type"];
+export type TagSize = TagProps["size"];
 export type TagEffect = TagProps["effect"];
 
 const { getMap } = useDictMap();

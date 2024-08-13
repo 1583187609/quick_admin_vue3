@@ -5,7 +5,7 @@
 import path from "path";
 import util from "util";
 
-import { betaReg, isShortPath, splitOrderChar } from "./index.js";
+import { badgeReg, isShortPath, splitOrderChar } from "./index.js";
 
 /**
  * 函数未传必填参数时的校验
@@ -79,18 +79,18 @@ export function getFileName(filePath = needParam(), type = "cn", char = splitOrd
   if (!isShortPath) return file;
   if (!file.includes(char)) {
     if (!removeBeta) return file;
-    return file.replace(betaReg, () => "");
+    return file.replace(badgeReg, () => "");
   }
   const [num, cnName, enName] = file.split(char); // 依次为序号，中文名，英文名
   const hasNum = !isNaN(Number(num)); // 如果存在序号
   if (type === "en") {
     const name = hasNum ? enName ?? cnName : cnName;
     if (!removeBeta) return name;
-    return name.replace(betaReg, () => "");
+    return name.replace(badgeReg, () => "");
   }
   const name = hasNum ? cnName : num;
   if (!removeBeta) return name;
-  return upperFirst(name.replace(betaReg, () => ""));
+  return upperFirst(name.replace(badgeReg, () => ""));
 }
 
 export function consoleLog(data, type, ...rest) {

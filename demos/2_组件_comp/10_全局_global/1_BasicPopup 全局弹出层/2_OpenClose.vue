@@ -11,8 +11,8 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-const openPopup = inject<any>("openPopup");
-const closePopup = inject<any>("closePopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const handleOpenDialog = () => {
   openPopup("弹窗", "这是弹窗内容");
 };

@@ -1,4 +1,4 @@
-<!-- 页面-简介 -->
+<!-- 用于自测的视图容器 -->
 <template>
   <div class="test-view f-sb-s">
     <div class="main box f-3">
@@ -19,9 +19,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, useSlots } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { typeOf } from "#/mock/utils";
+import { ref, useSlots } from "vue";
+import { typeOf } from "@/components/_utils";
 
 interface TipsMap {
   [key: string]: {
@@ -30,6 +29,8 @@ interface TipsMap {
   };
 }
 type TipsType = null | string[] | TipsMap;
+
+const $slots = useSlots();
 const props = withDefaults(
   defineProps<{
     records?: TipsType;
@@ -38,8 +39,6 @@ const props = withDefaults(
     records: null,
   }
 );
-const $slots = useSlots();
-
 const isFold = ref(false);
 
 function getTipsMap(records: TipsType): TipsMap | null {

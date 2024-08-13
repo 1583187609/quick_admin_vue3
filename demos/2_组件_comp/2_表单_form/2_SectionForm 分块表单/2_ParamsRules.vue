@@ -5,10 +5,10 @@
   <SectionForm v-model="model" :sections="sections" :fetch="PostMockCommon"></SectionForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { reactive} from "vue";
+import { CommonObj } from "@/vite-env";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { SectionFormItem } from "@/components/form";
+import { SectionFormItem } from "@/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 
 const model = reactive<CommonObj>({});

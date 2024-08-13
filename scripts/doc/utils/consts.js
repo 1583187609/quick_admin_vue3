@@ -5,7 +5,7 @@ export const isBrowser = !!globalThis.window; //是否是浏览器
 export const T = isBrowser ? "&nbsp;&nbsp;" : "  "; //一个制表符的间距，可选："  ", "&nbsp;&nbsp;"
 export const N = isBrowser ? "<br>" : "\n"; //换行符，可选：<br>, \n
 export const Br = isBrowser ? N : ""; //换行符
-export const betaReg = /【\w*】/s;
+export const badgeReg = /【\w*】/s;
 
 // export const isDev = process.env.NODE_ENV === "development"; //process.env.NODE_ENV 会先为undefined值，后为development导致取出的值不对
 // export const isDev = import.meta.env.MODE === "dev"; //是否是开发环境，本来应该是'development'，但是package.json中指定了 --mode dev

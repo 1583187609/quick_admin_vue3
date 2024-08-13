@@ -30,7 +30,7 @@
 19、把 Quick Vitepress Docs 抽成 可配置型的
 ~~22、修改 createGitHubUrl 中的 `folder = "demos/"`为`folder = "${demosPath}`~~
 ~~29、整合 GlobalPopup 组件，内部包含 BasicDialog 和 BasicDrawer 组件~~
-30、对不确定的增加 beta 标识
+~~30、对不确定的增加 beta 标识~~
 
 
 # 组件优化事项
@@ -51,7 +51,15 @@
 13、ValidTable 考虑用其他方式替代，并移出这个组件
 14、BaseTree
 14、AuthTree
-15、BaseUpload、及其同类型的三个
+15、OrgTree
+16、BaseUpload、及其同类型的三个
 
 ## 重大尝试革新
-1、将.vue文件放入文件夹中，通过export default 暴露出来，保持原有引用路径不变
+
+~~1、将.vue文件放入文件夹中，通过export default 暴露出来，保持原有引用路径不变~~
+~~3、将 BaseImg, BarsImg 放入 img 文件夹下~~
+~~4、全局 Ts 类型处理~~
+~~5、将 `export * from "./_types";` 从 `index.ts中移除`~~
+~~2、将 dict 拆为 select、cascader、tree 三种进行管理~~
+6、创建一个读取器去解析字典
+7、完成 http Ts类型的书写

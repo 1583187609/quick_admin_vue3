@@ -1,14 +1,6 @@
 /**
  * 用于运行脚本
  */
-
-// export enum OrderDropKeyEnum {
-//   OrderType = '订单类型'
-// }
-// export type OrderDropListRes = {
-//   [k in keyof typeof OrderDropKeyEnum]: OrderDropItem[];
-// };
-
 import fs from "fs";
 import path from "path";
 import { writeComponentDoc, writeHomMdDoc } from "./create/index.js";

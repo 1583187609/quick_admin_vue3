@@ -8,7 +8,7 @@ import allAddress from "../data/address";
 import { CommonObj } from "@/vite-env";
 import dayjs from "dayjs";
 import { merge } from "lodash";
-import { TableColAttrs } from "@/components/table";
+import { TableColAttrs } from "@/components/table/_types";
 
 const { Random } = Mock;
 

@@ -3,11 +3,12 @@ import { CircleCloseFilled } from "@element-plus/icons-vue";
 import { getUserInfo, typeOf } from "@/components/_utils";
 import { merge, upperFirst } from "lodash";
 // import { useSlots } from "vue";
-import btnsMap from ".";
+import {btnsMap} from "@/components/BaseBtn";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/vite-env";
-import { PopconfirmAttrs, BaseBtnType, BtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
-import { FilterAuthItem } from "@/components/crud/BaseCrud";
+import { BaseBtnType, BtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
+import { FilterAuthItem } from "@/components/crud/BaseCrud/_types";
+import { PopconfirmAttrs } from "../_types";
 
 /**
  * 获取popconfirm的属性对象

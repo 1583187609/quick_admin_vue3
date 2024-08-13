@@ -39,7 +39,7 @@
       <BaseEmpty v-else />
     </div>
     <FooterBtns
-      :loading="loading"
+      v-model:loading="loading"
       :moreBtns="moreBtns"
       :submitText="submitText"
       :resetText="resetText"
@@ -66,12 +66,12 @@
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
-import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItemCol";
+import FieldItemCol from "@/components/form/_components/FieldItemCol";
+import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItemCol/_types";
 import { merge } from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
-import { BaseBtnType } from "@/components/BaseBtn";
+import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 

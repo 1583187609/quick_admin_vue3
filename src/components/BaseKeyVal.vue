@@ -27,10 +27,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, computed } from "vue";
+import { computed } from "vue";
 import { toCssVal, typeOf, getPopoverAttrs, emptyVals } from "@/components/_utils";
-import { CommonObj, StrNum } from "@/vite-env";
-import { PopoverAttrs } from "@/components/form";
+import { StrNum } from "@/vite-env";
+import { PopoverAttrs } from "@/components/_types";
 // import * as allOpts from "@/services/options";
 const props = withDefaults(
   defineProps<{

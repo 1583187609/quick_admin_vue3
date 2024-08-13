@@ -9,10 +9,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-const openPopup = inject<any>("openPopup");
-const closePopup = inject<any>("closePopup");
+import {  inject } from "vue";
+import { OpenPopupInject, ClosePopupInject } from "@/vite-env";
+
+const openPopup = inject<OpenPopupInject>("openPopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const handleOpenDialog = () => {
   console.log(openPopup, "点击了打开Dialog按钮");
   openPopup("打开Dialog示例", "这是弹窗内容");

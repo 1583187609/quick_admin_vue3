@@ -6,8 +6,7 @@ import { regexp, showMessage, toCamelCase } from "@/components/_utils";
 import { merge } from "lodash";
 import config, { ConfigMergeStrategy } from "@/config";
 import { CommonObj, StrNum } from "@/vite-env";
-import { BtnName } from "@/components/BaseBtn";
-import { FormField, FormFieldAttrs } from "@/components/form";
+import { BtnName } from "@/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "./consts";
 
 /**

@@ -1,3 +1,7 @@
+<!-- summary
+ 用于链接文件等地址的处理
+ @example pdf文件，https外部地址，站内地址等处理
+-->
 <template>
   <a :href="url" class="open-file" target="_blank" download>
     <slot>-</slot>

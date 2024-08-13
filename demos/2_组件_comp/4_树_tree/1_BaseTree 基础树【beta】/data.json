@@ -1,4 +1,4 @@
 {
-    "apiPath": "",
-    "tsPath": ""
+    "apiPath": "/src/components/tree/BaseTree.vue",
+    "tsPath": "/src/components/tree/_types.ts"
 }

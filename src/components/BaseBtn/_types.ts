@@ -1,5 +1,6 @@
 import { CommonObj, CommonSize } from "@/vite-env";
-import btnsMap from ".";
+import {btnsMap} from "@/components/BaseBtn";
+import { PopconfirmAttrs } from "../_types";
 
 export type BtnAllNames = keyof typeof btnsMap;
 // export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
@@ -28,18 +29,7 @@ export interface BtnAttrs {
   disabled?: boolean;
   link?: boolean;
 }
-export interface PopconfirmAttrs {
-  title?: string;
-  icon?: any;
-  iconColor?: any;
-  description?: string;
-  cancel?: () => void;
-  okText?: string;
-  cancelText?: string;
-  confirmButtonType?: ButtonType;
-  disabled?: boolean;
-  [key: string]: any;
-}
+
 export interface BtnItem {
   name?: BtnName; //可以不传值
   text?: string; //按钮文本

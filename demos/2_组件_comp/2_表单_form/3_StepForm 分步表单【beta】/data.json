@@ -1,4 +1,4 @@
 {
-    "apiPath": "",
-    "tsPath": ""
+    "apiPath": "/src/components/form/StepForm.vue",
+    "tsPath": "/src/components/form/_types.ts"
 }

@@ -1,4 +1,4 @@
 {
-    "apiPath": "",
-    "tsPath": ""
+    "apiPath": "/src/components/form/SectionForm.vue",
+    "tsPath": "/src/components/form/_types.ts"
 }

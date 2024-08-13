@@ -7,7 +7,7 @@
   </BasicPopup>
 </template>
 <script lang="ts" setup>
-import BasicPopup from "@/components/BasicPopup/Index.vue";
+import BasicPopup from "@/components/BasicPopup";
 //后续添加的
 import { ref, watch } from "vue";
 import WaterMark from "@/components/WaterMark.vue";
