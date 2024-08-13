@@ -127,24 +127,23 @@
   </div>
 </template>
 <script lang="ts" name="TestThree" setup>
-import { ref, reactive, inject, isVNode } from "vue";
+import { ref, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/form";
-import { TableField, TableColAttrs } from "@/components/table";
+import {  FormFieldAttrs } from "@/components/form/_types";
+import { TableCol, TableColAttrs } from "@/components/table/_types";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
-import { BtnName } from "@/components/BaseBtn";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { BtnName } from "@/components/BaseBtn/_types";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import { useRoute } from "vue-router";
-import { ElemeFilled } from "@element-plus/icons-vue";
+import { ElemeFilled,Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
-import { Postcard } from "@element-plus/icons-vue";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
 import CustomHead from "./_components/CustomHead.vue";
-import { SectionFormItemAttrs } from "@/components/form";
+import { SectionFormItemAttrs } from "@/components/form/_types";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { h } from "vue";
 
@@ -265,7 +264,7 @@ const sections: SectionFormItemAttrs[] = [
   { label: "数字", fields: fields.slice(6, 9) },
   { label: "日期", fields: fields.slice(9) },
 ];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   //表格表头
   {
     // prop: "userData",

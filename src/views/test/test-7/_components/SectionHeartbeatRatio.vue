@@ -3,11 +3,11 @@
   <SectionForm v-model="model" :sections="sections" style="width: 480px"> </SectionForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { SectionFormItem } from "@/components/form";
+import { reactive } from "vue";
+import { SectionFormItem } from "@/components/form/_types";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
-import { FormField } from "@/components/form";
+import { CommonObj } from "@/vite-env";
+import { FormField } from "@/components/form/_types";
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

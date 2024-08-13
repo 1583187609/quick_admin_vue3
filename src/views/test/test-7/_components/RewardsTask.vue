@@ -12,10 +12,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import {reactive } from "vue";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { SectionFormItem } from "@/components/form";
-import { FormField } from "@/components/form";
+import { SectionFormItem } from "@/components/form/_types";
+import { FormField } from "@/components/form/_types";
 import { CommonObj } from "@/vite-env";
 
 const model = reactive<CommonObj>({

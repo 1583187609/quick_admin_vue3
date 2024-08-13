@@ -10,21 +10,21 @@
       <el-tag class="tag" type="success">已认证</el-tag>
       <el-tag class="tag">后台认证</el-tag>
     </template>
-    <CellForm :fields="realNameFormFields" :footer="false"></CellForm>
+    <BaseForm type="cell" :fields="realNameFormFields" :footer="false"/>
   </BaseSection>
   <BaseSection title="学历认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <CellForm :fields="educationFormFields" :footer="false"></CellForm>
+    <BaseForm type="cell" :fields="educationFormFields" :footer="false"/>
   </BaseSection>
   <BaseSection title="公司认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <CellForm :fields="companyFormFields" :footer="false"></CellForm>
+    <BaseForm type="cell" :fields="companyFormFields" :footer="false"/>
   </BaseSection>
   <BaseSection title="公司认证记录">
     <template #head-right>
@@ -40,10 +40,10 @@
   </BaseSection>
 </template>
 <script lang="ts" setup>
-import CellForm, { CellFormField } from "@/components/form/CellForm.vue";
-import { TableColAttrs } from "@/components/table";
+import { reactive } from "vue";
+import { FormField } from "@/components/form/_types";
+import { TableColAttrs } from "@/components/table/_types";
 import { CommonObj } from "@/vite-env";
-import { ref, reactive, watch, computed } from "vue";
 const props = withDefaults(
   defineProps<{
     type?: CommonObj;
@@ -52,25 +52,25 @@ const props = withDefaults(
     type: () => ({}),
   }
 );
-const realNameFormFields: CellFormField[] = [
+const realNameFormFields: FormField[] = [
   { prop: "zsxm", label: "真实姓名" },
   {
     prop: "sfzh",
     label: "身份证号/通信证号",
     extraAttrs: {
-      valid: "identity",
+      validType: "identity",
     },
   },
   { prop: "hjcs", label: "户籍城市", type: "cascader" },
 ];
-const educationFormFields: CellFormField[] = [
+const educationFormFields: FormField[] = [
   { prop: "xxmc", label: "学校名称" },
   { prop: "xlzsjb", label: "学历证书级别" },
   { prop: "zdlx", label: "在读类型", type: "select" },
   { prop: "xxjb", label: "学校级别", type: "select" },
   { prop: "rlxsd", label: "人脸相似度", type: "input-number" },
 ];
-const companyFormFields: CellFormField[] = [
+const companyFormFields: FormField[] = [
   { prop: "gsmc", label: "公司名称" },
   { prop: "jc", label: "简称" },
   { prop: "yxrz", label: "邮箱认证" },

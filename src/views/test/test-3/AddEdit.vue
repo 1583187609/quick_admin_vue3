@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 
@@ -54,14 +54,14 @@ const fields = computed<FormField[]>(() => {
       type: "input-number",
       extraAttrs: {
         grid: 12,
-        valid: "age",
+        validType: "age",
       },
     },
     {
       prop: "dhhm",
       label: "电话号码",
       extraAttrs: {
-        valid: "phone",
+        validType: "phone",
       },
     },
     {

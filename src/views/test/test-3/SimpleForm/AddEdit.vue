@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 
@@ -46,8 +46,8 @@ const fields = computed<FormField[]>(() => {
       type: "select",
       options: "Gender",
     },
-    { prop: "nl", label: "年龄", valid: "age" },
-    { prop: "dhhm", label: "电话号码", valid: "phone" },
+    { prop: "nl", label: "年龄", validType: "age" },
+    { prop: "dhhm", label: "电话号码", validType: "phone" },
     {
       prop: "sfqy",
       label: "是否启用",

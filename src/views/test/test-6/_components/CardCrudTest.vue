@@ -25,14 +25,14 @@
   </TestView>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { reactive } from "vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
-import { FormFieldAttrs } from "@/components/form";
+import { FormFieldAttrs } from "@/components/form/_types";
 import { useSelectOpts } from "@/hooks";
 import { GetMockCommonList } from "@/api-mock";
-import { BaseBtnType, BtnName } from "@/components/BaseBtn";
+import {  BtnName } from "@/components/BaseBtn/_types";
 
 const records = {
   hasTest: {

@@ -3,7 +3,7 @@
   <BaseForm v-model="model" :fields="fields" class="reject-avatar"></BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj } from "@/vite-env";
 const props = withDefaults(

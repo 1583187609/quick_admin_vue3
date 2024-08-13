@@ -15,16 +15,16 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, h } from "vue";
 import { GetMockCommonList, DeleteUserList } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
-import { BtnName } from "@/components/BaseBtn";
+import { BtnName } from "@/components/BaseBtn/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 
 const openPopup: any = inject("openPopup");
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   {
     prop: "zdlx",
     label: "字典类型",

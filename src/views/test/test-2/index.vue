@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" name="TestTwo" setup>
 import { ref, reactive, watch, computed, h } from "vue";
-import { SectionFormItem } from "@/components/form";
+import { SectionFormItem } from "@/components/form/_types";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
@@ -65,7 +65,7 @@ const sections = computed<SectionFormItem[]>(() => {
           type: "input-number",
           extraAttrs: {
             grid: 6,
-            valid: "age",
+            validType: "age",
           },
         },
         {
@@ -73,7 +73,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "电话",
           extraAttrs: {
             grid: 12,
-            valid: "phone",
+            validType: "phone",
           },
         },
         {
@@ -122,7 +122,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "身份证号",
           extraAttrs: {
             grid: 12,
-            valid: "identity",
+            validType: "identity",
           },
         },
         {

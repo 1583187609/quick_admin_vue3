@@ -4,8 +4,8 @@
 </template>
 <script lang="ts" setup>
 import { GetMockCommonList } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 
 const fields: FormField[] = [
   { prop: "zh", label: "操作账号" },
@@ -18,7 +18,7 @@ const fields: FormField[] = [
   { prop: "bz", label: "备注" },
   { prop: "rq", label: "日期", type: "date-picker" },
 ];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   {
     prop: "ffcgyhid",
     label: "操作业务",

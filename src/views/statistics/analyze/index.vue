@@ -27,10 +27,10 @@
 </template>
 <script lang="ts" setup>
 import { GetMockCommonList } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 import { ref, reactive, inject } from "vue";
-import { BaseBtnType, BtnName } from "@/components/BaseBtn";
+import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import FormPopup from "./FormPopup.vue";
 import { handleBtnNext } from "@/utils";
@@ -67,7 +67,7 @@ const fields = ref<FormField[]>([
     options: "EnableStatus",
   },
 ]);
-const cols: TableField[] = [
+const cols: TableCol[] = [
   { prop: "name", label: "用户姓名", width: 90 },
   { prop: "gender_text", label: "性别", width: 90, sortable: true },
   { prop: "age", label: "年龄", width: 90, sortable: true },

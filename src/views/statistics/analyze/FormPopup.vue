@@ -16,9 +16,9 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { GetMockCommonList } from "@/api-mock";
-import { TableField } from "@/components/table";
+import { TableCol } from "@/components/table/_types";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { SectionFormItem } from "@/components/form";
+import { SectionFormItem } from "@/components/form/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 
 const props = withDefaults(
@@ -73,7 +73,7 @@ const sections: SectionFormItem[] = [
     type: "custom",
   },
 ];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   { prop: "bd", label: "变动", type: "custom" },
   { prop: "je", label: "金额", type: "custom" },
   { prop: "lx", label: "类型" },

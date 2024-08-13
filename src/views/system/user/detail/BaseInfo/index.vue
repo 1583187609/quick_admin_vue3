@@ -54,14 +54,11 @@
         </div>
       </div>
     </template>
-    <!-- <CellForm :fields="baseInfoFormFields" v-model="baseInfoForm" /> -->
-    <CellTable :fields="baseInfoFormFields" :data="baseInfoForm" />
-    <!-- <CellTable :data="baseInfoTableData" /> -->
+    <BaseForm type="cell" pureText :fields="baseInfoFormFields" v-model="baseInfoForm" />
   </BaseSection>
   <!-- 商业化信息 -->
   <BaseSection class="business-info" title="商业化信息">
-    <!-- <CellForm :fields="businessInfoFormFields" /> -->
-    <CellTable :fields="businessInfoFormFields" />
+    <BaseForm type="cell" pureText :fields="businessInfoFormFields" />
   </BaseSection>
   <!-- 详细信息 -->
   <BaseSection class="detail-info" title="详细信息">
@@ -70,7 +67,7 @@
         {{ infoStatusMap["yes"].text }}
       </el-tag>
     </template>
-    <CellTable :fields="detailInfoFormFields">
+    <BaseForm type="cell" pureText :fields="detailInfoFormFields">
       <template #yyjs-label>
         <strong style="line-height: 28px">语音介绍</strong>
       </template>
@@ -103,17 +100,15 @@
       <template #qghwddf="{ field }">
         <el-tag class="mr-h" v-for="(item, ind) in 3" :key="ind">{{ "北京故宫" + ind }}</el-tag>
       </template>
-    </CellTable>
+    </BaseForm type="cell">
   </BaseSection>
   <!-- 偏好设置 -->
   <BaseSection title="偏好设置">
-    <!-- <CellForm :fields="preferSetFormFields" /> -->
-    <CellTable :fields="preferSetFormFields" />
+    <BaseForm type="cell" :fields="preferSetFormFields" />
   </BaseSection>
   <!-- 关联账号 -->
   <BaseSection title="关联账号">
-    <!-- <CellForm :fields="relatedAccountFormFields" /> -->
-    <CellTable :fields="relatedAccountFormFields" />
+    <BaseForm type="cell" :fields="relatedAccountFormFields" />
   </BaseSection>
   <div class="mt-o">
     <el-button @click="openCoinListPopup" type="primary">打开金币列表弹窗</el-button>
@@ -128,10 +123,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject, h } from "vue";
+import { ref, reactive,  inject, h } from "vue";
 import ImgItem from "./_components/ImgItem.vue";
-import CellForm, { CellFormField } from "@/components/form/CellForm.vue";
-import CellTable, { CellTableFieldItem } from "@/components/table/CellTable.vue";
 import { ElMessage } from "element-plus";
 import RejectAvatar from "./_components/RejectAvatar.vue";
 import CoinList from "./_components/CoinList.vue";
@@ -216,7 +209,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     label: "年龄",
     type: "input-number",
     extraAttrs: {
-      valid: "age",
+      validType: "age",
     },
   },
   {
@@ -270,7 +263,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     prop: "sr",
     label: "手机号",
     extraAttrs: {
-      valid: "phone",
+      validType: "phone",
     },
   },
   {
@@ -517,7 +510,7 @@ const preferSetFormFields: CellTableFieldItem[] = [
     type: "BaseNumberRange",
     // grid: { span: 6 },
     extraAttrs: {
-      valid: "age",
+      validType: "age",
     },
   },
   {

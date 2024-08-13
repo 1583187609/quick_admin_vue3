@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, computed } from "vue";
 import { PostUserLogin } from "@/api-mock";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import CaptchaBtn from "./_components/CaptchaBtn.vue";
 import { ElMessage, ElNotification } from "element-plus";
@@ -92,7 +92,7 @@ const fields = computed<FormField[]>(() => {
         showWordLimit: false,
       },
       extraAttrs: {
-        // valid: "phone",
+        // validType: "phone",
       },
       slots: {
         prefix: h(BaseIcon, { name: "User", size: "24" }),
@@ -117,7 +117,7 @@ const fields = computed<FormField[]>(() => {
       label: "密码",
       required: true,
       extraAttrs: {
-        valid: "password",
+        validType: "password",
       },
       slots: {
         prefix: h(BaseIcon, { name: "Lock", size: "24" }),
@@ -132,7 +132,7 @@ const fields = computed<FormField[]>(() => {
         placeholder: "请再次输入密码",
       },
       extraAttrs: {
-        valid: "password",
+        validType: "password",
       },
       slots: {
         prefix: h(BaseIcon, { name: "Unlock", size: "24" }),

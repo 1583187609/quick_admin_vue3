@@ -4,7 +4,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { CommonObj } from "@/vite-env";
 const model = reactive<CommonObj>({
   list: [{ xm: "张三", sfzh: "51162119900319075X" }],
@@ -27,7 +27,7 @@ const fields = ref<FormField[]>([
         labelWidth: "auto",
         required: true,
         extraAttrs: {
-          valid: "identity",
+          validType: "identity",
         },
       },
     ],

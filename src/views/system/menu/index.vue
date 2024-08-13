@@ -19,9 +19,9 @@
 <script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
+import { BtnName } from "@/components/BaseBtn/_types";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
@@ -57,7 +57,7 @@ const fields = ref<FormField[]>([
     type: "date-picker",
   },
 ]);
-const cols = ref<TableField[]>([
+const cols = ref<TableCol[]>([
   {
     prop: "name",
     label: "名称",

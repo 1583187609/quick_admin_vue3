@@ -39,10 +39,10 @@
 </template>
 <script lang="ts" name="TestOne" setup>
 import { ref, reactive, watch, computed, h } from "vue";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
-import { BtnName } from "@/components/BaseBtn";
+import { BtnName } from "@/components/BaseBtn/_types";
 import { ElMessage, ElButton } from "element-plus";
 import BaseIcon from "@/components/BaseIcon.vue";
 import { handleBtnNext } from "@/utils";
@@ -97,6 +97,77 @@ const tipsList: string[] = [
   "BaseFrom继承了所有el-form的属性，故可以进行影响全表单项的设置，例：disabled",
   "底部扩展更多按钮，默认均会触发表单校验，可设置validate: false不触发表单校",
 ];
+
+const treeData = [
+  {
+    value: '1',
+    label: 'Level one 1',
+    children: [
+      {
+        value: '1-1',
+        label: 'Level two 1-1',
+        children: [
+          {
+            value: '1-1-1',
+            label: 'Level three 1-1-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '2',
+    label: 'Level one 2',
+    children: [
+      {
+        value: '2-1',
+        label: 'Level two 2-1',
+        children: [
+          {
+            value: '2-1-1',
+            label: 'Level three 2-1-1',
+          },
+        ],
+      },
+      {
+        value: '2-2',
+        label: 'Level two 2-2',
+        children: [
+          {
+            value: '2-2-1',
+            label: 'Level three 2-2-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '3',
+    label: 'Level one 3',
+    children: [
+      {
+        value: '3-1',
+        label: 'Level two 3-1',
+        children: [
+          {
+            value: '3-1-1',
+            label: 'Level three 3-1-1',
+          },
+        ],
+      },
+      {
+        value: '3-2',
+        label: 'Level two 3-2',
+        children: [
+          {
+            value: '3-2-1',
+            label: 'Level three 3-2-1',
+          },
+        ],
+      },
+    ],
+  },
+]
 //是否支持： 0否;1=是
 const supportSwitchAttrs: CommonObj = {
   activeValue: 1,
@@ -231,12 +302,20 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
+      prop: "fl",
+      label: "分类",
+      type: "tree-select",
+      attrs: {
+        data: treeData
+      }
+    },
+    {
       prop: "sfzh",
       label: "身份证号",
       extraAttrs: {
         tips: "popover设置弹出层提示；设置valid，内置身份证、密码等校验；添加example属性，拼接在placeholder后面，作为输入示例",
         popover: "这是popover提示",
-        valid: "identity",
+        validType: "identity",
         example: "这是拼接在placeholder后面的输入示例",
       },
     },
@@ -244,7 +323,7 @@ const fields = computed<FormField[]>(() => {
       prop: "dhhm",
       label: "电话号码",
       extraAttrs: {
-        valid: "phone",
+        validType: "phone",
         tips: "prefix插槽插入图标（传入文本）；内置电话号码校验；自定义placeholder",
       },
       attrs: {
@@ -258,7 +337,7 @@ const fields = computed<FormField[]>(() => {
       prop: "mm",
       label: "密码",
       extraAttrs: {
-        valid: "password",
+        validType: "password",
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
       },
       slots: {
@@ -313,8 +392,8 @@ const fields = computed<FormField[]>(() => {
       label: "年龄",
       rules: [{ validator: checkAge, trigger: "blur" }],
       extraAttrs: {
-        tips: "valid（限制最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
-        valid: "age",
+        tips: "validType（限制最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
+        validType: "age",
       },
     },
     {

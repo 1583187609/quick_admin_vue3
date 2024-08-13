@@ -12,8 +12,8 @@ import { inject, computed, h } from "vue";
 import { useFormItem } from "element-plus";
 import SelectIcon from "./_components/SelectIcon.vue";
 
-const openPopup = inject<any>("openPopup");
-const closePopup = inject<any>("closePopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     modelValue?: string;

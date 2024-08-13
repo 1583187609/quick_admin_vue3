@@ -17,7 +17,7 @@ const fields = [
     label: "电话",
     required: true,
     extraAttrs: {
-      valid: "phone",
+      validType: "phone",
     },
   },
   {

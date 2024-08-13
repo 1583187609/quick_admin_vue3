@@ -14,9 +14,9 @@
 <script lang="ts" setup>
 import { ref, h, inject } from "vue";
 import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
-import { BtnName } from "@/components/BaseBtn";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
+import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
@@ -42,7 +42,7 @@ const fields = ref<FormField[]>([
     type: "date-picker",
   },
 ]);
-const cols = ref<TableField[]>([
+const cols = ref<TableCol[]>([
   { prop: "role_text", label: "角色类型", width: 120 },
   { prop: "status", label: "状态", type: "BaseTag" },
   { prop: "remark", label: "备注", minWidth: 250 },

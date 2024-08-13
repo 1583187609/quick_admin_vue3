@@ -15,12 +15,13 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/components/form";
-import { ref, reactive, watch } from "vue";
+import { ref, reactive } from "vue";
+import { FormField } from "@/components/form/_types";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/vite-env";
+
 const props = withDefaults(
   defineProps<{
     id?: StrNum;
@@ -95,7 +96,7 @@ const fields = ref<FormField[]>([
     label: "电话",
     required: true,
     extraAttrs: {
-      valid: "phone",
+      validType: "phone",
     },
   },
 ]);

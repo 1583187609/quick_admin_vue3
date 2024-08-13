@@ -3,11 +3,9 @@
   <BaseForm v-model="model" :fields="fields" style="width: 480px"> </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { SectionFormItem } from "@/components/form";
-import SectionForm from "@/components/form/SectionForm.vue";
-import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
-import { FormField } from "@/components/form";
+import { reactive } from "vue";
+import { CommonObj,  OptionItem } from "@/vite-env";
+import { FormField } from "@/components/form/_types";
 const userOpts: OptionItem[] = [
   { label: "喜欢我的", value: 1 },
   { label: "优质嘉宾", value: 2 },

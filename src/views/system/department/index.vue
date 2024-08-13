@@ -5,8 +5,8 @@
 <script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
 
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
@@ -20,7 +20,7 @@ const fields: FormField[] = [
   },
   { prop: "rq", label: "日期", type: "date-picker" },
 ];
-const cols: TableField[] = [
+const cols: TableCol[] = [
   {
     prop: "yhid",
     label: "用户ID",

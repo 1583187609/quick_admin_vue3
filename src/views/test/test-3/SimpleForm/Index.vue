@@ -16,10 +16,10 @@
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { BtnName } from "@/components/BaseBtn";
+import { FormField } from "@/components/form/_types";
+import { BtnName } from "@/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
-const openPopup = inject<any>("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;
@@ -33,7 +33,7 @@ const fields: FormField[] = [
     label: "电话号码",
     required: true,
     extraAttrs: {
-      valid: "phone",
+      validType: "phone",
     },
   },
   {

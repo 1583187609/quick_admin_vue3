@@ -46,7 +46,7 @@ meta:
 <script lang="ts" setup>
 import { ref, reactive, inject, computed } from "vue";
 import { GetUserLoginAccounts } from "@/api-mock";
-import { FormFieldAttrs } from "@/components/form";
+import { FormFieldAttrs } from "@/components/form/_types";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
@@ -80,7 +80,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         fetchSuggestions: handleFetchSuggestions,
       },
       extraAttrs: {
-        valid: /^\d/.test(model.phone) ? "phone" : undefined,
+        validType: /^\d/.test(model.phone) ? "phone" : undefined,
       },
     },
     {
@@ -92,7 +92,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         autocomplete: "off",
       },
       extraAttrs: {
-        valid: "password",
+        validType: "password",
       },
     },
     {

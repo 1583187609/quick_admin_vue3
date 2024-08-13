@@ -9,9 +9,10 @@
   </BaseTable>
 </template>
 <script lang="ts" setup>
-import { TableColAttrs } from "@/components/table";
-import { CommonObj } from "@/vite-env";
 import { ref, reactive, watch, computed } from "vue";
+import { TableColAttrs } from "@/components/table/_types";
+import { CommonObj } from "@/vite-env";
+
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

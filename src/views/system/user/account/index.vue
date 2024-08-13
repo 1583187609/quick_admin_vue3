@@ -25,11 +25,11 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { TableField } from "@/components/table";
 import { ref, reactive, inject, h } from "vue";
-import { BaseBtnType, BtnName } from "@/components/BaseBtn";
+import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
+import { FormField } from "@/components/form/_types";
+import { TableCol } from "@/components/table/_types";
+import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
@@ -64,7 +64,7 @@ const fields = ref<FormField[]>([
     options: "EnableStatus",
   },
 ]);
-const cols: TableField[] = [
+const cols: TableCol[] = [
   { prop: "id", label: "用户ID", width: 70 },
   { prop: "name", label: "用户姓名", width: 90 },
   { prop: "gender_text", label: "性别", width: 90 },

@@ -20,11 +20,11 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { GetMockCommonList } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn";
+import { BtnName } from "@/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
-const openPopup = inject<any>("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

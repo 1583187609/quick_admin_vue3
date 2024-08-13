@@ -15,7 +15,7 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/_types";
 import { ref, reactive, watch } from "vue";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
@@ -97,8 +97,8 @@ const fields = ref<FormField[]>([
     },
   },
 
-  { prop: "phone", label: "电话", required: true, extraAttrs: { grid: 12, valid: "phone" } },
-  { prop: "psd", label: "密码", required: true, extraAttrs: { grid: 12, valid: "password" } },
+  { prop: "phone", label: "电话", required: true, extraAttrs: { grid: 12, validType: "phone" } },
+  { prop: "psd", label: "密码", required: true, extraAttrs: { grid: 12, validType: "password" } },
   {
     prop: "address",
     label: "居住地址",
