@@ -1,19 +1,20 @@
 <!-- summary 继承与扩展
-  插槽及其他属性功能，完全继承自ElementPlus。需谨记 Dom嵌套跟JSON嵌套保持一致的原则
+  插槽及其他属性功能，完全继承自ElementPlus。需谨记 Dom 嵌套跟JSON嵌套保持一致的原则
  -->
 <template>
-  <BaseForm :fields="fields"></BaseForm>
+  <BaseForm :fields="fields" :fetch="PostMockCommon"></BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
-import { useDictMap } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
 
 const fields: FormFieldAttrs[] = [
-  { prop: "xm_1", label: "项目1" },
-  { prop: "xm_2", label: "项目2" },
+  { prop: "your_phone", label: "你的电话", required: true, extraAttrs:{validType: 'phone',popover: '设置popover，增加字段说明弹出层'} },
+  { prop: "mother_phone", label: "母亲电话", attrs: {showWordLimit: false}, extraAttrs:{validType: 'phone',popover: '在attrs中设置{showWordLimit: false}，覆盖默认配置'} },
+  { prop: "psd", label: "密码", extraAttrs:{validType: 'password', example: 'zhangsna123456'} },
+  { prop: "age", label: "年龄", extraAttrs:{validType: 'age'} },
+  { prop: "salary", label: "时薪", extraAttrs:{before: '每', after: '元'} },
+  { prop: "identity", label: "身份证号", attrs: {placeholder: '请输入标准的16-18位身份证号码'}, extraAttrs:{validType: 'identity', tips: '设置tips属性，可在字段底部增加注意事项说明'} },
 ];
 </script>
 <style lang="scss" scoped></style>

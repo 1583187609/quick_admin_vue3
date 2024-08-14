@@ -40,6 +40,7 @@
     "api": "node ./scripts/api/index.js",
     "apisya": "node ./scripts/api/ya.js",
     "imgs": "node ./scripts/images.js",
+    "remove": "node ./scripts/remove-doc.js",
     "doc": "node ./scripts/doc/index.js",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",

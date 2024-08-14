@@ -1,4 +1,4 @@
-<!-- 页面-复制文本组件 -->
+<!-- 复制文本 -->
 <!-- @click="clickIconCopy ? undefined : handleClick" -->
 <!-- <DocumentCopy class="f-0 ml-4 f-0" size="1em" /> -->
 <template>

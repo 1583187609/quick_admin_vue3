@@ -49,20 +49,20 @@ export function mkdirsSync(dirname) {
 /**
  * 递归删除目录(同步方法)
  * 注：nodejs不能一次性删除多层目录，需要递归处理
- * @param folderPath 多层目录路径 示例： hello/a/b/c
+ * @param dirPath 多层目录路径 示例： hello/a/b/c
  * @param isDelSelf 是否删除自身文件夹，及目录路径的最后一级为空文件夹时，是否删除
  */
-export function deleteFolderSync(folderPath, isDelSelf = true) {
-  if (fs.existsSync(folderPath)) {
-    fs.readdirSync(folderPath).forEach(file => {
-      const curPath = path.join(folderPath, file);
+export function deleteFolderSync(dirPath="", isDelSelf = true) {
+  if (fs.existsSync(dirPath)) {
+    fs.readdirSync(dirPath).forEach(file => {
+      const curPath = path.join(dirPath, file);
       const isDir = fs.lstatSync(curPath).isDirectory();
       // 如果是文件夹则递归删除
       if (isDir) return deleteFolderSync(curPath, true);
       // 如果是文件则直接删除
       return fs.unlinkSync(curPath);
     });
-    isDelSelf && fs.rmdirSync(folderPath); // 删除空文件夹
+    isDelSelf && fs.rmdirSync(dirPath); // 删除空文件夹
   }
 }
 

@@ -7,6 +7,8 @@ import { writeComponentDoc, writeHomMdDoc } from "./create/index.js";
 import { demosPath, docsPath, splitOrderChar } from "./utils/consts.js";
 import test1 from "../../demos/5_测试_test/1_测试1_test1/index.js";
 import test2 from "../../demos/5_测试_test/2_测试2_test2/index.js";
+import { deleteRemainDirOrFile } from "./utils/file/handler.js";
+import { removeDocFile } from "../reomve-doc.js";
 
 /**
  * 触发热更新写入新文件的方法
@@ -57,3 +59,6 @@ writeComponentDocs(); //生成组件文档页（通用方法）
 // writeComponentDocs(['comp']);
 // writeComponentDocs(['demo']);
 // writeComponentDocs(["test"]);
+
+// deleteRemainDirOrFile()
+// removeDocFile();

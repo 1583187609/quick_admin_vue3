@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { N, getFileName, getNoticesFromTags, getNoticesStr, needParam, upperFirst } from "../../utils/index.js";
+import { N, getFileName, getNoticesFromTags, getNoticesStr, needParam, upperFirst, vueFileNameTitleMap } from "../../utils/index.js";
 import compiler from "@vue/compiler-sfc";
 
 /**
@@ -115,7 +115,8 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
   const readPathFull = path.join(process.cwd(), readPath);
   const fileStr = fs.readFileSync(readPathFull, "utf-8");
   const reg = getRegexpOfInfoAnno(name);
-  const info = { type: name, title: name === "summary" ? getFileName(readPath) : upperFirst(name) };
+  const defTitle = vueFileNameTitleMap[getFileName(path.basename(readPath, path.extname(readPath)), 'en')]
+  const info = { type: name, title: name === "summary" ? (defTitle ?? getFileName(readPath)) : upperFirst(name) };
   const matchStr = fileStr.match(reg)?.[0];
   if (!matchStr) return info;
   const lines = matchStr.split(N);
@@ -135,13 +136,13 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
     if (sInd === -1 && eInd === -1) {
       sInd = eInd = it.indexOf(" ");
     }
-    const title = it.slice(1, sInd).trim();
+    const nameTitle = it.slice(1, sInd).trim();
     let type = it.slice(sInd + 1, eInd).trim();
-    if (!type && title === "notice") type = "tip";
+    if (!type && nameTitle === "notice") type = "tip";
     const description = it.slice(eInd + 1).trim();
     tags.push({
       description,
-      title,
+      title: nameTitle,
       type: { name: type },
     });
     return it;

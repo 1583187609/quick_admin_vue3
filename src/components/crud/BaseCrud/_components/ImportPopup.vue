@@ -2,18 +2,28 @@
 <template>
   <div class="template-hint">
     <div class="tips">{{ tips }}</div>
-    <div class="f-sa-c">
+    <!-- <div class="f-sa-c">
       <el-button @click="handleDownloadTpl" type="primary" plain>下载模板</el-button>
       <el-upload :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept">
         <el-button type="primary">直接导入</el-button>
       </el-upload>
+    </div> -->
+
+    <!-- 注：这里要支持拖动上传等 -->
+    <el-upload :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept">
+      <el-button type="primary">点击上传</el-button>
+    </el-upload>
+    <div class="f-sb-c">
+      <div class="color-info f-1 mr-o">注：仅支持xxx文件</div>
+      <el-button class="ml-a f-0" @click="handleDownloadTpl" link>下载模板</el-button>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import {  inject } from "vue";
+import { CommonObj } from "@/vite-env";
 import { importExcel, exportExcel, showMessage } from "@/components/_utils";
+import { ClosePopupInject } from "@/components/BasicPopup/_types";
 export interface ImportTplColsItem {
   prop: string;
   label: string;
