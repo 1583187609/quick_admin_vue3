@@ -32,7 +32,6 @@
 ~~29、整合 GlobalPopup 组件，内部包含 BasicDialog 和 BasicDrawer 组件~~
 ~~30、对不确定的增加 beta 标识~~
 
-
 # 组件优化事项
 
 1、BarsImg
@@ -41,7 +40,7 @@
 3、BaseVideo
 4、BaseCopy 图标换用 DocumentCopy
 5、BaseEditor
-6、完善BaseKeyVal 的 optsName
+6、完善 BaseKeyVal 的 optsName
 7、BaseNum
 8、BaseQrcode
 9、LoadMore
@@ -56,10 +55,11 @@
 
 ## 重大尝试革新
 
-~~1、将.vue文件放入文件夹中，通过export default 暴露出来，保持原有引用路径不变~~
+~~1、将.vue 文件放入文件夹中，通过 export default 暴露出来，保持原有引用路径不变~~
 ~~3、将 BaseImg, BarsImg 放入 img 文件夹下~~
 ~~4、全局 Ts 类型处理~~
 ~~5、将 `export * from "./_types";` 从 `index.ts中移除`~~
 ~~2、将 dict 拆为 select、cascader、tree 三种进行管理~~
 6、创建一个读取器去解析字典
-7、完成 http Ts类型的书写
+7、完成 http Ts 类型的书写
+8、当 summary 的描述类文字为多个换行时，则换行展示

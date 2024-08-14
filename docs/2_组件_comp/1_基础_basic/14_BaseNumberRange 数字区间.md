@@ -15,9 +15,9 @@
 |:---|:---|:---|:---|
 |`modelValue`|-|`tuple`|-|
 |`prop`|-|`string \| tuple`|-|
-|`label`|-|`string`|''|
-|`minPlaceholder`|-|`string`|'最小值'|
-|`maxPlaceholder`|-|`string`|'最大值'|
+|`label`|-|`string`||
+|`minPlaceholder`|-|`string`|最小值|
+|`maxPlaceholder`|-|`string`|最大值|
 |`rules`|-|`FormItemRule[]`|-|
 |`attrs`|-|`CommonObj`|-|
 |`rangeSeparator`|-|`string`|`rangeJoinChar`|

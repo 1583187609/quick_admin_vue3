@@ -17,9 +17,9 @@
 |`modelValue`|-|`string`|-|
 |`height`|-|`StrNum`|`300`|
 |`placeholder`|-|`string`|-|
-|`mode`|-|`ModeTypes`|"`simple`"|
-|`toolBarConfig`|-|`CommonObj`|({})|
-|`editorConfig`|-|`CommonObj`|({})|
+|`mode`|-|`ModeTypes`|`simple`|
+|`toolBarConfig`|-|`CommonObj`|{}|
+|`editorConfig`|-|`CommonObj`|{}|
 
 ### Emits
 

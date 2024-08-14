@@ -7,10 +7,10 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`title`|-|`string`|"标题"|
+|`title`|-|`string`|标题|
 |`badge`|-|`number \| string`|`0`|
 |`max`|-|`number`|`99`|
-|`bodyClass`|-|`string`|""|
+|`bodyClass`|-|`string`||
 |`foldable`|-|`boolean`|`false`|
 
 ### Slots

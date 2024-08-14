@@ -6,7 +6,7 @@
     <span :class="`line-${line} f-1`">
       <slot>{{ text || "-" }}</slot>
     </span>
-    <template v-if="text">
+    <template v-if="text || $slots.default">
       <el-tooltip :show-after="500" content="点击复制">
         <BaseIcon class="f-0 ml-4 icon hover" name="DocumentCopy" />
       </el-tooltip>
@@ -17,7 +17,10 @@
 import { StrNum } from "@/vite-env";
 import { showMessage } from "./_utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
+import { useSlots } from "vue";
 
+const $slots = useSlots();
+console.log($slots.default?.()[0]?.children, "ddd-------");
 const props = withDefaults(
   defineProps<{
     text?: StrNum;
@@ -31,7 +34,7 @@ const props = withDefaults(
 );
 function handleClick(e) {
   const { tagName, classList } = e.target;
-  const { text = "", clickIconCopy, stop } = props;
+  const { text = $slots.default?.()[0]?.children ?? "", clickIconCopy, stop } = props;
   if (!text) return;
   if (clickIconCopy && tagName !== "svg" && !classList.contains("icon")) return;
   if (stop) e.stopPropagation();

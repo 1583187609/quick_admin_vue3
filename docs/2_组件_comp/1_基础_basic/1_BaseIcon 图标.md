@@ -14,7 +14,7 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`name`|-|`string`|`defaultIconName`|
-|`size`|-|`string\|number`|"`1em`"|
+|`size`|-|`string\|number`|`1em`|
 
 
 

@@ -130,6 +130,14 @@ function getPropsRows(list = []) {
     let defVal = value;
     if (value) {
       defVal = value.split("=>").at(-1).trim();
+      if (defVal.startsWith('"') || defVal.startsWith("'")) {
+        defVal = defVal.slice(1, -1);
+      } else if (defVal.startsWith("{")) {
+        // defVal = `\`${defVal}\``;
+        defVal = "（暂未处理复杂默认值）";
+      } else if (defVal.startsWith("(")) {
+        defVal = defVal.slice(1, -1).trim();
+      }
     }
     return getTableRow(
       {
@@ -156,7 +164,7 @@ function getSlotsRows(list = []) {
       {
         name,
         desc: description,
-        type: bindings?.map(it => it.name).join(", "),
+        type: bindings?.map(it => it.name).join(", ") || "-",
       },
       true
     );

@@ -14,7 +14,7 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`sections`|-|`SectionFormItem[]`|`[]`|
-|`direction`|-|`StepDirection`|"`vertical`"|
+|`direction`|-|`StepDirection`|`vertical`|
 |`stepAttrs`|-|`StepItemAttrs`|-|
 |`formAttrs`|-|`SectionFormAtrrs`|-|
 
@@ -22,7 +22,7 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|'`head-right-' + (scope.section.prop ?? scope.index + 1`)|-|`name`|
+|'`head-right-' + (scope.section.prop ?? scope.index + 1)`|-|`name`|
 |'`body-' + scope.section.prop`|-|`name`|
 |`scope.field.prop`|-|`name`|
 

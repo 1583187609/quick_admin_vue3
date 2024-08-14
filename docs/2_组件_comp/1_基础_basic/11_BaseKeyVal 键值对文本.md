@@ -26,7 +26,7 @@
 |`valClass`|-|`string`|-|
 |`name`|下拉项的名称|`DictName`|-|
 |`popover`|-|`string \| PopoverAttrs`|-|
-|`joinChar`|-|`string`|"，"|
+|`joinChar`|-|`string`|，|
 |`vertical`|-|`boolean`|-|
 
 ### Slots

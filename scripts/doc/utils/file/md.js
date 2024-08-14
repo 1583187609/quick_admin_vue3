@@ -10,7 +10,7 @@ const specialRegStrs = [
   `\\[ *\\]`, //默认值展示（[]）
   `\\b\\w+\\b\\( *[{\\[]* *[\\]}]* *\\)`, //reactive({})或reactive()或reactive([])
 ];
-const tempRegStr = `(\\!*(\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. ]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
+const tempRegStr = `(\\!*(\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. %\\'")]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;
 function getMdRegexp() {
   const regStr = specialRegStrs.map(it => `(${it})`).join("|") + `|${tempRegStr}`;
   return new RegExp(regStr, "g");

@@ -1,8 +1,8 @@
-# CustomCrud 自定义增删改查  <Badge class="title-badge" type="warning" text="beta" />
+# CustomCrud 自定义增删改查  <Badge class="title-badge" type="danger" text="wait" />
 
 
-::: warning 实验性
-本功能处于实验性阶段，谨慎使用！
+::: danger 待完善
+本功能暂不可用，敬请期待！
 :::
 
 
@@ -11,13 +11,13 @@
 
 ## 聊天记录
 ::: demo 这是聊天记录的摘要描述
-/demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【beta】/1_Chat.vue
+/demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Chat.vue
 :::
 
 
 ## 相册
 ::: demo 这是相册的摘要描述
-/demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【beta】/1_Photos.vue
+/demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Photos.vue
 :::
 
 
@@ -56,9 +56,9 @@
 |`formAttrs`|`el-form `的属性配置|`FormAttrs`|-|
 |`disabled`|是否禁用|`boolean`|-|
 |`readonly`|是否只读|`boolean`|-|
-|`log`|是否`console.log(rows`)|`boolean`|-|
+|`log`|是否`console.log(rows)`|`boolean`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
-|`isOmit`|是否剔除掉`undefined, `''的属性值|`boolean`|-|
+|`isOmit`|是否剔除掉`undefined, ''`的属性值|`boolean`|-|
 |`size`|整体的控件大小|`CommonSize`|-|
 |`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|-|
 |`tableAttrs`|`el-table `的属性配置|`TableAttrs`|-|

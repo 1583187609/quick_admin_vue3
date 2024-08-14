@@ -89,10 +89,10 @@
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
-|`update:modelValue`|双向绑定更新值|(`vals: CommonObj`)|
-|`submit`|提交事件|(`args: CommonObj`)|
-|`change`|提交事件|(`prop: string, val: string \| number`)|
-|`moreBtns`|更多按钮|(`name: string, args: CommonObj, cb: FinallyNext`)|
+|`update:modelValue`|双向绑定更新值|(`vals: CommonObj)`|
+|`submit`|提交事件|(`args: CommonObj)`|
+|`change`|提交事件|(`prop: string, val: string \| number)`|
+|`moreBtns`|更多按钮|(`name: string, args: CommonObj, cb: FinallyNext)`|
 
 
 ::: warning

@@ -18,15 +18,15 @@
 |`width`|-|`number \| string`|-|
 |`height`|-|`number \| string`|-|
 |`src`|-|`string`|-|
-|`fit`|-|`ImgFitType`|"`cover`"|
+|`fit`|-|`ImgFitType`|`cover`|
 |`round`|-|`boolean`|-|
 |`to`|-|`string \| CommonObj`|-|
 |`initialIndex`|-|`number`|-|
 |`zoomRate`|-|`number`|-|
 |`stopPropagation`|点击图片时，是否阻止冒泡|`boolean`|-|
 |`preview`|-|`boolean`|`props.to === undefined`|
-|`loadTips`|-|`string`|"玩命加载中…"|
-|`errTips`|-|`string`|"加载失败"|
+|`loadTips`|-|`string`|玩命加载中…|
+|`errTips`|-|`string`|加载失败|
 |`errImgSrc`|-|`string`|-|
 
 ### Emits

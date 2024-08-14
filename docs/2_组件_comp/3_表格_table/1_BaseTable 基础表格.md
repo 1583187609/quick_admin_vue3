@@ -31,8 +31,8 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`header`|-||
-|`default`|-||
+|`header`|-|-|
+|`default`|-|-|
 |`c.prop`|-|`row, col, $index, name`|
 
 

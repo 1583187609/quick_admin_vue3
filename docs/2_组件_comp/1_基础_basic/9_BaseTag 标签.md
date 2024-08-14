@@ -15,11 +15,11 @@ el-tag标签的升级版，可以解析字典映射、纯文本显示等
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`name`|-|`DictName`|"`EnableStatus`"|
+|`name`|-|`DictName`|`EnableStatus`|
 |`value`|-|`StrNum`|-|
 |`map`|-|`CommonObj`|-|
 |`pureText`|-|`boolean`|-|
-|`empty`|-|`any`|"-"|
+|`empty`|-|`any`|-|
 |`count`|-|`StrNum`|-|
 
 ### Slots

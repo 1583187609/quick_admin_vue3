@@ -44,9 +44,9 @@
 |`formAttrs`|`el-form `的属性配置|`FormAttrs`|-|
 |`disabled`|是否禁用|`boolean`|-|
 |`readonly`|是否只读|`boolean`|-|
-|`log`|是否`console.log(rows`)|`boolean`|-|
+|`log`|是否`console.log(rows)`|`boolean`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
-|`isOmit`|是否剔除掉`undefined, `''的属性值|`boolean`|-|
+|`isOmit`|是否剔除掉`undefined, ''`的属性值|`boolean`|-|
 |`size`|整体的控件大小|`CommonSize`|-|
 |`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|-|
 |`tableAttrs`|`el-table `的属性配置|`TableAttrs`|-|

@@ -22,7 +22,7 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
-|`type`|-|`FormStyleType`|""|
+|`type`|-|`FormStyleType`||
 |`sections`|-|`SectionFormItem[]`|`[]`|
 |`pureText`|是否纯文本展示|`boolean`|-|
 |`readonly`|是否只读|`boolean`|-|
@@ -68,7 +68,7 @@
 |插槽名|说明|Scope|
 |:---|:---|:---|
 |`head-right`|-|`section, index`|
-|'`head-right-' + (sItem.prop ?? sInd + 1`)|-|`name`|
+|'`head-right-' + (sItem.prop ?? sInd + 1)`|-|`name`|
 |`body`|-|`section, index`|
 |`sItem.prop`|-|`name`|
 |`field`|-|`field`|
