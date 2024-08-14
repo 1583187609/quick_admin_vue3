@@ -5,13 +5,17 @@ export const indexName = "index.md"; //首页md文件的名称
 export const readMeName = "Summary.md"; //examples下面的 ReadMe 文件的名称（也可理解为摘要）
 export const configName = "data.json"; //examples下面的配置文件的名称
 export const isShortPath = true; //是否缩短路径
+// 示例中对vue文件名称的中文标题映射
+export const vueFileNameTitleMap = {
+  BasicUse: "基础用法",
+};
 
 export const showMaxHeight = "calc(100vh - 150px)"; //视窗可看见的最高宽度
 export const showGridAttrs = { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 };
 
 export const projectInfo = {
   title: "Quick Admin Vue3",
-  description: "一个快的后台管理系统",
+  description: "开发最快的后台管理模板",
   stackBrief: "Vite+Vue3+ElementPlus+Pinia+TypeScript+Sass",
 }; //项目信息
 

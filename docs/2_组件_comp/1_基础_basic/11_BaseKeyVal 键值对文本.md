@@ -1,6 +1,16 @@
 # BaseKeyVal 键值对文本
 
 
+## 基础用法
+::: demo 键值对文本
+/demos/2_组件_comp/1_基础_basic/11_BaseKeyVal 键值对文本/1_BasicUse.vue
+:::
+
+::: warning
+后续可能会移除这个组件
+:::
+
+
 
 ## API 
 ### Props
@@ -14,7 +24,7 @@
 |`line`|-|`number`|`0`|
 |`labelWidth`|-|`string`|-|
 |`valClass`|-|`string`|-|
-|`optsName`|-|`string`|-|
+|`name`|下拉项的名称|`DictName`|-|
 |`popover`|-|`string \| PopoverAttrs`|-|
 |`joinChar`|-|`string`|"，"|
 |`vertical`|-|`boolean`|-|
@@ -34,6 +44,8 @@
 
 ``` ts
 
+
+  
 
 ```
 

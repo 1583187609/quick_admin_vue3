@@ -31,7 +31,9 @@ import { computed } from "vue";
 import { toCssVal, typeOf, getPopoverAttrs, emptyVals } from "@/components/_utils";
 import { StrNum } from "@/vite-env";
 import { PopoverAttrs } from "@/components/_types";
-// import * as allOpts from "@/services/options";
+import { DictName } from "@/dict/_types";
+import { useDictMap } from "@/hooks";
+
 const props = withDefaults(
   defineProps<{
     icon?: string;
@@ -41,7 +43,7 @@ const props = withDefaults(
     line?: number;
     labelWidth?: string;
     valClass?: string;
-    optsName?: string;
+    name?: DictName; //下拉项的名称
     popover?: string | PopoverAttrs;
     joinChar?: string;
     vertical?: boolean;
@@ -53,14 +55,11 @@ const props = withDefaults(
   }
 );
 const valText = computed(() => {
-  const { value, joinChar, optsName } = props;
-  // if (optsName) {
-  //   const currOpts: CommonObj = allOpts[optsName + "Opts"];
-  //   return currOpts?.find((it: OptionItem) => it.value == props.value)?.label;
-  // } else {
+  const { value, joinChar, name } = props;
+  if (name) return useDictMap().getText(name, value);
   if (typeOf(value) === "Array") return (value as StrNum[]).join(joinChar);
   return value;
-  // }
+  
 });
 </script>
 <style lang="scss" scoped>

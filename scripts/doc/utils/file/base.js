@@ -5,6 +5,29 @@ import fs from "fs";
 import path from "path";
 
 /**
+ * 判断是否是绝对路径
+ * @param {string} pathStr 路径
+ * @returns {boolean} 是否是绝对路径
+ */
+export function isAbsPath(pathStr = "") {
+  if (!pathStr) return false;
+  // 正则表达式匹配Windows风格的绝对路径，如"C:\path\to\file"
+  const windowsReg = /^[A-Za-z]:\\[^?<>:"*|]+$/;
+  // 正则表达式匹配UNIX风格的绝对路径，如"/path/to/file"
+  // const unixReg = /^\/[^?<>:"*|]+$/;
+  return windowsReg.test(path); // || unixReg.test(path);
+}
+
+/**
+ * 获取完整路径（绝对路径）
+ * @param {string} pathStr 绝对或相对路径
+ * @returns {string} 绝对路径
+ */
+export function getFullPath(pathStr = needParam()) {
+  return isAbsPath(pathStr) ? pathStr : path.join(process.cwd(), pathStr);
+}
+
+/**
  * 获取字符串中目标字符中最先出现的那个字符的下标（会忽略后半截的注释部分）
  * @param {string} str 要查找的字符串
  * @param {string|string[]} chars 目标字符,可以为数组或字符串
@@ -49,20 +72,20 @@ export function mkdirsSync(dirname) {
 /**
  * 递归删除目录(同步方法)
  * 注：nodejs不能一次性删除多层目录，需要递归处理
- * @param folderPath 多层目录路径 示例： hello/a/b/c
+ * @param dirPath 多层目录路径 示例： hello/a/b/c
  * @param isDelSelf 是否删除自身文件夹，及目录路径的最后一级为空文件夹时，是否删除
  */
-export function deleteFolderSync(folderPath, isDelSelf = true) {
-  if (fs.existsSync(folderPath)) {
-    fs.readdirSync(folderPath).forEach(file => {
-      const curPath = path.join(folderPath, file);
+export function deleteFolderSync(dirPath = "", isDelSelf = true) {
+  if (fs.existsSync(dirPath)) {
+    fs.readdirSync(dirPath).forEach(file => {
+      const curPath = path.join(dirPath, file);
       const isDir = fs.lstatSync(curPath).isDirectory();
       // 如果是文件夹则递归删除
       if (isDir) return deleteFolderSync(curPath, true);
       // 如果是文件则直接删除
       return fs.unlinkSync(curPath);
     });
-    isDelSelf && fs.rmdirSync(folderPath); // 删除空文件夹
+    isDelSelf && fs.rmdirSync(dirPath); // 删除空文件夹
   }
 }
 

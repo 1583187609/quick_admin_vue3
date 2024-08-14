@@ -123,7 +123,7 @@ import { batchBtnNames } from "@/components/crud/BaseCrud";
 import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired } from "@/vite-env";
 import { SectionFormItemAttrs } from "@/components/form/_types";
-import { ClosePopupType } from "@/components/BasicPopup/_types";
+import { ClosePopupType, OpenPopupInject } from "@/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/components/table/_types";
 import { KeyValItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud/_types";
 import Sortable from "sortablejs";

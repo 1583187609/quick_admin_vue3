@@ -9,8 +9,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { inject } from "vue";
+import { OpenPopupInject, ClosePopupInject } from "@/vite-env";
 const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");
 const handleOpenDialog = () => {

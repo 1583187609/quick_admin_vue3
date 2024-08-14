@@ -11,6 +11,7 @@
 import { inject, computed, h } from "vue";
 import { useFormItem } from "element-plus";
 import SelectIcon from "./_components/SelectIcon.vue";
+import { ClosePopupInject, OpenPopupInject } from "@/components/BasicPopup/_types";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");

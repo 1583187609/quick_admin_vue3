@@ -1,6 +1,12 @@
 # BaseAvatar 头像
 
 
+## 基础用法
+::: demo 
+/demos/2_组件_comp/1_基础_basic/6_BaseAvatar 头像/1_BasicUse.vue
+:::
+
+
 
 ## API 
 ### Props
@@ -11,7 +17,7 @@
 |`src`|-|`string`|-|
 |`round`|-|`boolean`|-|
 |`to`|-|`string \| CommonObj`|-|
-|`gender`|性别|`0 \| 1`|-|
+|`gender`|性别|`GenderType`|-|
 
 
 
@@ -22,6 +28,8 @@
 
 ``` ts
 
+
+export type GenderType = 0 | 1;
 
 
 ```

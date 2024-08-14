@@ -1,6 +1,12 @@
 # BaseImg 图片
 
 
+## 基础用法
+::: demo 
+/demos/2_组件_comp/1_基础_basic/5_BaseImg 图片/1_BasicUse.vue
+:::
+
+
 
 ## API 
 ### Props

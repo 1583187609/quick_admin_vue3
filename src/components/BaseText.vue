@@ -1,7 +1,7 @@
-<!-- 页面-简介 -->
+<!-- 文本内容 -->
 <template>
   <div class="base-text" :class="{ [`line-${maxLine}`]: true, over: isOver }" @click="handleClick" ref="baseTextRef">
-    <slot></slot>
+    <slot>{{ text }}</slot>
   </div>
 </template>
 <script lang="ts" setup>
@@ -15,6 +15,7 @@ const props = withDefaults(
     maxLine?: StrNum; //最多显示几行，可选值：1~5 必须为整数
     title?: string;
     width?: StrNum;
+    text?:string;
   }>(),
   {
     maxLine: 5,

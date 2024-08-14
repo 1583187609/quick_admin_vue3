@@ -1,8 +1,8 @@
-# AuthTree 组织树  <Badge class="title-badge" type="warning" text="beta" />
+# AuthTree 组织树  <Badge class="title-badge" type="danger" text="wait" />
 
 
-::: warning 实验性
-本功能处于实验性阶段，谨慎使用！
+::: danger 待完善
+本功能暂不可用，敬请期待！
 :::
 
 

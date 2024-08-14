@@ -1,6 +1,12 @@
 # BaseIcon 图标
 
 
+## 基础用法
+::: demo 默认图标，方便快速开发（占位，省去引入图标再使用的时间），并可设置名称、大小属性覆盖。
+/demos/2_组件_comp/1_基础_basic/1_BaseIcon 图标/1_BasicUse.vue
+:::
+
+
 
 ## API 
 ### Props

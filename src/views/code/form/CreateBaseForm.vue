@@ -35,6 +35,7 @@ import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
+import { OpenPopupInject } from "@/components/BasicPopup/_types";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { docsPath, demosPath, readMeName } from "../../utils/index.js";
+import { docsPath, demosPath, readMeName, needParam, getFullPath } from "../../utils/index.js";
 
 /**
  * 更改文件名称
@@ -49,10 +49,45 @@ export function deleteFileByName(dirPath = demosPath, name = readMeName) {
 }
 
 /**
- * 删除多余的文件
- * @param {string} byDirPath 参照（依据）文件夹路径
- * @param {string} delDirPath 要删除的文件所在文件夹的路径
+ * 删除文件或递归删除目录(同步方法)
+ * 注：nodejs不能一次性删除多层目录，需要递归处理
+ * @param dirOrFilePath 多层目录路径 示例： hello/a/b/c
+ * @param isDelSelf 是否删除自身文件夹，及目录路径的最后一级为空文件夹时，是否删除
  */
-export function deleteRemainFile(byDirPath = demosPath, delDirPath = docsPath) {
-  //待完善
+export function deleteDirOrFileSync(dirOrFilePath = "", isDelSelf = true) {
+  if (!dirOrFilePath) return;
+  const dirOrFilePathFull = getFullPath(dirOrFilePath);
+  if (!fs.existsSync(dirOrFilePathFull)) return;
+  const isDir = fs.lstatSync(dirOrFilePathFull).isDirectory();
+  if (!isDir) return fs.unlinkSync(dirOrFilePathFull);
+  fs.readdirSync(dirOrFilePathFull).forEach(file => {
+    const curPath = path.join(dirOrFilePathFull, file);
+    const isDir = fs.lstatSync(curPath).isDirectory();
+    if (isDir) return deleteDirOrFileSync(curPath, true); // 如果是文件夹则递归删除
+    return fs.unlinkSync(curPath); // 如果是文件则直接删除
+  });
+  isDelSelf && fs.rmdirSync(dirOrFilePathFull); // 删除空文件夹
+}
+
+/**
+ * 删除多余的文件或文件夹
+ * @param {string} toDirPath 要做删除处理的文件夹的路径
+ * @param {string} byDirPath 作删除参照依据的文件夹路径
+ */
+export function deleteRemainDirOrFile(toDirPath = `${docsPath}/2_组件_comp`, byDirPath = `${demosPath}/2_组件_comp`) {
+  const toPathFull = isAbsPath ? toDirPath : path.join(process.cwd(), toDirPath);
+  const byPathFull = isAbsPath ? byDirPath : path.join(process.cwd(), byDirPath);
+  if (!toPathFull) return;
+  if (!fs.existsSync(byPathFull)) return deleteDirOrFileSync(toPathFull); //判断文件或文件夹是否存在
+  const isDir = fs.lstatSync(toPathFull).isDirecbyry();
+  if (!isDir) {
+    if (!fs.existsSync(byPathFull)) deleteDirOrFileSync(toPathFull);
+    return;
+  }
+  const dirNames = fs.readdirSync(toPathFull);
+  dirNames.forEach(dirName => {
+    const toCurrPath = path.join(toPathFull, dirName);
+    const byCurrPath = path.join(byPathFull, dirName);
+    deleteRemainDirOrFile(toCurrPath, byCurrPath);
+  });
 }

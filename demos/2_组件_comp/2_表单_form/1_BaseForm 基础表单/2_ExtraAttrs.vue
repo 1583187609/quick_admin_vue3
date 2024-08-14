@@ -1,15 +1,12 @@
 <!-- summary 额外属性
-  除了ElementPlus的属性外，其他的功能属性一律添加在 extraAttrs 中
+  除了ElementPlus的属性外，提供了一系列额外属性，方便快速开发，放置在 extraAttrs 中。
  -->
 <template>
   <BaseForm :fields="fields" :fetch="PostMockCommon"></BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
-import { useDictMap } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const fields: FormFieldAttrs[] = [
   {
     prop: "cellphone",

@@ -18,6 +18,8 @@ import avatarWomanImg from "@/assets/images/default/avatar-woman.png";
 import { toCssVal } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 
+export type GenderType = 0 | 1;
+
 const avatarMap = {
   1: avatarManImg,
   2: avatarWomanImg,
@@ -28,7 +30,7 @@ const props = withDefaults(
     src?: string;
     round?: boolean;
     to?: string | CommonObj;
-    gender?: 0 | 1; //性别
+    gender?: GenderType; //性别
   }>(),
   {
     // size: 60,

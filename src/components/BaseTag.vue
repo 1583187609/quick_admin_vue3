@@ -28,7 +28,7 @@ const props = withDefaults(
   defineProps<{
     name?: DictName;
     value?: StrNum;
-    codeMap?: CommonObj;
+    map?: CommonObj;
     pureText?: boolean;
     empty?: any;
     count?: StrNum;
@@ -39,10 +39,10 @@ const props = withDefaults(
   }
 );
 const tag = computed(() => {
-  const { name, value, codeMap } = props;
+  const { name, value, map } = props;
   if (emptyVals.includes(value as string)) return null;
   let currMap: CommonObj = {};
-  currMap = getMap(name, codeMap);
+  currMap = getMap(name, map);
   const val = currMap[value as string] ?? {};
   if (typeof val === "string") return { text: val };
   return val;

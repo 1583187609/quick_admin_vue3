@@ -1,6 +1,12 @@
 # BaseCopy 复制文本
 
 
+## 基础用法
+::: demo 
+/demos/2_组件_comp/1_基础_basic/3_BaseCopy 复制文本/1_BasicUse.vue
+:::
+
+
 
 ## API 
 ### Props

@@ -1,6 +1,12 @@
 # BaseText 显示文本
 
 
+## 基础用法
+::: demo 
+/demos/2_组件_comp/1_基础_basic/4_BaseText 显示文本/1_BasicUse.vue
+:::
+
+
 
 ## API 
 ### Props
@@ -10,6 +16,7 @@
 |`maxLine`|最多显示几行，可选值：`1~5 `必须为整数|`StrNum`|`5`|
 |`title`|-|`string`|"详情"|
 |`width`|-|`StrNum`|"`500px`"|
+|`text`|-|`string`|-|
 
 ### Slots
 
