@@ -1,34 +1,52 @@
 # BaseForm 基础表单
 
-基础表单
+&emsp;&emsp;基础表单
 
 
 ## 基础用法
-::: demo 支持的控件类型包括以下三部分：
+
+&emsp;&emsp;支持的控件类型包括以下三部分：  
+&emsp;&emsp;`ElementPlus`：`input, select, `…  
+&emsp;&emsp;内置：`BaseImg, BaseUpload, BaseNumberRange, `…  
+&emsp;&emsp;自定义扩展：`UserInfo, `…
+
+::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/1_BasicUse.vue
 :::
 
 
 ## 额外属性
-::: demo 除了ElementPlus的属性外，提供了一系列额外属性，方便快速开发，放置在 extraAttrs 中。
+
+&emsp;&emsp;除了`ElementPlus`的属性外，提供了一系列额外属性，方便快速开发，放置在 `extraAttrs `中。
+
+::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/2_ExtraAttrs.vue
 :::
 
 
 ## 快速开发
-::: demo 下面介绍了如何控制字段的显示与隐藏，实现快速开发页面。
+
+&emsp;&emsp;下面介绍了如何控制字段的显示与隐藏，实现快速开发页面。
+
+::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/3_QuickUse.vue
 :::
 
 
 ## 栅格布局
-::: demo 通过grid属性实现。遵循子级覆盖父级原则。
+
+&emsp;&emsp;通过`grid`属性实现。遵循子级覆盖父级原则。
+
+::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/4_GridUse.vue
 :::
 
 
 ## 继承与扩展
-::: demo 插槽及其他属性功能，完全继承自ElementPlus。需谨记 Dom 嵌套跟JSON嵌套保持一致的原则
+
+&emsp;&emsp;插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom `嵌套跟`JSON`嵌套保持一致的原则
+
+::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/5_ExtendMore.vue
 :::
 

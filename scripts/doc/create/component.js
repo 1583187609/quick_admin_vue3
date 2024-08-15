@@ -64,8 +64,9 @@ function getCodeDemos(readPath) {
     const { title, description = "", tags } = info ?? {};
     const notices = getNoticesFromTags(tags);
     mdStr += `
-## ${title}
-::: demo ${description}
+## ${title}${N}
+${description}${N}
+::: demo 
 ${newFilePath}
 :::${N}${getNoticesStr(notices)}${N}`;
   });

@@ -2,7 +2,10 @@
 
 
 ## 基础用法
-::: demo 键值对文本
+
+&emsp;&emsp;键值对文本
+
+::: demo 
 /demos/2_组件_comp/1_基础_basic/11_BaseKeyVal 键值对文本/1_BasicUse.vue
 :::
 

@@ -1,9 +1,12 @@
 # BaseTag 标签
 
-el-tag标签的升级版，可以解析字典映射、纯文本显示等
+&emsp;&emsp;`el-tag`标签的升级版，可以解析字典映射、纯文本显示等
 
 
 ## 基础用法
+
+
+
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/9_BaseTag 标签/1_BasicUse.vue
 :::

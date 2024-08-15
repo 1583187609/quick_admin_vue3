@@ -1,6 +1,15 @@
 import fs from "fs";
 import path from "path";
-import { N, getFileName, getNoticesFromTags, getNoticesStr, needParam, upperFirst, vueFileNameTitleMap } from "../../utils/index.js";
+import {
+  N,
+  getAtMdStr,
+  getFileName,
+  getNoticesFromTags,
+  getNoticesStr,
+  needParam,
+  upperFirst,
+  vueFileNameTitleMap,
+} from "../../utils/index.js";
 import compiler from "@vue/compiler-sfc";
 
 /**
@@ -115,8 +124,8 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
   const readPathFull = path.join(process.cwd(), readPath);
   const fileStr = fs.readFileSync(readPathFull, "utf-8");
   const reg = getRegexpOfInfoAnno(name);
-  const defTitle = vueFileNameTitleMap[getFileName(path.basename(readPath, path.extname(readPath)), 'en')]
-  const info = { type: name, title: name === "summary" ? (defTitle ?? getFileName(readPath)) : upperFirst(name) };
+  const defTitle = vueFileNameTitleMap[getFileName(path.basename(readPath, path.extname(readPath)), "en")];
+  const info = { type: name, title: name === "summary" ? defTitle ?? getFileName(readPath) : upperFirst(name) };
   const matchStr = fileStr.match(reg)?.[0];
   if (!matchStr) return info;
   const lines = matchStr.split(N);
@@ -128,9 +137,8 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
   const descs = [];
   lines.slice(1, -1).map((it, i) => {
     it = it.replace("*", "").trim();
-    if (i === 0 && !it.startsWith("@")) {
-      // info.description = it;
-      descs.push(it);
+    if (!it.startsWith("@")) {
+      descs.push(`&emsp;&emsp;${getAtMdStr(it)}`); //首行空两格
       return it;
     }
     let sInd = it.indexOf("{");
@@ -149,7 +157,7 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
     });
     return it;
   });
-  info.description= descs.join(N);
+  info.description = descs.join(`  ${N}`);
   if (tags?.length) info.tags = tags;
   return info;
 }

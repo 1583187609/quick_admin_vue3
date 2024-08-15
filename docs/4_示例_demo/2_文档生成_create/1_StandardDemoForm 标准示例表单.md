@@ -1,6 +1,6 @@
 # StandardDemoForm 标准示例表单
 
-这是标准示例表单。也是摘要描述内容示例，在这个文件里，会以标准写法来完成文件撰写
+&emsp;&emsp;这是标准示例表单。也是摘要描述内容示例，在这个文件里，会以标准写法来完成文件撰写
 
 
 ::: tip
@@ -22,7 +22,11 @@
 
 
 ## 测试表单
-::: demo 这是行内表单的描述。重点介绍了BaseForm的相关API的使用。这是一个html标签<BaseForm/>的示例。完整英文句子示例：Hello, world!
+
+&emsp;&emsp;这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签`<BaseForm/>`的示例。完整英文句子示例：`Hello, world!ddddd`  
+&emsp;&emsp;这是第二行描述
+
+::: demo 
 /demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/0_TestForm.vue
 :::
 
@@ -32,19 +36,28 @@
 
 
 ## 全部控件类型
-::: demo 全部控件类型包含：ElementPlus（input, select）、内置（BaseNumberRange）、自定义扩展（UserInfo）三部分。
+
+&emsp;&emsp;全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
+
+::: demo 
 /demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/1_AllFields.vue
 :::
 
 
 ## 额外属性
-::: demo 除了ElementPlus的属性外，其他的功能属性一律添加在 extraAttrs 中
+
+&emsp;&emsp;除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extraAttrs `中
+
+::: demo 
 /demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
 :::
 
 
 ## 继承与扩展
-::: demo 插槽及其他属性功能，完全继承自ElementPlus。需谨记 Dom嵌套跟JSON嵌套保持一致的原则
+
+&emsp;&emsp;插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
+
+::: demo 
 /demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
 :::
 
@@ -54,7 +67,7 @@
 ### Props属性自定义标题
 
 
-这是props的描述
+&emsp;&emsp;这是`props`的描述
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|表单数据的双向绑定值|`CommonObj`|`reactive({})`|
@@ -103,7 +116,7 @@
 ### 方法(expose)
 
 
-这是 expose 的 description。通过写入 description 获得
+&emsp;&emsp;这是 `expose `的 `description`。通过写入 `description `获得
 |方法名|说明|类型|
 |:---|:---|:---|
 |`formRef`|表单实例|`(str: string, arr: string[])=>void`|

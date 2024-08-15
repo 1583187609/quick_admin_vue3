@@ -1,16 +1,22 @@
 # BaseCrud 基础增删改查
 
-这是常用的增删改查列表
+&emsp;&emsp;这是常用的增删改查列表
 
 
 ## 基础用法
-::: demo 摘要介绍暂时略
+
+&emsp;&emsp;摘要介绍暂时略
+
+::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
 
 
 ## 内嵌组件
-::: demo 内嵌组件的说明
+
+&emsp;&emsp;内嵌组件的说明
+
+::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
 :::
 

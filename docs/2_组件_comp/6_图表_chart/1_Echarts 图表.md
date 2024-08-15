@@ -2,19 +2,28 @@
 
 
 ## 折线图（Line）
-::: demo 只需传入一个简单的二维数组即可展示图表
+
+&emsp;&emsp;只需传入一个简单的二维数组即可展示图表
+
+::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/1_Line.vue
 :::
 
 
 ## 柱状图（Bar）
-::: demo 只需传入一个简单的二维数组即可展示图表
+
+&emsp;&emsp;只需传入一个简单的二维数组即可展示图表
+
+::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/2_Bar.vue
 :::
 
 
 ## 饼图（Pie）
-::: demo 只需传入一个简单的一维数组即可展示图表
+
+&emsp;&emsp;只需传入一个简单的一维数组即可展示图表
+
+::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/3_Pie.vue
 :::
 

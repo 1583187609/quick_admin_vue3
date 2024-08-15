@@ -6,17 +6,23 @@
 :::
 
 
-这是自定义的增删改查列表
+&emsp;&emsp;这是自定义的增删改查列表
 
 
 ## 聊天记录
-::: demo 这是聊天记录的摘要描述
+
+&emsp;&emsp;这是聊天记录的摘要描述
+
+::: demo 
 /demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Chat.vue
 :::
 
 
 ## 相册
-::: demo 这是相册的摘要描述
+
+&emsp;&emsp;这是相册的摘要描述
+
+::: demo 
 /demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Photos.vue
 :::
 
