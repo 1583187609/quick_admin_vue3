@@ -125,10 +125,12 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
   const title = lines[0].slice(startInd).trim();
   if (title) info.title = title;
   const tags = [];
+  const descs = [];
   lines.slice(1, -1).map((it, i) => {
     it = it.replace("*", "").trim();
     if (i === 0 && !it.startsWith("@")) {
-      info.description = it;
+      // info.description = it;
+      descs.push(it);
       return it;
     }
     let sInd = it.indexOf("{");
@@ -147,6 +149,7 @@ export function getInfoByAnnoName(readPath = needParam(), name = "summary") {
     });
     return it;
   });
+  info.description= descs.join(N);
   if (tags?.length) info.tags = tags;
   return info;
 }

@@ -126,6 +126,7 @@ function getAnnoDesc(line = "") {
   if (str && !str.endsWith("。")) str += "。";
   return str;
 }
+
 /**
  * 合并注释处理
  * @param {string[]} lines 多行文本
