@@ -19,10 +19,10 @@ import { TableCol } from "@/components/table/_types";
 import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const fields = ref<FormField[]>([
   {
     prop: "role_type",
@@ -50,7 +50,7 @@ const cols = ref<TableCol[]>([
   { prop: "update_time", label: "修改时间", width: 180, sortable: true },
 ]);
 //点击操作栏的分组按钮
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),

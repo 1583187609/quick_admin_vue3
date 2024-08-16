@@ -125,6 +125,8 @@ options
 73、删除src/_test_components文件夹下的内容
 74、将Quick 的内核抽离出来，放在 quick-core 文件夹下
 75、完善 http 的 ts 类型书写
+76、请求参数加解密
+77、上传文件加一项，上传 zip 压缩文件
 
 ## 二、优化清单
 
@@ -178,6 +180,7 @@ options
 39、大屏页面的 Echarts 基础组件统一处理  
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置
+43、整理全局的any、CommonObj TS类型
 
 ## 三、Bug 清单
 

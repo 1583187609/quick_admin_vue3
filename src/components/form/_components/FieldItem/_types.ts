@@ -118,3 +118,8 @@ export interface RuleItem {
   // validator: any; // 自定义验证方法
   // asyncValidator: any; // 自定义异步验证方法
 }
+
+// 表单字段的 prop 类型
+export type FieldProp =string;
+export type FieldProps =[string,string];
+export type FieldPropType = FieldProp | FieldProps;

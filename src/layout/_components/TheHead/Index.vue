@@ -131,15 +131,16 @@ import logoImg from "@/assets/images/logo.png";
 import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import { useI18n } from "vue-i18n";
+import { OpenPopupInject } from "@/vite-env";
 import "driver.js/dist/driver.css";
 
 const { tm: $t } = useI18n();
 const { VITE_APP_NAME } = import.meta.env;
+const openPopup = inject<OpenPopupInject>("openPopup");
 const menuStore = useMenuStore();
 const userStore = useUserStore();
 const setStore = useSetStore();
 const dropdownRef = ref<any>(null);
-const openPopup: any = inject("openPopup");
 const reloadView = inject<any>("reloadView");
 const user = getUserInfo();
 const router = useRouter();

@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { DictName } from "@/dict/_types";
-import { CommonObj, StrNum } from "@/vite-env";
+import { ClassType, CommonObj, StrNum, StyleType } from "@/vite-env";
 import { emptyVals } from "@/components/_utils";
 import type { TagProps } from "element-plus";
 import { useDictMap } from "@/hooks";
@@ -22,6 +22,14 @@ import { useDictMap } from "@/hooks";
 export type TagType = TagProps["type"];
 export type TagSize = TagProps["size"];
 export type TagEffect = TagProps["effect"];
+
+export interface TagAttrs  {
+  color?: string;
+  type?: TagType;
+  style?: StyleType;
+  class?: ClassType;
+  effect?: TagEffect;
+};
 
 const { getMap } = useDictMap();
 const props = withDefaults(

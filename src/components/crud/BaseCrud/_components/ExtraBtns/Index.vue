@@ -41,7 +41,7 @@ import SetTable from "../SetTable.vue";
 import SetPrint from "../SetPrint.vue";
 import BatchBtns from "./_components/BatchBtns.vue";
 import config from "@/config";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize, OpenPopupInject } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 
 export type ToolBtnName = "colSet" | "print";
@@ -96,7 +96,7 @@ const props = withDefaults(
   )
 );
 const emits = defineEmits(["click", "toolBtn", "update:cols"]);
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const newBtns = computed(() => {
   const _newBtns = props.btns.map(btn => getBtnObj(btn));
   sortObjArrByKey(_newBtns);

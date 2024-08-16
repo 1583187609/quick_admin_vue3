@@ -51,25 +51,28 @@
 </template>
 <script lang="ts" name="CardCrud" setup>
 import { ref,  inject } from "vue";
-import {  BtnItem } from "@/components/BaseBtn/_types";
+import {  BtnItem, BaseBtnType } from "@/components/BaseBtn/_types";
 import AvatarItem from "./_components/AvatarItem.vue";
 import AboutItem from "./_components/AboutItem.vue";
 import FaceItem from "./_components/FaceItem.vue";
 import PhotoItem from "./_components/PhotoItem.vue";
 import { getAvatarRowData } from "./_utils";
 import {  showMessage } from "@/components/_utils";
-import { FilterByAuthFn, getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
-import { CommonObj } from "@/vite-env";
+import {  getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
+import {  FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
+import { ClosePopupInject, CommonObj } from "@/vite-env";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
+
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";
 export type ItemType = "avatar-audit" | "avatar-patrol" | "about" | "photo" | "face";
 export type AuditStatus = 0 | 1 | 2; // 0通过 1驳回 2未审核
-const closePopup: any = inject("closePopup");
+
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     type?: ItemType; //插入的item组件类型
     filterByAuth?: FilterByAuthFn;
-    operateBtns?: any;
+    operateBtns?: BaseBtnType[];
     // extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
   }>(),
   {

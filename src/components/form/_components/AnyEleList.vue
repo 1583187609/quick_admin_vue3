@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { CommonObj, CommonSize } from "@/vite-env";
-import { Grid, FormFieldAttrs } from "./FieldItemCol/_types";
+import { Grid, FormFieldAttrs } from "./FieldItem/_types";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 
 const props = withDefaults(

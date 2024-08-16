@@ -10,6 +10,8 @@ import { EpPropMergeType } from "element-plus/es/utils";
 import  {AxiosResponse} from "axios";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 
+export * from "@/components/BasicPopup/_types";
+
 export type ClassType = any;
 export type StyleType = any;
 export type FetchType = (data?: CommonObj) => Promise<AxiosResponse<any, any>>;

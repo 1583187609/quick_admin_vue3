@@ -94,11 +94,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
+import { inject } from "vue";
 import AttitudeList from "./_components/AttitudeList.vue";
 import FriendsList from "./_components/FriendsList.vue";
-import { CommonObj } from "@/vite-env";
-const openPopup: any = inject("openPopup");
+import { CommonObj, OpenPopupInject } from "@/vite-env";
+
+const openPopup = inject<OpenPopupInject>("openPopup");
 
 const props = withDefaults(
   defineProps<{

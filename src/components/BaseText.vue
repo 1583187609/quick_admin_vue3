@@ -6,10 +6,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, inject, onMounted } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { OpenPopupInject, StrNum } from "@/vite-env";
 import { getIsOver } from "@/components/_utils";
 
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(
   defineProps<{
     maxLine?: StrNum; //最多显示几行，可选值：1~5 必须为整数
@@ -23,7 +23,7 @@ const props = withDefaults(
     width: "500px",
   }
 );
-const baseTextRef = ref<any>(null);
+const baseTextRef = ref<HTMLDivElement | null>(null);
 const isOver = ref(false);
 onMounted(() => {
   isOver.value = getIsOver(baseTextRef.value);

@@ -134,10 +134,11 @@ import EvaluateList from "./_components/EvaluateList.vue";
 import AboutList from "./_components/AboutList.vue";
 import AboutTitle from "./_components/AboutTitle.vue";
 import VideoPannel from "./_components/VideoPannel.vue";
-import { CommonObj } from "@/vite-env";
+import { ClosePopupInject, CommonObj, OpenPopupInject } from "@/vite-env";
 import { useDictMap } from "@/hooks";
-const openPopup: any = inject("openPopup");
-const closePopup: any = inject("closePopup");
+
+const openPopup = inject<OpenPopupInject>("openPopup");
+  const closePopup = inject<ClosePopupInject>("closePopup");
 const { getOpts } = useDictMap();
 const genderOpts = getOpts("Gender");
 const statusMap: CommonObj = {

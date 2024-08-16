@@ -133,14 +133,15 @@ import { FormField } from "@/components/form/_types";
 import UserItem from "./_components/UserItem.vue";
 import MsgItem from "./_components/MsgItem/Index.vue";
 import { useSelectOpts } from "@/hooks";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, OpenPopupInject, StrNum } from "@/vite-env";
 import LoadMore from "@/components/LoadMore.vue";
 import dayjs from "dayjs";
 import SearchMsg from "./_components/SearchMsg.vue";
 
 type ChatListQueryDirection = "prev" | "next"; //prev 向上/以前（默认） next向下/以后
+
+const openPopup = inject<OpenPopupInject>("openPopup");
 const { getSearchOpts } = useSelectOpts();
-const openPopup: any = inject("openPopup");
 const paddingBottom = 250;
 const doubleTypes = [8001, 8003, 8004, 8005, 8006];
 const model = reactive<CommonObj>({});

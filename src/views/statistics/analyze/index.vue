@@ -34,10 +34,10 @@ import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import FormPopup from "./FormPopup.vue";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { h } from "vue";
 
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const model = reactive<CommonObj>({ age: [20, 30] });
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },

@@ -32,10 +32,10 @@ import { TableCol } from "@/components/table/_types";
 import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },

@@ -136,7 +136,7 @@ import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled,Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
@@ -162,7 +162,7 @@ const testImportCfg = {
     { prop: "labelName", label: "标签名称" },
   ],
 };
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const route = useRoute();
 const { type } = route.query;
 const isSimple = type === "simple";
@@ -420,7 +420,7 @@ function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArg
     name
   );
 }
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

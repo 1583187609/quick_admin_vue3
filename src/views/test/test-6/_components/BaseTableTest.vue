@@ -22,6 +22,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
+import { BtnName } from "@/components/BaseBtn/_types";
 
 const records = {
   hasTest: {
@@ -68,7 +69,7 @@ const rows = [
   { id: 13, zy: "大家看到", xb: "男" },
 ];
 
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

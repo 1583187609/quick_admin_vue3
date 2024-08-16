@@ -19,7 +19,7 @@ import { getBtnObj } from "@/components/BaseBtn";
 import { typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj } from "@/vite-env";
-import { BtnAttrs } from "./_types";
+import { BtnAttrs, BtnItem } from "./_types";
 import { PopconfirmAttrs } from "../_types";
 
 defineOptions({
@@ -54,7 +54,7 @@ const emits = defineEmits<{
    */
   click: [BtnName];
 }>();
-const newBtn: any = computed(() => {
+const newBtn = computed<BtnItem>(() => {
   const { name, ...restProps } = props;
   return getBtnObj(name, undefined, restProps);
 });

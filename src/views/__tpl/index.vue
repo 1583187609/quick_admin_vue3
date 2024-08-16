@@ -19,8 +19,8 @@ import { TableCol } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
-const openPopup: any = inject("openPopup");
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+const openPopup = inject<OpenPopupInject>("openPopup");
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
   {
@@ -70,7 +70,7 @@ function onExtraBtns(name: BtnName, next: FinallyNext) {
     name
   );
 }
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

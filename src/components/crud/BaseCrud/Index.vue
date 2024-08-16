@@ -120,12 +120,11 @@ import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_component
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { batchBtnNames } from "@/components/crud/BaseCrud";
-import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
-import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired } from "@/vite-env";
+import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, ClosePopupInject } from "@/vite-env";
 import { SectionFormItemAttrs } from "@/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/components/table/_types";
-import { KeyValItem, ReqMap, ResMap, TriggerGetListType } from "@/components/crud/BaseCrud/_types";
+import { KeyValItem, ReqMap, ResMap, TriggerGetListType,FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
 import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
@@ -216,7 +215,7 @@ const props = withDefaults(
   )
 );
 const emits = defineEmits(["update:modelValue", "extraBtns", "operateBtns", "selectionChange", "rows", "dargSortEnd"]);
-const closePopup: any = inject("closePopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const queryTableRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
 const extraBtnsRef = ref<any>(null);

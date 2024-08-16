@@ -31,6 +31,7 @@ interface TipsMap {
 type TipsType = null | string[] | TipsMap;
 
 const $slots = useSlots();
+
 const props = withDefaults(
   defineProps<{
     records?: TipsType;

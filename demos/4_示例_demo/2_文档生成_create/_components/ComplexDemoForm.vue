@@ -10,12 +10,11 @@
   <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
-        <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <FieldItemCol
           :field="field"
           :pureText="field.extraAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
-          @change="(prop:any,val:any)=>emits('change',prop,val)"
+          @change="(prop:FieldPropType,val:any)=>emits('change',prop,val)"
           :formRef="formRef"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
@@ -58,13 +57,14 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItemCol/_types";
+import { FormField, FormFieldAttrs, FieldPropType } from "@/components/form/_components/FieldItem/_types";
 import { merge } from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
+import {KeyValItem} from "@/components/crud/BaseCrud/_types"
 
 /** props Props
  * 通过设置 `@title: Props` 可覆盖默认的 title（属性）。
@@ -166,7 +166,7 @@ defineExpose({
     return isOmit ? true : params;
   },
   getQueryFields(excludeKeys = []) {
-    const queryFields: any[] = [];
+    const queryFields: KeyValItem[] = [];
     const rangeKeys: string[] = [];
     const propFields = [];
     rangeKeys.forEach(prop => {

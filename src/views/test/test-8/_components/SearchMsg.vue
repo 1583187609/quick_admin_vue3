@@ -23,14 +23,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject, watchEffect } from "vue";
+import { ref, reactive, inject, watchEffect } from "vue";
 import { Search } from "@element-plus/icons-vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { ClosePopupInject, CommonObj } from "@/vite-env";
 import { GetImSearchP2pChatList } from "@/api-mock";
 import LoadMore from "@/components/LoadMore.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { ElMessage } from "element-plus";
-const closePopup: any = inject("closePopup");
+
+const closePopup = inject<ClosePopupInject>("closePopup");
+
 const props = withDefaults(
   defineProps<{
     fromUser: CommonObj;

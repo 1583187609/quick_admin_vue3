@@ -18,9 +18,9 @@ import { ElTree } from "element-plus";
 import type { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { useRouter } from "vue-router";
 import { useMenuStore } from "@/store";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { ClosePopupInject, CommonObj, OptionItem } from "@/vite-env";
 const router = useRouter();
-const closePopup: any = inject("closePopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     defaultKey?: string;

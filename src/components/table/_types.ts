@@ -3,10 +3,9 @@ import { CustomSpecialColType } from "@/config/_components/CustomSpecialTableCol
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
-import { PopoverAttrs } from "@/components/form/_types";
 import { BaseRenderData } from "../BaseRender.vue";
-import { FormItemAttrs } from "../form";
-import { HorizontalAlign } from "../_types";
+import { FormItemAttrs } from "@/components/form/_types";
+import { HorizontalAlign, PopoverAttrs } from "@/components/_types";
 
 /**
  * 这里是标准的ElementPlus属性
@@ -109,3 +108,5 @@ export type EditTableCol = BaseDataType | EditTableColAttrs;
 //表格的特殊列类型
 export type SpecialTableColType = "index" | "sort" | "selection" | "operate";
 
+// 表格拖动排序之后的回调函数
+export type TableDragSortEndNext = (tips?:string) => void;

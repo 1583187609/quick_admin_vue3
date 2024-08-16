@@ -45,7 +45,7 @@ import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import config from "@/config";
-import { CommonObj } from "@/vite-env";
+import { ClosePopupInject, CommonObj } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
@@ -62,7 +62,7 @@ const defaultBtnAttrs = {
   // style: "padding: 0",
 };
 const router = useRouter();
-const closePopup: any = inject("closePopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     btns?: BaseBtnType[];

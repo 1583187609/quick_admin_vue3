@@ -17,11 +17,11 @@
   </TestView>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
 import EditTable from "@/components/table/EditTable.vue";
 import { handleBtnNext } from "@/utils";
+import { BtnName } from "@/components/BaseBtn/_types";
 
 const records = {
   hasTest: {
@@ -68,7 +68,7 @@ const rows = [
   { id: 13, zy: 0, xb: 2, nl: 23, zt: 0 },
 ];
 
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

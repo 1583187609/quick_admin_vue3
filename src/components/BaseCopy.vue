@@ -2,11 +2,11 @@
 <!-- @click="clickIconCopy ? undefined : handleClick" -->
 <!-- <DocumentCopy class="f-0 ml-4 f-0" size="1em" /> -->
 <template>
-  <div @click="handleClick" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: text && !clickIconCopy }">
+  <div @click="handleClick" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !clickIconCopy }">
     <span :class="`line-${line} f-1`">
-      <slot>{{ text || "-" }}</slot>
+      <slot>{{ textStr || "-" }}</slot>
     </span>
-    <template v-if="text || $slots.default">
+    <template v-if="textStr">
       <el-tooltip :show-after="500" content="点击复制">
         <BaseIcon class="f-0 ml-4 icon hover" name="DocumentCopy" />
       </el-tooltip>
@@ -17,10 +17,10 @@
 import { StrNum } from "@/vite-env";
 import { showMessage } from "./_utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
-import { useSlots } from "vue";
+import { useSlots,computed } from "vue";
 
 const $slots = useSlots();
-console.log($slots.default?.()[0]?.children, "ddd-------");
+
 const props = withDefaults(
   defineProps<{
     text?: StrNum;
@@ -32,14 +32,15 @@ const props = withDefaults(
     line: 1,
   }
 );
+const textStr = computed<StrNum>(()=> props.text ?? $slots.default?.()[0]?.children ?? "");
 function handleClick(e) {
   const { tagName, classList } = e.target;
-  const { text = $slots.default?.()[0]?.children ?? "", clickIconCopy, stop } = props;
-  if (!text) return;
+  const { clickIconCopy, stop } = props;
+  if (!textStr.value) return;
   if (clickIconCopy && tagName !== "svg" && !classList.contains("icon")) return;
   if (stop) e.stopPropagation();
   const input = document.createElement("input");
-  input.setAttribute("value", text as string);
+  input.setAttribute("value", textStr.value as string);
   document.body.appendChild(input);
   input.select();
   const copyText = document.execCommand("copy");

@@ -20,9 +20,9 @@ import { TableCol } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
 const cols: TableCol[] = [
   {
@@ -49,7 +49,7 @@ function onExtraBtns(name: BtnName, next: FinallyNext) {
     name
   );
 }
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {

@@ -23,13 +23,13 @@ import { BtnName } from "@/components/BaseBtn/_types";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { MenuTreeNode } from "./_components/MenuTree.vue";
 import { handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { h } from "vue";
 
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const menuTree = ref<MenuTreeNode[]>([]);
 const fields = ref<FormField[]>([
   { prop: "name", label: "菜单名称" },
@@ -97,7 +97,7 @@ function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArg
     name
   );
 }
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),

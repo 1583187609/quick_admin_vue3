@@ -91,7 +91,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" name="TestThree" setup>
-import { ref, reactive, inject, isVNode, h } from "vue";
+import { ref, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/form/_types";
 import { TableCol, TableColAttrs } from "@/components/table";
@@ -99,13 +99,14 @@ import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
+import {TableColumnAttrs} from "@/components/table/_types"
 
 const tempRow = {
   xm: "李四",
@@ -122,7 +123,7 @@ const testImportCfg = {
     { prop: "labelName", label: "标签名称" },
   ],
 };
-const openPopup: any = inject("openPopup");
+const openPopup = inject<OpenPopupInject>("openPopup");
 const route = useRoute();
 const { type } = route.query;
 const isSimple = type === "simple";
@@ -281,7 +282,7 @@ const cols: TableCol[] = [
     extraAttrs: {
       popover: `继承自ElementPlus的 formatter 方法`,
     },
-    formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
+    formatter(row: CommonObj, column: TableColumnAttrs, cellValue: any, ind: number = 0) {
       return `formatter格式化示例-第${ind + 1}行`;
     },
   },
@@ -374,7 +375,7 @@ function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArg
     name
   );
 }
-function onOperateBtns(name: any, row: CommonObj, next: FinallyNext) {
+function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
   handleBtnNext(
     {
