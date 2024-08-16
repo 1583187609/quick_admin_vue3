@@ -24,8 +24,6 @@ dist
 *.sw?
 
 # .vitepress
+.vitepress/.temp
 .vitepress/dist
 .vitepress/cache
-
-# temp
-_cache

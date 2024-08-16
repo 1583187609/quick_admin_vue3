@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { camelCase } from "lodash";
+import _ from "lodash";
 import { useRouter } from "vue-router";
 import { useMenuStore } from "@/store";
 import { RouteItem } from "./menu";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 
+const { camelCase } = _;
 const modules = import.meta.glob("../../views/**/*.vue");
 export default defineStore("route", () => {
   const menuStore = useMenuStore();

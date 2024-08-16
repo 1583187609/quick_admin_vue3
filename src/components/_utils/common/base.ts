@@ -3,12 +3,13 @@
 /********************************************************************/
 
 import { regexp, showMessage, toCamelCase } from "@/components/_utils";
-import { merge } from "lodash";
+import _ from "lodash";
 import config, { ConfigMergeStrategy } from "@/config";
 import { CommonObj, StrNum } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "./consts";
 
+const { merge } = _;
 /**
  * 检测元素所属类型
  * Object.prototype.toString.call(*)的可能结果如下所示：

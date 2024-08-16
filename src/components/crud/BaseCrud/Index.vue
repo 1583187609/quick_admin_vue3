@@ -97,7 +97,7 @@
 import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
-import { cloneDeep, merge } from "lodash";
+import _ from "lodash";
 import ExtraBtns from "./_components/ExtraBtns/Index.vue";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
@@ -124,7 +124,7 @@ import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired
 import { SectionFormItemAttrs } from "@/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/components/table/_types";
-import { KeyValItem, ReqMap, ResMap, TriggerGetListType,FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
+import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
 import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
@@ -135,6 +135,7 @@ import { FormAttrs } from "@/components/form/_types";
 import { TableAttrs } from "@/components/table/_types";
 import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
 
+const { merge, cloneDeep } = _;
 const $slots = useSlots();
 const openPopup = inject<OpenPopupInject>("openPopup");
 const allCols = ref<TableCol[]>([]);

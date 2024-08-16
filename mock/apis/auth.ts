@@ -9,7 +9,7 @@ import {
   getNavsTree,
   findTreeNode,
 } from "../utils";
-import { merge } from "lodash";
+import _ from "lodash";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
 import roleRows from "../data/roles";
@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import Mock from "mockjs";
 import { CommonObj } from "@/vite-env";
 
+const { merge } = _;
 const { Random } = Mock;
 const delAttrs: string[] = ["psd"];
 let allRoles = JSON.parse(JSON.stringify(roleRows));

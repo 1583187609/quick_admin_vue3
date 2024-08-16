@@ -1,6 +1,6 @@
 import { ElMessageBox } from "element-plus";
-import { upperFirst } from "lodash";
-import { BtnName, BtnItem, BtnAttrs,BaseBtnType, } from "@/components/BaseBtn/_types";
+import _ from "lodash";
+import { BtnName, BtnItem, BtnAttrs, BaseBtnType } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import { CommonObj } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -25,6 +25,7 @@ export interface ExtraBtnRestArgs {
   exportRows: string[][];
 }
 
+const { upperFirst } = _;
 // "index", "selection", "sort", "operate", "id", "create", "update", "remark", "custom", "switch", "BaseTag", "BaseImg", "BaseText", "BaseCopy", "UserInfo"
 const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function handleClickExtraBtns({

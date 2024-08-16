@@ -66,15 +66,16 @@ import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
-import { merge } from "lodash";
+import _ from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
-import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/components/_utils";
 
+const { merge } = _;
 const $slots = useSlots();
 const props = withDefaults(
   defineProps<{

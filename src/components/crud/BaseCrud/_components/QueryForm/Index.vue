@@ -82,7 +82,7 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/components/_utils";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
-import { merge } from "lodash";
+import _ from "lodash";
 import { CommonObj } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
@@ -90,9 +90,10 @@ import config from "@/config";
 import { useEvent } from "@/hooks";
 import { handleFields, getGridAttrs } from "@/components/form/_utils";
 import { SectionFormItemAttrs } from "@/components/form/_types";
-import {  defaultFormAttrs } from "@/components/form";
+import { defaultFormAttrs } from "@/components/form";
 import { defaultCommonSize } from "@/components/_utils";
 
+const { merge } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据

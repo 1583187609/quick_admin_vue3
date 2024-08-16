@@ -69,7 +69,7 @@ export function writeFileSync(writePath, writeStr, showSuccess = false, encoding
  * @param {string[]} dirs 根级文件或文件夹
  * @param {string[]} packageNames 包名
  */
-const cachePath = "/_cache"; //缓存路径
+const cachePath = "/.vitepress/cache/views"; //缓存路径
 const vitepressPath = "/.vitepress";
 const docsPath = "/docs"; //文档路径
 const demosPath = "/demos"; //示例路径

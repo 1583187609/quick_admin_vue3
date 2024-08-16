@@ -1,9 +1,10 @@
 import { useDictStore } from "@/store";
-import { merge } from "lodash";
+import _ from "lodash";
 import { CascaderName, DictName } from "@/dict/_types";
 import { typeOf } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 
+const { merge } = _;
 export default () => {
   const { dictMap, cascaderMap } = useDictStore();
   /**

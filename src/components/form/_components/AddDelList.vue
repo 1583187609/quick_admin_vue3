@@ -32,14 +32,15 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_types";
+import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import AddDelBtn, { AddDelBtnType } from "@/components/form/_components/AddDelBtn.vue";
-import { merge } from "lodash";
+import _ from "lodash";
 import { handleFields, getAddDelItem } from "@/components/form/_utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/vite-env";
 import { showMessage } from "@/components/_utils";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 
+const { merge } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
@@ -49,7 +50,6 @@ const props = withDefaults(
     grid?: Grid;
     size?: CommonSize;
     readonly?: boolean;
-    pureText?: boolean;
     disabled?: boolean;
     labelWidth?: string;
     showChildrenLabel?: boolean; //是否显示子级的label

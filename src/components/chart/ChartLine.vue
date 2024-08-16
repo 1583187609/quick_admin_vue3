@@ -7,10 +7,11 @@ import * as echarts from "echarts";
 import { computed } from "vue";
 import Chart from "@/components/chart/Chart.vue";
 import { axisCfg, gradColors, titleCfg } from "./_config";
-import { typeOf } from "@/components/_utils";
-import { merge } from "lodash";
+import _ from "lodash";
 import type { ChartData, EchartTheme } from "./_config/types";
 import { CommonObj } from "@/vite-env";
+
+const { merge } = _;
 const defaultOption = {
   // title: {},
   legend: {},

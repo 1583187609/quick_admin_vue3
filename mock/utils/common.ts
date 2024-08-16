@@ -1,10 +1,11 @@
-import { merge } from "lodash";
+import _ from "lodash";
 import dictMap from "../dict";
 import { getDictText } from "../dict";
 import { CommonObj, OptionItem } from "@/vite-env";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
 
+const { merge } = _;
 /**
  * 获取请求参数
  * @param req 请求体

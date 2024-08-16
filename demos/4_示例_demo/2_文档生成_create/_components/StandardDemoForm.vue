@@ -66,14 +66,15 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs,FieldPropType } from "@/components/form/_components/FieldItem/_types";
-import { merge } from "lodash";
+import { FormField, FormFieldAttrs, FieldPropType } from "@/components/form/_components/FieldItem/_types";
+import _ from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 
+const { merge } = _;
 /** props Props属性自定义标题
  * 这是props的描述
  * @notice 这是 props 的 tip 信息

@@ -1,9 +1,10 @@
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
-import { merge } from "lodash";
+import _ from "lodash";
 import { handleFormInitData } from "@/components/_utils";
 
+const { merge } = _;
 /**
  * 获取AddDel分组的每个数组项对象数据
  * @param fields 每个组的字段集和

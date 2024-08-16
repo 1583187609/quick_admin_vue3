@@ -115,19 +115,20 @@
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
-import { merge } from "lodash";
+import _ from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/components/form/_types";
 import { defaultFormAttrs } from "@/components/form";
-import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
 import { defaultCommonSize } from "@/components/_utils";
 
+const { merge } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据

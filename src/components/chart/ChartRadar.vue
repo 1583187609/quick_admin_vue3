@@ -8,9 +8,11 @@ import { reactive, computed } from "vue";
 import Chart from "@/components/chart/Chart.vue";
 import { typeOf } from "@/components/_utils";
 import type { EchartTheme, ChartData } from "./_config/types";
-import { merge } from "lodash";
+import _ from "lodash";
 import { CommonObj } from "@/vite-env";
 import { axisCfg, gradColors, titleCfg } from "./_config";
+
+const { merge } = _;
 const defaultOption = {
   title: {
     // text: "Budget vs spending",

@@ -229,7 +229,7 @@
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, useAttrs, computed } from "vue";
-import { merge } from "lodash";
+import _ from "lodash";
 import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
@@ -244,6 +244,7 @@ import { CascaderName, DictName } from "@/dict/_types";
 import { RuleItem } from "./_types";
 import { defaultCommonSize } from "@/components/_utils";
 
+const { merge } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;

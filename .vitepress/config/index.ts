@@ -15,7 +15,7 @@ export default defineConfig({
   description: "A VitePress Site", //站点的描述。这将呈现为页面 HTML 中的 <meta> 标签
   head: [["link", { rel: "icon", href: "/ico.svg" }]],
   // base: "/", //站点将部署到的 base URL。它应该始终以 / 开头和结尾。例：/bar/
-  // cleanUrls: false, //当设置为 true 时，VitePress 将从 URL 中删除 .html 后缀
+  cleanUrls: true, //当设置为 true 时，VitePress 将从 URL 中删除 .html 后缀
   //自定义目录 <-> URL 映射
   // rewrites: {
   //   // 示例
@@ -24,7 +24,7 @@ export default defineConfig({
   // },
   rewrites,
   // srcDir: "./src", //相对于项目根目录的 markdown 文件所在的文件夹
-  // srcExclude: ['**/README.md', '**/TODO.md'], // 用于匹配应排除作为源内容输出的 markdown 文件
+  srcExclude: ["**/README.md", "**/TODO.md"], // 用于匹配应排除作为源内容输出的 markdown 文件
   // outDir: "./dist", //默认值："./.vitepress/dist"。项目的构建输出位置，相对于项目根目录
   // assetsDir: "", // 指定放置生成的静态资源的目录。该路径应位于 outDir 内，并相对于它进行解析
   // cacheDir: "", //缓存文件的目录，相对于项目根目录
@@ -48,6 +48,12 @@ export default defineConfig({
     },
     config: md => plugins(md),
   },
+  // vue:{
+  //   // Vite 配置选项
+  // },
+  // vite:{
+  //   // @vitejs/plugin-vue 选项
+  // },
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
     logo: "/logo.svg",

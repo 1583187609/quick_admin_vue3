@@ -1,5 +1,5 @@
 // import { useDictStore } from "@/store";
-import { merge } from "lodash";
+import _ from "lodash";
 import { reactive } from "vue";
 import { DatamapName } from "@/datamap/_types";
 import { storage, typeOf } from "@/utils";
@@ -9,27 +9,28 @@ import { StorageType } from "@/components/_utils/common/storage";
 
 type CascaderName = string;
 
-type DatamapType = 'select'|'cascader'|'tree'
+type DatamapType = "select" | "cascader" | "tree";
 
-const   defaultStorageType: StorageType = 'local';
+const { merge } = _;
+const defaultStorageType: StorageType = "local";
 
 /**
  * 获取字典映射
- * @param {stirng[]} names 字典名称
- * @returns 
+ * @param {string[]} names 字典名称
+ * @returns
  */
-function getDictMapByNames(names){
+function getDictMapByNames(names) {
   const obj = {};
-  names.forEach(async (name)=>{
-    const map = datamapData[name]
+  names.forEach(async name => {
+    const map = datamapData[name];
     const t = typeOf(map);
-    if(['Object','Array'].includes(t)) return (obj[name] = map);
-    const data = storage.getItem('datamap', defaultStorageType)?.[name]
-    if(t==='Function') return (obj[name] = data ?? map());
-    if(['AsyncFunction','Promise'].includes(t)) return (obj[name] = data ?? await map());
+    if (["Object", "Array"].includes(t)) return (obj[name] = map);
+    const data = storage.getItem("datamap", defaultStorageType)?.[name];
+    if (t === "Function") return (obj[name] = data ?? map());
+    if (["AsyncFunction", "Promise"].includes(t)) return (obj[name] = data ?? (await map()));
     throw new Error(`暂未处理此种类型：${t}`);
-  })
-  return obj
+  });
+  return obj;
 }
 
 /**
@@ -37,34 +38,34 @@ function getDictMapByNames(names){
  * @param {CascaderName[]} names 字典映射名称
  * @notice 考虑性能因素，所以这样设计
  */
-export default (names=[]) => {
+export default (names = []) => {
   // const { dictMap, cascaderMap } = useDictStore();
   const dictMap = reactive(getDictMapByNames(names));
   /**
    * 获取字典映射
    * @param name 字典索引名称
-   * @returns 
+   * @returns
    */
-  async function getMapByName(name:DatamapName){
+  async function getMapByName(name: DatamapName) {
     const map = dictMap?.[name] ?? datamapData[name];
     const t = typeOf(map);
-    if(['Object','Array'].includes(t)) return map;
-    const data = storage.getItem('datamap', defaultStorageType)?.[name]
-    if(t==='Function') return data ?? map();
-    if(['AsyncFunction','Promise'].includes(t)) return data ?? await map();
+    if (["Object", "Array"].includes(t)) return map;
+    const data = storage.getItem("datamap", defaultStorageType)?.[name];
+    if (t === "Function") return data ?? map();
+    if (["AsyncFunction", "Promise"].includes(t)) return data ?? (await map());
     throw new Error(`暂未处理此种类型：${t}`);
   }
-    /**
+  /**
    * 设置字典映射
    * @param name 字典索引名称
-   * @returns 
+   * @returns
    */
-  async function setMapByName(name:DatamapName){
+  async function setMapByName(name: DatamapName) {
     const map = datamapData[name];
     const t = typeOf(map);
-    if(['Object','Array'].includes(t)) throw new Error(`无需设置此种类型：${t}`);
-    if(t==='Function') return storage.setItem(`datamap.${name}`, map(), defaultStorageType);
-    if(['AsyncFunction','Promise'].includes(t)) return  storage.setItem(`datamap.${name}`, await map(), defaultStorageType);
+    if (["Object", "Array"].includes(t)) throw new Error(`无需设置此种类型：${t}`);
+    if (t === "Function") return storage.setItem(`datamap.${name}`, map(), defaultStorageType);
+    if (["AsyncFunction", "Promise"].includes(t)) return storage.setItem(`datamap.${name}`, await map(), defaultStorageType);
     throw new Error(`暂未处理此种类型：${t}`);
   }
   /**
@@ -100,13 +101,13 @@ export default (names=[]) => {
    * @param {select|cascader|tree} type  下拉项的类型
    * @param {string} char  为空时的占位符号
    */
-  function getText(name: DatamapName, key: StrNum, type:DatamapType='select', char = "-"): string {
+  function getText(name: DatamapName, key: StrNum, type: DatamapType = "select", char = "-"): string {
     const currMap = getMap(name);
     const val = currMap[key];
-    if(type==='select') return (typeof val === 'string' ? val : val?.text) || char;
-    if(type==='cascader') return getCascaderText(name,val,char)
-    if(type==='tree') return getTreeText(name,val,char);
-    throw new Error(`传参类型错误：${type}`)
+    if (type === "select") return (typeof val === "string" ? val : val?.text) || char;
+    if (type === "cascader") return getCascaderText(name, val, char);
+    if (type === "tree") return getTreeText(name, val, char);
+    throw new Error(`传参类型错误：${type}`);
   }
 
   /**
@@ -115,10 +116,10 @@ export default (names=[]) => {
    * @param includeKeys string[] 过滤时要包含的keys
    * @param isExclude boolean 是否排除掉要包含的keys
    */
-  function getOpts(name: DatamapName, type:DatamapType = 'select', includeKeys?: StrNum[], isExclude?: boolean): OptionItem[] {
+  function getOpts(name: DatamapName, type: DatamapType = "select", includeKeys?: StrNum[], isExclude?: boolean): OptionItem[] {
     const currMap = getMap(name);
     let opts: OptionItem[] = [];
-    if(type==='select'){
+    if (type === "select") {
       for (const key in currMap) {
         const val = isNaN(Number(key)) ? key : Number(key);
         const isInclude = includeKeys?.includes(val as StrNum) ?? true;
@@ -132,13 +133,13 @@ export default (names=[]) => {
       }
       return opts;
     }
-    if(type==='cascader'){
-      return getCascaderOpts(name)
+    if (type === "cascader") {
+      return getCascaderOpts(name);
     }
-    if(type==='tree'){
-      return getTreeOpts(name)
+    if (type === "tree") {
+      return getTreeOpts(name);
     }
-    throw new Error(`传参类型错误：${type}`)
+    throw new Error(`传参类型错误：${type}`);
   }
 
   // 获取级联中的文本
@@ -164,7 +165,7 @@ export default (names=[]) => {
   }
 
   // 获取树中的文本
-  function getTreeText(name:DatamapName,val,char='-'){
+  function getTreeText(name: DatamapName, val, char = "-") {
     return char;
   }
 

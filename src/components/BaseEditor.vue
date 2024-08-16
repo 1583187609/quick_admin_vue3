@@ -22,12 +22,14 @@ import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
 import { showMessage, toCssVal } from "@/components/_utils";
 import { useFormItem } from "element-plus";
-import { merge } from "lodash";
+import _ from "lodash";
 import { CommonObj, StrNum } from "@/vite-env";
 import "@wangeditor/editor/dist/css/style.css";
 import { isProd, storage } from "@/components/_utils";
 
 export type ModeTypes = "default" | "simple";
+
+const { merge } = _;
 const { formItem } = useFormItem();
 const defaultToolBarCfg = {
   // toolbarKeys: [

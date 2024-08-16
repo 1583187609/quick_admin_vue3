@@ -1,6 +1,6 @@
 export const docsPath = "/docs"; //文档路径
 export const demosPath = "/demos"; //示例路径
-export const cachePath = "/_cache"; //临时缓存路径
+export const cachePath = "/.vitepress/cache/views"; //临时缓存路径
 export const indexName = "index.md"; //首页md文件的名称
 export const readMeName = "Summary.md"; //examples下面的 ReadMe 文件的名称（也可理解为摘要）
 export const configName = "data.json"; //examples下面的配置文件的名称

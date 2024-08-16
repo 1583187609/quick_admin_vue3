@@ -58,14 +58,15 @@ import { FormInstance } from "element-plus";
 import { handleFields } from "@/components/form/_utils";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, FieldPropType } from "@/components/form/_components/FieldItem/_types";
-import { merge } from "lodash";
+import _ from "lodash";
 import FooterBtns from "@/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
-import {KeyValItem} from "@/components/crud/BaseCrud/_types"
+import { KeyValItem } from "@/components/crud/BaseCrud/_types";
 
+const { merge } = _;
 /** props Props
  * 通过设置 `@title: Props` 可覆盖默认的 title（属性）。
  * @notice 这是 props 的tip信息

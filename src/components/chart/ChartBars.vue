@@ -8,8 +8,10 @@ import { reactive, computed } from "vue";
 import Chart from "@/components/chart/Chart.vue";
 import { axisCfg, gradColors, titleCfg } from "./_config";
 import type { EchartTheme, ChartData } from "./_config/types";
-import { merge } from "lodash";
+import _ from "lodash";
 import { CommonObj } from "@/vite-env";
+
+const { merge } = _;
 const defaultOption = {
   // title: titles,
   tooltip: {

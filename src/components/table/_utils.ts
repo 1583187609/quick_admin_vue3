@@ -9,15 +9,16 @@ import {
   defaultCommonSize,
 } from "@/components/_utils";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
-import {  defaultColumnAttrs } from "@/components/table";
-import { merge } from "lodash";
+import { defaultColumnAttrs } from "@/components/table";
+import _ from "lodash";
 import config from "@/config";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
-import {getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
-import {SpecialTableColType} from "@/components/table/_types"
+import { getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
+import { SpecialTableColType } from "@/components/table/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
 
+const { merge } = _;
 /**
  * 表格特殊列
  */

@@ -7,11 +7,11 @@ import { getDictText, getCascadeText, getDictCodes } from "../dict";
 import allAddress from "../data/address";
 import { CommonObj } from "@/vite-env";
 import dayjs from "dayjs";
-import { merge } from "lodash";
+import _ from "lodash";
 import { TableColAttrs } from "@/components/table/_types";
 
 const { Random } = Mock;
-
+const { merge } = _;
 const delAttrs: string[] = ["psd"];
 let allUsers = JSON.parse(JSON.stringify(_allUsers));
 //缓存数据
