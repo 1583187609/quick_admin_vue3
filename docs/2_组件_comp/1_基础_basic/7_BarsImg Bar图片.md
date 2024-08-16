@@ -28,7 +28,6 @@
 ::: details
 /src/components/img/BarsImg.vue
 
-
 ``` ts
 
 

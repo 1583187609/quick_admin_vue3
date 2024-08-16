@@ -12,7 +12,6 @@
 ::: details
 /src/components/BaseQrcode.vue
 
-
 ``` ts
 
 

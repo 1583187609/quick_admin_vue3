@@ -42,7 +42,6 @@
 ::: details
 /src/components/BaseEditor.vue
 
-
 ``` ts
 
 

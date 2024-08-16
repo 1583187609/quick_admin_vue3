@@ -98,7 +98,6 @@
 ::: details
 /src/components/BaseBtn/Index.vue
 
-
 ``` ts
 
 

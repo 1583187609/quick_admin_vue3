@@ -21,7 +21,6 @@
 ::: details
 /src/components/number/LiftingNum.vue
 
-
 ``` ts
 
 

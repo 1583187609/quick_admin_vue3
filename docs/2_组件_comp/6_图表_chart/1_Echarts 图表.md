@@ -44,7 +44,6 @@
 ## 类型声明
 ::: details
 /src/components/chart/_config/types.ts
-
 <<< E:\Quick-Admin\quick_admin_vue3/src/components/chart/_config/types.ts
 :::  
 

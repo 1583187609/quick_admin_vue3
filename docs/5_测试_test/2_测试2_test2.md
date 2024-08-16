@@ -103,7 +103,6 @@
 ## 类型声明
 ::: details
 /src/components/crud/BaseCrud/_types.ts
-
 <<< E:\Quick-Admin\quick_admin_vue3/src/components/crud/BaseCrud/_types.ts
 :::  
 

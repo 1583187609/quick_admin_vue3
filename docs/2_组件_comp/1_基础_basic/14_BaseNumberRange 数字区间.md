@@ -40,7 +40,6 @@
 ::: details
 /src/components/BaseNumberRange.vue
 
-
 ``` ts
 
 import { type FormItemRule} from "element-plus";

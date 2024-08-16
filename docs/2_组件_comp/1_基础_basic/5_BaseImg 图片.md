@@ -45,7 +45,6 @@
 ::: details
 /src/components/img/BaseImg.vue
 
-
 ``` ts
 
 

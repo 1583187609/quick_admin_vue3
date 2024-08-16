@@ -26,7 +26,6 @@
 ::: details
 /src/components/BaseSection.vue
 
-
 ``` ts
 
 

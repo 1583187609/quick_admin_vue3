@@ -21,7 +21,6 @@
 ::: details
 /src/components/number/TransitionNum.vue
 
-
 ``` ts
 
 

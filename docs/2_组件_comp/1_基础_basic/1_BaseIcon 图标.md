@@ -25,7 +25,6 @@
 ::: details
 /src/components/BaseIcon.vue
 
-
 ``` ts
 
 

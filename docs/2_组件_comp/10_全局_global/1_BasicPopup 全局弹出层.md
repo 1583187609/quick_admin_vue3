@@ -104,7 +104,6 @@
 ::: details
 /src/components/BasicPopup/Index.vue
 
-
 ``` ts
 
 import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";

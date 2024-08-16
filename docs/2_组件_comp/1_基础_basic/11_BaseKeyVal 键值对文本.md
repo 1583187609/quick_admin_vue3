@@ -44,7 +44,6 @@
 ::: details
 /src/components/BaseKeyVal.vue
 
-
 ``` ts
 
 

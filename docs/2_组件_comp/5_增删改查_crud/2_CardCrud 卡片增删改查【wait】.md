@@ -92,12 +92,13 @@
 ::: details
 /src/components/crud/CardCrud/Index.vue
 
-
 ``` ts
+
 
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";
 export type ItemType = "avatar-audit" | "avatar-patrol" | "about" | "photo" | "face";
 export type AuditStatus = 0 | 1 | 2; // 0通过 1驳回 2未审核
+
 
 ```
 

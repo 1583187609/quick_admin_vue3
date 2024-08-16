@@ -36,7 +36,6 @@
 ::: details
 /src/components/BaseVideo.vue
 
-
 ``` ts
 
 

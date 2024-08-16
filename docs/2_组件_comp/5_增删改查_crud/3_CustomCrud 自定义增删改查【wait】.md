@@ -110,7 +110,6 @@
 ::: details
 /src/components/crud/CustomCrud/Index.vue
 
-
 ``` ts
 
 

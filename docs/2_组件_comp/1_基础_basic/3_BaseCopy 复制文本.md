@@ -33,8 +33,8 @@
 ::: details
 /src/components/BaseCopy.vue
 
-
 ``` ts
+
 
 
 

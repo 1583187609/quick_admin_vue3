@@ -31,7 +31,6 @@
 ::: details
 /src/components/BaseEmpty.vue
 
-
 ``` ts
 
 

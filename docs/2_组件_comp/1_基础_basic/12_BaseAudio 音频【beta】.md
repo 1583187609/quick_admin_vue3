@@ -52,7 +52,6 @@
 ::: details
 /src/components/BaseAudio.vue
 
-
 ``` ts
 
 

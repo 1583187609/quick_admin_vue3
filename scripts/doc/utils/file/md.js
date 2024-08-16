@@ -46,7 +46,7 @@ export function getMdFileByPath(dirPathHalf = needParam(), rowsRange = "") {
  */
 export function getTsTypeDeclare(filePathHalf = needParam()) {
   if (!filePathHalf) return "";
-  let contStr = `${filePathHalf}${N}${N}`;
+  let contStr = `${filePathHalf}${N}`;
   const ext = path.extname(filePathHalf);
   if (ext === ".ts") {
     contStr += `<<< ${process.cwd()}${filePathHalf}`;
@@ -57,12 +57,12 @@ export function getTsTypeDeclare(filePathHalf = needParam()) {
   } else {
     throw new Error(`暂未处理${ext}类型文件`);
   }
-  const mdStr = `## 类型声明
+  const fileStr = `## 类型声明
 ::: details
 ${contStr}
 :::  
 `;
-  return mdStr;
+  return fileStr;
 }
 
 /**

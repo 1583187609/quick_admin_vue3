@@ -37,7 +37,6 @@
 ::: details
 /src/components/BaseTag.vue
 
-
 ``` ts
 
 import type { TagProps } from "element-plus";
@@ -45,6 +44,14 @@ import type { TagProps } from "element-plus";
 export type TagType = TagProps["type"];
 export type TagSize = TagProps["size"];
 export type TagEffect = TagProps["effect"];
+
+export interface TagAttrs  {
+  color?: string;
+  type?: TagType;
+  style?: StyleType;
+  class?: ClassType;
+  effect?: TagEffect;
+};
 
 
 ```

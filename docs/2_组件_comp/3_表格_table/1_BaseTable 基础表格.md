@@ -40,7 +40,6 @@
 ## 类型声明
 ::: details
 /src/components/table/_types.ts
-
 <<< E:\Quick-Admin\quick_admin_vue3/src/components/table/_types.ts
 :::  
 

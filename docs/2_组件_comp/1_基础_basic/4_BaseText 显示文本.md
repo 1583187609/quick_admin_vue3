@@ -33,7 +33,6 @@
 ::: details
 /src/components/BaseText.vue
 
-
 ``` ts
 
 
