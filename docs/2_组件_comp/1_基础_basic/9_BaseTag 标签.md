@@ -45,13 +45,13 @@ export type TagType = TagProps["type"];
 export type TagSize = TagProps["size"];
 export type TagEffect = TagProps["effect"];
 
-export interface TagAttrs  {
+export interface TagAttrs {
   color?: string;
   type?: TagType;
   style?: StyleType;
   class?: ClassType;
   effect?: TagEffect;
-};
+}
 
 
 ```

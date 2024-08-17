@@ -39,7 +39,36 @@ export default ({ mode, command }) => {
     // root: "./src/pages", // 项目根目录
     plugins: [
       // vue(),
-      ...(isVitepress ? [] : [vue()]),
+      ...(isVitepress
+        ? []
+        : [
+            vue(),
+            /**
+             * 打包体积可视化面板
+             * @link npm 文档链接：https://gitcode.com/btd/rollup-plugin-visualizer/overview
+             */
+            visualizer({
+              open: true, //默认为false，构建完成后是否自动从浏览器打开
+              title: "文件体积分析",
+              //注：使用 outDirPath 会导致打包失败，故暂时使用手动复制粘贴方式到 outDirPath 中
+              filename: "./public/stats.html", //默认文件名为 stats.html，打包输出的文件名称
+              gzipSize: true, //默认false，是否显示gzip压缩之后的大小
+              brotliSize: true, //默认false
+              // projectRoot: "./dist", //默认值：process.cwd()
+              // template: 'treemap', //默认：treemap。输出模板，可选值：sunburst, treemap, network, raw-data, list
+              // include: undefined,
+              // exclude: undefined,
+              // emitFile: false,
+              // sourcemap: false,
+              // Filter: { bundle: picomatchPattern, file: picomatchPattern },
+            }),
+            // 将图片转换为 WebP 格式 压缩算法和格式来减小文件大小
+            imageminPlugin({
+              gifsicle: { optimizationLevel: 3 }, // 配置 GIF 优化选项
+              optipng: { optimizationLevel: 5 }, // 配置 PNG 优化选项
+              webp: { quality: 75 }, // 配置 WebP 转换选项
+            }),
+          ]),
       // 自动给组件命名
       GenerateComponentName({
         include: ["**/*.vue"],
@@ -112,12 +141,6 @@ export default ({ mode, command }) => {
       // eslintPlugin({
       //   include: ["src/**/*.ts", "src/**/*.vue", "src/*.ts", "src/*.vue"],
       // }),
-      // 将图片转换为 WebP 格式 压缩算法和格式来减小文件大小
-      imageminPlugin({
-        gifsicle: { optimizationLevel: 3 }, // 配置 GIF 优化选项
-        optipng: { optimizationLevel: 5 }, // 配置 PNG 优化选项
-        webp: { quality: 75 }, // 配置 WebP 转换选项
-      }),
       /**
        * @link 参考链接：https://blog.csdn.net/qq_23858785/article/details/130107095
        * @example prodUrl: 'https://cdn.jsdelivr.net/npm/{name}@{version}/{path}',
@@ -212,25 +235,6 @@ export default ({ mode, command }) => {
       //   algorithm: 'brotliCompress',
       //   deleteOriginFile: false,
       // }),
-      /**
-       * 打包体积可视化面板
-       * @link npm 文档链接：https://gitcode.com/btd/rollup-plugin-visualizer/overview
-       */
-      visualizer({
-        open: true, //默认为false，构建完成后是否自动从浏览器打开
-        title: "文件体积分析",
-        //注：使用 outDirPath 会导致打包失败，故暂时使用手动复制粘贴方式到 outDirPath 中
-        filename: "./public/stats.html", //默认文件名为 stats.html，打包输出的文件名称
-        gzipSize: true, //默认false，是否显示gzip压缩之后的大小
-        brotliSize: true, //默认false
-        // projectRoot: "./dist", //默认值：process.cwd()
-        // template: 'treemap', //默认：treemap。输出模板，可选值：sunburst, treemap, network, raw-data, list
-        // include: undefined,
-        // exclude: undefined,
-        // emitFile: false,
-        // sourcemap: false,
-        // Filter: { bundle: picomatchPattern, file: picomatchPattern },
-      }),
     ],
     resolve: {
       alias: {
