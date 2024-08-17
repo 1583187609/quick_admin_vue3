@@ -1,3 +1,6 @@
+/**
+ * 倒计时
+ */
 import { ref } from "vue";
 
 export default (total = 3, cb: () => void, isAdd = false) => {

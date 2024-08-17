@@ -17,21 +17,21 @@ import { DictName } from "@/dict/_types";
 import { ClassType, CommonObj, StrNum, StyleType } from "@/vite-env";
 import { emptyVals } from "@/components/_utils";
 import type { TagProps } from "element-plus";
-import { useDictMap } from "@/hooks";
+import { useDict } from "@/hooks";
 
 export type TagType = TagProps["type"];
 export type TagSize = TagProps["size"];
 export type TagEffect = TagProps["effect"];
 
-export interface TagAttrs  {
+export interface TagAttrs {
   color?: string;
   type?: TagType;
   style?: StyleType;
   class?: ClassType;
   effect?: TagEffect;
-};
+}
 
-const { getMap } = useDictMap();
+const { getMap } = useDict();
 const props = withDefaults(
   defineProps<{
     name?: DictName;

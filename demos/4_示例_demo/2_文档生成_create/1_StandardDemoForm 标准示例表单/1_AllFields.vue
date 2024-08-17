@@ -9,15 +9,15 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive } from "vue";
 import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
-import { useDictMap } from "@/hooks";
+import { useDict } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 
-const { getCascaderOpts, getOpts } = useDictMap();
+const { getOpts } = useDict();
 const genderOpts = getOpts("Gender");
-const regionOpts = getCascaderOpts("Region");
+const regionOpts = getOpts("Region");
 
 const model = reactive<CommonObj>({
   age: 12,

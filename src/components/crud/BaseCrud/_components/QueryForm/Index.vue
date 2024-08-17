@@ -83,7 +83,7 @@ import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/components/_utils";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import _ from "lodash";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";

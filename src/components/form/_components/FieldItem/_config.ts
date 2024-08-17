@@ -108,7 +108,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     cascader: {
       attrs: {
-        // style: { width: "100%" },
+        style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },

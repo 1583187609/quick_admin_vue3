@@ -1,7 +1,6 @@
 import {
   getRequestParams,
   resData,
-  deleteAttrs,
   filterByConditions,
   toViteMockApi,
   getConstructorObj,

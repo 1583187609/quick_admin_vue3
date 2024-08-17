@@ -1,27 +1,32 @@
-import { TagType, TagEffect } from "@/components/BaseTag.vue";
-import dict from ".";
+import { TagAttrs } from "@/components/BaseTag.vue";
 import { tagColorMap } from "./_config";
-
-export * from "./cascader";
+import { OptionItem } from "@/vite-env";
+import dict from ".";
 
 export type DictName = keyof typeof dict;
 export type TagColorName = keyof typeof tagColorMap;
 // export type DictName = keyof InstanceType<typeof dict>;
 // export type TagColorName = keyof InstanceType<typeof tagColorMap>;
-export interface DictItemProps {
-  text: string;
-  disabled?: boolean; //作为下拉选项时是否禁用
-  //下面 elementPlus 标签 el-tag 的属性
-  attrs?: {
-    color?: string;
-    type?: TagType;
-    style?: any;
-    effect?: TagEffect;
-  };
+
+export interface SelectAttrs {
+  disabled?: boolean;
+  [key: string]: any;
+}
+export interface CascaderAttrs {
+  [key: string]: any;
+}
+export interface TreeAttrs {
+  [key: string]: any;
 }
 
-export interface DictMap {
+export interface SelectItemProps {
+  text: string;
+  // 同 elementPlus 的 el-tag, el-select, el-cascader, el-tree的属性
+  attrs?: TagAttrs | SelectAttrs | CascaderAttrs | TreeAttrs;
+}
+
+export interface DataMap {
   [key: string]: {
-    [key: string]: string | DictItemProps;
+    [key: string]: string | SelectItemProps | OptionItem[]; //文本，select的下拉项，或者tree或cascader的数据
   };
 }

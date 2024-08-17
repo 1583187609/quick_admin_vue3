@@ -3,6 +3,7 @@
 /********************************************************************/
 
 export type StorageType = "local" | "session" | "cookie";
+const defaultStorageType = "local";
 const cookieStorage = {
   setItem(key: string, val: any, hours = 24) {
     const date = new Date();
@@ -43,24 +44,24 @@ const storageMap: StorageMap = {
   sessionStorage,
 };
 
-export default {
+export const storage = {
   /**
    * 存数据
-   * @param key {String} 要存储数据的键名
-   * @param val {*} 要存储的数据值
-   * @param type {String} 存储类型：local, session, cookie
-   * @param hours {Number} cookie的过期时间，只有当type为cookie时，才会用到这个参数
+   * @param {string} key  要存储数据的键名
+   * @param {any} val 要存储的数据值
+   * @param {StorageType} type  存储类型：local, session, cookie
+   * @param {number} hours  cookie的过期时间，只有当type为cookie时，才会用到这个参数
    */
-  setItem(key: string, val: any, type: StorageType = "local", hours?: number) {
+  setItem(key: string, val: any, type: StorageType = defaultStorageType, hours?: number) {
     if (typeof val === "object") val = JSON.stringify(val);
     return storageMap[type + "Storage"].setItem(key, val, hours);
   },
   /**
    * 取数据
-   * @param key {String} 要取数据的键名
-   * @param type {String} 存储类型：local, session, cookie
+   * @param {string} key  要取数据的键名
+   * @param {StorageType} type  存储类型：local, session, cookie
    */
-  getItem(key: string, type: StorageType = "local") {
+  getItem(key: string, type: StorageType = defaultStorageType) {
     let val = storageMap[type + "Storage"].getItem(key);
     if (val === null) return null;
     if (val === "undefined") return;
@@ -71,22 +72,73 @@ export default {
   },
   /**
    * 删除指定键名对应的数据
-   * @param key {String} 要删除数据的键名
-   * @param type {String} 删除类型：local, session, cookie
+   * @param {string} key  要删除数据的键名
+   * @param {StorageType} type  删除类型：local, session, cookie
    */
-  removeItem(key: string, type: StorageType = "local") {
+  removeItem(key: string, type: StorageType = defaultStorageType) {
     return storageMap[type + "Storage"].removeItem(key);
   },
   /**
    * 删除所有存储数据
-   * @param type
+   * @param {StorageType} type
    */
-  clear(type: StorageType = "local") {},
+  clear(type: StorageType = defaultStorageType) {},
   /**
    * 删除所有存储的键名
-   * @param type
+   * @param {StorageType} type
    */
-  getKeys(type: StorageType = "local") {
+  getKeys(type: StorageType = defaultStorageType) {
     return Object.keys(storageMap[type + "Storage"]);
   },
 };
+
+/**
+ * 多级路径存储
+ * @param {string} pathStr 存储路径，例：map, map.test
+ * @param {any} vals 要存的值
+ * @param {StorageType} storageType 存储类型
+ */
+export function setStorage(pathStr = "", vals: any, storageType: StorageType = defaultStorageType) {
+  const [name, ...restPaths] = pathStr.split(".");
+  if (!restPaths?.length) storage.setItem(name, vals, storageType);
+  let data = storage.getItem(name, storageType);
+  if (!data) {
+    data = {};
+    let tempData = data;
+    restPaths.forEach((key, ind) => {
+      const obj = {};
+      const isLast = ind >= restPaths.length - 1;
+      tempData[key] = isLast ? vals : obj;
+      tempData = obj;
+    });
+  } else {
+    let tempData = data;
+    restPaths.forEach((key, ind) => {
+      const val = tempData[key];
+      const isLast = ind >= restPaths.length - 1;
+      if (val) return (tempData = val);
+      return (tempData[key] = isLast ? vals : {});
+    });
+  }
+  storage.setItem(name, data, storageType);
+}
+
+/**
+ * 多级路径取值
+ * @param {string} pathStr 取值路径，例：map, map.test
+ * @param {StorageType} storageType 存储取值类型
+ */
+export function getStorage(pathStr = "", storageType: StorageType = defaultStorageType) {
+  const [name, ...restPaths] = pathStr.split(".");
+  let data = storage.getItem(name, storageType);
+  if (!restPaths.length || !data) return data;
+  restPaths.find(key => {
+    const val = data[key];
+    if (val === undefined) {
+      data = null;
+      return true;
+    }
+    data = val;
+  });
+  return data;
+}

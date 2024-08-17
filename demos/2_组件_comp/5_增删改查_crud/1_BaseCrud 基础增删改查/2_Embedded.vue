@@ -106,7 +106,7 @@ import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
-import {TableColumnAttrs} from "@/components/table/_types"
+import { TableColumnAttrs } from "@/components/table/_types";
 
 const tempRow = {
   xm: "李四",
@@ -147,7 +147,7 @@ const fields: FormFieldAttrs[] = [
     type: "select",
     options: "EnableStatus",
   },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchAsync" },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestAsyncFunction" },
   {
     prop: "multi_tag",
     label: "多标签",

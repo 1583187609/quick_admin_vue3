@@ -1,3 +1,6 @@
+/**
+ * 缓存滚动
+ */
 import { onActivated } from "vue";
 export default () => {
   //处理滚动事件

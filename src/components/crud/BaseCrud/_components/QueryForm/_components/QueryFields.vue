@@ -21,7 +21,7 @@
 import { computed } from "vue";
 import { FormFieldAttrs } from "@/components/form/_types";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 
 const props = withDefaults(

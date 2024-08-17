@@ -36,13 +36,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { getTimeAgo } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
-import { DictItemProps } from "@/dict/_types";
 import { getBarObj } from "@/components/crud/CardCrud/_utils";
+import { DictName } from "@/dict/_types";
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4
@@ -66,7 +66,7 @@ const props = withDefaults(
     sizeType?: "large" | "default" | "small";
     operateBtns?: BtnItem[];
     status?: AuditStatus;
-    bottomBar?: string | DictItemProps;
+    bottomBar?: string | DictName;
   }>(),
   {
     row: () => ({}),

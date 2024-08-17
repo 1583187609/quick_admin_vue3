@@ -98,7 +98,9 @@ useEvent("resize", initBodyHeight);
 </script>
 <style lang="scss">
 .basic-dialog {
-  padding: 0;
+  &.el-dialog {
+    padding: 0;
+  }
   &.top-compact {
     margin: $dialog-top auto;
   }

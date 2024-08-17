@@ -1,26 +1,31 @@
 <!-- 组件 - 导入弹出层 -->
 <template>
   <div class="template-hint">
-    <div class="tips">{{ tips }}</div>
-    <!-- <div class="f-sa-c">
-      <el-button @click="handleDownloadTpl" type="primary" plain>下载模板</el-button>
-      <el-upload :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept">
-        <el-button type="primary">直接导入</el-button>
-      </el-upload>
-    </div> -->
-
-    <!-- 注：这里要支持拖动上传等 -->
-    <el-upload :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept">
-      <el-button type="primary">点击上传</el-button>
-    </el-upload>
-    <div class="f-sb-c">
-      <div class="color-info f-1 mr-o">注：仅支持xxx文件</div>
-      <el-button class="ml-a f-0" @click="handleDownloadTpl" link>下载模板</el-button>
+    <div class="tips mb-o" v-if="tips">{{ tips }}</div>
+    <div class="f-fs-c mb-o">
+      如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。
     </div>
+    <!-- action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" -->
+    <el-upload
+      class="upload-demo"
+      :on-change="handleFileChange"
+      :auto-upload="false"
+      :show-file-list="false"
+      :accept="accept"
+      multiple
+      drag
+    >
+      <BaseIcon name="Plus" size="2em" />
+      <div class="el-upload__text">点击或拖拽文件到此处上传</div>
+      <div class="el-upload__text">支持{{ accept }}</div>
+      <template #tip>
+        <div class="el-upload__tip">最大不能超过10M</div>
+      </template>
+    </el-upload>
   </div>
 </template>
 <script lang="ts" setup>
-import {  inject } from "vue";
+import { inject } from "vue";
 import { CommonObj } from "@/vite-env";
 import { importExcel, exportExcel, showMessage } from "@/components/_utils";
 import { ClosePopupInject } from "@/components/BasicPopup/_types";
@@ -44,7 +49,7 @@ const props = withDefaults(
     accept?: string;
   }>(),
   {
-    tips: "如果没有模板，请先下载模板",
+    tips: "单次导入不能超过10000条。",
     accept: ".xls,.xlsx",
   }
 );
@@ -78,10 +83,6 @@ function handleFileChange(file: any, files: any[]) {
 </script>
 <style lang="scss" scoped>
 .template-hint {
-  width: 250px;
-  text-align: center;
-  .tips {
-    margin-bottom: $gap;
-  }
+  width: 400px;
 }
 </style>

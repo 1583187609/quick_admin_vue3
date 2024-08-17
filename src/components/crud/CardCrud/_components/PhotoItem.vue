@@ -15,13 +15,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref,  computed, nextTick } from "vue";
+import { ref, computed, nextTick } from "vue";
 import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import BarsImg from "@/components/img/BarsImg.vue";
 import { AuditStatus } from "../Index.vue";
-import { useDictMap } from "@/hooks";
-const { getMap } = useDictMap();
+import { useDict } from "@/hooks";
+
+const { getMap } = useDict();
 const props = withDefaults(
   defineProps<{
     row?: CommonObj;

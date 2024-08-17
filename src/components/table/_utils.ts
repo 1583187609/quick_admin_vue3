@@ -9,9 +9,8 @@ import {
   defaultCommonSize,
 } from "@/components/_utils";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
-import { defaultColumnAttrs } from "@/components/table";
+import { defaultColumnAttrs, specialColMap } from "@/components/table";
 import _ from "lodash";
-import config from "@/config";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
 import { getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
@@ -19,122 +18,9 @@ import { SpecialTableColType } from "@/components/table/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
 
 const { merge } = _;
-/**
- * 表格特殊列
- */
-export const specialColMap: CommonObj = Object.assign(
-  {
-    //序号列
-    index: {
-      prop: "$index",
-      label: "序号",
-      type: "index",
-      width: 74, // 54,
-      fixed: "left",
-      // index: (ind: number) => ind + 1 + (currPage - 1) * pageSize,
-    },
-    //排序列
-    sort: {
-      prop: "$sort",
-      label: "排序",
-      type: "sort",
-      width: 74, //54,
-      fixed: "left",
-    },
-    //多选列
-    selection: {
-      prop: "$selection",
-      label: "选择",
-      type: "selection",
-      width: 48,
-      fixed: "left",
-    },
-    //操作列
-    operate: {
-      prop: "$operate",
-      label: "操作",
-      type: "operate",
-      // minWidth: 250,
-      fixed: "right",
-    },
-    //id：唯一标识id
-    id: { prop: "id", label: "ID", minWidth: 70, fixed: "left" },
-    //备注列
-    remark: { prop: "remark", label: "备注", minWidth: 140 },
-    //创建列
-    create: {
-      prop: ["createdName", "createdAt"],
-      label: "创建时间",
-      minWidth: 160,
-    },
-    //修改列
-    update: {
-      prop: ["updatedName", "updatedAt"],
-      label: "修改时间",
-      minWidth: 160,
-    },
-    //switch开关
-    switch: {
-      prop: "status",
-      label: "启用状态",
-      minWidth: 80,
-      attrs: {
-        activeValue: 1,
-        inactiveValue: 0,
-        activeText: "启用",
-        inactiveText: "禁用",
-        inlinePrompt: true,
-        // onChange() {
-        //   ElMessage.warning("暂未处理【启用/禁用】事件");
-        // },
-      },
-    },
-    //是否启用状态
-    BaseTag: {
-      prop: "status",
-      label: "状态",
-      minWidth: 90,
-      attrs: { name: "EnableStatus" },
-    },
-    //图片
-    BaseImg: {
-      prop: "imgUrl",
-      label: "图片",
-      minWidth: 136,
-      attrs: { size: "120" },
-    },
-    //文本省略显示，点击查看更多
-    BaseText: {
-      prop: "content",
-      label: "内容",
-      minWidth: 250,
-    },
-    // 文本复制
-    BaseCopy: {
-      minWidth: 190,
-    },
-    //用户信息
-    // UserInfo: {
-    //   prop: "userData",
-    //   label: "用户信息",
-    //   fixed: "left",
-    //   getAttrs(col: TableColAttrs) {
-    //     return {
-    //       width: col?.attrs?.simple ? 222 : 440,
-    //     };
-    //   },
-    // },
-  },
-  config?.table?.customSpecialCol
-);
 
 // 获取col和level
-export function getColLevel(
-  col: TableColAttrs,
-  lev = 0,
-  specialColMap: CommonObj,
-  size: CommonSize = defaultCommonSize
-): CommonObj {
+export function getColLevel(col: TableColAttrs, lev = 0, size: CommonSize = defaultCommonSize): CommonObj {
   let newLev = lev;
   const { children, type, prop, label, minWidth } = col;
   const specialColAttrs = specialColMap[type as string];
@@ -173,7 +59,7 @@ export function getColLevel(
   if (children?.length) {
     newCol.children = children.map((item: TableCol) => {
       if (typeOf(item) !== "Object") return 0;
-      const { col, level } = getColLevel(item as TableColAttrs, lev++, specialColMap);
+      const { col, level } = getColLevel(item as TableColAttrs, lev++);
       if (level > newLev) {
         newLev = level;
       }
@@ -246,13 +132,13 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
   if (ind < rows.length - 1) {
     if (operateWidth < width) {
       operateWidth = width;
-      newCols.slice(-1)[0].minWidth = operateWidth;
+      newCols.slice(-1)[0].width = operateWidth;
     }
   } else {
     //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
     if (operateWidth < 30) {
       operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
-      newCols.slice(-1)[0].minWidth = operateWidth;
+      newCols.slice(-1)[0].width = operateWidth;
     }
   }
   return filterBtns;

@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <el-col class="query-btns f-fe-fs" :class="{ compact, [size]: true }">
+  <el-col class="query-btns f-fe-fs ml-a" :class="{ compact, [size]: true }">
     <el-button type="primary" v-debounce.immediate="() => emits('submit')" :disabled="loading">
       <template #icon>
         <BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : 'Search'"></BaseIcon>
@@ -17,10 +17,9 @@
   </el-col>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
+import { CommonSize } from "@/vite-env";
 
 const props = withDefaults(
   defineProps<{
@@ -40,8 +39,8 @@ const emits = defineEmits(["submit", "reset", "fold"]);
 <style lang="scss">
 .query-btns {
   display: flex;
-  margin-left: auto;
   &.large {
+    margin-bottom: $gap-large;
     .el-button {
       padding: 0 $gap-large;
       + .el-button {
@@ -50,6 +49,7 @@ const emits = defineEmits(["submit", "reset", "fold"]);
     }
   }
   &.default {
+    margin-bottom: $gap-default;
     .el-button {
       padding: 0 $gap-default;
       + .el-button {
@@ -58,6 +58,7 @@ const emits = defineEmits(["submit", "reset", "fold"]);
     }
   }
   &.small {
+    margin-bottom: $gap-small;
     .el-button {
       padding: 0 $gap-small;
       + .el-button {

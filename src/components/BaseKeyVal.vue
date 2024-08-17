@@ -32,7 +32,7 @@ import { toCssVal, typeOf, getPopoverAttrs, emptyVals } from "@/components/_util
 import { StrNum } from "@/vite-env";
 import { PopoverAttrs } from "@/components/_types";
 import { DictName } from "@/dict/_types";
-import { useDictMap } from "@/hooks";
+import { useDict } from "@/hooks";
 
 const props = withDefaults(
   defineProps<{
@@ -56,10 +56,9 @@ const props = withDefaults(
 );
 const valText = computed(() => {
   const { value, joinChar, name } = props;
-  if (name) return useDictMap().getText(name, value);
+  if (name) return useDict().getText(name, value);
   if (typeOf(value) === "Array") return (value as StrNum[]).join(joinChar);
   return value;
-  
 });
 </script>
 <style lang="scss" scoped>

@@ -65,10 +65,10 @@
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            现居地：<b>{{ getCascaderText("Region", data.liveCity) || "-" }}</b>
+            现居地：<b>{{ getText("Region", data.liveCity) || "-" }}</b>
           </div>
           <div class="item f-0">
-            家乡：<b>{{ getCascaderText("Region", data.city) || "-" }}</b>
+            家乡：<b>{{ getText("Region", data.city) || "-" }}</b>
           </div>
         </div>
       </div>
@@ -78,10 +78,10 @@
 <script lang="ts" setup>
 import { CommonObj } from "@/vite-env";
 import { useRouter } from "vue-router";
-import { useDictMap } from "@/hooks";
+import { useDict } from "@/hooks";
 
 const router = useRouter();
-const { getText, getCascaderText } = useDictMap();
+const { getText } = useDict();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

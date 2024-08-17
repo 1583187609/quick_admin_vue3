@@ -30,10 +30,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watchEffect } from "vue";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
 import { TableColAttrs } from "@/components/table/_types";
-import { getColLevel, specialColMap, defaultTableAttrs } from "@/components/table";
+import { getColLevel, defaultTableAttrs } from "@/components/table";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
@@ -70,7 +70,7 @@ const newCols = reactive<TableColAttrs[]>([]);
 const stopWatch = watchEffect(() => {
   const levels = getAddSpecialCols(props).map(col => {
     if (typeOf(col) !== "Object") return 1;
-    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, specialColMap);
+    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1);
     newCols.push(newCol);
     return level;
   });

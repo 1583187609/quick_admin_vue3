@@ -431,9 +431,10 @@ function refreshList(cb?: () => void) {
   getList(params, cb, "refresh");
 }
 // 拖拽排序
-function handleDragSort(ele = queryTableRef.value.tableRef.$el.querySelector(".el-table__body-wrapper tbody") as HTMLElement) {
+function handleDragSort(ele = queryTableRef?.value.tableRef?.$el?.querySelector(".el-table__body-wrapper tbody") as HTMLElement) {
   const { tableAttrs } = props;
   const { rowKey } = tableAttrs;
+  if (!ele) return;
   Sortable.create(ele, {
     handle: ".sort-cell",
     animation: 300,

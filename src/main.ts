@@ -6,7 +6,7 @@ import components from "@/components";
 import router from "@/router";
 import store from "@/store";
 import mixin from "@/services/mixin";
-import I18n from "@/languages";
+import I18n from "@/langs";
 import { setupProdMockServer } from "./mockProdServer";
 import { handleError } from "@/utils";
 

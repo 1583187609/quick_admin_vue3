@@ -41,6 +41,7 @@ export type TypeOfReturn =
   | "Object"
   | "Date"
   | "Function"
+  | "Promise"
   | "AsyncFunction"
   | "RegExp"
   | "Error"

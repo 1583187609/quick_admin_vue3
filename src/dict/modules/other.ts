@@ -1,6 +1,3 @@
-import { GetMockCommonList } from "@/api-mock";
-import { CommonObj } from "@/vite-env";
-
 export default {
   //身份认证情况：1=未认证,2=学历;3=公司,4=双认证
   AuthCase: {
@@ -98,27 +95,4 @@ export default {
       },
     },
   },
-  // 测试用的请求下拉项
-  // TestFetchAsync: {
-  //   1: "测试1",
-  //   2: "测试2",
-  // },
-  TestFetchAsync() {
-    return {
-      1: "测试1",
-      2: "测试2",
-    };
-  },
-  // TestFetchAsync: () =>
-  //   GetMockCommonList().then((res: CommonObj) => {
-  //     const obj: CommonObj = {};
-  //     Array(3)
-  //       .fill("")
-  //       .forEach((item: string, ind: number) => {
-  //         obj[ind] = {
-  //           text: `请求下拉项${ind}`,
-  //         };
-  //       });
-  //     return obj;
-  //   }),
 };

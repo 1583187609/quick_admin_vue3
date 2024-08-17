@@ -120,10 +120,10 @@ options
 -select
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 70、配置 VsCode 的列表页、新增编辑页 的快速代码片段
-71、将BaseImg、BarsImg放到同一个文件夹`img`下
+71、将 BaseImg、BarsImg 放到同一个文件夹`img`下
 72、将 SetTable 用 EditTable 改造
-73、删除src/_test_components文件夹下的内容
-74、将Quick 的内核抽离出来，放在 quick-core 文件夹下
+73、删除 src/\_test_components 文件夹下的内容
+74、将 Quick 的内核抽离出来，放在 quick-core 文件夹下
 75、完善 http 的 ts 类型书写
 76、请求参数加解密
 77、上传文件加一项，上传 zip 压缩文件
@@ -157,7 +157,7 @@ options
 ~~25、当打开外链时，若浏览器已打开，则不要新建窗口打开逻辑处理；~~  
 ~~27、全局 drawer、modal 区分关闭之后是否销毁弹出层~~  
 ~~33、联调时后端未返回此字段作标记处理~~  
-~~40、国际化处理的配置文件（languages）应该分别放在各个模块下方~~ 
+~~40、国际化处理的配置文件（langs）应该分别放在各个模块下方~~
 24、Ts 类型命名优化，尽可能复用使用 UI 框架的 Ts 类型  
 26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件  
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
@@ -180,7 +180,7 @@ options
 39、大屏页面的 Echarts 基础组件统一处理  
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置
-43、整理全局的any、CommonObj TS类型
+43、整理全局的 any、CommonObj TS 类型
 
 ## 三、Bug 清单
 
@@ -244,8 +244,8 @@ options
 ~~69、http 请求封装增加取消请求功能~~  
 22、子级、父级表单的部分或整体属性控制（仍需进一步完善）  
 30、图片上传组件处理（并实现默认本地上传并展示出来）  
-34、vue 动态与非动态路由加载优化； 
-47、FormItem 为 date-picker，type 为 daterange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错 
+34、vue 动态与非动态路由加载优化；
+47、FormItem 为 date-picker，type 为 daterange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错
 59、右上角头像 - 个人资料 - 点击编辑按钮 - 再点击查看按钮（不能回到有编辑按钮的页面了）  
 60、右上角头像 - 个人资料 - 点击编辑按钮 - 上方的头像的删除图标被挡住了  
 61、BaseForm 的 @change 事件对 input 未生效，上级菜单选中后，也未触发 change 事件（系统管理 -> 菜单管理）；顺便让初始时候不要触发 change 事件  

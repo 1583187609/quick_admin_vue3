@@ -25,14 +25,14 @@
   </TestView>
 </template>
 <script lang="ts" setup>
-import {  reactive } from "vue";
+import { reactive } from "vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import TestView from "@/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { useSelectOpts } from "@/hooks";
 import { GetMockCommonList } from "@/api-mock";
-import {  BtnName } from "@/components/BaseBtn/_types";
+import { BtnName } from "@/components/BaseBtn/_types";
 
 const records = {
   hasTest: {
@@ -66,7 +66,7 @@ const fields: FormFieldAttrs[] = [
     type: "select",
     options: "EnableStatus",
   },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchAsync" },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestAsyncFunction" },
   {
     prop: "multi_tag",
     label: "多标签",

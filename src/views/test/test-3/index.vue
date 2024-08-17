@@ -129,7 +129,7 @@
 <script lang="ts" name="TestThree" setup>
 import { ref, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import {  FormFieldAttrs } from "@/components/form/_types";
+import { FormFieldAttrs } from "@/components/form/_types";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
@@ -138,7 +138,7 @@ import { useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { useRoute } from "vue-router";
-import { ElemeFilled,Postcard } from "@element-plus/icons-vue";
+import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
@@ -186,7 +186,12 @@ const fields: FormFieldAttrs[] = [
     type: "select",
     options: "EnableStatus",
   },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchAsync" },
+  { prop: "qqxl", label: "文本下拉", type: "select", options: "TestText" },
+  { prop: "hsxl", label: "函数下拉", type: "select", options: "TestFunction" },
+  { prop: "fhprxl", label: "返回Prom", type: "select", options: "TestFunctionReturnPromise" },
+  { prop: "promxl", label: "Promise下拉", type: "select", options: "TestPromise" },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetch" },
+  { prop: "ybhsxl", label: "异步函数下拉", type: "select", options: "TestAsyncFunction" },
   {
     prop: "multi_tag",
     label: "多标签",
@@ -205,6 +210,18 @@ const fields: FormFieldAttrs[] = [
       filterable: true,
     },
   },
+  {
+    prop: "localCascader",
+    label: "写死级联",
+    type: "cascader",
+    options: "TestCascader",
+  },
+  // {
+  //   prop: "tree",
+  //   label: "树形下拉",
+  //   type: "tree-select",
+  //   options: "TestTree",
+  // },
   getSearchOpts("school", {
     prop: "schoolId",
     label: "学校",

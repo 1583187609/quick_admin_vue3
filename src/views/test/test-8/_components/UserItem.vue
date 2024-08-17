@@ -35,7 +35,7 @@
       <div class="f-fs-c tips-info">
         <BaseCopy class="f-0" :text="data?.[userDataKey]?.id" line="1" />
         <div class="ml-h mr-h f-1 line-1">
-          {{ getCascaderText("Region", data?.[userDataKey]?.liveCity) || "-" }}
+          {{ getText("Region", data?.[userDataKey]?.liveCity) || "-" }}
         </div>
         <div class="f-0">{{ data?.[userDataKey]?.age }}岁</div>
       </div>

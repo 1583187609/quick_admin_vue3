@@ -40,9 +40,9 @@ import { BtnItem } from "@/components/BaseBtn/_types";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
 import { OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
-import {  defaultTableAttrs, getColLevel, specialColMap } from "@/components/table";
+import { defaultTableAttrs, getColLevel } from "@/components/table";
 import { TableColAttrs, TableCol } from "@/components/table/_types";
 import config from "@/config";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "@/components/table/_utils";
@@ -93,7 +93,7 @@ const newCols = reactive<TableColAttrs[]>([]);
 const stopWatch = watchEffect(() => {
   const levels = getAddSpecialCols(props).map(col => {
     if (typeOf(col) !== "Object") return 1;
-    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, specialColMap, props.size);
+    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, props.size);
     newCols.push(newCol);
     return level;
   });

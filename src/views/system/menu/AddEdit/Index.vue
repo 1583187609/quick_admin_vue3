@@ -22,9 +22,9 @@ import { GetAuthMenuInfo, PostAuthMenuAdd, PostAuthMenuUpdate } from "@/api-mock
 import MenuTree from "./_components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { defaultIconName } from "@/utils";
-import { useDictMap } from "@/hooks";
+import { useDict } from "@/hooks";
 
-const { getText } = useDictMap();
+const { getText } = useDict();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

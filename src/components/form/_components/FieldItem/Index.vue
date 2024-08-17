@@ -228,7 +228,7 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { ref, useAttrs, computed } from "vue";
+import { ref, computed } from "vue";
 import _ from "lodash";
 import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -239,10 +239,10 @@ import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "../AddDelList.vue";
 import AnyEleList from "../AnyEleList.vue";
 import { rangeJoinChar, emptyVals } from "@/components/_utils";
-import { useDictMap } from "@/hooks";
-import { CascaderName, DictName } from "@/dict/_types";
+import { useDict } from "@/hooks";
 import { RuleItem } from "./_types";
 import { defaultCommonSize } from "@/components/_utils";
+import { DictName } from "@/dict/_types";
 
 const { merge } = _;
 const props = withDefaults(
@@ -268,13 +268,12 @@ const props = withDefaults(
 );
 
 const emits = defineEmits(["update:modelValue", "change"]);
-const $attrs = useAttrs();
+const { getOpts } = useDict();
 const newVal = computed({
   get: () => props.modelValue,
   set: (val: any) => emits("update:modelValue", val),
 });
 let popoverAttrs: any;
-const { getCascaderOpts, getOpts } = useDictMap();
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
@@ -314,8 +313,7 @@ const newField = computed<FormFieldAttrs>(() => {
     const { getAttrs } = tempField?.attrs ?? {};
     getAttrs && merge(tempField, { attrs: getAttrs(tempField) }, field);
     let { options } = tempField;
-    if (typeof options === "string")
-      tempField.options = type === "cascader" ? getCascaderOpts(options as CascaderName) : getOpts(options as DictName);
+    if (typeof options === "string") tempField.options = getOpts(options as DictName);
     popoverAttrs = getPopoverAttrs(tempField.extraAttrs?.popover);
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);

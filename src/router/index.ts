@@ -2,9 +2,17 @@ import { createRouter, createWebHistory, createWebHashHistory } from "vue-router
 import { useBaseStore, useKeepAliveStore, useMenuStore, useRouteStore, useUserStore } from "@/store";
 import { defaultHomePath, showMessage, storage } from "@/utils";
 import routes from "./routes";
-import { useNProgress } from "@/hooks";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
-const NProgress = useNProgress();
+NProgress.configure({
+  easing: "ease", // 动画方式
+  speed: 500, // 递增进度条的速度
+  showSpinner: false, // 是否显示加载ico（位于右上角的加载图标）
+  trickleSpeed: 200, // 自动递增间隔
+  minimum: 0.3, // 初始化时的最小百分比
+});
+
 const { VITE_APP_NAME } = import.meta.env;
 
 const router = createRouter({

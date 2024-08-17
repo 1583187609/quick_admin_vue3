@@ -2,7 +2,7 @@ import { FormRules } from "element-plus";
 import { SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonSize, OptionItem, StrNum } from "@/vite-env";
 import { defaultValidTypes } from "./_config";
-import { CascaderName, DictName } from "@/dict/_types";
+import { DictName } from "@/dict/_types";
 import { Popover } from "@/components/_types";
 
 export type ValidType = keyof typeof defaultValidTypes;
@@ -73,7 +73,7 @@ export interface FormFieldAttrs {
   size?: CommonSize;
   required?: boolean; //是否必填
   rules?: FormRules[]; //校验规则
-  options?: DictName | CascaderName | OptionItem[]; //select、cascader等的options属性
+  options?: DictName | OptionItem[]; //select、cascader等的options属性
   labelWidth?: string | number; //label文字的宽度
   /** 下面都是为了迎合业务需求而新添加的额外的属性 **/
   extraAttrs?: {
@@ -120,6 +120,6 @@ export interface RuleItem {
 }
 
 // 表单字段的 prop 类型
-export type FieldProp =string;
-export type FieldProps =[string,string];
+export type FieldProp = string;
+export type FieldProps = [string, string];
 export type FieldPropType = FieldProp | FieldProps;

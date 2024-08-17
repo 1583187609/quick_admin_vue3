@@ -41,10 +41,11 @@ import { CommonObj } from "@/vite-env";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { getTimeAgo } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
-import { DictItemProps } from "@/dict/_types";
 import { getBarObj } from "@/components/crud/CardCrud/_utils";
-import { useDictMap } from "@/hooks";
-const { getText } = useDictMap();
+import { useDict } from "@/hooks";
+import { DictName } from "@/dict/_types";
+
+const { getText } = useDict();
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4
@@ -68,7 +69,7 @@ const props = withDefaults(
     sizeType?: "large" | "default" | "small";
     operateBtns?: BtnItem[];
     status?: AuditStatus;
-    bottomBar?: string | DictItemProps;
+    bottomBar?: string | DictName;
   }>(),
   {
     row: () => ({}),

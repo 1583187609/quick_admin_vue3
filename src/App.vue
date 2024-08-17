@@ -12,12 +12,10 @@ import BasicPopup from "@/components/BasicPopup/Index.vue";
 import { ref, watch } from "vue";
 import WaterMark from "@/components/WaterMark.vue";
 import { useRoute } from "vue-router";
-// import { useInit } from "@/hooks";
 
 const { VITE_APP_NAME } = import.meta.env;
 const route = useRoute();
 const showWaterMask = ref(false);
-// useInit(); //初始化页面
 watch(route, newVal => {
   showWaterMask.value = newVal.name !== "login";
 });
