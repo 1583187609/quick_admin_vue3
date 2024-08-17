@@ -11,10 +11,9 @@
     />
     <BaseBtn
       :name="btn"
-      :attrs="{
-        class: ['btn-item', size],
-        size,
-      }"
+      :size="size"
+      class="btn-item"
+      :class="size"
       @click="handleClick(btn)"
       v-for="(btn, ind) in newBtns"
       :key="ind"

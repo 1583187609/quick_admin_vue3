@@ -5,39 +5,41 @@
   <el-popconfirm @confirm="handleClick" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs">
-        <slot>{{ newBtn?.text || "-" }}</slot>
+        <slot>{{ newBtn?.btnText || "-" }}</slot>
       </el-button>
     </template>
   </el-popconfirm>
   <el-button class="base-btn" v-bind="newBtn.attrs" @click="handleClick" v-else>
-    <slot>{{ newBtn?.text || "-" }}</slot>
+    <slot>{{ newBtn?.btnText || "-" }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, useAttrs } from "vue";
 import { getBtnObj } from "@/components/BaseBtn";
 import { typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj } from "@/vite-env";
-import { BtnAttrs, BtnItem } from "./_types";
+import { BtnAttrs, BtnItem, BtnName } from "./_types";
 import { PopconfirmAttrs } from "../_types";
 
 defineOptions({
   inheritAttrs: false,
 });
 
+const $attrs = useAttrs();
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
     name?: BtnName; //可以不传值
-    text?: string; //按钮文本
+    btnText?: string; //按钮文本
+    data?: CommonObj; //要传递的数据
     order?: number; //按钮顺序
     auth?: number[]; //权限
     to?: string | CommonObj | ((row: CommonObj) => string | CommonObj); //点击按钮时要跳转的页面地址
     customRules?: boolean; //是否自定义该按钮的逻辑规则（目前只有导出按钮用到了此属性）
     validate?: boolean; //是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
     popconfirm?: boolean | PopconfirmAttrs;
-    attrs?: BtnAttrs; //按钮属性
+    // ...restAttrs 其余属性同el-button的属性
   }>(),
   {
     name: "empty",
@@ -55,11 +57,11 @@ const emits = defineEmits<{
   click: [BtnName];
 }>();
 const newBtn = computed<BtnItem>(() => {
-  const { name, ...restProps } = props;
-  return getBtnObj(name, undefined, restProps);
+  const { name } = props;
+  return getBtnObj(name, undefined, { attrs: $attrs });
 });
 function handleClick() {
-  const { name, to, attrs, customRules } = newBtn.value;
+  const { name, to, customRules } = newBtn.value;
   if (to === undefined) return emits("click", name);
   const t = typeOf(to);
   router.push(t === "Function" ? to(props.data) : to);

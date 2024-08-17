@@ -30,11 +30,9 @@
     <div class="foot-box f-c-c">
       <BaseBtn
         :name="btn"
-        :attrs="{
-          round: true,
-          disabled: isPatrol ? false : status !== 2,
-          size: 'small',
-        }"
+        round
+        size="small"
+        :disabled="isPatrol ? false : status !== 2"
         @click="() => emits('operateBtns', btn)"
         v-for="(btn, ind) in operateBtns"
         :key="ind"
@@ -48,7 +46,7 @@ import { getTimeAgo } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
 import { OperateBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
-import BarsImg from "@/components/img/BarsImg.vue"
+import BarsImg from "@/components/img/BarsImg.vue";
 
 const props = withDefaults(
   defineProps<{

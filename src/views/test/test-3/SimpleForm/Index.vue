@@ -6,7 +6,7 @@
     :fields="fields"
     :moreBtns="[
       { name: 'pass', popconfirm: false },
-      { name: 'view', text: '查看' },
+      { name: 'view', btnText: '查看' },
     ]"
     @moreBtns="onMoreBtns"
     :handleRequest="handleRequest"
@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { inject } from "vue";
-import { CommonObj, FinallyNext} from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { BtnName } from "@/components/BaseBtn/_types";

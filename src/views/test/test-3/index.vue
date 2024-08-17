@@ -9,7 +9,7 @@
   (row: CommonObj, rowInd: number)=> rowInd % 2 === 1 ? 'forbid' : 'enable',
   { name: 'view', to: `/system/user/detail?id=${12}`},
   { name: 'view', to: {name: 'systemUserDetail', query: {id: 12}}},
-  { name: 'view', text: '查看', to: (row:CommonObj) => ({name: 'systemUserDetail', query:{id: row.id}})},
+  { name: 'view', btnText: '查看', to: (row:CommonObj) => ({name: 'systemUserDetail', query:{id: row.id}})},
 ]"
 /**
 * 可接受一个方法，按钮书写的前后位置不影响显示时前后的摆放位置（也可通过传入order属性改变前后位置）；
@@ -21,9 +21,9 @@
   if(rowInd % 3===0){
     return ['edit','delete', 'reject','pass','download', rowInd % 2 === 0 ? 'forbid' : 'enable']
   }else if(rowInd % 3===1){
-    return [{name: 'edit', text: '修改', order: 1000}, 'reject','delete','download','pass']
+    return [{name: 'edit', btnText: '修改', order: 1000}, 'reject','delete','download','pass']
   }else if(rowInd % 3===2){
-    return [{name: 'zdy',text: '自定义按钮',attrs: { type: 'primary', icon: 'ElemeFilled' }}]
+    return [{name: 'zdy',btnText: '自定义按钮',attrs: { type: 'primary', icon: 'ElemeFilled' }}]
   }
 }"
 // 下方的 extraBtns 同 operateBtns 的规则
@@ -55,24 +55,24 @@
         'reject',
         {
           name: 'dialog',
-          text: '打开dialog列表',
+          btnText: '打开dialog列表',
           attrs: { type: 'primary', icon: 'Postcard' },
         },
         {
           name: 'drawer',
-          text: '打开drawer表单',
+          btnText: '打开drawer表单',
           attrs: { type: 'primary', icon: Postcard },
         },
         {
           name: 'view',
-          text: 'url跳转',
+          btnText: 'url跳转',
           to: '/system/user/detail?id=12',
           order: 50,
           attrs: { icon: 'Link' },
         },
         {
           name: 'zdy',
-          text: '自定义按钮',
+          btnText: '自定义按钮',
           attrs: { type: 'primary', icon: ElemeFilled },
         },
       ]"
@@ -80,7 +80,7 @@
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
-          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/system/user/detail?id=${id}`}]
+          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', btnText: '查看', to: `/system/user/detail?id=${id}`}]
         }else{
           return ['edit', 'audit', 'reject','delete','download','pass', 'repeal', 'reset', 'log', 
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]

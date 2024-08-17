@@ -14,11 +14,11 @@ const { merge, upperFirst } = _;
 /**
  * 获取popconfirm的属性对象
  * @param popconfirm string boolean object
- * @param text string 按钮文字
+ * @param btnText string 按钮文字
  */
 function getPopconfirmAttrs(popconfirm: string | boolean | CommonObj, btnObj: BtnItem): PopconfirmAttrs {
-  const { text, attrs = {} } = btnObj;
-  const title = `确认${text}吗？`;
+  const { btnText, attrs = {} } = btnObj;
+  const title = `确认${btnText}吗？`;
   const t = typeOf(popconfirm);
   if (t === "String") {
     return { title: popconfirm as string };
@@ -47,7 +47,7 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
   // const $slots = useSlots();
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {
-    const targetBtn = btnsMap[btn as BtnName] || Object.assign({}, btnsMap.empty, { text: btn });
+    const targetBtn = btnsMap[btn as BtnName] || Object.assign({}, btnsMap.empty, { btnText: btn });
     //icon 经过 JSON.parse(JSON.stringify())之后，重新渲染时会报错，故做此处理
     const { icon } = targetBtn.attrs || {};
     btnObj = JSON.parse(JSON.stringify(targetBtn));
@@ -55,9 +55,9 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
   } else if (t === "Object") {
     const { name } = btn as BtnItem;
     btnObj = merge({}, btnsMap[name as string], btn);
-    if (btnObj.text === undefined) {
-      // btnObj.text = $slots.default?.()?.[0]?.children as string;
-      btnObj.text = "空按钮";
+    if (btnObj.btnText === undefined) {
+      // btnObj.btnText = $slots.default?.()?.[0]?.children as string;
+      btnObj.btnText = "空按钮";
     }
   } else if (t === "Function") {
     btnObj = getBtnObj((btn as BtnFn)(row as CommonObj), row);

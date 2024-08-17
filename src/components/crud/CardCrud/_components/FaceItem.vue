@@ -24,10 +24,8 @@
     <div class="foot-box f-c-c f-0">
       <BaseBtn
         :name="btn"
-        :attrs="{
-          round: true,
-          size: 'small',
-        }"
+        round
+        size="small"
         @click="() => emits('operateBtns', btn)"
         v-for="(btn, ind) in operateBtns"
         :key="ind"

@@ -100,12 +100,12 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
   // const { operateBtnsAttrs = {} } = props;
   const { vertical, maxNum = defaultGroupBtnsMaxNum } = operateBtnsAttrs as OperateBtnsAttrs;
   if (btns.length > maxNum) {
-    btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
+    btns = btns.slice(0, maxNum - 1).concat([{ btnText: "更多" } as BtnItem]);
   }
   if (vertical) {
     btns.forEach((item: BtnItem) => {
       // if (!item) return; //已经过滤过了，所以注释掉
-      em = getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
+      em = getChinaCharLength(item.btnText) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
       const currWidth = em * fontSize + btnPadding * 2 + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
       if (currWidth > width) {
         width = currWidth;
@@ -114,7 +114,7 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
   } else {
     btns.forEach((item: BtnItem) => {
       // if (!item) return; //已经过滤过了，所以注释掉
-      em += getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
+      em += getChinaCharLength(item.btnText) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
     });
     width = em * fontSize + btns.length * btnPadding * 2 + (btns.length - 1) * btnMargin + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
   }

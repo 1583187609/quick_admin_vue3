@@ -26,7 +26,7 @@
   </BaseTable>
 </template>
 <!-- <div class="f-c-c mt-16">
-    <BaseBtn @click="handleSave" :name="{ name: 'submit', text: '保存' }" />
+    <BaseBtn @click="handleSave" :name="{ name: 'submit', btnText: '保存' }" />
     <BaseBtn @click="handleResetColSet" name="reset" />
 </div> -->
 <script lang="ts" setup>

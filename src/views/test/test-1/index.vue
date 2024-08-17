@@ -12,13 +12,13 @@
         { name: 'reject', popconfirm: false },
         {
           name: 'noValid',
-          text: '不触发表单校验',
+          btnText: '不触发表单校验',
           validate: false,
           attrs: { type: 'primary', plain: true },
         },
         {
           name: 'jump',
-          text: '回到首页',
+          btnText: '回到首页',
           to: { name: 'home' },
           attrs: { type: 'primary', link: true },
         },

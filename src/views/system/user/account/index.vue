@@ -3,12 +3,12 @@
     :cols="cols"
     :fields="fields"
     :fetch="GetUserList"
-    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
+    :extraBtns="['add', { name: 'add', btnText: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',
       {
         name: 'edit',
-        text: '编辑（url)',
+        btnText: '编辑（url)',
         to: (row: CommonObj) => `/system/user/detail?id=${row.id}`,
       },
       'delete',

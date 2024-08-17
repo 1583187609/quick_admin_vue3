@@ -1,13 +1,12 @@
 <template>
-  <div class="group-btns" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
+  <div class="group-btns table-operate-col" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
     <BaseBtn
       :name="btn"
       :data="row"
-      :attrs="{
-        class: ['btn', vertical ? 'vertical' : ''],
-        size,
-        ...defaultBtnAttrs,
-      }"
+      :size="size"
+      class="btn"
+      :class="[vertical ? 'vertical' : '']"
+      v-bind="defaultBtnAttrs"
       @click="handleClick(btn)"
       v-for="(btn, ind) in newBtns.slice(0, isOver ? maxNum - 1 : maxNum)"
       :key="ind"
@@ -22,11 +21,10 @@
             <BaseBtn
               :name="btn"
               :data="row"
-              :attrs="{
-                class: ['btn', vertical ? 'vertical' : ''],
-                size,
-                ...defaultBtnAttrs,
-              }"
+              :size="size"
+              class="btn"
+              :class="[vertical ? 'vertical' : '']"
+              v-bind="defaultBtnAttrs"
               @click="handleClick(btn)"
             />
           </el-dropdown-item>
@@ -45,7 +43,7 @@ import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import config from "@/config";
-import { ClosePopupInject, CommonObj } from "@/vite-env";
+import { ClosePopupInject, CommonObj, CommonSize } from "@/vite-env";
 import { defaultCommonSize } from "@/components/_utils";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
@@ -96,11 +94,11 @@ const newBtns = computed(() => {
   return tempBtns;
 });
 function handleClick(btnObj: BtnItem) {
-  const { name, text, to } = btnObj;
+  const { name, btnText, to } = btnObj;
   if (to) {
     router.push(to as any);
   } else {
-    emits("click", btnObj, (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
+    emits("click", btnObj, (hint = `${btnText || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
       showMessage(hint);
       closePopup(closeType);
       cb?.();
@@ -108,8 +106,9 @@ function handleClick(btnObj: BtnItem) {
   }
 }
 </script>
-<style lang="scss" scoped>
-.group-btns {
+<style lang="scss">
+//添加 table-operate-col 类是为了防止全局重复。如果子级按钮是删除，因为包裹了一层el-popconfirm，所以处理透传class会有两种情况，导致删除按钮透传得到的class不会生效
+.group-btns.table-operate-col {
   .btn {
     &.vertical {
       margin-left: 0 !important;

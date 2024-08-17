@@ -4,7 +4,7 @@
     :fields="fields"
     v-model="model"
     :fetch="GetUserList"
-    :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
+    :moreBtns="[editEnable ? { name: 'view', btnText: '查看' } : { name: 'edit', btnText: '修改' }]"
     :submitText="editEnable ? undefined : ''"
     :resetText="editEnable ? undefined : ''"
     @moreBtns="onMoreBtns"
