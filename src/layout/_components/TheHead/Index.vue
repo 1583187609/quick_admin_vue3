@@ -133,15 +133,17 @@ import { driver } from "driver.js";
 import { useI18n } from "vue-i18n";
 import { OpenPopupInject } from "@/vite-env";
 import "driver.js/dist/driver.css";
+// import { useDict } from "@/hooks";
 
 const { tm: $t } = useI18n();
+// const { updateDict }=useDict();
 const { VITE_APP_NAME } = import.meta.env;
 const openPopup = inject<OpenPopupInject>("openPopup");
 const menuStore = useMenuStore();
 const userStore = useUserStore();
 const setStore = useSetStore();
 const dropdownRef = ref<any>(null);
-const reloadView = inject<any>("reloadView");
+// const reloadView = inject<any>("reloadView");
 const user = getUserInfo();
 const router = useRouter();
 const tooltipAttrs = {
@@ -151,6 +153,7 @@ const tooltipAttrs = {
 async function handleReloadView() {
   // reloadView();
   router.go(0);
+  // updateDict(); router.go()会触发layout中的updateDict执行
   showMessage("刷新系统成功");
 }
 

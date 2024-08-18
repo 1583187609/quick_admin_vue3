@@ -2,8 +2,9 @@ import _ from "lodash";
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import { emptyVals, setStorage, getStorage, typeOf } from "@/utils";
+import { emptyVals, setStorage, getStorage, typeOf, storage } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
+import dayjs from "dayjs";
 
 const { merge } = _;
 
@@ -17,13 +18,17 @@ export default () => {
   const storageNames: DictName[] = []; //需要本地存储的下拉项
   const commonMap = {}; //普通映射
   const proxyMap = reactive({}); //代理映射
+  
   initMap();
+
   /**
    * 初始化字典映射
    */
   function initMap() {
-    Object.keys(dictData).forEach((name: DictName) => {
+    const names = Object.keys(dictData) as DictName[]
+    names.forEach((name: DictName) => {
       const currMap = dictData[name];
+      if (!currMap) throw new Error(`未找到字典映射：${name}`);
       const t = typeOf(currMap);
       if (["Object", "Array"].includes(t)) {
         commonMap[name] = currMap;
@@ -74,6 +79,7 @@ export default () => {
   async function getCalculateData(name: DictName) {
     return await new Promise(resolve => {
       const currMap = dictData[name];
+      if (!currMap) throw new Error(`未找到字典映射：${name}`);
       const t = typeOf(currMap);
       if (t === "Function") {
         const result = currMap();
@@ -92,6 +98,7 @@ export default () => {
    */
   async function setMap(name: DictName) {
     const currMap = dictData[name];
+    if (!currMap) throw new Error(`未找到字典映射：${name}`);
     const t = typeOf(currMap);
     if (!storageNames.includes(name)) throw new Error(`无需设置此种类型：${t}`);
     const data = await getCalculateData(name);
@@ -103,6 +110,19 @@ export default () => {
   }
 
   /**
+   * 更新字典数据
+   * @param {DictName|DictName[]} names 字典映射名称
+   */
+  function updateDict(names=storageNames){
+    if(typeof names === 'string') names=[names];
+    names.forEach((name:DictName) => setMap(name))
+    // 如果是全量刷新存储在storage中的字典数据，则需要更新下刷新时间
+    if(names===storageNames){
+      storage.setItem("lastRefreshDate", dayjs(Date.now()).format("YYYY-MM-DD HH:mm:ss"));
+    }
+  }
+
+  /**
    * 获取tagMap
    * @param name 映射map的名称
    * @param codeMap 例如：YesNo 的 codeMap: {0:1, 1:0}，显示时就会将是否对调
@@ -110,7 +130,7 @@ export default () => {
   function getMap(name: DictName, codeMap?: CommonObj) {
     const currMap = proxyMap[name] ?? commonMap[name];
     const isAsync = asyncNames.includes(name);
-    if (!isAsync && !currMap) return console.error(`未找到字典映射：${name}`);
+    if (!isAsync && !currMap) throw new Error(`未找到字典映射：${name}`);
     if (!codeMap) return currMap;
     const tempMap: CommonObj = {};
     for (const key in codeMap) {
@@ -131,13 +151,9 @@ export default () => {
     const val = currMap[key];
     const t = typeOf(currMap);
     // 说明是select
-    if (t === "Object") {
-      return (typeof val === "string" ? val : val?.text) || char;
-    }
+    if (t === "Object")  return (typeof val === "string" ? val : val?.text) || char;
     // 说明是cascader或tree
-    if (t === "Array") {
-      return getCascaderOrTreeText(name, val, char);
-    }
+    if (t === "Array") return getCascaderOrTreeText(name, val, char);
     throw new Error(`暂未处理类型：${t}`);
   }
 
@@ -188,5 +204,6 @@ export default () => {
     setMap,
     getText,
     getOpts,
+    updateDict,
   };
 };

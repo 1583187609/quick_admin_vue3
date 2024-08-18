@@ -3,10 +3,13 @@
 /********************************************************************/
 
 import { getExportData } from "@/components/_utils";
-import { ReqMap, ResMap } from "@/components/crud/BaseCrud";
+import { ReqMap, ResMap } from "@/components/crud/BaseCrud/_types";
 import config from "@/config";
 
 const { table, form, homePath, widgetSize } = config;
+
+export const defaultLoginExpired = 24 * 60 * 60 * 1000; //登录过期时间
+export const defaultRefreshDictExpired = 24 * 60 * 60 * 1000; //刷新字典的时间
 
 export const defaultHomePath = getExportData("/", homePath); //首页路径
 

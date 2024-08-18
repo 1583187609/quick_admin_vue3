@@ -1,7 +1,7 @@
 import { ref, computed, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { PostUserLogin, PostUserLogout } from "@/api-mock";
-import { storage, isProd, defaultHomePath, defaultIconName } from "@/utils";
+import { storage, isProd, defaultHomePath, defaultIconName, defaultLoginExpired } from "@/utils";
 import { CommonObj } from "@/vite-env";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
@@ -17,7 +17,7 @@ export default defineStore("user", () => {
   const routeStore = useRouteStore();
   const menuStore = useMenuStore();
   //过期日期
-  const expired = ref(new Date(storage.getItem("expiredDate")).getTime() || Date.now());
+  const expired = ref(new Date(storage.getItem("loginExpiredDate")).getTime() || Date.now());
   const isLogin = computed(() => {
     if (!storage.getItem("token")) return false;
     return Date.now() < expired.value;
@@ -39,7 +39,7 @@ export default defineStore("user", () => {
       return item;
     });
   }
-  async function handleLoginIn(data: CommonObj, expiration = 24 * 60 * 60 * 1000) {
+  async function handleLoginIn(data: CommonObj, expiration = defaultLoginExpired) {
     const { remember, ...params } = data;
     if (remember) {
       storage.setItem("rememberAccount", params);
@@ -64,7 +64,7 @@ export default defineStore("user", () => {
       storage.setItem("userInfo", user);
       storage.setItem("token", user?.token ?? "");
       storage.setItem("allMenus", _navs);
-      storage.setItem("expiredDate", dayjs(expired.value).format("YYYY-MM-DD HH:mm:ss"));
+      storage.setItem("loginExpiredDate", dayjs(expired.value).format("YYYY-MM-DD HH:mm:ss"));
       router.push(route.query.redirect?.toString() ?? defaultHomePath);
       ElNotification({
         type: "success",

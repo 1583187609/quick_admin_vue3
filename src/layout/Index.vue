@@ -42,10 +42,12 @@ import TheMenu from "./_components/TheMenu.vue";
 import { ref, reactive, nextTick, provide, computed, h } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import logoImg from "@/assets/images/logo.png";
-import { storage, showMessage, getCompNameByRoute, getIsOver } from "@/utils";
+import { storage, showMessage, getCompNameByRoute, getIsOver, defaultRefreshDictExpired } from "@/utils";
 import { useMenuStore, useKeepAliveStore, useSetStore } from "@/store";
 import TooltipLabel from "@/layout/_components/TooltipLabel.vue";
+import { useDict } from "@/hooks";
 
+const {updateDict}=useDict()
 const keepAliveStore = useKeepAliveStore();
 const menuStore = useMenuStore();
 const setStore = useSetStore();
@@ -87,6 +89,14 @@ function reloadView(hint = "刷新成功") {
     });
   });
 }
+// 刷新字典数据
+function refreshDict(){
+  const lastTime = storage.getItem("lastRefreshDate")
+  if(!lastTime || new Date(lastTime).getTime()+defaultRefreshDictExpired < Date.now()){
+    updateDict();
+  }
+}
+refreshDict();
 provide("reloadView", reloadView);
 </script>
 <style lang="scss" scoped>
