@@ -1,6 +1,9 @@
 # 功能清单
 
-后续可以拆分为以下几个维度：代码复用性、工程移植性、开发联调助手
+
+## 随记清单
+
+后续可以拆分为以下几个维度：开发体验、用户体验、工程设计
 
 1、全继承 + 强扩展 + 严统一 + 活配置 + 易使用 + 高效率 + 低代码 + 高内聚 + 低耦合    
 2、对比开源 Pro 类三方库，逻辑更清晰、代码更少、开发效率更高    
@@ -56,47 +59,93 @@
 - 代码是写给人看的，只是恰好机器能够执行  
 - 过早优化是万恶之源  
 
-## 开发体验
-1、弹窗（BasicPopup）  
-<span style="color:red">（1）openPopup、closePopup：支持 dialog 和 drawer。一处配置弹窗属性</span>    
-<span style="color:red">（2）next回调（可传参进行覆盖）：一次性完成：提示成功，关闭弹窗，刷新列表</span>  
-2、按钮（BaseBtn）  
-<span style="color:red">（1）一处配置新增、编辑、删除（带popconfirm提示）、导入（导入弹窗）、导出（确认提示、最大导出条数等）等按钮，并设置好：文字、图标、样式、位置、权限、路由跳转</span>    
-<span style="color:red">3、全局字典（dict）</span>  
-（1）整合了select、cascader、tree下拉项  
-（2）配置标签的样式属性（常用于表格列中展示），使得全局统一  
-4、表单处理：
-（1）默认配置：placeholder、clearable、showWordLimit、required、……  
-<span style="color:red">（2）单双prop：</span>   
-<span style="color:red">（3）内置表单校验：{validType: 'phone'} //password、age、……</span>   
-5、表格处理：  
-（1）内置组件：BaseTag、BaseCopy、BaseText、BaseImg、BaseTag、……  
-（2）内嵌组件：UserInfo、……  
-（3）统一列宽：备注、时间、操作列  
-<span style="color:red">（4）未联调提示（标红处理）：</span>  
-（5）  
-6、开发体验：  
-（1）请求参数、响应参数颜色标识：  
-（2）文件、文件夹命名规则：  
-（3）vite 配置自动生成组件名称：   
-7、设计原则遵循：    
-<span style="color:red">（1）全继承 + 强扩展 + 严统一 + 活配置 + 易使用 + 高效率 + 低代码 + 高内聚 + 低耦合</span>  
+
+# Vitepress Docs
+
+从注释、文件夹名成中扒取文档数据源。
+## 已实现
+
+1、生成首页  
+2、生成菜单（简写或全写路径）  
+3、生成Demo
+4、生成API表格  
+5、提取配置
+
+## 待完善
+
+1、菜单高亮、上一页、下一页失效：
+
+
+
+# Quick Admin Vue3
+
+## 设计原则  
+
+[在线预览](https://1583187609.github.io/quick_admin/vue3/preview/#/test/3)    
+
+（1）<span style="color:red">全继承 + 强扩展 + 严统一 + 活配置 + 易使用 + 高效率 + 低代码 + 高内聚 + 低耦合</span>  
 （2）上手成本：  
 （3）完全继承：  
 （4）多级配置：子类覆盖父类  
-（5）功能解耦：  
+（5）逻辑解耦：  
 <1> 一个组件只做一件事：BaseForm、SectionForm、StepForm、BaseTable、EditTable、……  
 <2> 弹窗跟弹窗内部内容解耦：  
-<span style="color:red">（6）工程移植性：自定义一套scss变量，方便工程移植和快速上手</span>    
-8、更多提效工具  
-（1）弹性布局基础类：针对UI 100%还原，配合全局样式重置，提升静态页面开发效率约30%  
-（2）生成api文件：依赖Eolink或Yapi一类的在线文档，通过node生成 api 文件  
+（6）工程移植性：<span style="color:red">自定义一套scss变量，方便工程移植和快速上手</span>  
+
+## 开发体验
+1、按钮（BaseBtn）  
+（1）<span style="color:red">一处配置新增、编辑、删除、导入、导出等按钮，并设置好：文字、图标、样式、位置、权限、路由跳转</span>     
+（2）整合确认提示：例：删除按钮的 popconfirm    
+（3）整合导入功能：弹窗（文案描述、下载模板、直接导入）    
+（4）整合导出功能：导出确认、最大导出条数等  
+2、弹窗（BasicPopup）  
+（1）<span style="color:red">openPopup、closePopup：支持 dialog 和 drawer。一处配置弹窗属性</span>    
+（2）<span style="color:red">next回调（可传参进行覆盖）：一次性完成：提示成功，关闭弹窗，刷新列表</span>  
+3、字典（dict）：  
+（1）整合了select、cascader、tree下拉项  
+（2）整合标签：在字典中配置el-tag的样式属性（常用于表格列中展示），使得全局统一  
+4、表单：  
+（1）默认配置：placeholder、clearable、showWordLimit、required、……  
+（2）<span style="color:red">字段单双prop：</span>   
+（3）<span style="color:red">内置表单校验规则：{validType: 'phone'} //password、age、……</span>   
+（4）整合popover    
+（5）表单提交防抖处理（防重复提交）  
+（6）next回调   
+（7）响应式栅格布局（grid）：  
+5、表格：  
+（1）内置组件：BaseTag、BaseCopy、BaseText、BaseImg、BaseTag、……  
+（2）内嵌组件：UserInfo、……  
+（3）无需设置列宽：备注、时间、操作栏等都设有默认宽度……   
+（4）整合popover：   
+6、增删改查  
+（1）<span style="color:red">未联调提示（标红处理）：</span>   
+（2）整合表格头popover：  
+（3）操作栏按钮自动展示更多下拉按钮、自动计算列宽：    
+7、工程级处理   
+（1）<span style="color:red">对请求参数、响应参数的console.log进行颜色标识处理：</span>   
+（2）易上手、工程移植性：配置一套核心简洁易记得scss变量，去影响控制UI框架的css变量   
+（3）文件夹嵌套建立遵循原则：删除或移动某个模块功能时，对整个工程的文件改动影响最小   
+（4）文件、文件夹、变量等命名规则（降低心智负担）：特殊文件夹以下划线开头命名（置顶、区分同级其他文件夹）  
+（5）vite 配置自动生成组件名称：  
+（6）多级可配置（全局->局部）：子类覆盖父类  
+8、快速开发：  
+（1）重置样式 + 弹性布局基础类 + 占位组件（BaseIcon、BaseImg）快速完成页面布局：  
+（2）编辑器配置代码片段：    
+
 
 ## 用户体验
 
 1、增删改查列表：防抖change事件触发列表请求  
 2、表单校验失败，自动滚动到错误字段处  
 
-## 开发防差错措施
+# 更多工具  
+（1）弹性布局基础类（[点击查看](https://1583187609.github.io/produce/flex-layout/) ）：针对UI 100%还原，配合全局样式重置，提升静态页面开发效率约30%。    
+（2）生成api文件：依赖Eolink或Yapi一类的在线文档，通过 node 生成 api 文件  
+（3）低代码：配置JSON生成（[点击查看](https://1583187609.github.io/quick_admin/vue3/preview/#/test/9)）、通过拖拽生成    
 
-1、表单提交防抖处理（防重复提交）  
+# 其他
+
+需求轮动     
+请求体、响应体ts类型（CommonObj、Node）    
+会议、流程      
+

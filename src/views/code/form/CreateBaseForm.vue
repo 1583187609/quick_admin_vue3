@@ -38,14 +38,6 @@ import { omitAttrs, typeOf } from "@/utils";
 import { OpenPopupInject } from "@/components/BasicPopup/_types";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
-const props = withDefaults(
-  defineProps<{
-    exampleProp?: CommonObj;
-  }>(),
-  {
-    exampleProp: () => ({}),
-  }
-);
 const widgetTypeOpts: OptionItem[] = [
   { label: "输入框", value: "input" },
   { label: "数字输入框", value: "input-number" },
@@ -58,7 +50,7 @@ const validOpts: OptionItem[] = [
   { label: "电话号码", value: "phone" },
   { label: "身份证号", value: "identity" },
   { label: "密码", value: "password" },
-  { label: "邮箱", value: "identity" },
+  { label: "邮箱", value: "email" },
   { label: "年龄", value: "age" },
 ];
 const model = reactive<CommonObj>(
