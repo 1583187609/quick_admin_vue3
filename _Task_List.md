@@ -80,24 +80,20 @@
 ~~54、增加文档链接、个人博客链接~~  
 ~~60、写大屏示例~~  
 ~~66、让 select，cascader 的 options 可以传入 name 名称实现下拉项的正常渲染展示~~  
-17、openPopup component 解析 v-model  
+~~17、openPopup component 解析 v-model~~  
+~~21、用 TS 的 enum 类型替代 map 对象~~  
+~~16、自动跳转至 403, 500 页面处理~~  
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改  
-19、完善列设置是否显示对应列的功能  
+19、完善列设置是否显示对应列的功能   
 20、利用 color-scheme 设置夜间模式  
-21、用 TS 的 enum 类型替代 map 对象  
 22、文件目录结构改为 monorepo 式  
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 7、Vue 组件深入极致优化  
 10、账号管理-详情 点击驳回对话框，确认，取消事件绑定不上。  
 12、添加 batch 按钮及其子按钮  
-15、完善换肤主题样式  
-16、自动跳转至 403, 500 页面处理  
-17、vue3 封装敏感词、错别字检查的 WangEditor 组件  
-19、BaseCurd 打印功能  
 20、配置表单的显示列  
 28、完善滚动触顶触底加载 demo 示例  
 24、增加批量操作按钮，并完善功能  
-25、增加个性化工作台可以拖动改变布局甚至大小处理功能（拖拽组件，可拖动的工作台）
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -105,28 +101,41 @@
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
 56、借助文件指令优化打包速度（使得不用每次都生成一大堆文件指令改变了的新文件）  
 57、给 BaseCrud 导入/导出按钮添加 customRules 自定义规则功能并自测  
-58、进入某个页面没有权限时，跳转到没有权限页面  
-59、写 Gis 示例  
 61、给 BaseForm、SectionForm 初始加载时添加骨架屏  
 62、全局错误拦截，在 App.vue 中处理  
-63、接入钉钉或飞书群通知消息
-63、拖拽基础组件生成页面  
 64、封装 TreeCrud 组件  
-65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）  
-67、完善 CellTable 组件
-68、将级联、下拉项分开，且分同步异步文件夹
-options
--cascader
--select
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
-70、配置 VsCode 的列表页、新增编辑页 的快速代码片段
-71、将 BaseImg、BarsImg 放到同一个文件夹`img`下
+70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：_EditorConfig.md 文件里
 72、将 SetTable 用 EditTable 改造
-73、删除 src/\_test_components 文件夹下的内容
+73、删除 `src/test_components` 文件夹下的内容
 74、将 Quick 的内核抽离出来，放在 quick-core 文件夹下
 75、完善 http 的 ts 类型书写
 76、请求参数加解密
+78、BaseRender 考虑使用 {is: '',...otherAttrs} 来进行替换
+
+## vip功能清单
+
+- base 基础分支
+- vip1 分支（试用3个月）
+- vip2 分支（永久）
+
+1、完善配置JSON的低代码
+2、完善拖拽生成的低代码
+63、接入钉钉或飞书群通知消息
+17、vue3 封装敏感词、错别字检查的 WangEditor 组件 
+18、生成docs文档
+19、生成api文件
 77、上传文件加一项，上传 zip 压缩文件
+25、增加个性化工作台可以拖动改变布局甚至大小处理功能（拖拽组件，可拖动的工作台）
+26、echarts图表
+15、完善换肤主题样式  
+19、BaseCurd 打印功能  
+65、完善浏览器页签通信 hooks 封装（useBroadcastChannel） 
+
+## 未来功能清单
+
+59、写 Gis 示例  
+
 
 ## 二、优化清单
 
@@ -157,7 +166,10 @@ options
 ~~25、当打开外链时，若浏览器已打开，则不要新建窗口打开逻辑处理；~~  
 ~~27、全局 drawer、modal 区分关闭之后是否销毁弹出层~~  
 ~~33、联调时后端未返回此字段作标记处理~~  
-~~40、国际化处理的配置文件（langs）应该分别放在各个模块下方~~
+~~40、国际化处理的配置文件（langs）应该分别放在各个模块下方~~  
+~~67、完善 CellTable 组件~~
+~~68、将级联、下拉项分开，且分同步异步文件夹~~
+~~71、将 BaseImg、BarsImg 放到同一个文件夹`img`下~~
 24、Ts 类型命名优化，尽可能复用使用 UI 框架的 Ts 类型  
 26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件  
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
@@ -166,12 +178,10 @@ options
 16、完善 small 之后的 compact 的样式及统一调整；  
 17、将 Echarts 的配置纳入到 config 中  
 18、将 WangEditor 的配置纳入到 config 中  
-21、用上之前内江市国资委系统的皮肤  
 28、看浏览器面板，做好细致性能分析  
 29、大屏数据页面用统一的基础 Echarts 组件  
 30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
 31、Eslint 优化处理  
-32、无码、低码开发  
 34、通过外链打开新标签页面时，没有页签图标显示  
 35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题  
 36、将{component: '' }的组件渲染方式统一改成 h 函数渲染（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）  
@@ -181,6 +191,8 @@ options
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置
 43、整理全局的 any、CommonObj TS 类型
+44、BaseTable、BaseForm等的暴露方法处理
+45、BasicDialog 中 query-table 类名需要提取出来
 
 ## 三、Bug 清单
 
@@ -253,14 +265,15 @@ options
 66、点击学校公司下拉项获取焦点时，会触发 crud 列表的请求 && 同时刚加载页面时，会连续触发两次请求（在测试 3 页面复现）  
 67、处理 AddDelList 中，初始为一行，然后新增了 n 项后，然后点击重置按钮，并没有回到最初一行的状态的 bug  
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
-70、工程量大了后，全局字典，以及命名是否会重复的优化处理手段
 71、BaseForm 上设置 `label-suffix="："` 不生效
 
 ## 四、Vue 极致优化清单
 
 1、BaseCopy 中的复制图标采用按需引入方式
 2、将全局的覆盖样式写到各个组件里
-3、将 CellForm、CellTable 融合到 BaseForm 里面，只更改样式就行了
+~~3、将 CellForm、CellTable 融合到 BaseForm 里面，只更改样式就行了~~
+70、工程量大了后，全局字典，以及命名是否会重复的优化处理手段
+21、用上之前内江市国资委系统的皮肤 
 
 ### 动画优化相关
 
@@ -317,5 +330,5 @@ const emit = defineEmits<{
 
 ## 调整后的问题待处理清单
 
-1、 处理 BaseCrud 操作栏按钮显示不全的问题，复现页面：`/test/3`
+~~1、 处理 BaseCrud 操作栏按钮显示不全的问题，复现页面：`/test/3`~~
 ~~2、处理 getSpecialColMap 中的 index 根据 currPage、pageSize 的问题~~
