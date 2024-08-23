@@ -1,35 +1,34 @@
-<!-- 页面-简介 -->
+<!-- 组件 - 渲染内容元素 -->
 <template>
-  <template v-if="typeof data === 'object'">
-    <!-- 如果是虚拟dom -->
-    <component :is="data" v-if="isVNode(data)"></component>
-    <!-- 如果是引入的组件 -->
-    <template v-else>
-      <component :is="data" v-if="data.render"></component>
-      <component v-bind="data.attrs" :is="data.component" v-else>
-        <template v-if="typeof data?.slots === 'string'">
-          {{ data?.slots }}
-        </template>
-        <template #[key] v-for="(val, key) in data?.slots" :key="key">
-          <BaseRender :data="(val as string)" />
-        </template>
-      </component>
-    </template>
-  </template>
+  <!-- 如果是虚拟dom或者是引入的组件 -->
+  <component
+    :is="data"
+    v-if="dataType === 'Object' && (isVNode(data) || data.render)"
+  />
+  <component :is="h(...data)" v-else-if="dataType === 'Array'" />
   <!-- 如果是基本数据类型 -->
   <template v-else>{{ data }}</template>
 </template>
 <script lang="ts" setup>
-import { RendererElement, RendererNode, VNode, isVNode } from "vue";
-import { devErrorTips, emptyVals } from "@/components/_utils";
-import { CommonObj } from "@/vite-env";
+// h函数传参规则见：https://cn.vuejs.org/api/render-function.html#h
+import {
+  RendererElement,
+  RendererNode,
+  VNode,
+  isVNode,
+  h,
+  computed,
+} from "vue";
+import type { Component } from "vue";
+import { devErrorTips, typeOf } from "@/components/_utils";
+import { BaseDataType } from "../vite-env";
+
 //虚拟dom，即 h 函数返回的对象
-export type VirtualDomProps = VNode<RendererNode, RendererElement, { [key: string]: any }>;
-export type SlotsType =
-  | string
-  | {
-      [key: string]: string | RenderComponent;
-    };
+export type VirtualDomProps = VNode<
+  RendererNode,
+  RendererElement,
+  { [key: string]: any }
+>;
 
 export interface RenderVue {
   render: any;
@@ -37,13 +36,23 @@ export interface RenderVue {
   [key: string]: any;
 }
 
-export interface RenderComponent {
-  component: any;
-  attrs?: CommonObj;
-  slots?: SlotsType;
-}
+type Children = string | number | boolean | null | VNode | Children[];
 
-export type BaseRenderData = string | RenderVue | RenderComponent | VirtualDomProps; //可支持字符串、RenderComponent、h函数生成的虚拟dom
+type Slot = () => Children;
+
+type Slots = { [name: string]: Slot };
+
+type HType = string | Component;
+type HProps = Object | null;
+type HChildren = Children | Slot | Slots;
+
+export type HArgs = [HType, HProps?, HChildren?]; //h函数的参数
+
+export type BaseRenderData =
+  | BaseDataType //基础数据类型
+  | RenderVue //引入的Vue文件
+  | HArgs //h函数的参数
+  | VirtualDomProps; //可支持字符串、h函数生成的虚拟dom、
 
 const props = withDefaults(
   defineProps<{
@@ -53,5 +62,6 @@ const props = withDefaults(
     data: devErrorTips("数据空空") as any,
   }
 );
+const dataType = computed(() => typeOf(props.data));
 </script>
 <style lang="scss" scoped></style>

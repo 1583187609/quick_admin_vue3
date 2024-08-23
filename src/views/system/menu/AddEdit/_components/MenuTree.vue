@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from "vue";
-import { ElTree, useFormItem, ElMessage } from "element-plus";
+import { ref, computed } from "vue";
+import { ElTree, useFormItem } from "element-plus";
 import { getTextFromTreeByKey } from "@/utils";
 import { StrNum } from "@/vite-env";
 

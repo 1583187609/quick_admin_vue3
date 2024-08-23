@@ -413,15 +413,10 @@ function handleChatReach(direction: ChatListQueryDirection) {
 }
 //打开聊天记录搜索对话框
 function openSearchChat(fromUser: CommonObj, toUser: CommonObj, keyWord?: string) {
-  openPopup(`【${fromUser.nickname || "-"}】与【${toUser.nickname || "-"}】的聊天记录搜索`, {
-    component: SearchMsg,
-    attrs: {
-      fromUser,
-      toUser,
-      keyWord,
-      onSelect: handleSearchSelectItem,
-    },
-  });
+  openPopup(`【${fromUser.nickname || "-"}】与【${toUser.nickname || "-"}】的聊天记录搜索`, [
+    SearchMsg,
+    { fromUser, toUser, keyWord, onSelect: handleSearchSelectItem },
+  ]);
 }
 //处理搜索聊天记录时选中某个聊天项
 function handleSearchSelectItem(row: CommonObj, searchVal: string, next: () => void) {

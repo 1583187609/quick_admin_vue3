@@ -91,12 +91,7 @@ const sections = computed<SectionFormItem[]>(() => {
           extraAttrs: {
             // before: "第",
             // after: h(AddDelBtn, { name: "add" }),
-            after: {
-              component: AddDelBtn,
-              attrs: {
-                name: "add",
-              },
-            },
+            after: [AddDelBtn, { name: "add" }],
           },
         },
         {

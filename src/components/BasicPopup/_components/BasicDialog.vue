@@ -4,32 +4,19 @@
     :class="{ 'top-compact': !footer }"
     v-model="show"
     v-bind="newAttrs"
-    append-to-body
-    destroy-on-close
-    draggable
     ref="basicDialogRef"
   >
     <!-- <template #header="{ close, titleId, titleClass }" v-if="newAttrs.title">
-      <div class="my-header">
-        <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
-        <el-button type="danger" @click="close">
-          <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
-          Close
-        </el-button>
-      </div>
+      <h4 :id="titleId" :class="titleClass">{{ newAttrs.title }}</h4>
     </template> -->
-    <slot>
-      <BaseRender :data="body" />
-    </slot>
+    <slot />
     <template #footer v-if="footer">
       <slot name="footer">
         <div class="foot" v-if="footer === true">
           <el-button @click="newAttrs.cancel">取消</el-button>
-          <el-button type="primary" @click="newAttrs.confirm"> 确认 </el-button>
+          <el-button type="primary" @click="newAttrs.confirm">确认</el-button>
         </div>
-        <template v-else>
-          {{ footer }}
-        </template>
+        <template v-else>{{ footer }}</template>
       </slot>
     </template>
   </el-dialog>
@@ -37,12 +24,16 @@
 <script lang="ts" setup>
 import { ref, useAttrs, computed, onMounted } from "vue";
 import { popupCloseAnimationDuration, showMessage } from "@/components/_utils";
-import { useEvent } from "@/hooks";
+// import { useEvent } from "@/componetns/_hooks";
+
 const defaultAttrs = {
   title: "温馨提示",
   width: "fit-content",
   style: "max-width: 94vw;min-width:200px;", //background:#f2f3f5;
   closeOnClickModal: false,
+  appendToBody: true,
+  destroyOnClose: true,
+  draggable: true,
   cancel() {
     show.value = false;
     // showMessage("点击了【取消按钮 - cancel】", "info");
@@ -67,12 +58,8 @@ const $attrs = useAttrs();
 const basicDialogRef = ref<any>(null);
 const newAttrs = Object.assign({}, defaultAttrs, $attrs);
 const show = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(isShow: boolean) {
-    emits("update:modelValue", isShow);
-  },
+  get: () => props.modelValue,
+  set: (isShow: boolean) => emits("update:modelValue", isShow),
 });
 function initBodyHeight() {
   //必须要延迟一段时间，不然在过渡动画时间中时，获取到的高度会不足动画完成时的最终高度
@@ -94,7 +81,7 @@ function initBodyHeight() {
 onMounted(() => {
   initBodyHeight();
 });
-useEvent("resize", initBodyHeight);
+// useEvent("resize", initBodyHeight);
 </script>
 <style lang="scss">
 .basic-dialog {
@@ -111,18 +98,18 @@ useEvent("resize", initBodyHeight);
     height: 100%;
     max-height: calc(100vh - $dialog-top * 2 - 90px);
   }
+  //对话框（dialog）
+  .el-dialog__header {
+    padding: $gap;
+    border-bottom: $border-main;
+    margin: 0;
+  }
   .el-dialog__body {
     padding: $gap;
     max-height: calc(100vh - $dialog-top * 2 - 58px);
     // 当在dialog中，出现垂直滚动条时，才让此属性生效，这样能避免展示条数最多（此时有额外按钮，筛选条件）时，最后一条看不到的问题
     // height: calc(100vh - $dialog-top * 2 - 58px);
     overflow: auto;
-  }
-  //对话框（dialog）
-  .el-dialog__header {
-    padding: $gap;
-    border-bottom: $border-main;
-    margin: 0;
   }
 }
 </style>

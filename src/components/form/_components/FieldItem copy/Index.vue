@@ -228,13 +228,12 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { ref, computed } from "vue";
+import { h, ref, computed } from "vue";
 import _ from "lodash";
 import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
-import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultValidTypes } from ".";
 import AddDelList from "../AddDelList.vue";
 import AnyEleList from "../AnyEleList.vue";
@@ -243,6 +242,30 @@ import { useDict } from "@/hooks";
 import { RuleItem } from "./_types";
 import { defaultCommonSize } from "@/components/_utils";
 import { DictName } from "@/dict/_types";
+import BaseRender from "@/components/BaseRender.vue";
+import BaseNumberRange from "@/components/BaseNumberRange.vue";
+import BaseUpload from "@/components/upload/BaseUpload.vue";
+import BaseEditor from "@/components/BaseEditor.vue";
+import {
+  ElSelect,
+  ElOption,
+  ElInput,
+  ElTreeSelect,
+  ElDatePicker,
+  ElRadioGroup,
+  ElRadioButton,
+  ElRadio,
+  ElCheckboxGroup,
+  ElCheckbox,
+  ElInputNumber,
+  ElSwitch,
+  ElCascader,
+  ElAutocomplete,
+  ElSlider,
+  ElTimePicker,
+  ElTimeSelect,
+} from "element-plus";
+import type { FormItemRule } from "element-plus";
 
 const { merge } = _;
 const props = withDefaults(
@@ -274,6 +297,7 @@ const newVal = computed({
   set: (val: any) => emits("update:modelValue", val),
 });
 let popoverAttrs: any;
+
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
@@ -342,6 +366,213 @@ const newField = computed<FormFieldAttrs>(() => {
   return tempField;
 });
 const flexClass = { "f-1": newField.value.extraAttrs?.before ?? newField.value.extraAttrs?.after };
+
+const getWidgetsMap = computed(() => {
+  const { size } = props;
+  const { label, prop, attrs = {}, options = [], slots } = newField.value;
+  return {
+    input: [
+      ElInput,
+      {
+        class: flexClass,
+        "v-model.trim": newVal.value,
+        "v-bind": attrs,
+        "v-debounce:input": (e: any) => handleInput(e, prop as string),
+        onClear: () => emits("change", prop, ""),
+      },
+      slots,
+    ],
+    select: [
+      ElSelect,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      options?.map((opt, ind) => {
+        const { customOption } = opt;
+        return h(
+          ElOption,
+          {
+            "v-bind": customOption ? deleteAttrs(opt, ["customOption"]) : opt,
+            key: ind,
+          },
+          customOption ? h(BaseRender, { data: customOption }) : undefined
+        );
+      }),
+    ],
+    "tree-select": [
+      ElTreeSelect,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+    ],
+    "date-picker": [
+      ElDatePicker,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      slots,
+    ],
+    "radio-group": [
+      ElRadioGroup,
+      {
+        // class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      options.map((opt, ind) => {
+        const { type } = attrs;
+        const { label, ...restAttrs } = opt;
+        return h(type === "button" ? ElRadioButton : ElRadio, { key: ind, ...restAttrs }, label);
+      }),
+    ],
+    "checkbox-group": [
+      ElCheckboxGroup,
+      {
+        // class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      options.map((opt, ind) => {
+        const { label, ...restAttrs } = opt;
+        return h(ElCheckbox, { name: prop, key: ind, ...restAttrs }, label);
+      }),
+    ],
+    "input-number": [
+      ElInputNumber,
+      {
+        // class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+    ],
+    switch: [
+      ElSwitch,
+      {
+        // class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+    ],
+    cascader: [
+      ElCascader,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        options,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      slots,
+    ],
+    custom: [
+      "slot",
+      {
+        name: "custom",
+        field: newField.value,
+      },
+      h("div", { class: "color-danger" }, `【自定义】${label}（${prop})`),
+    ],
+    BaseNumberRange: [
+      BaseNumberRange,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        size: size,
+        onChange: (prop: string, val: any) => emits("change", prop, val ?? ""),
+      },
+    ],
+    BaseUpload: [
+      BaseUpload,
+      {
+        // class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+    ],
+    // BaseEditor: [
+    //   BaseEditor,
+    //   {
+    //     // class: flexClass,
+    //     "v-model": newVal.value,
+    //     "v-bind": attrs,
+    //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //   },
+    // ],
+    autocomplete: [
+      ElAutocomplete,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      slots,
+    ],
+    slider: [
+      ElSlider,
+      {
+        class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      slots,
+    ],
+    checkbox: [
+      ElCheckbox,
+      {
+        // class: flexClass,
+        "v-model": newVal.value,
+        "v-bind": attrs,
+        onChange: (val: any) => emits("change", prop, val ?? ""),
+      },
+      slots,
+    ],
+    // "time-picker": [
+    //   ElTimePicker,
+    //   {
+    //     // class: flexClass,
+    //     "v-model": newVal.value,
+    //     "v-bind": attrs,
+    //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //   },
+    //   slots,
+    // ],
+    // "time-select": [
+    //   ElTimeSelect,
+    //   {
+    //     // class: flexClass,
+    //     "v-model": newVal.value,
+    //     "v-bind": attrs,
+    //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //   },
+    //   slots,
+    // ],
+    empty: [
+      "div",
+      {
+        class: "empty",
+        "v-bind": attrs,
+      },
+    ],
+  };
+});
+
 function getPlaceholder(field: FormFieldAttrs) {
   const { label = "", extraAttrs = {} } = field;
   const { example } = extraAttrs;

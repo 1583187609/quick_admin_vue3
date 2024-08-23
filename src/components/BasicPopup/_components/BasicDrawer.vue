@@ -1,8 +1,6 @@
 <template>
-  <el-drawer class="basic-drawer" v-model="show" v-bind="newAttrs" append-to-body destroy-on-close>
-    <slot>
-      <BaseRender :data="body" />
-    </slot>
+  <el-drawer class="basic-drawer" v-model="show" v-bind="newAttrs">
+    <slot />
   </el-drawer>
 </template>
 <script lang="ts" setup>
@@ -11,6 +9,8 @@ const defaultAttrs = {
   title: "title 标题",
   size: "none",
   closeOnClickModal: false,
+  appendToBody: true,
+  destroyOnClose: true,
 };
 const props = withDefaults(
   defineProps<{
@@ -24,17 +24,13 @@ const props = withDefaults(
 const emits = defineEmits(["update:modelValue"]);
 const newAttrs = Object.assign({}, defaultAttrs);
 const show = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(isShow: boolean) {
-    emits("update:modelValue", isShow);
-  },
+  get: () => props.modelValue,
+  set: (isShow: boolean) => emits("update:modelValue", isShow),
 });
 </script>
 <style lang="scss">
+// 抽屉（drawer)
 .basic-drawer {
-  // 抽屉（drawer)
   .el-drawer__header {
     // font-weight: 600;
     margin-bottom: 0;

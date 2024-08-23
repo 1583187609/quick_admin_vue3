@@ -344,17 +344,8 @@ const fields = computed<FormField[]>(() => {
         // prefix: h(BaseIcon, { name: "Lock" }),
         // prefix: h(ElButton, {type: "primary" },'按钮'),
 
-        prefix: { component: BaseIcon, attrs: { name: "Lock" } },
-        // prefix: {
-        //   component: ElButton,
-        //   attrs: {
-        //     type: "primary",
-        //   },
-        //   slots: "按钮",
-        //   // slots: {
-        //   //   default: "按钮",
-        //   // },
-        // },
+        prefix: [BaseIcon, { name: "Lock" }],
+        // prefix: [ElButton, { type: "primary" }, { default: "按钮" }],
       },
     },
     {

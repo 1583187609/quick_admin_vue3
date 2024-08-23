@@ -38,13 +38,17 @@ export interface DialogHeadAttrs {
   [key: string]: any;
 }
 //打开的弹窗类型
-export type OpenPopupTypes = PopupType | DialogPopup | DrawerPopup | DialogId | DrawerId;
+export type OpenPopupTypes =
+  | PopupType
+  | DialogPopup
+  | DrawerPopup
+  | DialogId
+  | DrawerId;
 export type ClosePopupType = OpenPopupTypes | number | "all"; //关闭的弹窗类型：'all' 关闭所有dialog、drawer；number：关闭顶层的 n 个弹窗
 export type CloseDialogType = DialogPopup | DialogId | "all";
 export type CloseDrawerType = DrawerPopup | DrawerId | "all";
 export type DialogHeadTypes = string | DialogHeadAttrs;
 export type DrawerHeadTypes = string | DrawerHeadAttrs;
-
 
 export type OpenPopupInject = any;
 export type ClosePopupInject = any;

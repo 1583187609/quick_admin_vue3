@@ -56,7 +56,7 @@ const drawers = reactive<DrawerPopup[]>([]);
  */
 function getNewBody(body: any): BaseRenderData {
   // if (typeof body === "string") return body; //字符串也是虚拟dom
-  // if (!isVNode(body) && !body.component) return { component: body };
+  // if (!isVNode(body) && !body.component) return [body];
   // return body;
   return body;
 }
