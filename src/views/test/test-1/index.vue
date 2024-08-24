@@ -281,7 +281,7 @@ const fields = computed<FormField[]>(() => {
       label: "姓名",
       required: true,
       extraAttrs: {
-        tips: "最少传入prop，label两个属性；tips属性设置表单项下方提示信息;设置required: true, 设为必填；设置attrs属性，完全继承于ElementPlus的表单控价属性；",
+        tips: "最少传入prop，label两个属性；tips属性设置表单项下方提示信息;设置required: true, 设为必填；设置attrs属性，完全继承于ElementPlus的表单控件属性；",
       },
       attrs: {
         maxlength: 30,
@@ -486,6 +486,12 @@ const fields = computed<FormField[]>(() => {
       prop: ["nzcyzj_min", "nzcyzj_max"],
       label: "内置常用组件",
       type: "BaseNumberRange",
+    },
+    {
+      prop: "sctp",
+      label: "上传图片",
+      required: true,
+      type: "BaseUpload",
     },
     {
       prop: "zdy",

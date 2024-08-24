@@ -5,9 +5,6 @@
       :cols="cols"
       :rows="rows"
       style="width: calc(100vw - 600px)"
-      sort
-      index
-      selection
       :operateBtns="['edit', 'delete']"
       @operateBtns="onOperateBtns"
       :size="size"
@@ -36,13 +33,13 @@ const records = {
 };
 const size: CommonSize = "large"; // large, default, small
 const cols = [
-  { prop: "id", label: "用户ID", fixed: "left" },
-  { prop: "nc", label: "昵称" },
-  {
-    prop: "zy",
-    label: "职业",
-  },
-  { prop: "xm", label: "姓名", type: "UserInfo" },
+  { prop: "xm", label: "用户信息", type: "UserInfo" },
+  // { prop: "id", label: "用户ID", fixed: "left" },
+  // { prop: "nc", label: "昵称" },
+  // {
+  //   prop: "zy",
+  //   label: "职业",
+  // },
   { prop: "xb", label: "性别" },
   { prop: "nl", label: "年龄" },
   { prop: "xx", label: "学校" },

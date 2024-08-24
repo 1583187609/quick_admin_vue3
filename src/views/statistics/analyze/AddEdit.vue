@@ -6,7 +6,7 @@
     :fields="fields"
     :pureText="pureText"
     :fetch="id ? PostMockCommonUpdate : PostMockCommonAdd"
-    :fetchSuccess="refreshList"
+    :onSuccess="refreshList"
   >
     <!-- @submit="handleSubmit" -->
     <template #avatar="{ form }">

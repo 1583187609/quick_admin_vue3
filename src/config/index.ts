@@ -159,18 +159,18 @@ const config = {
     // showTips: true,
     // accept: "image/png,image/jpg,image/jpeg",
     // limitSize: 1024 * 1024 * 10, //10M
-    headers: () => ({ "X-Token": storage.getItem("token") }),
-    action: `${isProd ? "" : "/proxy"}/api/admin/upload/image`,
-    handleSuccessResponse: (res: CommonObj, upFile: CommonObj) => {
-      return new Promise((resolve, reject) => {
-        const { code, message, data } = res;
-        if (code === 2000) {
-          resolve(data.fullUrl);
-        } else {
-          reject(message);
-        }
-      });
-    },
+    // headers: () => ({ "X-Token": storage.getItem("token") }),
+    // action: `${isProd ? "" : "/proxy"}/api/admin/upload/image`,
+    // handleSuccessResponse: (res: CommonObj, upFile: CommonObj) => {
+    //   return new Promise((resolve, reject) => {
+    //     const { code, message, data } = res;
+    //     if (code === 2000) {
+    //       resolve(data.fullUrl);
+    //     } else {
+    //       reject(message);
+    //     }
+    //   });
+    // },
   },
   // regexp: {},
 } as BaseComponentsConfig;

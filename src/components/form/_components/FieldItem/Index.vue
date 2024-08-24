@@ -50,6 +50,7 @@
           :class="flexClass"
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
+          :data="newField.options"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'tree-select'"
         />
@@ -186,7 +187,6 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-select'"
         /> -->
-        <div class="empty" v-bind="newField.attrs" v-else-if="newField.type === 'empty'"></div>
         <div class="color-danger" v-else>【不存在】{{ newField.type }}</div>
         <div class="ml-h" v-if="newField.extraAttrs?.after">
           <BaseRender :data="newField.extraAttrs?.after" />
@@ -491,7 +491,4 @@ defineExpose({});
 .show-tips {
   color: $color-text-light;
 }
-// .empty {
-//   margin-right: auto;
-// }
 </style>

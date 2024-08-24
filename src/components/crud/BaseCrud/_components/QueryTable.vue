@@ -35,11 +35,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, watchEffect, reactive } from "vue";
-import { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
+import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
-import { OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
 import { defaultTableAttrs, getColLevel } from "@/components/table";

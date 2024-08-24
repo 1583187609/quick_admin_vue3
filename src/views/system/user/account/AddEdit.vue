@@ -6,7 +6,7 @@
     :fields="fields"
     :pureText="pureText"
     :fetch="id ? PostUserUpdate : PostUserAdd"
-    :fetchSuccess="refreshList"
+    :onSuccess="refreshList"
   >
     <!-- @submit="handleSubmit" -->
     <template #avatar="{ form }">

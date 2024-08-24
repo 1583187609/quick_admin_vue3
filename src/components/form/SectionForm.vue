@@ -98,8 +98,8 @@
       :debug="debug"
       :params="params"
       :fetch="fetch"
-      :fetchSuccess="fetchSuccess"
-      :fetchFail="fetchFail"
+      :onSuccess="onSuccess"
+      :onFail="onFail"
       :noSubmitProps="noSubmitProps"
       :handleRequest="handleRequest"
       :disabled="!newSections.length"
@@ -141,8 +141,8 @@ const props = withDefaults(
     labelWidth?: string; //label的宽度
     foldable?: boolean; //是否允许折叠
     fetch?: UniteFetchType; //接口请求
-    fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
-    fetchFail?: () => void; //fetch请求失败之后的回调方法
+    onSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    onFail?: () => void; //fetch请求失败之后的回调方法
     footer?: boolean; //是否显示底部按钮
     grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
     submitText?: string; //提交按钮的文字
@@ -199,7 +199,6 @@ watch(
       }
       return true;
     }) as SectionFormItemAttrs[];
-    // console.log(newSections.value, "newSections.value------------");
   },
   { immediate: true, deep: true }
 );

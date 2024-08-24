@@ -127,14 +127,14 @@
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TableColAttrs } from "@/components/table/_types";
-import GroupBtns, { OperateBtnsAttrs } from "./GroupBtns.vue";
+import GroupBtns, { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import BaseRender from "@/components/BaseRender.vue";
 import { defaultCommonSize } from "@/components/_utils";
-import { PopoverAttrs } from "@/components/_types";
+import { CommonSize, PopoverAttrs } from "@/components/_types";
 
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {

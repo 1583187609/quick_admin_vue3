@@ -4,7 +4,7 @@
     style="width: 600px"
     :fields="fields"
     :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
-    :fetchSuccess="refreshList"
+    :onSuccess="refreshList"
   >
     <template #menu_auth="{ form }">
       <BaseTree></BaseTree>

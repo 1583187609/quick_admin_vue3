@@ -38,8 +38,8 @@ const props = withDefaults(
     disabled?: boolean; //是否禁用按钮
     params?: any;
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    fetchSuccess?: FinallyNext;
-    fetchFail?: FinallyNext;
+    onSuccess?: FinallyNext;
+    onFail?: FinallyNext;
     noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
@@ -102,16 +102,16 @@ const fetchSucCb: FinallyNext = (
 function handleSubmit() {
   handleValidate()
     .then((params: any) => {
-      const { log, fetch, fetchSuccess = fetchSucCb, fetchFail, submitText } = props;
+      const { log, fetch, onSuccess = fetchSucCb, onFail, submitText } = props;
       if (fetch) {
         isLoading.value = true;
         fetch(params)
           .then((res: any) => {
             log && printLog(res, "res");
-            fetchSuccess(submitText + "成功！");
+            onSuccess(submitText + "成功！");
           })
           .catch((err: any) => {
-            fetchFail?.(err);
+            onFail?.(err);
           })
           .finally(() => {
             isLoading.value = false;

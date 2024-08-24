@@ -53,11 +53,11 @@ const fields = [
     extraAttrs: {},
   },
   { prop: "xm", label: "姓名", extraAttrs: {} },
-  { prop: "xb", label: "性别", extraAttrs: {} },
+  { prop: "xb", label: "性别", type: "select", options: "Gender", extraAttrs: {} },
   { prop: "nl", label: "年龄", extraAttrs: {} },
   { prop: "xx", label: "学校", extraAttrs: { grid: 6 } },
   { prop: "jg", label: "籍贯", extraAttrs: { grid: 6 } },
-  { prop: "xjd", label: "现居地", extraAttrs: { grid: 6 } },
+  { prop: "xjd", label: "现居地", type: "cascader", options: "Region", extraAttrs: { grid: 6 } },
   { prop: "ip", label: "IP地址", extraAttrs: { grid: 6 } },
   { prop: "dh", label: "电话", extraAttrs: { grid: 6 } },
   { prop: "zdy", label: "自定义", type: "custom", extraAttrs: { grid: 18 } },
@@ -95,7 +95,7 @@ const sections = [
     popover: "块级设置 {readonly: true}",
     fields: [
       { prop: "xm", label: "姓名", extraAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
-      { prop: "xb", label: "性别", required: true, size: "default", extraAttrs: {} },
+      { prop: "xb", label: "性别", required: true, size: "default", type: "select", options: "Gender", extraAttrs: {} },
       { prop: "nl", label: "年龄", extraAttrs: {} },
     ],
   },
@@ -104,7 +104,14 @@ const sections = [
     popover: "块级设置 prop 属性",
     prop: "partThree",
     fields: [
-      { prop: "xjd", label: "现居地", size: "default", extraAttrs: { grid: 12, tips: "字段级的size【el-form-item】" } },
+      {
+        prop: "xjd",
+        label: "现居地",
+        type: "cascader",
+        options: "Region",
+        size: "default",
+        extraAttrs: { grid: 12, tips: "字段级的size【el-form-item】" },
+      },
       {
         prop: "ip",
         label: "IP地址",

@@ -188,7 +188,7 @@ const option = {
     font-family: MetroDF;
     font-size: 32px;
     color: #66ffff;
-    background: url("../_imgs/total.png") no-repeat;
+    background: url("../_assets/imgs/total.png") no-repeat;
     background-size: 100% 100%;
     &:last-child {
       margin-right: 0;

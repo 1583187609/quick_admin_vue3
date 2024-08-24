@@ -91,6 +91,7 @@
       :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"
       compact
       selection
+      ref="baseCrudRef"
     >
       <template #zdy>【这是自定义的搜索项】</template>
       <template #info_complete="{ row }">
@@ -127,7 +128,7 @@
   </div>
 </template>
 <script lang="ts" name="TestThree" setup>
-import { ref, reactive, inject } from "vue";
+import { ref, onMounted, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
@@ -164,6 +165,7 @@ const testImportCfg = {
 };
 const openPopup = inject<OpenPopupInject>("openPopup");
 const route = useRoute();
+const baseCrudRef = ref<any>(null);
 const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
@@ -216,12 +218,12 @@ const fields: FormFieldAttrs[] = [
     type: "cascader",
     options: "TestCascader",
   },
-  // {
-  //   prop: "tree",
-  //   label: "树形下拉",
-  //   type: "tree-select",
-  //   options: "TestTree",
-  // },
+  {
+    prop: "tree",
+    label: "树形下拉",
+    type: "tree-select",
+    options: "TestTree",
+  },
   getSearchOpts("school", {
     prop: "schoolId",
     label: "学校",
@@ -462,6 +464,11 @@ async function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
 function handleImport() {
   console.log("点击了导入----------");
 }
+onMounted(() => {
+  setTimeout(() => {
+    console.log(baseCrudRef.value, "baseCrudRef.value-------------");
+  }, 1000);
+});
 </script>
 <style lang="scss" scoped>
 .tips-list {

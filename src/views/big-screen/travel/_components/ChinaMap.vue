@@ -1,12 +1,17 @@
 <!-- 中国地图 -->
 <template>
-  <ECharts :option="option" :resize="false" />
+  <Chart :option="option" height="100%" width="100%" />
 </template>
 
 <script setup lang="ts">
-import echarts, { ECOption } from "./ECharts/config";
-import ECharts from "./ECharts/index.vue";
+import echarts from "@/components/chart/_config";
+import { ChartOption } from "@/components/chart/_types";
+import Chart from "@/components/chart/Chart.vue";
 import mapJson from "../_assets/china.json";
+import { LinesChart } from "echarts/charts";
+import { GeoComponent } from "echarts/components";
+
+echarts.use([GeoComponent, LinesChart]);
 
 echarts.registerMap("china", mapJson as Parameters<typeof echarts.registerMap>[1]);
 
@@ -80,7 +85,7 @@ const data = [
   },
 ];
 
-const option: ECOption = {
+const option: ChartOption = {
   tooltip: {
     trigger: "item",
   },
@@ -196,5 +201,4 @@ const option: ECOption = {
   ],
 };
 </script>
-
 <style lang="scss" scoped></style>

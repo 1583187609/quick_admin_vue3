@@ -23,7 +23,7 @@
 import { ref, reactive, computed, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
 import { CommonObj, ClassType, StyleType } from "@/vite-env";
-import { TableColAttrs} from "@/components/table/_types";
+import { TableColAttrs } from "@/components/table/_types";
 import FieldItem from "@/components/form/_components/FieldItem/Index.vue";
 
 defineOptions({
@@ -72,12 +72,13 @@ const fields = computed(() => {
     })
     .filter(it => !!it);
 });
-console.log(fields.value, "value-----------");
 
 // 暴露属性方法
 defineExpose({
-  ...formRef.value,
-  ...tableRef.value,
+  // ...formRef.value,
+  // ...tableRef.value,
+  formRef,
+  tableRef,
 });
 </script>
 <style lang="scss" scoped>

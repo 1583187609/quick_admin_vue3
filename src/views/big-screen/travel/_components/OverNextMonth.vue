@@ -1,12 +1,12 @@
 <!-- 未来30天访问量趋势预测图 -->
 <template>
-  <ECharts class="over-next-month" :option="option" :resize="false" />
+  <Chart class="over-next-month" height="100%" :option="option" />
 </template>
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import ECharts from "./ECharts/index.vue";
-import { ECOption } from "./ECharts/config";
+import Chart from "@/components/chart/Chart.vue";
+import { ChartOption } from "@/components/chart/_types";
 
 const initDate = (): string[] => {
   const dateList: string[] = [];
@@ -29,7 +29,7 @@ const data = {
   }),
 };
 
-const option: ECOption = {
+const option: ChartOption = {
   tooltip: {
     trigger: "axis",
     confine: true,

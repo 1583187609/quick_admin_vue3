@@ -7,7 +7,7 @@ import * as echarts from "echarts";
 import { reactive, computed } from "vue";
 import Chart from "@/components/chart/Chart.vue";
 import { axisCfg, gradColors, titleCfg } from "./_config";
-import type { EchartTheme, ChartData } from "./_config/types";
+import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
 import { CommonObj } from "@/vite-env";
 
@@ -221,3 +221,4 @@ function getCfgArgs() {
 // }
 </script>
 <style lang="scss" scoped></style>
+./types .

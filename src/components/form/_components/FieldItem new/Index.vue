@@ -15,178 +15,15 @@
     <template v-if="!subFields.length">
       <template v-if="newField.extraAttrs?.pureText ?? pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
       <template v-else>
-        <!-- 以下按照使用频率高低排序 -->
-        <el-input
-          :class="flexClass"
-          v-debounce:input="(e:any)=>handleInput(e, newField.prop as string)"
-          @clear="() => emits('change', newField.prop, '')"
-          v-model.trim="newVal"
+        <component :is="'el-input'" v-model="newVal.value" v-bind="newField.attrs" v-if="widgetsMap[newField.type as string]" />
+        <!-- :is="'el-input'" -->
+        <!-- <component
+          :is="h(...widgetsMap[newField.type as string])"
+          v-model.trim="newVal.value"
           v-bind="newField.attrs"
-          v-if="newField.type === 'input'"
-        >
-          <!-- <component :is="newField?.slots" v-if="newField?.slots"></component> -->
-          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
-            <BaseRender :data="val" />
-          </template>
-        </el-input>
-        <el-select
-          :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'select'"
-        >
-          <template v-for="(opt, ind) in newField.options" :key="ind">
-            <el-option v-bind="deleteAttrs(opt, ['customOption'])" v-if="opt?.customOption">
-              <BaseRender :data="opt.customOption" />
-            </el-option>
-            <el-option v-bind="opt" v-else />
-          </template>
-          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
-            <BaseRender :data="val" />
-          </template>
-        </el-select>
-        <el-tree-select
-          :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'tree-select'"
-        />
-        <el-date-picker
-          :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'date-picker'"
-        >
-          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
-            <BaseRender :data="val" />
-          </template>
-        </el-date-picker>
-        <el-radio-group
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'radio-group'"
-        >
-          <template v-if="newField?.attrs?.type === 'button'">
-            <el-radio-button :disabled="opt.disabled" :value="opt.value" v-for="(opt, ind) in newField.options" :key="ind">
-              {{ opt.label }}
-            </el-radio-button>
-          </template>
-          <template v-else>
-            <el-radio :disabled="opt.disabled" :value="opt.value" v-for="(opt, ind) in newField.options" :key="ind">
-              {{ opt.label }}
-            </el-radio>
-          </template>
-        </el-radio-group>
-        <el-checkbox-group
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'checkbox-group'"
-        >
-          <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-          <el-checkbox
-            :disabled="opt.disabled"
-            :value="opt.value"
-            v-bind="deleteAttrs(opt, ['label'])"
-            :name="(newField.prop as string)"
-            v-for="(opt, ind) in newField.options"
-            :key="ind"
-          >
-            <BaseRender :data="opt.label" />
-          </el-checkbox>
-        </el-checkbox-group>
-        <el-input-number
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'input-number'"
-        />
-        <el-switch
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'switch'"
-        />
-        <el-cascader
-          :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          :options="newField.options"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'cascader'"
-        >
-          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
-            <BaseRender :data="val" />
-          </template>
-        </el-cascader>
-        <slot name="custom" :field="newField" v-else-if="newField.type === 'custom'">
-          <div class="color-danger">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
-        </slot>
-        <BaseNumberRange
-          :class="flexClass"
-          @change="(prop:string, val:any)=> emits('change', prop, val ?? '')"
-          :size="size"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'BaseNumberRange'"
-        />
-        <BaseUpload
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-bind="newField.attrs"
-          v-model="newVal"
-          v-else-if="newField.type === 'BaseUpload'"
-        />
-        <!-- <BaseEditor
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'BaseEditor'"
-        ></BaseEditor> -->
-        <el-autocomplete
-          :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'autocomplete'"
-        >
-          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
-            <BaseRender :data="val" />
-          </template>
-        </el-autocomplete>
-        <el-slider
-          :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'slider'"
-        />
-        <el-checkbox
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'checkbox'"
-        >
-          <!-- <BaseRender
-            :data="newField?.slots?.default ?? newField.label"
-          /> -->
-        </el-checkbox>
-        <!-- <el-time-picker
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'time-picker'"
-        />
-        <el-time-select
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
-          v-model="newVal"
-          v-bind="newField.attrs"
-          v-else-if="newField.type === 'time-select'"
+          v-if="widgetsMap[newField.type as string]"
         /> -->
-        <div class="empty" v-bind="newField.attrs" v-else-if="newField.type === 'empty'"></div>
+        <!-- <BaseRender :data="widgetsMap[newField.type as string]" v-if="widgetsMap[newField.type as string]" /> -->
         <div class="color-danger" v-else>【不存在】{{ newField.type }}</div>
         <div class="ml-h" v-if="newField.extraAttrs?.after">
           <BaseRender :data="newField.extraAttrs?.after" />
@@ -246,6 +83,7 @@ import BaseRender from "@/components/BaseRender.vue";
 import BaseNumberRange from "@/components/BaseNumberRange.vue";
 import BaseUpload from "@/components/upload/BaseUpload.vue";
 import BaseEditor from "@/components/BaseEditor.vue";
+import { getWidgetMap } from "./_config";
 import {
   ElSelect,
   ElOption,
@@ -365,20 +203,23 @@ const newField = computed<FormFieldAttrs>(() => {
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   return tempField;
 });
-const flexClass = { "f-1": newField.value.extraAttrs?.before ?? newField.value.extraAttrs?.after };
-
-const getWidgetsMap = computed(() => {
+const widgetsMap = computed(() => {
   const { size } = props;
-  const { label, prop, attrs = {}, options = [], slots } = newField.value;
+  const { label, prop, attrs = {}, options = [], extraAttrs = {}, slots } = newField.value;
+  const { before, after } = extraAttrs;
+  const flexClass = before ?? after ? "f-1" : "";
+  const baseAttrs = {
+    "v-bind": attrs,
+    "v-model.trim": newVal.value,
+  };
   return {
     input: [
       ElInput,
       {
         class: flexClass,
-        "v-model.trim": newVal.value,
-        "v-bind": attrs,
         "v-debounce:input": (e: any) => handleInput(e, prop as string),
         onClear: () => emits("change", prop, ""),
+        ...baseAttrs,
       },
       slots,
     ],
@@ -386,9 +227,8 @@ const getWidgetsMap = computed(() => {
       ElSelect,
       {
         class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       options?.map((opt, ind) => {
         const { customOption } = opt;
@@ -406,18 +246,16 @@ const getWidgetsMap = computed(() => {
       ElTreeSelect,
       {
         class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
     ],
     "date-picker": [
       ElDatePicker,
       {
         class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       slots,
     ],
@@ -425,9 +263,8 @@ const getWidgetsMap = computed(() => {
       ElRadioGroup,
       {
         // class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       options.map((opt, ind) => {
         const { type } = attrs;
@@ -439,9 +276,8 @@ const getWidgetsMap = computed(() => {
       ElCheckboxGroup,
       {
         // class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       options.map((opt, ind) => {
         const { label, ...restAttrs } = opt;
@@ -452,28 +288,25 @@ const getWidgetsMap = computed(() => {
       ElInputNumber,
       {
         // class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
     ],
     switch: [
       ElSwitch,
       {
         // class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
     ],
     cascader: [
       ElCascader,
       {
         class: flexClass,
-        "v-model": newVal.value,
         options,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       slots,
     ],
@@ -489,37 +322,33 @@ const getWidgetsMap = computed(() => {
       BaseNumberRange,
       {
         class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
-        size: size,
+        size,
         onChange: (prop: string, val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
     ],
     BaseUpload: [
       BaseUpload,
       {
         // class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
     ],
     // BaseEditor: [
     //   BaseEditor,
     //   {
     //     // class: flexClass,
-    //     "v-model": newVal.value,
-    //     "v-bind": attrs,
     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //     ...baseAttrs,
     //   },
     // ],
     autocomplete: [
       ElAutocomplete,
       {
         class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       slots,
     ],
@@ -527,9 +356,8 @@ const getWidgetsMap = computed(() => {
       ElSlider,
       {
         class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       slots,
     ],
@@ -537,9 +365,8 @@ const getWidgetsMap = computed(() => {
       ElCheckbox,
       {
         // class: flexClass,
-        "v-model": newVal.value,
-        "v-bind": attrs,
         onChange: (val: any) => emits("change", prop, val ?? ""),
+        ...baseAttrs,
       },
       slots,
     ],
@@ -547,9 +374,8 @@ const getWidgetsMap = computed(() => {
     //   ElTimePicker,
     //   {
     //     // class: flexClass,
-    //     "v-model": newVal.value,
-    //     "v-bind": attrs,
     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //     ...baseAttrs,
     //   },
     //   slots,
     // ],
@@ -557,22 +383,18 @@ const getWidgetsMap = computed(() => {
     //   ElTimeSelect,
     //   {
     //     // class: flexClass,
-    //     "v-model": newVal.value,
-    //     "v-bind": attrs,
     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //     ...baseAttrs,
     //   },
     //   slots,
     // ],
-    empty: [
-      "div",
-      {
-        class: "empty",
-        "v-bind": attrs,
-      },
-    ],
   };
 });
 
+/**
+ * 获取输入控件填充文本内容
+ * @param {FormFieldAttrs} field 字段对象
+ */
 function getPlaceholder(field: FormFieldAttrs) {
   const { label = "", extraAttrs = {} } = field;
   const { example } = extraAttrs;
@@ -722,7 +544,4 @@ defineExpose({});
 .show-tips {
   color: $color-text-light;
 }
-// .empty {
-//   margin-right: auto;
-// }
 </style>

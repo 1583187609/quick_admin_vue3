@@ -1,9 +1,236 @@
+// import { h } from "vue";
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/form/_types";
-import { getExportData, rangeJoinChar, regexp } from "@/components/_utils";
+import { deleteAttrs, getExportData, rangeJoinChar, regexp } from "@/components/_utils";
 import config from "@/config";
+// import {
+//   ElSelect,
+//   ElOption,
+//   ElInput,
+//   ElTreeSelect,
+//   ElDatePicker,
+//   ElRadioGroup,
+//   ElRadioButton,
+//   ElRadio,
+//   ElCheckboxGroup,
+//   ElCheckbox,
+//   ElInputNumber,
+//   ElSwitch,
+//   ElCascader,
+//   ElAutocomplete,
+//   ElSlider,
+//   ElTimePicker,
+//   ElTimeSelect,
+// } from "element-plus";
+// import BaseRender from "@/components/BaseRender.vue";
+// import BaseNumberRange from "@/components/BaseNumberRange.vue";
+// import BaseUpload from "@/components/upload/BaseUpload.vue";
+// import BaseEditor from "@/components/BaseEditor.vue";
 
 const formCfg = config?.form;
+
+// 获取控件映射
+// export const getWidgetMap = ({ props, newField, newVal, emits }) => {
+//   const { size } = props;
+//   const { label, prop, attrs = {}, options = [], extraAttrs = {}, slots } = newField.value;
+//   const { before, after } = extraAttrs;
+//   const flexClass = before ?? after ? "f-1" : "";
+//   const baseAttrs = {
+//     "v-model.trim": newVal.value,
+//     "v-bind": attrs,
+//   };
+//   function handleInput(e: any, prop: string) {
+//     if (props.inputDebounce) {
+//       const inp = e.querySelector("input") || e.querySelector("textarea");
+//       const val = inp.value;
+//       emits("change", prop, val);
+//     }
+//   }
+//   return {
+//     input: [
+//       ElInput,
+//       {
+//         class: flexClass,
+//         "v-debounce:input": (e: any) => handleInput(e, prop as string),
+//         onClear: () => emits("change", prop, ""),
+//         ...baseAttrs,
+//       },
+//       slots,
+//     ],
+//     select: [
+//       ElSelect,
+//       {
+//         class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       options?.map((opt, ind) => {
+//         const { customOption } = opt;
+//         return h(
+//           ElOption,
+//           {
+//             "v-bind": customOption ? deleteAttrs(opt, ["customOption"]) : opt,
+//             key: ind,
+//           },
+//           customOption ? h(BaseRender, { data: customOption }) : undefined
+//         );
+//       }),
+//     ],
+//     "tree-select": [
+//       ElTreeSelect,
+//       {
+//         class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//     ],
+//     "date-picker": [
+//       ElDatePicker,
+//       {
+//         class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       slots,
+//     ],
+//     "radio-group": [
+//       ElRadioGroup,
+//       {
+//         // class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       options.map((opt, ind) => {
+//         const { type } = attrs;
+//         const { label, ...restAttrs } = opt;
+//         return h(type === "button" ? ElRadioButton : ElRadio, { key: ind, ...restAttrs }, label);
+//       }),
+//     ],
+//     "checkbox-group": [
+//       ElCheckboxGroup,
+//       {
+//         // class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       options.map((opt, ind) => {
+//         const { label, ...restAttrs } = opt;
+//         return h(ElCheckbox, { name: prop, key: ind, ...restAttrs }, label);
+//       }),
+//     ],
+//     "input-number": [
+//       ElInputNumber,
+//       {
+//         // class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//     ],
+//     switch: [
+//       ElSwitch,
+//       {
+//         // class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//     ],
+//     cascader: [
+//       ElCascader,
+//       {
+//         class: flexClass,
+//         options,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       slots,
+//     ],
+//     custom: [
+//       "slot",
+//       {
+//         name: "custom",
+//         field: newField.value,
+//       },
+//       h("div", { class: "color-danger" }, `【自定义】${label}（${prop})`),
+//     ],
+//     BaseNumberRange: [
+//       BaseNumberRange,
+//       {
+//         class: flexClass,
+//         size,
+//         onChange: (prop: string, val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//     ],
+//     BaseUpload: [
+//       BaseUpload,
+//       {
+//         // class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//     ],
+//     // BaseEditor: [
+//     //   BaseEditor,
+//     //   {
+//     //     // class: flexClass,
+//     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+//     //     ...baseAttrs,
+//     //   },
+//     // ],
+//     autocomplete: [
+//       ElAutocomplete,
+//       {
+//         class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       slots,
+//     ],
+//     slider: [
+//       ElSlider,
+//       {
+//         class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       slots,
+//     ],
+//     checkbox: [
+//       ElCheckbox,
+//       {
+//         // class: flexClass,
+//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         ...baseAttrs,
+//       },
+//       slots,
+//     ],
+//     // "time-picker": [
+//     //   ElTimePicker,
+//     //   {
+//     //     // class: flexClass,
+//     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+//     //     ...baseAttrs,
+//     //   },
+//     //   slots,
+//     // ],
+//     // "time-select": [
+//     //   ElTimeSelect,
+//     //   {
+//     //     // class: flexClass,
+//     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+//     //     ...baseAttrs,
+//     //   },
+//     //   slots,
+//     // ],
+//     empty: [
+//       "div",
+//       {
+//         class: "empty",
+//         "v-bind": attrs,
+//       },
+//     ],
+//   };
+// };
 
 //日期快捷方式
 export const defaultDateShortcuts = getExportData(

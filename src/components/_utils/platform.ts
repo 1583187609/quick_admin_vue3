@@ -106,7 +106,7 @@ export function renderValue(val?: string): string {
  * @param {Number} delay 延迟时间
  * @example methods: {onSubmit: debounce((that, event, ...args) => {console.log("防抖测试");})}
  */
-export function debounce(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000) {
+export function debounce(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000, showMsg = true) {
   let timer: any = null;
   return function (event: Event, ...args: any) {
     if (timer) clearTimeout(timer);
@@ -118,7 +118,7 @@ export function debounce(fn: (that: any, event: Event, ...args: any) => void, im
       if (canExe) {
         fn(this, event, ...args);
       } else {
-        showMessage("您的操作太频繁了", "warning");
+        showMsg && showMessage("您的操作太频繁了", "warning");
       }
     } else {
       timer = setTimeout(() => {

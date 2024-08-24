@@ -20,7 +20,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" name="CustomCrud" setup>
-import { ref} from "vue";
+import { ref } from "vue";
 import LoadMore from "@/components/LoadMore.vue";
 import { SummaryListType } from "@/components/table/_types";
 import { CommonObj } from "@/vite-env";
@@ -44,7 +44,7 @@ function handleReachBottom(params: CommonObj) {
   crudRef.value.getList(params);
 }
 defineExpose({
-  ...crudRef.value
+  // ...crudRef.value
 });
 </script>
 <style lang="scss" scoped>

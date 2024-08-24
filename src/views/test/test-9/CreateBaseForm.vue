@@ -30,8 +30,8 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject, h } from "vue";
 import { FormField, FormFieldAttrs } from "@/components/form/_types";
-import {SectionFormItemAttrs} from "@/components/form/_types"
-import { CommonObj,  OptionItem } from "@/vite-env";
+import { SectionFormItemAttrs } from "@/components/form/_types";
+import { CommonObj, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
 import Config from "./_components/Config.vue";
@@ -234,7 +234,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       label: "提示文案",
       extraAttrs: {
         grid: 12,
-        popover: "控价下方的提示性文字",
+        popover: "控件下方的提示性文字",
       },
     },
     {

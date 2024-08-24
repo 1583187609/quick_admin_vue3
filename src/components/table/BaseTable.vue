@@ -29,14 +29,14 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watchEffect } from "vue";
+import { ref, reactive, onMounted, watchEffect } from "vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
 import { TableColAttrs } from "@/components/table/_types";
 import { getColLevel, defaultTableAttrs } from "@/components/table";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
-import { OperateBtnsAttrs } from "./_components/GroupBtns.vue";
+import { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "./_utils";
 import { defaultCommonSize } from "@/components/_utils";
@@ -93,7 +93,7 @@ function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: 
   });
 }
 defineExpose({
-  ...tableRef.value,
+  tableRef,
 });
 </script>
 <style lang="scss" scoped>

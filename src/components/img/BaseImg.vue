@@ -29,13 +29,13 @@
 </template>
 
 <script lang="ts" setup>
-import {  computed } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { defaultCommonSize, toCssVal } from "@/components/_utils";
 import { CommonObj, CommonSize } from "@/vite-env";
 import emptyImg from "@/assets/images/default/img.png";
 
-export type ImgFitType = "" | "fill" | "contain" | "cover" | "none" | "scale-down";
+export type ImgFitType = "fill" | "contain" | "cover" | "none" | "scale-down";
 const sizeMap: CommonObj = {
   large: 26,
   default: 22,

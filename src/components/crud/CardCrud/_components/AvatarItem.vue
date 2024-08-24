@@ -44,7 +44,7 @@
 import { computed } from "vue";
 import { getTimeAgo } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
-import { OperateBtnsType } from "@/components/crud/BaseCrud/_components/GroupBtns.vue";
+import { OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
 import BarsImg from "@/components/img/BarsImg.vue";
 

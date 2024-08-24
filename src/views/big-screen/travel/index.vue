@@ -21,21 +21,21 @@
           <div class="section top">
             <div class="head f-c-fs-c">
               <span class="text">实时游客统计</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <RealTimeTourist class="body" />
           </div>
           <div class="section center">
             <div class="head f-c-fs-c">
               <span class="text">男女比例</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <GenderRatio class="body" />
           </div>
           <div class="section bottom">
             <div class="head f-c-fs-c">
               <span class="text">年龄比例</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <AgeRatio class="body" />
           </div>
@@ -48,7 +48,7 @@
           <div class="section future">
             <div class="head f-c-fs-c">
               <span class="text">未来30天游客量趋势图</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <OverNextMonth class="body" />
           </div>
@@ -57,21 +57,21 @@
           <div class="section top">
             <div class="head f-c-fs-c">
               <span class="text">热门景区排行</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <HotPlate class="body" />
           </div>
           <div class="section center">
             <div class="head f-c-fs-c">
               <span class="text">年度游客量对比</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <AnnualUse class="body" />
           </div>
           <div class="section bottom">
             <div class="head f-c-fs-c">
               <span class="text">预约渠道数据统计</span>
-              <img class="bg" src="./_imgs/title.png" />
+              <img class="bg" src="./_assets/imgs/title.png" />
             </div>
             <PlatformSource class="body" />
           </div>
@@ -134,6 +134,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="scss" scoped>
+@import url(./_assets/font/index.scss);
 .wrap {
   position: fixed;
   left: 0;
@@ -142,7 +143,7 @@ onBeforeUnmount(() => {
   height: 100vh;
   overflow: hidden;
   z-index: 999;
-  background: url("./_imgs/bg.png") no-repeat fixed center / cover;
+  background: url("./_assets/imgs/bg.png") no-repeat fixed center / cover;
   .content {
     position: absolute;
     top: 50%;
@@ -158,7 +159,7 @@ onBeforeUnmount(() => {
   .side {
     position: relative;
     width: 567px;
-    background: url("./_imgs/header-left-bg.png") no-repeat 0 0/100% 100%;
+    background: url("./_assets/imgs/header-left-bg.png") no-repeat 0 0/100% 100%;
   }
   .center {
     position: relative;
@@ -174,7 +175,7 @@ onBeforeUnmount(() => {
       color: #05e8fe;
       text-align: center;
       letter-spacing: 4px;
-      background: url("./_imgs/header-center-bg.png") no-repeat 0 0/100% 100%;
+      background: url("./_assets/imgs/header-center-bg.png") no-repeat 0 0/100% 100%;
       .warning {
         position: absolute;
         bottom: -42px;
@@ -187,7 +188,7 @@ onBeforeUnmount(() => {
         color: #ffffff;
         text-align: center;
         letter-spacing: 1px;
-        background: url("./_imgs/header-warn-bg.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/header-warn-bg.png") no-repeat 0 0/100% 100%;
         transform: translateX(-50%);
       }
     }
@@ -208,12 +209,12 @@ onBeforeUnmount(() => {
     &.home {
       right: 0;
       padding-right: 4px;
-      background: url("./_imgs/header-btn-bg-l.png") no-repeat 0 0/100% 100%;
+      background: url("./_assets/imgs/header-btn-bg-l.png") no-repeat 0 0/100% 100%;
     }
     &.report {
       left: 0;
       padding-right: 0;
-      background: url("./_imgs/header-btn-bg-r.png") no-repeat 0 0/100% 100%;
+      background: url("./_assets/imgs/header-btn-bg-r.png") no-repeat 0 0/100% 100%;
     }
   }
 
@@ -239,21 +240,22 @@ onBeforeUnmount(() => {
     .section {
       &.top {
         height: 37%;
-        background: url("./_imgs/main-lt.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/main-lt.png") no-repeat 0 0/100% 100%;
       }
       &.center {
         height: 30%;
-        background: url("./_imgs/main-lc.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/main-lc.png") no-repeat 0 0/100% 100%;
       }
       &.bottom {
         height: 27%;
         margin-bottom: 0;
-        background: url("./_imgs/main-lb.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/main-lb.png") no-repeat 0 0/100% 100%;
       }
     }
   }
   .middle {
     height: 100%;
+    width: 100%;
     margin-right: 40px;
     .map {
       position: relative;
@@ -271,7 +273,7 @@ onBeforeUnmount(() => {
         font-size: 14px;
         color: #ffffff;
         letter-spacing: 5px;
-        background: url("./_imgs/map-title-bg.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/map-title-bg.png") no-repeat 0 0/100% 100%;
       }
     }
     .future {
@@ -279,7 +281,7 @@ onBeforeUnmount(() => {
       width: 100%;
       height: 252px;
       padding-top: 54px;
-      background: url("./_imgs/main-cb.png") no-repeat 0 0/100% 100%;
+      background: url("./_assets/imgs/main-cb.png") no-repeat 0 0/100% 100%;
     }
   }
   .right {
@@ -288,16 +290,16 @@ onBeforeUnmount(() => {
     .section {
       &.top {
         height: 37%;
-        background: url("./_imgs/main-rt.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/main-rt.png") no-repeat 0 0/100% 100%;
       }
       &.center {
         height: 30%;
-        background: url("./_imgs/main-rc.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/main-rc.png") no-repeat 0 0/100% 100%;
       }
       &.bottom {
         height: 27%;
         margin-bottom: 0;
-        background: url("./_imgs/main-rb.png") no-repeat 0 0/100% 100%;
+        background: url("./_assets/imgs/main-rb.png") no-repeat 0 0/100% 100%;
       }
     }
   }

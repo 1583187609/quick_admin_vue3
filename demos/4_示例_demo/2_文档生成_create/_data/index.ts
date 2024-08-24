@@ -38,7 +38,7 @@ export const vueStr = `
       :debug="debug"
       :params="params"
       :fetch="fetch"
-      :fetchSuccess="fetchSuccess"
+      :onSuccess="onSuccess"
       :fetchFail="fetchFail"
       :noSubmitProps="noSubmitProps"
       :handleRequest="handleRequest"
@@ -74,7 +74,7 @@ const props = withDefaults(
     fields: FormField[]; //表单字段项
     pureText?: boolean; //是否纯文本展示
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    fetchSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    onSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: FinallyNext; //fetch请求失败之后的回调方法
     span?: string | number; //同ElementPlus 的span，1 ~ 24
     footer?: boolean; //是否显示底部按钮

@@ -10,7 +10,6 @@ import I18n from "@/langs";
 import { setupProdMockServer } from "./mockProdServer";
 import { handleError } from "@/utils";
 
-import "@/assets/styles/font.scss";
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";
 import "@/assets/styles/rewrite.scss";

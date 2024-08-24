@@ -8,7 +8,7 @@ import { computed } from "vue";
 import Chart from "@/components/chart/Chart.vue";
 import { axisCfg, gradColors, titleCfg } from "./_config";
 import _ from "lodash";
-import type { ChartData, EchartTheme } from "./_config/types";
+import type { ChartData, EchartTheme } from "./_types";
 import { CommonObj } from "@/vite-env";
 
 const { merge } = _;
@@ -114,3 +114,4 @@ function getItemColor(ind: number) {
 }
 </script>
 <style lang="scss" scoped></style>
+./types .

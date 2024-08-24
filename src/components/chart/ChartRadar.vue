@@ -7,7 +7,7 @@ import * as echarts from "echarts";
 import { reactive, computed } from "vue";
 import Chart from "@/components/chart/Chart.vue";
 import { typeOf } from "@/components/_utils";
-import type { EchartTheme, ChartData } from "./_config/types";
+import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
 import { CommonObj } from "@/vite-env";
 import { axisCfg, gradColors, titleCfg } from "./_config";
@@ -156,3 +156,4 @@ function getItemColor(ind: number, isMulti?: boolean) {
 }
 </script>
 <style lang="scss" scoped></style>
+./types .

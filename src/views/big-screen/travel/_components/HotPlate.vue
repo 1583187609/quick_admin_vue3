@@ -232,7 +232,7 @@ const option = {
   height: 36px;
   margin: 10px 10px 0;
   line-height: 36px;
-  background: url("../_imgs/rankingChart-bg.png") no-repeat;
+  background: url("../_assets/imgs/rankingChart-bg.png") no-repeat;
   background-size: 100% 100%;
   span {
     width: 18%;

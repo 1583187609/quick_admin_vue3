@@ -155,8 +155,8 @@ const props = withDefaults(
     /** 对请求数据的处理 **/
     reqMap?: ReqMap; //请求参数的键名映射
     resMap?: ResMap; //响应参数的键名映射
-    fetchSuccess?: (res: any) => void; //请求成功的回调函数
-    fetchFail?: (err: any) => void; //请求成功的回调函数
+    onSuccess?: (res: any) => void; //请求成功的回调函数
+    onFail?: (err: any) => void; //请求成功的回调函数
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
     handleResponse?: (res: any) => any; //处理响应数据
     /** 中间按钮项 **/
@@ -329,7 +329,7 @@ function handleChange(changedVals: CommonObj, withModelData?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { fetch, handleRequest, isOmit, handleResponse, selectAll, summaryList, fetchSuccess, fetchFail, log } = props;
+  const { fetch, handleRequest, isOmit, handleResponse, selectAll, summaryList, onSuccess, onFail, log } = props;
   if (!fetch) return;
   loading.value = true;
   if (handleRequest) args = handleRequest(args);
@@ -367,12 +367,12 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       if (selectAll) {
         seledRows.value = newList;
       }
-      fetchSuccess?.(res);
+      onSuccess?.(res);
       emits("rows", newRows.value, args);
       cb?.();
     })
     .catch((err: any) => {
-      fetchFail?.(err);
+      onFail?.(err);
     })
     .finally(() => {
       loading.value = false;
@@ -496,8 +496,8 @@ defineExpose({
     });
     return queryFields;
   },
-  ...queryFormRef.value,
-  ...queryTableRef.value,
+  // ...queryFormRef.value,
+  // ...queryTableRef.value,
 });
 </script>
 <style lang="scss" scoped>

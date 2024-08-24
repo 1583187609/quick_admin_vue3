@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { viteMockServe } from "vite-plugin-mock";
-import imageminPlugin from "vite-plugin-imagemin"; //将图片转为体积占用更小的图片存储方式
+// import imageminPlugin from "vite-plugin-imagemin"; //将图片转为体积占用更小的图片存储方式
 import { visualizer } from "rollup-plugin-visualizer";
 import GenerateComponentName from "unplugin-generate-component-name/vite"; //npm 地址：https://www.npmjs.com/package/unplugin-generate-component-name
 import pkg from "./package.json";
@@ -63,11 +63,11 @@ export default ({ mode, command }) => {
               // Filter: { bundle: picomatchPattern, file: picomatchPattern },
             }),
             // 将图片转换为 WebP 格式 压缩算法和格式来减小文件大小
-            imageminPlugin({
-              gifsicle: { optimizationLevel: 3 }, // 配置 GIF 优化选项
-              optipng: { optimizationLevel: 5 }, // 配置 PNG 优化选项
-              webp: { quality: 75 }, // 配置 WebP 转换选项
-            }),
+            // imageminPlugin({
+            //   gifsicle: { optimizationLevel: 3 }, // 配置 GIF 优化选项
+            //   optipng: { optimizationLevel: 5 }, // 配置 PNG 优化选项
+            //   webp: { quality: 75 }, // 配置 WebP 转换选项
+            // }),
           ]),
       // 自动给组件命名
       GenerateComponentName({

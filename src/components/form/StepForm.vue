@@ -4,7 +4,7 @@
     <el-steps v-bind="{ ...defaultStepsAttrs, ...stepAttrs }" class="steps f-0" :direction="direction" :active="active">
       <el-step v-bind="step" v-for="(step, ind) in steps" :key="ind" />
     </el-steps>
-    <SectionForm :sections="sections" class="ml-t f-1" v-bind="formAttrs">
+    <SectionForm :sections="sections" class="ml-t f-1" v-bind="formAttrs" ref="formRef">
       <template #head-right="scope">
         <slot :name="'head-right-' + (scope.section.prop ?? scope.index + 1)" v-bind="scope"></slot>
       </template>
@@ -46,6 +46,7 @@ const props = withDefaults(
     direction: "vertical",
   }
 );
+const formRef = ref<any>(null);
 const steps = computed<StepItemAttrs>(() =>
   props.sections.map(item => {
     const { title, description } = item;
@@ -53,6 +54,9 @@ const steps = computed<StepItemAttrs>(() =>
   })
 );
 const active = ref(1); //当前激活的步骤
+defineExpose({
+  formRef,
+});
 </script>
 <style lang="scss" scoped>
 .step-form {

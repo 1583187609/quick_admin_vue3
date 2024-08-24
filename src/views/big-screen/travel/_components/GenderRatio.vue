@@ -4,11 +4,11 @@
     <div class="ratio-header f-sb-c">
       <div class="man f-c-c-c">
         <span>男士</span>
-        <img src="../_imgs/man.png" alt="" />
+        <img src="../_assets/imgs/man.png" alt="" />
       </div>
       <div class="woman f-c-c-c">
         <span>女士</span>
-        <img src="../_imgs/woman.png" alt="" />
+        <img src="../_assets/imgs/woman.png" alt="" />
       </div>
     </div>
     <Chart :option="option" height="70px" />
@@ -139,7 +139,7 @@ const option = {
     .woman {
       width: 110px;
       height: 115px;
-      background: url("../_imgs/man-bg.png") no-repeat 0 0/100% 100%;
+      background: url("../_assets/imgs/man-bg.png") no-repeat 0 0/100% 100%;
       img {
         width: 60px;
         height: 60px;
@@ -152,7 +152,7 @@ const option = {
       }
     }
     .woman {
-      background: url("../_imgs/woman-bg.png") no-repeat;
+      background: url("../_assets/imgs/woman-bg.png") no-repeat;
     }
   }
 }

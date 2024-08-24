@@ -8,6 +8,7 @@
     :submitText="editEnable ? undefined : ''"
     :resetText="editEnable ? undefined : ''"
     @moreBtns="onMoreBtns"
+    :key="editEnable"
   >
     <template #avatar>
       <BaseAvatar :src="model.avatar" size="100" />
@@ -23,7 +24,7 @@ import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn/_types";
 
 const editEnable = ref(false);
-const model = reactive<CommonObj>(getUserInfo());
+const model = reactive<CommonObj>(Object.assign({}, getUserInfo()));
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
