@@ -64,8 +64,8 @@
 |`readonly`|是否只读|`boolean`|-|
 |`pureText`|是否纯文本展示|`boolean`|-|
 |`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
-|`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
-|`fetchFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
+|`onSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
+|`onFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
 |`grid`|同`ElementPlus `的 `el-col `的属性，也可为数值：`1 ~ 24`|`Grid`|`_props.type === "cell" ? 8 : 24`|
 |`footer`|是否显示底部按钮|`boolean`|`true`|
 |`submitText`|提交按钮的文字|`string`|-|
@@ -94,6 +94,7 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
+|`formRef`|-|`() => void`|
 |`formValidate`|-|`() => void`|
 
 ### Slots

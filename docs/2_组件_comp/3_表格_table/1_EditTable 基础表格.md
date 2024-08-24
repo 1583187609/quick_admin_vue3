@@ -21,6 +21,13 @@
 |:---|:---|:---|
 |`update:modelValue`|-|-|
 
+### Expose
+
+|方法名|说明|类型|
+|:---|:---|:---|
+|`formRef`|...`tableRef.value,`|`() => void`|
+|`tableRef`|-|`() => void`|
+
 ### Slots
 
 |插槽名|说明|Scope|

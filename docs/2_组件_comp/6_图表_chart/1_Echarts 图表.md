@@ -38,6 +38,7 @@
 |`width`|-|`string \| number`|`100%`|
 |`theme`|-|`EchartTheme`|`macarons`|
 |`option`|-|`CommonObj`|（暂未处理复杂默认值）|
+|`renderer`|-|"`canvas" \| "svg"`|-|
 
 
 

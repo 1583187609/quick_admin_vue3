@@ -48,7 +48,7 @@
 ``` ts
 
 
-export type ImgFitType = "" | "fill" | "contain" | "cover" | "none" | "scale-down";
+export type ImgFitType = "fill" | "contain" | "cover" | "none" | "scale-down";
 
 ```
 

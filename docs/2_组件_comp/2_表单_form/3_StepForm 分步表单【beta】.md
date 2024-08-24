@@ -18,6 +18,12 @@
 |`stepAttrs`|-|`StepItemAttrs`|-|
 |`formAttrs`|-|`SectionFormAtrrs`|-|
 
+### Expose
+
+|方法名|说明|类型|
+|:---|:---|:---|
+|`formRef`|-|`() => void`|
+
 ### Slots
 
 |插槽名|说明|Scope|

@@ -27,8 +27,8 @@
 |`rowNum`|筛选条件的(表单)展示几行|`number`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|-|
 |`resMap`|响应参数的键名映射|`ResMap`|-|
-|`fetchSuccess`|请求成功的回调函数|`() => void`|-|
-|`fetchFail`|请求成功的回调函数|`() => void`|-|
+|`onSuccess`|请求成功的回调函数|`() => void`|-|
+|`onFail`|请求成功的回调函数|`() => void`|-|
 |`handleRequest`|处理参数|`() => void`|-|
 |`handleResponse`|处理响应数据|`() => void`|-|
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|

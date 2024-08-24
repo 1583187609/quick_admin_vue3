@@ -74,8 +74,8 @@
 |`fields`|表单字段项(数组)|`FormField[]`|`[]`|
 |`pureText`|是否纯文本展示|`boolean`|-|
 |`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
-|`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
-|`fetchFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
+|`onSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
+|`onFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
 |`span`|同`ElementPlus `的`span`，`1 ~ 24`|`string \| number`|-|
 |`footer`|是否显示底部按钮|`boolean`|`true`|
 |`submitText`|提交按钮的文字|`string`|-|

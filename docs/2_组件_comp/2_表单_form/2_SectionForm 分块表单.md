@@ -37,8 +37,8 @@
 |`labelWidth`|`label`的宽度|`string`|-|
 |`foldable`|是否允许折叠|`boolean`|`true`|
 |`fetch`|接口请求|`UniteFetchType`|-|
-|`fetchSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
-|`fetchFail`|`fetch`请求失败之后的回调方法|`() => void`|-|
+|`onSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
+|`onFail`|`fetch`请求失败之后的回调方法|`() => void`|-|
 |`footer`|是否显示底部按钮|`boolean`|`true`|
 |`grid`|同`ElementPlus`的`el-col`的属性，可为数值：`1~24`|`Grid`|`24`|
 |`submitText`|提交按钮的文字|`string`|-|
