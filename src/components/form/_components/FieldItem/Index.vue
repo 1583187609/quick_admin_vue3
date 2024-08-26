@@ -339,6 +339,7 @@ const newField = computed<FormFieldAttrs>(() => {
     delete tempField.label;
   }
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
+  console.log(tempField, "tempField----------------------");
   return tempField;
 });
 const flexClass = { "f-1": newField.value.extraAttrs?.before ?? newField.value.extraAttrs?.after };

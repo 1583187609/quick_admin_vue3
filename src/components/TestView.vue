@@ -69,10 +69,10 @@ function getTipsMap(records: TipsType): TipsMap | null {
       margin-right: $gap-half;
     }
   }
-  .main {
-  }
-  .side {
-  }
+  // .main {
+  // }
+  // .side {
+  // }
   .tips {
     flex-basis: 1px;
     &.fold {

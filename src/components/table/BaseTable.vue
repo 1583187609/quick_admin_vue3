@@ -97,10 +97,8 @@ defineExpose({
 });
 </script>
 <style lang="scss" scoped>
-// .base-table {
-//   // width: 100%;
-//   // :deep(.base-table .el-table__row) {
-//   //   overscroll-behavior: auto;
-//   // }
-// }
+.base-table {
+  height: 100%;
+  width: 100%;
+}
 </style>

@@ -2,40 +2,39 @@
 <template>
   <el-tabs v-model="activeName" tab-position="left" style="height: 100%" class="demo-tabs">
     <el-tab-pane label="基础表单" name="baseForm">
-      <BaseFormTest />
+      <BaseFormTest v-if="activeName === 'baseForm'" />
     </el-tab-pane>
     <el-tab-pane label="分块表单" name="sectionForm">
-      <SectionFormTest />
+      <SectionFormTest v-if="activeName === 'sectionForm'" />
     </el-tab-pane>
     <el-tab-pane label="步骤表单？" name="stepForm">
-      <StepFormTest />
+      <StepFormTest v-if="activeName === 'stepForm'" />
     </el-tab-pane>
     <el-tab-pane label="单元格表单？" name="cellForm">
-      <CellFormTest />
+      <CellFormTest v-if="activeName === 'cellForm'" />
     </el-tab-pane>
     <el-tab-pane label="嵌套表单？" name="nestedForm">
-      <NestedFormTest />
+      <NestedFormTest v-if="activeName === 'nestedForm'" />
     </el-tab-pane>
     <el-tab-pane label="基础表格" name="baseTable">
-      <BaseTableTest />
+      <BaseTableTest v-if="activeName === 'baseTable'" />
     </el-tab-pane>
     <el-tab-pane label="编辑表格？" name="editTable">
-      <EditTableTest />
+      <EditTableTest v-if="activeName === 'editTable'" />
     </el-tab-pane>
     <el-tab-pane label="基础增删改查" name="baseCrud">
-      <BaseCrudTest />
+      <BaseCrudTest v-if="activeName === 'baseCrud'" />
     </el-tab-pane>
     <el-tab-pane label="卡片增删改查？" name="cardCrud">
-      <CardCrudTest />
+      <CardCrudTest v-if="activeName === 'cardCrud'" />
     </el-tab-pane>
     <el-tab-pane label="自定义增删改查？" name="customCrud">
-      <CustomCrudTest />
+      <CustomCrudTest v-if="activeName === 'customCrud'" />
     </el-tab-pane>
   </el-tabs>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { ref } from "vue";
 import BaseFormTest from "./_components/BaseFormTest.vue";
 import CellFormTest from "./_components/CellFormTest.vue";
 import NestedFormTest from "./_components/NestedFormTest.vue";
@@ -47,26 +46,7 @@ import BaseCrudTest from "./_components/BaseCrudTest.vue";
 import CardCrudTest from "./_components/CardCrudTest.vue";
 import CustomCrudTest from "./_components/CustomCrudTest.vue";
 
-const activeName = ref("nestedForm");
-
-const cols = [
-  { prop: "id", label: "用户ID" },
-  { prop: "nc", label: "昵称" },
-  {
-    prop: "zy",
-    label: "职业",
-  },
-  { prop: "xm", label: "姓名" },
-  { prop: "xb", label: "性别" },
-  { prop: "nl", label: "年龄" },
-  { prop: "xx", label: "学校" },
-  { prop: "jg", label: "籍贯" },
-  { prop: "xjd", label: "现居地" },
-  { prop: "ip", label: "IP地址" },
-  { prop: "dh", label: "电话" },
-];
-
-const rows = [];
+const activeName = ref("editTable");
 </script>
 <style lang="scss">
 .demo-tabs {

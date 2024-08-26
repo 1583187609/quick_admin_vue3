@@ -52,21 +52,17 @@ const cols = [
   { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
 ];
 
-const rows = [
-  { id: 1, zy: 0, xb: 0, nl: 23, zt: 0 },
-  { id: 2, zy: 0, xb: 1, nl: 23, zt: 0 },
-  { id: 3, zy: 0, xb: 1, nl: 23, zt: 0 },
-  { id: 4, zy: 0, xb: 1, nl: 23, zt: 0 },
-  { id: 5, zy: 0, xb: 0, nl: 23, zt: 0 },
-  { id: 6, zy: 0, xb: 0, nl: 23, zt: 0 },
-  { id: 7, zy: 0, xb: 2, nl: 23, zt: 0 },
-  { id: 8, zy: 0, xb: 0, nl: 23, zt: 0 },
-  { id: 9, zy: 0, xb: 2, nl: 23, zt: 0 },
-  { id: 10, zy: 0, xb: 0, nl: 23, zt: 0 },
-  { id: 11, zy: 0, xb: 2, nl: 23, zt: 0 },
-  { id: 12, zy: 0, xb: 2, nl: 23, zt: 0 },
-  { id: 13, zy: 0, xb: 2, nl: 23, zt: 0 },
-];
+const rows = Array(30)
+  .fill("")
+  .map((item, ind) => {
+    return {
+      id: ind + 1,
+      zy: 0,
+      xb: 1,
+      nl: 23,
+      zt: 0,
+    };
+  });
 
 function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   const { id } = row;
