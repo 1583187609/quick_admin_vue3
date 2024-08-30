@@ -106,12 +106,15 @@
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里
 72、将 SetTable 用 EditTable 改造
-73、删除 `src/test_components` 文件夹下的内容
-74、将 Quick 的内核抽离出来，放在 quick-core 文件夹下
-75、完善 http 的 ts 类型书写
-76、请求参数加解密
-77、大屏页面第一个水滴图未正常显示
-78、StepForm 必填项完成后，自动跳到下一步骤
+73、删除 `src/test_components` 文件夹下的内容  
+74、将 Quick 的内核抽离出来，放在 quick-core 文件夹下  
+75、完善 http 的 ts 类型书写  
+76、请求参数加解密  
+77、大屏页面第一个水滴图未正常显示  
+78、StepForm 必填项完成后，自动跳到下一步骤  
+79、BaseCopy 支持复制文本同时，可以跳转路由
+80、日期区间组件，增加 `defaultTime` 属性
+81、storage 的 clear 方法完善
 
 ## vip 功能清单
 

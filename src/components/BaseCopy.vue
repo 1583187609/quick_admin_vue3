@@ -17,7 +17,7 @@
 import { StrNum } from "@/vite-env";
 import { showMessage } from "./_utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
-import { useSlots,computed } from "vue";
+import { useSlots, computed } from "vue";
 
 const $slots = useSlots();
 
@@ -32,7 +32,7 @@ const props = withDefaults(
     line: 1,
   }
 );
-const textStr = computed<StrNum>(()=> props.text ?? $slots.default?.()[0]?.children ?? "");
+const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 function handleClick(e) {
   const { tagName, classList } = e.target;
   const { clickIconCopy, stop } = props;

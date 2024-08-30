@@ -27,7 +27,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { type FormItemRule} from "element-plus";
+import { type FormItemRule } from "element-plus";
 import { CommonObj, StrNum, CommonSize } from "@/vite-env";
 import { propsJoinChar, rangeJoinChar, showMessage } from "@/components/_utils";
 
@@ -38,41 +38,41 @@ const props = withDefaults(
     modelValue?: [StrNumUnd, StrNumUnd];
     prop?: string | [string, string];
     label?: string;
-    minPlaceholder?: string,
-    maxPlaceholder?: string,
+    minPlaceholder?: string;
+    maxPlaceholder?: string;
     rules?: FormItemRule[];
     attrs?: CommonObj;
     rangeSeparator?: string;
     size?: CommonSize;
   }>(),
   {
-    label: '',
-    minPlaceholder: '最小值',
-    maxPlaceholder: '最大值',
+    label: "",
+    minPlaceholder: "最小值",
+    maxPlaceholder: "最大值",
     rangeSeparator: rangeJoinChar,
   }
 );
 const emits = defineEmits(["update:modelValue", "change", "clear"]);
 const [minProp, maxProp] = [`${props.prop}[0]`, `${props.prop}[1]`];
 const minVal = computed<StrNumUnd>({
-  get: ()=>props.modelValue?.[0],
+  get: () => props.modelValue?.[0],
   set(val: StrNumUnd) {
     emits("update:modelValue", [val, maxVal.value]);
   },
 });
 const maxVal = computed<StrNumUnd>({
-  get: ()=>props.modelValue?.[1],
+  get: () => props.modelValue?.[1],
   set(val: StrNumUnd) {
     emits("update:modelValue", [minVal.value, val]);
   },
 });
 
 function validate(rule: FormItemRule, value: any, callback: any) {
-  const min = minVal.value ?? '';
-  const max = maxVal.value ?? '';
-  if (min === '' || max === '') return callback();
+  const min = minVal.value ?? "";
+  const max = maxVal.value ?? "";
+  if (min === "" || max === "") return callback();
   if (min <= max) return callback();
-  const msg = props.label + "最小值不能超过最大值"
+  const msg = props.label + "最小值不能超过最大值";
   showMessage(msg, "error");
   callback(new Error(msg));
 }

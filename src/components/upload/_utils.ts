@@ -10,7 +10,7 @@ export function getAcceptTypeStr(accept: string): string {
  * 获取支持上传的图片大小限制(自带单位)
  */
 export function getLimitSizeStr(limitSize: number): string {
-  let size = limitSize / 1024;
+  const size = limitSize / 1024;
   if (size < 1024) return `${size.toFixed(1)}kb`;
   return `${(size / 1024).toFixed(1)}Mb`;
 }

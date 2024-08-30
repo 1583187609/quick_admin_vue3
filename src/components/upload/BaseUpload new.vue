@@ -25,7 +25,7 @@ const handleRemove = (file: UploadFile) => {
   console.log(file);
 };
 const handlePictureCardPreview = (file: UploadFile) => {
-  openPopup("预览", ["img", { src: file.url, style: "height:60vmin;width:60vmin" }]);
+  openPopup("预览", ["img", { src: file.url, wFull: true }]);
 };
 const handleDownload = (file: UploadFile) => {
   console.log(file);
