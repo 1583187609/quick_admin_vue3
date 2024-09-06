@@ -111,7 +111,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, nextTick, h} from "vue";
+import { ref, inject, onMounted, nextTick, h } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useRouter } from "vue-router";
@@ -136,7 +136,7 @@ import "driver.js/dist/driver.css";
 // import { useDict } from "@/hooks";
 
 const { tm: $t } = useI18n();
-// const { updateDict }=useDict();
+// const { updateStorageDict }=useDict();
 const { VITE_APP_NAME } = import.meta.env;
 const openPopup = inject<OpenPopupInject>("openPopup");
 const menuStore = useMenuStore();
@@ -153,7 +153,7 @@ const tooltipAttrs = {
 async function handleReloadView() {
   // reloadView();
   router.go(0);
-  // updateDict(); router.go()会触发layout中的updateDict执行
+  // updateStorageDict(); router.go()会触发layout中的updateDict执行
   showMessage("刷新系统成功");
 }
 

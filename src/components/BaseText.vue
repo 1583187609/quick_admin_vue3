@@ -22,7 +22,7 @@ const props = withDefaults(
   }>(),
   {
     maxLine: 5,
-    popupAttrs: () => defaultPopupAttrs,
+    popupAttrs: () => ({ title: "详情", width: "500px" }),
   }
 );
 const $slots = useSlots();

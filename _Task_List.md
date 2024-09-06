@@ -115,6 +115,10 @@
 79、BaseCopy 支持复制文本同时，可以跳转路由
 80、日期区间组件，增加 `defaultTime` 属性
 81、storage 的 clear 方法完善
+82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定。
+83、validType 增加 rmb 类型。
+84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
+85、验证 FieldItem 的 validType 为 rmb 时是否正常
 
 ## vip 功能清单
 

@@ -31,6 +31,9 @@
     <el-tab-pane label="自定义增删改查？" name="customCrud">
       <CustomCrudTest v-if="activeName === 'customCrud'" />
     </el-tab-pane>
+    <el-tab-pane label="字典Hooks测试？" name="dictHooksTest">
+      <DictHooksTest v-if="activeName === 'dictHooksTest'" />
+    </el-tab-pane>
   </el-tabs>
 </template>
 <script lang="ts" setup>
@@ -45,8 +48,9 @@ import EditTableTest from "./_components/EditTableTest.vue";
 import BaseCrudTest from "./_components/BaseCrudTest.vue";
 import CardCrudTest from "./_components/CardCrudTest.vue";
 import CustomCrudTest from "./_components/CustomCrudTest.vue";
+import DictHooksTest from "./_components/DictHooksTest.vue";
 
-const activeName = ref("editTable");
+const activeName = ref("dictHooksTest");
 </script>
 <style lang="scss">
 .demo-tabs {

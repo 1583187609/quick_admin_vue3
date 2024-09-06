@@ -19,7 +19,7 @@
     // ),
     // 'info': (
     //   'base': #909399,
-    // ),,,
+    // ),,,,,
   ),
   $text-color: (
     "primary": $color-text-heavy,
@@ -37,7 +37,7 @@
     "base": $radius-main,
     "small": $radius-lighter,
     // 'round': 20px,
-    // 'circle': 100%,,,
+    // 'circle': 100%,,,,,
   ),
   // $box-shadow:(
   //   'base': (
@@ -85,7 +85,7 @@
       // 'checked-input-border-color': var(--el-color-primary),
       // 'checked-bg-color': var(--el-color-primary),
       // 'checked-icon-color': var(--el-fill-base),
-      // 'input-border-color-hover': var(--el-color-primary),,,
+      // 'input-border-color-hover': var(--el-color-primary),,,,,
     ),
   // $checkbox-button: (
   //   'checked-bg-color': var(--el-color-primary),
@@ -113,7 +113,7 @@
     // 'input-bg-color': var(--el-color-white),
     // 'input-border': var(--el-border-base),
     // 'input-border-color': var(--el-border-color-base),
-    // 'input-border-color-hover': var(--el-color-primary),,,
+    // 'input-border-color-hover': var(--el-color-primary),,,,,
   ),
   // $radio-button: (
   //   'checked-bg-color': var(--el-color-primary),
@@ -203,7 +203,7 @@
     "padding": $gap $gap $gap $gap-one-half,
     "close-size": $font-size-heavy,
     // 'close-icon-color': var(--el-text-color-placeholder),
-    // 'close-hover-color': var(--el-text-color-secondary),,,
+    // 'close-hover-color': var(--el-text-color-secondary),,,,,
   ),
   $notification: (
     // 'width': 330px,
@@ -221,7 +221,7 @@
     "title-font-size": $font-size-heavy,
     // 'title-color': var(--el-text-color-primary),
     // 'close-color': var(--el-text-color-secondary),
-    // 'close-hover-color': var(--el-text-color-regular),,,
+    // 'close-hover-color': var(--el-text-color-regular),,,,,
   ),
   $input: (
     // 'text-color': var(--el-text-color-regular),
@@ -230,11 +230,11 @@
     "border-radius": $radius-light,
     // 'bg-color': var(--el-color-white),
     // 'icon-color': var(--el-text-color-placeholder),
-    "placeholder-color": #ddd,
+    // "placeholder-color": #ddd,
     // var(--el-text-color-placeholder),
     // 'hover-border': var(--el-border-color-hover),
     // 'clear-hover-color': var(--el-text-color-secondary),
-    // 'focus-border': var(--el-color-primary),,,
+    // 'focus-border': var(--el-color-primary),,,,,
   ),
   // $input-disabled: (
   //   'fill': var(--el-disabled-bg-color),
@@ -270,7 +270,7 @@
     // 'node-background-hover': var(--el-bg-color),
     // 'node-color-disabled': var(--el-text-color-placeholder),
     // 'color-empty': var(--el-text-color-placeholder),
-    // 'tag-background': #f0f2f5,,,
+    // 'tag-background': #f0f2f5,,,,,
   ),
   // $button: (
   //   'font-weight': var(--el-font-weight-primary),
@@ -368,7 +368,7 @@
     // 'button-disabled-bg-color': var(--el-color-white),
     // 'hover-color': var(--el-color-primary),
     // 'height-extra-small': 24px,
-    // 'line-height-extra-small': var(--el-pagination-height-extra-small),,,
+    // 'line-height-extra-small': var(--el-pagination-height-extra-small),,,,,
   ),
   // $popup: (
   //   'modal-bg-color': var(--el-color-black),
@@ -466,7 +466,7 @@
       "item-height": $height-heavy,
       // 'item-font-size': var(--el-font-size-base),
       // 'item-hover-fill': var(--el-color-primary-light-9),
-      // 'border-color': #e6e6e6,,,
+      // 'border-color': #e6e6e6,,,,,
     ),
   $rate: (
     // 'height': 20px,
@@ -477,7 +477,7 @@
     // 'void-color': #c6d1de,
     // 'star-color': #f7ba2a,
     // 'disable-void-color': #eff2f7,
-    // 'text-color': #1f2d3d,,,
+    // 'text-color': #1f2d3d,,,,,
   ),
   // $datepicker:(
   //   'text-color': var(--el-text-color-regular),
@@ -517,7 +517,7 @@
       // 'indicator-height': 2px,
       // 'indicator-padding-horizontal': 4px,
       // 'indicator-padding-vertical': 12px,
-      // 'indicator-out-color': var(--el-border-color-hover),,,
+      // 'indicator-out-color': var(--el-border-color-hover),,,,,
     ),
   $collapse: (
     // 'border-color': var(--el-border-color-lighter),
@@ -538,7 +538,7 @@
     // 'panel-footer-height': 40px,
     // 'panel-body-height': 278px,
     // 'item-height': 30px,
-    // 'filter-height': 32px,,,
+    // 'filter-height': 32px,,,,,
   ),
   $timeline: (
     "node-size-normal": $font-size-lighter,
@@ -556,7 +556,7 @@
       // 'font-weight': var(--el-font-weight-primary),
       // 'default-text-color': var(--el-text-color-regular),
       // 'default-active-color': var(--el-color-primary),
-      // 'disabled-text-color': var(--el-text-color-placeholder),,,
+      // 'disabled-text-color': var(--el-text-color-placeholder),,,,,
     ),
   // $calendar: (
   //   'border': var(--el-table-border, 1px solid var(--el-border-color-lighter)),

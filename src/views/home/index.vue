@@ -11,7 +11,7 @@
               :fetch="item.api"
               :tableAttrs="{ size: 'small', maxHeight: 200 }"
               :pageAttrs="{
-                small: true,
+                size: 'small',
                 pageSizes: [5, 10, 15, 20, 25],
               }"
               :pagination="{ currPage: 1, pageSize: 5 }"

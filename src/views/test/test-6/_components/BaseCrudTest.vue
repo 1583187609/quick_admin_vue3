@@ -75,7 +75,7 @@ const fields: FormFieldAttrs[] = [
     type: "select",
     options: "EnableStatus",
   },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestAsyncFunction" },
+  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchLazy" },
   {
     prop: "multi_tag",
     label: "多标签",

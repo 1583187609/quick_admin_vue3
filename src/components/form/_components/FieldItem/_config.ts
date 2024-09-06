@@ -81,10 +81,10 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     select: {
       attrs: {
-        style: {
-          // width: "100%",
-          minWidth: "150px", // minWidth 在作为表单子项时，是需要设置的，不然宽度会塌陷
-        },
+        // style: {
+        //   // width: "100%",
+        //   minWidth: "150px", // minWidth 在作为表单子项时，是需要设置的，不然宽度会塌陷
+        // },
         // placeholder: "请选择${label}",
         clearable: true,
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary
@@ -104,7 +104,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
           };
         },
       },
-      // options: [],
     },
     cascader: {
       attrs: {
@@ -116,29 +115,42 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     "date-picker": {
       attrs: {
         // style: { width: "100%" },
-        type: "daterange", // year/month/date/dates/datetime/ week/datetimerange/daterange/monthrange
+        type: "daterange", // 'year' | 'years' |'month' | 'months' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'| 'yearrange'
         rangeSeparator: rangeJoinChar,
-        valueFormat: "YYYY-MM-DD",
+        format: "YYYY-MM-DD", //显示在输入框中的格式
+        valueFormat: "YYYY-MM-DD", //绑定值的格式。 不指定则绑定值为 Date 对象
         placeholder: "请选择${label}",
         clearable: true,
         getAttrs(field: FormFieldAttrs) {
           const { attrs = {} } = field;
           const { type } = attrs;
           const newAttrs: CommonObj = {};
-          if (type.includes("range")) {
-            const textMap: CommonObj = {
-              date: "日期",
-              month: "月份",
-              datetime: "时间",
-            };
-            newAttrs.startPlaceholder = `开始${textMap[type.slice(0, -5)]}`;
-            newAttrs.endPlaceholder = `结束${textMap[type.slice(0, -5)]}`;
-            if (type === "daterange") {
-              newAttrs.shortcuts = defaultDateRangeShortcuts;
-            }
-          } else {
-            // newAttrs.placeholder = "请选择${label}";
-          }
+          if (!type.includes("range")) return newAttrs;
+          const defaultTime = [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)]; // 当选择同一天时，会以[2024-09-03 00:00:00, 2024-09-03 23:59:59]查询
+          const rangeMap: CommonObj = {
+            daterange: {
+              text: "日期",
+              attrs: {
+                shortcuts: defaultDateRangeShortcuts,
+                // defaultTime, // 范围选择时选中日期所使用的当日内具体时刻
+                // defaultValue: [], //选择器打开时默认显示的时间
+              },
+            },
+            datetimerange: {
+              text: "时间",
+              attrs: {
+                defaultTime,
+              },
+            },
+            monthrange: {
+              text: "月份",
+              attrs: {},
+            },
+          };
+          const { text, attrs: selfAttrs } = rangeMap[type];
+          newAttrs.startPlaceholder = `开始${text}`;
+          newAttrs.endPlaceholder = `结束${text}`;
+          Object.assign(newAttrs, selfAttrs);
           return newAttrs;
         },
       },
@@ -157,11 +169,11 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     // },
     "checkbox-group": {
       attrs: {},
-      options: [{ label: "多选项1" }],
+      options: [], // [{ label: "多选项1" }]
     },
     "radio-group": {
       attrs: { type: "button" },
-      options: [{ label: "单选项-error" }],
+      options: [], // [{ label: "单选项-error" }]
     },
     pureText: {
       attrs: {
@@ -308,6 +320,19 @@ export const defaultValidTypes: CommonObj = getExportData(
           trigger: "blur",
         },
       ],
+    },
+    // 人民币：最小值为0，保留两位小数
+    rmb: {
+      type: "input-number",
+      attrs: {
+        min: 0,
+        precision: 2,
+        step: 0.1,
+        controlsPosition: "right",
+      },
+      extraAttrs: {
+        after: "元",
+      },
     },
     //年龄
     age: {

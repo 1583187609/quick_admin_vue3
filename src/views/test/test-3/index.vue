@@ -190,10 +190,9 @@ const fields: FormFieldAttrs[] = [
   },
   { prop: "qqxl", label: "文本下拉", type: "select", options: "TestText" },
   { prop: "hsxl", label: "函数下拉", type: "select", options: "TestFunction" },
-  { prop: "fhprxl", label: "返回Prom", type: "select", options: "TestFunctionReturnPromise" },
   { prop: "promxl", label: "Promise下拉", type: "select", options: "TestPromise" },
   { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetch" },
-  { prop: "ybhsxl", label: "异步函数下拉", type: "select", options: "TestAsyncFunction" },
+  { prop: "ybhsxl", label: "异步函数下拉", type: "select", options: "TestFetchLazy" },
   {
     prop: "multi_tag",
     label: "多标签",

@@ -1,5 +1,6 @@
 import { GetMockCommonList } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
+import { lazyFetch } from "..";
 
 const tempCascaderOpts = [
   {
@@ -273,12 +274,15 @@ const tempCascaderOpts = [
 const tempTreeOpts = [
   {
     label: "Level one 1",
+    value: "1",
     children: [
       {
         label: "Level two 1-1",
+        value: "1-1",
         children: [
           {
             label: "Level three 1-1-1",
+            value: "1-1-1",
           },
         ],
       },
@@ -286,20 +290,25 @@ const tempTreeOpts = [
   },
   {
     label: "Level one 2",
+    value: "2",
     children: [
       {
         label: "Level two 2-1",
+        value: "2-1",
         children: [
           {
             label: "Level three 2-1-1",
+            value: "2-1-1",
           },
         ],
       },
       {
         label: "Level two 2-2",
+        value: "2-2",
         children: [
           {
             label: "Level three 2-2-1",
+            value: "2-2-1",
           },
         ],
       },
@@ -307,20 +316,25 @@ const tempTreeOpts = [
   },
   {
     label: "Level one 3",
+    value: "3",
     children: [
       {
         label: "Level two 3-1",
+        value: "3-1",
         children: [
           {
             label: "Level three 3-1-1",
+            value: "3-1-1",
           },
         ],
       },
       {
         label: "Level two 3-2",
+        value: "3-2",
         children: [
           {
             label: "Level three 3-2-1",
+            value: "3-2-1",
           },
         ],
       },
@@ -334,6 +348,22 @@ export default {
     1: "文本1",
     2: "文本2",
   },
+  // 对象类型
+  TestObj: {
+    1: {
+      text: "对象1",
+    },
+    2: {
+      text: "对象2（带attrs属性）",
+      attrs: {
+        type: "primary",
+      },
+    },
+  },
+  // 写死的级联
+  TestCascader: tempCascaderOpts,
+  // 写死的树
+  TestTree: tempTreeOpts,
   // 函数类型
   TestFunction() {
     return {
@@ -342,45 +372,35 @@ export default {
     };
   },
   // Promise 类型
-  TestPromise: new Promise(resolve => {
-    resolve({
-      1: "Promise1",
-      2: "Promise2",
-    });
-  }),
-  // 请求下拉类型
-  TestFetch: GetMockCommonList().then((res: CommonObj) => {
-    const list = res.records.slice(0, 3);
-    const obj: CommonObj = {};
-    list.forEach((item: string, ind: number) => {
-      obj[ind] = { text: `请求${ind + 1}` };
-    });
-    return obj;
-  }),
-  // 异步函数类型
-  TestAsyncFunction: async () => {
-    return await GetMockCommonList().then((res: CommonObj) => {
+  TestPromise: lazyFetch(
+    () =>
+      new Promise(resolve => {
+        resolve({
+          1: "Promise1",
+          2: "Promise2",
+        });
+      })
+  ),
+  // 直接请求
+  TestFetch: lazyFetch(() =>
+    GetMockCommonList().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
       const obj: CommonObj = {};
       list.forEach((item: string, ind: number) => {
-        obj[ind] = { text: `异步函数${ind + 1}` };
+        obj[ind] = { text: `直接请求${ind + 1}` };
       });
       return obj;
-    });
-  },
-  // 函数返回Promise类型
-  TestFunctionReturnPromise: () => {
-    return GetMockCommonList().then((res: CommonObj) => {
+    })
+  ),
+  // 按需（懒）加载请求
+  TestFetchLazy: lazyFetch(() =>
+    GetMockCommonList().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
       const obj: CommonObj = {};
       list.forEach((item: string, ind: number) => {
-        obj[ind] = { text: `函数返回Promise${ind + 1}` };
+        obj[ind] = { text: `按需请求${ind + 1}` };
       });
       return obj;
-    });
-  },
-  // 写死的级联
-  TestCascader: tempCascaderOpts,
-  // 写死的树
-  TestTree: tempTreeOpts,
+    })
+  ),
 };
