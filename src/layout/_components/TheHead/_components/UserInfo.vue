@@ -82,7 +82,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         disabled: !editEnable.value,
       },
       extraAttrs: {
-        validType: "phone",
+        rulesType: "phone",
       },
     },
     ...(editEnable.value
@@ -94,7 +94,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
               type: "password",
             },
             extraAttrs: {
-              validType: "password",
+              rulesType: "password",
             },
           },
           {
@@ -105,7 +105,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
               type: "password",
             },
             extraAttrs: {
-              validType: "password",
+              rulesType: "password",
             },
           },
         ]

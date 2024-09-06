@@ -237,9 +237,7 @@ export function getLabelFromOptionsByLastValue(
       if (isFind) {
         target = item;
       } else {
-        if (children?.length) {
-          return getLabel(children);
-        }
+        if (children?.length) return getLabel(children);
       }
       return isFind;
     });

@@ -71,7 +71,7 @@ import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemT
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
-import { defaultFieldAttrs, defaultValidTypes } from ".";
+import { defaultFieldAttrs, defaultRulesTypes } from ".";
 import AddDelList from "../AddDelList.vue";
 import AnyEleList from "../AnyEleList.vue";
 import { rangeJoinChar, emptyVals } from "@/components/_utils";
@@ -165,8 +165,8 @@ const newField = computed<FormFieldAttrs>(() => {
     }
     // }
   } else {
-    const { validType = "" } = extraAttrs;
-    const validField: CommonObj = validType ? defaultValidTypes[validType] : {};
+    const { rulesType = "" } = extraAttrs;
+    const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : {};
     const { type: vType } = validField;
     const type = fType ?? vType ?? defaultFormItemType;
     const defField = defaultFieldAttrs[type];
@@ -409,8 +409,8 @@ function getPlaceholder(field: FormFieldAttrs) {
  */
 function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
   const { label = "", required, extraAttrs = {} } = field;
-  const { validType } = extraAttrs;
-  const validField: CommonObj = validType ? defaultValidTypes[validType] : {};
+  const { rulesType } = extraAttrs;
+  const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : {};
   const newRules: FormItemRule[] = [
     ...(validField.rules ?? []),
     ...(required ? [{ required, message: label + "必填", trigger: "blur" }] : []),

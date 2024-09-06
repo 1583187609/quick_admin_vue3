@@ -34,7 +34,7 @@ const fields: FormField[] = [
     label: "电话号码",
     required: true,
     extraAttrs: {
-      validType: "phone",
+      rulesType: "phone",
     },
   },
   {

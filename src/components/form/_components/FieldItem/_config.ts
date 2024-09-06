@@ -257,8 +257,8 @@ export const defaultPopoverAttrs: CommonObj = getExportData(
   formCfg?.defaultPopoverAttrs
 );
 
-//默认的校验类型
-export const defaultValidTypes: CommonObj = getExportData(
+//默认的规则类型
+export const defaultRulesTypes: CommonObj = getExportData(
   {
     //手机号
     phone: {
@@ -346,5 +346,5 @@ export const defaultValidTypes: CommonObj = getExportData(
       },
     },
   },
-  formCfg?.defaultValidTypes
+  formCfg?.defaultRulesTypes
 );

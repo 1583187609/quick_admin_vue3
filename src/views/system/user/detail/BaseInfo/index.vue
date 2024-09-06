@@ -210,7 +210,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     label: "年龄",
     type: "input-number",
     extraAttrs: {
-      validType: "age",
+      rulesType: "age",
     },
   },
   {
@@ -264,7 +264,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     prop: "sr",
     label: "手机号",
     extraAttrs: {
-      validType: "phone",
+      rulesType: "phone",
     },
   },
   {
@@ -511,7 +511,7 @@ const preferSetFormFields: CellTableFieldItem[] = [
     type: "BaseNumberRange",
     // grid: { span: 6 },
     extraAttrs: {
-      validType: "age",
+      rulesType: "age",
     },
   },
   {

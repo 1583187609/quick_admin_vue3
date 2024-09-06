@@ -2,10 +2,10 @@ import { FormRules } from "element-plus";
 import { SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { BaseRenderData } from "@/components/BaseRender.vue";
-import { defaultValidTypes } from "./_config";
+import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 
-export type ValidType = keyof typeof defaultValidTypes;
+export type ValidType = keyof typeof defaultRulesTypes;
 
 export type FormItemType =
   | "input"
@@ -60,7 +60,7 @@ export interface FormFieldAttrs {
   //   popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
   //   tips?: string; //注意提示语，位于字段的下方
   //   pureText?: boolean; //是否纯文本展示
-  //   validType?: ValidType; //校验类型
+  //   rulesType?: ValidType; //规则类型
   //   before?: any; //字段前面拼接的内容，可以是文本、组件等
   //   after?: any; //字段后面拼接的内容，可以是文本、组件等
   // };

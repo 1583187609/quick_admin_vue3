@@ -97,8 +97,8 @@ const fields = ref<FormField[]>([
     },
   },
 
-  { prop: "phone", label: "电话", required: true, extraAttrs: { grid: 12, validType: "phone" } },
-  { prop: "psd", label: "密码", required: true, extraAttrs: { grid: 12, validType: "password" } },
+  { prop: "phone", label: "电话", required: true, extraAttrs: { grid: 12, rulesType: "phone" } },
+  { prop: "psd", label: "密码", required: true, extraAttrs: { grid: 12, rulesType: "password" } },
   {
     prop: "address",
     label: "居住地址",

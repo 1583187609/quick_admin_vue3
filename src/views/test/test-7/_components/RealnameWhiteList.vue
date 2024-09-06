@@ -27,7 +27,7 @@ const fields = ref<FormField[]>([
         labelWidth: "auto",
         required: true,
         extraAttrs: {
-          validType: "identity",
+          rulesType: "identity",
         },
       },
     ],

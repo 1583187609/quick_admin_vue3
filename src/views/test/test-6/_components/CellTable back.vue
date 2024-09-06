@@ -35,7 +35,7 @@ export interface CellTableFieldItem {
   direction?: "vertical" | "horizontal";
   extraAttrs?: {
     popover?: string | CommonObj;
-    validType?: ValidType;
+    rulesType?: ValidType;
   };
 }
 const props = withDefaults(

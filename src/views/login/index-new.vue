@@ -92,7 +92,7 @@ const fields = computed<FormField[]>(() => {
         showWordLimit: false,
       },
       extraAttrs: {
-        // validType: "phone",
+        // rulesType: "phone",
       },
       slots: {
         prefix: h(BaseIcon, { name: "User", size: "24" }),
@@ -117,7 +117,7 @@ const fields = computed<FormField[]>(() => {
       label: "密码",
       required: true,
       extraAttrs: {
-        validType: "password",
+        rulesType: "password",
       },
       slots: {
         prefix: h(BaseIcon, { name: "Lock", size: "24" }),
@@ -132,7 +132,7 @@ const fields = computed<FormField[]>(() => {
         placeholder: "请再次输入密码",
       },
       extraAttrs: {
-        validType: "password",
+        rulesType: "password",
       },
       slots: {
         prefix: h(BaseIcon, { name: "Unlock", size: "24" }),

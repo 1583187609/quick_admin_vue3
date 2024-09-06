@@ -34,6 +34,7 @@ import { PopoverAttrs } from "@/components/_types";
 import { DictName } from "@/dict/_types";
 import { useDict } from "@/hooks";
 
+const { getText } = useDict();
 const props = withDefaults(
   defineProps<{
     icon?: string;
@@ -56,7 +57,7 @@ const props = withDefaults(
 );
 const valText = computed(() => {
   const { value, joinChar, name } = props;
-  if (name) return useDict().getText(name, value);
+  if (name) return getText(name, value);
   if (typeOf(value) === "Array") return (value as StrNum[]).join(joinChar);
   return value;
 });

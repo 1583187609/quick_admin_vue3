@@ -10,21 +10,21 @@
       <el-tag class="tag" type="success">已认证</el-tag>
       <el-tag class="tag">后台认证</el-tag>
     </template>
-    <BaseForm type="cell" :fields="realNameFormFields" :footer="false"/>
+    <BaseForm type="cell" :fields="realNameFormFields" :footer="false" />
   </BaseSection>
   <BaseSection title="学历认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <BaseForm type="cell" :fields="educationFormFields" :footer="false"/>
+    <BaseForm type="cell" :fields="educationFormFields" :footer="false" />
   </BaseSection>
   <BaseSection title="公司认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <BaseForm type="cell" :fields="companyFormFields" :footer="false"/>
+    <BaseForm type="cell" :fields="companyFormFields" :footer="false" />
   </BaseSection>
   <BaseSection title="公司认证记录">
     <template #head-right>
@@ -58,7 +58,7 @@ const realNameFormFields: FormField[] = [
     prop: "sfzh",
     label: "身份证号/通信证号",
     extraAttrs: {
-      validType: "identity",
+      rulesType: "identity",
     },
   },
   { prop: "hjcs", label: "户籍城市", type: "cascader" },

@@ -116,9 +116,9 @@
 80、日期区间组件，增加 `defaultTime` 属性
 81、storage 的 clear 方法完善
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定。
-83、validType 增加 rmb 类型。
+83、rulesType 增加 rmb 类型。
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
-85、验证 FieldItem 的 validType 为 rmb 时是否正常
+85、验证 FieldItem 的 rulesType 为 rmb 时是否正常
 
 ## vip 功能清单
 
@@ -272,6 +272,7 @@
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
 71、BaseForm 上设置 `label-suffix="："` 不生效
 72、完善图片上传 BaseUpload 组件
+73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
 
 ## 四、Vue 极致优化清单
 

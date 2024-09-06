@@ -1,7 +1,17 @@
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage } from "@/utils";
+import {
+  emptyVals,
+  setStorage,
+  getStorage,
+  typeOf,
+  storage,
+  StorageType,
+  showMessage,
+  getLabelFromOptionsByLastValue,
+  getLabelFromOptionsByAllValues,
+} from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 import dayjs from "dayjs";
 
@@ -116,18 +126,23 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
   /**
    * 获取字典文本内容
    * @param {string} name  字典名称
-   * @param {string} key  字典中的建名
+   * @param {string} code  字典中的code值
    * @param {select|cascader|tree} type  下拉项的类型
    * @param {string} char  为空时的占位符号
    */
-  function getText(name: DictName, key: StrNum, char = "-"): string {
+  function getText(name: DictName, code?: StrNum | StrNum[], propsMap?: CommonObj, char = "-"): string {
+    if (emptyVals.includes(code as any)) return char;
     const currMap = getMap(name);
-    const val = currMap[key];
+    if (typeOf(code) === "Array") return getTextFromOptions(currMap, code as StrNum[], propsMap, char);
+    const val = currMap[code as StrNum];
     const t = typeOf(currMap);
     // 说明是select
-    if (t === "Object") return (typeof val === "string" ? val : val?.text) || char;
-    // 说明是cascader或tree
-    if (t === "Array") return getCascaderOrTreeText(name, val, char);
+    if (t === "Object") {
+      const textStr = typeof val === "string" ? val : val?.text;
+      return emptyVals.includes(textStr) ? char : textStr;
+    }
+    // 说明是select、cascader、tree
+    if (t === "Array") return getTextFromOptions(currMap, code as StrNum, propsMap, char);
     throw new Error(`暂未处理类型：${t}`);
   }
 
@@ -140,10 +155,10 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
   function getOpts(name: DictName, includeKeys?: StrNum[], isExclude?: boolean): OptionItem[] {
     const currMap = getMap(name);
     const t = typeOf(currMap);
-    if (t === "Array") return currMap as OptionItem[]; // 说明是cascader或tree的数据
-    if (t === "Undefined") return currMap; // 说明是懒加载函数
+    if (t === "Array") return currMap as OptionItem[]; // 说明是select、cascader、tree的数据
+    if (t === "Undefined") return currMap; // 说明是懒加载函数请求到的数据
     if (t === "Object") {
-      // 其余的说明是select
+      // 说明是select
       const opts: OptionItem[] = [];
       for (const key in currMap) {
         const val = isNaN(Number(key)) ? key : Number(key);
@@ -162,21 +177,16 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
   }
 
   /***
-   * 获取cascader或tree中的文本
+   * 获取select、cascader、tree下拉项中的文本
    * @notice 待完善
+   * @param {CommonObj} propsMap 属性名映射
    */
-  function getCascaderOrTreeText(name: DictName, val: StrNum, char = "-") {
+  function getTextFromOptions(options: OptionItem[], val: StrNum | StrNum[], propsMap?: CommonObj, char = "-") {
     if (emptyVals.includes(val as any)) return char;
-    const options: OptionItem[] = getMap(name);
-    if (!options) throw new Error(`字典中未找到：${name}`);
-    let text = "";
-    options.find(item => {
-      const { label, children = [] } = item;
-      const target = children.find((it: OptionItem) => it.value === val);
-      if (target) text = `${label}${char}${target.label}`;
-      return !!target;
-    });
-    return text;
+    const t = typeOf(val);
+    if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char);
+    if (["String", "Number"].includes(t)) return getLabelFromOptionsByLastValue(options, val as StrNum, propsMap, char);
+    throw new Error(`暂未处理此种情况：${t}`);
   }
 
   /**

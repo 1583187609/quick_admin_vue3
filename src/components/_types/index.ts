@@ -7,7 +7,7 @@ import { BaseRenderData } from "../BaseRender.vue";
 import { RenderComponent } from "@/components/BaseRender.vue";
 import type { MessageParams, messageType } from "element-plus";
 import { EpPropMergeType } from "element-plus/es/utils";
-import  {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 
 export * from "@/components/BasicPopup/_types";
@@ -108,7 +108,7 @@ export type OmitUser = GetOmit<User, "age">;
 // export type CommonFormSize = "large" | "default" | "small";
 // export type CommonTableSize = "large" | "default" | "small";
 
-// export type ValidType = keyof typeof defaultValidTypes;
+// export type ValidType = keyof typeof defaultRulesTypes;
 
 // export enum OrderDropKeyEnum {
 //   OrderType = '订单类型'
@@ -118,20 +118,32 @@ export type OmitUser = GetOmit<User, "age">;
 // };
 
 export interface PopconfirmAttrs {
-    title?: string;
-    icon?: any;
-    iconColor?: any;
-    description?: string;
-    cancel?: () => void;
-    okText?: string;
-    cancelText?: string;
-    confirmButtonType?: ButtonType;
-    disabled?: boolean;
-    [key: string]: any;
+  title?: string;
+  icon?: any;
+  iconColor?: any;
+  description?: string;
+  cancel?: () => void;
+  okText?: string;
+  cancelText?: string;
+  confirmButtonType?: ButtonType;
+  disabled?: boolean;
+  [key: string]: any;
 }
 
-export type PopTrigger = "click" | "focus" | "hover" | "contextmenu"
-export type PopPlacement =  "top"| "top-start"| "top-end"| "bottom"| "bottom-start"| "bottom-end"| "left"| "left-start"| "left-end"| "right"| "right-start"| "right-end";
+export type PopTrigger = "click" | "focus" | "hover" | "contextmenu";
+export type PopPlacement =
+  | "top"
+  | "top-start"
+  | "top-end"
+  | "bottom"
+  | "bottom-start"
+  | "bottom-end"
+  | "left"
+  | "left-start"
+  | "left-end"
+  | "right"
+  | "right-start"
+  | "right-end";
 export interface PopoverAttrs {
   trigger?: PopTrigger;
   placement?: PopPlacement;
@@ -143,6 +155,5 @@ export interface PopoverAttrs {
 }
 
 export type Popover = string | PopoverAttrs;
-
 
 export type HorizontalAlign = "left" | "center" | "right";

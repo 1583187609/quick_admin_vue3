@@ -54,14 +54,14 @@ const fields = computed<FormField[]>(() => {
       type: "input-number",
       extraAttrs: {
         grid: 12,
-        validType: "age",
+        rulesType: "age",
       },
     },
     {
       prop: "dhhm",
       label: "电话号码",
       extraAttrs: {
-        validType: "phone",
+        rulesType: "phone",
       },
     },
     {

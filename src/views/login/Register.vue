@@ -13,7 +13,7 @@ const fields = [
     label: "电话",
     required: true,
     extraAttrs: {
-      validType: "phone",
+      rulesType: "phone",
     },
   },
   {
@@ -22,7 +22,7 @@ const fields = [
     required: true,
     attrs: { type: "password" },
     extraAttrs: {
-      validType: "password",
+      rulesType: "password",
     },
   },
   {
@@ -32,7 +32,7 @@ const fields = [
     rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
     attrs: { type: "password" },
     extraAttrs: {
-      validType: "password",
+      rulesType: "password",
     },
   },
 ];

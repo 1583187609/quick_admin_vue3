@@ -20,7 +20,7 @@ const config = {
     // defaultDateRangeShortcuts: [],
     // defaultFieldAttrs: {},
     // defaultPopoverAttrs: {},
-    // defaultValidTypes: {},
+    // defaultRulesTypes: {},
   },
   table: {
     // defaultGroupBtnsMaxNum: 3,

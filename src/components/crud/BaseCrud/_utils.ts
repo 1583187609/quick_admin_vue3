@@ -2,7 +2,7 @@ import { ElMessageBox } from "element-plus";
 import _ from "lodash";
 import { BtnName, BtnItem, BtnAttrs, BaseBtnType } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, StrNum } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
 import {
   rangeJoinChar,
@@ -40,7 +40,7 @@ export function handleClickExtraBtns({
   openPopup,
   importCfg,
 }: HandleClickExtraBtnsProps) {
-  const { name = "", text, attrs, customRules } = btnObj;
+  const { name = "", btnText, attrs, customRules } = btnObj;
   if (customRules)
     return emits("extraBtns", name, next, {
       selectedKeys: [],
@@ -56,13 +56,13 @@ export function handleClickExtraBtns({
     if ((["export"] as BtnName[]).includes(name) && isOverLimit) {
       showMessage(
         {
-          message: `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`,
+          message: `单次${btnText}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`,
           dangerouslyUseHTMLString: true,
         },
         "warning"
       );
     } else {
-      const hintTips = `确定 <b style="color:${color};">${text}${
+      const hintTips = `确定 <b style="color:${color};">${btnText}${
         isSeledAll ? `全部</b> ` : `</b>`
       } 共 <b style="color:${color};">${seledRows.length}</b> 条记录？`;
       ElMessageBox.confirm(hintTips, "温馨提示", {
@@ -119,24 +119,21 @@ export function handleClickExtraBtns({
 /**
  * 获取查询条件的文本值
  */
-export function getQueryFieldValue(field: FormFieldAttrs, val: any) {
+export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]) {
   const { attrs, type = defaultFormItemType, options = [] } = field;
   if (type === "cascader") {
-    return typeOf(val) === "Array" ? getLabelFromOptionsByAllValues(options, val) : getLabelFromOptionsByLastValue(options, val);
-  } else if (type === "select") {
+    if (typeOf(val) === "Array") return getLabelFromOptionsByAllValues(options as CommonObj[], val as StrNum[]);
+    return getLabelFromOptionsByLastValue(options as CommonObj[], val as StrNum);
+  }
+  if (type === "select") {
     if (attrs?.multiple) {
       const opts = options.filter(it => val.includes(it.value));
       return opts.map(it => it.label).join("、");
-    } else {
-      return getLabelFromOptionsByLastValue(options, val);
     }
-  } else if (type === "BaseNumberRange") {
-    return val?.join(rangeJoinChar);
-  } else if (type === "date-picker") {
-    return val?.join(rangeJoinChar);
-  } else {
-    return val;
+    return getLabelFromOptionsByLastValue(options, val);
   }
+  if (["BaseNumberRange", "date-picker"].includes(type)) return val?.join(rangeJoinChar);
+  return val;
 }
 
 //获取每一行的分组按钮

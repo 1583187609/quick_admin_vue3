@@ -44,11 +44,11 @@ const cols = [
     field: { type: "select", options: "RoleType" },
   },
   { prop: "xb", label: "性别", required: true, width: 180, field: { type: "radio-group", options: "Gender" } },
-  { prop: "nl", label: "年龄", required: true, width: 200, field: { extraAttrs: { validType: "age" } } },
+  { prop: "nl", label: "年龄", required: true, width: 200, field: { extraAttrs: { rulesType: "age" } } },
   // { prop: "xx", label: "学校" },
   { prop: "zt", label: "状态", width: 70, field: { type: "switch" } },
   { prop: "xjd", label: "现居地", width: 200, field: { type: "cascader", options: "Region" } },
-  { prop: "dh", label: "电话", width: 200, field: { extraAttrs: { validType: "phone" } } },
+  { prop: "dh", label: "电话", width: 200, field: { extraAttrs: { rulesType: "phone" } } },
   { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
 ];
 

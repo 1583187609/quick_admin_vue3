@@ -46,8 +46,8 @@ const fields = computed<FormField[]>(() => {
       type: "select",
       options: "Gender",
     },
-    { prop: "nl", label: "年龄", validType: "age" },
-    { prop: "dhhm", label: "电话号码", validType: "phone" },
+    { prop: "nl", label: "年龄", rulesType: "age" },
+    { prop: "dhhm", label: "电话号码", rulesType: "phone" },
     {
       prop: "sfqy",
       label: "是否启用",

@@ -3,12 +3,16 @@
 -->
 <template>
   <span class="base-tag span m-2" :class="tag?.attrs?.type ?? 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">
-    <slot :tag="tag">{{ tag?.text || empty }}</slot>
+    <slot :tag="tag">
+      {{ tagText }}
+      <template v-if="count">：{{ count }}</template>
+    </slot>
   </span>
   <el-tag class="base-tag m-2" v-bind="tag?.attrs" v-else>
-    <slot :tag="tag"
-      >{{ tag?.text || empty }}<template v-if="count">：{{ count }}</template></slot
-    >
+    <slot :tag="tag">
+      {{ tagText }}
+      <template v-if="count">：{{ count }}</template>
+    </slot>
   </el-tag>
 </template>
 <script lang="ts" setup>
@@ -36,7 +40,6 @@ const props = withDefaults(
   defineProps<{
     name?: DictName;
     value?: StrNum;
-    map?: CommonObj;
     pureText?: boolean;
     empty?: any;
     count?: StrNum;
@@ -47,13 +50,19 @@ const props = withDefaults(
   }
 );
 const tag = computed(() => {
-  const { name, value, map } = props;
+  const { name, value } = props;
   if (emptyVals.includes(value as string)) return null;
-  let currMap: CommonObj = {};
-  currMap = getMap(name, map);
-  const val = currMap[value as string] ?? {};
+  const currMap = getMap(name);
+  // console.log(currMap, "currMap----------");
+  const val = currMap?.[value as string];
   if (typeof val === "string") return { text: val };
+  if (typeof val === "undefined") return { text: value };
   return val;
+});
+const tagText = computed(() => {
+  const { empty, value } = props;
+  const { text = value } = tag.value ?? {};
+  return emptyVals.includes(text) ? empty : text;
 });
 </script>
 <style lang="scss" scoped>

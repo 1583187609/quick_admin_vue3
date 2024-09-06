@@ -80,7 +80,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         fetchSuggestions: handleFetchSuggestions,
       },
       extraAttrs: {
-        validType: /^\d/.test(model.phone) ? "phone" : undefined,
+        rulesType: /^\d/.test(model.phone) ? "phone" : undefined,
       },
     },
     {
@@ -92,7 +92,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         autocomplete: "off",
       },
       extraAttrs: {
-        validType: "password",
+        rulesType: "password",
       },
     },
     {

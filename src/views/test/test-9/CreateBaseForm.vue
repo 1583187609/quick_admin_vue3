@@ -149,13 +149,13 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       },
     },
     {
-      prop: "validType",
-      label: "校验类型",
+      prop: "rulesType",
+      label: "规则类型",
       type: "select",
       options: validOpts,
       extraAttrs: {
         grid: 6,
-        popover: "内置的几种常用校验类型，含表单校验规则、属性等",
+        popover: "内置的几种常用规则类型，含表单校验规则、属性等",
       },
     },
     {

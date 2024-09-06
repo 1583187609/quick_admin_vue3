@@ -277,10 +277,10 @@ const fields: FormFieldAttrs[] = [
   },
 ];
 const sections: SectionFormItemAttrs[] = [
-  { label: "基础", fields: fields.slice(0, 4) },
-  { label: "远程", fields: fields.slice(4, 6) },
-  { label: "数字", fields: fields.slice(6, 9) },
-  { label: "日期", fields: fields.slice(9) },
+  { title: "基础", fields: fields.slice(0, 4) },
+  { title: "远程", fields: fields.slice(4, 6) },
+  { title: "数字", fields: fields.slice(6, 9) },
+  { title: "日期", fields: fields.slice(9) },
 ];
 const cols: TableCol[] = [
   //表格表头
@@ -359,12 +359,21 @@ const cols: TableCol[] = [
     : {
         prop: "status",
         label: "状态 [BaseTag]",
-        width: 220,
+        width: 150,
         type: "BaseTag",
         extraAttrs: {
           popover: `非simple可见`,
         },
       },
+  {
+    prop: "status",
+    label: "请求状态 [BaseTag]",
+    width: 150,
+    type: "BaseTag",
+    attrs: {
+      name: "TestFetchLazy",
+    },
+  },
   !isSimple && {
     prop: "sj",
     label: "时间（内置宽度）",
@@ -464,9 +473,9 @@ function handleImport() {
   console.log("点击了导入----------");
 }
 onMounted(() => {
-  setTimeout(() => {
-    console.log(baseCrudRef.value, "baseCrudRef.value-------------");
-  }, 1000);
+  // setTimeout(() => {
+  //   console.log(baseCrudRef.value, "baseCrudRef.value-------------");
+  // }, 1000);
 });
 </script>
 <style lang="scss" scoped>

@@ -65,7 +65,7 @@ const sections = computed<SectionFormItem[]>(() => {
           type: "input-number",
           extraAttrs: {
             grid: 6,
-            validType: "age",
+            rulesType: "age",
           },
         },
         {
@@ -73,7 +73,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "电话",
           extraAttrs: {
             grid: 12,
-            validType: "phone",
+            rulesType: "phone",
           },
         },
         {
@@ -117,7 +117,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "身份证号",
           extraAttrs: {
             grid: 12,
-            validType: "identity",
+            rulesType: "identity",
           },
         },
         {
