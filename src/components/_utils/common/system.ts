@@ -4,14 +4,27 @@
 
 import { typeOf } from "@/components/_utils";
 import { FormFieldAttrs } from "@/components/form/_types";
-import { CommonObj, OptionItem, StrNum } from "@/vite-env";
+import { CommonObj, GetRequired, OptionItem, StrNum } from "@/vite-env";
 import { emptyVals, emptyTime } from "./consts";
 import dayjs from "dayjs";
 import * as xlsx from "xlsx";
 
+export interface OptionPropsMap {
+  label?: string;
+  value?: string;
+  children?: string;
+}
+
+const defaultOptionPropsMap: GetRequired<OptionPropsMap> = {
+  label: "label",
+  value: "value",
+  children: "children",
+};
+
 /**
  * 导入excel中的数据
- * @param fileBuffer
+ * @param {any} fileBuffer
+ * @param {CommonObj} opts
  * @returns {unknown[]}
  */
 export function importExcel(
@@ -28,7 +41,7 @@ export function importExcel(
 
 /**
  * 导出（下载）Excel数据表
- * @param data array 要下载的数据  例：[["A1", "B1", "C1"], ["A2", "B2", "C2"],["A3", "B3", "C3"]]   通常第一行是表头，可以单独拼接
+ * @param {string[][]} data 要下载的数据  例：[["A1", "B1", "C1"], ["A2", "B2", "C2"],["A3", "B3", "C3"]]   通常第一行是表头，可以单独拼接
  * @param {string} fileName 文件名称
  * @param {string} sheetName 表名称
  * @param {Function} callback 回调函数
@@ -53,6 +66,7 @@ export function exportExcel(
 
 /**
  * 获取时间（几年/月/天/小时/分钟前）
+ * @param {any} time 要处理的时间
  */
 export function getTimeAgo(time: any) {
   if (!time) return "";
@@ -97,8 +111,8 @@ export function getTimeAgo(time: any) {
 
 /**
  * 获取过去时间距离现在的文本字符
- * @param time 能被new Date()解析的时间格式
- * @return string  //刚刚  XX分钟前 XX小时前 XX天前
+ * @param {any} time 能被new Date()解析的时间格式
+ * @return {string}  //刚刚  XX分钟前 XX小时前 XX天前
  */
 export function getLastTimeStr(time: any) {
   const lastTime = new Date(time).getTime();
@@ -129,6 +143,8 @@ export function getLastTimeStr(time: any) {
 
 /**
  * 处理平台默认值问题 Form echo data
+ * @param {FormFieldAttrs} field 要处理的字段
+ * @param {CommonObj} modelValue 字段值
  * @tips 后端的数据库日期必须有一个默认值，回显的时候会显示这个默认值，因为数据量较多，改动较大，所以由前端统一处理
  */
 export function handleFormInitData(field: FormFieldAttrs, modelValue?: CommonObj) {
@@ -137,14 +153,12 @@ export function handleFormInitData(field: FormFieldAttrs, modelValue?: CommonObj
   const propType = typeOf(prop);
   if (type?.includes("date")) {
     if (propType === "String") {
-      if (modelValue[prop as string] === emptyTime) {
-        modelValue[prop as string] = "";
-      }
-    } else if (propType === "Array") {
+      if (modelValue[prop as string] === emptyTime) modelValue[prop as string] = "";
+      return;
+    }
+    if (propType === "Array") {
       (prop as string[]).forEach((key: string) => {
-        if (modelValue[key] === emptyTime) {
-          modelValue[key] = "";
-        }
+        if (modelValue[key] === emptyTime) modelValue[key] = "";
       });
     }
   }
@@ -162,17 +176,15 @@ export function getEmptyNum(total: number, cols: number) {
 
 /**
  * 对象数组排序（默认order）
- * @param opts {}[] 要排序的数组
- * @param inds number[] 排序依据的对象属性键名
+ * @param { OptionItem[]} opts 要排序的数组
+ * @param {number[]} inds 排序依据的对象属性键名
  */
 export function getTextFromOpts(opts: OptionItem[] = [], inds: number[] = []) {
   let text = "";
   function cycle(opts: OptionItem[], ind: number = 0) {
     const { label = "", children = [] } = opts?.[inds[ind]] || {};
     text += label;
-    if (children?.length) {
-      cycle(children, ind + 1);
-    }
+    if (children?.length) cycle(children, ind + 1);
   }
   cycle(opts);
   return text;
@@ -180,7 +192,7 @@ export function getTextFromOpts(opts: OptionItem[] = [], inds: number[] = []) {
 
 /**
  * 获取图片的http请求路径
- * @param path {string} 图片路径
+ * @param {string} path 图片路径
  * @returns
  */
 export const getImgUrl = (path: string) => {
@@ -189,10 +201,10 @@ export const getImgUrl = (path: string) => {
 
 /**
  * 从树形数组中根据id获取菜单文本
- * @param tree {}[] 树形数据
+ * @param {CommonObj[]} tree 树形数据
  * @param {string | number} id  id
- * @param key 要获取的文本的键名
- * @param keyMap 键名映射
+ * @param {string} key 要获取的文本的键名
+ * @param {CommonObj} keyMap 键名映射
  */
 export function getTextFromTreeByKey(
   tree: CommonObj[] = [],
@@ -206,28 +218,22 @@ export function getTextFromTreeByKey(
     if (item[keyMap.id] == val) {
       text = item[key];
       return !!text;
-    } else {
-      text = getTextFromTreeByKey(item[keyMap.children], val, key);
-      return !!text;
     }
+    text = getTextFromTreeByKey(item[keyMap.children], val, key);
+    return !!text;
   });
   return text;
 }
 
 /**
  * 根据值(非数组)从options获取label文本
+ * @param {CommonObj} options 下拉项
+ * @param {StrNum} val 查找依据值
+ * @param {OptionPropsMap} propsMap props映射
+ * @param {string} emptyChar 空字符串
  */
-export function getLabelFromOptionsByLastValue(
-  options: CommonObj[],
-  val: StrNum,
-  propsMap: CommonObj = {
-    label: "label",
-    value: "value",
-    children: "children",
-  },
-  emptyChar = "-"
-) {
-  const { label: labelKey, value: valueKey, children: childrenKey } = propsMap;
+export function getLabelFromOptionsByLastValue(options: CommonObj[], val: StrNum, propsMap?: OptionPropsMap, emptyChar = "-") {
+  const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   let target: CommonObj | undefined;
   function getLabel(opts: CommonObj[]): boolean {
     return !!opts.find(item => {
@@ -248,18 +254,13 @@ export function getLabelFromOptionsByLastValue(
 
 /**
  * 根据值（数组）从options获取label文本
+ * @param {CommonObj} options 下拉项
+ * @param {StrNum} val 查找依据值
+ * @param {OptionPropsMap} propsMap props映射
+ * @param {string} emptyChar 空字符串
  */
-export function getLabelFromOptionsByAllValues(
-  options: CommonObj[],
-  values: StrNum[],
-  propsMap: CommonObj = {
-    label: "label",
-    value: "value",
-    children: "children",
-  },
-  char = ""
-) {
-  const { label: labelKey, value: valueKey, children: childrenKey } = propsMap;
+export function getLabelFromOptionsByAllValues(options: CommonObj[], values: StrNum[], propsMap?: OptionPropsMap, char = "") {
+  const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   const labels: string[] = [];
   function getLabel(opts: CommonObj[], level = 0) {
     opts.find(item => {
@@ -269,9 +270,7 @@ export function getLabelFromOptionsByAllValues(
       const isFind = value === values[level];
       if (isFind) {
         labels.push(label);
-        if (children) {
-          getLabel(children, ++level);
-        }
+        if (children) getLabel(children, ++level);
       }
       return isFind;
     });
@@ -307,7 +306,7 @@ export function downloadByBuffer(buffer, name?: string) {
 
 /**
  * 获取浏览器默认语言
- * @returns {String}
+ * @returns {string} zh | en
  */
 export function getBrowserLang() {
   const lang = (navigator.language ?? navigator.browserLanguage).toLowerCase();
@@ -316,12 +315,15 @@ export function getBrowserLang() {
 
 /**
  * 判断是否位于 dialog 弹窗中
+ * @param {string} selectorClassName 选择器类名
+ * @param {number} maxLevel 最多监测嵌套5层
+ * @param {any} baseCrudRef 目标元素DOM
  * @notice 先不要删除，后面可能会有用
  * @example 使用示例 judgeIsInDialog("basic-dialog");
  */
-export function judgeIsInDialog(selectorClassName: string = "basic-dialog", startLevel: number = 5, baseCrudRef: any) {
+export function judgeIsInDialog(selectorClassName: string = "basic-dialog", maxLevel: number = 5, baseCrudRef: any) {
   let isInDia = false;
-  getTargetPar(startLevel);
+  getTargetPar(maxLevel);
   function getTargetPar(sLevel = 0) {
     let targetPar = baseCrudRef.value.parentNode;
     while (sLevel > 0) {

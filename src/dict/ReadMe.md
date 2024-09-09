@@ -108,22 +108,6 @@ export default {
       2: '函数2',
     };
   },
-  // Promise 类型：值-Promise
-  TestPromise: new Promise((resolve) => {
-    resolve({
-      1: 'Promise1',
-      2: 'Promise2',
-    });
-  }),
-  // 直接请求
-  TestFetch: GetMockCommonList().then((res: CommonObj) => {
-    const list = res.records.slice(0, 3);
-    const obj: CommonObj = {};
-    list.forEach((item: string, ind: number) => {
-      obj[ind] = { text: `请求${ind + 1}` };
-    });
-    return obj;
-  }),
   // 懒加载请求
   TestRejectReason: lazyFetch(
     () =>

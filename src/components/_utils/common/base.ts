@@ -4,7 +4,8 @@
 
 import { regexp, showMessage, toCamelCase } from "@/components/_utils";
 import _ from "lodash";
-import config, { ConfigMergeStrategy } from "@/config";
+import config from "@/config";
+import type { ConfigMergeStrategy } from "@/config/_types";
 import { CommonObj, StrNum } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "./consts";
@@ -12,6 +13,7 @@ import { propsJoinChar, emptyVals } from "./consts";
 const { merge } = _;
 /**
  * 检测元素所属类型
+ * @param {any} ele 要检测的元素
  * Object.prototype.toString.call(*)的可能结果如下所示：
  * @example null             [object Null]
  * @example undefined        [object Undefined]
@@ -49,14 +51,13 @@ export type TypeOfReturn =
   | "global";
 export const typeOf = (ele: any): TypeOfReturn => {
   const endStr = Object.prototype.toString.call(ele);
-  const type = endStr.split(" ")[1].slice(0, -1) as TypeOfReturn;
-  return type;
+  return endStr.split(" ")[1].slice(0, -1) as TypeOfReturn;
 };
 
 /**
  * 把css的值转换下，如果已经带有单位，则返回原值，如果没有带单位，则加上px
- * @param  val {string,number,undefined}  数值
- * @param  unit {string} 单位
+ * @param {string,number,undefined} val   数值
+ * @param {string} unit  单位
  * @returns
  */
 export const toCssVal = (val: number | string | undefined, unit = "px") => {
@@ -67,23 +68,22 @@ export const toCssVal = (val: number | string | undefined, unit = "px") => {
 
 /**
  * 获取css值的单位
- * @param  val {string} 数值
+ * @param {string} val  数值
  * @returns {string}
  */
 export const getCssValUnit = (val: string) => {
   const res = val.match(regexp.lowerChar);
-  const unit = res ? res[0] : "";
-  return unit;
+  return res ? res[0] : "";
 };
 
 /**
  * 把css的值转换下，如果已经带有单位，则返回原值，如果没有带单位，则加上px
- * @param  val {string,number,undefined} 数值
- * @param  operator {string} 运算符号，可选值：+, -, *, /
- * @param  num {string}  操作数
+ * @param {string,number,undefined} val  数值
+ * @param {string} operator 运算符号，可选值：+, -, *, /
+ * @param {string} num 操作数
  * @returns {string}
  */
-export const calCssVal = (val: number | string | undefined, operator: string, num: number) => {
+export const calCssVal = (val: number | string | undefined, operator: string, num: number): string => {
   val = String(val);
   const unit = getCssValUnit(val);
   const newVal = parseFloat(val);
@@ -108,8 +108,8 @@ export const calCssVal = (val: number | string | undefined, operator: string, nu
 };
 
 /**
- * 获取中文字符长度
- * @param 全角符算1个，半角符算0.5个字符
+ * 获取中文字符长度（全角符算1个，半角符算0.5个字符）
+ * @param {string} str 要处理的字符串
  */
 export function getChinaCharLength(str?: string): number {
   if (!str) return 0;
@@ -118,7 +118,7 @@ export function getChinaCharLength(str?: string): number {
 
 /**
  * 获取字符串的字节长度（全角符算2个，半角符算1个字符）
- * @param str string 字符串
+ * @param {string} str 字符串
  */
 export function getBytes(str = "") {
   const len = str.length;
@@ -131,36 +131,26 @@ export function getBytes(str = "") {
 
 /**
  * 剔除对象值为指定类型的对象属性
- * @param obj 要剔除属性的对象
- * @param list 要剔除的属性数组
+ * @param {CommonObj} obj 要剔除属性的对象
+ * @param {any[]} list 要剔除的属性值构成的数组
  */
 export function omitAttrs(obj: CommonObj, list = emptyVals) {
   const newObj: CommonObj = {};
   for (const key in obj) {
     const val = obj[key];
-    const type = typeOf(val);
-    if (type === "Object") {
+    const t = typeOf(val);
+    if (t === "Object") {
       newObj[key] = omitAttrs(val);
-      // if (!Object.keys(newObj[key]).length) {
-      //   newObj[key] = undefined;
-      // }
-    } else if (type === "Array") {
-      // 如果range类字段，每个值都为空字符串，则剔除掉这个属性
-      if (val.some((it: StrNum) => it !== "")) {
-        newObj[key] = val;
-      }
-      // newObj[key] = val.filter((it: any) => {
-      //   const t = typeOf(it);
-      //   if (t === "Object") {
-      //     return JSON.stringify(it) !== "{}";
-      //   } else if (t === "Array") {
-      //     return true;
-      //   } else {
-      //     return !list.includes(it);
-      //   }
-      // });
-    } else if (!list.includes(val)) {
+      continue;
+    }
+    // 如果range类字段，每个值都为空字符串，则剔除掉这个属性
+    if (t === "Array") {
+      if (val.some((it: StrNum) => it !== "")) newObj[key] = val;
+      continue;
+    }
+    if (!list.includes(val)) {
       newObj[key] = val;
+      continue;
     }
   }
   return newObj;
@@ -168,8 +158,8 @@ export function omitAttrs(obj: CommonObj, list = emptyVals) {
 
 /**
  * 剔除对象属性（不会改变原数组）
- * @param obj 要剔除属性的对象
- * @param keys 剔除的属性数组
+ * @param {CommonObj} obj 要剔除属性的对象
+ * @param {string | string[]} keys 剔除的属性数组
  */
 export function deleteAttrs(obj: CommonObj = {}, keys: string | string[]) {
   const newObj = JSON.parse(JSON.stringify(obj));
@@ -180,12 +170,12 @@ export function deleteAttrs(obj: CommonObj = {}, keys: string | string[]) {
 }
 
 /**
- * 将联合prop拆成两个字段
- * @param obj 要拆解的对象
- * @param isRange 是否是区间数组
- * @reture args 不会修改原对象
+ * 将联合prop拆成两个字段（不会修改原对象）
+ * @param {CommonObj} obj 要拆解的对象
+ * @param {boolean} isRange 是否是区间数组
+ * @returns {CommonObj} args
  */
-export function splitPropsParams(args: CommonObj) {
+export function splitPropsParams(args: CommonObj): CommonObj {
   const obj = JSON.parse(JSON.stringify(args));
   const entrs = Object.keys(obj).filter(it => it.includes(propsJoinChar));
   entrs.forEach((prop: string, ind: number) => {
@@ -213,24 +203,22 @@ export function splitPropsParams(args: CommonObj) {
 
 /**
  * 根据路由信息生成组件名称
- * @param route object 路由信息
- * @returns name string 组件名称
+ * @param {object} route  路由信息
+ * @returns {string} name  组件名称
  */
 export function getCompNameByRoute(route: CommonObj): string {
   const { path, meta, query, name, matched } = route;
   const { tagIdKey = "id" } = meta;
   const defName = matched.at(-1)?.components?.default.name;
   let compName = defName ?? toCamelCase(path, true);
-  if (query[tagIdKey]) {
-    compName += "Of" + query[tagIdKey];
-  }
+  if (query[tagIdKey]) compName += "Of" + query[tagIdKey];
   return compName;
 }
 
 /**
  * 处理暴露的数据对象
- *@param sysData object 系统数据
- *@param customData object 自定义数据
+ *@param {object} sysData 系统数据
+ *@param {object} customData 自定义数据
  */
 export function getExportData(
   sysData: any,
@@ -250,7 +238,8 @@ export function getExportData(
 
 /**
  * 判断两个元素是否一致（是否修改过）
- * @tips 是否已经修改过
+ * @param {any} e_1 第一个元素
+ * @param {any} e_2 第二个元素
  */
 export function getIsUpdated(e_1: any, e_2: any) {
   const t1 = typeOf(e_1);
@@ -274,8 +263,8 @@ export function getIsUpdated(e_1: any, e_2: any) {
 
 /**
  * 处理分组（操作）按钮（表格中操作列的按钮）
- * @param map 事件方法映射
- * @param name 触发的按钮名称
+ * @param {CommonObj} map 事件方法映射
+ * @param {BtnName} name 触发的按钮名称
  */
 export function handleBtnNext(map: CommonObj, name: BtnName) {
   map[name] ? map[name]() : showMessage(`点击了${name}按钮`, "info");
@@ -283,26 +272,24 @@ export function handleBtnNext(map: CommonObj, name: BtnName) {
 
 /**
  * 对象数组排序（默认order）
- * @param arr {}[] 要排序的数组
- * @param key string 排序依据的对象属性键名
- * @param type string 排序方式 asc 升序 desc 降序
+ * @param {CommonObj[]} arr 要排序的数组
+ * @param {string} key  排序依据的对象属性键名
+ * @param {asc | desc | random} type 排序方式 asc 升序 desc 降序 random 随机
  */
-export function sortObjArrByKey(arr: CommonObj[] = [], key = "order", type = "asc"): CommonObj[] {
+export type SortType = "asc" | "desc" | "random";
+export function sortObjArrByKey(arr: CommonObj[] = [], key = "order", type: SortType = "asc"): CommonObj[] {
   arr.sort((a: CommonObj, b: CommonObj) => {
-    if (type === "asc") {
-      return a[key] - b[key];
-    } else if (type === "desc") {
-      return b[key] - a[key];
-    } else if (type === "random") {
-      return Math.random() - 0.5;
-    }
+    if (type === "asc") return a[key] - b[key];
+    if (type === "desc") return b[key] - a[key];
+    if (type === "random") return Math.random() - 0.5;
+    throw new Error(`传参类型错误：${type}`);
   });
   return arr;
 }
 
 /**
  * 复制文本
- * @param text 要复制到剪切板的内容
+ * @param {string} text 要复制到剪切板的内容
  */
 export function copyText(text = "") {
   const input = document.createElement("input");
@@ -310,14 +297,13 @@ export function copyText(text = "") {
   document.body.appendChild(input);
   input.select();
   const copyText = document.execCommand("copy");
-  if (copyText) {
-    showMessage("复制成功！");
-  }
+  if (copyText) showMessage("复制成功！");
   document.body.removeChild(input);
 }
 
 /**
  * 文本是否已超出（出现了省略号）
+ * @param {target} target 目标dom元素
  */
 export function getIsOver(target: any) {
   if (!target) return false;

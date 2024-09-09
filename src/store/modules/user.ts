@@ -1,11 +1,11 @@
-import { ref, computed, reactive } from "vue";
+import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { PostUserLogin, PostUserLogout } from "@/api-mock";
-import { storage, isProd, defaultHomePath, defaultIconName, defaultLoginExpired } from "@/utils";
+import { storage, defaultHomePath, defaultIconName, defaultLoginExpired } from "@/utils";
 import { CommonObj } from "@/vite-env";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
-import { useMenuStore, useRouteStore } from "@/store";
+import { useMenuStore } from "@/store";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 // import md5 from "@/services/md5";
 import md5 from "md5";
@@ -14,9 +14,8 @@ export default defineStore("user", () => {
   const router = useRouter();
   const route = useRoute();
   const userInfo = ref<CommonObj | null>(storage.getItem("userInfo"));
-  const routeStore = useRouteStore();
   const menuStore = useMenuStore();
-  //过期日期
+  // 登录过期时间
   const expired = ref(new Date(storage.getItem("loginExpiredDate")).getTime() || Date.now());
   const isLogin = computed(() => {
     if (!storage.getItem("token")) return false;

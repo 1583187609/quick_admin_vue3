@@ -9,42 +9,34 @@ import { CommonObj } from "@/vite-env";
  */
 export function getTimePeriodAlias() {
   const hours = new Date().getHours();
-  let alias = "";
-  if (hours < 1) {
-    alias = "凌晨";
-  } else if (hours < 8) {
-    alias = "清晨";
-  } else if (hours < 11) {
-    alias = "上午";
-  } else if (hours < 13) {
-    alias = "中午";
-  } else if (hours < 18) {
-    alias = "下午";
-  } else if (hours < 20) {
-    alias = "傍晚";
-  } else if (hours < 23) {
-    alias = "晚上";
-  } else {
-    alias = "深夜";
-  }
-  return alias;
+  if (hours < 1) return "凌晨";
+  if (hours < 8) return "清晨";
+  if (hours < 11) return "上午";
+  if (hours < 13) return "中午";
+  if (hours < 18) return "下午";
+  if (hours < 20) return "傍晚";
+  if (hours < 23) return "晚上";
+  return "深夜";
 }
 
 /**
  * 计算百分比
+ * @param {number} num 当前值
+ * @param {number} total 值总数
+ * @param {number} fixedNum 要保留的小数位数
  */
-export function getPercentage(num: number, total: number, fixedNum = 2) {
+export function getPercentage(num: number, total: number, fixedNum: number = 2) {
   if (!total) return Number(0).toFixed(fixedNum);
   return ((num / total) * 100).toFixed(fixedNum);
 }
 
 /**
  * 获取带错别字，敏感词标识的html字符串
- * @param str
- * @param wrongWords string[] 错别字数组
- * @param sensWords string[]  敏感词数组
- * @param wrongStyle string 错别字样式
- * @param sensStyle string  敏感词样式
+ * @param {string} str 要处理的字符串
+ * @param {string[]} wrongWords 错别字数组
+ * @param {string[]} sensWords 敏感词数组
+ * @param {string} wrongStyle 错别字样式
+ * @param {string} sensStyle 敏感词样式
  * @example getTagHtmlStr("我们的假象，在希望的田野上，热爱我们的祖国！",['假象'],['我', '的'])
  */
 export function getTagHtmlStr(
@@ -86,14 +78,13 @@ export function getTagHtmlStr(
 
 /**
  * 监测本地文件是否更改
+ * @param {any} e 事件对象
  * @link 参考：https://geek-docs.com/html/html-ask-answer/256_html_check_if_file_has_changed_using_html5_file_api.html
  */
 export function checkFileChanged(e: any) {
   const { lastModifiedDate: lastModified } = e.target.files[0];
   const isChanged = localStorage.getItem("lastModified") !== lastModified.toString();
-  if (isChanged) {
-    localStorage.setItem("lastModified", lastModified);
-  }
+  if (isChanged) localStorage.setItem("lastModified", lastModified);
   return isChanged;
 }
 
@@ -110,7 +101,8 @@ export function checkFileChanged(e: any) {
 
 /**
  * 将浏览器路径参数转为对象
- * @param searchStr string 要转化的字符串
+ * @param {string} searchStr 要转化的字符串
+ * @param {string[]} noHandleKeys 不需要处理（转number、布尔值等）的字符串
  */
 export function urlSearchToParams(path: string, noHandleKeys?: string[]) {
   if (!path) return "";
@@ -137,7 +129,7 @@ export function urlSearchToParams(path: string, noHandleKeys?: string[]) {
 
 /**
  * 将浏览器路径对象转为参数
- * @param params CommonObj 要转化的参数
+ * @param {CommonObj} params 要转化的参数
  */
 export function urlParamsToSearch(params?: CommonObj) {
   if (!params) return "";
@@ -152,11 +144,11 @@ export function urlParamsToSearch(params?: CommonObj) {
 
 /**
  * 获取html文本
- * @param title 要高亮的文本
- * @param words 关键词
- * @returns html字符串
+ * @param {string} str 要高亮的文本
+ * @param {stirng} words 关键词
+ * @returns {string} html字符串
  */
-export const getHtmlStr = (str: string, words: string) => {
+export const getHtmlStr = (str: string, words: string): string => {
   return str;
 
   // 关键词高亮处理
@@ -180,10 +172,10 @@ export const getHtmlStr = (str: string, words: string) => {
 
 /**
  * 根据关键词模糊过滤树节点
- * @param val 模糊搜索的关键词
- * @param tree 树数据
- * @param newArr 缓存的节点树
- * @returns 返回一个新的树，不改变原数组
+ * @param {string} val 模糊搜索的关键词
+ * @param {CommonObj[]} tree 树数据
+ * @param {CommonObj[]} newArr 缓存的节点树
+ * @returns {CommonObj[]} 返回一个新的树，不改变原数组
  */
 export const filterTreeByKeywords = (val: string, tree: CommonObj[], newArr: CommonObj[] = []): CommonObj[] => {
   if (!(tree.length && val)) return tree;
@@ -209,7 +201,7 @@ export const filterTreeByKeywords = (val: string, tree: CommonObj[], newArr: Com
 
 /**
  * 给数字每隔 3 位就增加一个逗号
- * @param num 要转化的数字
- * @returns
+ * @param {string | number} num 要转化的数字
+ * @returns {string}
  */
-export const addCommasToNumber = (num: string | number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export const addCommasToNumber = (num: string | number): string => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

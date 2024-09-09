@@ -3,7 +3,12 @@
 /********************************************************************/
 
 export type StorageType = "local" | "session" | "cookie";
+interface StorageMap {
+  [key: string]: any;
+}
+
 const defaultStorageType = "local";
+
 const cookieStorage = {
   setItem(key: string, val: any, hours = 24) {
     const date = new Date();
@@ -12,7 +17,7 @@ const cookieStorage = {
   },
   getItem(key: string) {
     const arrCookie = document.cookie.split(";");
-    let val = null;
+    let val: null | string = null;
     for (let i = 0; i < arrCookie.length; i++) {
       const arr = arrCookie[i].split("=");
       if (key == arr[0]) {
@@ -29,14 +34,11 @@ const cookieStorage = {
   },
   clear() {
     const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-    if (keys) {
-      for (let i = keys.length; i--; ) document.cookie = keys[i] + "=0;expires=" + new Date(0).toUTCString();
-    }
+    if (!keys) return;
+    for (let i = keys.length; i--; ) document.cookie = keys[i] + "=0;expires=" + new Date(0).toUTCString();
   },
 };
-interface StorageMap {
-  [key: string]: any;
-}
+
 //定义一个映射关系，方便下面直接动态赋予属性
 const storageMap: StorageMap = {
   cookieStorage,
@@ -76,19 +78,21 @@ export const storage = {
    * @param {StorageType} type  删除类型：local, session, cookie
    */
   removeItem(key: string, type: StorageType = defaultStorageType) {
-    return storageMap[type + "Storage"].removeItem(key);
+    storageMap[type + "Storage"].removeItem(key);
   },
   /**
    * 删除所有存储数据
    * @param {StorageType} type
    */
-  clear(type: StorageType = defaultStorageType) {},
+  clear(type: StorageType = defaultStorageType) {
+    storageMap[type + "Storage"].clear();
+  },
   /**
    * 删除所有存储的键名
    * @param {StorageType} type
    */
   getKeys(type: StorageType = defaultStorageType) {
-    return Object.keys(storageMap[type + "Storage"]);
+    Object.keys(storageMap[type + "Storage"]);
   },
 };
 

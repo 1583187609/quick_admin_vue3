@@ -12,16 +12,16 @@ import {
   getLabelFromOptionsByLastValue,
   getLabelFromOptionsByAllValues,
 } from "@/utils";
+import type { OptionPropsMap } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 import dayjs from "dayjs";
 
 // 配置项，启用本地存储类型、存储自动过期时间（过期后，会重新请求更新存储数据）
-const storateType: StorageType | "" = ""; //存储方式，可选值： '', local、session、cookie
-const autoExpiredTimes = 1000 * 2; // 自动过期时间。自动过期后，会重新发起请求更新本地存储。默认为：2秒
+const storateType: "" | StorageType = "local"; //存储方式，可选值： '', local、session、cookie
+const autoExpiredTimes = 1000 * 10; // 自动过期时间。启用本地存储类型且自动过期后，会重新发起请求更新本地存储。默认为：10秒
 
 /**
  * 字典映射处理hooks
- * @notice 启用本地存储逻辑待完善
  * @param {string[]} initDictNames 处于性能优化的目的，只初始化指定名称的字典
  */
 const lazyProxyLoaded: CommonObj = {}; //{[name]: true || undeinde}
@@ -34,8 +34,6 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
 
   /**
    * 初始化字典映射
-   * @param {boolean} handleAll 是否初始化处理所有异步请求接口
-   * @param {number} expired 如果使用了本地存储，间隔多久刷新一次本地存储
    */
   function initMap() {
     initDictNames.forEach((name: DictName) => {
@@ -56,23 +54,23 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
 
   /**
    * 获取有效期内存储的数据
-   * @param name 字典名称
+   * @param {DictName} name 字典名称
    * @returns
    */
-  function getValidStorageData(name: DictName): undefined | CommonObj {
-    const lastTime = storage.getItem("lastRefreshDate");
-    const isExpired = !lastTime || new Date(lastTime).getTime() + autoExpiredTimes < Date.now();
+  function getValidStorageData(name: DictName): null | CommonObj {
+    const expiredDate = storage.getItem("dictExpiredDate");
+    const isExpired = !expiredDate || Date.now() > new Date(expiredDate).getTime() + autoExpiredTimes;
     if (!isExpired) return getStorage(`dict.${name}`, storateType as StorageType);
     updateStorageDict(); //过期之后全量更新字典
+    return null;
   }
 
   /**
    * 处理需计算的的字典映射（非对象、数组类型）
    * @param {DictName} name 字典名称
-   * @param {boolean} first 是否是第一次
    * @returns
    */
-  function handleCalculateMap(name: DictName) {
+  async function handleCalculateMap(name: DictName) {
     const currMap = dictData[name];
     if (!currMap) throw new Error(`未找到字典映射：${name}`);
     if (lazyProxyLoaded[name]) return; //如果加载过，便不再进行加载
@@ -81,41 +79,42 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
       const data = getValidStorageData(name); // 获取本地存储数据
       if (data) return (proxyMap[name] = data);
     }
-    (currMap as Function)()().then(res => {
+    return await (currMap as Function)()().then(res => {
       proxyMap[name] = res;
       storateType && setStorage(`dict.${name}`, res, storateType);
+      return res;
     });
   }
 
   /**
-   * 设置字典映射
-   * @param name 字典索引名称
-   * @returns
-   */
-  function setMap(name: DictName) {
-    const currMap = dictData[name];
-    if (!currMap) throw new Error(`未找到字典映射：${name}`);
-    if (!lazyNames.includes(name)) throw new Error(`无需设置此种类型：${typeOf(currMap)}`);
-    handleCalculateMap(name);
-  }
-
-  /**
    * 更新存储中的字典数据
-   * @param {DictName|DictName[]} names 字典映射名称
+   * @param {DictName | DictName[]} names 字典映射名称
    */
-  function updateStorageDict(names: DictName | DictName[] = lazyNames) {
+  async function updateStorageDict(names: DictName | DictName[] = lazyNames) {
     if (!storateType) return showMessage("未开启本地存储，故无需执行更新操作", "warning");
     if (typeof names === "string") names = [names];
-    names.forEach((name: DictName) => setMap(name));
-    // 如果是全量刷新存储在storage中的字典数据，则需要更新下刷新时间
+    await Promise.all(names.map(async (name: DictName) => await setMap(name)));
+    // 如果是全量刷新存储在storage中的字典数据，则需要更新刷新时间
     if (names === lazyNames) {
-      storage.setItem("lastRefreshDate", dayjs(Date.now()).format("YYYY-MM-DD HH:mm:ss"));
+      storage.setItem("dictExpiredDate", dayjs(Date.now() + autoExpiredTimes).format("YYYY-MM-DD HH:mm:ss"));
     }
   }
 
   /**
+   * 设置字典映射
+   * @param {DictName} name 字典索引名称
+   * @returns
+   */
+  async function setMap(name: DictName) {
+    const currMap = dictData[name];
+    if (!currMap) throw new Error(`未找到字典映射：${name}`);
+    if (!lazyNames.includes(name)) throw new Error(`无需设置此种类型：${typeOf(currMap)}`);
+    return await handleCalculateMap(name);
+  }
+
+  /**
    * 获取tagMap
-   * @param name 映射map的名称
+   * @param {DictName} name 映射map的名称
    */
   function getMap(name: DictName) {
     const currMap = proxyMap[name] ?? commonMap[name];
@@ -148,9 +147,9 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
 
   /**
    * 获取字典下拉项
-   * @param name DictName 字典名称
-   * @param includeKeys string[] 过滤时要包含的keys
-   * @param isExclude boolean 是否排除掉要包含的keys
+   * @param {DictName} name 字典名称
+   * @param {string[]} includeKeys  过滤时要包含的keys
+   * @param {boolean} isExclude  是否排除掉要包含的keys
    */
   function getOpts(name: DictName, includeKeys?: StrNum[], isExclude?: boolean): OptionItem[] {
     const currMap = getMap(name);
@@ -178,10 +177,9 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
 
   /***
    * 获取select、cascader、tree下拉项中的文本
-   * @notice 待完善
-   * @param {CommonObj} propsMap 属性名映射
+   * @param {OptionPropsMap} propsMap 属性名映射
    */
-  function getTextFromOptions(options: OptionItem[], val: StrNum | StrNum[], propsMap?: CommonObj, char = "-") {
+  function getTextFromOptions(options: OptionItem[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = "-") {
     if (emptyVals.includes(val as any)) return char;
     const t = typeOf(val);
     if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char);
@@ -194,7 +192,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @param name 名称
    * @returns 数组或数组映射对象
    */
-  function getDictNames(type?: "lazy" | "common") {
+  function getNames(type?: "lazy" | "common") {
     if (!type) return initDictNames;
     if (type === "lazy") return lazyNames;
     if (type === "common") {
@@ -212,7 +210,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
     setMap,
     getText,
     getOpts,
-    getDictNames,
+    getNames,
     updateStorageDict,
   };
 };

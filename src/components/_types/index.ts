@@ -77,6 +77,10 @@ export interface User {
   name: string;
   age: number;
 }
+//全部属性
+export type GetKeys<T> = {
+  [P in keyof T]: T[P];
+};
 //可选参数
 export type GetPartial<T> = {
   [P in keyof T]?: T[P];

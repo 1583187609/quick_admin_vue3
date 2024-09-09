@@ -1,7 +1,8 @@
 import { CommonObj, CommonSize } from "@/vite-env";
 import { btnsMap } from "@/components/BaseBtn";
-import { PopconfirmAttrs } from "../_types";
+import { GetKeys, PopconfirmAttrs } from "../_types";
 
+// export type BtnAllNames = GetKeys<btnsMap>;
 export type BtnAllNames = keyof typeof btnsMap;
 // export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
 export interface BtnsAllMap {

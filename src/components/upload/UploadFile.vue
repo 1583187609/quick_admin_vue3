@@ -24,12 +24,13 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
 import { showMessage, storage, toCssVal } from "@/components/_utils";
 import config from "@/config";
-import { StrNum, CommonObj, FinallyNext } from "@/vite-env";
+import { getErrorTips, getFileTips } from "./_utils";
+
 export interface FileAttrs {
   url: string;
   name: string;
@@ -40,10 +41,11 @@ const props = withDefaults(
     size?: string | number;
     showFileList?: boolean;
     drag?: boolean;
-    accept?: string; //image/png, image/jpeg
+    accept?: string; //接受的文件类型，例：image/png, image/jpeg
     limitSize?: number; //文件大小限制
     action?: string;
     showTips?: boolean;
+    tips?: string;
     handleSuccessRes?: (res: any) => string;
   }>(),
   Object.assign(
@@ -55,6 +57,7 @@ const props = withDefaults(
       limitSize: 1024 * 1024 * 10, //10M
       action: "/proxy/common/uploadImage",
       showTips: true,
+      tips: _props => getFileTips(_props),
       handleSuccessRes: (data: any) => {
         return data.path;
       },
@@ -65,49 +68,17 @@ const props = withDefaults(
 const emits = defineEmits(["update:modelValue", "change"]);
 const { formItem } = useFormItem();
 const { value: disabled } = useFormDisabled();
-const newSize = toCssVal(props.size);
 const file = ref<FileAttrs>(props.modelValue || { url: "", name: "" });
-// const tempSrc =
-//   "https://files.xiangqinjiaoapp.com/user-file/D85QoX/20230903/face/tmp_dbf84a5a546905a1b554a5dc892cba8c.png";
-// const file = computed<FileAttrs>({
-//   get() {
-//     return props.modelValue;
-//   },
-//   set(val: FileAttrs) {
-//     console.log(val, "val---------------------1122");
-//     emits("update:modelValue", val);
-//     formItem?.validate("blur");
-//   },
-// });
-const tips = computed(() => {
-  const { accept, limitSize } = props;
-  const type = getAcceptTypeStr(accept);
-  const size = getLimitSizeStr(limitSize);
-  return `仅支持${type}，不超过${size}`;
-});
-// setTimeout(() => {
-//   file.value = tempSrc;
-//   // emits("update:modelValue", tempSrc);
-//   // formItem?.validate("blur");
-// }, 500);
 //上传前处理
 const beforeUpload: UploadProps["beforeUpload"] = file => {
-  const { limitSize, accept } = props;
-  const { type, size } = file;
-  const errTips = validType(accept, type) || validSize(limitSize, size);
-  if (errTips) {
-    showMessage(errTips, "error");
-    return false;
-  }
-  return true;
+  const errTips = getErrorTips(props, file);
+  if (!errTips) return true;
+  showMessage(errTips, "error");
+  return false;
 };
 const handleProgress: UploadProps["onProgress"] = file => {
   console.log(file, "onProgress--------------------");
 };
-// const handleSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
-//   file.value = URL.createObjectURL(uploadFile.raw!);
-//   emits("change", file.value);
-// };
 const handleSuccess: UploadProps["onSuccess"] = (res, uploadFile) => {
   const { code, message, data } = res;
   if (code === 1000) {
@@ -151,28 +122,6 @@ function getLimitSizeStr(limitSize: number): string {
     sizeStr = `${size.toFixed(1)}Mb`;
   }
   return sizeStr;
-}
-/**
- * 校验文件类型
- * @param accept string  image/png,image/jpeg
- * @param fileType string  image/png,image/jpeg
- */
-function validType(accept: string | undefined, fileType: string): string {
-  let tips = "";
-  if (!accept) return tips;
-  const acceptTypes = accept.split(",");
-  if (!acceptTypes.includes(fileType)) {
-    tips = `仅支持上传${getAcceptTypeStr(accept)}格式的文件`;
-  }
-  return tips;
-}
-/**
- * 校验文件类型
- * @param accept string  image/png,image/jpeg
- * @param type string  image/png,image/jpeg
- */
-function validSize(limitSize: number, fileSize: number) {
-  return fileSize > limitSize ? `文件大小不能超过${getLimitSizeStr(limitSize)}` : "";
 }
 </script>
 

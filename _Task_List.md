@@ -120,6 +120,14 @@
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
 85、验证 FieldItem 的 rulesType 为 rmb 时是否正常
 
+## TS 类型处理
+
+1、从对象中获取键名作为 ts 的 type 类型
+
+```ts
+// 示例：export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
+```
+
 ## vip 功能清单
 
 - base 基础分支

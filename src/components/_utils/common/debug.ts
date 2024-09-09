@@ -9,7 +9,7 @@ import { showMessage } from "../platform";
 
 /**
  * 函数未传必填参数时的校验
- * @param name string 参数名称
+ * @param {string} name 参数名称
  */
 export function needParam(name: string = "") {
   throw new Error("请传入参数：" + name);
@@ -17,6 +17,8 @@ export function needParam(name: string = "") {
 
 /**
  * 检查对象2的属性在对象1上是否存在，即以对象1的属性为准
+ * @param {CommonObj} obj_1 要检查的对象1
+ * @param {CommonObj} obj_2 要检查的对象2
  */
 export function checkObjKeyError(obj_1: CommonObj = {}, obj_2: CommonObj = {}) {
   if (!isDev) return;
@@ -32,6 +34,7 @@ export function checkObjKeyError(obj_1: CommonObj = {}, obj_2: CommonObj = {}) {
 
 /**
  * 全局代码错误捕捉
+ * @param {any} error 错误信息
  * */
 export function handleError(error: any) {
   // 过滤 HTTP 请求错误
