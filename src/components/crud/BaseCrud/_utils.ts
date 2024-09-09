@@ -2,7 +2,7 @@ import { ElMessageBox } from "element-plus";
 import _ from "lodash";
 import { BtnName, BtnItem, BtnAttrs, BaseBtnType } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
 import {
   rangeJoinChar,
@@ -119,7 +119,7 @@ export function handleClickExtraBtns({
 /**
  * 获取查询条件的文本值
  */
-export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]) {
+export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[], joinChar = "、") {
   const { attrs, type = defaultFormItemType, options = [] } = field;
   if (type === "cascader") {
     if (typeOf(val) === "Array") return getLabelFromOptionsByAllValues(options as CommonObj[], val as StrNum[]);
@@ -127,12 +127,12 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
   }
   if (type === "select") {
     if (attrs?.multiple) {
-      const opts = options.filter(it => val.includes(it.value));
-      return opts.map(it => it.label).join("、");
+      const opts = (options as OptionItem[]).filter(it => (val as (StrNum | boolean)[]).includes(it.value));
+      return opts.map(it => it.label).join(joinChar);
     }
-    return getLabelFromOptionsByLastValue(options, val);
+    return getLabelFromOptionsByLastValue(options as CommonObj[], val as StrNum);
   }
-  if (["BaseNumberRange", "date-picker"].includes(type)) return val?.join(rangeJoinChar);
+  if (["BaseNumberRange", "date-picker"].includes(type)) return (val as StrNum[])?.join(rangeJoinChar);
   return val;
 }
 
