@@ -385,15 +385,9 @@ export default {
   TestFetch: lazyFetch(() =>
     GetMockCommonList().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
-      const obj: CommonObj = {};
-      // const typeMap = { 0: "primary", 1: "danger", 2: "info" };
-      list.forEach((item: string, ind: number) => {
-        obj[ind] = {
-          text: `直接请求${ind + 1}`,
-          // attrs: { type: typeMap[ind] }
-        };
+      return list.map((item: string, ind: number) => {
+        return { label: "按需请求（无attrs)" + ind, value: ind };
       });
-      return obj;
     })
   ),
   // 按需（懒）加载请求（带attrs）

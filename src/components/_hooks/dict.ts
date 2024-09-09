@@ -1,24 +1,23 @@
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import {
-  emptyVals,
-  setStorage,
-  getStorage,
-  typeOf,
-  storage,
-  StorageType,
-  showMessage,
-  getLabelFromOptionsByLastValue,
-  getLabelFromOptionsByAllValues,
-} from "@/utils";
-import type { OptionPropsMap } from "@/utils";
+import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage, getTextFromOptions } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 import dayjs from "dayjs";
+import { GetMockCommonList } from "@/api-mock";
 
 // 配置项，启用本地存储类型、存储自动过期时间（过期后，会重新请求更新存储数据）
 const storateType: "" | StorageType = "local"; //存储方式，可选值： '', local、session、cookie
 const autoExpiredTimes = 1000 * 10; // 自动过期时间。启用本地存储类型且自动过期后，会重新发起请求更新本地存储。默认为：10秒
+
+/**
+ * 判断是否过期
+ * @returns {boolean} 是否过期
+ */
+function getIsExpired() {
+  const expiredDate = storage.getItem("dictExpiredDate");
+  return !expiredDate || Date.now() > new Date(expiredDate).getTime() + autoExpiredTimes;
+}
 
 /**
  * 字典映射处理hooks
@@ -27,6 +26,7 @@ const autoExpiredTimes = 1000 * 10; // 自动过期时间。启用本地存储�
 const lazyProxyLoaded: CommonObj = {}; //{[name]: true || undeinde}
 export default (initDictNames = Object.keys(dictData) as DictName[]) => {
   const lazyNames: DictName[] = []; //懒加载请求的下拉项
+  const insertNames: DictName[] = storage.getItem("insertDictNames") ?? []; //批量插入的下拉项
   const commonMap: CommonObj = {}; //普通映射
   const proxyMap = reactive<CommonObj>({}); //代理映射
 
@@ -50,6 +50,34 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
       commonMap[name] = data;
       return;
     });
+    insertMap();
+  }
+
+  /**
+   * 插入通过接口一次性请求得到的字典map
+   * @notice 初次加载时，是一定要批量插入的（不用按需插入）
+   * @notice 批量插入逻辑待完善
+   */
+  async function insertMap() {
+    if (insertNames.length && !getIsExpired()) {
+      return insertNames.forEach((name: DictName) => {
+        proxyMap[name] = getStorage(`dict.${name}`, storateType as StorageType);
+      });
+    }
+    return await GetMockCommonList().then((res: any) => {
+      const list = res.records.slice(0, 3);
+      const inserted = insertNames.length > 0; // 是否已经插入过names
+      list.map((item, ind) => {
+        const name = "TestInsert_" + ind;
+        !inserted && insertNames.push(name as DictName);
+        const opts = Array(3)
+          .fill("")
+          .map((it, i) => ({ label: `批量插入${ind}_${i}`, value: i }));
+        proxyMap[name] = opts;
+        storateType && setStorage(`dict.${name}`, opts, storateType);
+      });
+      storage.setItem("insertDictNames", insertNames);
+    });
   }
 
   /**
@@ -58,9 +86,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @returns
    */
   function getValidStorageData(name: DictName): null | CommonObj {
-    const expiredDate = storage.getItem("dictExpiredDate");
-    const isExpired = !expiredDate || Date.now() > new Date(expiredDate).getTime() + autoExpiredTimes;
-    if (!isExpired) return getStorage(`dict.${name}`, storateType as StorageType);
+    if (!getIsExpired()) return getStorage(`dict.${name}`, storateType as StorageType);
     updateStorageDict(); //过期之后全量更新字典
     return null;
   }
@@ -94,6 +120,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
     if (!storateType) return showMessage("未开启本地存储，故无需执行更新操作", "warning");
     if (typeof names === "string") names = [names];
     await Promise.all(names.map(async (name: DictName) => await setMap(name)));
+    await insertMap();
     // 如果是全量刷新存储在storage中的字典数据，则需要更新刷新时间
     if (names === lazyNames) {
       storage.setItem("dictExpiredDate", dayjs(Date.now() + autoExpiredTimes).format("YYYY-MM-DD HH:mm:ss"));
@@ -173,18 +200,6 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
       return opts;
     }
     throw new Error(`暂未处理此种类型：${t}`);
-  }
-
-  /***
-   * 获取select、cascader、tree下拉项中的文本
-   * @param {OptionPropsMap} propsMap 属性名映射
-   */
-  function getTextFromOptions(options: OptionItem[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = "-") {
-    if (emptyVals.includes(val as any)) return char;
-    const t = typeOf(val);
-    if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char);
-    if (["String", "Number"].includes(t)) return getLabelFromOptionsByLastValue(options, val as StrNum, propsMap, char);
-    throw new Error(`暂未处理此种情况：${t}`);
   }
 
   /**

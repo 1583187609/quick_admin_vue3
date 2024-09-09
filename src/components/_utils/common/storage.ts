@@ -120,7 +120,7 @@ export function setStorage(pathStr = "", vals: any, storageType: StorageType = d
     restPaths.forEach((key, ind) => {
       const val = tempData[key];
       const isLast = ind >= restPaths.length - 1;
-      if (val) return (tempData = val);
+      if (val) return isLast ? (tempData[key] = vals) : (tempData = val);
       return (tempData[key] = isLast ? vals : {});
     });
   }

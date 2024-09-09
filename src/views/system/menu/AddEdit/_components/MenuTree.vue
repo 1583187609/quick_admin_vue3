@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { ElTree, useFormItem } from "element-plus";
-import { getTextFromTreeByKey } from "@/utils";
+import { getTextFromOptions } from "@/utils";
 import { StrNum } from "@/vite-env";
 
 export interface MenuTreeNode {
@@ -52,10 +52,11 @@ const customNodeClass = (data: MenuTreeNode, node: MenuTreeNode) => {
   if (data.type === 0) return null;
   return "node-hide";
 };
-const menuText = computed(() => {
-  return getTextFromTreeByKey(props.data, props.modelValue, "name");
-});
 const popoverRef = ref<any>(null);
+const menuText = computed(() => {
+  const { data, modelValue } = props;
+  return getTextFromOptions(data, modelValue, { label: "name", value: "id" }, "");
+});
 const { formItem } = useFormItem();
 const handleNodeClick = (data: MenuTreeNode) => {
   const { id, name } = data;

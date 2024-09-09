@@ -153,10 +153,10 @@ function fetch(
  * @param {number} max 请求失败后，最大重新请求次数
  * @returns
  */
-function http<T,K>(
+function http<K = any>(
   method: string,
   url: string,
-  data: T,
+  data: any,
   customCfg?: CustomRequestConfig,
   othersCfg?: AxiosRequestConfig,
   max = customCfg?.maxCount ?? defaultCustomCfg.maxCount

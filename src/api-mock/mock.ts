@@ -3,7 +3,7 @@ import { CommonObj } from "@/vite-env";
 
 /************ 通用接口 *************/
 // 通用的获取数据（信息对象）接口
-export const GetMockCommonDetail = (data?: CommonObj) => http<any, any>("get", "/mock/common/detail", data);
+export const GetMockCommonDetail = (data?: CommonObj) => http<any>("get", "/mock/common/detail", data);
 // 通用的获取列表（分页数组）接口
 export const GetMockCommonList = (data?: CommonObj) => http("get", "/mock/common/list", data);
 // 通用的提交数据（信息对象）接口

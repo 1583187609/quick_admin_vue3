@@ -108,15 +108,27 @@ export default {
       2: '函数2',
     };
   },
-  // 懒加载请求
-  TestRejectReason: lazyFetch(
+  // 按需（懒）加载请求（不带attrs）
+  TestFetch: lazyFetch(
     () =>
       new Promise((resolve) => {
         resolve(
           Array(12)
             .fill('')
-            .map((item, ind) => ({ label: '原因' + ind, value: ind })),
+            .map((item, ind) => ({ label: '拒绝原因' + ind, value: ind })),
         );
       }),
+  ),
+  // 按需（懒）加载请求（带attrs）
+  TestFetchLazy: lazyFetch(() =>
+    GetMockCommonList().then((res: CommonObj) => {
+      const list = res.records.slice(0, 3);
+      const obj: CommonObj = {};
+      const typeMap = { 0: "primary", 1: "danger", 2: "info" };
+      list.forEach((item: string, ind: number) => {
+        obj[ind] = { text: `按需请求${ind + 1}`, attrs: { type: typeMap[ind] } };
+      });
+      return obj;
+    })
   ),
 ```

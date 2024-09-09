@@ -72,7 +72,7 @@ const filledIcons = [
 ];
 const props = withDefaults(
   defineProps<{
-    modelValue: string;
+    modelValue?: string;
   }>(),
   {
     modelValue: "",

@@ -82,6 +82,15 @@ const fields = [
     options: "TestFetchLazy",
     extraAttrs: {},
   },
+  {
+    prop: "TestInsert_0",
+    label: "批量插入",
+    type: "select",
+    options: "TestInsert_0",
+    extraAttrs: {
+      popover: "非按需请求",
+    },
+  },
 ];
 </script>
 <style lang="scss" scoped></style>
