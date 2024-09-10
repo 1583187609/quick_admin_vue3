@@ -31,12 +31,8 @@ const props = withDefaults(
 );
 const emits = defineEmits(["update:modelValue"]);
 const imgSrc = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: any) {
-    emits("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val: any) => emits("update:modelValue", val),
 });
 const handleSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
   emits("update:modelValue", URL.createObjectURL(uploadFile.raw!));
@@ -49,7 +45,8 @@ const beforeUpload: UploadProps["beforeUpload"] = rawFile => {
     const str = accepts.map((it: string) => it.split("/")[1]).join("，");
     showMessage(`请上传 ${str} 格式的图片！`, "error");
     return false;
-  } else if (size / 1024 / 1024 > maxSize) {
+  }
+  if (size / 1024 / 1024 > maxSize) {
     showMessage(`图片大小不能超过 ${maxSize}MB!`, "error");
     return false;
   }

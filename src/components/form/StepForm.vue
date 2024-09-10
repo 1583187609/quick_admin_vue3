@@ -6,21 +6,22 @@
     </el-steps>
     <SectionForm :sections="sections" class="ml-t f-1" v-bind="formAttrs" ref="formRef">
       <template #head-right="scope">
-        <slot :name="'head-right-' + (scope.section.prop ?? scope.index + 1)" v-bind="scope"></slot>
+        <slot :name="'head-right-' + (scope.section.prop ?? scope.index + 1)" v-bind="scope" />
       </template>
       <template #body="scope">
-        <slot :name="'body-' + scope.section.prop" v-bind="scope"></slot>
+        <slot :name="'body-' + scope.section.prop" v-bind="scope" />
       </template>
       <template #field="scope">
-        <slot :name="scope.field.prop" v-bind="scope"></slot>
+        <slot :name="scope.field.prop" v-bind="scope" />
       </template>
     </SectionForm>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { SectionFormItem } from "@/components/form/_types";
+import { ref, computed } from "vue";
+import { SectionFormItem, SectionFormItemAttrs } from "@/components/form/_types";
 import SectionForm from "@/components/form/SectionForm.vue";
+import { CommonObj } from "../_types";
 
 export interface StepItemAttrs {
   title: string;
@@ -39,7 +40,7 @@ const props = withDefaults(
     sections?: SectionFormItem[];
     direction?: StepDirection;
     stepAttrs?: StepItemAttrs;
-    formAttrs?: SectionFormAtrrs;
+    formAttrs?: CommonObj; // SectionFormAtrrs;
   }>(),
   {
     sections: () => [],
@@ -47,12 +48,14 @@ const props = withDefaults(
   }
 );
 const formRef = ref<any>(null);
-const steps = computed<StepItemAttrs>(() =>
-  props.sections.map(item => {
-    const { title, description } = item;
-    return { title, description };
-  })
-);
+const steps = computed<StepItemAttrs>(() => {
+  return props.sections
+    .filter(it => !!it)
+    .map(item => {
+      const { title, description } = item as SectionFormItemAttrs;
+      return { title, description };
+    });
+});
 const active = ref(1); //当前激活的步骤
 defineExpose({
   formRef,

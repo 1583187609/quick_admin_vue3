@@ -24,7 +24,7 @@
             :key="ind"
           >
             <template #custom="{ field: currField }">
-              <slot name="custom" :field="currField" :form="formData"></slot>
+              <slot name="custom" :field="currField" :form="formData" />
             </template>
           </QueryFields>
           <QueryBtns
@@ -59,7 +59,7 @@
         :key="ind"
       >
         <template #custom="{ field: currField }">
-          <slot name="custom" :field="currField" :form="formData"></slot>
+          <slot name="custom" :field="currField" :form="formData" />
         </template>
       </QueryFields>
       <QueryBtns

@@ -1,6 +1,6 @@
 <template>
   <el-empty class="base-empty" style="padding: 16px" :description="tips" :image-size="Number(size)">
-    <slot></slot>
+    <slot />
   </el-empty>
 </template>
 <script lang="ts" setup>

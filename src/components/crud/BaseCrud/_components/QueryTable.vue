@@ -25,7 +25,7 @@
       :key="cInd"
     >
       <template #custom="{ row, col: c, $index: ind }">
-        <slot name="custom" v-bind="{ row, col: c, $index: ind }"></slot>
+        <slot name="custom" v-bind="{ row, col: c, $index: ind }" />
       </template>
     </Column>
     <template #empty v-if="!loading">

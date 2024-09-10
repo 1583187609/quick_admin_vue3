@@ -1,5 +1,4 @@
-import {  GridAttrs } from "./_components/FieldItem";
-import { FormAttrs } from "./_types";
+import { FormAttrs, GridAttrs } from "./_types";
 
 //覆盖重写 el-form 的默认属性值
 export const defaultFormAttrs: FormAttrs = {

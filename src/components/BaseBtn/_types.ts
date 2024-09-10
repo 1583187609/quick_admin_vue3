@@ -19,7 +19,7 @@ export interface BtnCfg {
   popconfirm?: string;
 }
 export type BtnName = BtnAllNames | string; //常用基础按钮或其他自定义按钮
-export type ButtonType = "primary" | "success" | "warning" | "danger" | "info"; //按钮类型。注"btnText" 已弃用
+export type ButtonType = "primary" | "success" | "warning" | "danger" | "info"; //按钮类型。注"text" 已弃用
 export interface BtnAttrs {
   icon?: any;
   btnText?: string;
@@ -36,10 +36,14 @@ export interface BtnItem {
   order?: number; //按钮顺序
   auth?: number[]; //权限
   to?: string | CommonObj | ((row: CommonObj) => string | CommonObj); //点击按钮时要跳转的页面地址
-  customRules?: boolean; //是否自定义该按钮的逻辑规则（目前只有导出按钮用到了此属性）
   validate?: boolean; //是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
-  popconfirm?: boolean | PopconfirmAttrs;
+  popconfirm?: boolean | string | PopconfirmAttrs;
   attrs?: BtnAttrs; //按钮属性
+  customRules?: boolean; //是否自定义该按钮的逻辑规则（目前只有导出按钮用到了此属性）
 }
 export type BtnFn = (row: CommonObj) => BtnName | BtnItem;
 export type BaseBtnType = BtnName | BtnItem | BtnFn;
+
+// export interface BtnItemFull extends BtnItem {
+//   popconfirm?: PopconfirmAttrs;
+// }

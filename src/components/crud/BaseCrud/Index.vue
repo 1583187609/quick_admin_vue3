@@ -24,11 +24,11 @@
       ref="queryFormRef"
     >
       <template #custom="{ field, form }">
-        <slot :name="field.prop" :field="field" :form="form"></slot>
+        <slot :name="field.prop" :field="field" :form="form" />
       </template>
     </QueryForm>
     <div class="middle" :class="tableAttrs?.size ?? size" v-if="$slots.middle">
-      <slot name="middle"></slot>
+      <slot name="middle" />
     </div>
     <ExtraBtns
       class="f-0"
@@ -77,7 +77,7 @@
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
-          <slot :name="col.prop" v-bind="{ row, col, $index }"></slot>
+          <slot :name="col.prop" v-bind="{ row, col, $index }" />
         </template>
       </QueryTable>
     </slot>

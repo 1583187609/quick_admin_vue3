@@ -5,7 +5,7 @@ import { BaseRenderData } from "@/components/BaseRender.vue";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 
-export type ValidType = keyof typeof defaultRulesTypes;
+export type RulesType = keyof typeof defaultRulesTypes;
 
 export type FormItemType =
   | "input"
@@ -60,7 +60,7 @@ export interface FormFieldAttrs {
   //   popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
   //   tips?: string; //注意提示语，位于字段的下方
   //   pureText?: boolean; //是否纯文本展示
-  //   rulesType?: ValidType; //规则类型
+  //   rulesType?: RulesType; //规则类型
   //   before?: any; //字段前面拼接的内容，可以是文本、组件等
   //   after?: any; //字段后面拼接的内容，可以是文本、组件等
   // };

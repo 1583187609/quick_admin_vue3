@@ -20,7 +20,7 @@
         <slot v-bind="scope">{{ scope.row[scope.col.prop] }}</slot>
       </template>
       <template #custom="{ row, col: c, $index: ind }">
-        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }"></slot>
+        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }" />
       </template>
     </Column>
     <template #empty>

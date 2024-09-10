@@ -1,46 +1,44 @@
+// import { useSlots } from "vue";
 import * as Icons from "@element-plus/icons-vue";
 import { CircleCloseFilled } from "@element-plus/icons-vue";
 import { getUserInfo, typeOf } from "@/components/_utils";
-import _ from "lodash";
-// import { useSlots } from "vue";
 import { btnsMap } from "@/components/BaseBtn";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/vite-env";
 import { BaseBtnType, BtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/components/crud/BaseCrud/_types";
-import { PopconfirmAttrs } from "../_types";
+import { PopconfirmAttrs, PopconfirmType } from "../_types";
+import _ from "lodash";
 
 const { merge, upperFirst } = _;
+
 /**
  * 获取popconfirm的属性对象
- * @param popconfirm string boolean object
- * @param btnText string 按钮文字
+ * @param {string | boolean | PopconfirmAttrs} popconfirm
+ * @param {string} btnText 按钮文字
  */
-function getPopconfirmAttrs(popconfirm: string | boolean | CommonObj, btnObj: BtnItem): PopconfirmAttrs {
+function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem): PopconfirmAttrs {
   const { btnText, attrs = {} } = btnObj;
   const title = `确认${btnText}吗？`;
   const t = typeOf(popconfirm);
-  if (t === "String") {
-    return { title: popconfirm as string };
-  } else if (t === "Object") {
-    return merge({ title }, popconfirm);
-  } else if (popconfirm === true) {
+  if (t === "String") return { title: popconfirm as string };
+  if (t === "Object") return merge({ title }, popconfirm);
+  if (popconfirm === true) {
     const { type } = attrs;
     return {
       title,
       iconColor: cssVars["color" + upperFirst(type)],
       confirmButtonType: type,
     };
-  } else {
-    console.error(`暂未处理此种情况：${t}`, popconfirm);
-    return { title: "~error~", icon: CircleCloseFilled, iconColor: "#f56c6c" };
   }
+  console.error(`暂未处理此种情况：${t}`, popconfirm);
+  return { title: "~error~", icon: CircleCloseFilled, iconColor: "#f56c6c" };
 }
 
 /**
  * 根据按钮名或按钮对象获取按钮对象
- * @param btn string | object | function 按钮名或按钮对象或方法函数
- * @param baseBtnAttrs CommonObj 额外添加的属性，用来覆盖
+ * @param {string | object | Function} btn 按钮名或按钮对象或方法函数
+ * @param {CommonObj} baseBtnAttrs  额外添加的属性，用来覆盖
  */
 export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): BtnItem {
   const t = typeOf(btn);
@@ -68,7 +66,7 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
       if (typeof it !== "object") return it;
       const { disabled, code } = it;
       //感觉没必要加上 && getUserInfo().type===code，但暂时先这么写，后面再思考
-      if (disabled && getUserInfo().type === code) {
+      if (disabled && getUserInfo()?.type === code) {
         attrs ? (attrs.disabled = true) : (btnObj.attrs = { disabled: true });
       }
       return code;

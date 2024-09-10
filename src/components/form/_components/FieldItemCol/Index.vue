@@ -17,7 +17,7 @@
       :formRef="formRef"
     >
       <template #custom="scope">
-        <slot name="custom" v-bind="scope"></slot>
+        <slot name="custom" v-bind="scope" />
       </template>
     </FieldItem>
   </el-col>

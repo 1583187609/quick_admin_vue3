@@ -13,7 +13,7 @@
     v-model="model[field!.prop as string]"
   >
     <template #custom="{ field: currField }">
-      <slot name="custom" :field="currField"></slot>
+      <slot name="custom" :field="currField" />
     </template>
   </FieldItemCol>
 </template>

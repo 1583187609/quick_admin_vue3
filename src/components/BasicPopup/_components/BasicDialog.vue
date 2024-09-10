@@ -1,11 +1,5 @@
 <template>
-  <el-dialog
-    class="basic-dialog"
-    :class="{ 'top-compact': !footer }"
-    v-model="show"
-    v-bind="newAttrs"
-    ref="basicDialogRef"
-  >
+  <el-dialog class="basic-dialog" :class="{ 'top-compact': !footer }" v-model="show" v-bind="newAttrs" ref="basicDialogRef">
     <!-- <template #header="{ close, titleId, titleClass }" v-if="newAttrs.title">
       <h4 :id="titleId" :class="titleClass">{{ newAttrs.title }}</h4>
     </template> -->

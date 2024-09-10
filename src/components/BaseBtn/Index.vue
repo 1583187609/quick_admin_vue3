@@ -1,5 +1,5 @@
 <!-- summary
-基础按钮，用于增删改查列表页中间或表格操作栏按钮的权限、图标、样式、位置等的统一
+基础按钮，用于增删改查列表页：中间或表格操作栏的按钮。集成了样式、图标、位置、权限、路由跳转、气泡确认框（popconfirm）等功能。
 -->
 <template>
   <el-popconfirm @confirm="handleClick" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
@@ -19,7 +19,7 @@ import { getBtnObj } from "@/components/BaseBtn";
 import { typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj } from "@/vite-env";
-import { BtnAttrs, BtnItem, BtnName } from "./_types";
+import { BaseBtnType, BtnItem, BtnName } from "./_types";
 import { PopconfirmAttrs } from "../_types";
 
 defineOptions({
@@ -30,7 +30,7 @@ const $attrs = useAttrs();
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
-    name?: BtnName; //可以不传值
+    name?: BaseBtnType; //可以不传值
     btnText?: string; //按钮文本
     data?: CommonObj; //要传递的数据
     order?: number; //按钮顺序
@@ -60,11 +60,12 @@ const newBtn = computed<BtnItem>(() => {
   const { name } = props;
   return getBtnObj(name, undefined, { attrs: $attrs });
 });
+// 处理点击事件
 function handleClick() {
   const { name, to, customRules } = newBtn.value;
-  if (to === undefined) return emits("click", name);
+  if (to === undefined) return emits("click", name!);
   const t = typeOf(to);
-  router.push(t === "Function" ? to(props.data) : to);
+  router.push(t === "Function" ? (to as Function)(props.data) : to);
 }
 </script>
 <style lang="scss" scoped></style>

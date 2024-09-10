@@ -1,7 +1,7 @@
 <!-- 组件 - 视频播放组件 -->
 <template>
   <video class="base-video" controls v-if="src">
-    <slot></slot>
+    <slot />
     <source :src="src" type="video/mp4" />
     <source :src="src" type="video/ogg" />
     您的浏览器不支持 video 标签。

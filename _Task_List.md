@@ -119,6 +119,7 @@
 83、rulesType 增加 rmb 类型。
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
 85、验证 FieldItem 的 rulesType 为 rmb 时是否正常
+86、关于系统信息完善；并考虑移除`BaseKeyVal`组件
 
 ## TS 类型处理
 

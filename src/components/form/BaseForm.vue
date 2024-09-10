@@ -1,5 +1,5 @@
 <!-- summary
-  基础表单
+  基础表单。除了实现ElementPlus的默认功能外，还在extraAttrs中提供了grid、example、popover、tips、pureText、rulesType、before、after、……等功能
 -->
 <template>
   <el-form
@@ -10,7 +10,7 @@
     @keyup.enter="handleEnter"
     ref="formRef"
   >
-    <slot name="custom" v-if="$slots.custom"></slot>
+    <slot name="custom" v-if="$slots.custom" />
     <el-row
       class="section all-hide-scroll"
       :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
@@ -30,7 +30,7 @@
           :key="field.key ?? ind"
         >
           <template #custom="{ field: currField }">
-            <slot :name="currField.prop" :field="currField" :form="formData"></slot>
+            <slot :name="currField.prop" :field="currField" :form="formData" />
           </template>
         </FieldItemCol>
       </template>
@@ -66,7 +66,6 @@ import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
-import _ from "lodash";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/components/_utils";
 import { BaseBtnType } from "@/components/BaseBtn/_types";
@@ -74,6 +73,7 @@ import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/components/_utils";
+import _ from "lodash";
 
 const { merge } = _;
 const $slots = useSlots();
@@ -137,11 +137,8 @@ watch(
 );
 //处理表单的enter时间
 function handleEnter() {
-  if (props.fetch) {
-    footerBtnsRef.value.submit();
-  } else {
-    emits("submit", params.value);
-  }
+  if (props.fetch) return footerBtnsRef.value.submit();
+  emits("submit", params.value);
 }
 
 defineExpose<{

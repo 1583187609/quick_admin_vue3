@@ -5,7 +5,7 @@
         <span class="line-1">{{ title }}</span>
         <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge"> </el-badge>
       </div>
-      <slot name="head-right"></slot>
+      <slot name="head-right" />
       <BaseIcon
         @click="fold = !fold"
         class="fold-btn"

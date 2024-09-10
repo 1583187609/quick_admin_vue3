@@ -112,7 +112,7 @@ export type OmitUser = GetOmit<User, "age">;
 // export type CommonFormSize = "large" | "default" | "small";
 // export type CommonTableSize = "large" | "default" | "small";
 
-// export type ValidType = keyof typeof defaultRulesTypes;
+// export type RulesType = keyof typeof defaultRulesTypes;
 
 // export enum OrderDropKeyEnum {
 //   OrderType = '订单类型'
@@ -133,7 +133,7 @@ export interface PopconfirmAttrs {
   disabled?: boolean;
   [key: string]: any;
 }
-
+export type PopconfirmType = string | boolean | PopconfirmAttrs;
 export type PopTrigger = "click" | "focus" | "hover" | "contextmenu";
 export type PopPlacement =
   | "top"

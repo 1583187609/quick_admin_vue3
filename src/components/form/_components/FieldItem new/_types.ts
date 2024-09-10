@@ -5,7 +5,7 @@ import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 import { Popover } from "@/components/_types";
 
-export type ValidType = keyof typeof defaultRulesTypes;
+export type RulesType = keyof typeof defaultRulesTypes;
 
 export type FormItemType =
   | "input"
@@ -84,7 +84,7 @@ export interface FormFieldAttrs {
     pureText?: boolean; //是否纯文本展示
     disabled?: boolean; //是否禁用
     readonly?: boolean; //是否只读
-    rulesType?: ValidType; //规则类型
+    rulesType?: RulesType; //规则类型
     before?: any; //字段前面拼接的内容，可以是文本、组件等
     after?: any; //字段后面拼接的内容，可以是文本、组件等
   };

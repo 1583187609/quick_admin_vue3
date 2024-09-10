@@ -25,10 +25,10 @@ export function getFileTips(props) {
 
 /**
  * 校验图片类型
- * @param {string} accept image/png,image/jpeg
- * @param {string} fileType image/png,image/jpeg
+ * @param {string} accept 可接受的文件类型 image/png,image/jpeg
+ * @param {string} fileType 当前的文件类型 image/png,image/jpeg
  */
-function validType(accept: string, fileType: string): string {
+function validFileType(accept: string, fileType: string): string {
   const acceptTypes = accept.split(",");
   if (acceptTypes.includes(fileType)) return "";
   return `仅支持上传${getAcceptTypeStr(accept)}格式的图片`;
@@ -36,19 +36,21 @@ function validType(accept: string, fileType: string): string {
 
 /**
  * 校验图片类型
- * @param {string} accept image/png,image/jpeg
- * @param {string} type image/png,image/jpeg
+ * @param {number} limitSize 文件体积最大大小
+ * @param {number} fileSize 当前文件大小
  */
-function validSize(limitSize: number, fileSize: number) {
+function validFileSize(limitSize: number, fileSize: number) {
   if (fileSize <= limitSize) return "";
   return `图片大小不能超过${getLimitSizeStr(limitSize)}`;
 }
 
 /**
  * 获取文件不合规范的提示文案
+ * @param {CommonObj} props 上传组件的props属性
+ * @param {CommonObj} file 上传的文件信息
  */
 export function getErrorTips(props, file) {
   const { limitSize, accept } = props;
   const { type, size } = file;
-  return validType(accept, type) || validSize(limitSize, size);
+  return validFileType(accept, type) || validFileSize(limitSize, size);
 }

@@ -24,7 +24,7 @@
               </el-popover>
             </div>
             <slot name="head-right" :section="sItem" :index="sInd">
-              <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)"></slot>
+              <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
             <BaseIcon
               @click="folds[sInd] = !folds[sInd]"
@@ -37,9 +37,9 @@
           </div>
           <el-row class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
             <slot name="body" :section="sItem" :index="sInd" v-if="sItem.type === 'custom'">
-              <slot :name="sItem.prop"></slot>
+              <slot :name="sItem.prop" />
             </slot>
-            <!-- <slot :name="sItem.prop" v-if="sItem.type === 'custom'"></slot> -->
+            <!-- <slot :name="sItem.prop" v-if="sItem.type === 'custom'"/> -->
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItemCol
@@ -57,7 +57,7 @@
                 >
                   <template #custom="scope">
                     <slot name="field" :field="scope.field">
-                      <slot :name="scope.field.prop" :field="scope.field"></slot>
+                      <slot :name="scope.field.prop" :field="scope.field" />
                     </slot>
                   </template>
                 </FieldItemCol>
@@ -76,7 +76,7 @@
                 >
                   <template #custom="scope">
                     <slot name="field" :field="scope.field">
-                      <slot :name="scope.field.prop" :field="scope.field"></slot>
+                      <slot :name="scope.field.prop" :field="scope.field" />
                     </slot>
                   </template>
                 </FieldItemCol>
@@ -192,7 +192,7 @@ watch(
         formData.value[prop as string] = type === "custom" ? defVal : handleFields(fields, emits, defVal).data;
       } else {
         const result = handleFields(fields, emits, modelValue);
-        let { fields: _fields } = result;
+        const { fields: _fields } = result;
         const { data } = result;
         merge(formData.value, data);
         (secItem as SectionFormItemAttrs).fields = _fields;
@@ -209,11 +209,8 @@ watch(
 // }
 //处理表单的enter时间
 function handleEnter() {
-  if (props.fetch) {
-    footerBtnsRef.value.submit();
-  } else {
-    emits("submit", params.value);
-  }
+  if (props.fetch) return footerBtnsRef.value.submit();
+  emits("submit", params.value);
 }
 defineExpose({
   formRef,

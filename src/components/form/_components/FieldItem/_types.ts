@@ -1,11 +1,11 @@
 import { FormRules } from "element-plus";
-import { SlotsType } from "@/components/BaseRender.vue";
+import { BaseRenderData, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonSize, OptionItem, StrNum } from "@/vite-env";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 import { Popover } from "@/components/_types";
 
-export type ValidType = keyof typeof defaultRulesTypes;
+export type RulesType = keyof typeof defaultRulesTypes;
 
 export type FormItemType =
   | "input"
@@ -84,9 +84,9 @@ export interface FormFieldAttrs {
     pureText?: boolean; //是否纯文本展示
     disabled?: boolean; //是否禁用
     readonly?: boolean; //是否只读
-    rulesType?: ValidType; //规则类型
-    before?: any; //字段前面拼接的内容，可以是文本、组件等
-    after?: any; //字段后面拼接的内容，可以是文本、组件等
+    rulesType?: RulesType; //规则类型
+    before?: BaseRenderData; //字段前面拼接的内容，可以是文本、组件等
+    after?: BaseRenderData; //字段后面拼接的内容，可以是文本、组件等
   };
   children?: FormField[]; //字段子项
   /** 控件（input、select……）的属性，例：placeholder **/
