@@ -95,7 +95,7 @@ const fields = ref<FormField[]>([
     prop: "phone",
     label: "电话",
     required: true,
-    extraAttrs: {
+    quickAttrs: {
       rulesType: "phone",
     },
   },

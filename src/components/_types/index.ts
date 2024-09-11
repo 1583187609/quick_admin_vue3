@@ -3,8 +3,7 @@
 /***************************************************************************/
 
 import { ButtonType } from "@/components/BaseBtn/_types";
-import { BaseRenderData } from "../BaseRender.vue";
-import { RenderComponent } from "@/components/BaseRender.vue";
+import { BaseRenderData } from "@/components/BaseRender.vue";
 import type { MessageParams, messageType } from "element-plus";
 import { EpPropMergeType } from "element-plus/es/utils";
 import { AxiosResponse } from "axios";
@@ -36,8 +35,8 @@ export interface OptionItem {
   value: string | number | boolean;
   label?: string;
   disabled?: boolean;
-  customOption?: RenderComponent;
   children?: OptionItem[];
+  optionRender?: BaseRenderData;
 }
 
 // el-tab-pane 的 props 属性

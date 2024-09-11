@@ -93,7 +93,8 @@ export interface TableColAttrs {
   ) => string | VNode<RendererNode, RendererElement, { [key: string]: any }>;
   children?: TableColAttrs[];
   attrs?: CommonObj; //该列所用组件的props属性
-  extraAttrs?: {
+  /** 下面是针对业务需求而新添加的快捷属性 **/
+  quickAttrs?: {
     popover?: string | PopoverAttrs | BaseRenderData;
   };
 }

@@ -29,8 +29,8 @@ const model = reactive({
   },
 });
 const fields = [
-  { prop: "id", label: "用户ID", extraAttrs: {} },
-  { prop: "nc", label: "昵称", extraAttrs: {} },
+  { prop: "id", label: "用户ID", quickAttrs: {} },
+  { prop: "nc", label: "昵称", quickAttrs: {} },
   {
     label: "嵌套（对象）",
     prop: "inner_obj",
@@ -42,7 +42,7 @@ const fields = [
         label: "一",
         required: true,
         labelWidth: "0",
-        extraAttrs: {
+        quickAttrs: {
           // grid: 12,
         },
       },
@@ -51,7 +51,7 @@ const fields = [
         label: "二",
         required: true,
         labelWidth: "0",
-        extraAttrs: {
+        quickAttrs: {
           // grid: 12,
         },
       },
@@ -69,7 +69,7 @@ const fields = [
         label: "一",
         required: true,
         labelWidth: "0",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },
@@ -78,7 +78,7 @@ const fields = [
         label: "二",
         required: true,
         labelWidth: "0",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },

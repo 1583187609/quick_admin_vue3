@@ -46,7 +46,7 @@ const cols = [
   {
     type: "UserInfo",
     label: "被举报人",
-    extraAttrs: { popover: "这里使用simple属性，所以显示信息少了" },
+    quickAttrs: { popover: "这里使用simple属性，所以显示信息少了" },
     attrs: { simple: true },
   },
   { prop: "xm", label: "姓名" },

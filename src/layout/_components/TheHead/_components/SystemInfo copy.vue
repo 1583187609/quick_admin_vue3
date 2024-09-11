@@ -28,7 +28,7 @@ const fields: FormFieldAttrs[] = [
     prop: "name",
     label: "系统名称",
     class: "mb-h",
-    extraAttrs: {
+    quickAttrs: {
       pureText: true,
     },
   },
@@ -36,7 +36,7 @@ const fields: FormFieldAttrs[] = [
     prop: "description",
     label: "系统介绍",
     class: "mb-h",
-    extraAttrs: {
+    quickAttrs: {
       pureText: true,
     },
   },

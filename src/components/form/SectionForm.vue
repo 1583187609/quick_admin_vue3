@@ -44,10 +44,10 @@
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItemCol
                   :field="field"
-                  :grid="field?.extraAttrs?.grid ?? sItem.grid ?? grid"
-                  :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
-                  :pureText="field?.extraAttrs?.pureText ?? sItem.pureText ?? pureText"
-                  :disabled="field?.extraAttrs?.disabled ?? sItem.disabled ?? disabled"
+                  :grid="field?.quickAttrs?.grid ?? sItem.grid ?? grid"
+                  :readonly="field?.quickAttrs?.readonly ?? sItem.readonly ?? readonly"
+                  :pureText="field?.quickAttrs?.pureText ?? sItem.pureText ?? pureText"
+                  :disabled="field?.quickAttrs?.disabled ?? sItem.disabled ?? disabled"
                   :size="field?.attrs?.size ?? field.size ?? sItem.size ?? size"
                   :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
                   v-model="formData[sItem.prop][field.prop as string]"
@@ -63,10 +63,10 @@
                 </FieldItemCol>
                 <FieldItemCol
                   :field="field"
-                  :grid="field?.extraAttrs?.grid ?? sItem.grid ?? grid"
-                  :readonly="field?.extraAttrs?.readonly ?? sItem.readonly ?? readonly"
-                  :pureText="field?.extraAttrs?.pureText ?? sItem?.pureText ?? pureText"
-                  :disabled="field?.extraAttrs?.disabled ?? sItem.disabled ?? disabled"
+                  :grid="field?.quickAttrs?.grid ?? sItem.grid ?? grid"
+                  :readonly="field?.quickAttrs?.readonly ?? sItem.readonly ?? readonly"
+                  :pureText="field?.quickAttrs?.pureText ?? sItem?.pureText ?? pureText"
+                  :disabled="field?.quickAttrs?.disabled ?? sItem.disabled ?? disabled"
                   :size="field?.attrs?.size ?? field.size ?? sItem.size ?? size"
                   :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
                   v-model="formData[field.prop as string]"

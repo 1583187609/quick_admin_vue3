@@ -1,5 +1,5 @@
 <template>
-  <el-col class="field-item-col" v-bind="getElColAttrs(field.extraAttrs?.grid ?? grid, colAttrs)">
+  <el-col class="field-item-col" v-bind="getElColAttrs(field.quickAttrs?.grid ?? grid, colAttrs)">
     <FieldItem
       v-model="newVal"
       v-bind="$attrs"

@@ -330,7 +330,7 @@ export const defaultRulesTypes: CommonObj = getExportData(
         step: 0.1,
         controlsPosition: "right",
       },
-      extraAttrs: {
+      quickAttrs: {
         after: "元",
       },
     },
@@ -341,7 +341,7 @@ export const defaultRulesTypes: CommonObj = getExportData(
         min: 0,
         max: 100,
       },
-      extraAttrs: {
+      quickAttrs: {
         after: "岁",
       },
     },

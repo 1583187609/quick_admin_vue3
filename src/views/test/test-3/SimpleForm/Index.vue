@@ -33,14 +33,14 @@ const fields: FormField[] = [
     prop: "dhhm",
     label: "电话号码",
     required: true,
-    extraAttrs: {
+    quickAttrs: {
       rulesType: "phone",
     },
   },
   {
     prop: "xm",
     label: "姓名",
-    extraAttrs: {
+    quickAttrs: {
       popover: "请注意输入真实姓名",
     },
     attrs: {

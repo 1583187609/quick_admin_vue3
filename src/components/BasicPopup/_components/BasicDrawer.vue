@@ -1,12 +1,11 @@
 <template>
-  <el-drawer class="basic-drawer" v-model="show" v-bind="newAttrs">
+  <el-drawer v-model="show" class="basic-drawer" :title="title" v-bind="defaultAttrs">
     <slot />
   </el-drawer>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { computed } from "vue";
 const defaultAttrs = {
-  title: "title 标题",
   size: "none",
   closeOnClickModal: false,
   appendToBody: true,
@@ -15,14 +14,14 @@ const defaultAttrs = {
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;
-    body?: any;
+    title?: string;
   }>(),
   {
     modelValue: false,
+    title: "查看详情",
   }
 );
 const emits = defineEmits(["update:modelValue"]);
-const newAttrs = Object.assign({}, defaultAttrs);
 const show = computed({
   get: () => props.modelValue,
   set: (isShow: boolean) => emits("update:modelValue", isShow),

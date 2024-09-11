@@ -32,8 +32,8 @@ const formCfg = config?.form;
 // 获取控件映射
 // export const getWidgetMap = ({ props, newField, newVal, emits }) => {
 //   const { size } = props;
-//   const { label, prop, attrs = {}, options = [], extraAttrs = {}, slots } = newField.value;
-//   const { before, after } = extraAttrs;
+//   const { label, prop, attrs = {}, options = [], quickAttrs = {}, slots } = newField.value;
+//   const { before, after } = quickAttrs;
 //   const flexClass = before ?? after ? "f-1" : "";
 //   const baseAttrs = {
 //     "v-model.trim": newVal.value,
@@ -65,14 +65,14 @@ const formCfg = config?.form;
 //         ...baseAttrs,
 //       },
 //       options?.map((opt, ind) => {
-//         const { customOption } = opt;
+//         const { optionRender } = opt;
 //         return h(
 //           ElOption,
 //           {
-//             "v-bind": customOption ? deleteAttrs(opt, ["customOption"]) : opt,
+//             "v-bind": optionRender ? deleteAttrs(opt, ["optionRender"]) : opt,
 //             key: ind,
 //           },
-//           customOption ? h(BaseRender, { data: customOption }) : undefined
+//           optionRender ? h(BaseRender, { data: optionRender }) : undefined
 //         );
 //       }),
 //     ],
@@ -543,7 +543,7 @@ export const defaultRulesTypes: CommonObj = getExportData(
         min: 0,
         max: 100,
       },
-      extraAttrs: {
+      quickAttrs: {
         after: "岁",
       },
     },

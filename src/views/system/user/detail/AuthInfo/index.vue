@@ -57,7 +57,7 @@ const realNameFormFields: FormField[] = [
   {
     prop: "sfzh",
     label: "身份证号/通信证号",
-    extraAttrs: {
+    quickAttrs: {
       rulesType: "identity",
     },
   },

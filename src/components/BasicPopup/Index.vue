@@ -5,17 +5,19 @@ provide了openPopup、closePopup方法。默认dialog，可在全局配置中进
 <template>
   <slot />
   <!-- 对话框 -->
-  <template v-for="(dialog, ind) in dialogs" :key="ind">
-    <BasicDialog v-model="dialog.show" :footer="dialog.foot" v-bind="dialog.attrs">
-      <BaseRender :data="dialog.body" />
-    </BasicDialog>
-  </template>
+  <BasicDialog
+    v-model="dialog.show"
+    :footer="dialog.foot"
+    v-bind="dialog.attrs"
+    v-for="(dialog, ind) in dialogs"
+    :key="'dialog-' + ind"
+  >
+    <BaseRender :data="dialog.body" />
+  </BasicDialog>
   <!-- 抽屉 -->
-  <template v-for="(drawer, ind) in drawers" :key="ind">
-    <BasicDrawer v-model="drawer.show" v-bind="drawer.attrs">
-      <BaseRender :data="drawer.body" />
-    </BasicDrawer>
-  </template>
+  <BasicDrawer v-model="drawer.show" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
+    <BaseRender :data="drawer.body" />
+  </BasicDrawer>
 </template>
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide } from "vue";

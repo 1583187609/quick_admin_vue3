@@ -234,7 +234,7 @@ const fields = computed<FormField[]>(() => {
           label: "一",
           required: true,
           labelWidth: "0",
-          extraAttrs: {
+          quickAttrs: {
             // grid: 12,
           },
         },
@@ -243,7 +243,7 @@ const fields = computed<FormField[]>(() => {
           label: "二",
           required: true,
           labelWidth: "0",
-          extraAttrs: {
+          quickAttrs: {
             // grid: 12,
           },
         },
@@ -261,7 +261,7 @@ const fields = computed<FormField[]>(() => {
           label: "一",
           required: true,
           labelWidth: "0",
-          extraAttrs: {
+          quickAttrs: {
             grid: 12,
           },
         },
@@ -270,7 +270,7 @@ const fields = computed<FormField[]>(() => {
           label: "二",
           required: true,
           labelWidth: "0",
-          extraAttrs: {
+          quickAttrs: {
             grid: 12,
           },
         },
@@ -280,7 +280,7 @@ const fields = computed<FormField[]>(() => {
       prop: "xm",
       label: "姓名",
       required: true,
-      extraAttrs: {
+      quickAttrs: {
         tips: "最少传入prop，label两个属性；tips属性设置表单项下方提示信息;设置required: true, 设为必填；设置attrs属性，完全继承于ElementPlus的表单控件属性；",
       },
       attrs: {
@@ -295,7 +295,7 @@ const fields = computed<FormField[]>(() => {
         { label: "男", value: 1 },
         { label: "女", value: 2 },
       ],
-      extraAttrs: {
+      quickAttrs: {
         // popover: h("div", { style: "color:red" }, "这是内容"),
         popover: CustomPopover,
         tips: "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）",
@@ -312,7 +312,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "sfzh",
       label: "身份证号",
-      extraAttrs: {
+      quickAttrs: {
         tips: "popover设置弹出层提示；设置valid，内置身份证、密码等校验；添加example属性，拼接在placeholder后面，作为输入示例",
         popover: "这是popover提示",
         rulesType: "identity",
@@ -322,7 +322,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "dhhm",
       label: "电话号码",
-      extraAttrs: {
+      quickAttrs: {
         rulesType: "phone",
         tips: "prefix插槽插入图标（传入文本）；内置电话号码校验；自定义placeholder",
       },
@@ -336,7 +336,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "mm",
       label: "密码",
-      extraAttrs: {
+      quickAttrs: {
         rulesType: "password",
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
       },
@@ -352,7 +352,7 @@ const fields = computed<FormField[]>(() => {
       prop: "rq",
       label: "日期(单prop)",
       type: "date-picker",
-      extraAttrs: {
+      quickAttrs: {
         tips: "默认类型是daterange；prop为字符串时，提交表单时是一个数组",
       },
     },
@@ -360,7 +360,7 @@ const fields = computed<FormField[]>(() => {
       prop: ["rq_s", "rq_e"],
       label: "日期(双prop)",
       type: "date-picker",
-      extraAttrs: {
+      quickAttrs: {
         tips: "props传入数组，提交表单数据时，会被拆成两个字段",
       },
     },
@@ -382,7 +382,7 @@ const fields = computed<FormField[]>(() => {
       prop: "nl",
       label: "年龄",
       rules: [{ validator: checkAge, trigger: "blur" }],
-      extraAttrs: {
+      quickAttrs: {
         tips: "rulesType（限制最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
         rulesType: "age",
       },
@@ -400,7 +400,7 @@ const fields = computed<FormField[]>(() => {
       prop: "sfqy",
       label: "是否启用",
       type: "switch",
-      extraAttrs: {
+      quickAttrs: {
         tips: "考虑【启用/禁用】用的多，故设为内置switch样式，可通过设置attrs覆盖内置默认样式",
       },
       attrs: {},
@@ -419,7 +419,7 @@ const fields = computed<FormField[]>(() => {
       prop: "jzw",
       label: "是否记住我",
       type: "checkbox",
-      extraAttrs: {
+      quickAttrs: {
         tips: "用slots.default改变多选框右侧的文字（默认跟label一样）",
       },
       slots: "记住我",
@@ -438,7 +438,7 @@ const fields = computed<FormField[]>(() => {
       label: "参与方式",
       labelWidth: "15em",
       type: "radio-group",
-      extraAttrs: {
+      quickAttrs: {
         tips: "手动指定label宽度，覆盖自动计算宽度",
       },
       options: [
@@ -453,7 +453,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "bpzs1",
       label: "并排展示1",
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         tips: "表单项禁用",
       },
@@ -465,7 +465,7 @@ const fields = computed<FormField[]>(() => {
       prop: "bpzs2",
       label: "并排展示2",
       type: "select",
-      extraAttrs: {
+      quickAttrs: {
         tips: "纯文本展示",
         grid: 12,
         pureText: true,
@@ -497,7 +497,7 @@ const fields = computed<FormField[]>(() => {
       prop: "zdy",
       label: "自定义组件",
       type: "custom",
-      extraAttrs: {
+      quickAttrs: {
         tips: "设置type:'custom'通过插槽加入自定义组件，并通过v-model绑定表单值",
       },
     },
@@ -505,7 +505,7 @@ const fields = computed<FormField[]>(() => {
       prop: "kmsj",
       label: "开幕时间",
       type: "time-picker",
-      extraAttrs: {
+      quickAttrs: {
         tips: "因为几乎用不到，考虑性能，故不放出time-picker。此处作为当type类型错误时的示例",
       },
     },
@@ -517,7 +517,7 @@ const fields = computed<FormField[]>(() => {
         { label: "认证方式有prop", value: 1 },
         { label: "认证方式无prop", value: 2 },
       ],
-      extraAttrs: {
+      quickAttrs: {
         tips: "radio-group控件，默认为button样式",
         popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
       },

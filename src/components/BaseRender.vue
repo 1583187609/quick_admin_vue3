@@ -1,7 +1,8 @@
 <!-- 组件 - 渲染内容元素 -->
 <template>
-  <!-- 如果是虚拟dom或者是引入的组件 -->
-  <component :is="data" v-if="dataType === 'Object' && (isVNode(data) || data.render)" />
+  <!-- 如果是引入的组件或者是虚拟dom -->
+  <component :is="data" v-if="dataType === 'Object' && (data.render || isVNode(data))" />
+  <!-- 如果是数组（创建虚拟DOM的参数 -->
   <component :is="h(...data)" v-else-if="dataType === 'Array'" />
   <!-- 如果是基本数据类型 -->
   <template v-else>{{ data }}</template>

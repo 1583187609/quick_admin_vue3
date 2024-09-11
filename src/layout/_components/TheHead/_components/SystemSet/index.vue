@@ -19,10 +19,10 @@
   </SectionForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive,  computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import SectionForm from "@/components/form/SectionForm.vue";
-import { CommonObj, OptionItem} from "@/vite-env";
+import { CommonObj, OptionItem } from "@/vite-env";
 import { SectionFormItemAttrs } from "@/components/form/_types";
 import LayoutStyle from "./_components/LayoutStyle.vue";
 import { getIsUpdated } from "@/utils";
@@ -92,7 +92,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "bread",
           label: $t("sysSet.appearance.breadcrumb.label"),
           type: "switch",
-          extraAttrs: {
+          quickAttrs: {
             grid: model.bread === 1 ? 8 : undefined,
           },
           attrs: showHideSwitchAttrs,
@@ -101,7 +101,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "bread_icon",
           label: $t("sysSet.appearance.breadcrumb.icon"),
           type: "switch",
-          extraAttrs: {
+          quickAttrs: {
             grid: 12,
           },
           attrs: showHideSwitchAttrs,
@@ -110,7 +110,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "page_tag",
           label: $t("sysSet.appearance.pageTag.label"),
           type: "switch",
-          extraAttrs: {
+          quickAttrs: {
             grid: model.page_tag === 1 ? 8 : undefined,
           },
           attrs: showHideSwitchAttrs,
@@ -119,7 +119,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "page_tag_icon",
           label: $t("sysSet.appearance.pageTag.icon"),
           type: "switch",
-          extraAttrs: {
+          quickAttrs: {
             grid: 12,
           },
           attrs: showHideSwitchAttrs,
@@ -128,7 +128,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "footer",
           label: $t("sysSet.appearance.footer.label"),
           type: "switch",
-          extraAttrs: {
+          quickAttrs: {
             popover: $t("sysSet.appearance.footer.popover"),
           },
           attrs: { ...showHideSwitchAttrs, disabled: true },
@@ -156,7 +156,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "unique_opened",
           label: $t("sysSet.menu.accordion.label"),
           type: "switch",
-          extraAttrs: {
+          quickAttrs: {
             popover: $t("sysSet.menu.accordion.popover"),
           },
         },

@@ -13,7 +13,7 @@ export const vueStr = `
         <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
         <FieldItemCol
           :field="field"
-          :pureText="field.extraAttrs?.pureText || pureText"
+          :pureText="field.quickAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
           @change="(prop:any,val:any)=>emits('change',prop,val)"
           :formRef="formRef"

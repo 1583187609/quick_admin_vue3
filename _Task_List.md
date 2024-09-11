@@ -120,6 +120,10 @@
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
 85、验证 FieldItem 的 rulesType 为 rmb 时是否正常
 86、关于系统信息完善；并考虑移除`BaseKeyVal`组件
+87、采用`git submodule`方式维护 mock 和基础方法
+88、完善`UserDetail`页面
+89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
+90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 
 ## TS 类型处理
 
@@ -141,7 +145,7 @@
 17、vue3 封装敏感词、错别字检查的 WangEditor 组件
 18、生成 docs 文档
 19、生成 api 文件
-77、上传文件加一项，上传 zip 压缩文件
+77、上传文件加一项，上传 zip 压缩文件（选择后，解压缩并展开，可勾选部分文件进行上传）
 25、增加个性化工作台可以拖动改变布局甚至大小处理功能（拖拽组件，可拖动的工作台）
 26、echarts 图表
 15、完善换肤主题样式  

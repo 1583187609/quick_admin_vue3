@@ -1,56 +1,56 @@
 <template>
-  <el-dialog class="basic-dialog" :class="{ 'top-compact': !footer }" v-model="show" v-bind="newAttrs" ref="basicDialogRef">
-    <!-- <template #header="{ close, titleId, titleClass }" v-if="newAttrs.title">
-      <h4 :id="titleId" :class="titleClass">{{ newAttrs.title }}</h4>
+  <el-dialog
+    v-model="show"
+    class="basic-dialog"
+    :class="{ 'top-compact': !footer }"
+    :title="title"
+    v-bind="defaultAttrs"
+    ref="basicDialogRef"
+  >
+    <!-- <template #header="scoped" v-if="typeof title !== 'string'">
+      <BaseRender :data="title"/>
     </template> -->
     <slot />
     <template #footer v-if="footer">
       <slot name="footer">
         <div class="foot" v-if="footer === true">
-          <el-button @click="newAttrs.cancel">取消</el-button>
-          <el-button type="primary" @click="newAttrs.confirm">确认</el-button>
+          <el-button @click="handleCancel">取消</el-button>
+          <el-button type="primary" @click="handleConfirm">确认</el-button>
         </div>
-        <template v-else>{{ footer }}</template>
+        <BaseRender :data="footer" v-else />
       </slot>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, useAttrs, computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { popupCloseAnimationDuration, showMessage } from "@/components/_utils";
 // import { useEvent } from "@/componetns/_hooks";
 
 const defaultAttrs = {
-  title: "温馨提示",
   width: "fit-content",
-  style: "max-width: 94vw;min-width:200px;", //background:#f2f3f5;
+  style: "max-width: 94vw;min-width:200px;",
   closeOnClickModal: false,
   appendToBody: true,
   destroyOnClose: true,
   draggable: true,
-  cancel() {
-    show.value = false;
-    // showMessage("点击了【取消按钮 - cancel】", "info");
-  },
-  confirm() {
-    show.value = false;
-    showMessage("点击了【确认按钮 - confirm】", "info");
-  },
 };
 const props = withDefaults(
   defineProps<{
-    body?: any;
+    modelValue?: boolean;
+    title?: string;
     footer?: any;
+    cancel?: () => void; // 点击取消按钮
+    confirm?: () => void; // 点击确认按钮
   }>(),
   {
-    footer: true,
     modelValue: false,
+    title: "温馨提示",
+    footer: true,
   }
 );
 const emits = defineEmits(["update:modelValue"]);
-const $attrs = useAttrs();
 const basicDialogRef = ref<any>(null);
-const newAttrs = Object.assign({}, defaultAttrs, $attrs);
 const show = computed({
   get: () => props.modelValue,
   set: (isShow: boolean) => emits("update:modelValue", isShow),
@@ -71,6 +71,17 @@ function initBodyHeight() {
     // body.style.height = `calc(100vh - ${cssVars.dialogTop} - ${cssVars.dialogTop} - 58px)`;
     body.style.height = hasVBar ? getComputedStyle(body).maxHeight : undefined;
   }, popupCloseAnimationDuration);
+}
+// 点击取消按钮
+function handleCancel() {
+  if (props.cancel) return props.cancel?.();
+  show.value = false;
+}
+// 点击确认按钮
+function handleConfirm() {
+  if (props.confirm) return props.confirm?.();
+  show.value = false;
+  showMessage("点击了【确认按钮 - confirm】", "info");
 }
 onMounted(() => {
   initBodyHeight();

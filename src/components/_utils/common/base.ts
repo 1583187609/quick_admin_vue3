@@ -11,6 +11,7 @@ import { BtnName } from "@/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "./consts";
 
 const { merge } = _;
+
 /**
  * 检测元素所属类型
  * @param {any} ele 要检测的元素

@@ -1,5 +1,5 @@
 <template>
-  <el-form-item class="field-item" v-bind="deleteAttrs(newField, ['children', 'attrs', 'extraAttrs', 'options'])">
+  <el-form-item class="field-item" v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options'])">
     <template #label v-if="(!prefixProp || newField.labelWidth) && newField.label">
       <BaseRender :data="newField.label" />
       <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
@@ -9,11 +9,11 @@
         <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
       </el-popover>
     </template>
-    <div class="mr-h" v-if="newField.extraAttrs?.before">
-      <BaseRender :data="newField.extraAttrs.before" />
+    <div class="mr-h" v-if="newField.quickAttrs?.before">
+      <BaseRender :data="newField.quickAttrs.before" />
     </div>
     <template v-if="!subFields.length">
-      <template v-if="newField.extraAttrs?.pureText ?? pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
+      <template v-if="newField.quickAttrs?.pureText ?? pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
       <template v-else>
         <component :is="'el-input'" v-model="newVal.value" v-bind="newField.attrs" v-if="widgetsMap[newField.type as string]" />
         <!-- :is="'el-input'" -->
@@ -25,12 +25,12 @@
         /> -->
         <!-- <BaseRender :data="widgetsMap[newField.type as string]" v-if="widgetsMap[newField.type as string]" /> -->
         <div class="color-danger" v-else>【不存在】{{ newField.type }}</div>
-        <div class="ml-h" v-if="newField.extraAttrs?.after">
-          <BaseRender :data="newField.extraAttrs?.after" />
+        <div class="ml-h" v-if="newField.quickAttrs?.after">
+          <BaseRender :data="newField.quickAttrs?.after" />
         </div>
       </template>
-      <template v-if="newField.extraAttrs?.tips">
-        <div class="show-tips" v-html="'注：' + newField.extraAttrs.tips"></div>
+      <template v-if="newField.quickAttrs?.tips">
+        <div class="show-tips" v-html="'注：' + newField.quickAttrs.tips"></div>
       </template>
     </template>
     <!-- 当有子项表单时 -->
@@ -139,7 +139,7 @@ let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
-  const { type: fType, label, extraAttrs = {}, children, slots } = field;
+  const { type: fType, label, quickAttrs = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   const hasChildren = !!children?.length;
   // let tempField: FormFieldAttrs = field;
@@ -165,7 +165,7 @@ const newField = computed<FormFieldAttrs>(() => {
     }
     // }
   } else {
-    const { rulesType = "" } = extraAttrs;
+    const { rulesType = "" } = quickAttrs;
     const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : {};
     const { type: vType } = validField;
     const type = fType ?? vType ?? defaultFormItemType;
@@ -176,7 +176,7 @@ const newField = computed<FormFieldAttrs>(() => {
     getAttrs && merge(tempField, { attrs: getAttrs(tempField) }, field);
     let { options } = tempField;
     if (typeof options === "string") tempField.options = getOpts(options as DictName);
-    popoverAttrs = getPopoverAttrs(tempField.extraAttrs?.popover);
+    popoverAttrs = getPopoverAttrs(tempField.quickAttrs?.popover);
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
     if (tempField?.attrs?.placeholder) {
@@ -196,7 +196,7 @@ const newField = computed<FormFieldAttrs>(() => {
   //   tempField.labelWidth = label.length + 0.5 + "em";
   // }
   // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
-  // delete tempField.extraAttrs; //此处不能删除
+  // delete tempField.quickAttrs; //此处不能删除
   if (isChild && !showChildrenLabel) {
     delete tempField.label;
   }
@@ -205,8 +205,8 @@ const newField = computed<FormFieldAttrs>(() => {
 });
 const widgetsMap = computed(() => {
   const { size } = props;
-  const { label, prop, attrs = {}, options = [], extraAttrs = {}, slots } = newField.value;
-  const { before, after } = extraAttrs;
+  const { label, prop, attrs = {}, options = [], quickAttrs = {}, slots } = newField.value;
+  const { before, after } = quickAttrs;
   const flexClass = before ?? after ? "f-1" : "";
   const baseAttrs = {
     "v-bind": attrs,
@@ -231,14 +231,14 @@ const widgetsMap = computed(() => {
         ...baseAttrs,
       },
       options?.map((opt, ind) => {
-        const { customOption } = opt;
+        const { optionRender } = opt;
         return h(
           ElOption,
           {
-            "v-bind": customOption ? deleteAttrs(opt, ["customOption"]) : opt,
+            "v-bind": optionRender ? deleteAttrs(opt, ["optionRender"]) : opt,
             key: ind,
           },
-          customOption ? h(BaseRender, { data: customOption }) : undefined
+          optionRender ? h(BaseRender, { data: optionRender }) : undefined
         );
       }),
     ],
@@ -396,8 +396,8 @@ const widgetsMap = computed(() => {
  * @param {FormFieldAttrs} field 字段对象
  */
 function getPlaceholder(field: FormFieldAttrs) {
-  const { label = "", extraAttrs = {} } = field;
-  const { example } = extraAttrs;
+  const { label = "", quickAttrs = {} } = field;
+  const { example } = quickAttrs;
   let phr = field?.attrs?.placeholder ?? "";
   phr = phr.replace("${label}", label);
   if (example) phr += `，例：${example}`;
@@ -408,8 +408,8 @@ function getPlaceholder(field: FormFieldAttrs) {
  * @params rules 不能取 合并之后的tempField上的rules
  */
 function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
-  const { label = "", required, extraAttrs = {} } = field;
-  const { rulesType } = extraAttrs;
+  const { label = "", required, quickAttrs = {} } = field;
+  const { rulesType } = quickAttrs;
   const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : {};
   const newRules: FormItemRule[] = [
     ...(validField.rules ?? []),
@@ -459,8 +459,8 @@ function mergeRules(rules: FormItemRule[] = []) {
 //获取表单键值对的值
 function getKeyVal(field: FormFieldAttrs, val: any) {
   const { pureText } = props;
-  const { type = defaultFormItemType, label, attrs = {}, options = [], extraAttrs = {} } = field;
-  const { after = "" } = extraAttrs;
+  const { type = defaultFormItemType, label, attrs = {}, options = [], quickAttrs = {} } = field;
+  const { after = "" } = quickAttrs;
   if (["select", "radio-group"].includes(type)) {
     val = options?.find(it => it.value === val)?.label;
   } else if (type.includes("Time") || type.includes("date")) {

@@ -113,13 +113,13 @@ watch(
 function getFields(isChildren = false): FormFieldAttrs[] {
   const showOpts = ["select", "cascader", "checkbox-group"].includes(model.type);
   return [
-    { prop: "label", label: "标签名", extraAttrs: { grid: 6 }, required: false },
-    { prop: "prop", label: "属性名", extraAttrs: { grid: 6 }, required: false },
+    { prop: "label", label: "标签名", quickAttrs: { grid: 6 }, required: false },
+    { prop: "prop", label: "属性名", quickAttrs: { grid: 6 }, required: false },
     {
       prop: "type",
       label: "控件类型",
       type: "select",
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "表单控件类型",
       },
@@ -135,7 +135,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "defaultValue",
       label: "默认值",
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "默认值",
       },
@@ -143,7 +143,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "example",
       label: "例如文案",
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "placeholder中的文字，会直接拼在placeholder文字后面",
       },
@@ -153,7 +153,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       label: "规则类型",
       type: "select",
       options: validOpts,
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "内置的几种常用规则类型，含表单校验规则、属性等",
       },
@@ -162,7 +162,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       prop: "span",
       label: "列宽占位",
       type: "input-number",
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "每个表单项占位宽度，最小为1，最大,为24",
       },
@@ -176,7 +176,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       prop: "pureText",
       label: "是否纯文本",
       type: "select",
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "展示时，将不会看到输入框等边框，而是以纯文本展示",
       },
@@ -185,7 +185,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "labelWidth",
       label: "标签宽度",
-      extraAttrs: {
+      quickAttrs: {
         grid: 6,
         popover: "手动指定标签宽度",
       },
@@ -209,7 +209,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
         readonly: true,
         onClick: () => openConfigPopup("attrs"),
       },
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         example: exampleMap.attrs,
         popover: "属性参见ElementPlus官方文档：https://element-plus.org/zh-CN/component/button.html",
@@ -223,7 +223,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
         readonly: true,
         onClick: () => openConfigPopup("rules"),
       },
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         popover: "属性参见ElementPlus官方文档：https://element-plus.org/zh-CN/component/form.html#form-attributes",
       },
@@ -232,7 +232,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "tips",
       label: "提示文案",
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         popover: "控件下方的提示性文字",
       },
@@ -240,7 +240,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "tips",
       label: "疑问文案",
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         popover: "鼠标放到标签文字右侧问号图标上时，出现的提示性文字",
       },
@@ -248,7 +248,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "before",
       label: "前置元素",
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         popover: "每个表单项前面的元素，可以是文本或自定义组件",
       },
@@ -262,7 +262,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "after",
       label: "后置元素",
-      extraAttrs: {
+      quickAttrs: {
         grid: 12,
         popover: "每个表单项后面的元素，可以是文本或自定义组件",
       },
@@ -276,7 +276,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "children",
       label: "子级元素",
-      extraAttrs: {
+      quickAttrs: {
         popover: "表单项后面的子元素",
       },
       attrs: {
