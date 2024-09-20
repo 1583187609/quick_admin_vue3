@@ -175,6 +175,8 @@
             :data="newField?.slots?.default ?? newField.label"
           /> -->
         </el-checkbox>
+        <!-- 没有label字段的空行，用作插入一些按钮或其他内容 -->
+        <BaseRender v-else-if="newField.type === 'empty'" />
         <!-- <el-time-picker
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
