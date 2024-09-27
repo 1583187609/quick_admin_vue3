@@ -21,7 +21,7 @@ provide了openPopup、closePopup方法。默认dialog，可在全局配置中进
 </template>
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide } from "vue";
-import { showMessage, sortObjArrByKey } from "@/utils";
+import { showMessage, sortObjArrByKey, typeOf } from "@/utils";
 import { SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
@@ -196,8 +196,22 @@ function closePopup(popup: ClosePopupType = 1, destroyed = true): void {
     ids.forEach((id: DrawerId | DialogId) => closePopup(id));
     return;
   }
-  const isDialog = popup.name === "dialog";
-  return isDialog ? closeDialog(popup) : closeDrawer(popup);
+  // 排除null
+  if (typeof popup === "object" && popup) {
+    const isPopupObj =
+      Object.keys(popup).length <= 7 &&
+      "id" in popup &&
+      "name" in popup &&
+      "show" in popup &&
+      "attrs" in popup &&
+      "body" in popup &&
+      // "foot" in popup &&
+      "createAt" in popup;
+    if (!isPopupObj) return closePopup();
+    const isDialog = popup.name === "dialog";
+    return isDialog ? closeDialog(popup) : closeDrawer(popup);
+  }
+  throw new Error(`暂未处理此类型${typeOf(popup)}`);
 }
 
 /**
@@ -210,10 +224,6 @@ function getPopups(type: PopupType) {
 }
 
 //provide提供给子组件使用
-provide("openDrawer", openDrawer);
-provide("closeDrawer", closeDrawer);
-provide("openDialog", openDialog);
-provide("closeDialog", closeDialog);
 provide("openPopup", openPopup);
 provide("closePopup", closePopup);
 provide("getPopups", getPopups);
