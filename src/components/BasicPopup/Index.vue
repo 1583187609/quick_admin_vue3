@@ -21,7 +21,7 @@ provide了openPopup、closePopup方法。默认dialog，可在全局配置中进
 </template>
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide } from "vue";
-import { showMessage, sortObjArrByKey, typeOf } from "@/utils";
+import { showMessage, sortObjArrByKey } from "@/utils";
 import { SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
@@ -196,7 +196,7 @@ function closePopup(popup: ClosePopupType = 1, destroyed = true): void {
     ids.forEach((id: DrawerId | DialogId) => closePopup(id));
     return;
   }
-  // 排除null
+  // 排除null、事件对象
   if (typeof popup === "object" && popup) {
     const isPopupObj =
       Object.keys(popup).length <= 7 &&
@@ -211,7 +211,7 @@ function closePopup(popup: ClosePopupType = 1, destroyed = true): void {
     const isDialog = popup.name === "dialog";
     return isDialog ? closeDialog(popup) : closeDrawer(popup);
   }
-  throw new Error(`暂未处理此类型${typeOf(popup)}`);
+  throw new Error(`暂未处理此类型${typeof popup}`);
 }
 
 /**

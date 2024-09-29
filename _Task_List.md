@@ -125,6 +125,22 @@
 89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替
+92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）
+
+```scss
+.basic-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .popup {
+    min-width: 200px;
+    position: static;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+```
 
 ## TS 类型处理
 
