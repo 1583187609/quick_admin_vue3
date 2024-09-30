@@ -85,7 +85,6 @@
 ~~16、自动跳转至 403, 500 页面处理~~  
 ~~10、账号管理-详情 点击驳回对话框，确认，取消事件绑定不上。~~  
 ~~78、BaseRender 考虑使用 {is: '',...otherAttrs} 来进行替换~~  
-18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改  
 19、完善列设置是否显示对应列的功能  
 22、文件目录结构改为 monorepo 式  
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
@@ -95,7 +94,6 @@
 28、完善滚动触顶触底加载 demo 示例  
 24、增加批量操作按钮，并完善功能  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
-37、每次打开或新进入一个表单时，默认让第一个表单项聚焦  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
@@ -107,7 +105,7 @@
 70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里
 72、将 SetTable 用 EditTable 改造
 73、删除 `src/test_components` 文件夹下的内容  
-74、将 Quick 的内核抽离出来，放在 quick-core 文件夹下  
+74、将 Quick 的内核抽离成 npm 包
 75、完善 http 的 ts 类型书写  
 76、请求参数加解密  
 77、大屏页面第一个水滴图未正常显示  
@@ -124,23 +122,9 @@
 88、完善`UserDetail`页面
 89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
-91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替
-92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）
-
-```scss
-.basic-dialog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .popup {
-    min-width: 200px;
-    position: static;
-    top: 0;
-    left: 0;
-    transform: none;
-  }
-}
-```
+~~91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替~~
+~~92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）~~
+93、el-dialog 关闭时销毁功能优化
 
 ## TS 类型处理
 
@@ -228,6 +212,9 @@
 42、研究能被 img 标签 src 属性识别的 svg 配置  
 43、整理全局的 any、CommonObj TS 类型
 44、BaseTable、BaseForm 等的暴露方法处理
+45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度
+18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
+37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
 
 ## 三、Bug 清单
 

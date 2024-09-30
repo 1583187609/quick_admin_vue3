@@ -565,7 +565,7 @@ function handleReject(rejected: boolean) {
     openPopup(
       {
         title: "温馨提示",
-        confirm() {
+        onConfirm() {
           PostMockCommon({}).then((res)=>{
             ElMessage.success("已取消驳回");
             closePopup("dialog");

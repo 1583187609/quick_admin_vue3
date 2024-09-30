@@ -14,8 +14,8 @@
     <template #footer v-if="footer">
       <slot name="footer">
         <div class="foot" v-if="footer === true">
-          <el-button @click="handleCancel">取消</el-button>
-          <el-button type="primary" @click="handleConfirm">确认</el-button>
+          <el-button v-debounce.immediate="handleCancel">取消</el-button>
+          <el-button type="primary" v-debounce.immediate="handleConfirm">确认</el-button>
         </div>
         <BaseRender :data="footer" v-else />
       </slot>
@@ -40,8 +40,8 @@ const props = withDefaults(
     modelValue?: boolean;
     title?: string;
     footer?: any;
-    cancel?: () => void; // 点击取消按钮
-    confirm?: () => void; // 点击确认按钮
+    onCancel?: () => void; // 点击取消按钮
+    onConfirm?: () => void; // 点击确认按钮
   }>(),
   {
     modelValue: false,
@@ -74,14 +74,14 @@ function initBodyHeight() {
 }
 // 点击取消按钮
 function handleCancel() {
-  if (props.cancel) return props.cancel?.();
+  if (props.onCancel) return props.onCancel();
   show.value = false;
 }
 // 点击确认按钮
 function handleConfirm() {
-  if (props.confirm) return props.confirm?.();
+  if (props.onConfirm) return props.onConfirm();
   show.value = false;
-  showMessage("点击了【确认按钮 - confirm】", "info");
+  showMessage("点击了【确认按钮 - onConfirm】", "info");
 }
 onMounted(() => {
   initBodyHeight();
