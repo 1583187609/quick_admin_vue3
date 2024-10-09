@@ -66,7 +66,7 @@
     </BaseSection>
   </div>
 </template>
-<script lang="ts" name="WorkbenchStatistics" setup>
+<script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { GetMockCommonList } from "@/api-mock";
 import Chart from "@/components/chart/Chart.vue";

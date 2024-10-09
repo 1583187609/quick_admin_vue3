@@ -15,7 +15,7 @@
     </ul>
   </div>
 </template>
-<script lang="ts" name="TestTwo" setup>
+<script lang="ts" setup>
 import { ref, reactive, watch, computed, h } from "vue";
 import { SectionFormItem } from "@/components/form/_types";
 import SectionForm from "@/components/form/SectionForm.vue";

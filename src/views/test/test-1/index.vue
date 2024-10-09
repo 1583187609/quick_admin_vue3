@@ -37,7 +37,7 @@
     </ul>
   </div>
 </template>
-<script lang="ts" name="TestOne" setup>
+<script lang="ts" setup>
 import { ref, reactive, watch, computed, h } from "vue";
 import { FormField } from "@/components/form/_types";
 import { PostMockCommon } from "@/api-mock";

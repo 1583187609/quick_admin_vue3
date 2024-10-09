@@ -22,10 +22,10 @@ import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
 import { showMessage, toCssVal } from "@/components/_utils";
 import { useFormItem } from "element-plus";
-import _ from "lodash";
 import { CommonObj, StrNum } from "@/vite-env";
-import "@wangeditor/editor/dist/css/style.css";
 import { isProd, storage } from "@/components/_utils";
+import _ from "lodash";
+import "@wangeditor/editor/dist/css/style.css";
 
 export type ModeTypes = "default" | "simple";
 

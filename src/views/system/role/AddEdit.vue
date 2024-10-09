@@ -7,7 +7,7 @@
     :onSuccess="refreshList"
   >
     <template #menu_auth="{ form }">
-      <BaseTree></BaseTree>
+      <BaseTree />
     </template>
   </BaseForm>
 </template>

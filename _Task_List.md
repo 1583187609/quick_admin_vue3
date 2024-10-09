@@ -125,6 +125,8 @@
 ~~91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替~~
 ~~92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）~~
 93、el-dialog 关闭时销毁功能优化
+94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
+~~95、完善 filterBtnsByAuth 按钮权限，处理操作栏按钮不显示问题~~
 
 ## TS 类型处理
 
@@ -215,6 +217,8 @@
 45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
+38、打开或关闭弹窗时是否销毁（默认不销毁）
+39、操作栏宽度如果指定了，则不会自动进行计算
 
 ## 三、Bug 清单
 

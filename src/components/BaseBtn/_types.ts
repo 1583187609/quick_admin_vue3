@@ -44,6 +44,10 @@ export interface BtnItem {
 export type BtnFn = (row: CommonObj) => BtnName | BtnItem;
 export type BaseBtnType = BtnName | BtnItem | BtnFn;
 
+export interface BtnsMap {
+  [key: BtnName]: BtnAttrs;
+}
+
 // export interface BtnItemFull extends BtnItem {
 //   popconfirm?: PopconfirmAttrs;
 // }

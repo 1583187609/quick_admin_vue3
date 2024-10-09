@@ -90,7 +90,7 @@
     </template>
   </BaseCrud>
 </template>
-<script lang="ts" name="TestThree" setup>
+<script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormField, FormFieldAttrs } from "@/components/form/_types";

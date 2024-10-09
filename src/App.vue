@@ -1,7 +1,6 @@
 <template>
   <BasicPopup>
     <RouterView />
-    <!-- 全局弹出层 -->
     <!-- 使用水印 -->
     <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
   </BasicPopup>

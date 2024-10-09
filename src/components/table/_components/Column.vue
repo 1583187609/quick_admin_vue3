@@ -13,7 +13,7 @@
         :selection="selection"
         :refreshList="refreshList"
         :operateBtnsAttrs="operateBtnsAttrs"
-        :getGroupBtnsOfRow="getGroupBtnsOfRow"
+        :getGroupBtnsByRow="getGroupBtnsByRow"
         :disabled="disabled"
         v-for="(subCol, subInd) in newCol?.children"
         :key="subInd"
@@ -65,12 +65,11 @@
           <GroupBtns
             :size="size"
             :row="{ ...row, $index }"
-            :btns="getGroupBtnsOfRow?.(row, $index)"
+            :btns="getGroupBtnsByRow?.(row, $index)"
             v-bind="operateBtnsAttrs"
             @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
             v-else-if="newCol.type === 'operate'"
-          >
-          </GroupBtns>
+          />
           <BaseIcon name="Sort" size="1.2em" v-else-if="newCol.type === 'sort'" />
           <!-- id和备注列 -->
           <template v-else-if="['id', 'remark'].includes(newCol.type)">
@@ -123,7 +122,7 @@
     </template>
   </template>
 </template>
-<script lang="ts" name="Column" setup>
+<script lang="ts" setup>
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TableColAttrs } from "@/components/table/_types";
@@ -151,7 +150,7 @@ const props = withDefaults(
     selection?: boolean;
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    getGroupBtnsOfRow?: (row: CommonObj, $rowInd: number) => BtnItem[];
+    getGroupBtnsByRow?: (row: CommonObj, $rowInd: number) => BtnItem[];
   }>(),
   Object.assign(
     {

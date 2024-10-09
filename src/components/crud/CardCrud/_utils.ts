@@ -22,11 +22,7 @@ export function getAvatarRowData(row: CommonObj): CommonObj {
 
 export function getBarObj(bar: any) {
   const type = typeOf(bar);
-  if (["String", "Number"].includes(type)) {
-    return { text: bar };
-  } else if (type === "Object") {
-    return bar;
-  } else {
-    return {};
-  }
+  if (["String", "Number"].includes(type)) return { text: bar };
+  if (type === "Object") return bar;
+  return {};
 }

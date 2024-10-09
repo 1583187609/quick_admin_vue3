@@ -127,7 +127,7 @@
     </ul> -->
   </div>
 </template>
-<script lang="ts" name="TestThree" setup>
+<script lang="ts" setup>
 import { ref, onMounted, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
