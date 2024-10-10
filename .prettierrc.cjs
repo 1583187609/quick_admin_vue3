@@ -5,7 +5,7 @@ module.exports = {
   // "vetur.format.defaultFormatter.js": "vscode-typescript", // 让vue中的js按编辑器自带的ts格式进行格式化
   eslintIntegration: true, // 让prettier使用eslint的代码格式进行校验
   // 指定最大换行长度
-  printWidth: 130,
+  printWidth: 150,
   // 缩进制表符宽度 | 空格数
   tabWidth: 2,
   // 使用制表符而不是空格缩进行 (true：制表符，false：空格)

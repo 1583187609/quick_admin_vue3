@@ -16,15 +16,15 @@ const sections: SectionFormItem[] = [
   {
     title: "第一部分",
     fields: [
-      { prop: "name", label: "姓名", extraAttrs: { grid: 12 } },
-      { prop: "gender", label: "性别", extraAttrs: { grid: 12 } },
+      { prop: "name", label: "姓名", quickAttrs: { grid: 12 } },
+      { prop: "gender", label: "性别", quickAttrs: { grid: 12 } },
     ],
   },
   {
     title: "第二部分",
     fields: [
-      { prop: "cellphone", label: "电话", extraAttrs: { grid: 12 } },
-      { prop: "password", label: "密码", extraAttrs: { grid: 12 } },
+      { prop: "cellphone", label: "电话", quickAttrs: { grid: 12 } },
+      { prop: "password", label: "密码", quickAttrs: { grid: 12 } },
     ],
   },
 ];

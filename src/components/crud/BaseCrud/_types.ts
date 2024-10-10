@@ -3,7 +3,6 @@ import { TableCol } from "@/components/table/_types";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 
-
 export type FilterAuthItem = number | { code: number; disabled: boolean }; //disabled: 默认false
 export type FilterByAuthFn = (auth: number[]) => boolean;
 export type TriggerGetListType =
@@ -58,4 +57,3 @@ export interface ResMap {
 export interface ExportCfg {
   limit: number; //一次性导出数据的上限条数
 }
-

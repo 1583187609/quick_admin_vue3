@@ -24,7 +24,7 @@
             :key="ind"
           >
             <template #custom="{ field: currField }">
-              <slot name="custom" :field="currField" :form="formData"></slot>
+              <slot name="custom" :field="currField" :form="formData" />
             </template>
           </QueryFields>
           <QueryBtns
@@ -59,7 +59,7 @@
         :key="ind"
       >
         <template #custom="{ field: currField }">
-          <slot name="custom" :field="currField" :form="formData"></slot>
+          <slot name="custom" :field="currField" :form="formData" />
         </template>
       </QueryFields>
       <QueryBtns
@@ -178,7 +178,7 @@ watch(
   (newVal: FormField[]) => {
     if (props.sections?.length) return;
     const { modelValue, grid } = props;
-    const result = handleFields(newVal, undefined, modelValue, { extraAttrs: { grid: getGridAttrs(grid) } });
+    const result = handleFields(newVal, undefined, modelValue, { quickAttrs: { grid: getGridAttrs(grid) } });
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);

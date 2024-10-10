@@ -1,5 +1,5 @@
 <!--  summary
-  这是自定义的增删改查列表
+  自定义的增删改查列表
  -->
 <template>
   <BaseCrud class="custom-crud" :summaryList="summaryList" :showPagination="!summaryList" ref="crudRef">
@@ -11,15 +11,15 @@
         :loading="loading"
         v-if="summaryList"
       >
-        <slot name="list" :list="rows" :total="total" :hasMore="hasMore"> </slot>
+        <slot name="list" :list="rows" :total="total" :hasMore="hasMore" />
       </LoadMore>
       <div class="list-box f-1" v-loading="loading" v-else>
-        <slot name="list" :list="rows" :total="total" :hasMore="hasMore"> </slot>
+        <slot name="list" :list="rows" :total="total" :hasMore="hasMore" />
       </div>
     </template>
   </BaseCrud>
 </template>
-<script lang="ts" name="CustomCrud" setup>
+<script lang="ts" setup>
 import { ref } from "vue";
 import LoadMore from "@/components/LoadMore.vue";
 import { SummaryListType } from "@/components/table/_types";

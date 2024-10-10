@@ -73,7 +73,7 @@ const fields = computed<FormField[]>(() => {
               min: 1,
               style: { width: "180px" },
             },
-            extraAttrs: {
+            quickAttrs: {
               after: "天",
             },
           },

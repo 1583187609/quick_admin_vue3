@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, computed } from "vue";
+import { ref, reactive } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
 import { showMessage, storage, toCssVal } from "@/components/_utils";
@@ -81,48 +81,21 @@ const handleProgress: UploadProps["onProgress"] = file => {
 };
 const handleSuccess: UploadProps["onSuccess"] = (res, uploadFile) => {
   const { code, message, data } = res;
-  if (code === 1000) {
-    const url = props.handleSuccessRes(data);
-    const lastInd = uploadFile.name.lastIndexOf(".");
-    const name = uploadFile.name.slice(0, lastInd);
-    const obj: FileAttrs = { url, name };
-    file.value = { url, name };
-    console.log(obj);
-    emits("update:modelValue", obj);
-    formItem?.validate("blur");
-    emits("change", file);
-  } else {
-    showMessage(message, "error");
-  }
+  if (code !== 1000) return showMessage(message, "error");
+  const url = props.handleSuccessRes(data);
+  const lastInd = uploadFile.name.lastIndexOf(".");
+  const name = uploadFile.name.slice(0, lastInd);
+  const obj: FileAttrs = { url, name };
+  file.value = { url, name };
+  console.log(obj);
+  emits("update:modelValue", obj);
+  formItem?.validate("blur");
+  emits("change", file);
 };
 const handleError: UploadProps["onError"] = (err: any) => {
   // console.error(err);
   // showMessage("文件上传失败",'error');
 };
-function handleDelete() {
-  // file.value = "";
-}
-/**
- * 获取支持上传的文件后缀类型
- */
-function getAcceptTypeStr(accept: string): string {
-  const types = accept.split(",").map((it: string) => it.split("/")[1]);
-  return types.join("，");
-}
-/**
- * 获取支持上传的文件大小限制(自带单位)
- */
-function getLimitSizeStr(limitSize: number): string {
-  let size = limitSize / 1024;
-  let sizeStr = "";
-  if (size < 1024) {
-    sizeStr = `${size.toFixed(1)}kb`;
-  } else {
-    size = size / 1024;
-    sizeStr = `${size.toFixed(1)}Mb`;
-  }
-  return sizeStr;
-}
 </script>
 
 <style lang="scss" scoped>

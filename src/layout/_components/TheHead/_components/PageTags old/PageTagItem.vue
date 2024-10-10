@@ -9,7 +9,7 @@
   >
     <div class="f-c-c">
       <BaseIcon class="mr-4" size="1.2em" :name="icon" v-if="icon"></BaseIcon>
-      <span class="text line-1"><slot></slot></span>
+      <span class="text line-1"><slot /></span>
     </div>
   </el-tag>
 </template>

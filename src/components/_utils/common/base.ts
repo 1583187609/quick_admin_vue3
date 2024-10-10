@@ -11,6 +11,7 @@ import { BtnName } from "@/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "./consts";
 
 const { merge } = _;
+
 /**
  * 检测元素所属类型
  * @param {any} ele 要检测的元素
@@ -161,9 +162,9 @@ export function omitAttrs(obj: CommonObj, list = emptyVals) {
  * @param {CommonObj} obj 要剔除属性的对象
  * @param {string | string[]} keys 剔除的属性数组
  */
-export function deleteAttrs(obj: CommonObj = {}, keys: string | string[]) {
+export function deleteAttrs(obj: CommonObj = {}, keys?: string | string[]) {
+  if (!keys?.length) return obj;
   const newObj = JSON.parse(JSON.stringify(obj));
-  if (!keys?.length) return newObj;
   if (typeof keys === "string") return delete newObj[keys];
   keys.forEach(key => delete newObj[key]);
   return newObj;

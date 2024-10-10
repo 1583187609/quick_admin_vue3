@@ -1,23 +1,25 @@
 <!-- summary
-提供了两个弹出层dialog和drawer。默认dialog，可在全局配置中进行配置
+提供了两个弹出层dialog和drawer。
+provide了openPopup、closePopup方法。默认dialog，可在全局配置中进行配置。
 -->
 <template>
-  <slot></slot>
+  <slot />
   <!-- 对话框 -->
-  <template v-for="(dialog, ind) in dialogs" :key="ind">
-    <BasicDialog v-model="dialog.show" :footer="dialog.foot" v-bind="dialog.attrs">
-      <BaseRender :data="dialog.body" />
-    </BasicDialog>
-  </template>
+  <BasicDialog
+    v-model="dialog.show"
+    :footer="dialog.foot"
+    v-bind="dialog.attrs"
+    v-for="(dialog, ind) in dialogs"
+    :key="'dialog-' + ind"
+  >
+    <BaseRender :data="dialog.body" />
+  </BasicDialog>
   <!-- 抽屉 -->
-  <template v-for="(drawer, ind) in drawers" :key="ind">
-    <BasicDrawer v-model="drawer.show" v-bind="drawer.attrs">
-      <BaseRender :data="drawer.body" />
-    </BasicDrawer>
-  </template>
+  <BasicDrawer v-model="drawer.show" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
+    <BaseRender :data="drawer.body" />
+  </BasicDrawer>
 </template>
 <script lang="ts" setup>
-//后续添加的
 import { reactive, shallowReactive, provide } from "vue";
 import { showMessage, sortObjArrByKey } from "@/utils";
 import { SetTimeout } from "@/vite-env";
@@ -44,32 +46,16 @@ import type {
 let dialogTimer: SetTimeout = null;
 let drawerTimer: SetTimeout = null;
 
-/***
- * 后续添加的
- */
 const closeDelay = popupCloseAnimationDuration; //延迟一点置为空（为了配合动画效果）
 const dialogs = reactive<DialogPopup[]>([]);
 const drawers = reactive<DrawerPopup[]>([]);
 
 /**
- * 构造生成新的body对象
- */
-function getNewBody(body: any): BaseRenderData {
-  // if (typeof body === "string") return body; //字符串也是虚拟dom
-  // if (!isVNode(body) && !body.component) return [body];
-  // return body;
-  return body;
-}
-
-/**
  * 构造生成新的attrs对象
  */
 function getNewAttrs(head: any, popupId: DrawerId | DialogId): any {
-  if (typeof head === "string") {
-    return { title: head, onClose: () => closePopup(popupId) };
-  } else {
-    return head;
-  }
+  if (typeof head !== "string") return head;
+  return { title: head, onClose: () => closePopup(popupId) };
 }
 
 /**
@@ -90,7 +76,7 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foo
       name: "dialog",
       show: true,
       attrs: getNewAttrs(head, `dialog-${id}`),
-      body: getNewBody(body),
+      body,
       foot,
       createAt: Date.now(),
     })
@@ -100,19 +86,19 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foo
 function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}`, destroyed = true) {
   if (popup === "all") {
     dialogs.length = 0;
-  } else {
-    const ind = dialogs.findIndex(item => {
-      if (typeof popup !== "string") return item === popup;
-      return item.id === Number(popup.split("-")[1]);
-    });
-    if (ind === -1) return;
-    dialogs[ind].show = false;
-    if (!destroyed) return;
-    dialogTimer = setTimeout(() => {
-      dialogs.splice(ind, 1);
-      dialogTimer = null;
-    }, closeDelay);
+    return;
   }
+  const ind = dialogs.findIndex(item => {
+    if (typeof popup !== "string") return item === popup;
+    return item.id === Number(popup.split("-")[1]);
+  });
+  if (ind === -1) return;
+  dialogs[ind].show = false;
+  if (!destroyed) return;
+  dialogTimer = setTimeout(() => {
+    dialogs.splice(ind, 1);
+    dialogTimer = null;
+  }, closeDelay);
 }
 
 /**
@@ -133,7 +119,7 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
       name: "drawer",
       show: true,
       attrs: getNewAttrs(head, `drawer-${id}`),
-      body: getNewBody(body),
+      body,
       createAt: Date.now(),
     })
   );
@@ -142,19 +128,19 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
 function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}`, destroyed = true) {
   if (popup === "all") {
     drawers.length = 0;
-  } else {
-    const ind = drawers.findIndex(item => {
-      if (typeof popup !== "string") return item === popup;
-      return item.id === Number(popup.split("-")[1]);
-    });
-    if (ind === -1) return;
-    drawers[ind].show = false;
-    if (!destroyed) return;
-    drawerTimer = setTimeout(() => {
-      drawers.splice(ind, 1);
-      drawerTimer = null;
-    }, closeDelay);
+    return;
   }
+  const ind = drawers.findIndex(item => {
+    if (typeof popup !== "string") return item === popup;
+    return item.id === Number(popup.split("-")[1]);
+  });
+  if (ind === -1) return;
+  drawers[ind].show = false;
+  if (!destroyed) return;
+  drawerTimer = setTimeout(() => {
+    drawers.splice(ind, 1);
+    drawerTimer = null;
+  }, closeDelay);
 }
 
 /**
@@ -170,14 +156,10 @@ function openPopup(
     const isDiaId = head.startsWith("dialog-");
     if (isDiaId || head.startsWith("drawer-")) return isDiaId ? openDialog(head) : openDrawer(head);
   }
-  if (type === "dialog") {
-    openDialog(head, body, foot);
-  } else if (type === "drawer") {
-    openDrawer(head, body);
-  } else {
-    // 如果不是弹窗类型，则打开dialog，且type的值作为dialog的footer渲染
-    openDialog(head, body, type as FootRenderData);
-  }
+  if (type === "dialog") return openDialog(head, body, foot);
+  if (type === "drawer") return openDrawer(head, body);
+  // 如果不是弹窗类型，则打开dialog，且type的值作为dialog的footer渲染
+  return openDialog(head, body, type as FootRenderData);
 }
 
 /**
@@ -193,25 +175,43 @@ function closePopup(popup: ClosePopupType = 1, destroyed = true): void {
   if (popup === "all") {
     closeDialog(popup);
     closeDrawer(popup);
-  } else if (typeof popup === "string") {
-    const isDialog = popup.startsWith("dialog");
+    return;
+  }
+  if (typeof popup === "string") {
     const isId = popup.includes("-");
-    if (isDialog) {
+    if (popup.startsWith("dialog")) {
       const isAll = popup === "dialog";
       const dia = isId ? (popup as CloseDialogType) : isAll ? "all" : undefined;
-      closeDialog(dia, destroyed);
-    } else {
+      return closeDialog(dia, destroyed);
+    }
+    if (popup.startsWith("drawer")) {
       const isAll = popup === "drawer";
       const dra = isId ? (popup as CloseDrawerType) : isAll ? "all" : undefined;
-      closeDrawer(dra, destroyed);
+      return closeDrawer(dra, destroyed);
     }
-  } else if (typeof popup === "number") {
+    throw new Error(`暂未处理此种弹窗类型：${popup}`);
+  }
+  if (typeof popup === "number") {
     const ids = getTopPopupIds(popup);
     ids.forEach((id: DrawerId | DialogId) => closePopup(id));
-  } else {
-    const isDialog = popup.name === "dialog";
-    isDialog ? closeDialog(popup) : closeDrawer(popup);
+    return;
   }
+  // 排除null、事件对象
+  if (typeof popup === "object" && popup) {
+    const isPopupObj =
+      Object.keys(popup).length <= 7 &&
+      "id" in popup &&
+      "name" in popup &&
+      "show" in popup &&
+      "attrs" in popup &&
+      "body" in popup &&
+      // "foot" in popup &&
+      "createAt" in popup;
+    if (!isPopupObj) return closePopup();
+    const isDialog = popup.name === "dialog";
+    return isDialog ? closeDialog(popup) : closeDrawer(popup);
+  }
+  throw new Error(`暂未处理此类型${typeof popup}`);
 }
 
 /**
@@ -224,10 +224,6 @@ function getPopups(type: PopupType) {
 }
 
 //provide提供给子组件使用
-provide("openDrawer", openDrawer);
-provide("closeDrawer", closeDrawer);
-provide("openDialog", openDialog);
-provide("closeDialog", closeDialog);
 provide("openPopup", openPopup);
 provide("closePopup", closePopup);
 provide("getPopups", getPopups);

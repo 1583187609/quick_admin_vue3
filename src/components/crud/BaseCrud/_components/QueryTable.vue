@@ -18,14 +18,14 @@
       :selection="!!selection"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsOfRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
+      :getGroupBtnsByRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
       @operateBtns="onOperateBtns"
       :disabled="disabled"
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
       <template #custom="{ row, col: c, $index: ind }">
-        <slot name="custom" v-bind="{ row, col: c, $index: ind }"></slot>
+        <slot name="custom" v-bind="{ row, col: c, $index: ind }" />
       </template>
     </Column>
     <template #empty v-if="!loading">
@@ -46,6 +46,7 @@ import { TableColAttrs, TableCol } from "@/components/table/_types";
 import config from "@/config";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "@/components/table/_utils";
 import { defaultCommonSize } from "@/components/_utils";
+import { FilterByAuthFn } from "../_types";
 
 const props = withDefaults(
   defineProps<{
@@ -65,7 +66,6 @@ const props = withDefaults(
     pageSize: number; //每页多少条
     refreshList?: RefreshListFn;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
-    filterBtnsByAuth: (btns: BtnItem[]) => BtnItem[];
   }>(),
   Object.assign(
     {

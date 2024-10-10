@@ -12,7 +12,7 @@
       <template v-if="newFields.length">
         <FieldItemCol
           :field="field"
-          :pureText="field.extraAttrs?.pureText || pureText"
+          :pureText="field.quickAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
           @change="(prop:FieldPropType,val:any)=>emits('change',prop,val)"
           :formRef="formRef"
@@ -20,7 +20,7 @@
           :key="field.key ?? ind"
         >
           <template #custom="{ field: currField }">
-            <slot :name="currField.prop" :field="currField" :form="formData"></slot>
+            <slot :name="currField.prop" :field="currField" :form="formData" />
           </template>
         </FieldItemCol>
       </template>

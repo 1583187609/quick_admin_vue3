@@ -13,7 +13,7 @@
         :selection="selection"
         :refreshList="refreshList"
         :operateBtnsAttrs="operateBtnsAttrs"
-        :getGroupBtnsOfRow="getGroupBtnsOfRow"
+        :getGroupBtnsByRow="getGroupBtnsByRow"
         :disabled="disabled"
         v-for="(subCol, subInd) in newCol?.children"
         :key="subInd"
@@ -65,19 +65,18 @@
           <GroupBtns
             :size="size"
             :row="{ ...row, $index }"
-            :btns="getGroupBtnsOfRow?.(row, $index)"
+            :btns="getGroupBtnsByRow?.(row, $index)"
             v-bind="operateBtnsAttrs"
             @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
             v-else-if="newCol.type === 'operate'"
-          >
-          </GroupBtns>
+          />
           <BaseIcon name="Sort" size="1.2em" v-else-if="newCol.type === 'sort'" />
           <!-- id和备注列 -->
           <template v-else-if="['id', 'remark'].includes(newCol.type)">
             {{ renderValue(row?.[newCol.prop as string]) }}
           </template>
           <!-- 自定义列 -->
-          <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'"></slot>
+          <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'" />
           <!-- 创建和修改列（后面再考虑优化） -->
           <template v-else-if="['create', 'update'].includes(newCol.type)">
             <!-- {{ getSplitPropsVal(row, newCol.prop) }} -->
@@ -123,7 +122,7 @@
     </template>
   </template>
 </template>
-<script lang="ts" name="Column" setup>
+<script lang="ts" setup>
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TableColAttrs } from "@/components/table/_types";
@@ -151,7 +150,7 @@ const props = withDefaults(
     selection?: boolean;
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    getGroupBtnsOfRow?: (row: CommonObj, $rowInd: number) => BtnItem[];
+    getGroupBtnsByRow?: (row: CommonObj, $rowInd: number) => BtnItem[];
   }>(),
   Object.assign(
     {
@@ -167,13 +166,13 @@ function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: 
   emits("operateBtns", btnObj, { row, col, $index }, next);
 }
 function getNewCol(col: TableColAttrs) {
-  popoverAttrs = getPopoverAttrs(col.extraAttrs?.popover);
+  popoverAttrs = getPopoverAttrs(col.quickAttrs?.popover);
   // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   if (typeof col.label !== "string") {
     col.customLabel = col.label;
     col.label = "";
   }
-  delete col.extraAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
+  delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
 // 该列是否已联调

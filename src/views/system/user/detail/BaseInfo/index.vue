@@ -136,6 +136,7 @@ import AboutTitle from "./_components/AboutTitle.vue";
 import VideoPannel from "./_components/VideoPannel.vue";
 import { ClosePopupInject, CommonObj, OpenPopupInject } from "@/vite-env";
 import { useDict } from "@/hooks";
+import { PostMockCommon } from "@/api-mock";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");
@@ -209,7 +210,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     prop: "nl",
     label: "年龄",
     type: "input-number",
-    extraAttrs: {
+    quickAttrs: {
       rulesType: "age",
     },
   },
@@ -263,7 +264,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
   {
     prop: "sr",
     label: "手机号",
-    extraAttrs: {
+    quickAttrs: {
       rulesType: "phone",
     },
   },
@@ -337,7 +338,7 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     // grid: baseInfoColAttrs,
     required: true,
     attrs: {},
-    extraAttrs: {
+    quickAttrs: {
       popover: "最近登录时间",
     },
   },
@@ -510,7 +511,7 @@ const preferSetFormFields: CellTableFieldItem[] = [
     label: "年龄范围",
     type: "BaseNumberRange",
     // grid: { span: 6 },
-    extraAttrs: {
+    quickAttrs: {
       rulesType: "age",
     },
   },
@@ -559,15 +560,16 @@ const relatedAccountFormFields: CellTableFieldItem[] = [
     label: "已注销",
   },
 ];
-const baseInfoTableData: CommonObj = {};
 function handleReject(rejected: boolean) {
   if (rejected) {
     openPopup(
       {
         title: "温馨提示",
-        confirm() {
-          ElMessage.success("已取消驳回");
-          closePopup("dialog");
+        onConfirm() {
+          PostMockCommon({}).then((res)=>{
+            ElMessage.success("已取消驳回");
+            closePopup("dialog");
+          })
         },
       },
       `确定${rejected ? "取消" : ""}驳回？`,

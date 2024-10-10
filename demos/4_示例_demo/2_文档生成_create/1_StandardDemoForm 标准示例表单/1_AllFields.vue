@@ -35,11 +35,11 @@ const fields: FormFieldAttrs[] = [
     prop: "err",
     label: "分类",
     type: "cascader1",
-    extraAttrs: {
+    quickAttrs: {
       popover: "当类型错误时，会提示【不存在】文案，并标红",
     },
   },
-  { prop: "zdy", label: "自定义", type: "custom", extraAttrs: { popover: `设置type: "custom"，即可自定义控件` } },
+  { prop: "zdy", label: "自定义", type: "custom", quickAttrs: { popover: `设置type: "custom"，即可自定义控件` } },
 ];
 </script>
 <style lang="scss" scoped></style>

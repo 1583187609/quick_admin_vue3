@@ -1,8 +1,8 @@
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
-import { typeOf, propsJoinChar, getMaxLength } from "@/components/_utils";
+import { typeOf, propsJoinChar } from "@/components/_utils";
 import { CommonObj } from "@/vite-env";
-import _ from "lodash";
 import { handleFormInitData } from "@/components/_utils";
+import _ from "lodash";
 
 const { merge } = _;
 /**
@@ -31,7 +31,7 @@ interface ResObj {
   data: CommonObj;
   fields: FormFieldAttrs[];
 }
-export function handleFields(fields: FormField[] = [], emits: any, modelValue?: CommonObj, inheritAttrs?: CommonObj) {
+export function handleFields(fields: FormField[] = [], emits: any, modelValue?: CommonObj, inheritAttrs?: CommonObj): ResObj {
   const resObj: ResObj = {
     data: {},
     fields: [],
@@ -65,41 +65,24 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
       (field as FormFieldAttrs).prop = newProp;
       val !== undefined && emits?.("change", newProp, val);
     } else if (propType === "Undefined") {
-      if (children) {
-        if (children.length) {
-          const defVal: CommonObj = {};
-          const joinProp = children
-            .map((item: any) => {
-              const { prop } = item;
-              defVal[prop] = modelValue?.[prop];
-              return prop;
-            })
-            .join(propsJoinChar);
-          const val = defVal;
-          (field as FormFieldAttrs).prop = joinProp;
-          resObj.data[joinProp as string] = val;
-          Object.keys(val).length && emits?.("change", joinProp, val);
-        } else {
-          console.warn("children不能为空数组");
-        }
-      } else {
-        throw new Error("不能同时没有prop和children属性");
-      }
+      if (!children?.length) throw new Error("不能同时没有prop和children属性");
+      const defVal: CommonObj = {};
+      const joinProp = children
+        .map((item: any) => {
+          const { prop } = item;
+          defVal[prop] = modelValue?.[prop];
+          return prop;
+        })
+        .join(propsJoinChar);
+      const val = defVal;
+      (field as FormFieldAttrs).prop = joinProp;
+      resObj.data[joinProp as string] = val;
+      Object.keys(val).length && emits?.("change", joinProp, val);
+      console.warn("children不能为空数组");
     } else {
       throw new Error(`暂未处理prop为${propType}类型的值`);
     }
     if (inheritAttrs) merge(field, inheritAttrs);
-    //让子级元素的label宽度自动统一
-    if (children?.length) {
-      // const maxLabelLen = getMaxLength(children);
-      children?.forEach((field: FormField) => {
-        if (typeOf(field) !== "Object") return false;
-        // const _field = field as FormFieldAttrs;
-        // if (_field.labelWidth === undefined) {
-        //   _field.labelWidth = maxLabelLen + "em";
-        // }
-      });
-    }
     resObj.fields.push(field as FormFieldAttrs);
   });
   return resObj;
@@ -134,15 +117,3 @@ export function getGridAttrs(grid: Grid = 24) {
   }
   return grid;
 }
-
-// export function getRowColAttrs(grid: GridTypeAttrs = 24): GridTypeAttrs {
-//   if (typeof grid === "number") return { colAttrs: { span: grid } };
-//   if (typeof grid === "string") {
-//     const colNum = Number(grid);
-//     if (isNaN(colNum)) throw new Error(`请传入数字类型`);
-//     return getRowColAttrs(colNum);
-//   }
-//   const { rowAttrs, colAttrs } = grid;
-//   if (rowAttrs ?? colAttrs) return grid;
-//   return { colAttrs: grid };
-// }

@@ -30,8 +30,8 @@ const records = {
 const size: CommonSize = "default"; // large, default, small
 const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
 const fields = [
-  { prop: "id", label: "用户ID", required: true, extraAttrs: {} },
-  { prop: "nc", label: "昵称", extraAttrs: {} },
+  { prop: "id", label: "用户ID", required: true, quickAttrs: {} },
+  { prop: "nc", label: "昵称", quickAttrs: {} },
   {
     prop: "zy",
     label: "职业",
@@ -40,16 +40,16 @@ const fields = [
       { label: "职业0", value: 0 },
       { label: "职业1", value: 1 },
     ],
-    extraAttrs: {},
+    quickAttrs: {},
   },
-  { prop: "xm", label: "姓名", extraAttrs: {} },
-  { prop: "xb", label: "性别", extraAttrs: {} },
-  { prop: "nl", label: "年龄", extraAttrs: {} },
-  { prop: "xx", label: "学校", extraAttrs: { grid: 6 } },
-  { prop: "jg", label: "籍贯", extraAttrs: { grid: 6 } },
-  { prop: "xjd", label: "现居地", extraAttrs: { grid: 6 } },
-  { prop: "ip", label: "IP地址", extraAttrs: { grid: 6 } },
-  { prop: "dh", label: "电话", extraAttrs: { grid: 6 } },
+  { prop: "xm", label: "姓名", quickAttrs: {} },
+  { prop: "xb", label: "性别", quickAttrs: {} },
+  { prop: "nl", label: "年龄", quickAttrs: {} },
+  { prop: "xx", label: "学校", quickAttrs: { grid: 6 } },
+  { prop: "jg", label: "籍贯", quickAttrs: { grid: 6 } },
+  { prop: "xjd", label: "现居地", quickAttrs: { grid: 6 } },
+  { prop: "ip", label: "IP地址", quickAttrs: { grid: 6 } },
+  { prop: "dh", label: "电话", quickAttrs: { grid: 6 } },
   { prop: "zdy", label: "自定义", type: "custom" },
 ];
 </script>

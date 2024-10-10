@@ -5,7 +5,7 @@ import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 import { Popover } from "@/components/_types";
 
-export type ValidType = keyof typeof defaultRulesTypes;
+export type RulesType = keyof typeof defaultRulesTypes;
 
 export type FormItemType =
   | "input"
@@ -75,8 +75,8 @@ export interface FormFieldAttrs {
   rules?: FormRules[]; //校验规则
   options?: DictName | OptionItem[]; //select、cascader等的options属性
   labelWidth?: string | number; //label文字的宽度
-  /** 下面都是为了迎合业务需求而新添加的额外的属性 **/
-  extraAttrs?: {
+  /** 下面是针对业务需求而新添加的快捷属性 **/
+  quickAttrs?: {
     grid?: Grid; //占位栅格子的宽度，同ElementPlus 的 el-col 的属性，可以是数字：1~24
     example?: string; //示例，写在placeholder中的示例文本
     popover?: Popover; //ElementPlus 的 popover组件
@@ -84,7 +84,7 @@ export interface FormFieldAttrs {
     pureText?: boolean; //是否纯文本展示
     disabled?: boolean; //是否禁用
     readonly?: boolean; //是否只读
-    rulesType?: ValidType; //规则类型
+    rulesType?: RulesType; //规则类型
     before?: any; //字段前面拼接的内容，可以是文本、组件等
     after?: any; //字段后面拼接的内容，可以是文本、组件等
   };

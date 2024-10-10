@@ -2,7 +2,6 @@
 
 &emsp;&emsp;这是标准示例表单。也是摘要描述内容示例，在这个文件里，会以标准写法来完成文件撰写
 
-
 ::: tip
 这是声明的 `tip `信息
 :::
@@ -19,53 +18,46 @@
 这是声明的 `details `信息
 :::
 
-
-
 ## 测试表单
 
 &emsp;&emsp;这是行内表单的描述。重点介绍了`BaseForm`的相关`API`的使用。这是一个`html`标签`<BaseForm/>`的示例。完整英文句子示例：`Hello, world!ddddd`  
 &emsp;&emsp;这是第二行描述
 
-::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/0_TestForm.vue
+::: demo
+/demos/4*示例\_demo/2*文档生成\_create/1_StandardDemoForm 标准示例表单/0_TestForm.vue
 :::
 
 ::: tip
 这是`tip`信息示例
 :::
 
-
 ## 全部控件类型
 
 &emsp;&emsp;全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
 
-::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/1_AllFields.vue
+::: demo
+/demos/4*示例\_demo/2*文档生成\_create/1_StandardDemoForm 标准示例表单/1_AllFields.vue
 :::
-
 
 ## 额外属性
 
-&emsp;&emsp;除了`ElementPlus`的属性外，其他的功能属性一律添加在 `extraAttrs `中
+&emsp;&emsp;除了`ElementPlus`的属性外，其他的功能属性一律添加在 `quickAttrs `中
 
-::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
+::: demo
+/demos/4*示例\_demo/2*文档生成\_create/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
 :::
-
 
 ## 继承与扩展
 
 &emsp;&emsp;插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
 
-::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
+::: demo
+/demos/4*示例\_demo/2*文档生成\_create/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
 :::
 
+## API
 
-
-## API 
-### Props属性自定义标题
-
+### Props 属性自定义标题
 
 &emsp;&emsp;这是`props`的描述
 |属性|说明|类型|默认值|
@@ -92,29 +84,24 @@
 |`handleRequest`|处理参数（如果有`type`，则返回`type`，否则返回 `param `和 `return `推导的类型|`(args: CommonObj) => CommonObj`|-|
 |`grid`|-|-|`24`|
 
-
 ::: tip
 这是 `props `的 `tip `信息
 :::
 
-
 ### Emits
 
-|事件名称|说明|回调参数|
-|:---|:---|:---|
-|`update:modelValue`|双向绑定更新值|(`vals: CommonObj)`|
-|`submit`|提交事件|(`args: CommonObj)`|
-|`change`|提交事件|(`prop: string, val: string \| number)`|
-|`moreBtns`|更多按钮|(`name: string, args: CommonObj, cb: FinallyNext)`|
-
+| 事件名称            | 说明           | 回调参数                                           |
+| :------------------ | :------------- | :------------------------------------------------- |
+| `update:modelValue` | 双向绑定更新值 | (`vals: CommonObj)`                                |
+| `submit`            | 提交事件       | (`args: CommonObj)`                                |
+| `change`            | 提交事件       | (`prop: string, val: string \| number)`            |
+| `moreBtns`          | 更多按钮       | (`name: string, args: CommonObj, cb: FinallyNext)` |
 
 ::: warning
 这是 `emits `的 `warning `信息
 :::
 
-
 ### 方法(expose)
-
 
 &emsp;&emsp;这是 `expose `的 `description`。通过写入 `description `获得
 |方法名|说明|类型|
@@ -123,16 +110,13 @@
 |`formValidate`|表单校验|`(str: string, arr: string[]) => void`|
 |`tempTestFn_1`|表单测试|`() => void`|
 
-
-
 ### Slots
 
-|插槽名|说明|Scope|
-|:---|:---|:---|
-|`currField.prop`|`prop `名称即为 插槽名称|`name, field, form`|
-|`defaultTest`|默认插槽|-|
-|`itemTest`|`item`插槽|-|
-
+| 插槽名           | 说明                     | Scope               |
+| :--------------- | :----------------------- | :------------------ |
+| `currField.prop` | `prop `名称即为 插槽名称 | `name, field, form` |
+| `defaultTest`    | 默认插槽                 | -                   |
+| `itemTest`       | `item`插槽               | -                   |
 
 ::: tip
 这是默认的 `tip `信息
@@ -150,13 +134,9 @@
 这是 `details `信息
 :::
 
-
-
-
 ## 类型声明
+
 ::: details
-/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
-<<< E:\Quick-Admin\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
-:::  
-
-
+/demos/4*示例\_demo/2*文档生成*create/\_typescript/standard.ts
+<<< E:\Quick-Admin\quick_admin_vue3/demos/4*示例*demo/2*文档生成\_create/\_typescript/standard.ts
+:::

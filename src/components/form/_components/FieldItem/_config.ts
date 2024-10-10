@@ -1,6 +1,6 @@
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/components/form/_types";
-import { getExportData, rangeJoinChar, regexp } from "@/components/_utils";
+import { getExportData, getInputLimitNum, rangeJoinChar, regexp } from "@/components/_utils";
 import config from "@/config";
 
 const formCfg = config?.form;
@@ -326,14 +326,29 @@ export const defaultRulesTypes: CommonObj = getExportData(
       type: "input-number",
       attrs: {
         min: 0,
+        max: 99999,
         precision: 2,
         step: 0.1,
         controlsPosition: "right",
       },
-      extraAttrs: {
+      quickAttrs: {
         after: "元",
       },
     },
+    // 另一种人民币的写法
+    // rmb: {
+    //   type: "number",
+    //   attrs: {
+    //     min: 0,
+    //     // max: 99999,
+    //     // onBlur(e) {
+    //     //   formData.mallPaymentAmount = getInputLimitNum(e.target.value, min, max, 2);
+    //     // },
+    //   },
+    //   slots: {
+    //     suffix: "元",
+    //   },
+    // },
     //年龄
     age: {
       type: "input-number",
@@ -341,7 +356,7 @@ export const defaultRulesTypes: CommonObj = getExportData(
         min: 0,
         max: 100,
       },
-      extraAttrs: {
+      quickAttrs: {
         after: "岁",
       },
     },

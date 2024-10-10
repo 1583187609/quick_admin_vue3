@@ -9,7 +9,7 @@
       :selection="!!selection"
       @operateBtns="onOperateBtns"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsOfRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
+      :getGroupBtnsByRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
@@ -17,10 +17,10 @@
         <slot name="header" v-bind="scope">{{ scope.column.label }}</slot>
       </template>
       <template #default="scope">
-        <slot v-bind="scope">{{ scope.row[scope.col.prop] }}</slot>
+        <slot v-bind="scope">{{ scope.row[scope.col.prop as string] }}</slot>
       </template>
       <template #custom="{ row, col: c, $index: ind }">
-        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }"></slot>
+        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }" />
       </template>
     </Column>
     <template #empty>
@@ -29,7 +29,7 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, watchEffect } from "vue";
+import { ref, reactive, watchEffect } from "vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
 import { TableColAttrs } from "@/components/table/_types";
@@ -40,6 +40,7 @@ import { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "./_utils";
 import { defaultCommonSize } from "@/components/_utils";
+import { FilterByAuthFn } from "../crud/BaseCrud/_types";
 
 const props = withDefaults(
   defineProps<{
@@ -52,7 +53,7 @@ const props = withDefaults(
     showSummary?: boolean; //是否显示汇总行
     operateBtnsAttrs?: OperateBtnsAttrs;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
-    filterBtnsByAuth?: (btns: BtnItem[]) => BtnItem[];
+    filterBtnsByAuth?: (btns: BtnItem[], filterByAuth?: FilterByAuthFn) => BtnItem[];
     operateBtns?: BtnItem[];
   }>(),
   {
@@ -86,7 +87,7 @@ stopWatch();
 
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, isRefreshList: boolean = true) {
-  const { name, text } = btnObj;
+  const { name } = btnObj;
   emits("operateBtns", name, { $index, ...row }, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     // isRefreshList && refreshList();

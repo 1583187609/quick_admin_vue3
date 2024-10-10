@@ -1,6 +1,6 @@
 import { ElMessageBox } from "element-plus";
 import _ from "lodash";
-import { BtnName, BtnItem, BtnAttrs, BaseBtnType } from "@/components/BaseBtn/_types";
+import { BtnName, BtnItem, BtnAttrs, BaseBtnType, BtnsMap } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -136,15 +136,18 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
   return val;
 }
 
-//获取每一行的分组按钮
-export function getTempGroupBtnsOfRow(
-  row: CommonObj,
-  $rowInd: number,
-  operateBtns: any,
-  baseBtnAttrs?: { [key: string]: BtnAttrs }
-) {
+/**
+ * 获取每一行的分组按钮
+ * @param row 行数据
+ * @param rowInd 行下标
+ * @param operateBtns 操作栏按钮
+ * @param baseBtnAttrs
+ * @returns []
+ */
+export function getTempGroupBtnsOfRow(row: CommonObj, rowInd: number, operateBtns?: BaseBtnType, baseBtnAttrs?: BtnsMap) {
+  if (!operateBtns) return [];
   const isFn = typeOf(operateBtns) === "Function";
-  const btns = isFn ? (operateBtns as any)(row, $rowInd) : operateBtns;
+  const btns = isFn ? (operateBtns as any)(row, rowInd) : operateBtns;
   const tempBtns = btns?.map((btn: BaseBtnType) => getBtnObj(btn, row, baseBtnAttrs))?.filter((it: BtnItem) => !!it.name);
   return tempBtns ?? [];
 }

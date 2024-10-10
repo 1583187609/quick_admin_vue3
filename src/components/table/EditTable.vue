@@ -10,7 +10,7 @@
         </template>
         <template #default="scope">
           <template v-if="scope.col.field">
-            <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'custom'"></slot>
+            <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'custom'" />
             <FieldItem style="margin-bottom: 0" v-model="scope.row[scope.col.prop]" :field="scope.col.field" v-else />
           </template>
           <template v-else>{{ scope.row[scope.col.prop] }}</template>

@@ -52,7 +52,7 @@ const fields = computed<FormField[]>(() => {
       prop: "sfqy",
       label: "是否启用",
       type: "switch",
-      extraAttrs: {
+      quickAttrs: {
         popover: "这是popover示例",
       },
     },
@@ -73,7 +73,7 @@ const fields = computed<FormField[]>(() => {
             label: "天数",
             type: "input-number",
             attrs: { min: 0 },
-            extraAttrs: {
+            quickAttrs: {
               after: "天",
             },
           },

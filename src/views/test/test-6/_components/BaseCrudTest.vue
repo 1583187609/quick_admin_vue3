@@ -97,14 +97,14 @@ const fields: FormFieldAttrs[] = [
   getSearchOpts("school", {
     prop: "schoolId",
     label: "学校",
-    extraAttrs: {
+    quickAttrs: {
       popover: "采用hooks封装复杂逻辑",
     },
   }),
   getSearchOpts("company", {
     prop: "companyId",
     label: "公司",
-    extraAttrs: {
+    quickAttrs: {
       popover: "hooks封装且自定义选择下拉项",
     },
   }),
@@ -142,7 +142,7 @@ const fields: FormFieldAttrs[] = [
     prop: "zdy",
     label: "自定义",
     type: "custom",
-    extraAttrs: {
+    quickAttrs: {
       popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
   },

@@ -9,7 +9,7 @@
     <CreateSectionForm class="f-1" v-if="activeName === 'section-form'"></CreateSectionForm>
   </div>
 </template>
-<script lang="ts" name="TestCreateForm" setup>
+<script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import CreateBaseForm from "./CreateBaseForm.vue";

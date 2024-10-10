@@ -39,9 +39,9 @@ const sections = [
       {
         prop: "id",
         label: "用户ID",
-        extraAttrs: {},
+        quickAttrs: {},
       },
-      { prop: "nc", label: "昵称", extraAttrs: {} },
+      { prop: "nc", label: "昵称", quickAttrs: {} },
       {
         prop: "zy",
         label: "职业",
@@ -50,7 +50,7 @@ const sections = [
           { label: "职业0", value: 0 },
           { label: "职业1", value: 1 },
         ],
-        extraAttrs: {},
+        quickAttrs: {},
       },
     ],
   },
@@ -60,9 +60,9 @@ const sections = [
     // labelWidth: "auto",
     popover: "块级设置 {readonly: true}",
     fields: [
-      { prop: "xm", label: "姓名", extraAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
-      { prop: "xb", label: "性别", required: true, size: "default", extraAttrs: {} },
-      { prop: "nl", label: "年龄", extraAttrs: {} },
+      { prop: "xm", label: "姓名", quickAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
+      { prop: "xb", label: "性别", required: true, size: "default", quickAttrs: {} },
+      { prop: "nl", label: "年龄", quickAttrs: {} },
     ],
   },
   {
@@ -70,13 +70,13 @@ const sections = [
     popover: "块级设置 prop 属性",
     prop: "partThree",
     fields: [
-      { prop: "xjd", label: "现居地", size: "default", extraAttrs: { tips: "字段级的size【el-form-item】" } },
+      { prop: "xjd", label: "现居地", size: "default", quickAttrs: { tips: "字段级的size【el-form-item】" } },
       {
         prop: "ip",
         label: "IP地址",
         size: "default",
 
-        extraAttrs: { tips: "控件级的size【el-input】" },
+        quickAttrs: { tips: "控件级的size【el-input】" },
       },
     ],
   },
@@ -91,7 +91,7 @@ const sections = [
         prop: "sfzh",
         label: "身份证号",
         attrs: { disabled: false },
-        extraAttrs: { popover: "设置{disabled: false}" },
+        quickAttrs: { popover: "设置{disabled: false}" },
       },
       { prop: "zdy", label: "自定义", type: "custom" },
     ],

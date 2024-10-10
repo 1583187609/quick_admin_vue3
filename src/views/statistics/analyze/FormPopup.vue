@@ -36,14 +36,14 @@ const sections: SectionFormItem[] = [
       {
         prop: "zfbxm",
         label: "支付宝姓名",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },
       {
         prop: "zfbzh",
         label: "支付宝账户",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },

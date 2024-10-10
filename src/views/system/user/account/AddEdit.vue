@@ -38,7 +38,7 @@ const fields = ref<FormField[]>([
     label: "头像",
     required: false,
     type: "custom",
-    extraAttrs: {
+    quickAttrs: {
       tips: "只能上传.jpg,.png,.gif,.jpeg类型，且大小不超过1M",
     },
   },
@@ -57,7 +57,7 @@ const fields = ref<FormField[]>([
     attrs: {
       type: "button",
     },
-    extraAttrs: {
+    quickAttrs: {
       grid: 12,
     },
   },
@@ -65,7 +65,7 @@ const fields = ref<FormField[]>([
     prop: "age",
     label: "年龄",
     type: "input-number",
-    extraAttrs: {
+    quickAttrs: {
       grid: 12,
     },
     attrs: {
@@ -78,7 +78,7 @@ const fields = ref<FormField[]>([
     label: "角色类型",
     type: "select",
     required: true,
-    extraAttrs: {
+    quickAttrs: {
       grid: 12,
     },
     options: "RoleType",
@@ -88,7 +88,7 @@ const fields = ref<FormField[]>([
     label: "启用状态",
     type: "radio-group",
     required: true,
-    extraAttrs: {
+    quickAttrs: {
       grid: 12,
     },
     options: "EnableStatus",
@@ -97,8 +97,8 @@ const fields = ref<FormField[]>([
     },
   },
 
-  { prop: "phone", label: "电话", required: true, extraAttrs: { grid: 12, rulesType: "phone" } },
-  { prop: "psd", label: "密码", required: true, extraAttrs: { grid: 12, rulesType: "password" } },
+  { prop: "phone", label: "电话", required: true, quickAttrs: { grid: 12, rulesType: "phone" } },
+  { prop: "psd", label: "密码", required: true, quickAttrs: { grid: 12, rulesType: "password" } },
   {
     prop: "address",
     label: "居住地址",

@@ -6,14 +6,14 @@
     :class="currSize"
     :field="field"
     :size="currSize"
-    :disabled="field?.extraAttrs?.disabled ?? disabled"
-    :readonly="field?.extraAttrs?.readonly ?? readonly"
+    :disabled="field?.quickAttrs?.disabled ?? disabled"
+    :readonly="field?.quickAttrs?.readonly ?? readonly"
     :inputDebounce="inputDebounce"
     @change="(key:string, val:any)=>emits('change', key,val)"
     v-model="model[field!.prop as string]"
   >
     <template #custom="{ field: currField }">
-      <slot name="custom" :field="currField"></slot>
+      <slot name="custom" :field="currField" />
     </template>
   </FieldItemCol>
 </template>

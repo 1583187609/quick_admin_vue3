@@ -81,7 +81,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
       attrs: {
         disabled: !editEnable.value,
       },
-      extraAttrs: {
+      quickAttrs: {
         rulesType: "phone",
       },
     },
@@ -93,7 +93,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
             attrs: {
               type: "password",
             },
-            extraAttrs: {
+            quickAttrs: {
               rulesType: "password",
             },
           },
@@ -104,7 +104,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
             attrs: {
               type: "password",
             },
-            extraAttrs: {
+            quickAttrs: {
               rulesType: "password",
             },
           },

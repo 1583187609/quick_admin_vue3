@@ -1,5 +1,5 @@
 <!--  summary
-  这是常用的增删改查列表
+  常规同用增删改查列表
  -->
 <template>
   <div class="base-crud f-fs-s-c" ref="baseCrudRef">
@@ -24,11 +24,11 @@
       ref="queryFormRef"
     >
       <template #custom="{ field, form }">
-        <slot :name="field.prop" :field="field" :form="form"></slot>
+        <slot :name="field.prop" :field="field" :form="form" />
       </template>
     </QueryForm>
     <div class="middle" :class="tableAttrs?.size ?? size" v-if="$slots.middle">
-      <slot name="middle"></slot>
+      <slot name="middle" />
     </div>
     <ExtraBtns
       class="f-0"
@@ -65,7 +65,6 @@
         :operateBtns="operateBtns"
         :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
         :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
-        :filterBtnsByAuth="filterBtnsByAuth"
         :refreshList="refreshList"
         :disabled="disabled"
         :size="tableAttrs?.size ?? size"
@@ -77,7 +76,7 @@
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
-          <slot :name="col.prop" v-bind="{ row, col, $index }"></slot>
+          <slot :name="col.prop" v-bind="{ row, col, $index }" />
         </template>
       </QueryTable>
     </slot>
@@ -93,11 +92,10 @@
     />
   </div>
 </template>
-<script lang="ts" name="BaseCrud" setup>
+<script lang="ts" setup>
 import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
-import _ from "lodash";
 import ExtraBtns from "./_components/ExtraBtns/Index.vue";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
@@ -115,25 +113,26 @@ import {
   defaultReqMap,
   defaultResMap,
 } from "@/components/_utils";
+import _ from "lodash";
+import config from "@/config";
+import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { splitPropsParams } from "@/components/_utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { batchBtnNames } from "@/components/crud/BaseCrud";
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, ClosePopupInject } from "@/vite-env";
-import { SectionFormItemAttrs } from "@/components/form/_types";
+import { SectionFormItemAttrs, FormAttrs } from "@/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/components/table/_types";
 import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
-import Sortable from "sortablejs";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
 import { defaultTableAttrs } from "@/components/table/_config";
-import config from "@/config";
 import { ExportCfg } from "./_types";
-import { FormAttrs } from "@/components/form/_types";
 import { TableAttrs } from "@/components/table/_types";
 import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
+import { filterBtnsByAuth } from "@/components/crud/_utils";
 
 const { merge, cloneDeep } = _;
 const $slots = useSlots();
@@ -208,7 +207,6 @@ const props = withDefaults(
       compact: (_props: CommonObj) => _props.grid.xl < 6,
       filterByAuth: (auth: number[]) => true,
       exportCfg: () => ({ limit: 10000 }),
-      // pageAttrs: () => ({}),
       formAttrs: () => defaultFormAttrs,
       tableAttrs: () => defaultTableAttrs,
     },
@@ -246,24 +244,20 @@ const model = computed({
 //请求参数
 let params: CommonObj = cloneDeep(initParams);
 const newExtraBtns = computed<BtnItem[]>(() => {
-  const { extraBtns = [], disabled } = props;
+  const { extraBtns = [], disabled, filterByAuth } = props;
   const btns = extraBtns.map((btn: BaseBtnType) => {
     const btnObj: BtnItem = getBtnObj(btn);
     const { name, attrs, customRules } = btnObj;
     if (batchBtnNames?.includes(name as string)) {
       btnObj.popconfirm = false;
       if (attrs) {
-        if (customRules) {
-          attrs.disabled = !pageInfo.total;
-        } else {
-          attrs.disabled = !seledRows.value.length;
-        }
+        attrs.disabled = customRules ? !pageInfo.total : !seledRows.value.length;
       }
     }
     if (disabled) attrs!.disabled = disabled;
     return btnObj;
   });
-  return filterBtnsByAuth(btns);
+  return filterBtnsByAuth(btns, filterByAuth);
 });
 //是否存在批量按钮，若存在且不是自定义处理按钮逻辑，则表格中需要自动添加 selection 列
 const existBatchBtns = computed<boolean>(() => {
@@ -382,16 +376,19 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 function onExtraBtns(btnObj: BtnItem) {
   const { exportCfg, importCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
-  const { text } = btnObj;
+  const { btnText } = btnObj;
   handleClickExtraBtns({
     btnObj,
     cols: allCols.value,
     seledRows: seledRows.value,
-    seledKeys: seledRows.value.map((it: CommonObj) => it[rowKey]),
+    seledKeys: seledRows.value.map((it: CommonObj) => {
+      const key = typeof rowKey === "string" ? rowKey : rowKey?.();
+      return it[key];
+    }),
     total: pageInfo.total,
     exportCfg,
     emits,
-    next: (hint = `${text || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void, isRefreshList: boolean = true) => {
+    next: (hint = `${btnText || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void, isRefreshList: boolean = true) => {
       showMessage(hint);
       closePopup(closeType);
       isRefreshList && refreshList();
@@ -404,7 +401,7 @@ function onExtraBtns(btnObj: BtnItem) {
 }
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
-  const { name, text } = btnObj;
+  const { name } = btnObj;
   emits("operateBtns", name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     isRefreshList && refreshList();
@@ -414,14 +411,6 @@ function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRef
 function handleSelectionChange(rows: CommonObj[], keys: string[]) {
   seledRows.value = rows;
   emits("selectionChange", rows, keys);
-}
-//根据权限对按钮进行过滤
-function filterBtnsByAuth(btns: BtnItem[] = []) {
-  const { filterByAuth } = props;
-  if (!filterByAuth) return btns;
-  return btns.filter(({ auth }) => {
-    return auth?.length ? filterByAuth(auth) : true;
-  });
 }
 /**
  * 刷新列表

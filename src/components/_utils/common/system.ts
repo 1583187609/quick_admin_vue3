@@ -267,3 +267,19 @@ export function judgeIsInDialog(selectorClassName: string = "basic-dialog", maxL
   }
   return isInDialog;
 }
+
+/**
+ * 获取输入框的限制范围内的值
+ * @param {Event} e 事件对象
+ * @param {number} min 最小值
+ * @param {number} max 最大值
+ * @returns
+ */
+export const getInputLimitNum = (value: any, min?: number, max?: number, fixNum?: number) => {
+  if ([null, undefined, ""].includes(value)) return value;
+  let val: string | number = Number(value);
+  if (min !== undefined && val < min) val = min;
+  if (max !== undefined && val > max) val = max;
+  if (fixNum !== undefined) val = val.toFixed(2);
+  return val;
+};

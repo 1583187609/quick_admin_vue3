@@ -16,6 +16,7 @@ import { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import { getTempGroupBtnsOfRow } from "@/components/crud/BaseCrud";
 import { SpecialTableColType } from "@/components/table/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
+import { filterBtnsByAuth } from "@/components/crud/_utils";
 
 const { merge } = _;
 
@@ -91,6 +92,13 @@ const sizeMap = {
     cellPadding: parseInt(gapSmall) + 12,
   },
 };
+/**
+ * 获取操作列的宽度
+ * @param {OperateBtnsAttrs} operateBtnsAttrs 操作栏按钮属性
+ * @param {BtnItem[]} btns 按钮数组
+ * @param {CommonSize} size 按钮大小
+ * @returns {number} 操作列宽度
+ */
 function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnItem[], size: CommonSize = "large"): number {
   const { fontSize, btnPadding, btnMargin, cellPadding } = sizeMap[size] as CommonObj;
   //最小宽度
@@ -107,9 +115,7 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
       // if (!item) return; //已经过滤过了，所以注释掉
       em = getChinaCharLength(item.btnText) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
       const currWidth = em * fontSize + btnPadding * 2 + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
-      if (currWidth > width) {
-        width = currWidth;
-      }
+      if (currWidth > width) width = currWidth;
     });
   } else {
     btns.forEach((item: BtnItem) => {
@@ -121,24 +127,34 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
   return width;
 }
 
+//获取每一行的分组按钮
+export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: CommonObj) {
+  const { operateBtns, filterByAuth } = props;
+  const tempBtns = getTempGroupBtnsOfRow(row, $rowInd, operateBtns);
+  return filterBtnsByAuth(tempBtns, filterByAuth);
+}
+
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
 export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj, newCols: TableColAttrs[]) {
-  const { operateBtns = [], rows, operateBtnsAttrs, filterBtnsByAuth, disabled, size } = props;
+  const { operateBtns = [], rows, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, ind, operateBtns, btnAttrs);
-  const filterBtns = filterBtnsByAuth?.(tempBtns) ?? tempBtns;
+  const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
+  const operateCol = newCols.at(-1)!;
+  // if (operateCol.width) return filterBtns; // 如果操作栏设置了宽度，则不再进行自动计算，可用于性能优化
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
-  if (ind < rows.length - 1) {
+  const isLastRow = ind === rows.length - 1;
+  if (!isLastRow) {
     if (operateWidth < width) {
       operateWidth = width;
-      newCols.slice(-1)[0].width = operateWidth;
+      operateCol.width = operateWidth;
     }
   } else {
     //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
     if (operateWidth < 30) {
       operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
-      newCols.slice(-1)[0].width = operateWidth;
+      operateCol.width = operateWidth;
     }
   }
   return filterBtns;

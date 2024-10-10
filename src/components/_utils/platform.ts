@@ -28,22 +28,17 @@ export const themeMap = {
  */
 export function showMessage(hint: string | MessageParams, type: TostMessageType = "success") {
   if (!hint) return;
-  if (typeof hint === "string") {
-    const speed = 7; //速度：7字/秒
-    let duration = (hint.length / speed) * 1000;
-    if (duration < 1500) {
-      duration = 1500;
-    }
-    ElMessage({
-      message: hint,
-      type,
-      duration,
-      grouping: true,
-      showClose: duration > 2000,
-    });
-  } else {
-    ElMessage(hint);
-  }
+  if (typeof hint !== "string") return ElMessage(hint);
+  const speed = 7; //速度：7字/秒
+  let duration = (hint.length / speed) * 1000;
+  if (duration < 1500) duration = 1500;
+  ElMessage({
+    message: hint,
+    type,
+    duration,
+    grouping: true,
+    showClose: duration > 2000,
+  });
 }
 
 /**
@@ -228,8 +223,8 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
   let max = 1;
   fields.forEach(item => {
     if (typeOf(item) !== "Object") return;
-    const { label, children, extraAttrs } = item as FormFieldAttrs;
-    const popNum = extraAttrs?.popover ? 1 : 0;
+    const { label, children, quickAttrs } = item as FormFieldAttrs;
+    const popNum = quickAttrs?.popover ? 1 : 0;
     if (label?.length + popNum > max) {
       max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
     }

@@ -31,7 +31,7 @@
     </div>
   </div>
 </template>
-<script lang="ts" name="TestSeven" setup>
+<script lang="ts" setup>
 //form-create地址： http://www.form-create.com/v3/element-ui/
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";

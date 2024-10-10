@@ -5,7 +5,7 @@
   <SectionForm v-model="model" :sections="sections" :fetch="PostMockCommon"></SectionForm>
 </template>
 <script lang="ts" setup>
-import { reactive} from "vue";
+import { reactive } from "vue";
 import { CommonObj } from "@/vite-env";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form/_types";
@@ -36,21 +36,21 @@ const sections: SectionFormItem[] = [
       {
         prop: "height",
         label: "身高",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },
       {
         prop: "weight",
         label: "体重",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },
       {
         prop: "age",
         label: "年龄",
-        extraAttrs: {
+        quickAttrs: {
           grid: 12,
         },
       },

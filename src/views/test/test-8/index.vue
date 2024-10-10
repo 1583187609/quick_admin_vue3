@@ -124,7 +124,7 @@
     </template>
   </CustomCrud>
 </template>
-<script lang="ts" name="ChatRecords" setup>
+<script lang="ts" setup>
 import { ref, reactive, inject, watch } from "vue";
 import { GetImSearchFromUserList, GetImSearchFriendList, GetImSearchP2pChatList } from "@/api-mock";
 import { Search } from "@element-plus/icons-vue";
