@@ -15,7 +15,7 @@
       multiple
       drag
     >
-      <BaseIcon name="Plus" size="2em" />
+      <BaseIcon name="UploadFilled" size="3em" />
       <div class="el-upload__text">点击或拖拽文件到此处上传</div>
       <div class="el-upload__text">支持{{ accept }}</div>
       <template #tip>
