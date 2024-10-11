@@ -127,6 +127,7 @@
 93、el-dialog 关闭时销毁功能优化
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable 支持可传入函数，以及 TS 类型处理
+97、表格的序号列、拖动列、操作列支持可覆盖
 
 ## TS 类型处理
 
