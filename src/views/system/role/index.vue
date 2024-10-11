@@ -7,12 +7,12 @@
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    selection
+    selectable
   >
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, h, inject } from "vue";
+import { ref, inject } from "vue";
 import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
@@ -72,7 +72,7 @@ function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArg
 }
 //新增或编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}角色`, h(AddEdit, { id: row?.id, refreshList: next }));
+  openPopup(`${row ? "编辑" : "新增"}角色`, [AddEdit, { id: row?.id, refreshList: next }]);
 }
 //删除角色
 function handleDelete(ids: string[], next: FinallyNext) {

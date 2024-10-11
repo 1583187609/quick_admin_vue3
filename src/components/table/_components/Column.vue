@@ -4,13 +4,13 @@
 { width?: string | number; minWidth?: string | number; type?: string;  showOverflowTooltip?: boolean | Partial<Pick<ElTooltipProps, "placement" | ... 7 more ... | "showArrow">>; ... 35 more ...; style?: unknown; }
 -->
 <template>
-  <el-table-column v-bind="newCol" v-if="newCol.type && ['index', 'selection'].includes(newCol.type)"></el-table-column>
+  <el-table-column v-bind="newCol" v-if="newCol.type && ['index', 'selectable'].includes(newCol.type)"></el-table-column>
   <template v-else>
-    <el-table-column v-bind="deleteAttrs(newCol, ['children'])" :reserve-selection="selection" v-if="newCol.children?.length">
+    <el-table-column v-bind="deleteAttrs(newCol, ['children'])" v-if="newCol.children?.length">
       <Column
         :col="subCol"
         :size="size"
-        :selection="selection"
+        :selectable="selectable"
         :refreshList="refreshList"
         :operateBtnsAttrs="operateBtnsAttrs"
         :getGroupBtnsByRow="getGroupBtnsByRow"
@@ -21,7 +21,7 @@
     </el-table-column>
     <template v-else>
       <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
-      <el-table-column v-bind="newCol" :formatter="newCol.formatter" :reserve-selection="selection" v-if="newCol.formatter">
+      <el-table-column v-bind="newCol" :formatter="newCol.formatter" v-if="newCol.formatter">
         <template #header="scope">
           <slot name="header" v-bind="{ ...scope, col: newCol }">
             <BaseRender :data="scope.column.label" />
@@ -34,7 +34,7 @@
           </slot>
         </template>
       </el-table-column>
-      <el-table-column v-bind="newCol" :reserve-selection="selection" v-else>
+      <el-table-column v-bind="newCol" v-else>
         <template #header="scope">
           <slot name="header" v-bind="{ ...scope, col: newCol }">
             <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
@@ -125,7 +125,7 @@
 <script lang="ts" setup>
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
-import { TableColAttrs } from "@/components/table/_types";
+import { TableColAttrs, TableSelectableType } from "@/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -147,10 +147,10 @@ const props = withDefaults(
     size?: CommonSize;
     disabled?: boolean;
     compact?: boolean; //是否紧凑
-    selection?: boolean;
+    selectable?: TableSelectableType;
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    getGroupBtnsByRow?: (row: CommonObj, $rowInd: number) => BtnItem[];
+    getGroupBtnsByRow?: (row: CommonObj, rowInd: number) => BtnItem[];
   }>(),
   Object.assign(
     {
@@ -162,9 +162,6 @@ const props = withDefaults(
 const emits = defineEmits(["operateBtns"]);
 let popoverAttrs: PopoverAttrs | undefined;
 const newCol = getNewCol(props.col);
-function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  emits("operateBtns", btnObj, { row, col, $index }, next);
-}
 function getNewCol(col: TableColAttrs) {
   popoverAttrs = getPopoverAttrs(col.quickAttrs?.popover);
   // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
@@ -178,6 +175,9 @@ function getNewCol(col: TableColAttrs) {
 // 该列是否已联调
 function getIsHandle(_self: CommonObj, column: CommonObj) {
   return !(newCol.prop as string).startsWith("$") && _self.data?.length && _self.data[0]?.[column.property] === undefined;
+}
+function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
+  emits("operateBtns", btnObj, { row, col, $index }, next);
 }
 // 此功能后续可能会移除
 function handleSwitchChange(col: TableColAttrs, row: CommonObj, ind: number) {

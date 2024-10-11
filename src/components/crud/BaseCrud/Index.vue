@@ -38,7 +38,7 @@
       :isEmpty="!newRows?.length"
       :disabled="disabled"
       :total="pageInfo.total"
-      :batchBtn="batchBtn && selection"
+      :batchBtn="batchBtn && selectable"
       :size="tableAttrs?.size ?? size"
       ref="extraBtnsRef"
       @update:cols="(cols:TableCol[])=>{newCols = cols}"
@@ -61,7 +61,7 @@
         :total="pageInfo.total"
         :sort="!!sort"
         :index="index"
-        :selection="selectable"
+        :selectable="selectable"
         :operateBtns="operateBtns"
         :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
         :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
@@ -95,7 +95,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
-import { TableCol } from "@/components/table/_types";
+import { TableCol, TableIndexType, TableSelectableType, TableDragSortType } from "@/components/table/_types";
 import ExtraBtns from "./_components/ExtraBtns/Index.vue";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
@@ -164,9 +164,9 @@ const props = withDefaults(
     exportCfg?: ExportCfg; //导出配置
     /** 表格相关 **/
     cols?: TableCol[]; //表格列数据
-    sort?: boolean | UniteFetchType; //是否展示排序列
-    index?: boolean; //是否展示序号列
-    selection?: boolean; //是否展示选择框
+    sort?: TableDragSortType; //是否展示排序列
+    index?: TableIndexType; //是否展示序号列
+    selectable?: TableSelectableType; //是否展示选择框
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
     operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
     filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
@@ -259,11 +259,11 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   });
   return filterBtnsByAuth(btns, filterByAuth);
 });
-//是否存在批量按钮，若存在且不是自定义处理按钮逻辑，则表格中需要自动添加 selection 列
+//是否存在批量按钮，若存在且不是自定义处理按钮逻辑，则表格中需要自动添加 selectable 列
 const existBatchBtns = computed<boolean>(() => {
   return !!newExtraBtns.value.find((it: BtnItem) => batchBtnNames.includes(it.name as BtnName) && !it.customRules);
 });
-const selectable = computed(() => props.selection || existBatchBtns.value);
+const selectable = computed(() => props.selectable || existBatchBtns.value);
 const newCols = ref<TableCol[]>(props.cols.slice());
 //当额外参数改变时，发起请求
 watch(

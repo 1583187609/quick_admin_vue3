@@ -49,8 +49,8 @@ export const specialColMap: CommonObj = Object.assign(
       fixed: "left",
     },
     //多选列
-    selection: {
-      prop: "$selection",
+    selectable: {
+      prop: "$selectable",
       label: "选择",
       type: "selection",
       width: 48,

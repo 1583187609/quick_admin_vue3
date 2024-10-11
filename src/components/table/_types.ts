@@ -5,7 +5,7 @@ import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { BaseRenderData } from "../BaseRender.vue";
 import { FormItemAttrs } from "@/components/form/_types";
-import { HorizontalAlign, PopoverAttrs } from "@/components/_types";
+import { HorizontalAlign, PopoverAttrs, UniteFetchType } from "@/components/_types";
 
 /**
  * 这里是标准的ElementPlus属性
@@ -54,9 +54,9 @@ export interface TablePaginationAttrs {
  */
 export type SummaryListType = boolean | ((currPage: number, oldList: CommonObj[], newList: CommonObj[]) => CommonObj[]);
 
-export type ColItemType =
+export type TableColType =
   | "index"
-  | "selection"
+  | "selectable"
   | "sort"
   | "operate"
   | "id"
@@ -71,6 +71,10 @@ export type ColItemType =
   | "BaseCopy"
   | CustomSpecialColType;
 
+export type TableIndexType = boolean | number | ((rowInd: number) => number);
+export type TableSelectableType = boolean | ((row: any, rowInd: number) => boolean);
+export type TableDragSortType = boolean | UniteFetchType;
+
 // 基础表格
 export interface TableColAttrs {
   prop?: string | [string, string];
@@ -81,10 +85,10 @@ export interface TableColAttrs {
   align?: HorizontalAlign;
   headerAlign?: HorizontalAlign;
   fixed?: boolean | "left" | "right";
-  index?: boolean;
-  selection?: boolean; //是否显示选择框
-  sortable?: boolean | "custom"; //是否启用排序
-  type?: ColItemType; //列类型
+  index?: number | ((rowInd: number) => number); // 序号列显示
+  selectable?: (row: any, index: number) => boolean; //是否显示选择框
+  sortable?: boolean | "custom"; //是否启用排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
+  type?: TableColType; //列类型
   formatter?: (
     row: CommonObj,
     column?: TableColumnCtx<any>,
@@ -108,7 +112,7 @@ export interface EditTableColAttrs extends TableColAttrs {
 export type EditTableCol = BaseDataType | EditTableColAttrs;
 
 //表格的特殊列类型
-export type SpecialTableColType = "index" | "sort" | "selection" | "operate";
+export type SpecialTableColType = "index" | "sort" | "selectable" | "operate";
 
 // 表格拖动排序之后的回调函数
 export type TableDragSortEndNext = (tips?: string) => void;

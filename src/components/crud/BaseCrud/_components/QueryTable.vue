@@ -14,8 +14,9 @@
     <Column
       :col="col"
       :size="size"
+      :index="index"
       :compact="compact"
-      :selection="!!selection"
+      :selectable="!!selectable"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
       :getGroupBtnsByRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
@@ -42,11 +43,10 @@ import { useCacheScroll } from "@/hooks";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
 import { defaultTableAttrs, getColLevel } from "@/components/table";
-import { TableColAttrs, TableCol } from "@/components/table/_types";
+import { TableColAttrs, TableCol, TableSelectableType, TableIndexType, TableDragSortType } from "@/components/table/_types";
 import config from "@/config";
 import { getGroupBtnsOfRow, getAddSpecialCols } from "@/components/table/_utils";
 import { defaultCommonSize } from "@/components/_utils";
-import { FilterByAuthFn } from "../_types";
 
 const props = withDefaults(
   defineProps<{
@@ -56,9 +56,9 @@ const props = withDefaults(
     compact?: boolean; //是否紧凑
     operateBtns?: OperateBtnsType;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    sort?: boolean | TableColAttrs; //是否显示排序列
-    index?: boolean | TableColAttrs; //是否展示序号列
-    selection?: boolean | TableColAttrs; //是否显示选择框
+    sort?: TableDragSortType; //是否显示排序列
+    index?: TableIndexType; //是否展示序号列
+    selectable?: TableSelectableType; //是否显示选择框
     disabled?: boolean;
     loading?: boolean;
     showSummary?: boolean; //是否显示汇总行
@@ -72,6 +72,8 @@ const props = withDefaults(
       cols: () => [],
       rows: () => [],
       size: defaultCommonSize,
+      index: false,
+      selectable: false,
       summaryMethod: handleTableSummary,
     },
     config?.BaseCrud?._components?.QueryTable

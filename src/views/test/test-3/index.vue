@@ -90,7 +90,7 @@
       @operateBtns="onOperateBtns"
       :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"
       compact
-      selection
+      selectable
       ref="baseCrudRef"
     >
       <template #zdy>【这是自定义的搜索项】</template>
@@ -464,7 +464,7 @@ async function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {
   if (row) row = tempRow;
   openPopup(
     `${row ? "编辑" : "新增"}`,
-    h(AddEdit, { data: row, refreshList: next })
+    [AddEdit, { data: row, refreshList: next }]
     // "drawer" //传入第三个参数drawer，可打开抽屉，不传则默认为dialog
   );
 }

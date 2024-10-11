@@ -111,7 +111,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, nextTick, h } from "vue";
+import { ref, inject, onMounted, nextTick } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useRouter } from "vue-router";
@@ -175,7 +175,7 @@ function toggleFullscreen() {
 }
 
 function openPersonalInfo() {
-  openPopup($t("layout.header.dropdown.myInfo"), h(UserInfo, { data: user }), "drawer");
+  openPopup($t("layout.header.dropdown.myInfo"), [UserInfo, { data: user }], "drawer");
 }
 //退出登录
 function onLoginOut() {

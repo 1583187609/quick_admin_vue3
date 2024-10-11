@@ -28,7 +28,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject, h } from "vue";
+import { ref, reactive, watch, computed, inject } from "vue";
 import { FormField, FormFieldAttrs, SectionFormItemAttrs } from "@/components/form/_types";
 import { CommonObj, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
@@ -296,7 +296,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
 //打开配置弹窗
 function openConfigPopup(type: string = "") {
   const label = getFields().find(it => it.prop === type)?.label;
-  openPopup(`编辑${label || ""}(${type})`, h(Config, { type }));
+  openPopup(`编辑${label || ""}(${type})`, [Config, { type }]);
 }
 // openConfigPopup("options");
 function handleChange(val: string) {

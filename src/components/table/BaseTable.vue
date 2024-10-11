@@ -6,7 +6,8 @@
     <Column
       :col="col"
       :size="size"
-      :selection="!!selection"
+      :index="index"
+      :selectable="!!selectable"
       @operateBtns="onOperateBtns"
       :operateBtnsAttrs="operateBtnsAttrs"
       :getGroupBtnsByRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
@@ -32,7 +33,7 @@
 import { ref, reactive, watchEffect } from "vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RowBtnInfo } from "@/components/table/_components/Column.vue";
-import { TableColAttrs } from "@/components/table/_types";
+import { TableColAttrs, TableDragSortType, TableIndexType, TableSelectableType } from "@/components/table/_types";
 import { getColLevel, defaultTableAttrs } from "@/components/table";
 import { typeOf, handleTableSummary } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
@@ -46,10 +47,10 @@ const props = withDefaults(
   defineProps<{
     cols: TableColAttrs[]; //表头
     rows?: CommonObj[]; //表格行数据
-    sort?: boolean | TableColAttrs; //是否显示排序列
-    index?: boolean | TableColAttrs; //是否展示序号列
-    selection?: boolean | TableColAttrs; //是否显示选择框
     size?: CommonSize;
+    sort?: TableDragSortType; //是否显示排序列
+    index?: TableIndexType; //是否展示序号列
+    selectable?: TableSelectableType; //是否显示选择框
     showSummary?: boolean; //是否显示汇总行
     operateBtnsAttrs?: OperateBtnsAttrs;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
@@ -60,6 +61,7 @@ const props = withDefaults(
     size: defaultCommonSize,
     cols: () => [],
     rows: () => [],
+    index: false,
     summaryMethod: handleTableSummary,
   }
 );

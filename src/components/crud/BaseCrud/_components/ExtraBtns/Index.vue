@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, h, inject } from "vue";
+import { computed, inject } from "vue";
 import { Setting, Printer } from "@element-plus/icons-vue";
 import { sortObjArrByKey } from "@/components/_utils";
 import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
@@ -164,14 +164,17 @@ function openColSetDrawer() {
     });
   openPopup(
     { title: "列设置", closeOnClickModal: true },
-    h(SetTable, {
-      rows,
-      size: props.size,
-      handleShowChange,
-      handleExportChange,
-      handleOrderChange,
-      handleResetColSet,
-    }),
+    [
+      SetTable,
+      {
+        rows,
+        size: props.size,
+        handleShowChange,
+        handleExportChange,
+        handleOrderChange,
+        handleResetColSet,
+      },
+    ],
     "drawer"
   );
 }

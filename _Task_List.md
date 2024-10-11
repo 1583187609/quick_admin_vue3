@@ -85,12 +85,16 @@
 ~~16、自动跳转至 403, 500 页面处理~~  
 ~~10、账号管理-详情 点击驳回对话框，确认，取消事件绑定不上。~~  
 ~~78、BaseRender 考虑使用 {is: '',...otherAttrs} 来进行替换~~  
+~~7、Vue 组件深入极致优化~~
+~~73、删除 `src/test_components` 文件夹下的内容~~  
+~~81、storage 的 clear 方法完善~~  
+~~91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替~~
+~~92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）~~
+~~95、完善 filterBtnsByAuth 按钮权限，处理操作栏按钮不显示问题~~
+~~22、文件目录结构改为 monorepo 式~~  
 19、完善列设置是否显示对应列的功能  
-22、文件目录结构改为 monorepo 式  
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
-7、Vue 组件深入极致优化
 12、添加 batch 按钮及其子按钮  
-20、配置表单的显示列  
 28、完善滚动触顶触底加载 demo 示例  
 24、增加批量操作按钮，并完善功能  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -104,7 +108,6 @@
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里
 72、将 SetTable 用 EditTable 改造
-73、删除 `src/test_components` 文件夹下的内容  
 74、将 Quick 的内核抽离成 npm 包
 75、完善 http 的 ts 类型书写  
 76、请求参数加解密  
@@ -112,7 +115,6 @@
 78、StepForm 必填项完成后，自动跳到下一步骤  
 79、BaseCopy 支持复制文本同时，可以跳转路由
 80、日期区间组件，增加 `defaultTime` 属性
-81、storage 的 clear 方法完善
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定。
 83、rulesType 增加 rmb 类型。
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
@@ -122,11 +124,9 @@
 88、完善`UserDetail`页面
 89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
-~~91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替~~
-~~92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）~~
 93、el-dialog 关闭时销毁功能优化
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
-~~95、完善 filterBtnsByAuth 按钮权限，处理操作栏按钮不显示问题~~
+96、表格 BaseCrud、BaseTable 等的 index 、selectable、sort 支持可传入函数，以及 TS 类型处理
 
 ## TS 类型处理
 
@@ -155,6 +155,7 @@
 19、BaseCurd 打印功能  
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
 21、用上之前内江市国资委系统的皮肤
+44、BaseTable、BaseForm 等的暴露方法处理
 
 ## 未来功能清单
 
@@ -198,7 +199,6 @@
 ~~29、大屏数据页面用统一的基础 Echarts 组件~~
 ~~39、大屏页面的 Echarts 基础组件统一处理~~
 ~~45、简化 BaseCrud 的 next 回调的刷新列表逻辑~~
-
 26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件  
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
 15、测试三页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
@@ -213,12 +213,12 @@
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置  
 43、整理全局的 any、CommonObj TS 类型
-44、BaseTable、BaseForm 等的暴露方法处理
 45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
 38、打开或关闭弹窗时是否销毁（默认不销毁）
-39、操作栏宽度如果指定了，则不会自动进行计算
+~~39、操作栏宽度如果指定了，则不会自动进行计算~~
+40、优化全局加载的图标及样式（在 index.html 中）
 
 ## 三、Bug 清单
 
@@ -300,7 +300,7 @@
 1、BaseCopy 中的复制图标采用按需引入方式
 ~~2、将全局的覆盖样式写到各个组件里~~
 ~~3、将 CellForm、CellTable 融合到 BaseForm 里面，只更改样式就行了~~
-70、工程量大了后，全局字典，以及命名是否会重复的优化处理手段
+~~70、工程量大了后，全局字典，以及命名是否会重复的优化处理手段~~
 61、给 BaseForm、SectionForm 初始加载时添加骨架屏
 20、利用 color-scheme 设置夜间模式
 24、Ts 类型命名优化，尽可能复用使用 UI 框架的 Ts 类型  

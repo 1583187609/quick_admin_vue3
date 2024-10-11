@@ -8,7 +8,7 @@
     :pagination="false"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    selection
+    selectable
   >
     <template #icon="{ row }">
       <BaseIcon :name="row.icon" size="22" v-if="row.icon"></BaseIcon>

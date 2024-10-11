@@ -123,7 +123,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive,  inject, h } from "vue";
+import { ref, reactive,  inject } from "vue";
 import ImgItem from "./_components/ImgItem.vue";
 import { ElMessage } from "element-plus";
 import RejectAvatar from "./_components/RejectAvatar.vue";
@@ -584,16 +584,16 @@ function openCoinListPopup() {
   openPopup("金币明细", CoinList, "dialog", false);
 }
 function openReportListPopup(type: number) {
-  openPopup((type === 2 ? "被" : "") + "举报记录", h(ReportList, { type }), "dialog", false);
+  openPopup((type === 2 ? "被" : "") + "举报记录", [ReportList, { type }], "dialog", false);
 }
 function openLoveListPopup(type: number) {
-  openPopup((type === 2 ? "被" : "") + "喜欢记录", h(LoveList, { type }), "dialog", false);
+  openPopup((type === 2 ? "被" : "") + "喜欢记录", [LoveList, { type }], "dialog", false);
 }
 function openEvaluateListPopup(type: number) {
-  openPopup((type === 2 ? "负" : "正") + "面评价", h(EvaluateList, { type }), "dialog", false);
+  openPopup((type === 2 ? "负" : "正") + "面评价", [EvaluateList, { type }], "dialog", false);
 }
 function openAboutListPopup(type: number) {
-  openPopup((type === 2 ? "关于我" : "关于你") + "提交记录", h(AboutList, { type }), "dialog", false);
+  openPopup((type === 2 ? "关于我" : "关于你") + "提交记录", [AboutList, { type }], "dialog", false);
 }
 </script>
 <style lang="scss" scoped>

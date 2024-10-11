@@ -35,7 +35,6 @@ import AddEdit from "./AddEdit.vue";
 import FormPopup from "./FormPopup.vue";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
-import { h } from "vue";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const model = reactive<CommonObj>({ age: [20, 30] });
@@ -99,7 +98,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(row ? "编辑" : "新增", h(AddEdit, { id: row?.id, refreshList: next }));
+  openPopup(row ? "编辑" : "新增", [AddEdit, { id: row?.id, refreshList: next }]);
 }
 //增加或减少
 function handlePlusMinus(name: BtnName, row: CommonObj, next: FinallyNext) {
@@ -107,7 +106,7 @@ function handlePlusMinus(name: BtnName, row: CommonObj, next: FinallyNext) {
     plus: "增加当日次数",
     minus: "减少当日次数",
   };
-  openPopup(titleMap[name as string], h(FormPopup, { id: row?.id, refreshList: next }), "dialog");
+  openPopup(titleMap[name as string], [FormPopup, { id: row?.id, refreshList: next }], "dialog");
 }
 </script>
 <style lang="scss" scoped></style>

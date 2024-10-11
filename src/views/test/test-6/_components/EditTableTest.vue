@@ -7,7 +7,7 @@
       style="width: calc(100vw - 600px)"
       sort
       index
-      selection
+      selectable
       :operateBtns="['edit', 'delete']"
       @operateBtns="onOperateBtns"
       :size="size"
@@ -26,7 +26,7 @@ import { BtnName } from "@/components/BaseBtn/_types";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["sort", "index", "selection", "operateBtns"],
+    list: ["sort", "index", "selectable", "operateBtns"],
   },
   waitBetter: {
     title: "待完善属性",

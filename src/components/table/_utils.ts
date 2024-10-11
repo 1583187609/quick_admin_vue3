@@ -177,7 +177,7 @@ export function needPushSpecialCol(key: SpecialTableColType, props: CommonObj) {
  */
 export function getAddSpecialCols(props: CommonObj) {
   const { cols, currPage, pageSize } = props;
-  const keys: SpecialTableColType[] = ["index", "sort", "selection", "operate"];
+  const keys: SpecialTableColType[] = ["index", "sort", "selectable", "operate"];
   keys.forEach(key => {
     if (!needPushSpecialCol(key, props)) return;
     const specialCol = specialColMap[key];

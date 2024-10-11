@@ -12,7 +12,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { inject, h } from "vue";
+import { inject } from "vue";
 import { GetUserList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
@@ -82,7 +82,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, h(AddEdit, { data: row, refreshList: next }));
+  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next }]);
 }
 </script>
 <style lang="scss" scoped></style>

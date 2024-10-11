@@ -290,7 +290,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
 //打开配置弹窗
 function openConfigPopup(type: string = "") {
   const label = getFields().find(it => it.prop === type)?.label;
-  openPopup(`编辑${label || ""}(${type})`, h(Config, { type }));
+  openPopup(`编辑${label || ""}(${type})`, [Config, { type }]);
 }
 // openConfigPopup("options");
 function handleChange(val: string) {

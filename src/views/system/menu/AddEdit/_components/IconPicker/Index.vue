@@ -8,7 +8,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed, h } from "vue";
+import { inject, computed } from "vue";
 import { useFormItem } from "element-plus";
 import SelectIcon from "./_components/SelectIcon.vue";
 import { ClosePopupInject, OpenPopupInject } from "@/components/BasicPopup/_types";
@@ -36,12 +36,12 @@ const iconName = computed({
 });
 
 function openSelectIcon() {
-  openPopup(
-    "选择图标",
-    h(SelectIcon, {
+  openPopup("选择图标", [
+    SelectIcon,
+    {
       onSelected: handleSelected,
-    })
-  );
+    },
+  ]);
 }
 function handleSelected(name: string) {
   iconName.value = name;
