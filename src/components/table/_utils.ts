@@ -1,13 +1,5 @@
 import { CommonObj, CommonSize } from "@/vite-env";
-import {
-  typeOf,
-  propsJoinChar,
-  emptyTime,
-  renderValue,
-  defaultGroupBtnsMaxNum,
-  getChinaCharLength,
-  defaultCommonSize,
-} from "@/components/_utils";
+import { typeOf, propsJoinChar, emptyTime, renderValue, defaultGroupBtnsMaxNum, getChinaCharLength, defaultCommonSize } from "@/components/_utils";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
 import { defaultColumnAttrs, specialColMap } from "@/components/table";
 import _ from "lodash";
@@ -108,19 +100,19 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
   // const { operateBtnsAttrs = {} } = props;
   const { vertical, maxNum = defaultGroupBtnsMaxNum } = operateBtnsAttrs as OperateBtnsAttrs;
   if (btns.length > maxNum) {
-    btns = btns.slice(0, maxNum - 1).concat([{ btnText: "更多" } as BtnItem]);
+    btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
   }
   if (vertical) {
     btns.forEach((item: BtnItem) => {
       // if (!item) return; //已经过滤过了，所以注释掉
-      em = getChinaCharLength(item.btnText) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
+      em = getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
       const currWidth = em * fontSize + btnPadding * 2 + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
       if (currWidth > width) width = currWidth;
     });
   } else {
     btns.forEach((item: BtnItem) => {
       // if (!item) return; //已经过滤过了，所以注释掉
-      em += getChinaCharLength(item.btnText) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
+      em += getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
     });
     width = em * fontSize + btns.length * btnPadding * 2 + (btns.length - 1) * btnMargin + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
   }
@@ -142,20 +134,17 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
   const tempBtns = getTempGroupBtnsOfRow(row, ind, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
   const operateCol = newCols.at(-1)!;
-  // if (operateCol.width) return filterBtns; // 如果操作栏设置了宽度，则不再进行自动计算，可用于性能优化
+  if (operateCol.width) return filterBtns; // 如果操作栏设置了宽度，则不再进行自动计算，可用于性能优化
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
   const isLastRow = ind === rows.length - 1;
   if (!isLastRow) {
-    if (operateWidth < width) {
-      operateWidth = width;
-      operateCol.width = operateWidth;
-    }
+    if (operateWidth < width) operateWidth = width;
   } else {
     //如果操作栏没有按钮，则按照最小宽度展示操作栏，例如新增按钮
-    if (operateWidth < 30) {
-      operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
-      operateCol.width = operateWidth;
-    }
+    // if (operateWidth < 30) {
+    //  operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
+    // }
+    operateCol.width = operateWidth;
   }
   return filterBtns;
 }
@@ -177,7 +166,7 @@ export function needPushSpecialCol(key: SpecialTableColType, props: CommonObj) {
  */
 export function getAddSpecialCols(props: CommonObj) {
   const { cols, currPage, pageSize } = props;
-  const keys: SpecialTableColType[] = ["index", "sort", "selectable", "operate"];
+  const keys: SpecialTableColType[] = ["index", "sort", "selection", "operate"];
   keys.forEach(key => {
     if (!needPushSpecialCol(key, props)) return;
     const specialCol = specialColMap[key];

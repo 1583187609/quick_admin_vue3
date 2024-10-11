@@ -3,12 +3,12 @@
     :cols="cols"
     :fields="fields"
     :fetch="GetUserList"
-    :extraBtns="['add', { name: 'add', btnText: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
+    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',
       {
         name: 'edit',
-        btnText: '编辑（url)',
+        text: '编辑(url)',
         to: (row: CommonObj) => `/system/user/detail?id=${row.id}`,
       },
       'delete',
@@ -18,9 +18,9 @@
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
     @dargSortEnd="handleDragSortEnd"
-    selectable
     index
-    sort
+    selectable
+    dragSortable
   >
   </BaseCrud>
 </template>
@@ -65,6 +65,7 @@ const fields = ref<FormField[]>([
   },
 ]);
 const cols: TableCol[] = [
+  // { type: "index", label: "序列" },
   { prop: "id", label: "用户ID", width: 70 },
   { prop: "name", label: "用户姓名", width: 90 },
   { prop: "gender_text", label: "性别", width: 90 },
@@ -73,6 +74,7 @@ const cols: TableCol[] = [
   { prop: "phone", label: "电话", minWidth: 120 },
   { prop: "type_text", label: "用户类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
+  // { type: "operate", label: "操作栏", width: 500 },
 ];
 //点击操作栏的分组按钮
 function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {

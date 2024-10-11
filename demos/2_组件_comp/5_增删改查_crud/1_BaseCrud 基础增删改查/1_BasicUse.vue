@@ -23,9 +23,9 @@
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
     @dargSortEnd="handleDragSortEnd"
-    selection
+    selectable
+    dragSortable
     index
-    sort
   >
   </BaseCrud>
 </template>
@@ -37,10 +37,10 @@ import { TableCol } from "@/components/table/_types";
 import { BtnName } from "@/components/BaseBtn/_types";
 // import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext, OpenPopupInject} from "@/vite-env";
+import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
-import {TableDragSortEndNext} from "@/components/table/_types";
+import { TableDragSortEndNext } from "@/components/table/_types";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const fields = ref<FormField[]>([

@@ -11,7 +11,7 @@ export interface BtnsAllMap {
 
 export interface BtnCfg {
   name: string;
-  btnText?: string;
+  text?: string;
   type?: string;
   icon?: string;
   size?: string;
@@ -22,7 +22,7 @@ export type BtnName = BtnAllNames | string; //常用基础按钮或其他自定�
 export type ButtonType = "primary" | "success" | "warning" | "danger" | "info"; //按钮类型。注"text" 已弃用
 export interface BtnAttrs {
   icon?: any;
-  btnText?: string;
+  text?: string;
   type?: ButtonType;
   size?: CommonSize;
   plain?: boolean;
@@ -32,7 +32,7 @@ export interface BtnAttrs {
 
 export interface BtnItem {
   name?: BtnName; //可以不传值
-  btnText?: string; //按钮文本
+  text?: string; //按钮文本
   order?: number; //按钮顺序
   auth?: number[]; //权限
   to?: string | CommonObj | ((row: CommonObj) => string | CommonObj); //点击按钮时要跳转的页面地址

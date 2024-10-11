@@ -21,9 +21,9 @@ export interface CrudProps {
   // resMap?: ResMap; //响应参数的键名映射
   // showPagination?: boolean;
   // summaryList?: SummaryListType; //汇总请求数据的 list
-  // sort?: boolean; //是否展示排序列
   // index?: TableIndexType; //是否展示序号列
   // selectable?: TableSelectableType; //是否展示选择框
+  // dragSortable?: TableDragSortType; //是否展示排序列
   // batchBtn?: boolean; //是否显示批量按钮
   // exportCfg?: {
   //   limit: number; //一次性导出数据的上限条数

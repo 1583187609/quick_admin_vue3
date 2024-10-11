@@ -8,7 +8,7 @@
     :extraBtns="[
       {
         name: 'open',
-        btnText: '打开弹窗',
+        text: '打开弹窗',
         attrs: { type: 'primary', icon: 'Notification' },
       },
     ]"

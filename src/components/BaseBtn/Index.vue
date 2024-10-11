@@ -5,18 +5,18 @@
   <el-popconfirm @confirm="handleClick" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs">
-        <slot>{{ newBtn?.btnText || "-" }}</slot>
+        <slot>{{ emptyVals.includes(newBtn?.text) ? "-" : newBtn?.text }}</slot>
       </el-button>
     </template>
   </el-popconfirm>
   <el-button class="base-btn" v-bind="newBtn.attrs" @click="handleClick" v-else>
-    <slot>{{ newBtn?.btnText || "-" }}</slot>
+    <slot>{{ emptyVals.includes(newBtn?.text) ? "-" : newBtn?.text }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
 import { computed, useAttrs } from "vue";
 import { getBtnObj } from "@/components/BaseBtn";
-import { typeOf } from "@/components/_utils";
+import { emptyVals, typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj } from "@/vite-env";
 import { BaseBtnType, BtnItem, BtnName } from "./_types";
@@ -31,7 +31,6 @@ const router = useRouter();
 const props = withDefaults(
   defineProps<{
     name?: BaseBtnType; //可以不传值
-    btnText?: string; //按钮文本
     data?: CommonObj; //要传递的数据
     order?: number; //按钮顺序
     auth?: number[]; //权限

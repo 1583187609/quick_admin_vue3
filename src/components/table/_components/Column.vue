@@ -4,7 +4,7 @@
 { width?: string | number; minWidth?: string | number; type?: string;  showOverflowTooltip?: boolean | Partial<Pick<ElTooltipProps, "placement" | ... 7 more ... | "showArrow">>; ... 35 more ...; style?: unknown; }
 -->
 <template>
-  <el-table-column v-bind="newCol" v-if="newCol.type && ['index', 'selectable'].includes(newCol.type)"></el-table-column>
+  <el-table-column v-bind="newCol" v-if="newCol.type && ['index', 'selection'].includes(newCol.type)" />
   <template v-else>
     <el-table-column v-bind="deleteAttrs(newCol, ['children'])" v-if="newCol.children?.length">
       <Column
@@ -38,16 +38,10 @@
         <template #header="scope">
           <slot name="header" v-bind="{ ...scope, col: newCol }">
             <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
-            <BaseRender
-              :data="devErrorTips(scope.column.label, getIsHandle(scope._self, scope.column) ? undefined : '')"
-              v-else
-            />
+            <BaseRender :data="devErrorTips(scope.column.label, getIsHandle(scope._self, scope.column) ? undefined : '')" v-else />
             <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
               <template #reference>
-                <BaseIcon
-                  :color="getIsHandle(scope._self, scope.column) ? cssVars.colorDanger : cssVars.colorInfo"
-                  name="QuestionFilled"
-                />
+                <BaseIcon :color="getIsHandle(scope._self, scope.column) ? cssVars.colorDanger : cssVars.colorInfo" name="QuestionFilled" />
               </template>
               <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
             </el-popover>
@@ -103,12 +97,7 @@
           </template>
           <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
           <template v-else-if="newCol.type === 'BaseImg'">
-            <BaseImg
-              style="margin: 0 auto"
-              :src="row[newCol.prop as string]"
-              v-bind="newCol.attrs"
-              v-if="row[newCol.prop as string]"
-            />
+            <BaseImg style="margin: 0 auto" :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-if="row[newCol.prop as string]" />
             <template v-else>-</template>
           </template>
           <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">

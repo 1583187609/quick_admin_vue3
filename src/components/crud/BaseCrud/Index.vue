@@ -45,23 +45,16 @@
       @click="onExtraBtns"
       v-if="newExtraBtns.length"
     />
-    <slot
-      :loading="loading"
-      :rows="newRows"
-      :total="pageInfo.total"
-      :hasMore="pageInfo.hasMore"
-      :params="params"
-      :onOperateBtns="onOperateBtns"
-    >
+    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
       <QueryTable
         :compact="compact"
         :loading="loading"
         :cols="newCols"
         :rows="newRows"
         :total="pageInfo.total"
-        :sort="!!sort"
         :index="index"
         :selectable="selectable"
+        :dragSortable="dragSortable"
         :operateBtns="operateBtns"
         :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
         :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
@@ -164,9 +157,9 @@ const props = withDefaults(
     exportCfg?: ExportCfg; //导出配置
     /** 表格相关 **/
     cols?: TableCol[]; //表格列数据
-    sort?: TableDragSortType; //是否展示排序列
     index?: TableIndexType; //是否展示序号列
     selectable?: TableSelectableType; //是否展示选择框
+    dragSortable?: TableDragSortType; //是否展示排序列
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
     operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
     filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
@@ -276,7 +269,7 @@ watch(
 );
 onMounted(() => {
   // judgeIsInDialog("basic-dialog");
-  props.sort && handleDragSort();
+  props.dragSortable && handleDragSort();
 });
 //重置
 function handleReset() {
@@ -376,7 +369,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 function onExtraBtns(btnObj: BtnItem) {
   const { exportCfg, importCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
-  const { btnText } = btnObj;
+  const { text } = btnObj;
   handleClickExtraBtns({
     btnObj,
     cols: allCols.value,
@@ -388,7 +381,7 @@ function onExtraBtns(btnObj: BtnItem) {
     total: pageInfo.total,
     exportCfg,
     emits,
-    next: (hint = `${btnText || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void, isRefreshList: boolean = true) => {
+    next: (hint = `${text || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void, isRefreshList: boolean = true) => {
       showMessage(hint);
       closePopup(closeType);
       isRefreshList && refreshList();
@@ -429,14 +422,14 @@ function handleDragSort(ele = queryTableRef?.value.tableRef?.$el?.querySelector(
     animation: 300,
     onEnd(res: CommonObj) {
       const { newIndex, oldIndex } = res;
-      if (typeof props.sort === "boolean") {
+      if (typeof props.dragSortable === "boolean") {
         emits("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => {
           // const removeItem = newRows.value.splice(oldIndex, 1)[0];
           // newRows.value.splice(newIndex, 0, removeItem);
           showMessage(tips);
         });
       } else {
-        // (props.sort as any)({[rowKey]})
+        // (props.dragSortable as any)({[rowKey]})
       }
     },
   });

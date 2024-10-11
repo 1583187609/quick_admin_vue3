@@ -7,7 +7,7 @@ const { colorDanger, colorSuccess, colorWarning } = cssVars;
 export default {
   add: {
     name: "add",
-    btnText: "新增",
+    text: "新增",
     // auth: [0,1,2],
     // to: undefined,
     order: 0,
@@ -18,7 +18,7 @@ export default {
   },
   edit: {
     name: "edit",
-    btnText: "编辑",
+    text: "编辑",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 1,
@@ -29,7 +29,7 @@ export default {
   },
   delete: {
     name: "delete",
-    btnText: "删除",
+    text: "删除",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 2,
@@ -45,7 +45,7 @@ export default {
   },
   pass: {
     name: "pass",
-    btnText: "通过",
+    text: "通过",
     // auth: [0,1,2],
     // to: undefined,
     order: 3,
@@ -62,7 +62,7 @@ export default {
   },
   reject: {
     name: "reject",
-    btnText: "驳回",
+    text: "驳回",
     // auth: [0,1,2],
     // to: undefined,
     order: 4,
@@ -79,7 +79,7 @@ export default {
   },
   repeal: {
     name: "repeal",
-    btnText: "撤销",
+    text: "撤销",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 5,
@@ -90,7 +90,7 @@ export default {
   },
   import: {
     name: "import",
-    btnText: "导入",
+    text: "导入",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 6,
@@ -101,7 +101,7 @@ export default {
   },
   export: {
     name: "export",
-    btnText: "导出",
+    text: "导出",
     // auth: [],
     // to: undefined,
     order: 7,
@@ -114,7 +114,7 @@ export default {
   },
   upload: {
     name: "upload",
-    btnText: "上传",
+    text: "上传",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 8,
@@ -125,7 +125,7 @@ export default {
   },
   download: {
     name: "download",
-    btnText: "下载",
+    text: "下载",
     // auth: [],
     // to: undefined,
     order: 9,
@@ -136,7 +136,7 @@ export default {
   },
   enable: {
     name: "enable",
-    btnText: "启用",
+    text: "启用",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 10,
@@ -151,7 +151,7 @@ export default {
   },
   forbid: {
     name: "forbid",
-    btnText: "禁用",
+    text: "禁用",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 11,
@@ -166,7 +166,7 @@ export default {
   },
   audit: {
     name: "audit",
-    btnText: "审核",
+    text: "审核",
     // auth: [0, 1, 2],
     // to: undefined,
     order: 20,
@@ -177,7 +177,7 @@ export default {
   },
   view: {
     name: "view",
-    btnText: "详情", //查看
+    text: "详情", //查看
     // auth: [],
     // to: undefined,
     order: 21,
@@ -188,7 +188,7 @@ export default {
   },
   submit: {
     name: "submit",
-    btnText: "提交",
+    text: "提交",
     // auth: [],
     // to: undefined,
     order: 40,
@@ -199,7 +199,7 @@ export default {
   },
   reset: {
     name: "reset",
-    btnText: "重置",
+    text: "重置",
     // auth: [0],
     // to: undefined,
     order: 41,
@@ -210,7 +210,7 @@ export default {
   },
   log: {
     name: "log",
-    btnText: "日志",
+    text: "日志",
     // auth: [],
     // to: undefined,
     order: 42,
@@ -222,7 +222,7 @@ export default {
   //当按钮的name不对时，默认展示这个空按钮，用于给开发者提示
   empty: {
     name: "empty",
-    btnText: "~empty~",
+    text: "~empty~",
     // auth: [],
     // to: undefined,
     order: 100,

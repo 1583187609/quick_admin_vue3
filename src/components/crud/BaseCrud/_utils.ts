@@ -25,7 +25,7 @@ export interface ExtraBtnRestArgs {
 }
 
 const { upperFirst } = _;
-// "index", "selectable", "sort", "operate", "id", "create", "update", "remark", "custom", "switch", "BaseTag", "BaseImg", "BaseText", "BaseCopy", "UserInfo"
+// "index", "selection", "sort", "operate", "id", "create", "update", "remark", "custom", "switch", "BaseTag", "BaseImg", "BaseText", "BaseCopy", "UserInfo"
 const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function handleClickExtraBtns({
   btnObj,
@@ -39,7 +39,7 @@ export function handleClickExtraBtns({
   openPopup,
   importCfg,
 }: HandleClickExtraBtnsProps) {
-  const { name = "", btnText, attrs, customRules } = btnObj;
+  const { name = "", text, attrs, customRules } = btnObj;
   if (customRules)
     return emits("extraBtns", name, next, {
       selectedKeys: [],
@@ -55,15 +55,15 @@ export function handleClickExtraBtns({
     if ((["export"] as BtnName[]).includes(name) && isOverLimit) {
       showMessage(
         {
-          message: `单次${btnText}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`,
+          message: `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`,
           dangerouslyUseHTMLString: true,
         },
         "warning"
       );
     } else {
-      const hintTips = `确定 <b style="color:${color};">${btnText}${
-        isSeledAll ? `全部</b> ` : `</b>`
-      } 共 <b style="color:${color};">${seledRows.length}</b> 条记录？`;
+      const hintTips = `确定 <b style="color:${color};">${text}${isSeledAll ? `全部</b> ` : `</b>`} 共 <b style="color:${color};">${
+        seledRows.length
+      }</b> 条记录？`;
       ElMessageBox.confirm(hintTips, "温馨提示", {
         type: name === "delete" ? "error" : "warning",
         dangerouslyUseHTMLString: true,

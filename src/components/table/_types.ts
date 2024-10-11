@@ -55,11 +55,11 @@ export interface TablePaginationAttrs {
 export type SummaryListType = boolean | ((currPage: number, oldList: CommonObj[], newList: CommonObj[]) => CommonObj[]);
 
 export type TableColType =
-  | "index"
-  | "selectable"
-  | "sort"
-  | "operate"
   | "id"
+  | "sort"
+  | "index"
+  | "selection"
+  | "operate"
   | "remark"
   | "custom"
   | "create"
@@ -73,7 +73,7 @@ export type TableColType =
 
 export type TableIndexType = boolean | number | ((rowInd: number) => number);
 export type TableSelectableType = boolean | ((row: any, rowInd: number) => boolean);
-export type TableDragSortType = boolean | UniteFetchType;
+export type TableDragSortType = boolean; // | UniteFetchType;
 
 // 基础表格
 export interface TableColAttrs {
@@ -112,7 +112,7 @@ export interface EditTableColAttrs extends TableColAttrs {
 export type EditTableCol = BaseDataType | EditTableColAttrs;
 
 //表格的特殊列类型
-export type SpecialTableColType = "index" | "sort" | "selectable" | "operate";
+export type SpecialTableColType = "index" | "sort" | "selection" | "operate";
 
 // 表格拖动排序之后的回调函数
 export type TableDragSortEndNext = (tips?: string) => void;

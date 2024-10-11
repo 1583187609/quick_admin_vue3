@@ -88,12 +88,12 @@ function getRows(rows: CommonObj[], args: CommonObj) {
 }
 //点击分组按钮
 function onOperateBtns(btn: BtnItem, row: CommonObj, rows: CommonObj[], params?: CommonObj) {
-  const { name, btnText } = btn;
+  const { name, text } = btn;
   emits(
     "operateBtns",
     name,
     row,
-    (hint = `${btnText || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
+    (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
       showMessage(hint);
       closePopup(closeType);
       const map: CommonObj = {

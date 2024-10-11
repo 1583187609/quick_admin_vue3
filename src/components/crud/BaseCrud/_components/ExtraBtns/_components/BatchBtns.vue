@@ -5,7 +5,7 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-for="(btn, ind) in btns" :key="ind">
-          <el-button @click="handleClick(btn.name)" style="width: 100%" v-bind="btn.attrs">{{ btn.btnText }}</el-button>
+          <el-button @click="handleClick(btn.name)" style="width: 100%" v-bind="btn.attrs">{{ btn.text }}</el-button>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -20,17 +20,17 @@ export type BatchBtnName = "all" | "not" | "invert";
 const btns: CommonObj[] = [
   {
     name: "all",
-    btnText: "全选",
+    text: "全选",
     attrs: { type: "success", plain: true },
   },
   {
     name: "not",
-    btnText: "全不选",
+    text: "全不选",
     attrs: { type: "danger", plain: true },
   },
   {
     name: "invert",
-    btnText: "反选",
+    text: "反选",
     attrs: { type: "info", plain: true },
   },
 ];

@@ -1,32 +1,18 @@
 <template>
   <BaseTable style="width: 400px" :cols="cols" :rows="rows" :size="size" :key="tableKey">
     <template #isShow="{ row, col, $index }">
-      <el-switch
-        @change="(val: boolean) => handleShowChange(row.colProp, val, $index)"
-        v-model="row.isShow"
-        v-bind="switchProps"
-      />
+      <el-switch @change="(val: boolean) => handleShowChange(row.colProp, val, $index)" v-model="row.isShow" v-bind="switchProps" />
     </template>
     <template #isExport="{ row, col, $index }">
-      <el-switch
-        @change="(val: boolean) => handleExportChange(row.colProp, val, $index)"
-        v-model="row.isExport"
-        v-bind="switchProps"
-        disabled
-      />
+      <el-switch @change="(val: boolean) => handleExportChange(row.colProp, val, $index)" v-model="row.isExport" v-bind="switchProps" disabled />
     </template>
     <template #isOrder="{ row, col, $index }">
-      <el-switch
-        @change="(val: boolean) => handleOrderChange(row.colProp, val, $index)"
-        v-model="row.isOrder"
-        v-bind="switchProps"
-        disabled
-      />
+      <el-switch @change="(val: boolean) => handleOrderChange(row.colProp, val, $index)" v-model="row.isOrder" v-bind="switchProps" disabled />
     </template>
   </BaseTable>
 </template>
 <!-- <div class="f-c-c mt-16">
-    <BaseBtn @click="handleSave" :name="{ name: 'submit', btnText: '保存' }" />
+    <BaseBtn @click="handleSave" :name="{ name: 'submit', text: '保存' }" />
     <BaseBtn @click="handleResetColSet" name="reset" />
 </div> -->
 <script lang="ts" setup>

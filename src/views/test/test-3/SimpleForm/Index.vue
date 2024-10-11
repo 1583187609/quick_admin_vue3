@@ -6,7 +6,7 @@
     :fields="fields"
     :moreBtns="[
       { name: 'pass', popconfirm: false },
-      { name: 'view', btnText: '查看' },
+      { name: 'view', text: '查看' },
     ]"
     @moreBtns="onMoreBtns"
     :handleRequest="handleRequest"

@@ -12,9 +12,7 @@
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs">
-        更多
-      </el-button>
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs"> 更多 </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
@@ -94,11 +92,11 @@ const newBtns = computed(() => {
   return tempBtns;
 });
 function handleClick(btnObj: BtnItem) {
-  const { name, btnText, to } = btnObj;
+  const { name, text, to } = btnObj;
   if (to) {
     router.push(to as any);
   } else {
-    emits("click", btnObj, (hint = `${btnText || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
+    emits("click", btnObj, (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
       showMessage(hint);
       closePopup(closeType);
       cb?.();

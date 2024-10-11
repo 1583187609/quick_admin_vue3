@@ -2,15 +2,10 @@
 <template>
   <el-form ref="forms" :model="forms">
     <el-table ref="multipleTable" :data="forms.tableData" tooltip-effect="dark" style="width: 100%" border>
-      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column type="selection" width="55" />
       <el-table-column label="姓名" width="80">
         <template #default="{ row, $index }">
-          <el-form-item
-            :prop="`tableData.${$index}.realname`"
-            :rules="rules.realname"
-            style="margin-bottom: 16px"
-            v-if="$index >= 0"
-          >
+          <el-form-item :prop="`tableData.${$index}.realname`" :rules="rules.realname" style="margin-bottom: 16px" v-if="$index >= 0">
             <el-input type="text" placeholder="输入姓名" v-model="row.realname" clearable></el-input>
           </el-form-item>
         </template>
@@ -31,9 +26,7 @@
       </el-table-column>
     </el-table>
     <div class="flex_cen mt_15">
-      <el-button type="primary" :disabled="forms.tableData.length == 0" class="submit mr_20 fs_16" @click="onSubmit"
-        >确认提交</el-button
-      >
+      <el-button type="primary" :disabled="forms.tableData.length == 0" class="submit mr_20 fs_16" @click="onSubmit">确认提交</el-button>
     </div>
   </el-form>
 </template>

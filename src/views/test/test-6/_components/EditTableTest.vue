@@ -5,12 +5,12 @@
       v-model="rows"
       :cols="cols"
       style="width: calc(100vw - 600px)"
-      sort
       index
       selectable
+      dragSortable
       :operateBtns="['edit', 'delete']"
-      @operateBtns="onOperateBtns"
       :size="size"
+      @operateBtns="onOperateBtns"
     >
       <template #zdy>这是自定义表格列</template>
     </EditTable>
@@ -26,7 +26,7 @@ import { BtnName } from "@/components/BaseBtn/_types";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["sort", "index", "selectable", "operateBtns"],
+    list: ["dragSortable", "index", "selectable", "operateBtns"],
   },
   waitBetter: {
     title: "待完善属性",

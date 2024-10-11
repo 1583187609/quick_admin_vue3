@@ -126,7 +126,7 @@
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 93、el-dialog 关闭时销毁功能优化
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
-96、表格 BaseCrud、BaseTable 等的 index 、selectable、sort 支持可传入函数，以及 TS 类型处理
+96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable 支持可传入函数，以及 TS 类型处理
 
 ## TS 类型处理
 

@@ -6,7 +6,6 @@
     <Column
       :col="col"
       :size="size"
-      :index="index"
       :selectable="!!selectable"
       @operateBtns="onOperateBtns"
       :operateBtnsAttrs="operateBtnsAttrs"
@@ -48,9 +47,8 @@ const props = withDefaults(
     cols: TableColAttrs[]; //表头
     rows?: CommonObj[]; //表格行数据
     size?: CommonSize;
-    sort?: TableDragSortType; //是否显示排序列
-    index?: TableIndexType; //是否展示序号列
     selectable?: TableSelectableType; //是否显示选择框
+    dragSortable?: TableDragSortType; //是否显示排序列
     showSummary?: boolean; //是否显示汇总行
     operateBtnsAttrs?: OperateBtnsAttrs;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
@@ -61,7 +59,6 @@ const props = withDefaults(
     size: defaultCommonSize,
     cols: () => [],
     rows: () => [],
-    index: false,
     summaryMethod: handleTableSummary,
   }
 );
