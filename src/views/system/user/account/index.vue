@@ -3,7 +3,7 @@
     :cols="cols"
     :fields="fields"
     :fetch="GetUserList"
-    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
+    :extraBtns="['add', { name: 'add', text: '新增(url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',
       {
