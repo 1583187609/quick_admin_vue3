@@ -7,7 +7,6 @@
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    selectable
   >
   </BaseCrud>
 </template>
@@ -43,6 +42,7 @@ const fields = ref<FormField[]>([
   },
 ]);
 const cols = ref<TableCol[]>([
+  { type: "selection" },
   { prop: "role_text", label: "角色类型", width: 120 },
   { prop: "status", label: "状态", type: "BaseTag" },
   { prop: "remark", label: "备注", minWidth: 250 },

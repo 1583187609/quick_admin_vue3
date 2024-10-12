@@ -8,7 +8,6 @@
     :pagination="false"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    selectable
   >
     <template #icon="{ row }">
       <BaseIcon :name="row.icon" size="22" v-if="row.icon"></BaseIcon>
@@ -57,6 +56,7 @@ const fields = ref<FormField[]>([
   },
 ]);
 const cols = ref<TableCol[]>([
+  { type: "selection" },
   {
     prop: "name",
     label: "名称",

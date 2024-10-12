@@ -3,6 +3,7 @@
 -->
 <template>
   <BaseForm v-bind="formAttrs" :style="style" :class="class" v-model="model" :fields="fields" class="edit-table" ref="formRef">
+    <slot name="front" />
     <template #custom>
       <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="tableRef">
         <template #header="{ column, col }">
@@ -17,6 +18,7 @@
         </template>
       </BaseTable>
     </template>
+    <slot name="behind" />
   </BaseForm>
 </template>
 <script lang="ts" setup>

@@ -71,9 +71,9 @@ export type TableColType =
   | "BaseCopy"
   | CustomSpecialColType;
 
-export type TableIndexType = boolean | number | ((rowInd: number) => number);
-export type TableSelectableType = boolean | ((row: any, rowInd: number) => boolean);
-export type TableDragSortType = boolean; // | UniteFetchType;
+// export type TableIndexType = boolean | number | ((rowInd: number) => number);
+// export type TableSelectableType = boolean | ((row: any, rowInd: number) => boolean);
+// export type TableDragSortType = boolean; // | UniteFetchType;
 
 // 基础表格
 export interface TableColAttrs {
@@ -88,6 +88,8 @@ export interface TableColAttrs {
   index?: number | ((rowInd: number) => number); // 序号列显示
   selectable?: (row: any, index: number) => boolean; //是否显示选择框
   sortable?: boolean | "custom"; //是否启用排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
+  exportable?: boolean; // 是否可导出
+  visible?: boolean; // 是否可见
   type?: TableColType; //列类型
   formatter?: (
     row: CommonObj,

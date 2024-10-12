@@ -22,6 +22,7 @@ import { BtnItem } from "@/components/BaseBtn/_types";
 import BarsImg from "@/components/img/BarsImg.vue";
 import { AuditStatus } from "../Index.vue";
 import { useDict } from "@/hooks";
+import { operateBtnsEmitName } from "@/components/table";
 
 const { getMap } = useDict();
 const props = withDefaults(
@@ -46,7 +47,7 @@ const topBar = computed(() => {
     return undefined;
   }
 });
-const emits = defineEmits(["operateBtns"]);
+const emits = defineEmits([operateBtnsEmitName]);
 //是否出现了滚动条
 const hasScroll = ref(false);
 const descRef = ref();

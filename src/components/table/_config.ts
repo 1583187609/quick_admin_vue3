@@ -1,5 +1,5 @@
 import { CommonObj } from "../_types";
-import { TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
+import { SpecialTableColType, TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
 import config from "@/config";
 
 //el-table 的属性，除了（data）
@@ -25,6 +25,8 @@ export const defaultPaginationAttrs: TablePaginationAttrs = {
   background: true,
   layout: "total, sizes, prev, pager, next, jumper",
 };
+
+export const specialColKeys: SpecialTableColType[] = ["index", "sort", "selection", "operate"];
 
 /**
  * 表格特殊列

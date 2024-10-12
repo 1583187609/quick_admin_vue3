@@ -15,10 +15,9 @@
       :col="col"
       :size="size"
       :compact="compact"
-      :selectable="!!selectable"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsByRow="(row: CommonObj, ind: number)=>getGroupBtnsOfRow(row,ind,props,newCols)"
+      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols)"
       @operateBtns="onOperateBtns"
       :disabled="disabled"
       v-for="(col, cInd) in newCols"
@@ -34,29 +33,27 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { ref, computed, watchEffect, reactive } from "vue";
+import { ref, computed, reactive } from "vue";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { BtnItem } from "@/components/BaseBtn/_types";
-import { typeOf, handleTableSummary } from "@/components/_utils";
+import { handleTableSummary } from "@/components/_utils";
 import { useCacheScroll } from "@/hooks";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import Column, { RefreshListFn, RowBtnInfo } from "@/components/table/_components/Column.vue";
-import { defaultTableAttrs, getColLevel } from "@/components/table";
-import { TableColAttrs, TableCol, TableSelectableType, TableIndexType, TableDragSortType } from "@/components/table/_types";
-import config from "@/config";
-import { getGroupBtnsOfRow, getAddSpecialCols } from "@/components/table/_utils";
+import { defaultTableAttrs, getHandleCols, operateBtnsEmitName } from "@/components/table";
+import { TableColAttrs } from "@/components/table/_types";
+import { getGroupBtnsOfRow } from "@/components/table/_utils";
 import { defaultCommonSize } from "@/components/_utils";
+import config from "@/config";
 
 const props = withDefaults(
   defineProps<{
-    cols: TableCol[]; //表头
+    cols: TableColAttrs[]; //表头
     rows: CommonObj[]; //表格行数据
     size?: CommonSize;
     compact?: boolean; //是否紧凑
     operateBtns?: OperateBtnsType;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    selectable?: TableSelectableType; //是否显示选择框
-    dragSortable?: TableDragSortType; //是否显示排序列
     disabled?: boolean;
     loading?: boolean;
     showSummary?: boolean; //是否显示汇总行
@@ -70,13 +67,12 @@ const props = withDefaults(
       cols: () => [],
       rows: () => [],
       size: defaultCommonSize,
-      selectable: false,
       summaryMethod: handleTableSummary,
     },
     config?.BaseCrud?._components?.QueryTable
   )
 );
-const emits = defineEmits(["update:cols", "selectionChange", "operateBtns", "change"]);
+const emits = defineEmits(["update:cols", "selectionChange", operateBtnsEmitName, "change"]);
 const { handleScroll } = useCacheScroll();
 let rowNum = props.showSummary ? 2 : 1;
 const tableRef = ref<any>(null);
@@ -86,20 +82,13 @@ const seledRows = ref<CommonObj[]>([]);
  * 55+32+8+16*2+40+3 = 55+40+32+40+3 = 95+75 = 170
  * 216px 170px
  */
-const newCols = reactive<TableColAttrs[]>([]);
-//调用stopWatch（），确保下面的方法只执行一次
-const stopWatch = watchEffect(() => {
-  const levels = getAddSpecialCols(props).map(col => {
-    if (typeOf(col) !== "Object") return 1;
-    const { col: newCol, level } = getColLevel(col as TableColAttrs, 1, props.size);
-    newCols.push(newCol);
-    return level;
-  });
-  const maxLev = Math.max(...levels);
-  rowNum += maxLev - 1;
-  emits("update:cols", newCols);
-});
-stopWatch();
+const newCols = reactive<TableColAttrs[]>(
+  getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
+    rowNum += maxLev - 1;
+    emits("update:cols", cols);
+  })
+);
+
 const newAttrs = computed(() => {
   const { showSummary, summaryMethod } = props;
   return Object.assign(
@@ -122,7 +111,7 @@ const newAttrs = computed(() => {
 //   { immediate: false }
 // );
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  emits("operateBtns", btnObj, { $index, ...row }, next);
+  emits(operateBtnsEmitName, btnObj, { $index, ...row }, next);
 }
 //当选择项发生变化时会触发该事件
 function handleSelectionChange(rows: CommonObj[]) {

@@ -90,7 +90,6 @@
       @operateBtns="onOperateBtns"
       :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"
       compact
-      selectable
       ref="baseCrudRef"
     >
       <template #zdy>【这是自定义的搜索项】</template>
@@ -283,6 +282,7 @@ const sections: SectionFormItemAttrs[] = [
   { title: "日期", fields: fields.slice(9) },
 ];
 const cols: TableCol[] = [
+  { type: "selection" },
   //表格表头
   {
     // prop: "userData",

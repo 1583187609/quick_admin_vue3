@@ -5,9 +5,6 @@
       v-model="rows"
       :cols="cols"
       style="width: calc(100vw - 600px)"
-      index
-      selectable
-      dragSortable
       :operateBtns="['edit', 'delete']"
       :size="size"
       @operateBtns="onOperateBtns"
@@ -26,7 +23,7 @@ import { BtnName } from "@/components/BaseBtn/_types";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["dragSortable", "index", "selectable", "operateBtns"],
+    list: ["sort", "index", "selection", "operateBtns"],
   },
   waitBetter: {
     title: "待完善属性",
@@ -35,6 +32,9 @@ const records = {
 };
 const size: CommonSize = "default"; // large, default, small
 const cols = [
+  { type: "selection" },
+  { type: "sort" },
+  { type: "index" },
   { prop: "id", label: "用户ID", width: 80, required: true, fixed: "left" },
   { prop: "nc", label: "昵称", width: 200, required: true, field: { type: "input" } },
   {

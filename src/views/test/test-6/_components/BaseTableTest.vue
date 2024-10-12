@@ -24,7 +24,7 @@ import { BtnName } from "@/components/BaseBtn/_types";
 const records = {
   hasTest: {
     title: "已测试属性",
-    list: ["dragSortable", "index", "selectable", "operateBtns"],
+    list: ["sort", "index", "section", "operateBtns"],
   },
   waitBetter: {
     title: "待完善属性",

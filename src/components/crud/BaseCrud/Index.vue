@@ -30,31 +30,37 @@
     <div class="middle" :class="tableAttrs?.size ?? size" v-if="$slots.middle">
       <slot name="middle" />
     </div>
-    <ExtraBtns
-      class="f-0"
-      :columns="newCols"
-      :allColumns="allCols"
-      :btns="newExtraBtns"
-      :isEmpty="!newRows?.length"
-      :disabled="disabled"
+    <div class="f-fs-fs">
+      <ExtraBtns
+        class="f-1"
+        :btns="newExtraBtns"
+        :disabled="disabled"
+        :size="tableAttrs?.size ?? size"
+        @click="onExtraBtns"
+        v-if="newExtraBtns.length"
+      />
+      <SetBtns
+        v-model="newCols"
+        :originCols="originCols"
+        class="f-0 ml-a"
+        :disabled="disabled"
+        :size="tableAttrs?.size ?? size"
+      />
+    </div>
+    <slot
+      :loading="loading"
+      :rows="newRows"
       :total="pageInfo.total"
-      :batchBtn="batchBtn && selectable"
-      :size="tableAttrs?.size ?? size"
-      ref="extraBtnsRef"
-      @update:cols="(cols:TableCol[])=>{newCols = cols}"
-      @click="onExtraBtns"
-      v-if="newExtraBtns.length"
-    />
-    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
+      :hasMore="pageInfo.hasMore"
+      :params="params"
+      :onOperateBtns="onOperateBtns"
+    >
       <QueryTable
         :compact="compact"
         :loading="loading"
         :cols="newCols"
         :rows="newRows"
         :total="pageInfo.total"
-        :index="index"
-        :selectable="selectable"
-        :dragSortable="dragSortable"
         :operateBtns="operateBtns"
         :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
         :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
@@ -65,7 +71,7 @@
         v-bind="tableAttrs"
         @operateBtns="onOperateBtns"
         @selectionChange="handleSelectionChange"
-        @update:cols="(cols:TableCol[])=>{allCols=cols}"
+        @update:cols="(cols:TableColAttrs[]) => newCols = cols"
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
@@ -88,11 +94,12 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/components/form/_types";
-import { TableCol, TableIndexType, TableSelectableType, TableDragSortType } from "@/components/table/_types";
-import ExtraBtns from "./_components/ExtraBtns/Index.vue";
+import { TableCol, TableColAttrs } from "@/components/table/_types";
+import ExtraBtns from "./_components/ExtraBtns.vue";
+import SetBtns from "./_components/SetBtns/Index.vue";
 import QueryTable from "@/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/components/crud/BaseCrud/_components/QueryForm/Index.vue";
-import { BtnName, BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
+import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import {
   isProd,
@@ -126,11 +133,12 @@ import { ExportCfg } from "./_types";
 import { TableAttrs } from "@/components/table/_types";
 import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
 import { filterBtnsByAuth } from "@/components/crud/_utils";
+import { getHandleCols, operateBtnsEmitName } from "@/components/table";
 
 const { merge, cloneDeep } = _;
 const $slots = useSlots();
 const openPopup = inject<OpenPopupInject>("openPopup");
-const allCols = ref<TableCol[]>([]);
+// const allCols = ref<TableCol[]>([]);
 const props = withDefaults(
   defineProps<{
     /** 表单相关 **/
@@ -157,9 +165,6 @@ const props = withDefaults(
     exportCfg?: ExportCfg; //导出配置
     /** 表格相关 **/
     cols?: TableCol[]; //表格列数据
-    index?: TableIndexType; //是否展示序号列
-    selectable?: TableSelectableType; //是否展示选择框
-    dragSortable?: TableDragSortType; //是否展示排序列
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
     operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
     filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
@@ -179,7 +184,6 @@ const props = withDefaults(
     /** 下面是待确定项，可以更改名称，可能移除或替换 **/
     selectAll?: boolean; //是否选择全部
     summaryList?: SummaryListType; //汇总请求数据的 list
-    batchBtn?: boolean; //是否显示批量按钮
   }>(),
   Object.assign(
     {
@@ -188,7 +192,6 @@ const props = withDefaults(
       cols: () => [],
       immediate: true,
       changeFetch: true,
-      batchBtn: false,
       size: defaultCommonSize,
       isOmit: true,
       inputDebounce: true,
@@ -206,11 +209,10 @@ const props = withDefaults(
     config?.BaseCrud?.Index
   )
 );
-const emits = defineEmits(["update:modelValue", "extraBtns", "operateBtns", "selectionChange", "rows", "dargSortEnd"]);
+const emits = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
 const closePopup = inject<ClosePopupInject>("closePopup");
 const queryTableRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
-const extraBtnsRef = ref<any>(null);
 const baseCrudRef = ref<any>(null);
 const { extraParams = {} } = props;
 const reqMap: GetRequired<ReqMap> = props.reqMap;
@@ -252,12 +254,9 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   });
   return filterBtnsByAuth(btns, filterByAuth);
 });
-//是否存在批量按钮，若存在且不是自定义处理按钮逻辑，则表格中需要自动添加 selectable 列
-const existBatchBtns = computed<boolean>(() => {
-  return !!newExtraBtns.value.find((it: BtnItem) => batchBtnNames.includes(it.name as BtnName) && !it.customRules);
-});
-const selectable = computed(() => props.selectable || existBatchBtns.value);
-const newCols = ref<TableCol[]>(props.cols.slice());
+const originCols = JSON.parse(JSON.stringify(props.cols.filter(it => !!it)));
+const newCols = ref<TableColAttrs[]>(JSON.parse(JSON.stringify(originCols)));
+
 //当额外参数改变时，发起请求
 watch(
   () => props.extraParams,
@@ -269,7 +268,7 @@ watch(
 );
 onMounted(() => {
   // judgeIsInDialog("basic-dialog");
-  props.dragSortable && handleDragSort();
+  // handleDragSort(); // 待完善拖拽排序
 });
 //重置
 function handleReset() {
@@ -367,12 +366,12 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 }
 //点击额外的按钮
 function onExtraBtns(btnObj: BtnItem) {
-  const { exportCfg, importCfg, tableAttrs } = props;
+  const { exportCfg, importCfg, tableAttrs, cols } = props;
   const { rowKey } = tableAttrs;
   const { text } = btnObj;
   handleClickExtraBtns({
     btnObj,
-    cols: allCols.value,
+    cols,
     seledRows: seledRows.value,
     seledKeys: seledRows.value.map((it: CommonObj) => {
       const key = typeof rowKey === "string" ? rowKey : rowKey?.();
@@ -385,7 +384,6 @@ function onExtraBtns(btnObj: BtnItem) {
       showMessage(hint);
       closePopup(closeType);
       isRefreshList && refreshList();
-      selectable.value && queryTableRef.value.clearSelection(); //清空全选
       cb?.();
     },
     openPopup,
@@ -395,7 +393,7 @@ function onExtraBtns(btnObj: BtnItem) {
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
   const { name } = btnObj;
-  emits("operateBtns", name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
+  emits(operateBtnsEmitName, name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     isRefreshList && refreshList();
   });

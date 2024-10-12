@@ -87,7 +87,6 @@ const config = {
     Index: {
       // immediate: true,
       // changeFetch: true,
-      // batchBtn: false,
       // log: false,
       // isOmit: true,
       // inputDebounce: true,

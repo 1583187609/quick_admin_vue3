@@ -23,9 +23,6 @@
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
     @dargSortEnd="handleDragSortEnd"
-    selectable
-    dragSortable
-    index
   >
   </BaseCrud>
 </template>
@@ -72,6 +69,9 @@ const fields = ref<FormField[]>([
   },
 ]);
 const cols: TableCol[] = [
+  { type: "selection" },
+  { type: "srot" },
+  { type: "index" },
   { prop: "id", label: "用户ID", width: 70 },
   { prop: "name", label: "用户姓名", width: 90 },
   { prop: "gender_text", label: "性别", width: 90 },

@@ -1,13 +1,27 @@
 <template>
-  <BaseTable style="width: 400px" :cols="cols" :rows="rows" :size="size" :key="tableKey">
-    <template #isShow="{ row, col, $index }">
-      <el-switch @change="(val: boolean) => handleShowChange(row.colProp, val, $index)" v-model="row.isShow" v-bind="switchProps" />
+  <BaseTable style="width: 400px" :cols="cols" :rowClassName="getRowClassName" :rows="rows" :size="size" :key="tableKey">
+    <template #visible="{ row, col, $index }">
+      <el-switch
+        @change="(val: boolean) => handleShowChange(row.colProp, val, $index)"
+        v-model="row.visible"
+        v-bind="switchAttrs"
+      />
     </template>
-    <template #isExport="{ row, col, $index }">
-      <el-switch @change="(val: boolean) => handleExportChange(row.colProp, val, $index)" v-model="row.isExport" v-bind="switchProps" disabled />
+    <template #exportable="{ row, col, $index }">
+      <el-switch
+        @change="(val: boolean) => handleExportChange(row.colProp, val, $index)"
+        v-model="row.exportable"
+        v-bind="switchAttrs"
+        disabled
+      />
     </template>
-    <template #isOrder="{ row, col, $index }">
-      <el-switch @change="(val: boolean) => handleOrderChange(row.colProp, val, $index)" v-model="row.isOrder" v-bind="switchProps" disabled />
+    <template #sortable="{ row, col, $index }">
+      <el-switch
+        @change="(val: boolean) => handleOrderChange(row.colProp, val, $index)"
+        v-model="row.sortable"
+        v-bind="switchAttrs"
+        disabled
+      />
     </template>
   </BaseTable>
 </template>
@@ -18,12 +32,13 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import BaseTable from "@/components/table/BaseTable.vue";
-import { TableColAttrs } from "@/components/table/_types";
+import { SpecialTableColType, TableColAttrs } from "@/components/table/_types";
 import { CommonObj, CommonSize } from "@/vite-env";
 import config from "@/config";
 import { showMessage } from "@/components/_utils";
+import { specialColKeys } from "@/components/table";
 
-const switchProps = {
+const switchAttrs = {
   inlinePrompt: true,
   activeText: "是",
   inactiveText: "否",
@@ -45,31 +60,36 @@ const props = withDefaults(
   )
 );
 const tableKey = ref(Date.now());
+
 const cols: TableColAttrs[] = [
   {
-    prop: "colName",
+    prop: "label",
     label: "列名",
     minWidth: 110,
   },
   {
-    prop: "isShow",
+    prop: "visible",
     label: "是否显示",
     minWidth: 70,
     type: "custom",
   },
   {
-    prop: "isExport",
-    label: "是否导出",
+    prop: "exportable",
+    label: "能否导出",
     minWidth: 70,
     type: "custom",
   },
   {
-    prop: "isOrder",
+    prop: "sortable",
     label: "是否排序",
     minWidth: 70,
     type: "custom",
   },
 ];
+function getRowClassName({ row, rowIndex }) {
+  console.log(row, "getRowClassNameRes---------");
+  return "hidden";
+}
 function handleSave() {
   showMessage("保存成功");
 }

@@ -41,6 +41,7 @@ import { getTimeAgo } from "@/components/_utils";
 import { AuditStatus } from "../Index.vue";
 import { getBarObj } from "@/components/crud/CardCrud/_utils";
 import { DictName } from "@/dict/_types";
+import { operateBtnsEmitName } from "@/components/table";
 const sizeMap: CommonObj = {
   large: {
     bottom: 0, //4
@@ -72,7 +73,7 @@ const props = withDefaults(
     operateBtns: () => [],
   }
 );
-const emits = defineEmits(["operateBtns"]);
+const emits = defineEmits([operateBtnsEmitName]);
 //是否出现了滚动条
 const hasScroll = ref(false);
 const descRef = ref();

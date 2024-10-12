@@ -61,7 +61,7 @@ import { showMessage } from "@/components/_utils";
 import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
 import { ClosePopupInject, CommonObj } from "@/vite-env";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
-import { getGroupBtnsOfRowSimple } from "@/components/table";
+import { getGroupBtnsOfRowSimple, operateBtnsEmitName } from "@/components/table";
 
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";
 export type ItemType = "avatar-audit" | "avatar-patrol" | "about" | "photo" | "face";
@@ -79,7 +79,7 @@ const props = withDefaults(
     type: "avatar-audit",
   }
 );
-const emits = defineEmits(["operateBtns"]);
+const emits = defineEmits([operateBtnsEmitName]);
 const statusKey = "status";
 const crudRef = ref<any>(null);
 const newRows = ref<CommonObj[]>([]);
@@ -90,7 +90,7 @@ function getRows(rows: CommonObj[], args: CommonObj) {
 function onOperateBtns(btn: BtnItem, row: CommonObj, rows: CommonObj[], params?: CommonObj) {
   const { name, text } = btn;
   emits(
-    "operateBtns",
+    operateBtnsEmitName,
     name,
     row,
     (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {

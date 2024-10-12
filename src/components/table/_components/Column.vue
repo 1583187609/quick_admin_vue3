@@ -10,7 +10,6 @@
       <Column
         :col="subCol"
         :size="size"
-        :selectable="selectable"
         :refreshList="refreshList"
         :operateBtnsAttrs="operateBtnsAttrs"
         :getGroupBtnsByRow="getGroupBtnsByRow"
@@ -38,10 +37,16 @@
         <template #header="scope">
           <slot name="header" v-bind="{ ...scope, col: newCol }">
             <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
-            <BaseRender :data="devErrorTips(scope.column.label, getIsHandle(scope._self, scope.column) ? undefined : '')" v-else />
+            <BaseRender
+              :data="devErrorTips(scope.column.label, getIsHandle(scope._self, scope.column) ? undefined : '')"
+              v-else
+            />
             <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
               <template #reference>
-                <BaseIcon :color="getIsHandle(scope._self, scope.column) ? cssVars.colorDanger : cssVars.colorInfo" name="QuestionFilled" />
+                <BaseIcon
+                  :color="getIsHandle(scope._self, scope.column) ? cssVars.colorDanger : cssVars.colorInfo"
+                  name="QuestionFilled"
+                />
               </template>
               <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
             </el-popover>
@@ -50,7 +55,7 @@
         <template #default="{ row, column, $index }">
           <!-- <BaseRender
             :data="devErrorTips(newCol.prop as string)"
-            v-if="!(newCol.prop as string).startsWith('$') && row[newCol.prop as string] === undefined"
+            v-if="!specialColKeys.includes(newCol.type) && row[newCol.prop as string] === undefined"
           /> -->
           <!-- <template v-else> -->
           <template v-if="!newCol.type">
@@ -97,7 +102,12 @@
           </template>
           <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
           <template v-else-if="newCol.type === 'BaseImg'">
-            <BaseImg style="margin: 0 auto" :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-if="row[newCol.prop as string]" />
+            <BaseImg
+              style="margin: 0 auto"
+              :src="row[newCol.prop as string]"
+              v-bind="newCol.attrs"
+              v-if="row[newCol.prop as string]"
+            />
             <template v-else>-</template>
           </template>
           <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
@@ -114,7 +124,7 @@
 <script lang="ts" setup>
 import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
-import { TableColAttrs, TableSelectableType } from "@/components/table/_types";
+import { TableColAttrs } from "@/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -123,6 +133,7 @@ import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import BaseRender from "@/components/BaseRender.vue";
 import { defaultCommonSize } from "@/components/_utils";
 import { CommonSize, PopoverAttrs } from "@/components/_types";
+import { operateBtnsEmitName, specialColKeys } from "..";
 
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
@@ -136,7 +147,6 @@ const props = withDefaults(
     size?: CommonSize;
     disabled?: boolean;
     compact?: boolean; //是否紧凑
-    selectable?: TableSelectableType;
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
     getGroupBtnsByRow?: (row: CommonObj, rowInd: number) => BtnItem[];
@@ -148,7 +158,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.Column
   )
 );
-const emits = defineEmits(["operateBtns"]);
+const emits = defineEmits([operateBtnsEmitName]);
 let popoverAttrs: PopoverAttrs | undefined;
 const newCol = getNewCol(props.col);
 function getNewCol(col: TableColAttrs) {

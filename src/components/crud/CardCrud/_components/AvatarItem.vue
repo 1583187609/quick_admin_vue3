@@ -47,6 +47,7 @@ import { CommonObj } from "@/vite-env";
 import { OperateBtnsType } from "@/components/table/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
 import BarsImg from "@/components/img/BarsImg.vue";
+import { operateBtnsEmitName } from "@/components/table";
 
 const props = withDefaults(
   defineProps<{
@@ -58,8 +59,8 @@ const props = withDefaults(
   }>(),
   {
     row: () => ({
-      userId: "",
       age: 0,
+      userId: "",
       gender: 0,
       nickname: "",
       uploadNum: 0,
@@ -71,7 +72,7 @@ const props = withDefaults(
     operateBtns: () => [],
   }
 );
-const emits = defineEmits(["operateBtns"]);
+const emits = defineEmits([operateBtnsEmitName]);
 const passed = computed(() => !props.isPatrol && props.status === 0);
 const rejected = computed(() => !props.isPatrol && props.status === 1);
 const showMask = computed(() => props.withMask && (passed.value || rejected.value));

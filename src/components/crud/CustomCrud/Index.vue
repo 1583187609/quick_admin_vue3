@@ -25,6 +25,7 @@ import LoadMore from "@/components/LoadMore.vue";
 import { SummaryListType } from "@/components/table/_types";
 import { CommonObj } from "@/vite-env";
 import { FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
+import { operateBtnsEmitName } from "@/components/table";
 
 const props = withDefaults(
   defineProps<{
@@ -33,7 +34,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const emits = defineEmits(["update:modelValue", "extraBtns", "operateBtns", "selectionChange"]);
+const emits = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange"]);
 const crudRef = ref<any>(null);
 /**
  * 刷新列表
