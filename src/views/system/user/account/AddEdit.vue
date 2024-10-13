@@ -8,14 +8,13 @@
     :fetch="id ? PostUserUpdate : PostUserAdd"
     :onSuccess="refreshList"
   >
-    <!-- @submit="handleSubmit" -->
     <template #avatar="{ form }">
       <UploadAvatar v-model="form.avatar" />
     </template>
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive } from "vue";
 import { FormField } from "@/components/form/_types";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/components/upload/UploadAvatar.vue";
@@ -48,7 +47,13 @@ const fields = ref<FormField[]>([
     required: false,
     attrs: { maxlength: 16 },
   },
-  { prop: "name", label: "姓名", attrs: { maxlength: 6 } },
+  {
+    prop: "name",
+    label: "姓名",
+    attrs: {
+      maxlength: 6,
+    },
+  },
   {
     prop: "gender",
     label: "性别",
@@ -97,8 +102,24 @@ const fields = ref<FormField[]>([
     },
   },
 
-  { prop: "phone", label: "电话", required: true, quickAttrs: { grid: 12, rulesType: "phone" } },
-  { prop: "psd", label: "密码", required: true, quickAttrs: { grid: 12, rulesType: "password" } },
+  {
+    prop: "phone",
+    label: "电话",
+    required: true,
+    quickAttrs: {
+      grid: 12,
+      rulesType: "phone",
+    },
+  },
+  {
+    prop: "psd",
+    label: "密码",
+    required: true,
+    quickAttrs: {
+      grid: 12,
+      rulesType: "password",
+    },
+  },
   {
     prop: "address",
     label: "居住地址",

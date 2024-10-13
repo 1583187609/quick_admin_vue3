@@ -204,7 +204,6 @@ export default {
     // to: undefined,
     order: 41,
     attrs: {
-      type: "primary",
       icon: "RefreshLeft",
     },
   },

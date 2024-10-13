@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div class="set-btns">
+  <div class="set-btns" :class="size">
     <el-tooltip :content="btn.title" :show-after="500" v-for="(btn, ind) in newToolBtns" :key="ind">
       <el-button :size="size" :disabled="disabled" @click="onToolBtn(btn.name)" v-bind="btn.attrs" />
     </el-tooltip>
@@ -8,11 +8,11 @@
 </template>
 <script lang="ts" setup>
 import { inject, computed } from "vue";
-import SetTable from "./_components/SetTable.vue";
+import SetTable, { SetTableChangeParams, SetTableColType } from "./_components/SetTable.vue";
 import SetPrint from "./_components/SetPrint.vue";
 import { Setting, Printer } from "@element-plus/icons-vue";
 import config from "@/config";
-import { CommonObj, CommonSize, OpenPopupInject } from "@/vite-env";
+import { ClosePopupInject, CommonObj, CommonSize, OpenPopupInject } from "@/vite-env";
 import { SpecialTableColType, TableColAttrs } from "@/components/table/_types";
 import { defaultCommonSize } from "@/utils";
 import { specialColKeys } from "@/components/table";
@@ -44,6 +44,7 @@ const toolsMap: CommonObj = {
 
 const emits = defineEmits(["update:modelValue"]);
 const openPopup = inject<OpenPopupInject>("openPopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     size?: CommonSize;
@@ -57,7 +58,7 @@ const props = withDefaults(
       modelValue: () => [],
       originCols: () => [],
       size: defaultCommonSize,
-      toolBtns: () => ["set"], // "set" "print",
+      toolBtns: () => ["print", "set"], // "set" "print",
     },
     config?.BaseCrud?._components?.SetBtns
   )
@@ -75,36 +76,6 @@ function onToolBtn(name: ToolBtnName) {
     print: () => openPopup("打印设置", SetPrint, "dialog"),
   };
   map[name]?.();
-}
-function handleShowChange(name: string, isShow: boolean, allInd: number) {
-  if (isShow) {
-    let findInd = -1;
-    cols.value.findIndex((item, index) => {
-      const itemAtAllInd = cols.value.findIndex(it => it.prop === item.prop);
-      if (itemAtAllInd > allInd) {
-        findInd = index;
-        return true;
-      } else if (itemAtAllInd < allInd) {
-        if (index === cols.value.length - 1) {
-          findInd = cols.value.length;
-          return true;
-        } else {
-          return false;
-        }
-      }
-    });
-    cols.value.splice(findInd, 0, cols.value[allInd]);
-  } else {
-    const nowInd = cols.value.findIndex(it => it.prop === name);
-    cols.value.splice(nowInd, 1);
-  }
-  emits("update:modelValue", cols.value.slice()); // slice()只会深拷贝一层
-}
-function handleExportChange(name: string, isShow: boolean, allInd: number) {
-  console.log(name, isShow, allInd, "ddddd--------------------");
-}
-function handleOrderChange(name: string, isShow: boolean, allInd: number) {
-  console.log(name, isShow, allInd, "ddddd--------------------");
 }
 // 打开列设置弹窗
 function openColSetDrawer() {
@@ -127,19 +98,42 @@ function openColSetDrawer() {
       {
         rows,
         size,
-        handleShowChange,
-        handleExportChange,
-        handleOrderChange,
-        handleResetColSet,
+        onChange: handleChange,
+        onSubmit: handleSubmit,
+        onReset: handleReset,
       },
     ],
     "drawer"
   );
 }
+
+function handleChange({ type, isTrue, rowInd }: SetTableChangeParams) {
+  const currRow = cols.value[rowInd];
+  currRow[type] = isTrue;
+  if (type === "sortable") {
+    const { width } = currRow;
+    currRow.width = Number(width) + 16 * (isTrue ? 1 : -1);
+  }
+}
+// 点击保存按钮
+function handleSubmit() {
+  closePopup();
+}
 //点击重置按钮
-function handleResetColSet() {
-  emits("update:modelValue", JSON.parse(JSON.stringify(props.originCols))); // slice()只会深拷贝一层
-  setTimeout(() => openColSetDrawer());
+function handleReset() {
+  cols.value = JSON.parse(JSON.stringify(props.originCols));
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.set-btns {
+  &.large {
+    margin-bottom: $gap-large;
+  }
+  &.default {
+    margin-bottom: $gap-default;
+  }
+  &.small {
+    margin-bottom: $gap-small;
+  }
+}
+</style>

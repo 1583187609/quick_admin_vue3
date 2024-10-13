@@ -77,6 +77,7 @@ const { handleScroll } = useCacheScroll();
 let rowNum = props.showSummary ? 2 : 1;
 const tableRef = ref<any>(null);
 const seledRows = ref<CommonObj[]>([]);
+
 /**
  * 弹窗标题高度 +  分页组件高度 + 分页组件margin-top + el-dialog__body上下padding + el-table头部高度
  * 55+32+8+16*2+40+3 = 55+40+32+40+3 = 95+75 = 170
@@ -102,14 +103,7 @@ const newAttrs = computed(() => {
     { showSummary, summaryMethod }
   );
 });
-// 处理列设置的逻辑
-// watch(
-//   () => props.cols,
-//   (newVal: any) => {
-//     newCols.value = newVal;
-//   },
-//   { immediate: false }
-// );
+
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
   emits(operateBtnsEmitName, btnObj, { $index, ...row }, next);
 }

@@ -1,8 +1,8 @@
 <!-- 组件 - 导入弹出层 -->
 <template>
   <div class="template-hint">
-    <div class="tips mb-o" v-if="tips">{{ tips }}</div>
-    <div class="f-fs-c mb-o">
+    <div class="desc mb-o" v-if="desc">{{ desc }}</div>
+    <div class="f-fs-c mb-h">
       如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。
     </div>
     <!-- action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" -->
@@ -19,7 +19,7 @@
       <div class="el-upload__text">点击或拖拽文件到此处上传</div>
       <div class="el-upload__text">支持{{ accept }}</div>
       <template #tip>
-        <div class="el-upload__tip">最大不能超过10M</div>
+        <div class="el-upload__tip">单次导入上限：10000条</div>
       </template>
     </el-upload>
   </div>
@@ -44,12 +44,12 @@ const defaultTplCfg: TplCfgAttrs = {
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
-    tips?: string;
+    desc?: string; // 描述类摘要文字
     tplCfg?: TplCfgAttrs;
     accept?: string;
   }>(),
   {
-    tips: "单次导入不能超过10000条。",
+    desc: "这是描述类摘要文字",
     accept: ".xls,.xlsx",
   }
 );
@@ -84,5 +84,8 @@ function handleFileChange(file: any, files: any[]) {
 <style lang="scss" scoped>
 .template-hint {
   width: 400px;
+  .desc {
+    // text-indent: 2em;
+  }
 }
 </style>

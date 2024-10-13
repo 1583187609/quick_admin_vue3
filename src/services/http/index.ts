@@ -163,7 +163,6 @@ function http<K = any>(
 ): Promise<K> {
   customCfg = customCfg ? Object.assign({}, defaultCustomCfg, customCfg) : defaultCustomCfg;
   const maxCount = customCfg.maxCount!;
-  // console.log(source.token._listeners, "source--------------");
   return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg).catch(err => {
     if (axios.isCancel(err) || max <= 1) {
       Promise.reject(err);
@@ -172,7 +171,6 @@ function http<K = any>(
       http(method, url, data, customCfg, othersCfg, max - 1);
     }
   });
-  // return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg);
 }
 
 export default http;

@@ -1,34 +1,39 @@
 <template>
-  <BaseTable style="width: 400px" :cols="cols" :rowClassName="getRowClassName" :rows="rows" :size="size" :key="tableKey">
+  <BaseTable
+    style="width: 400px"
+    :cols="cols"
+    :rowClassName="({ row }) => (row.hidden ? 'hidden-row' : '')"
+    :rows="rows"
+    :size="size"
+    :key="tableKey"
+  >
     <template #visible="{ row, col, $index }">
       <el-switch
-        @change="(val: boolean) => handleShowChange(row.colProp, val, $index)"
+        @change="(isTrue: boolean) => handleChange({type: 'visible', colProp: row.colProp, isTrue, rowInd: $index })"
         v-model="row.visible"
         v-bind="switchAttrs"
       />
     </template>
     <template #exportable="{ row, col, $index }">
       <el-switch
-        @change="(val: boolean) => handleExportChange(row.colProp, val, $index)"
+        @change="(isTrue: boolean) => handleChange({type: 'exportable', colProp: row.colProp, isTrue, rowInd: $index })"
         v-model="row.exportable"
         v-bind="switchAttrs"
-        disabled
       />
     </template>
     <template #sortable="{ row, col, $index }">
       <el-switch
-        @change="(val: boolean) => handleOrderChange(row.colProp, val, $index)"
+        @change="(isTrue: boolean) => handleChange({type: 'sortable', colProp: row.colProp, isTrue, rowInd: $index })"
         v-model="row.sortable"
         v-bind="switchAttrs"
-        disabled
       />
     </template>
   </BaseTable>
-</template>
-<!-- <div class="f-c-c mt-16">
+  <div class="f-c-c mt-16">
     <BaseBtn @click="handleSave" :name="{ name: 'submit', text: '保存' }" />
-    <BaseBtn @click="handleResetColSet" name="reset" />
-</div> -->
+    <BaseBtn @click="handleReset" name="reset" />
+  </div>
+</template>
 <script lang="ts" setup>
 import { ref } from "vue";
 import BaseTable from "@/components/table/BaseTable.vue";
@@ -38,19 +43,25 @@ import config from "@/config";
 import { showMessage } from "@/components/_utils";
 import { specialColKeys } from "@/components/table";
 
+export type SetTableColType = "visible" | "exportable" | "sortable";
+export interface SetTableChangeParams {
+  type: SetTableColType;
+  colProp: string;
+  isTrue: boolean;
+  rowInd: number;
+}
+
 const switchAttrs = {
   inlinePrompt: true,
   activeText: "是",
   inactiveText: "否",
 };
+
+const emits = defineEmits(["change", "reset", "submit"]);
 const props = withDefaults(
   defineProps<{
     rows?: CommonObj[];
     size?: CommonSize;
-    handleShowChange: (propName: string, val: boolean, ind: number) => void;
-    handleExportChange: (propName: string, val: boolean, ind: number) => void;
-    handleOrderChange: (propName: string, val: boolean, ind: number) => void;
-    handleResetColSet: () => void;
   }>(),
   Object.assign(
     {
@@ -59,6 +70,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.SetTable
   )
 );
+
 const tableKey = ref(Date.now());
 
 const cols: TableColAttrs[] = [
@@ -70,28 +82,36 @@ const cols: TableColAttrs[] = [
   {
     prop: "visible",
     label: "是否显示",
-    minWidth: 70,
-    type: "custom",
-  },
-  {
-    prop: "exportable",
-    label: "能否导出",
-    minWidth: 70,
+    width: 80,
     type: "custom",
   },
   {
     prop: "sortable",
     label: "是否排序",
-    minWidth: 70,
+    width: 80,
+    type: "custom",
+  },
+  {
+    prop: "exportable",
+    label: "能否导出",
+    width: 80,
     type: "custom",
   },
 ];
-function getRowClassName({ row, rowIndex }) {
-  console.log(row, "getRowClassNameRes---------");
-  return "hidden";
+function handleChange(data: SetTableChangeParams) {
+  emits("change", data);
 }
 function handleSave() {
   showMessage("保存成功");
+  emits("submit");
+}
+function handleReset() {
+  showMessage("已重置");
+  emits("reset");
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.hidden-row) {
+  display: none;
+}
+</style>

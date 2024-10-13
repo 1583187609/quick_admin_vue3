@@ -15,11 +15,16 @@
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
           <!-- @click="toggleFold($event, sInd)" -->
           <div class="head f-sb-c">
-            <div class="title f-fs-c">
+            <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
               <el-popover v-bind="getPopoverAttrs(sItem.popover)" v-if="sItem.popover">
                 <template #reference>
-                  <BaseIcon :color="cssVars.colorInfo" class="ml-q f-0" name="QuestionFilled" v-if="sItem.popover"></BaseIcon>
+                  <BaseIcon
+                    :color="cssVars.colorInfo"
+                    class="ml-q f-0 mr-h"
+                    name="QuestionFilled"
+                    v-if="sItem.popover"
+                  ></BaseIcon>
                 </template>
               </el-popover>
             </div>
@@ -87,27 +92,29 @@
       </template>
       <BaseEmpty v-else />
     </div>
-    <FooterBtns
-      :loading="loading"
-      :moreBtns="moreBtns"
-      :submitText="submitText"
-      :resetText="resetText"
-      :formRef="formRef"
-      :isOmit="isOmit"
-      :log="log"
-      :debug="debug"
-      :params="params"
-      :fetch="fetch"
-      :onSuccess="onSuccess"
-      :onFail="onFail"
-      :noSubmitProps="noSubmitProps"
-      :handleRequest="handleRequest"
-      :disabled="!newSections.length"
-      @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
-      @submit="(args:CommonObj)=>emits('submit', args)"
-      ref="footerBtnsRef"
-      v-if="!pureText && footer"
-    />
+    <slot name="footer" v-if="footer">
+      <FooterBtns
+        :loading="loading"
+        :moreBtns="moreBtns"
+        :submitText="submitText"
+        :resetText="resetText"
+        :formRef="formRef"
+        :isOmit="isOmit"
+        :log="log"
+        :debug="debug"
+        :params="params"
+        :fetch="fetch"
+        :onSuccess="onSuccess"
+        :onFail="onFail"
+        :noSubmitProps="noSubmitProps"
+        :handleRequest="handleRequest"
+        :disabled="!newSections.length"
+        @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
+        @submit="(args:CommonObj)=>emits('submit', args)"
+        ref="footerBtnsRef"
+        v-if="!pureText"
+      />
+    </slot>
   </el-form>
 </template>
 

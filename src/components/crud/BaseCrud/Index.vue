@@ -133,12 +133,11 @@ import { ExportCfg } from "./_types";
 import { TableAttrs } from "@/components/table/_types";
 import { defaultCommonSize, judgeIsInDialog } from "@/components/_utils";
 import { filterBtnsByAuth } from "@/components/crud/_utils";
-import { getHandleCols, operateBtnsEmitName } from "@/components/table";
+import { operateBtnsEmitName } from "@/components/table";
 
 const { merge, cloneDeep } = _;
 const $slots = useSlots();
 const openPopup = inject<OpenPopupInject>("openPopup");
-// const allCols = ref<TableCol[]>([]);
 const props = withDefaults(
   defineProps<{
     /** 表单相关 **/

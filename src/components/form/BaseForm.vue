@@ -36,27 +36,29 @@
       </template>
       <BaseEmpty v-else />
     </el-row>
-    <FooterBtns
-      :loading="loading"
-      :moreBtns="moreBtns"
-      :submitText="submitText"
-      :resetText="resetText"
-      :formRef="formRef"
-      :isOmit="isOmit"
-      :log="log"
-      :debug="debug"
-      :params="params"
-      :fetch="fetch"
-      :onSuccess="onSuccess"
-      :onFail="onFail"
-      :noSubmitProps="noSubmitProps"
-      :handleRequest="handleRequest"
-      :disabled="!newFields.length"
-      @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
-      @submit="(args:CommonObj)=>emits('submit', args)"
-      ref="footerBtnsRef"
-      v-if="!pureText && footer"
-    />
+    <slot name="footer" v-if="footer">
+      <FooterBtns
+        :loading="loading"
+        :moreBtns="moreBtns"
+        :submitText="submitText"
+        :resetText="resetText"
+        :formRef="formRef"
+        :isOmit="isOmit"
+        :log="log"
+        :debug="debug"
+        :params="params"
+        :fetch="fetch"
+        :onSuccess="onSuccess"
+        :onFail="onFail"
+        :noSubmitProps="noSubmitProps"
+        :handleRequest="handleRequest"
+        :disabled="!newFields.length"
+        @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
+        @submit="(args:CommonObj)=>emits('submit', args)"
+        ref="footerBtnsRef"
+        v-if="!pureText"
+      />
+    </slot>
   </el-form>
 </template>
 

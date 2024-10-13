@@ -1,5 +1,5 @@
 <template>
-  <div class="base-print">base-print.vue</div>
+  <div class="base-print">打印功能待完善，敬请期待</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch } from "vue";

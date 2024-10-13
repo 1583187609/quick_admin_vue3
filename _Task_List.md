@@ -92,11 +92,11 @@
 ~~92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）~~
 ~~95、完善 filterBtnsByAuth 按钮权限，处理操作栏按钮不显示问题~~
 ~~22、文件目录结构改为 monorepo 式~~  
-19、完善列设置是否显示对应列的功能  
+~~19、完善列设置是否显示对应列的功能~~  
+~~12、添加 batch 按钮及其子按钮~~  
+~~24、增加批量操作按钮，并完善功能~~  
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
-12、添加 batch 按钮及其子按钮  
 28、完善滚动触顶触底加载 demo 示例  
-24、增加批量操作按钮，并完善功能  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
@@ -127,7 +127,7 @@
 93、el-dialog 关闭时销毁功能优化
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable（拖拽排序功能待完善）支持可传入函数，以及 TS 类型处理
-97、表格的序号列、拖动列、操作列支持可覆盖
+~~97、表格的序号列、拖动列、操作列支持可覆盖~~
 
 ## TS 类型处理
 
@@ -157,6 +157,7 @@
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
 21、用上之前内江市国资委系统的皮肤
 44、BaseTable、BaseForm 等的暴露方法处理
+45、打印设置功能
 
 ## 未来功能清单
 
@@ -203,7 +204,7 @@
 26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件  
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
 15、测试三页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
-16、完善 small 之后的 compact 的样式及统一调整；  
+16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式）；  
 17、将 Echarts 的配置纳入到 config 中  
 18、将 WangEditor 的配置纳入到 config 中  
 30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  

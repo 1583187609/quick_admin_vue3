@@ -14,6 +14,9 @@
       <template #field="scope">
         <slot :name="scope.field.prop" v-bind="scope" />
       </template>
+      <template #footer v-if="footer">
+        <slot name="footer" />
+      </template>
     </SectionForm>
   </div>
 </template>
@@ -41,9 +44,11 @@ const props = withDefaults(
     direction?: StepDirection;
     stepAttrs?: StepItemAttrs;
     formAttrs?: CommonObj; // SectionFormAtrrs;
+    footer?: boolean;
   }>(),
   {
     sections: () => [],
+    footer: true,
     direction: "vertical",
   }
 );

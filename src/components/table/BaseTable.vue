@@ -100,7 +100,7 @@ defineExpose({
 </script>
 <style lang="scss" scoped>
 .base-table {
-  height: 100%;
+  max-height: 100%;
   width: 100%;
 }
 </style>

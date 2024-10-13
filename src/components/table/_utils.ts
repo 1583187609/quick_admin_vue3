@@ -173,10 +173,11 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
   const { cols = [], operateBtns, currPage, pageSize, size } = props;
   const newCols = cols.map(col => {
     if (!col) return col;
-    const { col: newCol, level } = getColAndLevel(col, 1, size);
-    const { type } = col;
+    let { col: newCol, level } = getColAndLevel(col, 1, size);
+    const { type } = newCol;
     if (type === "operate") {
       hasOperateCol = true;
+      newCol = { ...specialColMap.operate, ...newCol };
     } else if (type === "index") {
       if (currPage && pageSize && newCol.index === undefined) {
         newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
@@ -187,5 +188,5 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
   });
   if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(specialColMap.operate, 1, size).col);
   cb?.(maxLevel, newCols);
-  return newCols.filter(col => col.visible); // 过滤掉非对象的列;
+  return newCols.filter(col => !!col && col.visible); // 过滤掉非对象的列;
 }
