@@ -1,6 +1,6 @@
 <!-- 头像驳回 -->
 <template>
-  <BaseForm v-model="model" :fields="fields" class="reject-avatar"></BaseForm>
+  <BaseForm v-model="modelData" :fields="fields" class="reject-avatar"></BaseForm>
 </template>
 <script lang="ts" setup>
 import { FormField } from "@/components/form/_types";
@@ -14,7 +14,7 @@ const props = withDefaults(
     data: () => ({}),
   }
 );
-const model = reactive<CommonObj>({ bhly: 1 });
+const modelData = reactive<CommonObj>({ bhly: 1 });
 const fields: FormField[] = [
   {
     prop: "bhly",

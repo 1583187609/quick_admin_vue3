@@ -2,7 +2,7 @@
   <BaseForm
     style="width: 400px"
     :fields="fields"
-    v-model="model"
+    v-model="modelData"
     :fetch="GetUserList"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
     :submitText="editEnable ? undefined : ''"
@@ -11,7 +11,7 @@
     :key="editEnable"
   >
     <template #avatar>
-      <BaseAvatar :src="model.avatar" size="100" />
+      <BaseAvatar :src="modelData.avatar" size="100" />
     </template>
   </BaseForm>
 </template>
@@ -24,7 +24,7 @@ import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn/_types";
 
 const editEnable = ref(false);
-const model = reactive<CommonObj>(Object.assign({}, getUserInfo()));
+const modelData = reactive<CommonObj>(Object.assign({}, getUserInfo()));
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
@@ -114,7 +114,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
 });
 // 自定义校验：校验两次输入的密码是否一致
 function checkConfirmPsd(rule: any, value: any, callback: any) {
-  if (value !== model.password) {
+  if (value !== modelData.password) {
     callback(new Error("密码和确认密码需要保持一致"));
   } else {
     callback();

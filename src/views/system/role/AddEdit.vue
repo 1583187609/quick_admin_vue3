@@ -1,18 +1,18 @@
 <template>
   <BaseForm
-    v-model="model"
+    v-model="modelData"
     style="width: 600px"
     :fields="fields"
     :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
     :onSuccess="refreshList"
   >
-    <template #menu_auth="{ form }">
-      <BaseTree />
+    <template #menu_auth>
+      <BaseTree v-modle="modelData.menu_auth" />
     </template>
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive } from "vue";
 import { FormField } from "@/components/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { GetAuthRoleInfo, PostAuthRoleAdd, PostAuthRoleUpdate } from "@/api-mock";
@@ -24,7 +24,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const model = reactive<CommonObj>(props.id ? {} : { status: 1 });
+const modelData = reactive<CommonObj>(props.id ? {} : { status: 1 });
 const fields = ref<FormField[]>([
   { prop: "role_text", label: "角色名称", required: true },
   { prop: "role", label: "角色标识符", required: true },
@@ -54,7 +54,7 @@ getInfo(props.id);
 function getInfo(id?: StrNum) {
   if (!id) return;
   GetAuthRoleInfo({ id }).then((res: CommonObj) => {
-    Object.assign(model, res);
+    Object.assign(modelData, res);
   });
 }
 </script>

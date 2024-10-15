@@ -2,7 +2,7 @@
   这是分块表单基础用法的介绍内容，待完善。
  -->
 <template>
-  <SectionForm v-model="model" :sections="sections" :fetch="PostMockCommon"></SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
@@ -11,7 +11,7 @@ import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 
-const model = reactive<CommonObj>({});
+const modelData = reactive<CommonObj>({});
 const sections: SectionFormItem[] = [
   {
     title: "第一部分",

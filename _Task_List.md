@@ -95,6 +95,12 @@
 ~~19、完善列设置是否显示对应列的功能~~  
 ~~12、添加 batch 按钮及其子按钮~~  
 ~~24、增加批量操作按钮，并完善功能~~  
+~~97、表格的序号列、拖动列、操作列支持可覆盖~~
+~~72、将 SetTable 用 EditTable 改造~~
+~~80、日期区间组件，增加 `defaultTime` 属性~~  
+~~93、el-dialog 关闭时销毁功能优化~~
+~~86、关于系统信息完善；并考虑移除`BaseKeyVal`组件~~
+~~83、rulesType 增加 rmb 类型（自测）。~~
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -107,27 +113,31 @@
 64、封装 TreeCrud 组件  
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里
-72、将 SetTable 用 EditTable 改造
 74、将 Quick 的内核抽离成 npm 包
 75、完善 http 的 ts 类型书写  
 76、请求参数加解密  
 77、大屏页面第一个水滴图未正常显示  
 78、StepForm 必填项完成后，自动跳到下一步骤  
-79、BaseCopy 支持复制文本同时，可以跳转路由
-80、日期区间组件，增加 `defaultTime` 属性
-82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定。
-83、rulesType 增加 rmb 类型。
+79、BaseCopy 支持复制文本同时，可以跳转路由（完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑）
+82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
 85、验证 FieldItem 的 rulesType 为 rmb 时是否正常
-86、关于系统信息完善；并考虑移除`BaseKeyVal`组件
+86、移除 `src/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 87、采用`git submodule`方式维护 mock 和基础方法
 88、完善`UserDetail`页面
 89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
-93、el-dialog 关闭时销毁功能优化
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable（拖拽排序功能待完善）支持可传入函数，以及 TS 类型处理
-~~97、表格的序号列、拖动列、操作列支持可覆盖~~
+98、完善批量按钮栏中：导入按钮的 导入组件的配置及展示
+99、完善图片上传 BaseUpload 组件
+100、升级 ElementPlus 和 vue3，再完善代码
+101、SlotRender 组件视情况移除或完善
+102、用 map 映射优化 api 代理
+103、将表格的 columns 的 prop 支持.属性访问，并验证
+104、最好去掉 BaseCrud 中的 showPagination 属性
+105、处理白屏过久的问题
+106、将 BaseTable、BaseCrud 的公共 props 属性合并
 
 ## TS 类型处理
 
@@ -158,6 +168,7 @@
 21、用上之前内江市国资委系统的皮肤
 44、BaseTable、BaseForm 等的暴露方法处理
 45、打印设置功能
+46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算
 
 ## 未来功能清单
 
@@ -294,8 +305,8 @@
 67、处理 AddDelList 中，初始为一行，然后新增了 n 项后，然后点击重置按钮，并没有回到最初一行的状态的 bug  
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
 71、BaseForm 上设置 `label-suffix="："` 不生效
-72、完善图片上传 BaseUpload 组件
 73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
+74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
 
 ## 四、Vue 极致优化清单
 

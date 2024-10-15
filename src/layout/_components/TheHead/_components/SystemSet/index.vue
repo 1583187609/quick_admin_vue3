@@ -2,7 +2,7 @@
 <template>
   <SectionForm
     style="width: 370px"
-    v-model="model"
+    v-model="modelData"
     :sections="sections"
     :submitText="hasUpdated ? $t('sysSet.reset') : ''"
     resetText=""
@@ -11,10 +11,10 @@
     :key="formKey"
   >
     <template #layout_type>
-      <LayoutStyle v-model="model.layout_type" />
+      <LayoutStyle v-model="modelData.layout_type" />
     </template>
     <template #theme_color>
-      <el-color-picker :predefine="colorList" @change="handleColorChange" v-model="model.theme_color" disabled />
+      <el-color-picker :predefine="colorList" @change="handleColorChange" v-model="modelData.theme_color" disabled />
     </template>
   </SectionForm>
 </template>
@@ -61,8 +61,8 @@ const languageOpts: OptionItem[] = [
 ];
 const setStore = useSetStore();
 const defaultModel = getDefaultModel(defaultSet);
-const model = reactive<CommonObj>(getDefaultModel(setStore));
-const hasUpdated = computed(() => getIsUpdated(model, defaultModel)); //是否修改过
+const modelData = reactive<CommonObj>(getDefaultModel(setStore));
+const hasUpdated = computed(() => getIsUpdated(modelData, defaultModel)); //是否修改过
 const formKey = ref(Date.now());
 const sections = computed<SectionFormItemAttrs[]>(() => {
   return [
@@ -93,11 +93,11 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.breadcrumb.label"),
           type: "switch",
           quickAttrs: {
-            grid: model.bread === 1 ? 8 : undefined,
+            grid: modelData.bread === 1 ? 8 : undefined,
           },
           attrs: showHideSwitchAttrs,
         },
-        model.bread === 1 && {
+        modelData.bread === 1 && {
           prop: "bread_icon",
           label: $t("sysSet.appearance.breadcrumb.icon"),
           type: "switch",
@@ -111,11 +111,11 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.pageTag.label"),
           type: "switch",
           quickAttrs: {
-            grid: model.page_tag === 1 ? 8 : undefined,
+            grid: modelData.page_tag === 1 ? 8 : undefined,
           },
           attrs: showHideSwitchAttrs,
         },
-        model.page_tag === 1 && {
+        modelData.page_tag === 1 && {
           prop: "page_tag_icon",
           label: $t("sysSet.appearance.pageTag.icon"),
           type: "switch",
@@ -205,7 +205,7 @@ function handleColorChange(val: string) {
   setStore.updateSet("theme", { color: val });
 }
 function handleReset() {
-  Object.assign(model, defaultModel);
+  Object.assign(modelData, defaultModel);
   setStore.resetDefault();
 }
 </script>

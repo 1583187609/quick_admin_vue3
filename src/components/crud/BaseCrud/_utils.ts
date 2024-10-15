@@ -1,6 +1,5 @@
 import { ElMessageBox } from "element-plus";
-import _ from "lodash";
-import { BtnName, BtnItem, BtnAttrs, BaseBtnType, BtnsMap } from "@/components/BaseBtn/_types";
+import { BtnName, BtnItem, BaseBtnType, BtnsMap } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import { CommonObj, OptionItem, StrNum } from "@/vite-env";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -12,11 +11,12 @@ import {
   defaultFormItemType,
   showMessage,
 } from "@/components/_utils";
-import { TableCol, TableColAttrs } from "@/components/table/_types";
+import { TableColAttrs } from "@/components/table/_types";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { HandleClickExtraBtnsProps } from "./_types";
 import { batchBtnNames } from ".";
 import ImportPopup from "./_components/ImportPopup.vue";
+import _ from "lodash";
 
 export interface ExtraBtnRestArgs {
   selectedKeys: string[];
@@ -29,7 +29,7 @@ const { upperFirst } = _;
 const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function handleClickExtraBtns({
   btnObj,
-  cols,
+  cols = [],
   seledRows,
   seledKeys,
   total,
@@ -51,7 +51,7 @@ export function handleClickExtraBtns({
   const color = cssVars[colorKey];
   if (batchBtnNames.includes(name)) {
     const isSeledAll = seledRows.length === total; //是否选择了所有
-    const isOverLimit = seledRows.length > exportCfg!.limit;
+    const isOverLimit = exportCfg?.limit ? seledRows.length > exportCfg.limit : false;
     if ((["export"] as BtnName[]).includes(name) && isOverLimit) {
       showMessage(
         {
@@ -61,9 +61,9 @@ export function handleClickExtraBtns({
         "warning"
       );
     } else {
-      const hintTips = `确定 <b style="color:${color};">${text}${isSeledAll ? `全部</b> ` : `</b>`} 共 <b style="color:${color};">${
-        seledRows.length
-      }</b> 条记录？`;
+      const hintTips = `确定 <b style="color:${color};">${text}${
+        isSeledAll ? `全部</b> ` : `</b>`
+      } 共 <b style="color:${color};">${seledRows.length}</b> 条记录？`;
       ElMessageBox.confirm(hintTips, "温馨提示", {
         type: name === "delete" ? "error" : "warning",
         dangerouslyUseHTMLString: true,
@@ -77,10 +77,7 @@ export function handleClickExtraBtns({
         .then(() => {
           const exportRows: any[] = [];
           if (name === "export") {
-            const newCols = (cols?.filter((it: TableCol) => {
-              if (typeOf(it) !== "Object") return false;
-              return !(it as TableColAttrs)?.prop?.startsWith("$");
-            }) || []) as TableColAttrs[];
+            const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
             exportRows.push(newCols.map((it: TableColAttrs) => it.label));
             seledRows.forEach((row: CommonObj) => {
               const list: string[] = [];
@@ -105,7 +102,7 @@ export function handleClickExtraBtns({
     }
   } else if (name === "import") {
     // () => import("./_components/ImportPopup.vue"),
-    openPopup("温馨提示", [ImportPopup, { tplCfg: importCfg, onChange: (arr: CommonObj[]) => emits("click", name, arr) }]);
+    openPopup("导入文件", [ImportPopup, { ...importCfg, onChange: (arr: CommonObj[]) => emits("click", name, arr) }]);
   } else {
     emits("extraBtns", name, next, {
       selectedKeys: [],

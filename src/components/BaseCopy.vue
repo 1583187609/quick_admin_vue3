@@ -1,9 +1,9 @@
 <!-- 复制文本 -->
-<!-- @click="clickIconCopy ? undefined : handleClick" -->
+<!-- @click="clickIconCopy ? undefined : handleCopy" -->
 <!-- <DocumentCopy class="f-0 ml-4 f-0" size="1em" /> -->
 <template>
-  <div @click="handleClick" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !clickIconCopy }">
-    <span :class="`line-${line} f-1`">
+  <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !clickIconCopy }">
+    <span @click="handleClick" :class="`line-${line} f-1`">
       <slot>{{ textStr || "-" }}</slot>
     </span>
     <template v-if="textStr">
@@ -14,15 +14,17 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { StrNum } from "@/vite-env";
+import { RouteTo, StrNum } from "@/vite-env";
 import { showMessage } from "./_utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
 import { useSlots, computed } from "vue";
+import { useRouter } from "vue-router";
 
 const $slots = useSlots();
-
+const router = useRouter();
 const props = withDefaults(
   defineProps<{
+    to?: RouteTo;
     text?: StrNum;
     line?: StrNum; //最多显示几行，超出文本会显示省略号
     clickIconCopy?: boolean; //是否只当点击图标时才复制文本
@@ -30,10 +32,18 @@ const props = withDefaults(
   }>(),
   {
     line: 1,
+    clickIconCopy: _props => !!_props.to,
   }
 );
+const emits = defineEmits(["click"]);
 const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
+// 跳转页面或触发点击事件
 function handleClick(e) {
+  if (props.to) return router.push(props.to);
+  emits("click", e);
+}
+// 处理点击事件
+function handleCopy(e) {
   const { tagName, classList } = e.target;
   const { clickIconCopy, stop } = props;
   if (!textStr.value) return;

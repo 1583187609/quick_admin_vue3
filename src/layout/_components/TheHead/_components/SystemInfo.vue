@@ -1,5 +1,5 @@
 <template>
-  <SectionForm style="width: 500px" v-model="model" label-suffix="：" :sections="sections" pureText />
+  <SectionForm style="width: 500px" v-model="modelData" label-suffix="：" :sections="sections" pureText />
 </template>
 <script lang="ts" setup>
 import pkg from "#/package.json";
@@ -12,7 +12,7 @@ const { VITE_APP_NAME } = import.meta.env;
 const env = import.meta.env.MODE;
 const { version, dependencies, devDependencies } = pkg;
 
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   name: VITE_APP_NAME,
   description:
     "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",

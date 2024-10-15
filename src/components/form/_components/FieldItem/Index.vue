@@ -13,7 +13,7 @@
       <BaseRender :data="newField.quickAttrs.before" />
     </div>
     <template v-if="!subFields.length">
-      <template v-if="newField.quickAttrs?.pureText ?? pureText">{{ getKeyVal(newField, newVal).value ?? "-" }}</template>
+      <template v-if="newField.quickAttrs?.pureText ?? pureText">{{ getOption(newField, newVal).value }}</template>
       <template v-else>
         <!-- 以下按照使用频率高低排序 -->
         <el-input
@@ -105,7 +105,11 @@
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'input-number'"
-        />
+        >
+          <template #[key] v-for="(val, key) in newField?.slots" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-input-number>
         <el-switch
           @change="(val:any)=> emits('change', newField.prop, val ?? '')"
           v-model="newVal"
@@ -190,9 +194,7 @@
           v-else-if="newField.type === 'time-select'"
         /> -->
         <div class="color-danger" v-else>【不存在】{{ newField.type }}</div>
-        <div class="ml-h" v-if="newField.quickAttrs?.after">
-          <BaseRender :data="newField.quickAttrs?.after" />
-        </div>
+        <BaseRender :data="newField.quickAttrs?.after" v-if="newField.quickAttrs?.after" />
       </template>
       <template v-if="newField.quickAttrs?.tips">
         <div class="show-tips" v-html="'注：' + newField.quickAttrs.tips"></div>
@@ -232,7 +234,7 @@
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, computed } from "vue";
 import _ from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/components/_utils";
+import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType, emptyStr } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
@@ -335,12 +337,15 @@ const newField = computed<FormFieldAttrs>(() => {
   // if (size === "small" && type === "date-picker") {
   //   tempField.labelWidth = label.length + 0.5 + "em";
   // }
-  // delete tempField.popover; //如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
-  // delete tempField.quickAttrs; //此处不能删除
+  // delete tempField.popover; // 如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
+  // delete tempField.quickAttrs; // 此处不能删除
   if (isChild && !showChildrenLabel) {
     delete tempField.label;
   }
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
+  if (tempField.prop === "phone") {
+    console.log(tempField, "tempField--------------");
+  }
   return tempField;
 });
 const flexClass = { "f-1": newField.value.quickAttrs?.before ?? newField.value.quickAttrs?.after };
@@ -351,22 +356,6 @@ function getPlaceholder(field: FormFieldAttrs) {
   phr = phr.replace("${label}", label);
   if (example) phr += `，例：${example}`;
   return phr;
-}
-/**
- * 获取表单校验的rules
- * @params rules 不能取 合并之后的tempField上的rules
- */
-function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
-  const { label = "", required, quickAttrs = {} } = field;
-  const { rulesType } = quickAttrs;
-  const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : {};
-  const newRules: FormItemRule[] = [
-    ...(validField.rules ?? []),
-    ...(required ? [{ required, message: label + "必填", trigger: "blur" }] : []),
-    ...rules,
-  ];
-  const _rules = mergeRules(newRules);
-  return _rules;
 }
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
@@ -405,8 +394,23 @@ function mergeRules(rules: FormItemRule[] = []) {
 //     { min: 20, message: "最小20" },
 //   ])
 // );
+/**
+ * 获取表单校验的rules
+ * @params rules 不能取 合并之后的tempField上的rules
+ */
+function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
+  const { label = "", required, quickAttrs = {} } = field;
+  const { rulesType } = quickAttrs;
+  const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : {};
+  const newRules: FormItemRule[] = [
+    ...(validField.rules ?? []),
+    ...(required ? [{ required, message: label + "必填", trigger: "change" }] : []),
+    ...rules,
+  ];
+  return mergeRules(newRules);
+}
 //获取表单键值对的值
-function getKeyVal(field: FormFieldAttrs, val: any) {
+function getOption(field: FormFieldAttrs, val: any) {
   const { pureText } = props;
   const { type = defaultFormItemType, label, attrs = {}, options = [], quickAttrs = {} } = field;
   const { after = "" } = quickAttrs;
@@ -438,12 +442,11 @@ function getKeyVal(field: FormFieldAttrs, val: any) {
   } else if (type === "BaseNumberRange") {
     val = val.join(rangeJoinChar);
   } else if (type === "custom") {
-    val = "";
+    val = emptyStr;
+  } else {
+    new Error(`暂未处理此种类型：${type}`);
   }
-  // else {
-  //   val = "暂未解析";
-  // }
-  if (emptyVals.includes(val)) val = "-";
+  if (emptyVals.includes(val)) val = emptyStr;
   return { label, value: val };
 }
 function handleInput(e: any, prop: string) {

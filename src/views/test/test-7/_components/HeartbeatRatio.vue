@@ -1,10 +1,10 @@
 <!-- 组件-心动嘉宾比例配置 -->
 <template>
-  <BaseForm v-model="model" :fields="fields" style="width: 480px"> </BaseForm>
+  <BaseForm v-model="modelData" :fields="fields" style="width: 480px"> </BaseForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { CommonObj,  OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/vite-env";
 import { FormField } from "@/components/form/_types";
 const userOpts: OptionItem[] = [
   { label: "喜欢我的", value: 1 },
@@ -12,7 +12,7 @@ const userOpts: OptionItem[] = [
   { label: "新用户", value: 3 },
   { label: "普通用户", value: 4 },
 ];
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   xyh: [{ jblx: undefined, zb: undefined }],
   yzjb: [{ jblx: undefined, zb: undefined }],
   ptyh: [{ jblx: undefined, zb: undefined }],

@@ -1,6 +1,6 @@
 <template>
   <BaseForm
-    v-model="model"
+    v-model="modelData"
     style="width: 600px"
     :fields="fields"
     :fetch="data ? PostAuthMenuUpdate : PostAuthMenuAdd"
@@ -8,10 +8,10 @@
     @change="handleChange"
   >
     <template #parent_id>
-      <MenuTree :data="menuTree" v-model="model.parent_id" />
+      <MenuTree :data="menuTree" v-model="modelData.parent_id" />
     </template>
     <template #icon="{}">
-      <IconPicker v-model="model.icon" />
+      <IconPicker v-model="modelData.icon" />
     </template>
   </BaseForm>
 </template>
@@ -33,7 +33,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const model = reactive<CommonObj>(
+const modelData = reactive<CommonObj>(
   Object.assign(
     {
       type: 1,
@@ -49,7 +49,7 @@ const model = reactive<CommonObj>(
   )
 );
 const fields = computed(() => {
-  const menuType = model.type;
+  const menuType = modelData.type;
   return [
     {
       prop: "type",
@@ -161,7 +161,7 @@ const fields = computed(() => {
               grid: 12,
             },
           },
-          model.is_link === 1 && {
+          modelData.is_link === 1 && {
             prop: "is_blank_open",
             label: "新窗口打开",
             required: true,
@@ -193,12 +193,12 @@ function getInfo(id?: StrNum) {
     const { type } = res;
     type === 2 && (res.type = 1);
     type === 3 && (res.type = 2);
-    Object.assign(model, res);
+    Object.assign(modelData, res);
   });
 }
 function handleChange(prop: string, val: any) {
   if (prop === "component_path") {
-    if (!model.menu_path) model.menu_path = val.replace(".vue", "");
+    if (!modelData.menu_path) modelData.menu_path = val.replace(".vue", "");
   }
 }
 </script>

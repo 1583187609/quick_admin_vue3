@@ -2,7 +2,7 @@
   下面介绍了如何控制字段的显示与隐藏，实现快速开发页面。
  -->
 <template>
-  <BaseForm v-mode="model" :fields="fields" :fetch="PostMockCommon">
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
     <template #zdy>
       <input placeholder="请输入（这是自定义的输入框）" style="width: 400px; border: 1px solid green; border-radius: 6px" />
     </template>
@@ -19,14 +19,14 @@ const typeOpts: OptionItem[] = [
   { label: "一般", value: 1 },
   { label: "详细", value: 2 },
 ];
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   type: 0,
   age: 12,
   gender: 0,
 });
 
 const fields = computed<FormField[]>(() => {
-  const { type } = model;
+  const { type } = modelData;
   return [
     { prop: "type", label: "类型", type: "select", options: typeOpts },
     { prop: "name", label: "姓名", required: true },

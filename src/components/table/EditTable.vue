@@ -2,7 +2,7 @@
   可编辑的表格
 -->
 <template>
-  <BaseForm v-bind="formAttrs" :style="style" :class="class" v-model="model" :fields="fields" class="edit-table" ref="formRef">
+  <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="edit-table" ref="formRef">
     <slot name="front" />
     <template #custom>
       <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="tableRef">
@@ -36,8 +36,6 @@ const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj[]; //表格行数据
-    class?: ClassType;
-    style?: StyleType;
     cols: TableColAttrs[]; //表头
     formAttrs?: CommonObj; //表单属性
   }>(),
@@ -48,7 +46,7 @@ const props = withDefaults(
 const emits = defineEmits(["update:modelValue"]);
 const formRef = ref<FormInstance | null>(null);
 const tableRef = ref<FormInstance | null>(null);
-const model = computed({
+const modelData = computed({
   get: () => props.modelValue,
   set: (val: any) => emits("update:modelValue", val),
 });

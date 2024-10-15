@@ -3,7 +3,7 @@
   <TestView :records="records">
     <BaseCrud
       style="width: calc(100vw - 600px)"
-      v-model="model"
+      v-model="modelData"
       :fields="fields"
       :cols="cols"
       :fetch="GetMockCommonList"
@@ -57,7 +57,7 @@ const size: CommonSize = "default"; // large, default, small
 const { getSearchOpts } = useSelectOpts();
 
 //默认搜索值
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   xm: "张三",
   multi_tag: [0],
   date_range_def_val: ["2023-08-19", "2023-08-27"],

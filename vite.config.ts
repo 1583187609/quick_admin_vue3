@@ -28,6 +28,32 @@ function getFileNameByPath(path: string, char = "/") {
   if (newName.startsWith("_")) newName = `0${newName}`; //GitHub Pages服务会将下划线开头的文件视为隐藏文件，不会暴露出来，故做此处理
   return newName;
 }
+
+function getApiProxy(env) {
+  // 开发环境用devServer做接口代理
+  const apiMap = {
+    "/api": env.VITE_APP_API_BASEURL,
+    "/fuxi": "https://fanlichuan.gitee.io",
+  };
+  Object.keys(apiMap).map(key => {
+    const reg = new RegExp(`^${key}`);
+    return {
+      [key]: {
+        target: apiMap[key], //http://127.0.0.1:5500
+        // target: "http://127.0.0.1:5180",
+        // target: "https://fanlichuan.gitee.io",
+        changeOrigin: true, //是否跨域
+        ws: true, //是否代理 websockets
+        secure: false, //是否https接口
+        rewrite: (path: string) => path.replace(reg, ""),
+        bypass(req, res, options: any) {
+          const proxyURL = options.target + options.rewrite(req.url);
+          res.setHeader("x-req-proxyURL", proxyURL); // 设置响应头可以在浏览器中看到实际请求地址
+        },
+      },
+    };
+  });
+}
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
   // const env = loadEnv(mode, process.cwd(), ''); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
@@ -263,6 +289,7 @@ export default ({ mode, command }) => {
       //   port: 5180,
       // },
       // // 设置 https 代理
+      // proxy: getApiProxy(env),
       // proxy: {
       //   "/api": {
       //     target: env.VITE_APP_API_BASEURL, //http://127.0.0.1:5500

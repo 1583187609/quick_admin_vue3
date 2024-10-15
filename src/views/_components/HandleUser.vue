@@ -2,7 +2,7 @@
 <template>
   <BaseForm
     style="width: 550px"
-    v-model="model"
+    v-model="modelData"
     :fields="fields"
     :fetch="handleFetch"
     :onSuccess="refreshPage"
@@ -31,7 +31,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const model = reactive<CommonObj>(
+const modelData = reactive<CommonObj>(
   Object.assign(
     {
       // userId: props?.data?.userId,
@@ -43,7 +43,7 @@ const model = reactive<CommonObj>(
   )
 );
 const fields = computed<FormField[]>(() => {
-  const { scene } = model;
+  const { scene } = modelData;
   const { type } = props;
   return [
     {
@@ -127,18 +127,18 @@ function handleFetch(params: CommonObj) {
 //处理表单值变化时
 function handleChange(prop: string, val: SceneType) {
   if (prop === "scene") {
-    model.fromMsg = getReplyMsg(val);
+    modelData.fromMsg = getReplyMsg(val);
   } else if (prop === "timeDay") {
-    if (model.scene === "all-interaction") {
+    if (modelData.scene === "all-interaction") {
       nextTick(() => {
-        model.fromMsg = getReplyMsg("all-interaction");
+        modelData.fromMsg = getReplyMsg("all-interaction");
       });
     }
   }
 }
 //获取回复消息
 function getReplyMsg(type: SceneType) {
-  const days = model.timeDay;
+  const days = modelData.timeDay;
   const map: CommonObj = {
     warning:
       "经用户举报，并经平台核实，您因违反平台行为规范，存在违规行为，现对您进行消息警告通知！请严格遵守《脱单计划行为规范》。",

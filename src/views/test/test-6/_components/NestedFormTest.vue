@@ -1,7 +1,7 @@
 <!-- 嵌套表单测试 -->
 <template>
   <TestView :records="records">
-    <BaseForm class="f-2" v-model="model" :fields="fields" label-suffix="：" :size="size">
+    <BaseForm class="f-2" v-model="modelData" :fields="fields" label-suffix="：" :size="size">
       <template #zdy>这是自定义的表单字段</template>
     </BaseForm>
     <!-- <template #side> </template> -->
@@ -22,7 +22,7 @@ const records = {
   },
 };
 const size: CommonSize = "default"; // large, default, small
-const model = reactive({
+const modelData = reactive({
   inner_obj: {
     one: "嵌套对象必填项一",
     two: "嵌套对象必填项二",

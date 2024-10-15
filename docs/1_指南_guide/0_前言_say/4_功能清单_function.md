@@ -73,7 +73,10 @@
 
 - git 中使用主仓+子仓（子仓为公用代码）
 - 基于 webpack 5 ModuleFederationPlugin 实现微前端
-- 提取 npm 包
+- 提取 npm 包  
+  57、考虑多场景（各种情况下的代码如何自定义覆盖等）  
+  58、表格的 columns 的 prop 支持.属性访问，并验证  
+  59、表格拖动排序
 
 # 其他
 

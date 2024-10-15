@@ -12,7 +12,9 @@
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs"> 更多 </el-button>
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs">
+        更多
+      </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
@@ -36,7 +38,7 @@
 import { computed, inject } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum } from "@/components/_utils";
+import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum, emptyStr } from "@/components/_utils";
 import { BaseBtnType, BtnItem } from "@/components/BaseBtn/_types";
 import { getBtnObj } from "@/components/BaseBtn";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
@@ -66,7 +68,6 @@ const props = withDefaults(
     size?: CommonSize;
     maxNum?: number;
     vertical?: boolean;
-    emptyStr?: any;
     compact?: boolean;
     small?: boolean;
   }>(),
@@ -75,7 +76,6 @@ const props = withDefaults(
       size: defaultCommonSize,
       btns: () => [],
       maxNum: defaultGroupBtnsMaxNum,
-      emptyStr: "-",
     },
     config?.BaseCrud?._components?.GroupBtns
   )

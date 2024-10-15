@@ -1,6 +1,6 @@
 <!-- 组件-心动嘉宾比例配置 -->
 <template>
-  <SectionForm v-model="model" :sections="sections" style="width: 480px"> </SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" style="width: 480px"> </SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
@@ -16,7 +16,7 @@ const props = withDefaults(
     exampleProp: () => ({}),
   }
 );
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   xyh: [{ jblx: undefined, zb: undefined }],
   yzjb: [{ jblx: undefined, zb: undefined }],
   ptyh: [{ jblx: undefined, zb: undefined }],

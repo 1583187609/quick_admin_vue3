@@ -8,6 +8,7 @@ import type { MessageParams, messageType } from "element-plus";
 import { EpPropMergeType } from "element-plus/es/utils";
 import { AxiosResponse } from "axios";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
+import { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from "vue-router";
 
 export * from "@/components/BasicPopup/_types";
 
@@ -29,6 +30,7 @@ export type BaseDataType = null | undefined | boolean | string | number; //基�
 export interface CommonObj {
   [key: string]: any;
 }
+export type RouteTo = string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric;
 export type CommonSize = "large" | "default" | "small"; //按钮、表单、表格等的通用大小
 export type ShowCodes = 0 | 1; //0 false  1 true
 export interface OptionItem {

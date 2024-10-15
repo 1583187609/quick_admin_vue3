@@ -36,7 +36,7 @@
   <div class="page-view three f-sb-s">
     <BaseCrud
       class="f-3"
-      v-model="model"
+      v-model="modelData"
       :cols="cols"
       :fields="fields"
       :fetch="GetMockCommonList"
@@ -169,7 +169,7 @@ const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
 //默认搜索值
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   xm: "张三",
   multi_tag: [0],
   date_range_def_val: ["2023-08-19", "2023-08-27"],

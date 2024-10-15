@@ -20,7 +20,7 @@
         <h2 class="h2 f-0">{{ typeMap[type].title }}</h2>
         <BaseForm
           class="form f-0"
-          v-model="model"
+          v-model="modelData"
           :fields="fields"
           :submitText="typeMap[type].submitText"
           :loading="loading"
@@ -77,7 +77,7 @@ const loading = ref(false);
 const title = import.meta.env.VITE_APP_TITLE;
 const redirect = ref(route.query.redirect?.toString() ?? "/");
 const { login_account } = localStorage;
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   account: login_account || "",
   password: "",
   remember: !!login_account,
@@ -152,7 +152,7 @@ const fields = computed<FormField[]>(() => {
 });
 //校验两次输入的密码是否一致
 function checkConfirmPsd(rule: any, value: any, callback: any) {
-  if (value !== model.password) {
+  if (value !== modelData.password) {
     callback(new Error("确认密码和密码需要保持一致"));
   } else {
     callback();

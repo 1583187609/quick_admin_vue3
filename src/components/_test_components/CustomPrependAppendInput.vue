@@ -1,8 +1,8 @@
 <!-- 存在问题，未来可能会用到 -->
 <template>
-  <el-input v-model="model.inp" placeholder="请输入路径，例：/auth/menu/Index" clearable>
+  <el-input v-model="modelData.inp" placeholder="请输入路径，例：/auth/menu/Index" clearable>
     <template #prepend>
-      <el-select v-model="model.sel" placeholder="请选择" style="width: 140px">
+      <el-select v-model="modelData.sel" placeholder="请选择" style="width: 140px">
         <el-option :label="item.label" :value="item.value" v-for="(item, ind) in options" :key="ind" />
       </el-select>
     </template>
@@ -28,7 +28,7 @@ const props = withDefaults(
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
-const model = computed({
+const modelData = computed({
   get() {
     const [e1, ...rest] = props.modelValue?.slice(1, -4).split("/");
     return new Proxy(

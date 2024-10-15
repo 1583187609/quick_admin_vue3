@@ -1,7 +1,7 @@
 <!-- 组件 - 导入弹出层 -->
 <template>
   <div class="template-hint">
-    <div class="desc mb-o" v-if="desc">{{ desc }}</div>
+    <div class="desc mb-o" v-if="description">{{ description }}</div>
     <div class="f-fs-c mb-h">
       如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。
     </div>
@@ -19,7 +19,8 @@
       <div class="el-upload__text">点击或拖拽文件到此处上传</div>
       <div class="el-upload__text">支持{{ accept }}</div>
       <template #tip>
-        <div class="el-upload__tip">单次导入上限：10000条</div>
+        <div class="el-upload__tip" v-if="tips">{{ tips }}</div>
+        <!-- <div class="el-upload__tip">单次导入上限：{{ limit }}条</div> -->
       </template>
     </el-upload>
   </div>
@@ -34,36 +35,43 @@ export interface ImportTplColsItem {
   label: string;
 }
 export interface TplCfgAttrs {
-  name?: string; //"XXX模板示例"
-  cols?: ImportTplColsItem[]; // [{ prop: "userName", label: "用户姓名" },{ prop: "phone", label: "电话号码" },{ prop: "labelName", label: "标签名称" }]
+  name?: string; // excel文件名称，例："XXX模板示例"
+  cols?: ImportTplColsItem[]; // 导入列，例：[{ prop: "userName", label: "用户姓名" },{ prop: "phone", label: "电话号码" },{ prop: "labelName", label: "标签名称" }]
+  accept?: string;
+  description?: string; // 描述类摘要文字
+  tips?: string; // 提示类文字
+  // limit?: number; // 最大导入数
 }
-const defaultTplCfg: TplCfgAttrs = {
-  name: "XXX模板示例", //用户权限导入模板
-  cols: [], // [{ prop: "userName", label: "用户姓名" },{ prop: "phone", label: "电话号码" },{ prop: "labelName", label: "标签名称" }]
-};
+
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
-    desc?: string; // 描述类摘要文字
-    tplCfg?: TplCfgAttrs;
+    name?: string; // excel文件名称，例："XXX模板示例"
+    cols?: ImportTplColsItem[]; // 导入列，例：[{ prop: "userName", label: "用户姓名" },{ prop: "phone", label: "电话号码" },{ prop: "labelName", label: "标签名称" }]
     accept?: string;
+    description?: string; // 描述类摘要文字
+    tips?: string; // 提示类文字
+    // limit?: number; // 最大导入数
   }>(),
   {
-    desc: "这是描述类摘要文字",
+    name: "XXX模板示例",
+    cols: () => [],
     accept: ".xls,.xlsx",
+    description: "请上传文件，支持拖动上传",
+    // limit: 10000,
   }
 );
 const emits = defineEmits(["change"]);
-//下载模板
+// 下载模板
 function handleDownloadTpl() {
-  const { name, cols = [] } = Object.assign({}, defaultTplCfg, props.tplCfg);
+  const { name, cols } = props;
   exportExcel([cols.map((it: ImportTplColsItem) => it.label)], name, undefined, () => {
     showMessage("已下载，请查看！");
     closePopup();
   });
 }
 function handleFileChange(file: any, files: any[]) {
-  const { cols } = Object.assign({}, defaultTplCfg, props.tplCfg);
+  const { cols } = props;
   const reader = new FileReader();
   reader.readAsArrayBuffer(file.raw);
   reader.onloadend = function (e) {

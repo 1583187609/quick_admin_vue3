@@ -1,7 +1,7 @@
 <!-- 组件 - 创建基础表单 -->
 <template>
   <div class="f-sb-fs" style="height: 200px">
-    <SectionForm class="create-base-form f-3" v-model="model" :sections="sections"></SectionForm>
+    <SectionForm class="create-base-form f-3" v-model="modelData" :sections="sections"></SectionForm>
     <!-- <BaseSection class="create-base-form f-3" title="第一部分">
       <el-form>
         <template v-for="(field, ind) in getFields()" :key="ind">
@@ -63,7 +63,7 @@ const validOpts: OptionItem[] = [
   { label: "邮箱", value: "identity" },
   { label: "年龄", value: "age" },
 ];
-const model = reactive<CommonObj>(
+const modelData = reactive<CommonObj>(
   Object.assign(
     {}
     // { prop: "xm", label: "姓名" }
@@ -85,11 +85,11 @@ const names = [
 const sections = computed<SectionFormItemAttrs[]>(() => {
   const fields: FormField[] = getFields();
   return names.map((item, ind) => {
-    // const { prop, label } = model?.[ind] ?? {};
+    // const { prop, label } = modelData?.[ind] ?? {};
     const { prop, label } = item;
     setTimeout(() => {
-      model[prop].prop = prop;
-      model[prop].label = label;
+      modelData[prop].prop = prop;
+      modelData[prop].label = label;
     });
     return {
       prop,
@@ -99,7 +99,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
   });
 });
 watch(
-  model,
+  modelData,
   newVal => {
     newVal = omitAttrs(newVal);
     const values = Object.values(newVal) as FormFieldAttrs[];
@@ -111,7 +111,7 @@ watch(
   { deep: true }
 );
 function getFields(isChildren = false): FormFieldAttrs[] {
-  const showOpts = ["select", "cascader", "checkbox-group"].includes(model.type);
+  const showOpts = ["select", "cascader", "checkbox-group"].includes(modelData.type);
   return [
     { prop: "label", label: "标签名", quickAttrs: { grid: 6 }, required: false },
     { prop: "prop", label: "属性名", quickAttrs: { grid: 6 }, required: false },
@@ -296,7 +296,7 @@ function openConfigPopup(type: string = "") {
 function handleChange(val: string) {
   //   if (!val) return;
   //   try {
-  //     Object.assign(model, JSON.parse(val));
+  //     Object.assign(modelData, JSON.parse(val));
   //   } catch (err) {
   //     console.error(err);
   //   }

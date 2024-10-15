@@ -96,7 +96,8 @@ const newAttrs = computed(() => {
     {
       maxHeight: `calc(100% + ${rowNum * 40}px)`,
       cellClassName(res: CommonObj) {
-        if (res.column.property === "$sort") return "sort-cell";
+        const { row, column, rowIndex, columnIndex } = res;
+        if (column.type === "sort") return "sort-cell";
       },
     },
     defaultTableAttrs,

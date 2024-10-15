@@ -1,16 +1,11 @@
 <template>
-  <el-drawer v-model="show" class="basic-drawer" :title="title" v-bind="defaultAttrs">
+  <el-drawer v-model="show" class="basic-drawer" :title="title">
     <slot />
   </el-drawer>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-const defaultAttrs = {
-  size: "none",
-  closeOnClickModal: false,
-  appendToBody: true,
-  destroyOnClose: true,
-};
+
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;

@@ -2,18 +2,18 @@
 <template>
   <BaseForm
     style="width: 600px"
-    v-model="model"
+    v-model="modelData"
     :fields="fields"
     :fetch="isAdd ? GetAuthRoleList : GetAuthRoleList"
     :onSuccess="refreshList"
     :extraParams="{ id: data?.id, doRelationFeedbackCompany: isApply ? data!.id : undefined }"
   >
     <!-- 状态,0=启用,1=禁用 -->
-    <template #logoUrl="{ form }">
-      <BaseUpload v-model="form.logoUrl" />
+    <template #logoUrl>
+      <BaseUpload v-model="modelData.logoUrl" />
     </template>
-    <template #emailSuffix="{ form }">
-      <AddDelTag v-model="form.emailSuffix" />
+    <template #emailSuffix>
+      <AddDelTag v-model="modelData.emailSuffix" />
     </template>
   </BaseForm>
 </template>
@@ -43,7 +43,7 @@ const props = withDefaults(
 );
 console.log(props.data, "data----------------");
 const isAdd = props.data && !props.isApply; //是否是新增
-const model = reactive<CommonObj>(getModel());
+const modelData = reactive<CommonObj>(getModel());
 const fields: FormField[] = [
   {
     prop: "typeId",

@@ -1,7 +1,7 @@
 <!-- 分块表单测试 -->
 <template>
   <TestView :records="records">
-    <SectionForm class="f-2" v-model="model" :sections="sections" label-suffix="：" :grid="12" labelWidth="8em" :size="size">
+    <SectionForm class="f-2" v-model="modelData" :sections="sections" label-suffix="：" :grid="12" labelWidth="8em" :size="size">
       <template #head-right-partThree>这是第三部分的Head的插槽，有prop属性：【head-right-partThree】</template>
       <template #head-right-4>这是第四部分的Head的插槽，无prop属性：【head-right-4】</template>
       <template #zdy>这是自定义的表单字段</template>
@@ -26,7 +26,7 @@ const records = {
   },
 };
 const size: CommonSize = "large"; // large, default, small
-const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "张三", partThree: { xjd: "成都" } });
+const modelData = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "张三", partThree: { xjd: "成都" } });
 const sections = [
   {
     title: "第一部分",

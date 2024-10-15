@@ -1,5 +1,5 @@
 import { CommonObj, StrNum } from "@/vite-env";
-import { TableCol } from "@/components/table/_types";
+import { TableColAttrs } from "@/components/table/_types";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TplCfgAttrs } from "./_components/ImportPopup.vue";
 
@@ -20,7 +20,7 @@ export type TriggerGetListType =
  */
 export interface HandleClickExtraBtnsProps {
   btnObj: BtnItem;
-  cols?: TableCol[];
+  cols?: TableColAttrs[];
   seledRows: CommonObj[];
   seledKeys: StrNum[];
   total: number;

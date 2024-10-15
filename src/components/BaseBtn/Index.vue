@@ -18,9 +18,8 @@ import { computed, useAttrs } from "vue";
 import { getBtnObj } from "@/components/BaseBtn";
 import { emptyVals, typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, PopconfirmAttrs } from "@/vite-env";
 import { BaseBtnType, BtnItem, BtnName } from "./_types";
-import { PopconfirmAttrs } from "../_types";
 
 defineOptions({
   inheritAttrs: false,

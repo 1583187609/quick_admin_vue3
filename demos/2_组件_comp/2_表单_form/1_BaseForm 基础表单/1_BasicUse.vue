@@ -5,7 +5,7 @@
   自定义扩展：UserInfo, …
  -->
 <template>
-  <BaseForm v-mode="model" :fields="fields" :fetch="PostMockCommon">
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
     <template #zdy>
       <input placeholder="请输入（这是自定义的输入框）" style="width: 400px; border: 1px solid purple; border-radius: 6px" />
     </template>
@@ -17,7 +17,7 @@ import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
 import { PostMockCommon, GetCascaderRegion } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
 
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   age: 12,
   gender: 0,
 });

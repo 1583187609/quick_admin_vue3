@@ -1,7 +1,7 @@
 <template>
   <BaseCrud
     :cols="cols"
-    v-model="model"
+    v-model="modelData"
     :fields="fields"
     :fetch="GetMockCommonList"
     :extraBtns="['add']"
@@ -37,7 +37,7 @@ import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
-const model = reactive<CommonObj>({ age: [20, 30] });
+const modelData = reactive<CommonObj>({ age: [20, 30] });
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },

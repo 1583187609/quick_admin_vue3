@@ -10,7 +10,7 @@
     :readonly="field?.quickAttrs?.readonly ?? readonly"
     :inputDebounce="inputDebounce"
     @change="(key:string, val:any)=>emits('change', key,val)"
-    v-model="model[field!.prop as string]"
+    v-model="modelData[field!.prop as string]"
   >
     <template #custom="{ field: currField }">
       <slot name="custom" :field="currField" />
@@ -40,7 +40,7 @@ const props = withDefaults(
 );
 const emits = defineEmits(["update:modelValue", "change"]);
 const currSize = computed(() => props.field?.size ?? props.size);
-const model = computed<CommonObj>({
+const modelData = computed<CommonObj>({
   get: () => props.modelValue,
   set: (val: any) => emits("update:modelValue", val),
 });

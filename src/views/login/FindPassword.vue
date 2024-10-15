@@ -1,7 +1,7 @@
 <template>
-  <BaseForm style="width: 450px" v-model="model" :fields="fields">
+  <BaseForm style="width: 450px" v-model="modelData" :fields="fields">
     <template #captcha>
-      <Captcha v-model="model.captcha" prop="captcha" />
+      <Captcha v-model="modelData.captcha" prop="captcha" />
     </template>
   </BaseForm>
 </template>
@@ -10,7 +10,7 @@ import { reactive } from "vue";
 import Captcha from "./_components/Captcha.vue";
 import { CommonObj } from "@/vite-env";
 
-const model = reactive<CommonObj>({});
+const modelData = reactive<CommonObj>({});
 const fields = [
   {
     prop: "pheon",

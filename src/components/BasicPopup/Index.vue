@@ -22,7 +22,7 @@ provide了openPopup、closePopup方法。默认dialog，可在全局配置中进
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide } from "vue";
 import { showMessage, sortObjArrByKey } from "@/utils";
-import { SetTimeout } from "@/vite-env";
+import { CommonObj, SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
 import BasicDrawer from "./_components/BasicDrawer.vue";
@@ -42,6 +42,7 @@ import type {
   DialogHeadTypes,
   DrawerHeadTypes,
 } from "./_types";
+import { defaultDialogAttrs, defaultDrawerAttrs } from "./_config";
 
 let dialogTimer: SetTimeout = null;
 let drawerTimer: SetTimeout = null;
@@ -51,11 +52,11 @@ const dialogs = reactive<DialogPopup[]>([]);
 const drawers = reactive<DrawerPopup[]>([]);
 
 /**
- * 构造生成新的attrs对象
+ * 获取弹出层的属性
  */
-function getNewAttrs(head: any, popupId: DrawerId | DialogId): any {
-  if (typeof head !== "string") return head;
-  return { title: head, onClose: () => closePopup(popupId) };
+function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: CommonObj): any {
+  if (typeof head !== "string") return { ...head, ...defAttrs };
+  return { title: head, onClose: () => closePopup(popupId), ...defAttrs };
 }
 
 /**
@@ -75,7 +76,7 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foo
       id,
       name: "dialog",
       show: true,
-      attrs: getNewAttrs(head, `dialog-${id}`),
+      attrs: getPopupAttrs(head, `dialog-${id}`, defaultDialogAttrs),
       body,
       foot,
       createAt: Date.now(),
@@ -83,7 +84,7 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foo
   );
 }
 
-function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}`, destroyed = true) {
+function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}`) {
   if (popup === "all") {
     dialogs.length = 0;
     return;
@@ -94,7 +95,8 @@ function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}
   });
   if (ind === -1) return;
   dialogs[ind].show = false;
-  if (!destroyed) return;
+  const { destroyOnClose } = dialogs[ind].attrs;
+  if (!destroyOnClose) return;
   dialogTimer = setTimeout(() => {
     dialogs.splice(ind, 1);
     dialogTimer = null;
@@ -118,14 +120,14 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
       id,
       name: "drawer",
       show: true,
-      attrs: getNewAttrs(head, `drawer-${id}`),
+      attrs: getPopupAttrs(head, `drawer-${id}`, defaultDrawerAttrs),
       body,
       createAt: Date.now(),
     })
   );
 }
 
-function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}`, destroyed = true) {
+function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}`) {
   if (popup === "all") {
     drawers.length = 0;
     return;
@@ -136,7 +138,8 @@ function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}
   });
   if (ind === -1) return;
   drawers[ind].show = false;
-  if (!destroyed) return;
+  const { destroyOnClose } = drawers[ind].attrs;
+  if (!destroyOnClose) return;
   drawerTimer = setTimeout(() => {
     drawers.splice(ind, 1);
     drawerTimer = null;
@@ -171,7 +174,7 @@ function getTopPopupIds(num = 1): (DrawerId | DialogId)[] {
   const topPops = popups.slice(0, num);
   return topPops?.map(it => `${it.name}-${it.id}` as DrawerId | DialogId);
 }
-function closePopup(popup: ClosePopupType = 1, destroyed = true): void {
+function closePopup(popup: ClosePopupType = 1): void {
   if (popup === "all") {
     closeDialog(popup);
     closeDrawer(popup);
@@ -182,12 +185,12 @@ function closePopup(popup: ClosePopupType = 1, destroyed = true): void {
     if (popup.startsWith("dialog")) {
       const isAll = popup === "dialog";
       const dia = isId ? (popup as CloseDialogType) : isAll ? "all" : undefined;
-      return closeDialog(dia, destroyed);
+      return closeDialog(dia);
     }
     if (popup.startsWith("drawer")) {
       const isAll = popup === "drawer";
       const dra = isId ? (popup as CloseDrawerType) : isAll ? "all" : undefined;
-      return closeDrawer(dra, destroyed);
+      return closeDrawer(dra);
     }
     throw new Error(`暂未处理此种弹窗类型：${popup}`);
   }

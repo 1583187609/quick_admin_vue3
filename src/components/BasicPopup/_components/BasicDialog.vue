@@ -1,15 +1,8 @@
 <template>
-  <el-dialog
-    v-model="show"
-    class="basic-dialog"
-    :class="{ 'top-compact': !footer }"
-    :title="title"
-    v-bind="defaultAttrs"
-    ref="basicDialogRef"
-  >
-    <!-- <template #header="scoped" v-if="typeof title !== 'string'">
-      <BaseRender :data="title"/>
-    </template> -->
+  <el-dialog v-model="show" class="basic-dialog" :class="{ 'top-compact': !footer }" :title="title" ref="basicDialogRef">
+    <template #header="scoped" v-if="slots?.header">
+      <BaseRender :scoped="scoped" :data="slots.header" />
+    </template>
     <slot />
     <template #footer v-if="footer">
       <slot name="footer">
@@ -27,19 +20,12 @@ import { ref, computed, onMounted } from "vue";
 import { popupCloseAnimationDuration, showMessage } from "@/components/_utils";
 // import { useEvent } from "@/componetns/_hooks";
 
-const defaultAttrs = {
-  width: "fit-content",
-  style: "max-width: 94vw;min-width:200px;",
-  closeOnClickModal: false,
-  appendToBody: true,
-  destroyOnClose: true,
-  draggable: true,
-};
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
     title?: string;
     footer?: any;
+    slots?: any;
     onCancel?: () => void; // 点击取消按钮
     onConfirm?: () => void; // 点击确认按钮
   }>(),

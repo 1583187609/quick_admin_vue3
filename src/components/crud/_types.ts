@@ -10,7 +10,6 @@ export interface CrudProps {
   // fields?: FormField[];
   // sections?: SectionFormItemAttrs[];
   // cols?: TableCol[];
-  // selectAll?: boolean;
   // fetch?: UniteFetchType;
   // fetchSuccess?: (res: any) => void; //请求成功的回调函数
   // fetchFail?: (err: any) => void; //请求成功的回调函数

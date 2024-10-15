@@ -1,7 +1,7 @@
 <template>
   <BaseForm
     :request="PostMockCommon"
-    v-model="model"
+    v-model="modelData"
     :style="{ width: pureText ? '350px' : '500px' }"
     :fields="fields"
     :pureText="pureText"
@@ -9,8 +9,8 @@
     :onSuccess="refreshList"
   >
     <!-- @submit="handleSubmit" -->
-    <template #avatar="{ form }">
-      <UploadAvatar v-model="form.avatar" />
+    <template #avatar>
+      <UploadAvatar v-model="modelData.avatar" />
     </template>
   </BaseForm>
 </template>
@@ -31,7 +31,7 @@ const props = withDefaults(
   {}
 );
 const { id } = props;
-const model = reactive<CommonObj>(props.id ? {} : { gender: 0, status: 1 });
+const modelData = reactive<CommonObj>(props.id ? {} : { gender: 0, status: 1 });
 const fields = ref<FormField[]>([
   {
     prop: "avatar",
@@ -105,7 +105,7 @@ getDetail(id);
 function getDetail(id?: StrNum) {
   if (!id) return;
   GetUserInfo({ id }).then((res: CommonObj) => {
-    Object.assign(model, res);
+    Object.assign(modelData, res);
   });
 }
 </script>

@@ -2,7 +2,7 @@
   卡片式的增删改查列表
  -->
 <template>
-  <BaseCrud class="card-crud" @rows="getRows" ref="crudRef" selectAll>
+  <BaseCrud class="card-crud" @rows="getRows" ref="crudRef">
     <template #default="{ loading, params, rows }">
       <div class="list-box f-fs-fs-w f-1" v-loading="loading">
         <template v-for="(row, $index) in rows" :key="$index">

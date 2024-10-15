@@ -1,7 +1,7 @@
 <!-- 组件 - 渲染内容元素 -->
 <template>
   <!-- 如果是引入的组件或者是虚拟dom -->
-  <component :is="data" v-if="dataType === 'Object' && (data.render || isVNode(data))" />
+  <component :is="data" v-bind="$attrs" v-if="dataType === 'Object' && (data.render || isVNode(data))" />
   <!-- 如果是数组（创建虚拟DOM的参数 -->
   <component :is="h(...data)" v-else-if="dataType === 'Array'" />
   <!-- 如果是基本数据类型 -->
@@ -9,7 +9,7 @@
 </template>
 <script lang="ts" setup>
 // h函数传参规则见：https://cn.vuejs.org/api/render-function.html#h
-import { RendererElement, RendererNode, VNode, isVNode, h, computed } from "vue";
+import { RendererElement, RendererNode, VNode, isVNode, h, computed, useAttrs } from "vue";
 import type { Component } from "vue";
 import { devErrorTips, typeOf } from "@/components/_utils";
 import { BaseDataType } from "../vite-env";
@@ -42,6 +42,7 @@ export type BaseRenderData =
   | HArgs //h函数的参数
   | VirtualDomProps; //可支持字符串、h函数生成的虚拟dom、
 
+const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
     data?: BaseRenderData;

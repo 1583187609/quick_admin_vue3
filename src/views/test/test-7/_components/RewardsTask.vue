@@ -8,17 +8,17 @@
       <div class="item">奖励明细</div>
       <div class="item">领取方式</div>
     </div>
-    <SectionForm :sections="sections" v-model="model" class="rewards-task f-1"></SectionForm>
+    <SectionForm :sections="sections" v-model="modelData" class="rewards-task f-1"></SectionForm>
   </div>
 </template>
 <script lang="ts" setup>
-import {reactive } from "vue";
+import { reactive } from "vue";
 import SectionForm from "@/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/components/form/_types";
 import { FormField } from "@/components/form/_types";
 import { CommonObj } from "@/vite-env";
 
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   //kpi-1
   // wszl: { zt: 0, jllx: 1, jlmx: 10, lqfs: 1 },
   scszzp: { zt: 0, jllx: 2, jlmx: 20, lqfs: 2 },

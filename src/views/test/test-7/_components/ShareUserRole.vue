@@ -1,12 +1,12 @@
 <!-- 组件-分享嘉宾角色配置 -->
 <template>
-  <BaseForm v-model="model" :fields="fields" class="share-user-role"></BaseForm>
+  <BaseForm v-model="modelData" :fields="fields" class="share-user-role" />
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/components/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   list: [{ yyid: "123456" }],
 });
 const fields = ref<FormField[]>([

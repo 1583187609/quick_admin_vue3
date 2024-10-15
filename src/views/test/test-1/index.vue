@@ -3,11 +3,11 @@
   <div class="page-view one f-sb-s f-1">
     <BaseForm
       @change="handleChange"
-      v-model="model"
+      v-model="modelData"
       :fields="fields"
       :fetch="PostMockCommon"
-      :size="model.widget_size"
-      :labelPosition="model.label_position"
+      :size="modelData.widget_size"
+      :labelPosition="modelData.label_position"
       :moreBtns="[
         { name: 'reject', popconfirm: false },
         {
@@ -28,8 +28,8 @@
       :pureText="false"
     >
       <!--也可写成 :fetch="handleFetch"，处理转换 请求参数 -->
-      <template #zdy="{ form }">
-        <BaseNumberRange v-model="form.zdy" />
+      <template #zdy>
+        <BaseNumberRange v-model="modelData.zdy" />
       </template>
     </BaseForm>
     <ul class="f-1 ml-t tips-list">
@@ -178,7 +178,7 @@ const supportSwitchAttrs: CommonObj = {
   style: "width: 5em",
 };
 
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   widget_size: "default",
   label_position: "right",
   inner_obj: {
@@ -201,7 +201,7 @@ const model = reactive<CommonObj>({
 });
 
 const fields = computed<FormField[]>(() => {
-  const { cyxslx } = model;
+  const { cyxslx } = modelData;
   return [
     {
       label: "组件尺寸",
@@ -565,7 +565,7 @@ const fields = computed<FormField[]>(() => {
 });
 function handleChange(prop: string, val: any) {
   if (prop === "cyxslx") {
-    model.cyxslx = val;
+    modelData.cyxslx = val;
   }
 }
 const checkAge = (rule: any, value: any, callback: any) => {

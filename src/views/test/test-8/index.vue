@@ -3,7 +3,7 @@
     :pagination="{ currPage: 1, pageSize: 10 }" -->
 <template>
   <CustomCrud
-    v-model="model"
+    v-model="modelData"
     :fields="fields"
     :fetch="getFromUserList"
     :pageAttrs="{ pageSizes: [5, 10, 15, 20, 25] }"
@@ -81,7 +81,7 @@
               <span class="first-time line-1">{{ chatInfo.headInfo.firstDate }}</span>
             </el-tooltip>
             <el-button
-              @click="openSearchChat(chatInfo.headInfo.fromUser, chatInfo.headInfo.toUser, model.msgWord)"
+              @click="openSearchChat(chatInfo.headInfo.fromUser, chatInfo.headInfo.toUser, modelData.msgWord)"
               :icon="Search"
               size="small"
               :disabled="!toUserInfo.activeId"
@@ -144,7 +144,7 @@ const openPopup = inject<OpenPopupInject>("openPopup");
 const { getSearchOpts } = useSelectOpts();
 const paddingBottom = 250;
 const doubleTypes = [8001, 8003, 8004, 8005, 8006];
-const model = reactive<CommonObj>({});
+const modelData = reactive<CommonObj>({});
 const fromUserInfo = reactive<CommonObj>({
   loading: false,
   activeId: "",
@@ -211,7 +211,7 @@ watch(
   () => toUserInfo.activeId,
   async newToId => {
     if (newToId) {
-      const keyWord = model.msgWord;
+      const keyWord = modelData.msgWord;
       const fromId = fromUserInfo.activeId;
       const result = await isOpenSearchMsgPopup(fromId, newToId, keyWord);
       if (result) {
@@ -286,8 +286,8 @@ function getToUserList(fromUserId: number) {
   toUserInfo.loading = true;
   GetImSearchFriendList({
     fromUserId,
-    msgWord: model.msgWord,
-    chatTimeScope: model.chatTimeScope,
+    msgWord: modelData.msgWord,
+    chatTimeScope: modelData.chatTimeScope,
     ...params,
   })
     .then((res: CommonObj) => {
@@ -398,7 +398,7 @@ function handleChangeActive(type: "from" | "to", row: CommonObj) {
 function handleReachBottom(type: "from" | "to") {
   if (type === "from") {
     fromUserInfo.params.page++;
-    getFromUserList({ ...model, ...fromUserInfo.params });
+    getFromUserList({ ...modelData, ...fromUserInfo.params });
   } else if (type === "to") {
     toUserInfo.params.page++;
     getToUserList(fromUserInfo.activeId);
@@ -420,7 +420,7 @@ function openSearchChat(fromUser: CommonObj, toUser: CommonObj, keyWord?: string
 }
 //处理搜索聊天记录时选中某个聊天项
 function handleSearchSelectItem(row: CommonObj, searchVal: string, next: () => void) {
-  // model.msgWord = searchVal;
+  // modelData.msgWord = searchVal;
   // chatInfo.params.prevCreatedAt = 0;
   chatInfo.list = [];
   chatInfo.prevHasMore = true;

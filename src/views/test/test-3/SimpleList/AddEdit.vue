@@ -2,12 +2,12 @@
 <template>
   <BaseForm
     style="width: 600px"
-    v-model="model"
+    v-model="modelData"
     :fields="fields"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
     :onSuccess="refreshList"
     :extraParams="{ id: data?.id }"
-    @change="(prop:string,val:any)=>model[prop] = val"
+    @change="(prop:string,val:any)=>modelData[prop] = val"
   >
   </BaseForm>
 </template>
@@ -30,7 +30,7 @@ const props = withDefaults(
   {}
 );
 const defData: CommonObj = { cflx: 1, sfqy: 0 }; //默认值
-const model = reactive<CommonObj>(Object.assign(defData, props.data));
+const modelData = reactive<CommonObj>(Object.assign(defData, props.data));
 const fields = computed<FormField[]>(() => {
   return [
     {
@@ -57,7 +57,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     { prop: "cflx", label: "处罚类型", type: "radio-group", options: cflxOpts },
-    model.cflx === 1 && {
+    modelData.cflx === 1 && {
       prop: "jgnr",
       label: "警告内容",
       tips: "这是tips示例",
@@ -66,7 +66,7 @@ const fields = computed<FormField[]>(() => {
         maxlength: 100,
       },
     },
-    ...(model.cflx === 2
+    ...(modelData.cflx === 2
       ? [
           {
             prop: "ts",
@@ -87,7 +87,7 @@ const fields = computed<FormField[]>(() => {
           },
         ]
       : []),
-    model.cflx === 3 && {
+    modelData.cflx === 3 && {
       prop: "fjgz",
       label: "封禁告知",
       tips: "这是tips示例",

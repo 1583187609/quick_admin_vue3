@@ -17,6 +17,8 @@ export const defaultWidgetSize = getExportData("medium", widgetSize); //控件�
 
 export const defaultIconName = "ElemeFilled"; //默认图标
 
+export const emptyStr = "-"; // 空位占位符
+
 export const defaultCommonSize = getExportData("default", form?.defaultCommonSize);
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);

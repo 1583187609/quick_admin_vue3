@@ -1,7 +1,7 @@
 <!-- 基础表单测试 -->
 <template>
   <TestView :records="records">
-    <BaseForm class="f-2" v-model="model" :fields="fields" grid="12" label-suffix="：" :size="size">
+    <BaseForm class="f-2" v-model="modelData" :fields="fields" grid="12" label-suffix="：" :size="size">
       <template #zdy>这是自定义的表单字段</template>
     </BaseForm>
     <template #side>
@@ -28,7 +28,7 @@ const records = {
   },
 };
 const size: CommonSize = "default"; // large, default, small
-const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
+const modelData = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
 const fields = [
   { prop: "id", label: "用户ID", required: true, quickAttrs: {} },
   { prop: "nc", label: "昵称", quickAttrs: {} },

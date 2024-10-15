@@ -1,7 +1,7 @@
 <!-- 步骤表单测试 -->
 <template>
   <TestView :records="records">
-    <StepForm class="f-2" v-model="model" :sections="sections" label-suffix="：" :size="size">
+    <StepForm class="f-2" v-model="modelData" :sections="sections" label-suffix="：" :size="size">
       <template #body-partOne>这是第一部分的自定义内容</template>
       <template #head-right-partThree>这是第三部分的Head的插槽，有prop属性：【head-right-partThree】</template>
       <template #head-right-4>这是第四部分的Head的插槽，无prop属性：【head-right-4】</template>
@@ -26,7 +26,7 @@ const records = {
   },
 };
 const size: CommonSize = "large"; // large, default, small
-const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "张三", partThree: { xjd: "成都" } });
+const modelData = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "张三", partThree: { xjd: "成都" } });
 const sections = [
   {
     title: "第一部分",

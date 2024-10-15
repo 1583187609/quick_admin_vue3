@@ -1,15 +1,15 @@
 <template>
-  <BaseForm style="width: 500px" label-suffix="：" :fields="fields" v-model="model" :footer="false">
+  <BaseForm style="width: 500px" label-suffix="：" :fields="fields" v-model="modelData" :footer="false">
     <template #version>
-      <el-tag>{{ model.version }}</el-tag>
+      <el-tag>{{ modelData.version }}</el-tag>
     </template>
     <template #depends>
-      <BaseKeyVal style="width: 100%" :label="item[0]" v-for="(item, ind) in model.depends" :key="ind">
+      <BaseKeyVal style="width: 100%" :label="item[0]" v-for="(item, ind) in modelData.depends" :key="ind">
         <el-tag size="small" type="info">{{ item[1] }}</el-tag>
       </BaseKeyVal>
     </template>
     <template #devDepends>
-      <BaseKeyVal style="width: 100%" :label="item[0]" v-for="(item, ind) in model.devDepends" :key="ind">
+      <BaseKeyVal style="width: 100%" :label="item[0]" v-for="(item, ind) in modelData.devDepends" :key="ind">
         <el-tag size="small" type="info">{{ item[1] }}</el-tag>
       </BaseKeyVal>
     </template>
@@ -59,7 +59,7 @@ const fields: FormFieldAttrs[] = [
     class: "mb-h",
   },
 ];
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   name: VITE_APP_NAME,
   description:
     "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",

@@ -205,3 +205,36 @@ export const filterTreeByKeywords = (val: string, tree: CommonObj[], newArr: Com
  * @returns {string}
  */
 export const addCommasToNumber = (num: string | number): string => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+/**
+ * 动态加载js脚本（加载web-view脚本）
+ * @param {String} url js脚本地址
+ * @param {Object} [attr={}] 需要给`script`标签额外指定的属性
+ * @return {Promise} 返回一个Promise对象
+ * @example loadScript('https://appx/web-view.min.js')
+ */
+
+export function loadScript(url) {
+  const attr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  const returnScript = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  return new Promise(function (resolve, reject) {
+    const $script = document.createElement("script");
+    $script.type = "text/javascript";
+
+    $script.onload = function () {
+      return resolve($script);
+    };
+
+    $script.onerror = function (err) {
+      reject(err || new Error("load script error: ".concat(url)));
+    };
+
+    for (const key in attr) {
+      $script[key] = attr[key];
+    }
+
+    $script.src = url;
+    document.body.appendChild($script);
+    returnScript && returnScript($script);
+  });
+}

@@ -2,7 +2,7 @@
 <template>
   <BaseForm
     style="width: 600px"
-    v-model="model"
+    v-model="modelData"
     :fields="fields"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
     :onSuccess="refreshList"
@@ -23,7 +23,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const model = reactive<CommonObj>(Object.assign({}, props.data));
+const modelData = reactive<CommonObj>(Object.assign({}, props.data));
 const fields: FormField[] = [
   {
     prop: "zdmc",

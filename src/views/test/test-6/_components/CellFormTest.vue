@@ -4,7 +4,7 @@
     <div>
       <BaseForm
         class="f-2 m-o"
-        v-model="model"
+        v-model="modelData"
         type="cell"
         :fields="fields"
         grid="12"
@@ -38,7 +38,7 @@ const records = {
 };
 const size: CommonSize = "default"; // large, default, small
 const pureText = false;
-const model = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
+const modelData = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
 const fields = [
   { prop: "id", label: "用户ID", required: true, quickAttrs: {} },
   { prop: "nc", label: "昵称", quickAttrs: {} },

@@ -82,6 +82,13 @@
           ></el-button>
         </el-form-item>
       </el-form-item>
+      <el-form-item
+        label="电话号码"
+        prop="phone"
+        :rules="[{ pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/, message: '请输入正确的11位电话号码', trigger: 'change' }]"
+      >
+        <el-input :maxlength="11" v-model="sizeForm.phone" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit(ruleFormRef)">提交</el-button>
         <el-button @click="handleReset(ruleFormRef)">重置</el-button>

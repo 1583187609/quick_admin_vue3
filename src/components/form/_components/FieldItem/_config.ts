@@ -266,7 +266,7 @@ export const defaultRulesTypes: CommonObj = getExportData(
         {
           pattern: regexp.phone,
           message: "请输入正确的11位电话号码",
-          trigger: "blur",
+          trigger: "change",
         },
       ],
       attrs: {
@@ -279,12 +279,12 @@ export const defaultRulesTypes: CommonObj = getExportData(
         {
           min: 6,
           message: "密码长度不能小于6位",
-          trigger: "blur",
+          trigger: "change",
         },
         {
           pattern: regexp.password,
           message: "请输入正确的6~16位字母 + 数字组合密码",
-          trigger: "blur",
+          trigger: "change",
         },
       ],
       attrs: {
@@ -299,12 +299,12 @@ export const defaultRulesTypes: CommonObj = getExportData(
         {
           min: 15,
           message: "身份证号长度不能小于15位",
-          trigger: "blur",
+          trigger: "change",
         },
         {
           pattern: regexp.identity,
           message: "请输入正确的15/18位身份证号",
-          trigger: "blur",
+          trigger: "change",
         },
       ],
       attrs: {
@@ -317,7 +317,7 @@ export const defaultRulesTypes: CommonObj = getExportData(
         {
           pattern: regexp.email,
           message: "请输入正确的邮箱地址",
-          trigger: "blur",
+          trigger: "change",
         },
       ],
     },
@@ -334,21 +334,10 @@ export const defaultRulesTypes: CommonObj = getExportData(
       quickAttrs: {
         after: "元",
       },
+      // slots: {
+      //   suffix: "￥", // 要2.8.4以上才支持
+      // },
     },
-    // 另一种人民币的写法
-    // rmb: {
-    //   type: "number",
-    //   attrs: {
-    //     min: 0,
-    //     // max: 99999,
-    //     // onBlur(e) {
-    //     //   formData.mallPaymentAmount = getInputLimitNum(e.target.value, min, max, 2);
-    //     // },
-    //   },
-    //   slots: {
-    //     suffix: "元",
-    //   },
-    // },
     //年龄
     age: {
       type: "input-number",
@@ -359,6 +348,9 @@ export const defaultRulesTypes: CommonObj = getExportData(
       quickAttrs: {
         after: "岁",
       },
+      // slots: {
+      //   suffix: "岁", // 要2.8.4以上才支持
+      // },
     },
   },
   formCfg?.defaultRulesTypes

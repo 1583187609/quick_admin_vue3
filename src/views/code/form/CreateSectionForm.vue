@@ -1,6 +1,6 @@
 <!-- 组件 - 创建分块表单 -->
 <template>
-  <BaseForm class="create-base-form" v-model="model" :fields="fields"></BaseForm>
+  <BaseForm class="create-base-form" v-model="modelData" :fields="fields"></BaseForm>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
@@ -14,7 +14,7 @@ const props = withDefaults(
     exampleProp: () => ({}),
   }
 );
-const model = reactive<CommonObj>({ form_type: 0 });
+const modelData = reactive<CommonObj>({ form_type: 0 });
 const fields = computed<FormField[]>(() => {
   return [
     {

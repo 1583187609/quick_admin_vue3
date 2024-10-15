@@ -13,7 +13,7 @@ meta:
       <h1 class="head f-c-c">{{ VITE_APP_NAME }}</h1>
       <BaseForm
         class="body"
-        v-model="model"
+        v-model="modelData"
         size="large"
         :loading="loading"
         :fields="fields"
@@ -23,7 +23,7 @@ meta:
       >
         <!-- :fetch="PostUserLogin" -->
         <template #captcha>
-          <Captcha v-model="model.captcha" prop="captcha" />
+          <Captcha v-model="modelData.captcha" prop="captcha" />
         </template>
       </BaseForm>
       <div class="foot f-sb-c">
@@ -60,7 +60,7 @@ const userStore = useUserStore();
 const loading = ref(false);
 const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   phone: storeAccount?.phone ?? "18483221518",
   psd: storeAccount?.psd ?? "superAdmin12345",
   captcha: "",
@@ -80,7 +80,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         fetchSuggestions: handleFetchSuggestions,
       },
       quickAttrs: {
-        rulesType: /^\d/.test(model.phone) ? "phone" : undefined,
+        rulesType: /^\d/.test(modelData.phone) ? "phone" : undefined,
       },
     },
     {
@@ -134,7 +134,7 @@ function handleFetchSuggestions(queryStr: string, cb: any) {
   cb(opts);
 }
 function handleSelect(item: CommonObj) {
-  model.psd = item.psd;
+  modelData.psd = item.psd;
 }
 </script>
 <style lang="scss" scoped>

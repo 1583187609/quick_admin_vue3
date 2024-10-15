@@ -1,13 +1,13 @@
 <!-- 页面-简介 -->
 <template>
   <div class="page-view two f-sb-s">
-    <SectionForm class="f-2" v-model="model" :fetch="handleFetch" :sections="sections">
+    <SectionForm class="f-2" v-model="modelData" :fetch="handleFetch" :sections="sections">
       <template #head-right-0>这是标题右侧的插槽</template>
-      <template #zdy="{ form }">
-        <el-input placeholder="这是自定义组件" v-model="form.zdy" clearable />
+      <template #zdy>
+        <el-input placeholder="这是自定义组件" v-model="modelData.zdy" clearable />
       </template>
-      <template #bjnr="{ form }">
-        <BaseEditor v-model="form.bjnr" />
+      <template #bjnr>
+        <BaseEditor v-model="modelData.bjnr" />
       </template>
     </SectionForm>
     <ul class="f-1 ml-o tips-list">
@@ -33,12 +33,12 @@ const supportSwitchAttrs: CommonObj = {
   inlinePrompt: true,
   style: "width: 5em",
 };
-const model = reactive({
+const modelData = reactive<CommonObj>({
   nl: 24,
   cyxslx: 1,
 });
 const sections = computed<SectionFormItem[]>(() => {
-  const { cyxslx } = model;
+  const { cyxslx } = modelData;
   return [
     {
       // prop: "jcxx",
@@ -56,23 +56,34 @@ const sections = computed<SectionFormItem[]>(() => {
           type: "select",
           options: "Gender",
           quickAttrs: {
-            grid: 6,
+            grid: 5,
           },
         },
         {
           prop: "nl",
           label: "年龄",
           type: "input-number",
+          labelWidth: "4em",
           quickAttrs: {
-            grid: 6,
+            grid: 5,
             rulesType: "age",
+          },
+        },
+        {
+          prop: "jg",
+          label: "价格",
+          labelWidth: "4em",
+          quickAttrs: {
+            grid: 5,
+            rulesType: "rmb",
           },
         },
         {
           prop: "dhhm",
           label: "电话",
+          labelWidth: "4em",
           quickAttrs: {
-            grid: 12,
+            grid: 9,
             rulesType: "phone",
           },
         },

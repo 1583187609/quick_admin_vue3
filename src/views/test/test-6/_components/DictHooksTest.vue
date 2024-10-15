@@ -1,7 +1,7 @@
 <!-- 字典hooks测试 -->
 <template>
   <TestView :records="records">
-    <BaseForm class="f-2" v-model="model" :fields="fields" />
+    <BaseForm class="f-2" v-model="modelData" :fields="fields" />
   </TestView>
 </template>
 <script lang="ts" setup>
@@ -17,7 +17,7 @@ const records = {
     list: [],
   },
 };
-const model = reactive({});
+const modelData = reactive({});
 const fields = [
   {
     prop: "TestText",
