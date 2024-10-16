@@ -177,8 +177,8 @@ const props = withDefaults(
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
     reqMap?: ReqMap; // 请求参数的键名映射
     resMap?: ResMap; // 响应参数的键名映射
-    onSuccess?: (res: any) => void; // 请求成功的回调函数
-    onFail?: (err: any) => void; // 请求成功的回调函数
+    afterSuccess?: (res: any) => void; // 请求成功的回调函数
+    afterFail?: (err: any) => void; // 请求成功的回调函数
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
     handleResponse?: (res: any) => any; // 处理响应数据
     /** 下面是待确定项，可以更改名称，可能移除或替换 **/
@@ -208,7 +208,7 @@ const props = withDefaults(
     config?.BaseCrud?.Index
   )
 );
-const emits = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
+const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
 const closePopup = inject<ClosePopupInject>("closePopup");
 const queryTableRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
@@ -233,7 +233,7 @@ const newRows = ref([]);
 const seledRows = ref<CommonObj[]>([]);
 const modelData = computed({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 //请求参数
 let params: CommonObj = cloneDeep(initParams);
@@ -241,11 +241,11 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   const { extraBtns = [], disabled, filterByAuth } = props;
   const btns = extraBtns.map((btn: BaseBtnType) => {
     const btnObj: BtnItem = getBtnObj(btn);
-    const { name, attrs, customRules } = btnObj;
+    const { name, attrs, handleClickType } = btnObj;
     if (batchBtnNames?.includes(name as string)) {
       btnObj.popconfirm = false;
       if (attrs) {
-        attrs.disabled = customRules ? !pageInfo.total : !seledRows.value.length;
+        attrs.disabled = handleClickType === "custom" ? !pageInfo.total : !seledRows.value.length;
       }
     }
     if (disabled) attrs!.disabled = disabled;
@@ -312,7 +312,7 @@ function handleChange(changedVals: CommonObj, withModelData?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { fetch, handleRequest, isOmit, handleResponse, summaryList, onSuccess, onFail, log } = props;
+  const { fetch, handleRequest, isOmit, handleResponse, summaryList, afterSuccess, afterFail, log } = props;
   if (!fetch) return;
   loading.value = true;
   if (handleRequest) args = handleRequest(args);
@@ -347,12 +347,12 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
         [reqMap.curr_page]: _currPage,
         [reqMap.page_size]: args[reqMap.page_size as string],
       });
-      onSuccess?.(res);
-      emits("rows", newRows.value, args);
+      afterSuccess?.(res);
+      $emit("rows", newRows.value, args);
       cb?.();
     })
     .catch((err: any) => {
-      onFail?.(err);
+      afterFail?.(err);
     })
     .finally(() => {
       loading.value = false;
@@ -374,7 +374,7 @@ function onExtraBtns(btnObj: BtnItem) {
     }),
     total: pageInfo.total,
     exportCfg,
-    emits,
+    $emit,
     next: (hint = `${text || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void, isRefreshList: boolean = true) => {
       showMessage(hint);
       closePopup(closeType);
@@ -389,7 +389,7 @@ function onExtraBtns(btnObj: BtnItem) {
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
   const { name } = btnObj;
-  emits(operateBtnsEmitName, name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
+  $emit(operateBtnsEmitName, name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     isRefreshList && refreshList();
   });
@@ -398,7 +398,7 @@ function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRef
 //处理多选改变时
 function handleSelectionChange(rows: CommonObj[], keys: string[]) {
   seledRows.value = rows;
-  emits("selectionChange", rows, keys);
+  $emit("selectionChange", rows, keys);
 }
 /**
  * 刷新列表
@@ -418,7 +418,7 @@ function handleDragSort(ele = queryTableRef?.value.tableRef?.$el?.querySelector(
     onEnd(res: CommonObj) {
       const { newIndex, oldIndex } = res;
       if (typeof dragSortable.value === "boolean") {
-        emits("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => {
+        $emit("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => {
           // const removeItem = newRows.value.splice(oldIndex, 1)[0];
           // newRows.value.splice(newIndex, 0, removeItem);
           showMessage(tips);

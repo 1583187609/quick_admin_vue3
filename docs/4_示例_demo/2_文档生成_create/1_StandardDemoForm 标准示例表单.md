@@ -98,7 +98,7 @@
 | `moreBtns`          | 更多按钮       | (`name: string, args: CommonObj, cb: FinallyNext)` |
 
 ::: warning
-这是 `emits `的 `warning `信息
+这是 `$emit `的 `warning `信息
 :::
 
 ### 方法(expose)

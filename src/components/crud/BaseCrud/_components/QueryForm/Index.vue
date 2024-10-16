@@ -19,7 +19,7 @@
             :readonly="readonly"
             :size="size"
             :inputDebounce="inputDebounce"
-            @change="(key:string, val:any)=>emits('change', {[key]: val})"
+            @change="(key:string, val:any)=>$emit('change', {[key]: val})"
             v-for="(field, ind) in sItem.fields.slice(0, sliceInd?.(sInd))"
             :key="ind"
           >
@@ -54,7 +54,7 @@
         :field="field"
         :size="size"
         :inputDebounce="inputDebounce"
-        @change="(key:string, val:any)=>emits('change', {[key]: val})"
+        @change="(key:string, val:any)=>$emit('change', {[key]: val})"
         v-for="(field, ind) in newFields.slice(0, sliceInd)"
         :key="ind"
       >
@@ -121,7 +121,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.QueryForm
   )
 );
-const emits = defineEmits(["update:modelValue", "search", "change", "reset"]);
+const $emit = defineEmits(["update:modelValue", "search", "change", "reset"]);
 let isFirst = true;
 const formRef = ref<FormInstance>();
 const colNum = ref(2);
@@ -169,7 +169,7 @@ const formData = computed({
     return props.modelValue;
   },
   set(val: CommonObj) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 // watch fields 和 watch sections 只能两者选其一执行
@@ -182,7 +182,7 @@ watch(
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
-    emits("change", formData.value, isFirst ? !!modelValue : false);
+    $emit("change", formData.value, isFirst ? !!modelValue : false);
     isFirst = false;
   },
   { immediate: true, deep: true, once: !!props?.sections?.length }
@@ -201,7 +201,7 @@ watch(
         merge(formData.value, data);
         return item;
       }) ?? [];
-    emits("change", formData.value, isFirst ? !!modelValue : false);
+    $emit("change", formData.value, isFirst ? !!modelValue : false);
     isFirst = false;
   },
   { immediate: true, deep: true, once: !props.sections }
@@ -238,7 +238,7 @@ function handleSubmit() {
   formInst.validate((valid, fieldsObj) => {
     if (valid) {
       const { extraParams } = props;
-      emits("search", merge({}, extraParams, formData.value));
+      $emit("search", merge({}, extraParams, formData.value));
     } else {
       const target = Object.values(fieldsObj)[0][0];
       showMessage(target.message, "error");
@@ -248,7 +248,7 @@ function handleSubmit() {
 //重置表单
 function resetForm() {
   formRef.value?.resetFields();
-  emits("reset");
+  $emit("reset");
 }
 defineExpose({
   formRef,

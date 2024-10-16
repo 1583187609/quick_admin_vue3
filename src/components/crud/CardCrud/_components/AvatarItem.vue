@@ -33,7 +33,7 @@
         round
         size="small"
         :disabled="isPatrol ? false : status !== 2"
-        @click="() => emits('operateBtns', btn)"
+        @click="() => $emit('operateBtns', btn)"
         v-for="(btn, ind) in operateBtns"
         :key="ind"
       />
@@ -72,7 +72,7 @@ const props = withDefaults(
     operateBtns: () => [],
   }
 );
-const emits = defineEmits([operateBtnsEmitName]);
+const $emit = defineEmits([operateBtnsEmitName]);
 const passed = computed(() => !props.isPatrol && props.status === 0);
 const rejected = computed(() => !props.isPatrol && props.status === 1);
 const showMask = computed(() => props.withMask && (passed.value || rejected.value));

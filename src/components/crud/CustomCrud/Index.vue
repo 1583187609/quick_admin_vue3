@@ -34,7 +34,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const emits = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange"]);
+const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange"]);
 const crudRef = ref<any>(null);
 /**
  * 刷新列表

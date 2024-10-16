@@ -1,6 +1,6 @@
 <template>
   <div class="extra-btns f-fs-fs-w">
-    <BaseBtn :name="btn" class="btn-item" :class="size" @click="emits('click', btn)" v-for="(btn, ind) in newBtns" :key="ind" />
+    <BaseBtn :name="btn" class="btn-item" :class="size" @click="$emit('click', btn)" v-for="(btn, ind) in newBtns" :key="ind" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -25,7 +25,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.ExtraBtns
   )
 );
-const emits = defineEmits(["click"]);
+const $emit = defineEmits(["click"]);
 const newBtns = computed(() => sortObjArrByKey(props.btns.map(btn => getBtnObj(btn))));
 </script>
 <style lang="scss" scoped>

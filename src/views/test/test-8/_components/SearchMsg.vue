@@ -41,7 +41,7 @@ const props = withDefaults(
   }>(),
   {}
 );
-const emits = defineEmits(["select"]);
+const $emit = defineEmits(["select"]);
 const searchVal = ref(props.keyWord);
 const msgsInfo = reactive<CommonObj>({
   loading: false,
@@ -116,7 +116,7 @@ function getMsgsList(val: string = "") {
     });
 }
 function handleClick(row: CommonObj) {
-  emits("select", row, searchVal.value, () => {
+  $emit("select", row, searchVal.value, () => {
     closePopup();
   });
 }

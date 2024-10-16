@@ -36,7 +36,7 @@ const props = withDefaults(
     modelValue: () => [],
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const { formItem } = useFormItem();
 const inpRef = ref();
 const inpVal = ref("");
@@ -45,7 +45,7 @@ const showInp = ref(false);
 watch(
   tags,
   newVal => {
-    emits("update:modelValue", JSON.parse(JSON.stringify(newVal)));
+    $emit("update:modelValue", JSON.parse(JSON.stringify(newVal)));
     formItem?.validate("change");
   },
   { deep: true }

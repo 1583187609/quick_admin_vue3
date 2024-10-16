@@ -18,7 +18,7 @@
       </div>
     </template>
     <template #error>
-      {{ emits("error") }}
+      {{ $emit("error") }}
       <el-image class="base-img" :class="{ round }" :src="errImgSrc" :fit="fit" preview-teleported v-if="errImgSrc" />
       <div class="err-box f-c-c-c" v-else>
         <BaseIcon :size="sizeMap[sizeType]" name="Picture"></BaseIcon>
@@ -68,7 +68,7 @@ const props = withDefaults(
     preview: (props: CommonObj) => props.to === undefined,
   }
 );
-const emits = defineEmits(["click", "error"]);
+const $emit = defineEmits(["click", "error"]);
 const previewAttrs = computed<CommonObj>(() => (props.src && props.preview ? { previewSrcList: [props.src] } : {}));
 const newStyle = computed(() => {
   return {
@@ -79,7 +79,7 @@ const newStyle = computed(() => {
 //处理点击图片
 function handleClick(e: any) {
   const { preview, to, stopPropagation } = props;
-  to ? router.push(to) : emits("click", e);
+  to ? router.push(to) : $emit("click", e);
   if (stopPropagation) e.stopImmediatePropagation();
 }
 </script>

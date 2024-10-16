@@ -18,8 +18,8 @@
   </el-scrollbar>
 </template>
 <script lang="ts" setup>
-import { ref,  onMounted } from "vue";
-import {  StrNum, SetTimeout } from "@/vite-env";
+import { ref, onMounted } from "vue";
+import { StrNum, SetTimeout } from "@/vite-env";
 import { toCssVal } from "@/components/_utils";
 
 let timeout: SetTimeout = null;
@@ -49,7 +49,7 @@ const props = withDefaults(
     emptyTips: "换个姿势搜搜看~",
   }
 );
-const emits = defineEmits(["reachTop", "reachBottom"]);
+const $emit = defineEmits(["reachTop", "reachBottom"]);
 const isToBottom = ref(false);
 const hasScroll = ref(false); //是否出现了滚动条
 const boxRef = ref<any>(null);
@@ -77,7 +77,7 @@ function handleMousewheel(e: any) {
       }, debounceDelay);
       if (canExe) {
         // console.log("触底------");
-        emits("reachBottom", e);
+        $emit("reachBottom", e);
         isReachBottom.value = true;
         setTimeout(() => {
           isReachBottom.value = false;
@@ -93,7 +93,7 @@ function handleMousewheel(e: any) {
       }, debounceDelay);
       if (canExe) {
         // console.log("触顶------");
-        emits("reachTop", e);
+        $emit("reachTop", e);
         isReachTop.value = true;
         setTimeout(() => {
           isReachTop.value = false;

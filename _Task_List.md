@@ -101,6 +101,7 @@
 ~~93、el-dialog 关闭时销毁功能优化~~
 ~~86、关于系统信息完善；并考虑移除`BaseKeyVal`组件~~
 ~~83、rulesType 增加 rmb 类型（自测）。~~
+~~57、给 BaseCrud 导入/导出按钮添加 customRules 自定义规则功能并自测，换用 handleClickType（可选值：'common' | 'custom'）~~  
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -108,11 +109,10 @@
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
 56、借助文件指令优化打包速度（使得不用每次都生成一大堆文件指令改变了的新文件）  
-57、给 BaseCrud 导入/导出按钮添加 customRules 自定义规则功能并自测  
 62、全局错误拦截，在 App.vue 中处理  
 64、封装 TreeCrud 组件  
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
-70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里
+70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在 `src/_code-tpl` 中完善代码片段。
 74、将 Quick 的内核抽离成 npm 包
 75、完善 http 的 ts 类型书写  
 76、请求参数加解密  
@@ -138,6 +138,7 @@
 104、最好去掉 BaseCrud 中的 showPagination 属性
 105、处理白屏过久的问题
 106、将 BaseTable、BaseCrud 的公共 props 属性合并
+107、换用 pnpm 进行包管理，且只允许 pnpm
 
 ## TS 类型处理
 
@@ -168,7 +169,8 @@
 21、用上之前内江市国资委系统的皮肤
 44、BaseTable、BaseForm 等的暴露方法处理
 45、打印设置功能
-46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算
+46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算、组按钮的属性值及计算
+47、扩展 BaseBtn 的 handleClickType 功能
 
 ## 未来功能清单
 
@@ -328,7 +330,7 @@
 
 ### 逻辑优化相关
 
-1、可以考虑 emits 的优化，示例：
+1、可以考虑 $emit 的优化，示例：
 
 ```js
 const emit = defineEmits<{

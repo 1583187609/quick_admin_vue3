@@ -72,7 +72,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.QueryTable
   )
 );
-const emits = defineEmits(["update:cols", "selectionChange", operateBtnsEmitName, "change"]);
+const $emit = defineEmits(["update:cols", "selectionChange", operateBtnsEmitName, "change"]);
 const { handleScroll } = useCacheScroll();
 let rowNum = props.showSummary ? 2 : 1;
 const tableRef = ref<any>(null);
@@ -86,7 +86,7 @@ const seledRows = ref<CommonObj[]>([]);
 const newCols = reactive<TableColAttrs[]>(
   getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
     rowNum += maxLev - 1;
-    emits("update:cols", cols);
+    $emit("update:cols", cols);
   })
 );
 
@@ -106,13 +106,13 @@ const newAttrs = computed(() => {
 });
 
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  emits(operateBtnsEmitName, btnObj, { $index, ...row }, next);
+  $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next);
 }
 //当选择项发生变化时会触发该事件
 function handleSelectionChange(rows: CommonObj[]) {
   seledRows.value = rows;
   const keys = rows.map(it => it[newAttrs.value.rowKey]);
-  emits("selectionChange", rows, keys);
+  $emit("selectionChange", rows, keys);
 }
 /**
  * 暴露的方法

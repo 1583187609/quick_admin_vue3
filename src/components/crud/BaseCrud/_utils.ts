@@ -34,14 +34,14 @@ export function handleClickExtraBtns({
   seledKeys,
   total,
   exportCfg,
-  emits,
+  $emit,
   next,
   openPopup,
   importCfg,
 }: HandleClickExtraBtnsProps) {
-  const { name = "", text, attrs, customRules } = btnObj;
-  if (customRules)
-    return emits("extraBtns", name, next, {
+  const { name = "", text, attrs, handleClickType } = btnObj;
+  if (handleClickType === "custom")
+    return $emit("extraBtns", name, next, {
       selectedKeys: [],
       selectedRows: [],
       exportRows: [],
@@ -92,7 +92,7 @@ export function handleClickExtraBtns({
               exportRows.push(list);
             });
           }
-          emits("extraBtns", name, next, {
+          $emit("extraBtns", name, next, {
             selectedKeys: seledKeys,
             selectedRows: seledRows,
             exportRows,
@@ -102,9 +102,9 @@ export function handleClickExtraBtns({
     }
   } else if (name === "import") {
     // () => import("./_components/ImportPopup.vue"),
-    openPopup("导入文件", [ImportPopup, { ...importCfg, onChange: (arr: CommonObj[]) => emits("click", name, arr) }]);
+    openPopup("导入文件", [ImportPopup, { ...importCfg, onChange: (arr: CommonObj[]) => $emit("click", name, arr) }]);
   } else {
-    emits("extraBtns", name, next, {
+    $emit("extraBtns", name, next, {
       selectedKeys: [],
       selectedRows: [],
       exportRows: [],

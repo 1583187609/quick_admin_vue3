@@ -8,9 +8,7 @@
       :placeholder="'请输入标准JSON字符串，例：' + exampleMap[type]"
       v-if="inpType === 0"
     />
-    <div class="f-fs-c" v-else-if="inpType === 1">
-      暂未处理动态添加
-    </div>
+    <div class="f-fs-c" v-else-if="inpType === 1">暂未处理动态添加</div>
     <div class="f-fs-fs" v-else-if="inpType === 2">
       暂未处理请求获取
       <!-- <el-input class="f-1" placeholder="请输入请求地址" />
@@ -35,14 +33,14 @@ const props = withDefaults(
   }>(),
   {}
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const inpType = ref<InputType>(0);
 const val = computed<any>({
   get() {
     return props.modelValue;
   },
   set(val: any) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 </script>

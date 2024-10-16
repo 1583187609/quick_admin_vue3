@@ -172,8 +172,8 @@ function getSlotsRows(list = []) {
 }
 
 /**
- * 获取 emits 表格行数据
- * @param {string} list emits 数组
+ * 获取 $emit 表格行数据
+ * @param {string} list $emit 数组
  * @returns {object[]}
  */
 function getEmitsRows(list = []) {
@@ -241,11 +241,11 @@ export async function getApiTablesStr(readPath = needParam()) {
   const info = await getParseInfo(readPath);
   // const { description, displayName, exportName, sourceFiles, tags,expose, props, slots  } = info;
   const { events, ...rest } = info;
-  const data = { emits: events, ...rest };
+  const data = { $emit: events, ...rest };
   let fileStr = "";
   const map = {
     props: getPropsRows,
-    emits: getEmitsRows,
+    $emit: getEmitsRows,
     expose: getExposeRows,
     slots: getSlotsRows,
   };

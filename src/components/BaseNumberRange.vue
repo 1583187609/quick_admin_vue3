@@ -52,18 +52,18 @@ const props = withDefaults(
     rangeSeparator: rangeJoinChar,
   }
 );
-const emits = defineEmits(["update:modelValue", "change", "clear"]);
+const $emit = defineEmits(["update:modelValue", "change", "clear"]);
 const [minProp, maxProp] = [`${props.prop}[0]`, `${props.prop}[1]`];
 const minVal = computed<StrNumUnd>({
   get: () => props.modelValue?.[0],
   set(val: StrNumUnd) {
-    emits("update:modelValue", [val, maxVal.value]);
+    $emit("update:modelValue", [val, maxVal.value]);
   },
 });
 const maxVal = computed<StrNumUnd>({
   get: () => props.modelValue?.[1],
   set(val: StrNumUnd) {
-    emits("update:modelValue", [minVal.value, val]);
+    $emit("update:modelValue", [minVal.value, val]);
   },
 });
 
@@ -79,14 +79,14 @@ function validate(rule: FormItemRule, value: any, callback: any) {
 function handleChange() {
   const { prop } = props;
   const arrVals = [minVal.value, maxVal.value];
-  emits("change", prop?.join?.(propsJoinChar) ?? prop, arrVals);
+  $emit("change", prop?.join?.(propsJoinChar) ?? prop, arrVals);
 }
 function handleClear(type: InputType) {
   const { prop } = props;
   const arrVals = type === "min" ? [undefined, maxVal.value] : [minVal.value, undefined];
   const _prop = prop?.join?.(propsJoinChar) ?? prop;
-  emits("change", _prop, arrVals);
-  emits("clear", _prop, arrVals);
+  $emit("change", _prop, arrVals);
+  $emit("clear", _prop, arrVals);
 }
 </script>
 <style lang="scss" scoped>

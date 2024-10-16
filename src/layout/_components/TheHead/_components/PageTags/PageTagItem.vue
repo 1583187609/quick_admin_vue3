@@ -19,9 +19,9 @@ const props = withDefaults(
     active: false,
   }
 );
-const emits = defineEmits(["contextmenu"]);
+const $emit = defineEmits(["contextmenu"]);
 function onContextmenu(e: Event) {
-  emits("contextmenu", e);
+  $emit("contextmenu", e);
 }
 </script>
 <style lang="scss" scoped>

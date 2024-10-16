@@ -1,14 +1,14 @@
 <!-- 页面-简介 -->
 <template>
   <el-col class="query-btns f-fe-fs ml-a" :class="{ compact, [size]: true }">
-    <el-button type="primary" v-debounce.immediate="() => emits('submit')" :disabled="loading">
+    <el-button type="primary" v-debounce.immediate="() => $emit('submit')" :disabled="loading">
       <template #icon>
         <BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : 'Search'"></BaseIcon>
       </template>
       <template #default>{{ $t("base.button.search") }}</template>
     </el-button>
-    <el-button :icon="RefreshLeft" @click="emits('reset')" :disabled="loading">{{ $t("base.button.reset") }}</el-button>
-    <el-button @click="emits('fold')" text type="primary" v-if="showFoldBtn">
+    <el-button :icon="RefreshLeft" @click="$emit('reset')" :disabled="loading">{{ $t("base.button.reset") }}</el-button>
+    <el-button @click="$emit('fold')" text type="primary" v-if="showFoldBtn">
       <template #icon>
         <BaseIcon name="ArrowDown" :class="{ 'rotate-180': !isFold, 'icon-fold': true }"></BaseIcon>
       </template>
@@ -34,7 +34,7 @@ const props = withDefaults(
     size: defaultCommonSize,
   }
 );
-const emits = defineEmits(["submit", "reset", "fold"]);
+const $emit = defineEmits(["submit", "reset", "fold"]);
 </script>
 <style lang="scss">
 .query-btns {

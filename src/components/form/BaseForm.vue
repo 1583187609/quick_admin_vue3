@@ -24,7 +24,7 @@
           :readonly="readonly"
           :pureText="pureText"
           v-model="formData[field.prop as string]"
-          @change="(prop:any,val:any)=>emits('change',prop,val)"
+          @change="(prop:any,val:any)=>$emit('change',prop,val)"
           :formRef="formRef"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
@@ -48,13 +48,13 @@
         :debug="debug"
         :params="params"
         :fetch="fetch"
-        :onSuccess="onSuccess"
-        :onFail="onFail"
+        :afterSuccess="afterSuccess"
+        :afterFail="afterFail"
         :noSubmitProps="noSubmitProps"
         :handleRequest="handleRequest"
         :disabled="!newFields.length"
-        @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
-        @submit="(args:CommonObj)=>emits('submit', args)"
+        @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
+        @submit="(args:CommonObj)=>$emit('submit', args)"
         ref="footerBtnsRef"
         v-if="!pureText"
       />
@@ -88,8 +88,8 @@ const props = withDefaults(
     readonly?: boolean; //是否只读
     pureText?: boolean; //是否纯文本展示
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    onSuccess?: FinallyNext; //fetch请求成功之后的回调方法
-    onFail?: FinallyNext; //fetch请求失败之后的回调方法
+    afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    afterFail?: FinallyNext; //fetch请求失败之后的回调方法
     grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     footer?: boolean; //是否显示底部按钮
     submitText?: string; //提交按钮的文字
@@ -117,20 +117,20 @@ const props = withDefaults(
     fields: () => [],
   }
 );
-const emits = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);
 const formData = computed({
   get: () => props.modelValue,
-  set: (val: CommonObj) => emits("update:modelValue", val),
+  set: (val: CommonObj) => $emit("update:modelValue", val),
 });
 const params = computed(() => merge({}, formData.value, props.extraParams));
 watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, emits, modelValue);
+    const result = handleFields(newVal, $emit, modelValue);
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -140,7 +140,7 @@ watch(
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();
-  emits("submit", params.value);
+  $emit("submit", params.value);
 }
 
 defineExpose<{

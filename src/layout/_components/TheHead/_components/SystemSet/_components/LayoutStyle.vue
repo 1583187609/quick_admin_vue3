@@ -65,14 +65,14 @@ const props = withDefaults(
     modelValue: "vertical",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const setStore = useSetStore();
 const type = computed({
   get() {
     return props.modelValue;
   },
   set(val: LayoutType) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 function handleSelected(val: LayoutType) {

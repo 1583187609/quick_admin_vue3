@@ -13,13 +13,13 @@ withDefaults(
     modelValue: "",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 function onBlur() {
   formItem?.validate("blur");
 }
 function onChange(val: Event) {
   const inputEle: HTMLInputElement = val.target as HTMLInputElement;
-  emits("update:modelValue", inputEle.value);
+  $emit("update:modelValue", inputEle.value);
 }
 </script>
 

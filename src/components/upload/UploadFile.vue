@@ -5,7 +5,7 @@
       clearable
       v-model="file.name"
       :disabled="!file.url"
-      @clear="emits('update:modelValue', { name: '', url: '' })"
+      @clear="$emit('update:modelValue', { name: '', url: '' })"
     />
     <el-upload
       class="upload f-c-c"
@@ -65,7 +65,7 @@ const props = withDefaults(
     config?.BaseCrud
   )
 );
-const emits = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 const { formItem } = useFormItem();
 const { value: disabled } = useFormDisabled();
 const file = ref<FileAttrs>(props.modelValue || { url: "", name: "" });
@@ -88,9 +88,9 @@ const handleSuccess: UploadProps["onSuccess"] = (res, uploadFile) => {
   const obj: FileAttrs = { url, name };
   file.value = { url, name };
   console.log(obj);
-  emits("update:modelValue", obj);
+  $emit("update:modelValue", obj);
   formItem?.validate("blur");
-  emits("change", file);
+  $emit("change", file);
 };
 const handleError: UploadProps["onError"] = (err: any) => {
   // console.error(err);

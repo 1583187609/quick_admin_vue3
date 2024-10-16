@@ -42,7 +42,7 @@ const toolsMap: CommonObj = {
   },
 };
 
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
@@ -66,7 +66,7 @@ const props = withDefaults(
 
 const cols = computed<TableColAttrs[]>({
   get: () => props.modelValue,
-  set: (val: TableColAttrs[]) => emits("update:modelValue", val),
+  set: (val: TableColAttrs[]) => $emit("update:modelValue", val),
 });
 const newToolBtns = computed(() => props.toolBtns.map(btn => toolsMap[btn]));
 

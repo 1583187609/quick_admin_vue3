@@ -1,7 +1,7 @@
 <template>
   <el-popover ref="popoverRef" placement="bottom" :width="width - 100" trigger="click">
     <template #reference>
-      <el-input v-model="menuText" placeholder="请选择父级菜单" @clear="emits('update:modelValue', '')" clearable></el-input>
+      <el-input v-model="menuText" placeholder="请选择父级菜单" @clear="$emit('update:modelValue', '')" clearable></el-input>
     </template>
     <el-tree
       class="menu-tree"
@@ -46,7 +46,7 @@ const props = withDefaults(
     modelValue: "",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const customNodeClass = (data: MenuTreeNode, node: MenuTreeNode) => {
   if (data.type === 0) return null;
@@ -60,7 +60,7 @@ const menuText = computed(() => {
 const { formItem } = useFormItem();
 const handleNodeClick = (data: MenuTreeNode) => {
   const { id, name } = data;
-  emits("update:modelValue", id);
+  $emit("update:modelValue", id);
   formItem?.validate("blur");
   popoverRef.value.hide();
 };

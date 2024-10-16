@@ -105,7 +105,7 @@ export default {
     // auth: [],
     // to: undefined,
     order: 7,
-    customRules: false,
+    handleClickType: "common",
     attrs: {
       type: "primary",
       icon: "Bottom",

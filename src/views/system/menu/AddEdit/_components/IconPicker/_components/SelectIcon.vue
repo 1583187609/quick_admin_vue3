@@ -78,7 +78,7 @@ const props = withDefaults(
     modelValue: "",
   }
 );
-const emits = defineEmits(["update:modelValue", "selected"]);
+const $emit = defineEmits(["update:modelValue", "selected"]);
 
 const searchVal = ref("");
 const currTab = ref<TabNames>("All");
@@ -105,10 +105,10 @@ const names = computed(() => {
 });
 const iconName = computed({
   get: () => props.modelValue,
-  set: (val: string) => emits("update:modelValue", val),
+  set: (val: string) => $emit("update:modelValue", val),
 });
 function handleClick(name = "") {
-  emits("selected", name);
+  $emit("selected", name);
   iconName.value = name;
 }
 </script>

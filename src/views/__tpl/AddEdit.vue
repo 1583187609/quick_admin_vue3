@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
-    :onSuccess="refreshList"
+    :afterSuccess="refreshList"
     :extraParams="data ? { id: data.id } : undefined"
   >
   </BaseForm>

@@ -26,15 +26,15 @@ const props = withDefaults(
     active: false,
   }
 );
-const emits = defineEmits(["close", "click", "contextmenu"]);
+const $emit = defineEmits(["close", "click", "contextmenu"]);
 function onClose() {
-  emits("close");
+  $emit("close");
 }
 function onClick() {
-  emits("click");
+  $emit("click");
 }
 function onContextmenu(e: Event) {
-  emits("contextmenu", e);
+  $emit("contextmenu", e);
 }
 </script>
 <style lang="scss" scoped>

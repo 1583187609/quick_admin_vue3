@@ -2,7 +2,7 @@ import { computed } from "vue";
 import { CommonObj } from "@/vite-env";
 
 const cacheMap = new WeakMap();
-export default (props: CommonObj, emits: any, propName = "modelValue") => {
+export default (props: CommonObj, $emit: any, propName = "modelValue") => {
   return computed({
     get() {
       if (cacheMap.has(props[propName])) {
@@ -13,7 +13,7 @@ export default (props: CommonObj, emits: any, propName = "modelValue") => {
           return Reflect.get(target, key);
         },
         set(target, key, val) {
-          emits(`update:${propName}`, {
+          $emit(`update:${propName}`, {
             ...target,
             [key]: val,
           });
@@ -24,7 +24,7 @@ export default (props: CommonObj, emits: any, propName = "modelValue") => {
       return proxy;
     },
     set(val: any) {
-      emits(`update:${propName}`, val);
+      $emit(`update:${propName}`, val);
     },
   });
 };

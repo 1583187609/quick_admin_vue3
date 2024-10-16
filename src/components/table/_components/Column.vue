@@ -160,7 +160,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.Column
   )
 );
-const emits = defineEmits([operateBtnsEmitName]);
+const $emit = defineEmits([operateBtnsEmitName]);
 let popoverAttrs: PopoverAttrs | undefined;
 const newCol = getNewCol(props.col);
 function getNewCol(col: TableColAttrs) {
@@ -178,7 +178,7 @@ function getIsHandle(_self: CommonObj, column: CommonObj) {
   return !(newCol.prop as string).startsWith("$") && _self.data?.length && _self.data[0]?.[column.property] === undefined;
 }
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  emits("operateBtns", btnObj, { row, col, $index }, next);
+  $emit("operateBtns", btnObj, { row, col, $index }, next);
 }
 // 此功能后续可能会移除
 function handleSwitchChange(col: TableColAttrs, row: CommonObj, ind: number) {

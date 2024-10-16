@@ -19,14 +19,14 @@ const props = withDefaults(
   {}
 );
 const captchaCode = ref<string>("0000");
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 getCaptcha();
 const newVal = computed({
   get() {
     return props.modelValue;
   },
   set(val: string) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 function getCaptcha() {

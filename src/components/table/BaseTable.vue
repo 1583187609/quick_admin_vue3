@@ -59,7 +59,7 @@ const props = withDefaults(
     summaryMethod: handleTableSummary,
   }
 );
-const emits = defineEmits([operateBtnsEmitName]);
+const $emit = defineEmits([operateBtnsEmitName]);
 
 let rowNum = props.showSummary ? 2 : 1;
 const tableRef = ref<any>();
@@ -84,12 +84,12 @@ const newCols = reactive<TableColAttrs[]>(
 // });
 
 // function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-//   emits(operateBtnsEmitName, btnObj, { $index, ...row }, next);
+//   $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next);
 // }
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, isRefreshList: boolean = true) {
   const { name } = btnObj;
-  emits(operateBtnsEmitName, name, { $index, ...row }, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
+  $emit(operateBtnsEmitName, name, { $index, ...row }, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
     next(hint, closeType, cb);
     // isRefreshList && refreshList();
   });

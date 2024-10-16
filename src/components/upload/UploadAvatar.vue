@@ -29,13 +29,13 @@ const props = withDefaults(
     maxSize: 1,
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const imgSrc = computed({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 const handleSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
-  emits("update:modelValue", URL.createObjectURL(uploadFile.raw!));
+  $emit("update:modelValue", URL.createObjectURL(uploadFile.raw!));
 };
 
 const beforeUpload: UploadProps["beforeUpload"] = rawFile => {

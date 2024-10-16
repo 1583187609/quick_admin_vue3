@@ -43,12 +43,12 @@ const props = withDefaults(
     modelValue: () => reactive([]),
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const formRef = ref<FormInstance | null>(null);
 const tableRef = ref<FormInstance | null>(null);
 const modelData = computed({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 // function getVals() {
 //   const { cols, modelValue } = props;

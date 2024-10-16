@@ -79,7 +79,7 @@ const props = withDefaults(
     type: "avatar-audit",
   }
 );
-const emits = defineEmits([operateBtnsEmitName]);
+const $emit = defineEmits([operateBtnsEmitName]);
 const statusKey = "status";
 const crudRef = ref<any>(null);
 const newRows = ref<CommonObj[]>([]);
@@ -89,7 +89,7 @@ function getRows(rows: CommonObj[], args: CommonObj) {
 //点击分组按钮
 function onOperateBtns(btn: BtnItem, row: CommonObj, rows: CommonObj[], params?: CommonObj) {
   const { name, text } = btn;
-  emits(
+  $emit(
     operateBtnsEmitName,
     name,
     row,

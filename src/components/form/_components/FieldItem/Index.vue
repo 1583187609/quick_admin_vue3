@@ -19,7 +19,7 @@
         <el-input
           :class="flexClass"
           v-debounce:input="(e:any)=>handleInput(e, newField.prop as string)"
-          @clear="() => emits('change', newField.prop, '')"
+          @clear="() => $emit('change', newField.prop, '')"
           v-model.trim="newVal"
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
@@ -31,7 +31,7 @@
         </el-input>
         <el-select
           :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'select'"
@@ -48,7 +48,7 @@
         </el-select>
         <el-tree-select
           :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           :data="newField.options"
           v-bind="newField.attrs"
@@ -56,7 +56,7 @@
         />
         <el-date-picker
           :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'date-picker'"
@@ -66,7 +66,7 @@
           </template>
         </el-date-picker>
         <el-radio-group
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'radio-group'"
@@ -83,7 +83,7 @@
           </template>
         </el-radio-group>
         <el-checkbox-group
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'checkbox-group'"
@@ -101,7 +101,7 @@
           </el-checkbox>
         </el-checkbox-group>
         <el-input-number
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'input-number'"
@@ -111,14 +111,14 @@
           </template>
         </el-input-number>
         <el-switch
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'switch'"
         />
         <el-cascader
           :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           :options="newField.options"
           v-bind="newField.attrs"
@@ -133,27 +133,27 @@
         </slot>
         <BaseNumberRange
           :class="flexClass"
-          @change="(prop:string, val:any)=> emits('change', prop, val ?? '')"
+          @change="(prop:string, val:any)=> $emit('change', prop, val ?? '')"
           :size="size"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'BaseNumberRange'"
         />
         <BaseUpload
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-bind="newField.attrs"
           v-model="newVal"
           v-else-if="newField.type === 'BaseUpload'"
         />
         <!-- <BaseEditor
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'BaseEditor'"
         ></BaseEditor> -->
         <el-autocomplete
           :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'autocomplete'"
@@ -164,13 +164,13 @@
         </el-autocomplete>
         <el-slider
           :class="flexClass"
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'slider'"
         />
         <el-checkbox
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'checkbox'"
@@ -182,13 +182,13 @@
         <!-- 没有label字段的空行，用作插入一些按钮或其他内容 -->
         <BaseRender v-else-if="newField.type === 'empty'" />
         <!-- <el-time-picker
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-picker'"
         />
         <el-time-select
-          @change="(val:any)=> emits('change', newField.prop, val ?? '')"
+          @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-select'"
@@ -271,11 +271,11 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 const { getOpts } = useDict();
 const newVal = computed({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 let popoverAttrs: any;
 const subFields = ref<FormFieldAttrs[]>([]);
@@ -453,7 +453,7 @@ function handleInput(e: any, prop: string) {
   if (props.inputDebounce) {
     const inp = e.querySelector("input") || e.querySelector("textarea");
     const val = inp.value;
-    emits("change", prop, val);
+    $emit("change", prop, val);
   }
 }
 

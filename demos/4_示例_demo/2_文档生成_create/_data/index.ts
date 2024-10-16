@@ -10,12 +10,12 @@ export const vueStr = `
   <el-form class="base-form f-fs-s-c f-1" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll" :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
-        <!-- @change="(prop:any,val:any)=>emits('change',prop,val)" -->
+        <!-- @change="(prop:any,val:any)=>$emit('change',prop,val)" -->
         <FieldItemCol
           :field="field"
           :pureText="field.quickAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
-          @change="(prop:any,val:any)=>emits('change',prop,val)"
+          @change="(prop:any,val:any)=>$emit('change',prop,val)"
           :formRef="formRef"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
@@ -38,13 +38,13 @@ export const vueStr = `
       :debug="debug"
       :params="params"
       :fetch="fetch"
-      :onSuccess="onSuccess"
+      :afterSuccess="onSuccess"
       :fetchFail="fetchFail"
       :noSubmitProps="noSubmitProps"
       :handleRequest="handleRequest"
       :disabled="!newFields.length"
-      @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
-      @submit="(args:CommonObj)=>emits('submit', args)"
+      @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
+      @submit="(args:CommonObj)=>$emit('submit', args)"
       ref="footerBtnsRef"
       v-if="!pureText && footer"
     />
@@ -74,7 +74,7 @@ const props = withDefaults(
     fields: FormField[]; //表单字段项
     pureText?: boolean; //是否纯文本展示
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    onSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: FinallyNext; //fetch请求失败之后的回调方法
     span?: string | number; //同ElementPlus 的span，1 ~ 24
     footer?: boolean; //是否显示底部按钮
@@ -102,10 +102,10 @@ const props = withDefaults(
   }
 );
 
-/** emits
- * @warning 这是 emits 的 warning 信息
+/** $emit
+ * @warning 这是 $emit 的 warning 信息
  */
-const emits = defineEmits<{
+const $emit = defineEmits<{
   (e: "update:modelValue", args: CommonObj): void; //双向绑定值
   (e: "submit", args: CommonObj): void; //表单提交
   (e: "change", prop: string, val: string | number): void; //change事件
@@ -119,7 +119,7 @@ const formData = computed({
     return props.modelValue;
   },
   set(val: CommonObj) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 const params = computed(() => merge({}, formData.value, props.extraParams));
@@ -128,7 +128,7 @@ watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, emits, modelValue);
+    const result = handleFields(newVal, $emit, modelValue);
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -140,7 +140,7 @@ function handleEnter() {
   if (props.fetch) {
     footerBtnsRef.value.submit();
   } else {
-    emits("submit", params.value);
+    $emit("submit", params.value);
   }
 }
 

@@ -30,7 +30,7 @@ import config from "@/config";
 const formCfg = config?.form;
 
 // 获取控件映射
-// export const getWidgetMap = ({ props, newField, newVal, emits }) => {
+// export const getWidgetMap = ({ props, newField, newVal, $emit }) => {
 //   const { size } = props;
 //   const { label, prop, attrs = {}, options = [], quickAttrs = {}, slots } = newField.value;
 //   const { before, after } = quickAttrs;
@@ -43,7 +43,7 @@ const formCfg = config?.form;
 //     if (props.inputDebounce) {
 //       const inp = e.querySelector("input") || e.querySelector("textarea");
 //       const val = inp.value;
-//       emits("change", prop, val);
+//       $emit("change", prop, val);
 //     }
 //   }
 //   return {
@@ -52,7 +52,7 @@ const formCfg = config?.form;
 //       {
 //         class: flexClass,
 //         "v-debounce:input": (e: any) => handleInput(e, prop as string),
-//         onClear: () => emits("change", prop, ""),
+//         onClear: () => $emit("change", prop, ""),
 //         ...baseAttrs,
 //       },
 //       slots,
@@ -61,7 +61,7 @@ const formCfg = config?.form;
 //       ElSelect,
 //       {
 //         class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       options?.map((opt, ind) => {
@@ -80,7 +80,7 @@ const formCfg = config?.form;
 //       ElTreeSelect,
 //       {
 //         class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //     ],
@@ -88,7 +88,7 @@ const formCfg = config?.form;
 //       ElDatePicker,
 //       {
 //         class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       slots,
@@ -97,7 +97,7 @@ const formCfg = config?.form;
 //       ElRadioGroup,
 //       {
 //         // class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       options.map((opt, ind) => {
@@ -110,7 +110,7 @@ const formCfg = config?.form;
 //       ElCheckboxGroup,
 //       {
 //         // class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       options.map((opt, ind) => {
@@ -122,7 +122,7 @@ const formCfg = config?.form;
 //       ElInputNumber,
 //       {
 //         // class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //     ],
@@ -130,7 +130,7 @@ const formCfg = config?.form;
 //       ElSwitch,
 //       {
 //         // class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //     ],
@@ -139,7 +139,7 @@ const formCfg = config?.form;
 //       {
 //         class: flexClass,
 //         options,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       slots,
@@ -157,7 +157,7 @@ const formCfg = config?.form;
 //       {
 //         class: flexClass,
 //         size,
-//         onChange: (prop: string, val: any) => emits("change", prop, val ?? ""),
+//         onChange: (prop: string, val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //     ],
@@ -165,7 +165,7 @@ const formCfg = config?.form;
 //       BaseUpload,
 //       {
 //         // class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //     ],
@@ -173,7 +173,7 @@ const formCfg = config?.form;
 //     //   BaseEditor,
 //     //   {
 //     //     // class: flexClass,
-//     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+//     //     onChange: (val: any) => $emit("change", prop, val ?? ""),
 //     //     ...baseAttrs,
 //     //   },
 //     // ],
@@ -181,7 +181,7 @@ const formCfg = config?.form;
 //       ElAutocomplete,
 //       {
 //         class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       slots,
@@ -190,7 +190,7 @@ const formCfg = config?.form;
 //       ElSlider,
 //       {
 //         class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       slots,
@@ -199,7 +199,7 @@ const formCfg = config?.form;
 //       ElCheckbox,
 //       {
 //         // class: flexClass,
-//         onChange: (val: any) => emits("change", prop, val ?? ""),
+//         onChange: (val: any) => $emit("change", prop, val ?? ""),
 //         ...baseAttrs,
 //       },
 //       slots,
@@ -208,7 +208,7 @@ const formCfg = config?.form;
 //     //   ElTimePicker,
 //     //   {
 //     //     // class: flexClass,
-//     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+//     //     onChange: (val: any) => $emit("change", prop, val ?? ""),
 //     //     ...baseAttrs,
 //     //   },
 //     //   slots,
@@ -217,7 +217,7 @@ const formCfg = config?.form;
 //     //   ElTimeSelect,
 //     //   {
 //     //     // class: flexClass,
-//     //     onChange: (val: any) => emits("change", prop, val ?? ""),
+//     //     onChange: (val: any) => $emit("change", prop, val ?? ""),
 //     //     ...baseAttrs,
 //     //   },
 //     //   slots,

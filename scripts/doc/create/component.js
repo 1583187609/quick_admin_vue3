@@ -75,7 +75,7 @@ ${newFilePath}
 
 /**
  * 获取指定类型表格的md文本
- * @param {props|expose|emits|slots} type 表格类型：属性、方法、事件、插槽
+ * @param {props|expose|$emit|slots} type 表格类型：属性、方法、事件、插槽
  * @param {*} rows 表格数据
  * @returns
  */
@@ -97,7 +97,7 @@ export const tableTypeMap = {
       { prop: "type", label: "类型" },
     ],
   },
-  emits: {
+  $emit: {
     title: "事件",
     cols: [
       { prop: "name", label: "事件名称" },

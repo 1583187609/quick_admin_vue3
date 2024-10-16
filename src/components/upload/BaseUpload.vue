@@ -67,7 +67,7 @@ const props = withDefaults(
     config?.BaseUpload
   )
 );
-const emits = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 const openPopup = inject<any>("openPopup");
 const percentage = ref(0);
 const { formItem } = useFormItem();
@@ -78,7 +78,7 @@ const fileList = ref([]);
 const src = computed({
   get: () => props.modelValue,
   set(val: string) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
     formItem?.validate("blur");
   },
 });
@@ -109,7 +109,7 @@ const handleSuccess: UploadProps["onSuccess"] = (res, upFile) => {
   handleSuccessResponse?.(res, upFile)
     .then((url: string) => {
       src.value = url;
-      emits("change", url);
+      $emit("change", url);
     })
     .catch((msg: string) => {
       showMessage(msg, "error");

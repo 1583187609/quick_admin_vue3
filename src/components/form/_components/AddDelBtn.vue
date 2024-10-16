@@ -32,7 +32,7 @@ const props = withDefaults(
     size: 26,
   }
 );
-const emits = defineEmits<{
+const $emit = defineEmits<{
   /**
    * 点击事件
    * @type {type: AddDelBtnType}
@@ -40,7 +40,7 @@ const emits = defineEmits<{
   click: [AddDelBtnType];
 }>();
 function handleClick(type: AddDelBtnType) {
-  emits("click", type);
+  $emit("click", type);
 }
 </script>
 <style lang="scss" scoped>

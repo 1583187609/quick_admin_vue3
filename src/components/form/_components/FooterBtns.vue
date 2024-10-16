@@ -38,8 +38,8 @@ const props = withDefaults(
     disabled?: boolean; //是否禁用按钮
     params?: any;
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    onSuccess?: FinallyNext;
-    onFail?: FinallyNext;
+    afterSuccess?: FinallyNext;
+    afterFail?: FinallyNext;
     noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
@@ -50,7 +50,7 @@ const props = withDefaults(
     moreBtns: () => [],
   }
 );
-const emits = defineEmits(["moreBtns", "submit"]);
+const $emit = defineEmits(["moreBtns", "submit"]);
 const isLoading = ref(props.loading);
 watch(
   () => props.loading,
@@ -102,22 +102,22 @@ const fetchSucCb: FinallyNext = (
 function handleSubmit() {
   handleValidate()
     .then((params: any) => {
-      const { log, fetch, onSuccess = fetchSucCb, onFail, submitText } = props;
+      const { log, fetch, afterSuccess = fetchSucCb, afterFail, submitText } = props;
       if (fetch) {
         isLoading.value = true;
         fetch(params)
           .then((res: any) => {
             log && printLog(res, "res");
-            onSuccess(submitText + "成功！");
+            afterSuccess(submitText + "成功！");
           })
           .catch((err: any) => {
-            onFail?.(err);
+            afterFail?.(err);
           })
           .finally(() => {
             isLoading.value = false;
           });
       } else {
-        emits("submit", params);
+        $emit("submit", params);
       }
     })
     .catch(() => {});
@@ -135,11 +135,11 @@ function handleMoreBtns(btn: BtnItem) {
   if (validate) {
     handleValidate()
       .then(params => {
-        emits("moreBtns", name, params, fetchSucCb);
+        $emit("moreBtns", name, params, fetchSucCb);
       })
       .catch(() => {});
   } else {
-    emits("moreBtns", name, props.params, fetchSucCb);
+    $emit("moreBtns", name, props.params, fetchSucCb);
   }
 }
 defineExpose({

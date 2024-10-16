@@ -25,7 +25,7 @@ const props = withDefaults(
     options: () => [],
   }
 );
-const emits = defineEmits<{
+const $emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
 const modelData = computed({
@@ -39,7 +39,7 @@ const modelData = computed({
           if (val.startsWith("/")) {
             val = val.slice(1);
           }
-          emits("update:modelValue", `${sel}${val}.vue`);
+          $emit("update:modelValue", `${sel}${val}.vue`);
           // formItem?.validate("input");
           return true;
         },
@@ -48,7 +48,7 @@ const modelData = computed({
   },
   set(val) {
     // console.log(val, "val-----------val");
-    // emits("update:modelValue", val);
+    // $emit("update:modelValue", val);
   },
 });
 </script>

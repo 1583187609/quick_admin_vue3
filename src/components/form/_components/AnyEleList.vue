@@ -42,10 +42,10 @@ const props = withDefaults(
     fields: () => [],
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const modelData = computed({
   get: () => props.modelValue,
-  set: (val: CommonObj) => emits("update:modelValue", val),
+  set: (val: CommonObj) => $emit("update:modelValue", val),
 });
 </script>
 <style lang="scss" scoped></style>

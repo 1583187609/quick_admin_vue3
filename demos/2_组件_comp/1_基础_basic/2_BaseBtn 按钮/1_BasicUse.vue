@@ -13,7 +13,7 @@
     <BaseBtn name="edit" :attrs="{ type: 'info' }" />
     <BaseBtn name="detail" to="/" />
     <BaseBtn name="import" />
-    <BaseBtn name="import" @click="ElMessage.info('点击了导入按钮，可以自定义点击逻辑')" :customRules="false" />
+    <BaseBtn name="import" @click="ElMessage.info('点击了导入按钮，可以自定义点击逻辑')" handleClickType="custom" />
     <BaseBtn name="delete" />
     <BaseBtn name="delete" :auth="[0]">删除（角色值为0可见）</BaseBtn>
     <BaseBtn name="delete" popconfirm="删除后将不能进行恢复，确定删除吗？" />

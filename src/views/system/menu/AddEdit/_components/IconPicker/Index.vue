@@ -23,14 +23,14 @@ const props = withDefaults(
     modelValue: "",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const { formItem } = useFormItem();
 const iconName = computed({
   get() {
     return props.modelValue;
   },
   set(val: string) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
     formItem?.validate("change");
   },
 });

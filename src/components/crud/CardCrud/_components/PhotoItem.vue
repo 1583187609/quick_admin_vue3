@@ -8,7 +8,7 @@
         :name="btn"
         round
         size="small"
-        @click="() => emits('operateBtns', btn)"
+        @click="() => $emit('operateBtns', btn)"
         v-for="(btn, ind) in operateBtns"
         :key="ind"
       />
@@ -47,7 +47,7 @@ const topBar = computed(() => {
     return undefined;
   }
 });
-const emits = defineEmits([operateBtnsEmitName]);
+const $emit = defineEmits([operateBtnsEmitName]);
 //是否出现了滚动条
 const hasScroll = ref(false);
 const descRef = ref();

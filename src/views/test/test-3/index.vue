@@ -44,8 +44,8 @@
       :extraBtns="[
         'add',
         'delete',
-        { name: 'import', customRules: false },
-        { name: 'export', customRules: false },
+        { name: 'import', handleClickType: 'common' },
+        { name: 'export', handleClickType: 'common' },
         'enable',
         'forbid',
         'repeal',

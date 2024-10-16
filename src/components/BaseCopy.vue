@@ -35,12 +35,12 @@ const props = withDefaults(
     clickIconCopy: _props => !!_props.to,
   }
 );
-const emits = defineEmits(["click"]);
+const $emit = defineEmits(["click"]);
 const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 // 跳转页面或触发点击事件
 function handleClick(e) {
   if (props.to) return router.push(props.to);
-  emits("click", e);
+  $emit("click", e);
 }
 // 处理点击事件
 function handleCopy(e) {

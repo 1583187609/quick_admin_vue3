@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="isAdd ? GetAuthRoleList : GetAuthRoleList"
-    :onSuccess="refreshList"
+    :afterSuccess="refreshList"
     :extraParams="{ id: data?.id, doRelationFeedbackCompany: isApply ? data!.id : undefined }"
   >
     <!-- 状态,0=启用,1=禁用 -->

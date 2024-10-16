@@ -6,7 +6,7 @@
     :fields="fields"
     :pureText="pureText"
     :fetch="id ? PostUserUpdate : PostUserAdd"
-    :onSuccess="refreshList"
+    :afterSuccess="refreshList"
   >
     <template #avatar>
       <UploadAvatar v-model="modelData.avatar" />

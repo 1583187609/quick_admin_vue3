@@ -4,7 +4,7 @@
     style="width: 600px"
     :fields="fields"
     :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
-    :onSuccess="refreshList"
+    :afterSuccess="refreshList"
   >
     <template #menu_auth>
       <BaseTree v-modle="modelData.menu_auth" />

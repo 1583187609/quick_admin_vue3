@@ -57,7 +57,7 @@ const switchAttrs = {
   inactiveText: "否",
 };
 
-const emits = defineEmits(["change", "reset", "submit"]);
+const $emit = defineEmits(["change", "reset", "submit"]);
 const props = withDefaults(
   defineProps<{
     rows?: CommonObj[];
@@ -99,15 +99,15 @@ const cols: TableColAttrs[] = [
   },
 ];
 function handleChange(data: SetTableChangeParams) {
-  emits("change", data);
+  $emit("change", data);
 }
 function handleSave() {
   showMessage("保存成功");
-  emits("submit");
+  $emit("submit");
 }
 function handleReset() {
   showMessage("已重置");
-  emits("reset");
+  $emit("reset");
 }
 </script>
 <style lang="scss" scoped>

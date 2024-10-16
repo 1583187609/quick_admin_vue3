@@ -35,11 +35,11 @@ const props = withDefaults(
     footer: true,
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const basicDialogRef = ref<any>(null);
 const show = computed({
   get: () => props.modelValue,
-  set: (isShow: boolean) => emits("update:modelValue", isShow),
+  set: (isShow: boolean) => $emit("update:modelValue", isShow),
 });
 function initBodyHeight() {
   //必须要延迟一段时间，不然在过渡动画时间中时，获取到的高度会不足动画完成时的最终高度

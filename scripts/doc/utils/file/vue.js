@@ -87,7 +87,7 @@ export function getVueScriptStr(readPathHalf = needParam()) {
 
 /**
  * 获取信息注释的正则表达式
- * @param {summary|hidden|props|emits|slots|expose|string} name 注释名称
+ * @param {summary|hidden|props|$emit|slots|expose|string} name 注释名称
  * @param {string} modifier 正则表达式匹配的类型
  */
 function getRegexpOfInfoAnno(name = "\\w+", modifier = "gs") {
@@ -113,7 +113,7 @@ export function getFileStrWithoutDocAnno(fileStr = needParam()) {
 /**
  * 根据注释名称从注释中获取信息
  * @param {string} filePath 要读取文件的路径
- * @param {summary|props|expose|emits|slots} type 要读取的注释类型
+ * @param {summary|props|expose|$emit|slots} type 要读取的注释类型
  * @returns {
  *  tags: [],
  *  type: "",

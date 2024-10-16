@@ -30,6 +30,8 @@ export interface BtnAttrs {
   link?: boolean;
 }
 
+export type BtnHandleClickType = "common" | "custom"; // 可选值：common（通用）、custom（自定义）
+
 export interface BtnItem {
   name?: BtnName; //可以不传值
   text?: string; //按钮文本
@@ -39,7 +41,7 @@ export interface BtnItem {
   validate?: boolean; //是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
   popconfirm?: boolean | string | PopconfirmAttrs;
   attrs?: BtnAttrs; //按钮属性
-  customRules?: boolean; //是否自定义该按钮的逻辑规则（目前只有导出按钮用到了此属性）
+  handleClickType?: BtnHandleClickType; // 点击按钮后，执行的逻辑类型。可选值：common（通用）、custom（自定义）
 }
 export type BtnFn = (row: CommonObj) => BtnName | BtnItem;
 export type BaseBtnType = BtnName | BtnItem | BtnFn;

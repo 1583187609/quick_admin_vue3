@@ -41,7 +41,7 @@ const props = withDefaults(
     modelValue: "",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const popoverRef = ref<any>(null);
 const { formItem } = useFormItem();
 const names = ref(Object.keys(Icons));
@@ -49,7 +49,7 @@ const iconName = computed(() => {
   return props.modelValue;
 });
 function onClick(name: string) {
-  emits("update:modelValue", name);
+  $emit("update:modelValue", name);
   popoverRef.value.hide();
   formItem?.validate("blur");
 }

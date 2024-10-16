@@ -23,7 +23,7 @@ export function getAddDelItem(fields?: FormField[]) {
  * 是否是合法的字段（同时初始化表单数据）
  * @param formData object 表单数据对象
  * @param field 字段对象属性
- * @param emits vue emits
+ * @param $emit vue $emit
  * @param model 表单初始值
  * @return boolean 这个字段属性是否合法（是否是对象）
  */
@@ -31,7 +31,7 @@ interface ResObj {
   data: CommonObj;
   fields: FormFieldAttrs[];
 }
-export function handleFields(fields: FormField[] = [], emits: any, modelValue?: CommonObj, inheritAttrs?: CommonObj): ResObj {
+export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: CommonObj, inheritAttrs?: CommonObj): ResObj {
   const resObj: ResObj = {
     data: {},
     fields: [],
@@ -49,9 +49,9 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
       } else if (type === "addDel") {
         resObj.data[prop as string] = defVal?.length ? defVal : [getAddDelItem(children)];
       } else {
-        const val = children?.length ? handleFields(children, emits, defVal).data : defVal;
+        const val = children?.length ? handleFields(children, $emit, defVal).data : defVal;
         resObj.data[prop as string] = val;
-        val !== undefined && emits?.("change", prop, val);
+        val !== undefined && $emit?.("change", prop, val);
       }
     } else if (propType === "Array") {
       //此处不会有children
@@ -63,7 +63,7 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
       const val = isAllUnd ? undefined : [minVal, maxVal];
       resObj.data[newProp] = val;
       (field as FormFieldAttrs).prop = newProp;
-      val !== undefined && emits?.("change", newProp, val);
+      val !== undefined && $emit?.("change", newProp, val);
     } else if (propType === "Undefined") {
       if (!children?.length) throw new Error("不能同时没有prop和children属性");
       const defVal: CommonObj = {};
@@ -77,7 +77,7 @@ export function handleFields(fields: FormField[] = [], emits: any, modelValue?: 
       const val = defVal;
       (field as FormFieldAttrs).prop = joinProp;
       resObj.data[joinProp as string] = val;
-      Object.keys(val).length && emits?.("change", joinProp, val);
+      Object.keys(val).length && $emit?.("change", joinProp, val);
       console.warn("children不能为空数组");
     } else {
       throw new Error(`暂未处理prop为${propType}类型的值`);

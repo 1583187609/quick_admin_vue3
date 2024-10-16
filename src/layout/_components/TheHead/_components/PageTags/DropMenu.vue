@@ -103,7 +103,7 @@ const props = withDefaults(
     currInd: -1,
   }
 );
-const emits = defineEmits(["menuItem"]);
+const $emit = defineEmits(["menuItem"]);
 const dropRef = ref();
 const visible = ref(false);
 let style = reactive({});
@@ -160,7 +160,7 @@ watch(
   { deep: true }
 );
 function onMenuItem(type: MenuItemType) {
-  emits("menuItem", type, props.currInd);
+  $emit("menuItem", type, props.currInd);
 }
 function handleVisible(isShow: boolean) {
   visible.value = isShow;

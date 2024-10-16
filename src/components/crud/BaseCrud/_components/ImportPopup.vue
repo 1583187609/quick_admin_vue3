@@ -61,7 +61,7 @@ const props = withDefaults(
     // limit: 10000,
   }
 );
-const emits = defineEmits(["change"]);
+const $emit = defineEmits(["change"]);
 // 下载模板
 function handleDownloadTpl() {
   const { name, cols } = props;
@@ -85,7 +85,7 @@ function handleFileChange(file: any, files: any[]) {
       }
       return newObj;
     });
-    emits("change", arr);
+    $emit("change", arr);
   };
 }
 </script>

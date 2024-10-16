@@ -5,7 +5,7 @@
       :type="rejected ? 'success' : 'primary'"
       style="width: 5em"
       size="small"
-      @click="emits('click', rejected)"
+      @click="$emit('click', rejected)"
       :plain="rejected"
     >
       {{ rejected ? "取消驳回" : "驳回" }}
@@ -23,7 +23,7 @@ const props = withDefaults(
     rejected: false,
   }
 );
-const emits = defineEmits(["click"]);
+const $emit = defineEmits(["click"]);
 </script>
 <style lang="scss" scoped>
 .img-item {

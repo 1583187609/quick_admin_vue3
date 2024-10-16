@@ -80,7 +80,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.GroupBtns
   )
 );
-const emits = defineEmits(["click"]);
+const $emit = defineEmits(["click"]);
 let dropPopconfirm = false; //更多按钮的下拉菜单中是否存在 popconfirm
 const isOver = computed(() => props.btns?.length > props.maxNum); //必须使用computed，不然会导致更多下拉项不能变为普通按钮显示状态
 const newBtns = computed(() => {
@@ -96,7 +96,7 @@ function handleClick(btnObj: BtnItem) {
   if (to) {
     router.push(to as any);
   } else {
-    emits("click", btnObj, (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
+    $emit("click", btnObj, (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
       showMessage(hint);
       closePopup(closeType);
       cb?.();

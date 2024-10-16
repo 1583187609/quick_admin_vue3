@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="handleFetch"
-    :onSuccess="refreshPage"
+    :afterSuccess="refreshPage"
     :extraParams="{ relationTypeList: [0] }"
     :no-submit-props="type === 'unseal' ? ['forbidLevel', 'timeDay'] : []"
     @change="handleChange"

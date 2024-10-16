@@ -60,7 +60,7 @@ const props = withDefaults(
     fields: () => [],
   }
 );
-const emits = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 
 const refsList = ref<HTMLElement[]>([]);
 const initRefsList = (el, ind) => {
@@ -69,7 +69,7 @@ const initRefsList = (el, ind) => {
 const listItem = getAddDelItem(props.fields);
 const newList = computed({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 const newFields = ref<FormFieldAttrs[]>([]);
 const formData = reactive<CommonObj>({});
@@ -77,7 +77,7 @@ watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, emits, modelValue);
+    const result = handleFields(newVal, $emit, modelValue);
     const { data, fields } = result;
     merge(formData, data);
     newFields.value = fields;

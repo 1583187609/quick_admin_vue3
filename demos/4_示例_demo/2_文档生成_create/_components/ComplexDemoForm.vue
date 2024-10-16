@@ -14,7 +14,7 @@
           :field="field"
           :pureText="field.quickAttrs?.pureText || pureText"
           v-model="formData[field.prop as string]"
-          @change="(prop:FieldPropType,val:any)=>emits('change',prop,val)"
+          @change="(prop:FieldPropType,val:any)=>$emit('change',prop,val)"
           :formRef="formRef"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
@@ -39,13 +39,13 @@
       :debug="debug"
       :params="params"
       :fetch="fetch"
-      :onSuccess="onSuccess"
+      :afterSuccess="afterSuccess"
       :onFail="onFail"
       :noSubmitProps="noSubmitProps"
       :handleRequest="handleRequest"
       :disabled="!newFields.length"
-      @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => emits('moreBtns', name, args, cb)"
-      @submit="(args:CommonObj)=>emits('submit', args)"
+      @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
+      @submit="(args:CommonObj)=>$emit('submit', args)"
       ref="footerBtnsRef"
       v-if="!pureText && footer"
     />
@@ -77,7 +77,7 @@ const props = withDefaults(
     fields: FormField[]; //表单字段项
     pureText?: boolean; //是否纯文本展示
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    onSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     onFail?: FinallyNext; //fetch请求失败之后的回调方法
     span?: string | number; //同ElementPlus 的span，1 ~ 24
     footer?: boolean; //是否显示底部按钮
@@ -104,11 +104,11 @@ const props = withDefaults(
     fields: () => [],
   }
 );
-/** emits
+/** $emit
  * @notice 提示类信息可以设置一个，也可以设置多个
- * @notice {warning} 这是 emits 的 warning 信息
+ * @notice {warning} 这是 $emit 的 warning 信息
  */
-const emits = defineEmits([
+const $emit = defineEmits([
   "update:modelValue", // 双向绑定（无Ts）
   "submit", // 提交（无Ts）
   "change", // 变化（无Ts）
@@ -122,7 +122,7 @@ const formData = computed({
     return props.modelValue;
   },
   set(val: CommonObj) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 const params = computed(() => merge({}, formData.value, props.extraParams));
@@ -131,7 +131,7 @@ watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, emits, modelValue);
+    const result = handleFields(newVal, $emit, modelValue);
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -143,7 +143,7 @@ function handleEnter() {
   if (props.fetch) {
     footerBtnsRef.value.submit();
   } else {
-    emits("submit", params.value);
+    $emit("submit", params.value);
   }
 }
 /** slots

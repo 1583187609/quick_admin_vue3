@@ -128,11 +128,11 @@ const props = withDefaults(
   }
 );
 
-const emits = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 const { getOpts } = useDict();
 const newVal = computed({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 let popoverAttrs: any;
 
@@ -218,7 +218,7 @@ const widgetsMap = computed(() => {
       {
         class: flexClass,
         "v-debounce:input": (e: any) => handleInput(e, prop as string),
-        onClear: () => emits("change", prop, ""),
+        onClear: () => $emit("change", prop, ""),
         ...baseAttrs,
       },
       slots,
@@ -227,7 +227,7 @@ const widgetsMap = computed(() => {
       ElSelect,
       {
         class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       options?.map((opt, ind) => {
@@ -246,7 +246,7 @@ const widgetsMap = computed(() => {
       ElTreeSelect,
       {
         class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
     ],
@@ -254,7 +254,7 @@ const widgetsMap = computed(() => {
       ElDatePicker,
       {
         class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       slots,
@@ -263,7 +263,7 @@ const widgetsMap = computed(() => {
       ElRadioGroup,
       {
         // class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       options.map((opt, ind) => {
@@ -276,7 +276,7 @@ const widgetsMap = computed(() => {
       ElCheckboxGroup,
       {
         // class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       options.map((opt, ind) => {
@@ -288,7 +288,7 @@ const widgetsMap = computed(() => {
       ElInputNumber,
       {
         // class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
     ],
@@ -296,7 +296,7 @@ const widgetsMap = computed(() => {
       ElSwitch,
       {
         // class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
     ],
@@ -305,7 +305,7 @@ const widgetsMap = computed(() => {
       {
         class: flexClass,
         options,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       slots,
@@ -323,7 +323,7 @@ const widgetsMap = computed(() => {
       {
         class: flexClass,
         size,
-        onChange: (prop: string, val: any) => emits("change", prop, val ?? ""),
+        onChange: (prop: string, val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
     ],
@@ -331,7 +331,7 @@ const widgetsMap = computed(() => {
       BaseUpload,
       {
         // class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
     ],
@@ -339,7 +339,7 @@ const widgetsMap = computed(() => {
     //   BaseEditor,
     //   {
     //     // class: flexClass,
-    //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //     onChange: (val: any) => $emit("change", prop, val ?? ""),
     //     ...baseAttrs,
     //   },
     // ],
@@ -347,7 +347,7 @@ const widgetsMap = computed(() => {
       ElAutocomplete,
       {
         class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       slots,
@@ -356,7 +356,7 @@ const widgetsMap = computed(() => {
       ElSlider,
       {
         class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       slots,
@@ -365,7 +365,7 @@ const widgetsMap = computed(() => {
       ElCheckbox,
       {
         // class: flexClass,
-        onChange: (val: any) => emits("change", prop, val ?? ""),
+        onChange: (val: any) => $emit("change", prop, val ?? ""),
         ...baseAttrs,
       },
       slots,
@@ -374,7 +374,7 @@ const widgetsMap = computed(() => {
     //   ElTimePicker,
     //   {
     //     // class: flexClass,
-    //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //     onChange: (val: any) => $emit("change", prop, val ?? ""),
     //     ...baseAttrs,
     //   },
     //   slots,
@@ -383,7 +383,7 @@ const widgetsMap = computed(() => {
     //   ElTimeSelect,
     //   {
     //     // class: flexClass,
-    //     onChange: (val: any) => emits("change", prop, val ?? ""),
+    //     onChange: (val: any) => $emit("change", prop, val ?? ""),
     //     ...baseAttrs,
     //   },
     //   slots,
@@ -501,7 +501,7 @@ function handleInput(e: any, prop: string) {
   if (props.inputDebounce) {
     const inp = e.querySelector("input") || e.querySelector("textarea");
     const val = inp.value;
-    emits("change", prop, val);
+    $emit("change", prop, val);
   }
 }
 

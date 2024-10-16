@@ -6,12 +6,11 @@
     :fields="fields"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
     :afterSuccess="refreshList"
-    :extraParams="data ? { id: data.id } : undefined"
-  >
-  </BaseForm>
+    :extraParams="data ? { id: data.id } : {}"
+  />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { reactive } from "vue";
 import { FormField } from "@/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
@@ -24,27 +23,18 @@ const props = withDefaults(
   {}
 );
 const modelData = reactive<CommonObj>(Object.assign({}, props.data));
+
 const fields: FormField[] = [
   {
-    prop: "zdmc",
-    label: "字典名称",
+    prop: "xm",
+    label: "姓名",
     required: true,
-    attrs: {
-      maxlength: 10,
-    },
   },
   {
-    prop: "zdlx",
-    label: "字典类型",
-    required: true,
+    prop: "xb",
+    label: "性别",
     type: "select",
-  },
-  {
-    prop: "bz",
-    label: "备注",
-    attrs: {
-      type: "textarea",
-    },
+    options: "Gender",
   },
 ];
 </script>

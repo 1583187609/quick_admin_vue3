@@ -118,7 +118,7 @@ const props = withDefaults(
     editorConfig: () => ({}),
   }
 );
-const emits = defineEmits(["update:modelValue", "change", "focus", "blur"]);
+const $emit = defineEmits(["update:modelValue", "change", "focus", "blur"]);
 let editorInst: any = null; // editor 实例
 const toolbarCfg: Partial<IToolbarConfig> = merge({}, defaultToolBarCfg, props.toolBarConfig);
 const editorCfg = merge({}, defaultEditorCfg, props.editorConfig, {
@@ -134,7 +134,7 @@ const value = computed({
     if (val === "<p><br></p>") {
       val = "";
     }
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 const handleCreated = (editor: IDomEditor) => {
@@ -154,17 +154,17 @@ function getVal(val = editorInst.getText()) {
 }
 
 function onChange(editor: IDomEditor) {
-  emits("change", getVal());
+  $emit("change", getVal());
   formItem?.validate("change");
 }
 
 function onFocus(editor: IDomEditor) {
-  emits("focus", getVal());
+  $emit("focus", getVal());
   formItem?.validate("focus");
 }
 
 function onBlur(editor: IDomEditor) {
-  emits("blur", getVal());
+  $emit("blur", getVal());
   formItem?.validate("blur");
 }
 

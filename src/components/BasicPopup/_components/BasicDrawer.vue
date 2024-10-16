@@ -16,10 +16,10 @@ const props = withDefaults(
     title: "查看详情",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const show = computed({
   get: () => props.modelValue,
-  set: (isShow: boolean) => emits("update:modelValue", isShow),
+  set: (isShow: boolean) => $emit("update:modelValue", isShow),
 });
 </script>
 <style lang="scss">

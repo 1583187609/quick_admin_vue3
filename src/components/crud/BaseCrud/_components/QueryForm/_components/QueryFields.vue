@@ -9,7 +9,7 @@
     :disabled="field?.quickAttrs?.disabled ?? disabled"
     :readonly="field?.quickAttrs?.readonly ?? readonly"
     :inputDebounce="inputDebounce"
-    @change="(key:string, val:any)=>emits('change', key,val)"
+    @change="(key:string, val:any)=>$emit('change', key,val)"
     v-model="modelData[field!.prop as string]"
   >
     <template #custom="{ field: currField }">
@@ -38,11 +38,11 @@ const props = withDefaults(
     size: defaultCommonSize,
   }
 );
-const emits = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 const currSize = computed(() => props.field?.size ?? props.size);
 const modelData = computed<CommonObj>({
   get: () => props.modelValue,
-  set: (val: any) => emits("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 </script>
 <style lang="scss">

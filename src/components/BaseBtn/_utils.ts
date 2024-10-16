@@ -90,5 +90,6 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
       }
     }
   }
+  if (!btnObj.handleClickType) btnObj.handleClickType === "common";
   return btnObj;
 }

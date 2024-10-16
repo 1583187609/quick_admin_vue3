@@ -32,14 +32,14 @@ const newOpts = computed(() => {
     { label: "请求获取", value: 2, disabled: true },
   ].filter(it => (excepts ? excepts.includes(opt.value) : true));
 });
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 //输入类型
 const inpType = computed({
   get() {
     return props.modelValue;
   },
   set(val: InputType) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 </script>
