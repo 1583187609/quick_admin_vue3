@@ -6,14 +6,9 @@
         <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge"> </el-badge>
       </div>
       <slot name="head-right" />
-      <BaseIcon
-        @click="fold = !fold"
-        class="fold-btn"
-        :class="fold ? 'rotate-180' : ''"
-        size="1.5em"
-        name="CaretTop"
-        v-if="foldable"
-      />
+      <el-icon @click="fold = !fold" class="fold-btn" :class="fold ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
+        <CaretTop />
+      </el-icon>
     </div>
     <div class="body" :class="{ [bodyClass]: true, fold }">
       <slot><BaseEmpty /></slot>
@@ -21,7 +16,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
+import { CaretTop } from "@element-plus/icons-vue";
+
 const props = withDefaults(
   defineProps<{
     title?: string;

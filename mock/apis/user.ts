@@ -128,7 +128,6 @@ export default toViteMockApi({
     ]);
     queryList = queryList.map((item: CommonObj) => {
       item = deleteAttrs(item, delAttrs);
-      item.userData = JSON.parse(JSON.stringify(item));
       return item;
     });
     if (exports) {

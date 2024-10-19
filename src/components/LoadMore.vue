@@ -6,13 +6,17 @@
     </div>
     <div class="space top" :style="`height: ${toCssVal(paddingTop)};`"></div>
     <div class="f-c-c load-tips" v-if="loading && !isToBottom">
-      <BaseIcon class="rotate" name="Loading" />
+      <el-icon class="rotate">
+        <Loading />
+      </el-icon>
       <span class="text">{{ loadTips }}</span>
     </div>
     <slot><BaseEmpty :tips="emptyTips" /></slot>
     <div :style="`height: ${toCssVal(paddingBottom)};`"></div>
     <div class="f-c-c load-tips" v-if="loading && isToBottom">
-      <BaseIcon class="rotate" name="Loading" />
+      <el-icon class="rotate">
+        <Loading />
+      </el-icon>
       <span class="text">{{ loadTips }}</span>
     </div>
   </el-scrollbar>
@@ -21,6 +25,7 @@
 import { ref, onMounted } from "vue";
 import { StrNum, SetTimeout } from "@/vite-env";
 import { toCssVal } from "@/components/_utils";
+import { Loading } from "@element-plus/icons-vue";
 
 let timeout: SetTimeout = null;
 const noMoreTipsDuration = 2000;

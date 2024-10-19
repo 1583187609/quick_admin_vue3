@@ -5,11 +5,12 @@
 import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
 import { ElMessage } from "element-plus";
-import { emptyVals, getChinaCharLength, isDev, storage, typeOf } from "@/components/_utils";
+import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf } from "@/components/_utils";
 import { FormField, FormFieldAttrs } from "@/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
-import { PopoverAttrs } from "@/components/_types";
+import { PopoverAttrs, PopoverSlots } from "@/components/_types";
+import { RenderVue } from "@/components/BaseRender.vue";
 
 export const noAuthPaths = ["/login"]; //不需要授权就能登录的页面
 export const errorPaths = ["/403", "/404", "/500"];
@@ -91,7 +92,7 @@ export function devErrorTips(
  * @param color 文本颜色
  */
 export function renderValue(val?: string): string {
-  return emptyVals.includes(val) ? "-" : (val as string);
+  return emptyVals.includes(val) ? emptyStr : (val as string);
 }
 
 /**
@@ -203,12 +204,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(popover?: string | PopoverAttrs): PopoverAttrs | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeof popover;
   if (t === "string") return { content: popover as string };
   if (t === "object") {
-    if (isVNode(popover) || popover.render || popover.component) return { defaultSlot: popover };
+    // 如果是虚拟dom或者是引入的vue组件
+    if (isVNode(popover) || (popover as RenderVue).render) return { slots: { default: popover } } as PopoverSlots;
     return popover as PopoverAttrs;
   }
   throw new Error(`暂不支持此popover类型：${t}`);

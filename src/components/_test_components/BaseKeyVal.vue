@@ -9,11 +9,7 @@
     >
       <BaseIcon class="mr-4" :name="icon" v-if="icon" />
       <span class="f-1">{{ label }}</span>
-      <el-popover v-bind="getPopoverAttrs(popover)" v-if="popover">
-        <template #reference>
-          <BaseIcon class="m-2 tips-icon" name="QuestionFilled" />
-        </template>
-      </el-popover>
+      <QuestionPopover :popover="popover" iconClass="tips-icon" v-if="popover" />
     </div>
     <div
       class="val f-1 f-fs-fs-w"
@@ -33,6 +29,7 @@ import { StrNum } from "@/vite-env";
 import { PopoverAttrs } from "@/components/_types";
 import { DictName } from "@/dict/_types";
 import { useDict } from "@/hooks";
+import QuestionPopover from "@/components/QuestionPopover.vue";
 
 const { getText } = useDict();
 const props = withDefaults(

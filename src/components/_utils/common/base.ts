@@ -10,7 +10,7 @@ import { CommonObj, StrNum } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "./consts";
 
-const { merge } = _;
+const { merge, cloneDeep } = _;
 
 /**
  * 检测元素所属类型
@@ -53,6 +53,17 @@ export type TypeOfReturn =
 export const typeOf = (ele: any): TypeOfReturn => {
   const endStr = Object.prototype.toString.call(ele);
   return endStr.split(" ")[1].slice(0, -1) as TypeOfReturn;
+};
+
+/**
+ * 通用克隆方法
+ * @param {any} data 要克隆的数据
+ * @returns
+ * @notice JSON.parse(JSON.stringify()) 会删除函数的键值对；structuredClone会有兼容性问题；lodash的cloneDeep的缺点待完善
+ */
+export const commonClone = (data: any) => {
+  if (typeof data !== "object" || data === null) throw new Error("基础数据类型请不要使用此方法进行克隆");
+  return cloneDeep(data);
 };
 
 /**
@@ -221,11 +232,7 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(
-  sysData: any,
-  customData?: any,
-  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
-) {
+export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean"].includes(typeof sysData); //如果是基础数据类型
@@ -328,3 +335,23 @@ export function getIsOver(target: any) {
 //   }
 //   return false;
 // }
+
+/**
+ * 获取虚拟dom的innerText
+ * @param {object} vNode 虚拟dom对象
+ * @returns string 虚拟dom中的文本内容
+ */
+export function getVNodeInnerText(vNode) {
+  // const collectText = (vNode, text = "") => {
+  //   if (typeof vNode.children === "string") {
+  //     text += vNode.children;
+  //   } else if (Array.isArray(vNode.children)) {
+  //     vNode.children.forEach(child => {
+  //       text += collectText(child);
+  //     });
+  //   }
+  //   return text;
+  // };
+  // return collectText(vNode);
+  return "";
+}

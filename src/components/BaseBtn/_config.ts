@@ -218,6 +218,17 @@ export default {
       icon: "Tickets",
     },
   },
+  link: {
+    name: "link",
+    text: "前往",
+    // auth: [],
+    // to: undefined,
+    order: 50,
+    attrs: {
+      type: "info",
+      icon: "Link",
+    },
+  },
   //当按钮的name不对时，默认展示这个空按钮，用于给开发者提示
   empty: {
     name: "empty",

@@ -27,13 +27,13 @@ const config = {
     customSpecialCol: {
       //创建列
       create: {
-        prop: ["adminName", "createdAt"],
+        prop: ["create_user", "create_time"],
         label: "创建时间",
         minWidth: 170,
       },
       //修改列
       update: {
-        prop: ["adminName", "updatedAt"],
+        prop: ["update_user", "update_time"],
         label: "修改时间",
         minWidth: 170,
       },

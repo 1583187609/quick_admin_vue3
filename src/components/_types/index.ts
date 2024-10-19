@@ -8,6 +8,7 @@ import type { MessageParams, messageType } from "element-plus";
 import { EpPropMergeType } from "element-plus/es/utils";
 import { AxiosResponse } from "axios";
 import { ClosePopupType } from "@/components/BasicPopup/_types";
+import { BaseRenderComponentType } from "@/components/BaseRender.vue";
 import { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from "vue-router";
 
 export * from "@/components/BasicPopup/_types";
@@ -156,9 +157,17 @@ export interface PopoverAttrs {
   title?: string;
   disabled?: boolean;
   width?: StrNum;
-  defaultSlot?: BaseRenderData;
 }
 
-export type Popover = string | PopoverAttrs;
+// popover的插槽
+export interface PopoverSlots {
+  slots: {
+    default?: any;
+    reference?: any;
+  };
+}
+
+// popover的可能传入类型：字符串、引入的vue组件、popover属性对象、
+export type PopoverType = string | PopoverAttrs | BaseRenderComponentType;
 
 export type HorizontalAlign = "left" | "center" | "right";

@@ -1,9 +1,14 @@
-<!-- 页面-简介 -->
+<!-- summary
+  表单底部按钮
+-->
 <template>
   <div class="footer-btns f-c-c f-0 pt-h pb-h">
     <el-button type="primary" v-debounce.immediate="handleSubmit" :disabled="disabled || isLoading" v-if="submitText">
       <template #icon>
-        <BaseIcon :class="{ rotate: isLoading }" :name="isLoading ? 'Loading' : 'Promotion'"></BaseIcon>
+        <el-icon :class="{ rotate: isLoading }" :name="isLoading ? 'Loading' : 'Promotion'">
+          <Loading v-if="isLoading" />
+          <Promotion v-else />
+        </el-icon>
       </template>
       {{ submitText }}
     </el-button>
@@ -11,9 +16,7 @@
       <BaseBtn @click="handleMoreBtns(btn)" :name="btn" :disabled="disabled" v-if="btn.popconfirm" />
       <BaseBtn v-debounce.immediate="() => handleMoreBtns(btn)" :name="btn" :disabled="disabled" v-else />
     </template>
-    <el-button :icon="RefreshLeft" @click="handleReset" :disabled="disabled || isLoading" v-if="resetText">{{
-      resetText
-    }}</el-button>
+    <el-button :icon="RefreshLeft" @click="handleReset" :disabled="disabled || isLoading" v-if="resetText">{{ resetText }}</el-button>
   </div>
 </template>
 <script lang="ts" setup>
@@ -24,6 +27,8 @@ import { getBtnObj } from "@/components/BaseBtn";
 import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/components/_utils";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import { ClosePopupInject, ClosePopupType } from "@/components/BasicPopup/_types";
+import { Loading, Promotion } from "@element-plus/icons-vue";
+
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
@@ -88,12 +93,7 @@ function handleValidate() {
   });
 }
 //请求成功之后的回调函数
-const fetchSucCb: FinallyNext = (
-  hint = props.submitText + "成功！",
-  closeType?: ClosePopupType,
-  cb?: () => void,
-  isRefreshList = true
-) => {
+const fetchSucCb: FinallyNext = (hint = props.submitText + "成功！", closeType?: ClosePopupType, cb?: () => void, isRefreshList = true) => {
   showMessage(hint);
   closePopup(closeType);
   cb?.();

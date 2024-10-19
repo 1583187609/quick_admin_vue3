@@ -2,21 +2,21 @@
 基础按钮，用于增删改查列表页：中间或表格操作栏的按钮。集成了样式、图标、位置、权限、路由跳转、气泡确认框（popconfirm）等功能。
 -->
 <template>
-  <el-popconfirm @confirm="handleClick" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
+  <el-popconfirm @confirm="handleClickDebounce" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs">
         <slot>{{ emptyVals.includes(newBtn?.text) ? "-" : newBtn?.text }}</slot>
       </el-button>
     </template>
   </el-popconfirm>
-  <el-button class="base-btn" v-bind="newBtn.attrs" @click="handleClick" v-else>
+  <el-button class="base-btn" v-bind="newBtn.attrs" @click="handleClickDebounce" v-else>
     <slot>{{ emptyVals.includes(newBtn?.text) ? "-" : newBtn?.text }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
 import { computed, useAttrs } from "vue";
 import { getBtnObj } from "@/components/BaseBtn";
-import { emptyVals, typeOf } from "@/components/_utils";
+import { debounce, emptyVals, typeOf } from "@/components/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj, PopconfirmAttrs } from "@/vite-env";
 import { BaseBtnType, BtnHandleClickType, BtnItem, BtnName } from "./_types";
@@ -37,6 +37,7 @@ const props = withDefaults(
     handleClickType?: BtnHandleClickType;
     validate?: boolean; //是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
     popconfirm?: boolean | PopconfirmAttrs;
+    isDebounce?: boolean; // 点击是否做防抖处理
     // ...restAttrs 其余属性同el-button的属性
   }>(),
   {
@@ -45,6 +46,7 @@ const props = withDefaults(
     handleClickType: "common",
     validate: undefined,
     popconfirm: undefined,
+    isDebounce: true,
   }
 );
 const $emit = defineEmits<{
@@ -65,5 +67,6 @@ function handleClick() {
   const t = typeOf(to);
   router.push(t === "Function" ? (to as Function)(props.data) : to);
 }
+// 点击事件防抖处理
+const handleClickDebounce = props.isDebounce ? debounce(handleClick) : handleClick;
 </script>
-<style lang="scss" scoped></style>

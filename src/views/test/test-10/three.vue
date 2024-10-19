@@ -48,20 +48,10 @@
           <el-form-item :prop="'list.' + ind + '.hour'" required :rules="[{ required: true, message: '请输入小时' }]">
             <el-input v-model="sizeForm.list[ind].hour" placeholder="请输入小时" clearable />
           </el-form-item>
-          <el-form-item
-            class="ml-h"
-            :prop="'list.' + ind + '.money'"
-            required
-            :rules="[{ required: true, message: '请输入小时' }]"
-          >
+          <el-form-item class="ml-h" :prop="'list.' + ind + '.money'" required :rules="[{ required: true, message: '请输入小时' }]">
             <el-input v-model="sizeForm.list[ind].money" placeholder="请输入金额" />
           </el-form-item>
-          <el-form-item
-            class="ml-h"
-            :prop="'list.' + ind + '.money'"
-            required
-            :rules="[{ required: true, message: '请选择类型' }]"
-          >
+          <el-form-item class="ml-h" :prop="'list.' + ind + '.money'" required :rules="[{ required: true, message: '请选择类型' }]">
             <el-select
               v-model="sizeForm.list[ind].type"
               style="min-width: 120px"
@@ -115,10 +105,10 @@
     </div>
     <div>
       <el-popconfirm confirm-button-text="确认删除" cancel-button-text="取消">
+        <span>这是自定义内容</span>
         <template #reference>
           <el-button>点击打开弹窗</el-button>
         </template>
-        <span>这是自定义内容</span>
       </el-popconfirm>
     </div>
   </div>

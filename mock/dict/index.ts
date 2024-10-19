@@ -1,5 +1,8 @@
 import allAddress from "../data/address";
 import { CommonObj } from "@/vite-env";
+import baseDict from "./modules/base";
+import otherDict from "./modules/other";
+
 // export type DictNames =
 //   | "EnableStatus"
 //   | "YesNoStatus"
@@ -9,38 +12,8 @@ import { CommonObj } from "@/vite-env";
 // const dictMap: { [key in DictNames]: CommonObj } = {
 export type DictNames = keyof typeof dictMap;
 const dictMap: CommonObj = {
-  //启用禁用状态（通用）
-  EnableStatus: {
-    0: "禁用",
-    1: "启用",
-  },
-  //启用禁用状态（通用）
-  YesNoStatus: {
-    0: "否",
-    1: "是",
-  },
-  //性别
-  Gender: {
-    0: "未知",
-    1: "男",
-    2: "女",
-  },
-  //用户类型
-  RoleType: {
-    0: "超级管理员",
-    1: "普通管理员",
-    2: "特殊用户",
-    3: "普通用户",
-    4: "游客用户",
-    5: "开发人员",
-  },
-  //权限菜单类型
-  MenuType: {
-    0: "目录",
-    1: "菜单",
-    2: "按钮",
-    3: "外链",
-  },
+  ...baseDict,
+  ...otherDict,
 };
 //获取字典文本
 export function getDictText(name: DictNames, val: string | number) {

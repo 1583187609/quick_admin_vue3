@@ -2,12 +2,7 @@
   <el-form-item class="field-item" v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options'])">
     <template #label v-if="(!prefixProp || newField.labelWidth) && newField.label">
       <BaseRender :data="newField.label" />
-      <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-        <template #reference>
-          <BaseIcon :color="cssVars.colorInfo" class="icon-popover" :class="size" name="QuestionFilled"></BaseIcon>
-        </template>
-        <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
-      </el-popover>
+      <QuestionPopover :popover="popoverAttrs" :size="size" v-if="popoverAttrs" />
     </template>
     <div class="mr-h" v-if="newField.quickAttrs?.before">
       <BaseRender :data="newField.quickAttrs.before" />
@@ -176,7 +171,7 @@ const newField = computed<FormFieldAttrs>(() => {
     getAttrs && merge(tempField, { attrs: getAttrs(tempField) }, field);
     let { options } = tempField;
     if (typeof options === "string") tempField.options = getOpts(options as DictName);
-    popoverAttrs = getPopoverAttrs(tempField.quickAttrs?.popover);
+    popoverAttrs = tempField.quickAttrs?.popover;
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
     if (tempField?.attrs?.placeholder) {
@@ -509,21 +504,6 @@ defineExpose({});
 </script>
 <style lang="scss" scoped>
 .field-item {
-}
-.icon-popover {
-  font-size: 1.1em;
-  &.large {
-    margin-left: 4px;
-    margin-top: 12px;
-  }
-  &.default {
-    margin-left: 2px;
-    margin-top: 9px;
-  }
-  &.small {
-    margin-left: 0;
-    margin-top: 7px;
-  }
 }
 .hide-tips,
 .show-tips {

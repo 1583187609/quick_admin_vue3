@@ -15,9 +15,10 @@ import { TableColAttrs } from "@/components/table/_types";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { HandleClickExtraBtnsProps } from "./_types";
 import { batchBtnNames } from ".";
-import ImportPopup from "./_components/ImportPopup.vue";
+import { defineAsyncComponent } from "vue";
 import _ from "lodash";
 
+const CommonImport = defineAsyncComponent(() => import("./_components/CommonImport.vue"));
 export interface ExtraBtnRestArgs {
   selectedKeys: string[];
   selectedRows: CommonObj[];
@@ -61,9 +62,9 @@ export function handleClickExtraBtns({
         "warning"
       );
     } else {
-      const hintTips = `确定 <b style="color:${color};">${text}${
-        isSeledAll ? `全部</b> ` : `</b>`
-      } 共 <b style="color:${color};">${seledRows.length}</b> 条记录？`;
+      const hintTips = `确定 <b style="color:${color};">${text}${isSeledAll ? `全部</b> ` : `</b>`} 共 <b style="color:${color};">${
+        seledRows.length
+      }</b> 条记录？`;
       ElMessageBox.confirm(hintTips, "温馨提示", {
         type: name === "delete" ? "error" : "warning",
         dangerouslyUseHTMLString: true,
@@ -101,8 +102,7 @@ export function handleClickExtraBtns({
         .catch(() => {});
     }
   } else if (name === "import") {
-    // () => import("./_components/ImportPopup.vue"),
-    openPopup("导入文件", [ImportPopup, { ...importCfg, onChange: (arr: CommonObj[]) => $emit("click", name, arr) }]);
+    openPopup("导入文件", [CommonImport, { ...importCfg, onChange: (arr: CommonObj[]) => $emit("click", name, arr) }]);
   } else {
     $emit("extraBtns", name, next, {
       selectedKeys: [],

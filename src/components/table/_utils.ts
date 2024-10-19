@@ -7,6 +7,8 @@ import {
   defaultGroupBtnsMaxNum,
   getChinaCharLength,
   defaultCommonSize,
+  isOptimization,
+  emptyStr,
 } from "@/components/_utils";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
 import { defaultColumnAttrs, specialColKeys, specialColMap } from "@/components/table";
@@ -93,6 +95,11 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
   const tempBtns = getTempGroupBtnsOfRow(row, ind, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
   const operateCol = newCols.at(-1)!;
+  // 如果开启优化，则不会再进行操作栏列宽的计算
+  if (isOptimization) {
+    operateCol.width = 100;
+    return filterBtns;
+  }
   if (operateCol.width) return filterBtns; // 如果操作栏设置了宽度，则不再进行自动计算，可用于性能优化
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
   const isLastRow = ind === rows.length - 1;
@@ -108,10 +115,50 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
   return filterBtns;
 }
 
+export function flatPropsValue(row: CommonObj, prop: string) {
+  const keys = (prop as string).split(".");
+  let data: CommonObj = row;
+  for (const key of keys) {
+    data = row[key];
+    if (typeof data === "undefined") return emptyStr;
+  }
+  return data;
+}
+
+/**
+ * 获取推断的表格列属性
+ * @param col 表格列配置属性
+ * @returns
+ */
+export function getInferredColAttrs(col: TableColAttrs) {
+  const { type, prop, label, formatter } = col;
+  if (typeof label !== "string") return;
+  const colAttrs: TableColAttrs = {};
+  // 是否需要处理多级 props
+  let isHandleMultiProps = !isOptimization && prop?.includes(".") && !formatter;
+  if (isHandleMultiProps) {
+    colAttrs.formatter = (row: CommonObj) => flatPropsValue(row, prop as string);
+  }
+  if (label?.includes("时间")) {
+    colAttrs.minWidth = 164;
+    if (type !== "custom") {
+      colAttrs.formatter = (row: CommonObj) => {
+        const val = isHandleMultiProps ? flatPropsValue(row, prop as string) : row[prop as string];
+        return renderValue(emptyTime === val ? undefined : val);
+      };
+    }
+  }
+  if (!isOptimization && !type) {
+    label?.includes("备注") && Object.assign(colAttrs, specialColMap.remark);
+    // label?.includes("id") && Object.assign(colAttrs, specialColMap.id);
+  }
+  return colAttrs;
+}
+
 // 获取col和level
 export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = defaultCommonSize): CommonObj {
   let newLev = lev;
-  const { children, type, prop, label, visible = true, exportable = true } = col;
+  const { children, type, prop, label, visible = true, exportable = true, formatter } = col;
   const specialColAttrs = specialColMap[type as string];
   const { getAttrs } = specialColAttrs || {};
   // 如果是index、sort、selection、operate特殊列
@@ -119,21 +166,8 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
     const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, getAttrs?.(col), col);
     return { col: newCol, level: 1 };
   }
-  const newCol = merge(
-    { visible, exportable },
-    defaultColumnAttrs,
-    specialColAttrs,
-    typeof label === "string" &&
-      label?.includes("时间") && {
-        minWidth: 164,
-        formatter:
-          type !== "custom" && typeof prop === "string"
-            ? (row: CommonObj) => renderValue(emptyTime === row[prop] ? undefined : row[prop])
-            : undefined,
-      },
-    getAttrs?.(col),
-    col
-  );
+  const inferredColAttrs = getInferredColAttrs(col);
+  const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, inferredColAttrs, getAttrs?.(col), col);
   if (typeOf(newCol.prop) === "Array") {
     newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   }
@@ -172,7 +206,7 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
   let maxLevel = 0;
   const { cols = [], operateBtns, currPage, pageSize, size } = props;
   const newCols = cols.map(col => {
-    if (!col) return col;
+    // if (!col) return col;
     let { col: newCol, level } = getColAndLevel(col, 1, size);
     const { type } = newCol;
     if (type === "operate") {

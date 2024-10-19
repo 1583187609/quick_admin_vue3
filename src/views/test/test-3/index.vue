@@ -53,11 +53,7 @@
         'download',
         'pass',
         'reject',
-        {
-          name: 'dialog',
-          text: '打开dialog列表',
-          attrs: { type: 'primary', icon: 'Postcard' },
-        },
+        { name: 'link', text: '前往详情页' },
         {
           name: 'drawer',
           text: '打开drawer表单',
@@ -127,7 +123,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, reactive, inject } from "vue";
+import { ref, onMounted, reactive, inject, h } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
@@ -145,7 +141,6 @@ import SimpleForm from "./SimpleForm/Index.vue";
 import CustomHead from "./_components/CustomHead.vue";
 import { SectionFormItemAttrs } from "@/components/form/_types";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
-import { h } from "vue";
 
 const tempRow = {
   xm: "李四",
@@ -283,9 +278,8 @@ const sections: SectionFormItemAttrs[] = [
 ];
 const cols: TableCol[] = [
   { type: "selection" },
-  //表格表头
   {
-    // prop: "userData",
+    // prop: "userData", // 默认值为userData
     label: "自定义组件列-内置 [UserInfo]",
     type: "UserInfo",
     quickAttrs: {
@@ -306,14 +300,24 @@ const cols: TableCol[] = [
     },
   },
   {
-    prop: "custom_head",
+    prop: "type_text",
     // label: "自定义表格头",
-    label: h(CustomHead),
+    label: h(CustomHead), // shallowRef(CustomHead),
     minWidth: 210,
     quickAttrs: {
-      // popover: "这是自定义popover示例",
-      // popover: CustomHead,
-      popover: h(CustomHead, { isPopover: true }),
+      // popover: "这是自定义popover示例（传入字符串）",
+      // popover: { title: "这是标题", width: 320, content: "这是自定义popover示例（传入属性对象）" },
+      // popover: h(CustomHead, { type: "popover" }),
+      popover: {
+        title: "自定义【表格头+popover+formatter】示例",
+        width: 400,
+        slots: {
+          default: h(CustomHead, { type: "popover" }),
+        },
+      },
+    },
+    formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
+      return `用formatter处理-第${ind + 1}行`;
     },
   },
   {
@@ -337,17 +341,6 @@ const cols: TableCol[] = [
     prop: "avatar",
     label: "文本复制[BaseCopy]",
     type: "BaseCopy",
-  },
-  {
-    prop: "form_col",
-    label: "formatter列",
-    minWidth: 140,
-    quickAttrs: {
-      popover: `继承自ElementPlus的 formatter 方法`,
-    },
-    formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
-      return `formatter格式化示例-第${ind + 1}行`;
-    },
   },
   isSimple
     ? {
@@ -375,8 +368,8 @@ const cols: TableCol[] = [
     },
   },
   !isSimple && {
-    prop: "sj",
-    label: "时间（内置宽度）",
+    prop: "register_time",
+    label: "注册时间",
     quickAttrs: {
       popover: `只设置 {prop: "sj"}，不设置 {type: "create"}。会根据 label 中带时间二字，自动确定该列的宽度`,
     },
@@ -394,7 +387,7 @@ const cols: TableCol[] = [
   // : [
   {
     type: "update",
-    prop: "updatedAt",
+    prop: "update_time",
     label: "修改时间 [update]",
     quickAttrs: {
       popover: `设置 {type: "update", prop: "updatedAt"}，只会显示 updatedAt 属性的值`,
@@ -418,11 +411,28 @@ const cols: TableCol[] = [
       // fetch: PostEnable,
     },
   },
+  // 设置type为remark，默认 prop 为 remark，并自带宽度等其他设置
   {
     type: "remark",
     label: "备注 [remark]",
     quickAttrs: {
       popover: `设置{type: "remark"}，内置列宽度、label文案`,
+    },
+  },
+  // 未设置type时，因label中含有备注字样，就被推断为type为remark类型，故也可以获得跟上面写法一样的配置
+  // {
+  //   prop: "remark",
+  //   label: "备注 [remark]",
+  //   quickAttrs: {
+  //     popover: `设置{type: "remark"}，内置列宽度、label文案`,
+  //   },
+  // },
+  {
+    prop: "userData.nickname",
+    label: "多级prop",
+    minWidth: 100,
+    quickAttrs: {
+      popover: "可传入任意多级的prop，例：user.data.info.age",
     },
   },
   {

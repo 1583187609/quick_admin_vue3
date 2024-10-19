@@ -9,14 +9,18 @@
     :accept="accepts.join(',')"
   >
     <img :src="imgSrc" class="img" v-if="imgSrc" />
-    <BaseIcon name="Plus" size="32" v-else />
+    <el-icon name="Plus" size="32" v-else>
+      <Plus />
+    </el-icon>
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import type { UploadProps } from "element-plus";
 import avatarImg from "@/assets/images/default/avatar.png";
 import { showMessage } from "../_utils";
+import { Plus } from "@element-plus/icons-vue";
+
 const props = withDefaults(
   defineProps<{
     modelValue?: string;

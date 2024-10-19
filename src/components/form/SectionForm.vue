@@ -2,14 +2,7 @@
   分块（组）表单
 -->
 <template>
-  <el-form
-    class="section-form f-fs-s-c"
-    :class="type"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="section-form f-fs-s-c" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -17,28 +10,14 @@
           <div class="head f-sb-c">
             <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
-              <el-popover v-bind="getPopoverAttrs(sItem.popover)" v-if="sItem.popover">
-                <template #reference>
-                  <BaseIcon
-                    :color="cssVars.colorInfo"
-                    class="ml-q f-0 mr-h"
-                    name="QuestionFilled"
-                    v-if="sItem.popover"
-                  ></BaseIcon>
-                </template>
-              </el-popover>
+              <QuestionPopover :popover="sItem.popover" iconClass="ml-q f-0 mr-h" v-if="sItem.popover" />
             </div>
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
-            <BaseIcon
-              @click="folds[sInd] = !folds[sInd]"
-              class="fold-btn f-0"
-              :class="folds[sInd] ? 'rotate-180' : ''"
-              size="1.5em"
-              name="CaretTop"
-              v-if="foldable"
-            />
+            <el-icon @click="folds[sInd] = !folds[sInd]" class="fold-btn f-0" :class="folds[sInd] ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
+              <CaretTop />
+            </el-icon>
           </div>
           <el-row class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
             <slot name="body" :section="sItem" :index="sInd" v-if="sItem.type === 'custom'">
@@ -121,7 +100,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { typeOf, getPopoverAttrs, isProd } from "@/components/_utils";
+import { typeOf, isProd } from "@/components/_utils";
 import _ from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
@@ -130,10 +109,11 @@ import { SectionFormItemAttrs, SectionFormItem } from "@/components/form/_types"
 import { defaultFormAttrs } from "@/components/form";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import cssVars from "@/assets/styles/_var.module.scss";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
 import { defaultCommonSize } from "@/components/_utils";
+import QuestionPopover from "@/components/QuestionPopover.vue";
+import { CaretTop } from "@element-plus/icons-vue";
 
 const { merge } = _;
 const props = withDefaults(

@@ -21,36 +21,31 @@
       </el-table-column>
       <template v-else>
         <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
-        <el-table-column v-bind="newCol" :formatter="newCol.formatter" v-if="newCol.formatter">
+        <el-table-column v-bind="newCol" v-if="newCol.formatter">
           <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <BaseRender :data="scope.column.label" />
-              <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-                <template #reference>
-                  <BaseIcon :color="cssVars.colorInfo" name="QuestionFilled" />
-                </template>
-                <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
-              </el-popover>
+              <BaseRender
+                :data="newCol._label ?? devErrorTips(scope.column.label, getIsMarkNoHandle(scope._self, scope.column, newCol) ? undefined : '')"
+              />
+              <QuestionPopover
+                :popover="popoverAttrs"
+                :type="getIsMarkNoHandle(scope._self, scope.column, newCol) ? 'danger' : 'info'"
+                v-if="popoverAttrs"
+              />
             </slot>
           </template>
         </el-table-column>
         <el-table-column v-bind="newCol" v-else>
           <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <BaseRender :data="newCol.customLabel" v-if="newCol.customLabel" />
               <BaseRender
-                :data="devErrorTips(scope.column.label, getIsHandle(scope._self, scope.column) ? undefined : '')"
-                v-else
+                :data="newCol._label ?? devErrorTips(scope.column.label, getIsMarkNoHandle(scope._self, scope.column, newCol) ? undefined : '')"
               />
-              <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-                <template #reference>
-                  <BaseIcon
-                    :color="getIsHandle(scope._self, scope.column) ? cssVars.colorDanger : cssVars.colorInfo"
-                    name="QuestionFilled"
-                  />
-                </template>
-                <BaseRender :data="popoverAttrs.defaultSlot" v-if="popoverAttrs.defaultSlot" />
-              </el-popover>
+              <QuestionPopover
+                :popover="popoverAttrs"
+                :type="getIsMarkNoHandle(scope._self, scope.column, newCol) ? 'danger' : 'info'"
+                v-if="popoverAttrs"
+              />
             </slot>
           </template>
           <template #default="{ row, column, $index }">
@@ -70,7 +65,9 @@
               @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
               v-else-if="newCol.type === 'operate'"
             />
-            <BaseIcon name="Sort" size="1.2em" v-else-if="newCol.type === 'sort'" />
+            <el-icon size="1.2em" v-else-if="newCol.type === 'sort'">
+              <Sort />
+            </el-icon>
             <!-- id和备注列 -->
             <template v-else-if="['id', 'remark'].includes(newCol.type)">
               {{ renderValue(row?.[newCol.prop as string]) }}
@@ -103,12 +100,7 @@
             </template>
             <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
             <template v-else-if="newCol.type === 'BaseImg'">
-              <BaseImg
-                style="margin: 0 auto"
-                :src="row[newCol.prop as string]"
-                v-bind="newCol.attrs"
-                v-if="row[newCol.prop as string]"
-              />
+              <BaseImg style="margin: 0 auto" :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-if="row[newCol.prop as string]" />
               <template v-else>-</template>
             </template>
             <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
@@ -124,18 +116,19 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { propsJoinChar, deleteAttrs, getPopoverAttrs, devErrorTips, showMessage, renderValue } from "@/components/_utils";
+import { propsJoinChar, deleteAttrs, devErrorTips, showMessage, renderValue, getVNodeInnerText } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TableColAttrs } from "@/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
-import cssVars from "@/assets/styles/_var.module.scss";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import BaseRender from "@/components/BaseRender.vue";
+import QuestionPopover from "@/components/QuestionPopover.vue";
 import { defaultCommonSize } from "@/components/_utils";
-import { CommonSize, PopoverAttrs } from "@/components/_types";
+import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
 import { operateBtnsEmitName, specialColKeys } from "..";
+import { isOptimization } from "@/components/_utils";
+import { Sort } from "@element-plus/icons-vue";
 
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
@@ -161,21 +154,37 @@ const props = withDefaults(
   )
 );
 const $emit = defineEmits([operateBtnsEmitName]);
-let popoverAttrs: PopoverAttrs | undefined;
+let popoverAttrs: PopoverAttrs | PopoverSlots | string | undefined;
 const newCol = getNewCol(props.col);
+
 function getNewCol(col: TableColAttrs) {
-  popoverAttrs = getPopoverAttrs(col.quickAttrs?.popover);
-  // delete col.popover; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
+  popoverAttrs = col?.quickAttrs?.popover;
   if (typeof col.label !== "string") {
-    col.customLabel = col.label;
-    col.label = "";
+    col._label = col.label;
+    col.label = getVNodeInnerText(col._label);
   }
   delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
-// 该列是否已联调
-function getIsHandle(_self: CommonObj, column: CommonObj) {
-  return !(newCol.prop as string).startsWith("$") && _self.data?.length && _self.data[0]?.[column.property] === undefined;
+// 该列是否标记为未联调（表格头字体会变红）
+function getIsMarkNoHandle(_self: CommonObj, column: CommonObj, col: TableColAttrs) {
+  if (isOptimization) return false;
+  const { type, prop } = col;
+  if ((newCol.prop as string).startsWith("$") || type === "custom") return false;
+  if (!_self.data?.length) return false;
+  const row = _self.data[0];
+  if (prop?.includes(propsJoinChar)) {
+    return (prop as string).split(propsJoinChar).some(key => typeof row[key] === "undefined");
+  } else if (prop?.includes(".")) {
+    const keys = (prop as string).split(".");
+    let data: CommonObj = row;
+    for (const key of keys) {
+      data = row[key];
+      if (typeof data === "undefined") return true;
+    }
+    return false;
+  }
+  return row?.[prop as string] === undefined;
 }
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
   $emit("operateBtns", btnObj, { row, col, $index }, next);
@@ -200,4 +209,10 @@ function getCreateOrUpdateText(row: CommonObj, prop: string, ind: number = 0) {
   return renderValue(val);
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.question-icon {
+  vertical-align: middle;
+  font-size: 1.1em;
+  margin-left: 2px;
+}
+</style>

@@ -3,7 +3,7 @@ import { SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonSize, OptionItem, StrNum } from "@/vite-env";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
-import { Popover } from "@/components/_types";
+import { PopoverType } from "@/components/_types";
 
 export type RulesType = keyof typeof defaultRulesTypes;
 
@@ -79,7 +79,7 @@ export interface FormFieldAttrs {
   quickAttrs?: {
     grid?: Grid; //占位栅格子的宽度，同ElementPlus 的 el-col 的属性，可以是数字：1~24
     example?: string; //示例，写在placeholder中的示例文本
-    popover?: Popover; //ElementPlus 的 popover组件
+    popover?: PopoverType; //ElementPlus 的 popover组件
     tips?: string; //注意提示语，位于字段的下方
     pureText?: boolean; //是否纯文本展示
     disabled?: boolean; //是否禁用

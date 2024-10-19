@@ -46,7 +46,6 @@ export interface PopoverAttrs {
   title?: string;
   disabled?: boolean;
   width?: StrNum;
-  defaultSlot?: BaseRenderData;
 }
 export interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key

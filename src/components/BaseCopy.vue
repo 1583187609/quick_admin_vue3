@@ -9,6 +9,9 @@
     <template v-if="textStr">
       <el-tooltip :show-after="500" content="点击复制">
         <BaseIcon class="f-0 ml-4 icon hover" name="DocumentCopy" />
+        <!-- <el-icon class="f-0 ml-4 icon hover">
+          <DocumentCopy />
+        </el-icon> -->
       </el-tooltip>
     </template>
   </div>

@@ -32,29 +32,16 @@
     </div>
     <div class="f-fs-fs">
       <ExtraBtns
-        class="f-1"
+        class="f-1 mr-a"
         :btns="newExtraBtns"
         :disabled="disabled"
         :size="tableAttrs?.size ?? size"
         @click="onExtraBtns"
         v-if="newExtraBtns.length"
       />
-      <SetBtns
-        v-model="newCols"
-        :originCols="originCols"
-        class="f-0 ml-a"
-        :disabled="disabled"
-        :size="tableAttrs?.size ?? size"
-      />
+      <SetBtns v-model="newCols" :originCols="originCols" class="f-0 ml-o" :disabled="disabled" :size="tableAttrs?.size ?? size" />
     </div>
-    <slot
-      :loading="loading"
-      :rows="newRows"
-      :total="pageInfo.total"
-      :hasMore="pageInfo.hasMore"
-      :params="params"
-      :onOperateBtns="onOperateBtns"
-    >
+    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
       <QueryTable
         :compact="compact"
         :loading="loading"
@@ -71,7 +58,7 @@
         v-bind="tableAttrs"
         @operateBtns="onOperateBtns"
         @selectionChange="handleSelectionChange"
-        @update:cols="(cols:TableColAttrs[]) => newCols = cols"
+        @update:cols="(cols: TableColAttrs[]) => newCols = cols"
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
@@ -126,7 +113,7 @@ import { SectionFormItemAttrs, FormAttrs } from "@/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/components/table/_types";
 import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "@/components/crud/BaseCrud/_types";
-import { TplCfgAttrs } from "./_components/ImportPopup.vue";
+import { TplCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/components/form/_config";
 import { defaultTableAttrs } from "@/components/table/_config";
 import { ExportCfg } from "./_types";
@@ -253,8 +240,10 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   });
   return filterBtnsByAuth(btns, filterByAuth);
 });
-const originCols = JSON.parse(JSON.stringify(props.cols.filter(it => !!it)));
-const newCols = ref<TableColAttrs[]>(JSON.parse(JSON.stringify(originCols)));
+
+// 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失
+const originCols: TableColAttrs[] = cloneDeep(props.cols.filter(it => !!it) as TableColAttrs[]);
+const newCols = ref<TableColAttrs[]>(cloneDeep(originCols));
 const dragSortable = computed<boolean>(() => !!newCols.value.find(col => col.type === "sort"));
 
 //当额外参数改变时，发起请求

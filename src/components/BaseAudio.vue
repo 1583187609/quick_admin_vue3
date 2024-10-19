@@ -14,13 +14,11 @@
       :toggleMuted="toggleMuted"
       :formatTime="formatTime"
     >
-      <BaseIcon
-        @click="togglePlaying"
-        size="20"
-        class="f-0 btn"
-        :class="{ disabled }"
-        :name="playing ? 'VideoPause' : 'VideoPlay'"
-      />
+      <el-icon @click="togglePlaying" size="20" class="f-0 btn" :class="{ disabled }">
+        <VideoPause v-if="playing" />
+        <VideoPlay v-else />
+      </el-icon>
+
       <time class="f-0 ml-h">{{ timeStr }}</time>
       <el-slider
         @change="handleSliderChange"
@@ -32,25 +30,13 @@
         v-if="showProgress"
       />
       <el-tooltip :content="muted ? '取消静音' : '静音'" :show-after="400" :disabled="disabled">
-        <BaseIcon
-          @click="toggleMuted"
-          size="20"
-          class="btn f-0 ml-h"
-          :class="{ disabled }"
-          :name="muted ? 'Mute' : 'Microphone'"
-        />
+        <el-icon @click="toggleMuted" size="20" class="btn f-0 ml-h" :class="{ disabled }">
+          <Mute v-if="muted" />
+          <Microphone v-else />
+        </el-icon>
       </el-tooltip>
     </slot>
-    <audio
-      @canplay="handleCanPlay"
-      @timeupdate="handleTimeupdate"
-      @ended="handleEnded"
-      :muted="muted"
-      controls
-      hidden
-      ref="audioRef"
-      v-if="src"
-    >
+    <audio @canplay="handleCanPlay" @timeupdate="handleTimeupdate" @ended="handleEnded" :muted="muted" controls hidden ref="audioRef" v-if="src">
       <source :src="src" type="audio/mpeg" />
       <source :src="src" type="audio/ogg" />
       您的浏览器不支持音频播放
@@ -63,7 +49,9 @@
  * https://blog.csdn.net/lhz_19/article/details/122428176
  * https://blog.csdn.net/lhz_19/article/details/122428176
  */
-import { ref, reactive, watch, computed } from "vue";
+import { ref } from "vue";
+import { VideoPause, VideoPlay, Mute, Microphone } from "@element-plus/icons-vue";
+
 const props = withDefaults(
   defineProps<{
     src?: string;

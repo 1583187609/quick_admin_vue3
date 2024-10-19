@@ -15,7 +15,9 @@
     :disabled="disabled"
     :show-file-list="showFileList"
   >
-    <BaseIcon class="icon-add" name="Plus" />
+    <el-icon class="icon-add">
+      <Plus />
+    </el-icon>
     <template #file="{ file }" v-if="!showFileList">
       <BaseImg class="img" :src="file.url" :fit="fit" :preview="disabled" />
     </template>
@@ -27,15 +29,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed, inject } from "vue";
+import { ref, computed, inject } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
 import { showMessage } from "@/components/_utils";
 import config from "@/config";
 import { CommonObj } from "@/vite-env";
 import { getFileTips, getErrorTips } from "./_utils";
-import { EpPropMergeType } from "element-plus/es/utils";
 import { ImgFitType } from "@/components/img/BaseImg.vue";
+import { Plus } from "@element-plus/icons-vue";
 
 const props = withDefaults(
   defineProps<{

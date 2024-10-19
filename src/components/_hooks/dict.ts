@@ -159,6 +159,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
   function getText(name: DictName, code?: StrNum | StrNum[], propsMap?: CommonObj, char = "-"): string {
     if (emptyVals.includes(code as any)) return char;
     const currMap = getMap(name);
+    if (!currMap) return char; // throw new Error(`未找到${name}的映射`);
     if (typeOf(code) === "Array") return getTextFromOptions(currMap, code as StrNum[], propsMap, char);
     const val = currMap[code as StrNum];
     const t = typeOf(currMap);

@@ -5,7 +5,7 @@ import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { BaseRenderData } from "../BaseRender.vue";
 import { FormItemAttrs } from "@/components/form/_types";
-import { HorizontalAlign, PopoverAttrs, UniteFetchType } from "@/components/_types";
+import { HorizontalAlign, PopoverAttrs, PopoverSlots, UniteFetchType } from "@/components/_types";
 
 /**
  * 这里是标准的ElementPlus属性
@@ -79,7 +79,7 @@ export type TableColType =
 export interface TableColAttrs {
   prop?: string | [string, string];
   label?: BaseRenderData;
-  customLabel?: BaseRenderData;
+  _label?: BaseRenderData; // 这是自定义label（虚拟DOM），不需要手动写入，作为label的影子使用
   width?: string | number;
   minWidth?: string | number;
   align?: HorizontalAlign;
@@ -101,7 +101,7 @@ export interface TableColAttrs {
   attrs?: CommonObj; //该列所用组件的props属性
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
-    popover?: string | PopoverAttrs | BaseRenderData;
+    popover?: string | PopoverAttrs | PopoverSlots;
   };
 }
 export type TableCol = BaseDataType | TableColAttrs;

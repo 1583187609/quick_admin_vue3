@@ -4,9 +4,16 @@ import dayjs from "dayjs";
 import { getDictText, getDictCodes, getCascadeText } from "../dict";
 import { getDictMapKeys, getAvatarUrl } from "../utils";
 import allAddress from "../data/address";
+import allSchool from "../data/school";
+import allCompany from "../data/company";
+import allJob from "../data/job";
 import { CommonObj } from "@/vite-env";
 
 const { Random } = Mock;
+
+const allSchoolNames = allSchool.map(it => it.name);
+const allCompanyName = allCompany.map(it => it.name);
+const allJobName = allJob.map(it => it.name);
 
 /**
  * 生成正式用户列表数据
@@ -14,7 +21,7 @@ const { Random } = Mock;
  * @param defObj [object] 模板默认值
  */
 export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
-  const { gender, type, phonePre = "135" } = defObj;
+  const { userCode, gender, type, phonePre = "135" } = defObj;
   //角色名称映射
   const roleNameMap: CommonObj = {
     0: "superAdmin",
@@ -28,6 +35,7 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
     [`list|${num}`]: [
       {
         "id|+1": idStart, //id递增
+        userCode: Mock.Random.natural(10000000, 99999999), // 学号
         "type|1": type === undefined ? getDictCodes("RoleType") : [type],
         type_text: (res: CommonObj) => {
           const { type } = res.context.currentContext;
@@ -49,6 +57,7 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
         },
         psd: `${roleNameMap[type]}12345`,
         name: () => Random.cname(), //姓名
+        "roles|1": getDictCodes("RoleType"), // 角色类型
         avatar(res: CommonObj) {
           const { gender } = res.context.currentContext;
           return getAvatarUrl(gender);
@@ -70,7 +79,7 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
           const aInd = Math.floor(Math.random() * arrAreas[pInd][cInd].length);
           return [allAddress[pInd].id, allAddress[pInd].city[cInd].id, allAddress[pInd].city[cInd].area[aInd].id];
         },
-        //对应的地址文本
+        // 对应的地址文本
         address_text(res: CommonObj) {
           const { address } = res.context.currentContext;
           return getCascadeText("Region", address);
@@ -84,25 +93,63 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
           const { birthday } = res.context.currentContext;
           return dayjs().diff(birthday, "year");
         },
+        // 账号启用禁用状态
         "status|1": getDictCodes("EnableStatus"),
         status_text(res: CommonObj) {
           const { status } = res.context.currentContext;
           return getDictText("EnableStatus", status);
         },
+        // 介绍
         produce() {
           return Random.ctitle(3, 200);
         },
-        //创建时间
+        // 注册时间
+        register_time() {
+          return Random.datetime();
+        },
+        // 创建人
+        create_user() {
+          return Random.cname();
+        },
+        // 创建时间
         create_time() {
           return Random.datetime();
         },
-        //更新时间
+        // 更新人
+        update_user() {
+          return Random.cname();
+        },
+        // 更新时间
         update_time() {
           return Random.datetime();
         },
-        //备注
+        // 备注
         remark() {
           return Random.ctitle(0, 20);
+        },
+        // 用户信息
+        userData(res: CommonObj) {
+          const { id, userCode, address, address_text, avatar, gender, nickname } = res.context.currentContext;
+          return {
+            id, // id
+            userCode, // 学号
+            avatar, // 头像
+            gender, // 性别
+            nickname, // 用户昵称
+            "accountStatus|1": getDictCodes("AccountStatus"), // 账号状态
+            "companyStatus|1": [0, 1], // 公司认证
+            "schoolStatus|1": [0, 1], // 学历认证
+            "schoolCertificateLevel|1": getDictCodes("EducationType"), // 学历
+            "singleType|1": getDictCodes("MatrimonyStatus"), // 单身状态
+            "schoolName|1": allSchoolNames, // 学校
+            "companyName|1": allCompanyName, // 公司
+            "jobName|1": allJobName, // 职业
+            "incomeTypeName|1": ["小于10w", "10~20w", "20~30w", "30~50w", "100w以上"], // 收入
+            liveCity: address.slice(0, 2), // 现居地
+            liveCityText: address_text, // 现居地
+            city: address.slice(0, 2), // 家乡
+            cityText: address_text, // 家乡
+          };
         },
       },
     ],

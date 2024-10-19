@@ -1,9 +1,9 @@
 import { FormRules } from "element-plus";
 import { SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
-import { BaseRenderData } from "@/components/BaseRender.vue";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
+import { PopoverSlots } from "@/components/_types";
 
 export type RulesType = keyof typeof defaultRulesTypes;
 
@@ -46,7 +46,7 @@ export interface PopoverAttrs {
   title?: string;
   disabled?: boolean;
   width?: StrNum;
-  defaultSlot?: BaseRenderData;
+  slots?: PopoverSlots;
 }
 export interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key
@@ -57,7 +57,7 @@ export interface FormFieldAttrs {
   // quickAttrs?: {
   //   span?: number; //占位栅栏的宽度，同ElementPlus 的 span 1~24
   //   example?: string; //示例，写在placeholder中的示例文本
-  //   popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
+  //   popover?: PopoverType; //ElementPlus 的 popover组件
   //   tips?: string; //注意提示语，位于字段的下方
   //   pureText?: boolean; //是否纯文本展示
   //   rulesType?: RulesType; //规则类型

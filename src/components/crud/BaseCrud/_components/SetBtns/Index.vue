@@ -1,4 +1,4 @@
-<!-- 页面-简介 -->
+<!-- 设置按钮 -->
 <template>
   <div class="set-btns" :class="size">
     <el-tooltip :content="btn.title" :show-after="500" v-for="(btn, ind) in newToolBtns" :key="ind">
@@ -7,15 +7,17 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed } from "vue";
-import SetTable, { SetTableChangeParams, SetTableColType } from "./_components/SetTable.vue";
-import SetPrint from "./_components/SetPrint.vue";
+import { inject, computed, defineAsyncComponent } from "vue";
 import { Setting, Printer } from "@element-plus/icons-vue";
 import config from "@/config";
 import { ClosePopupInject, CommonObj, CommonSize, OpenPopupInject } from "@/vite-env";
 import { SpecialTableColType, TableColAttrs } from "@/components/table/_types";
 import { defaultCommonSize } from "@/utils";
 import { specialColKeys } from "@/components/table";
+import type { SetTableChangeParams } from "./_components/SetTable.vue";
+
+const SetPrint = defineAsyncComponent(() => import("./_components/SetPrint.vue"));
+const SetTable = defineAsyncComponent(() => import("./_components/SetTable.vue"));
 
 export type ToolBtnName = "set" | "print";
 

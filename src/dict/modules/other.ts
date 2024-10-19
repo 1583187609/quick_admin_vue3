@@ -1,4 +1,43 @@
 export default {
+  //账号状态：0=正常;1=封禁;2=注销;3=限制互动;4=脱单;5=待注销
+  AccountStatus: {
+    "0": {
+      text: "正常",
+      attrs: {
+        type: "primary",
+      },
+    },
+    "1": {
+      text: "封禁",
+      attrs: {
+        type: "danger",
+      },
+    },
+    "2": {
+      text: "注销",
+      attrs: {
+        type: "info",
+      },
+    },
+    "3": {
+      text: "限制互动",
+      attrs: {
+        type: "warning",
+      },
+    },
+    "4": {
+      text: "已脱单",
+      attrs: {
+        type: "success",
+      },
+    },
+    "5": {
+      text: "待注销",
+      attrs: {
+        type: "info",
+      },
+    },
+  },
   //身份认证情况：1=未认证,2=学历;3=公司,4=双认证
   AuthCase: {
     "1": {
@@ -77,6 +116,27 @@ export default {
       text: "自动",
       attrs: {
         type: "primary",
+      },
+    },
+  },
+  //婚姻状态：0单身 1有婚姻史 2已脱单
+  MatrimonyStatus: {
+    "0": {
+      text: "未婚",
+      attrs: {
+        type: "info",
+      },
+    },
+    "1": {
+      text: "离异",
+      attrs: {
+        type: "warning",
+      },
+    },
+    "2": {
+      text: "已脱单",
+      attrs: {
+        type: "danger",
       },
     },
   },

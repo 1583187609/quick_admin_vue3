@@ -1,20 +1,10 @@
-<!-- 组件 - 导入弹出层 -->
+<!-- 通用导入组件 -->
 <template>
   <div class="template-hint">
     <div class="desc mb-o" v-if="description">{{ description }}</div>
-    <div class="f-fs-c mb-h">
-      如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。
-    </div>
+    <div class="f-fs-c mb-h">如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。</div>
     <!-- action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" -->
-    <el-upload
-      class="upload-demo"
-      :on-change="handleFileChange"
-      :auto-upload="false"
-      :show-file-list="false"
-      :accept="accept"
-      multiple
-      drag
-    >
+    <el-upload class="upload-demo" :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept" multiple drag>
       <BaseIcon name="UploadFilled" size="3em" />
       <div class="el-upload__text">点击或拖拽文件到此处上传</div>
       <div class="el-upload__text">支持{{ accept }}</div>

@@ -3,14 +3,19 @@
   <el-col class="query-btns f-fe-fs ml-a" :class="{ compact, [size]: true }">
     <el-button type="primary" v-debounce.immediate="() => $emit('submit')" :disabled="loading">
       <template #icon>
-        <BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : 'Search'"></BaseIcon>
+        <el-icon size="1em" :class="{ rotate: loading }">
+          <Loading v-if="loading" />
+          <Search v-else />
+        </el-icon>
       </template>
       <template #default>{{ $t("base.button.search") }}</template>
     </el-button>
     <el-button :icon="RefreshLeft" @click="$emit('reset')" :disabled="loading">{{ $t("base.button.reset") }}</el-button>
     <el-button @click="$emit('fold')" text type="primary" v-if="showFoldBtn">
       <template #icon>
-        <BaseIcon name="ArrowDown" :class="{ 'rotate-180': !isFold, 'icon-fold': true }"></BaseIcon>
+        <el-icon :class="{ 'rotate-180': !isFold, 'icon-fold': true }">
+          <ArrowDown />
+        </el-icon>
       </template>
       {{ isFold ? $t("base.button.unfold") : $t("base.button.fold") }}
     </el-button>
@@ -20,6 +25,7 @@
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { defaultCommonSize } from "@/components/_utils";
 import { CommonSize } from "@/vite-env";
+import { Loading, Search, ArrowDown } from "@element-plus/icons-vue";
 
 const props = withDefaults(
   defineProps<{

@@ -22,18 +22,7 @@ export default toViteMockApi({
    * 通用的获取列表的接口
    */
   "GET /mock/common/list": (req: CommonObj) => {
-    const {
-      id,
-      type,
-      gender,
-      age = [],
-      name,
-      curr_page = 1,
-      page_size = 10,
-      exports = false,
-      emptyList = false,
-      status,
-    } = getRequestParams(req);
+    const { id, type, gender, age = [], name, curr_page = 1, page_size = 10, exports = false, emptyList = false, status } = getRequestParams(req);
     if (emptyList) {
       return resData({
         data: {
@@ -55,7 +44,6 @@ export default toViteMockApi({
     ]);
     queryList = queryList.map((item: CommonObj) => {
       item = deleteAttrs(item, delAttrs);
-      item.userData = JSON.parse(JSON.stringify(item));
       return item;
     });
     if (exports) {
