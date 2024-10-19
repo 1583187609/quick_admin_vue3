@@ -1,36 +1,24 @@
-<!-- 博客参考地址：https://www.cnblogs.com/-pdd/p/15617970.html -->
-<script lang="ts">
+<template>
+  <el-icon class="base-icon" :size="size">
+    <component :is="Icons[name] ?? Icons[defaultIconName]" />
+  </el-icon>
+</template>
+
+<script lang="ts" setup>
 import * as Icons from "@element-plus/icons-vue";
-import { createVNode, computed } from "vue";
-import { toCssVal, defaultIconName } from "@/components/_utils";
+import { defaultIconName } from "@/components/_utils";
+import { StrNum } from "./_types";
 
 export type IconNames = keyof typeof Icons;
-export default {
-  name: "BaseIcon",
-  props: {
-    //icon名称
-    name: {
-      type: String,
-      default: defaultIconName,
-    },
-    //icon的宽高一样
-    size: {
-      type: [String, Number],
-      default: "1em",
-    },
-  },
-  setup(props) {
-    const Icon = computed(() => Icons[props.name as IconNames]);
-    return () => {
-      return createVNode(
-        Icon.value || "span",
-        {
-          class: "base-icon",
-          style: { height: toCssVal(props.size), width: toCssVal(props.size) },
-        },
-        Icon.value ? undefined : props.name
-      );
-    };
-  },
-};
+
+const props = withDefaults(
+  defineProps<{
+    name?: IconNames;
+    size?: StrNum;
+  }>(),
+  {
+    name: defaultIconName,
+    size: "1em",
+  }
+);
 </script>

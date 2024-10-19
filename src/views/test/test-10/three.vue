@@ -111,6 +111,12 @@
         </template>
       </el-popconfirm>
     </div>
+    <div class="f-fs-fs">
+      <BaseIcon size="2em" />
+      <BaseIcon size="4em" name="Edit" />
+      <BaseIcon size="6em" name="Plus" />
+      <BaseIcon size="8em" name="Plus1" />
+    </div>
   </div>
 </template>
 

@@ -6,28 +6,14 @@
     <el-tab-pane label="加粗风格" name="Bold"></el-tab-pane>
     <el-tab-pane label="实底风格" name="Filled"></el-tab-pane>
   </el-tabs>
-  <el-input
-    class="search"
-    placeholder="请输入图标名称"
-    :prefix-icon="ElementPlus"
-    :suffix-icon="Search"
-    v-model="searchVal"
-    tabindex="1"
-    v-focus
-  />
+  <el-input class="search" placeholder="请输入图标名称" :prefix-icon="ElementPlus" :suffix-icon="Search" v-model="searchVal" tabindex="1" v-focus />
   <ul class="list f-sb-fs-w all-hide-scroll f-1">
     <li @click="handleClick('')" class="item f-c-c-c" :class="{ active: iconName == '' }">
       <span class="f-c-c" style="height: 32px; width: 32px; font-size: 22px">无</span>
       <span class="text line-1">none</span>
     </li>
-    <li
-      @click="handleClick(name)"
-      class="item f-c-c-c"
-      :class="{ active: iconName == name }"
-      v-for="(name, ind) in names"
-      :key="ind"
-    >
-      <BaseIcon :name="name" size="28"></BaseIcon>
+    <li @click="handleClick(name)" class="item f-c-c-c" :class="{ active: iconName == name }" v-for="(name, ind) in names" :key="ind">
+      <BaseIcon :name="name" size="28" />
       <BaseCopy class="text line-1" :text="name" clickIconCopy stop />
     </li>
     <li class="item f-c-c-c f-empty" v-for="(item, ind) in 9" :key="ind"></li>
@@ -90,8 +76,7 @@ const iconsMap: CommonObj = {
 };
 Object.keys(Icons).filter(it => {
   iconsMap.All.push(it);
-  if (!it.endsWith("Filled") && !it.endsWith("Bold") && !boldIcons.includes(it) && !filledIcons.includes(it))
-    iconsMap.Line.push(it);
+  if (!it.endsWith("Filled") && !it.endsWith("Bold") && !boldIcons.includes(it) && !filledIcons.includes(it)) iconsMap.Line.push(it);
   else if (it.endsWith("Filled") || filledIcons.includes(it)) iconsMap.Filled.push(it);
   else if (it.endsWith(currTab.value) || boldIcons.includes(it)) iconsMap.Bold.push(it);
 });

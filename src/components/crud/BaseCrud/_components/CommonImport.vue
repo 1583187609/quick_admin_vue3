@@ -5,7 +5,9 @@
     <div class="f-fs-c mb-h">如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。</div>
     <!-- action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" -->
     <el-upload class="upload-demo" :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept" multiple drag>
-      <BaseIcon name="UploadFilled" size="3em" />
+      <el-icon size="3em">
+        <UploadFilled />
+      </el-icon>
       <div class="el-upload__text">点击或拖拽文件到此处上传</div>
       <div class="el-upload__text">支持{{ accept }}</div>
       <template #tip>
@@ -20,6 +22,8 @@ import { inject } from "vue";
 import { CommonObj } from "@/vite-env";
 import { importExcel, exportExcel, showMessage } from "@/components/_utils";
 import { ClosePopupInject } from "@/components/BasicPopup/_types";
+import { UploadFilled } from "@element-plus/icons-vue";
+
 export interface ImportTplColsItem {
   prop: string;
   label: string;

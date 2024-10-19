@@ -2,21 +2,11 @@
   基础表单。除了实现ElementPlus的默认功能外，还在extraAttrs中提供了grid、example、popover、tips、pureText、rulesType、before、after、……等功能
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="type"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="custom" v-if="$slots.custom" />
-    <el-row
-      class="section all-hide-scroll"
-      :class="[newFields.length ? 'f-fs-fs-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-      v-else
-    >
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
+        <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
           :grid="grid"
           :size="size"
@@ -168,10 +158,18 @@ $g: 4px; // 2px 4px 6px small default large
       }
       .el-form-item__content {
         padding: $g;
+        // align-content: flex-start;
       }
+      // .custom {
+      //   .el-form-item__content {
+      //     // 下面是针对type==='cell'时加的属性，也可以在el-form-item上添加{class:'f-fs-fs'}
+      //     align-content: flex-start;
+      //   }
+      // }
       .el-form-item {
         margin: 0;
         outline: $border-main;
+        height: 100%;
       }
       .el-form-item__error {
         display: none;

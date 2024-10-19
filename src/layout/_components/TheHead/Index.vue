@@ -7,14 +7,16 @@
         <div class="ml-h line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
       </h1>
       <!-- 折叠按钮 -->
-      <BaseIcon
+      <el-icon
         id="collapse-icon"
-        @click="menuStore.isCollapse = !menuStore.isCollapse"
+        size="1.5em"
         class="f-0 fold-btn"
         :class="setStore.layout.type === 'vertical' ? 'dark' : 'light'"
-        size="1.5em"
-        :name="menuStore.isCollapse ? 'Expand' : 'Fold'"
-      />
+        @click="menuStore.isCollapse = !menuStore.isCollapse"
+      >
+        <Expand v-if="menuStore.isCollapse" />
+        <Fold v-else />
+      </el-icon>
       <!-- 导航菜单 -->
       <SideMenu :menus="menuStore.allMenus" mode="horizontal" class="f-1 menu-nav" v-if="setStore.layout.type === 'horizontal'" />
       <template v-else>
@@ -35,20 +37,8 @@
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip
-          v-bind="tooltipAttrs"
-          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
-          v-if="screenfull.isEnabled"
-        >
-          <el-button
-            id="fullscreen"
-            @click="toggleFullscreen"
-            :icon="isFull ? Aim : FullScreen"
-            type="primary"
-            class="item"
-            plain
-            circle
-          ></el-button>
+        <el-tooltip v-bind="tooltipAttrs" :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)" v-if="screenfull.isEnabled">
+          <el-button id="fullscreen" @click="toggleFullscreen" :icon="isFull ? Aim : FullScreen" type="primary" class="item" plain circle></el-button>
         </el-tooltip>
       </div>
       <!-- 用户信息 -->
@@ -132,6 +122,7 @@ import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import { useI18n } from "vue-i18n";
 import { OpenPopupInject } from "@/vite-env";
+import { Expand, Fold } from "@element-plus/icons-vue";
 import "driver.js/dist/driver.css";
 // import { useDict } from "@/hooks";
 

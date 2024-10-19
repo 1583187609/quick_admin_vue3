@@ -1,6 +1,6 @@
 <!-- 基础信息 -->
 <template>
-  <!-- 头像、图片 -->
+  <!-- 图片审核 -->
   <BaseSection class="imgs" title="图片审核" bodyClass="f-fs-s p-o">
     <template #head-right>
       <el-button type="primary" style="margin-left: auto">处理用户</el-button>
@@ -14,7 +14,7 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog')">
+        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog', true)">
           比对人脸
         </el-button>
       </div>
@@ -30,27 +30,21 @@
   <BaseSection class="base-info" title="基本信息">
     <template #head-right>
       <div class="f-1 f-sb-c">
-        <div class="tags f-fs-c" style="margin-right: auto">
-          <el-tag class="tag" v-bind="statusMap[status]">{{ statusMap[status].text }}</el-tag>
+        <div class="tags f-fs-c mr-a">
+          <BaseTag class="tag" name="AccountStatus" :value="status" />
           <el-tag class="tag" color="#F3DBFB" style="color: #d359f5; border: 1px solid #d359f5" v-if="true">优质嘉宾</el-tag>
           <el-tag class="tag" color="#CFFAFF" style="color: #2bb4c5; border: 1px solid #2bb4c5" v-if="true">代理人</el-tag>
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
         </div>
-        <div class="comment f-fs-c">
-          <div class="f-c-c item positive">
-            <BaseIcon class="mr-q" />
-            <span>正面评价 {{ 3 }}</span>
-          </div>
-          <div class="f-c-c item negative">
-            <BaseIcon class="mr-q" />
-            <span>负面评价 {{ 3 }}</span>
-          </div>
+        <div class="comment mr-a f-fs-c">
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive"> 正面评价({{ 3 }}) </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative"> 负面评价({{ 3 }}) </el-button>
         </div>
         <div class="attitude f-fs-c">
-          <span class="item">被举报 {{ 3 }}</span>
-          <span class="item">举报 {{ 3 }}</span>
-          <span class="item">超级喜欢 {{ 3 }}</span>
-          <span class="item">被超级喜欢 {{ 3 }}</span>
+          <el-button type="warning" size="small" text @click="openReportListPopup(1)" class="item">举报({{ 3 }})</el-button>
+          <el-button type="warning" size="small" text @click="openReportListPopup(2)" class="item">被举报({{ 3 }})</el-button>
+          <el-button type="warning" size="small" text @click="openLoveListPopup(1)" class="item">超级喜欢({{ 3 }})</el-button>
+          <el-button type="warning" size="small" text @click="openLoveListPopup(2)" class="item">被超级喜欢({{ 3 }})</el-button>
         </div>
       </div>
     </template>
@@ -58,7 +52,13 @@
   </BaseSection>
   <!-- 商业化信息 -->
   <BaseSection class="business-info" title="商业化信息">
-    <BaseForm type="cell" pureText :fields="businessInfoFormFields" />
+    <BaseForm v-model="businessInfoModelData" type="cell" pureText :fields="businessInfoFormFields">
+      <template #jbye="{ form }">
+        <el-button @click="openCoinListPopup" :disabled="!form.jbye" type="primary" size="small" style="min-width: 2em" text>
+          {{ form.jbye || 0 }}
+        </el-button>
+      </template>
+    </BaseForm>
   </BaseSection>
   <!-- 详细信息 -->
   <BaseSection class="detail-info" title="详细信息">
@@ -67,32 +67,20 @@
         {{ infoStatusMap["yes"].text }}
       </el-tag>
     </template>
-    <BaseForm type="cell" pureText :fields="detailInfoFormFields">
-      <template #yyjs-label>
-        <strong style="line-height: 28px">语音介绍</strong>
-      </template>
-      <template #yyjs-value>
+    <BaseForm v-model="detailInfoModelData" type="cell" pureText :fields="detailInfoFormFields">
+      <template #yyjs>
         <VideoPannel />
       </template>
-      <template #gyw-label>
-        <AboutTitle />
+      <template #gyw="{ form }">
+        <AboutTitle @submit="openAboutListPopup(1)" />
+        <div>{{ form.gyw }}</div>
       </template>
-      <template #wdlxx-label>
-        <AboutTitle type="you" rejected />
-      </template>
-      <template #gyw-value>
-        <div>
-          江西人，清华本科，关于我的介绍江西人，清华本科，关于我的介绍江西人，清华本科，关于我的介绍江西人，清华本科，关于我的介绍……
-        </div>
-      </template>
-      <template #wdlxx-value>
-        <div>
-          希望是90后，净身高希望是90后，净身高希望是90后，希望是90后，净身高希望是90后，净身高希望是90后，净身高净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高……
-        </div>
+      <template #wdlxx="{ form }">
+        <AboutTitle @submit="openAboutListPopup(2)" type="you" rejected />
+        <div>{{ form.wdlxx }}</div>
       </template>
       <template #xqah>
-        <div class="f-sb-c">
-          <strong style="margin-right: auto">兴趣爱好</strong>
+        <div class="f-fs-c f-1">
           <el-button type="info" size="small">选择</el-button>
           <el-button type="primary" size="small">驳回</el-button>
         </div>
@@ -100,30 +88,19 @@
       <template #qghwddf="{ field }">
         <el-tag class="mr-h" v-for="(item, ind) in 3" :key="ind">{{ "北京故宫" + ind }}</el-tag>
       </template>
-    </BaseForm type="cell">
+    </BaseForm>
   </BaseSection>
   <!-- 偏好设置 -->
   <BaseSection title="偏好设置">
-    <BaseForm type="cell" :fields="preferSetFormFields" />
+    <BaseForm type="cell" pureText :fields="preferSetFormFields" />
   </BaseSection>
   <!-- 关联账号 -->
-  <BaseSection title="关联账号">
-    <BaseForm type="cell" :fields="relatedAccountFormFields" />
+  <BaseSection title="关联账号" class="mb-t">
+    <BaseForm type="cell" pureText :fields="relatedAccountFormFields" />
   </BaseSection>
-  <div class="mt-o">
-    <el-button @click="openCoinListPopup" type="primary">打开金币列表弹窗</el-button>
-    <el-button @click="openReportListPopup(1)" type="primary">打开举报记录弹窗</el-button>
-    <el-button @click="openReportListPopup(2)" type="primary">打开被举报记录弹窗</el-button>
-    <el-button @click="openLoveListPopup(1)" type="primary">打开喜欢记录弹窗</el-button>
-    <el-button @click="openLoveListPopup(2)" type="primary">打开被喜欢记录弹窗</el-button>
-    <el-button @click="openEvaluateListPopup(1)" type="primary">打开正面评价记录弹窗</el-button>
-    <el-button @click="openEvaluateListPopup(2)" type="primary">打开负面评价记录弹窗</el-button>
-    <el-button @click="openAboutListPopup(1)" type="primary">打开关于你提交记录弹窗</el-button>
-    <el-button @click="openAboutListPopup(2)" type="primary">打开关于我提交记录弹窗</el-button>
-  </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive,  inject } from "vue";
+import { ref, reactive, inject } from "vue";
 import ImgItem from "./_components/ImgItem.vue";
 import { ElMessage } from "element-plus";
 import RejectAvatar from "./_components/RejectAvatar.vue";
@@ -137,33 +114,12 @@ import VideoPannel from "./_components/VideoPannel.vue";
 import { ClosePopupInject, CommonObj, OpenPopupInject } from "@/vite-env";
 import { useDict } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
+import { FormFieldAttrs } from "@/components/form/_types";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");
-const { getOpts } = useDict();
+const { getOpts, getText } = useDict();
 const genderOpts = getOpts("Gender");
-const statusMap: CommonObj = {
-  normal: {
-    text: "正常",
-    type: "success",
-  },
-  forbidden: {
-    text: "封禁",
-    type: "danger",
-  },
-  signOut: {
-    text: "注销",
-    type: "warning",
-  },
-  singleOut: {
-    text: "已脱单",
-    type: "primary",
-  },
-  limitActive: {
-    text: "限制互动",
-    type: "info",
-  },
-};
 const infoStatusMap: CommonObj = {
   yes: {
     text: "已完善资料",
@@ -182,7 +138,12 @@ const props = withDefaults(
     data: () => ({}),
   }
 );
-const status = ref("normal");
+const status = ref(0);
+const detailInfoModelData = reactive<CommonObj>({
+  gyw: "江西人，清华本科，关于我的介绍江西人，清华本科，关于我的介绍江西人，清华本科，关于我的介绍江西人，清华本科，关于我的介绍……",
+  wdlxx:
+    "希望是90后，净身高希望是90后，净身高希望是90后，希望是90后，净身高希望是90后，净身高希望是90后，净身高净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高……",
+});
 const baseInfoColAttrs = {
   xs: 24, // <768
   sm: 24, // >=768
@@ -190,7 +151,7 @@ const baseInfoColAttrs = {
   lg: 8, // >=1200
   xl: 6, // >=1920
 };
-const baseInfoFormFields: CellTableFieldItem[] = [
+const baseInfoFormFields: FormFieldAttrs[] = [
   {
     prop: "yhid",
     label: "用户ID",
@@ -301,11 +262,6 @@ const baseInfoFormFields: CellTableFieldItem[] = [
     label: "来源渠道",
     type: "select",
   },
-  // {
-  //   prop: "",
-  //   label: "",
-  //   type: "empty",
-  // },
   {
     prop: "zczd",
     label: "注册终端",
@@ -313,205 +269,161 @@ const baseInfoFormFields: CellTableFieldItem[] = [
   {
     prop: "zcip",
     label: "注册IP",
-    // style: "flex-basis: 400px;",
-    // grid: baseInfoColAttrs,
-    attrs: {},
+    quickAttrs: {
+      grid: baseInfoColAttrs,
+    },
   },
   {
     prop: "zjdlip",
     label: "最近登录IP",
-    // style: "flex-basis: 400px;",
-    // grid: baseInfoColAttrs,
-    attrs: {},
+    quickAttrs: {
+      grid: baseInfoColAttrs,
+    },
   },
   {
     prop: "zcsj",
     label: "注册时间",
-    // style: "flex-basis: 400px;",
-    // grid: baseInfoColAttrs,
-    attrs: {},
+    quickAttrs: {
+      grid: baseInfoColAttrs,
+    },
   },
   {
     prop: "zjdlsj",
     label: "最近登录时间",
-    // style: "flex-basis: 400px;",
-    // grid: baseInfoColAttrs,
     required: true,
     attrs: {},
     quickAttrs: {
       popover: "最近登录时间",
+      grid: baseInfoColAttrs,
     },
   },
 ];
-const baseInfoForm = reactive({ yhid: 1, nc: 12233 });
-const businessInfoFormFields: CellTableFieldItem[] = [
+const baseInfoForm = reactive<CommonObj>({ yhid: 1, nc: 12233 });
+const businessInfoModelData = reactive<CommonObj>({ jbye: 10 });
+const businessInfoFormFields: FormFieldAttrs[] = [
   {
     prop: "jbye",
     label: "金币余额",
-    // grid: { span: 6 },
+    type: "custom",
+    quickAttrs: {
+      grid: 8,
+    },
   },
   {
     prop: "tdtq",
     label: "脱单特权",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 8,
+    },
   },
 ];
-const detailInfoFormFields: CellTableFieldItem[] = [
+const detailInfoFormFields: FormFieldAttrs[] = [
   {
-    prop: "yyjs-label",
+    prop: "yyjs",
     label: "语音介绍",
-    type: "none",
-    grid: { span: 12 },
-    // style: "flex-basis: 100%",
-  },
-  {
-    prop: "yyjs-value",
-    label: "语音介绍",
-    type: "none",
-    grid: { span: 12 },
-    // style: "flex-basis: 100%",
-  },
-  {
-    prop: "gyw-label",
-    label: "关于我",
-    type: "none",
-    grid: { span: 12 },
-    attrs: {
-      direction: "vertical",
+    type: "custom",
+    quickAttrs: {
+      grid: 24,
     },
-    // style: "flex-basis: 50%",
   },
   {
-    prop: "wdlxx-label",
-    label: "我的理想型",
-    type: "none",
-    grid: { span: 12 },
-    // style: "flex-basis: 50%",
-  },
-  {
-    prop: "gyw-value",
+    prop: "gyw",
     label: "关于我",
-    type: "none",
-    grid: { span: 12 },
-    attrs: {
-      direction: "vertical",
+    type: "custom",
+    quickAttrs: {
+      grid: 12,
     },
-    // style: "flex-basis: 50%",
   },
   {
-    prop: "wdlxx-value",
+    prop: "wdlxx",
     label: "我的理想型",
-    type: "none",
-    grid: { span: 12 },
-    // style: "flex-basis: 50%",
+    type: "custom",
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "xqah",
     label: "兴趣爱好",
-    type: "none",
-    grid: { span: 24 },
-    // style: "flex-basis: 50%",
+    type: "custom",
+    quickAttrs: {
+      grid: 24,
+    },
   },
   {
     prop: "qghwddf",
     label: "去过好玩的地方",
-    direction: "vertical",
     type: "custom",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "xhdyd",
     label: "喜欢的运动",
-    direction: "vertical",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "xhdys",
     label: "喜欢的影视",
-    direction: "vertical",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "xhdsj",
     label: "喜欢的书籍",
-    direction: "vertical",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "xhdms",
     label: "喜欢的美食",
-    direction: "vertical",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "scdlq",
     label: "擅长的乐器",
-    direction: "vertical",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 12,
+    },
   },
   {
     prop: "cmmldah",
     label: "充满魅力的爱好",
-    direction: "vertical",
-    // grid: { span: 3 },
+    quickAttrs: {
+      grid: 24,
+    },
   },
 ];
-// const hobbyFormFields: CellTableFieldItem[] = [
-//   {
-//     prop: "qghwddf",
-//     label: "去过好玩的地方",
-//     grid: { span: 3 },
-//   },
-//   {
-//     prop: "xhdyd",
-//     label: "喜欢的运动",
-//     grid: { span: 3 },
-//   },
-//   {
-//     prop: "xhdys",
-//     label: "喜欢的影视",
-//     grid: { span: 3 },
-//   },
-//   {
-//     prop: "xhdsj",
-//     label: "喜欢的书籍",
-//     grid: { span: 3 },
-//   },
-//   {
-//     prop: "xhdms",
-//     label: "喜欢的美食",
-//     grid: { span: 3 },
-//   },
-//   {
-//     prop: "scdlq",
-//     label: "擅长的乐器",
-//     grid: { span: 3 },
-//   },
-//   {
-//     prop: "cmmldah",
-//     label: "充满魅力的爱好",
-//     grid: { span: 3 },
-//   },
-// ];
-const preferSetFormFields: CellTableFieldItem[] = [
+const preferSetFormFields: FormFieldAttrs[] = [
   {
     prop: "ppcs",
     label: "匹配城市",
     type: "cascader",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
   },
   {
     prop: "yxqx",
     label: "优先权限",
     type: "select",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
   },
   {
     prop: "nlfw",
     label: "年龄范围",
     type: "BaseNumberRange",
-    // grid: { span: 6 },
     quickAttrs: {
+      grid: 6,
       rulesType: "age",
     },
   },
@@ -519,19 +431,25 @@ const preferSetFormFields: CellTableFieldItem[] = [
     prop: "xlyq",
     label: "学历要求",
     type: "select",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
   },
   {
     prop: "qgzt",
     label: "情感状态",
     type: "select",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
   },
   {
     prop: "sgfw",
     label: "身高范围",
     type: "BaseNumberRange",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
     attrs: {
       min: 100,
       max: 250,
@@ -541,16 +459,20 @@ const preferSetFormFields: CellTableFieldItem[] = [
     prop: "jx",
     label: "家乡",
     type: "cascader",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
   },
   {
     prop: "sfsfrz",
     label: "是否身份认证",
     type: "select",
-    // grid: { span: 6 },
+    quickAttrs: {
+      grid: 6,
+    },
   },
 ];
-const relatedAccountFormFields: CellTableFieldItem[] = [
+const relatedAccountFormFields: FormFieldAttrs[] = [
   {
     prop: "glsl",
     label: "关联数量",
@@ -566,10 +488,10 @@ function handleReject(rejected: boolean) {
       {
         title: "温馨提示",
         onConfirm() {
-          PostMockCommon({}).then((res)=>{
+          PostMockCommon({}).then(res => {
             ElMessage.success("已取消驳回");
             closePopup("dialog");
-          })
+          });
         },
       },
       `确定${rejected ? "取消" : ""}驳回？`,
@@ -593,7 +515,7 @@ function openEvaluateListPopup(type: number) {
   openPopup((type === 2 ? "负" : "正") + "面评价", [EvaluateList, { type }], "dialog", false);
 }
 function openAboutListPopup(type: number) {
-  openPopup((type === 2 ? "关于我" : "关于你") + "提交记录", [AboutList, { type }], "dialog", false);
+  openPopup((type === 1 ? "关于我" : "我的理想型") + "提交记录", [AboutList, { type }], "dialog", false);
 }
 </script>
 <style lang="scss" scoped>
@@ -617,7 +539,6 @@ function openAboutListPopup(type: number) {
     }
   }
   .comment {
-    margin-right: $gap-two;
     & > .item {
       &:not(:last-child) {
         margin-right: $gap;
@@ -638,7 +559,5 @@ function openAboutListPopup(type: number) {
       }
     }
   }
-}
-.detail-info {
 }
 </style>

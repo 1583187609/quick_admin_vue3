@@ -106,7 +106,7 @@
             <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
               {{ renderValue(row[newCol.prop as string]) }}
             </BaseText>
-            <BaseCopy :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
+            <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
             <CustomSpecialTableCols :row="row" :col="newCol" v-else />
             <!-- </template> -->
           </template>

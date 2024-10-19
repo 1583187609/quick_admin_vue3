@@ -296,8 +296,9 @@ const fields = computed<FormField[]>(() => {
         { label: "女", value: 2 },
       ],
       quickAttrs: {
-        // popover: h("div", { style: "color:red" }, "这是内容"),
-        popover: CustomPopover,
+        // popover: h("div", { style: "color:red" }, "这是内容"), // 暂时不要用h函数写，会报错
+        // popover: ["div", { style: "color:red" }, "这是内容"],
+        popover: CustomPopover, // [CustomPopover],
         tips: "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）",
       },
     },
@@ -343,7 +344,6 @@ const fields = computed<FormField[]>(() => {
       slots: {
         // prefix: h(BaseIcon, { name: "Lock" }),
         // prefix: h(ElButton, {type: "primary" },'按钮'),
-
         prefix: [BaseIcon, { name: "Lock" }],
         // prefix: [ElButton, { type: "primary" }, { default: "按钮" }],
       },

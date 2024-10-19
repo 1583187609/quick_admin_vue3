@@ -8,7 +8,12 @@
       <BaseRender :data="newField.quickAttrs.before" />
     </div>
     <template v-if="!subFields.length">
-      <template v-if="newField.quickAttrs?.pureText ?? pureText">{{ getOption(newField, newVal).value }}</template>
+      <template v-if="newField.quickAttrs?.pureText ?? pureText">
+        <slot name="custom" :field="newField" v-if="newField.type === 'custom'" />
+        <template v-else>
+          {{ getOptionValue(newField, newVal).value }}
+        </template>
+      </template>
       <template v-else>
         <!-- 以下按照使用频率高低排序 -->
         <el-input
@@ -229,7 +234,7 @@
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, computed } from "vue";
 import _ from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr } from "@/components/_utils";
+import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, commonClone } from "@/components/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
 import { FormItemRule } from "element-plus";
@@ -243,7 +248,7 @@ import { defaultCommonSize } from "@/components/_utils";
 import { DictName } from "@/dict/_types";
 import QuestionPopover from "@/components/QuestionPopover.vue";
 
-const { merge } = _;
+const { merge, cloneDeep } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
@@ -278,6 +283,7 @@ const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
   const { type: fType, label, quickAttrs = {}, children, slots } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
+  // let tempField: FormFieldAttrs = commonClone(field);
   const hasChildren = !!children?.length;
   // let tempField: FormFieldAttrs = field;
   if (hasChildren) {
@@ -405,7 +411,7 @@ function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
   return mergeRules(newRules);
 }
 //获取表单键值对的值
-function getOption(field: FormFieldAttrs, val: any) {
+function getOptionValue(field: FormFieldAttrs, val: any) {
   const { pureText } = props;
   const { type = defaultFormItemType, label, attrs = {}, options = [], quickAttrs = {} } = field;
   const { after = "" } = quickAttrs;
@@ -435,7 +441,7 @@ function getOption(field: FormFieldAttrs, val: any) {
   } else if (type === "cascader") {
     val = getTextFromOpts(attrs?.options, val);
   } else if (type === "BaseNumberRange") {
-    val = val.join(rangeJoinChar);
+    val = val?.join(rangeJoinChar);
   } else if (type === "custom") {
     val = emptyStr;
   } else {

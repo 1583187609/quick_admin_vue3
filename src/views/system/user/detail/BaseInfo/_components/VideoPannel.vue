@@ -1,15 +1,20 @@
 <!-- 语音播放组件面板 -->
 <template>
   <div class="video-pannel f-sb-c">
-    <BaseIcon size="20" class="f-0" />
+    <el-icon size="20" class="f-0">
+      <ElemeFilled />
+    </el-icon>
     <time class="f-0 ml-h">00:00/02:23</time>
     <el-slider class="f-1 ml-o mr-h" />
-    <BaseIcon size="20" class="f-0" />
+    <el-icon size="20" class="f-0">
+      <ElemeFilled />
+    </el-icon>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj } from "@/vite-env";
+import { ElemeFilled } from "@element-plus/icons-vue";
 
 const props = withDefaults(
   defineProps<{

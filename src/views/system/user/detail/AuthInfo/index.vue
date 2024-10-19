@@ -10,33 +10,33 @@
       <el-tag class="tag" type="success">已认证</el-tag>
       <el-tag class="tag">后台认证</el-tag>
     </template>
-    <BaseForm type="cell" :fields="realNameFormFields" :footer="false" />
+    <BaseForm type="cell" pureText :fields="realNameFormFields" />
   </BaseSection>
   <BaseSection title="学历认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <BaseForm type="cell" :fields="educationFormFields" :footer="false" />
+    <BaseForm type="cell" pureText :fields="educationFormFields" />
   </BaseSection>
   <BaseSection title="公司认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <BaseForm type="cell" :fields="companyFormFields" :footer="false" />
+    <BaseForm type="cell" pureText :fields="companyFormFields" />
   </BaseSection>
   <BaseSection title="公司认证记录">
     <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
-    <BaseTable :cols="companyCols" :rows="companyRows"></BaseTable>
+    <BaseTable :cols="companyCols" :rows="companyRows" />
   </BaseSection>
   <BaseSection title="学历认证记录">
     <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
-    <BaseTable :cols="educationCols" :rows="educationRows"></BaseTable>
+    <BaseTable :cols="educationCols" :rows="educationRows" />
   </BaseSection>
 </template>
 <script lang="ts" setup>

@@ -1,7 +1,7 @@
 <template>
   <el-tag class="route-tag" :effect="active ? 'dark' : 'light'" @contextmenu.prevent="onContextmenu" :closable="closable">
     <div class="f-c-c">
-      <BaseIcon class="mr-4" size="1.2em" :name="icon" v-if="icon"></BaseIcon>
+      <BaseIcon class="mr-4" size="1.2em" :name="icon" v-if="icon" />
       <span class="text line-1"><slot /></span>
     </div>
   </el-tag>

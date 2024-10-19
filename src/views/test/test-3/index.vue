@@ -133,7 +133,7 @@ import AuthInfo from "@/views/_components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import SimpleList from "./SimpleList/Index.vue";
@@ -159,6 +159,7 @@ const testImportCfg = {
 };
 const openPopup = inject<OpenPopupInject>("openPopup");
 const route = useRoute();
+const router = useRouter();
 const baseCrudRef = ref<any>(null);
 const { type } = route.query;
 const isSimple = type === "simple";
@@ -341,6 +342,22 @@ const cols: TableCol[] = [
     prop: "avatar",
     label: "文本复制[BaseCopy]",
     type: "BaseCopy",
+  },
+  {
+    prop: "userCode",
+    label: "userCode",
+    type: "BaseCopy",
+    attrs: {
+      // to: (row: CommonObj) => `/system/user/detail?id=${row.userCode}`,
+      // 暂时没有实现，检测到绑定了onClick事件后，就将clickIconCopy设为true
+      clickIconCopy: true,
+      onClick(row: CommonObj) {
+        router.push(`/system/user/detail?id=${row.userCode}`);
+      },
+    },
+    quickAttrs: {
+      popover: `文本复制，支持跳转`,
+    },
   },
   isSimple
     ? {

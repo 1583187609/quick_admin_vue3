@@ -61,9 +61,31 @@ export const typeOf = (ele: any): TypeOfReturn => {
  * @returns
  * @notice JSON.parse(JSON.stringify()) 会删除函数的键值对；structuredClone会有兼容性问题；lodash的cloneDeep的缺点待完善
  */
+// export const commonClone = (data: any) => {
+//   if (typeof data !== "object" || data === null) throw new Error("基础数据类型请不要使用此方法进行克隆");
+//   return cloneDeep(data);
+// };
 export const commonClone = (data: any) => {
-  if (typeof data !== "object" || data === null) throw new Error("基础数据类型请不要使用此方法进行克隆");
-  return cloneDeep(data);
+  // 如果为基础数据类型，function，null，则直接返回
+  if (typeof data !== "object" || data === null) return data;
+  let newData: any;
+  const t = typeOf(data);
+  if (t === "Array") {
+    newData = [];
+    data.forEach((item, ind) => {
+      newData[ind] = commonClone(item);
+    });
+  } else if (t === "Object") {
+    newData = {};
+    Object.keys(data).forEach(key => {
+      newData[key] = commonClone(data[key]);
+    });
+  } else if (t === "Function") {
+    throw new Error("检测到了类型为Function");
+  } else {
+    throw new Error(`暂未处理此种类型：${t}`);
+  }
+  return newData;
 };
 
 /**

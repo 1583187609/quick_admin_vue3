@@ -10,6 +10,7 @@
   </el-popover>
 </template>
 <script lang="ts" setup>
+import { computed } from "vue";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
 import { defaultCommonSize, getPopoverAttrs, ThemeColorType } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -28,7 +29,7 @@ const props = withDefaults(
     size: defaultCommonSize,
   }
 );
-const popoverAttrs = getPopoverAttrs(props.popover);
+const popoverAttrs = computed(() => getPopoverAttrs(props.popover));
 </script>
 <style lang="scss" scoped>
 .icon {

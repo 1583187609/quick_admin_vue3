@@ -10,7 +10,7 @@ import { FormField, FormFieldAttrs } from "@/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
 import { PopoverAttrs, PopoverSlots } from "@/components/_types";
-import { RenderVue } from "@/components/BaseRender.vue";
+import { HArgs, RenderVue } from "@/components/BaseRender.vue";
 
 export const noAuthPaths = ["/login"]; //不需要授权就能登录的页面
 export const errorPaths = ["/403", "/404", "/500"];
@@ -204,15 +204,16 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
-  const t = typeof popover;
-  if (t === "string") return { content: popover as string };
-  if (t === "object") {
+  const t = typeOf(popover);
+  if (t === "String") return { content: popover as string };
+  if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
     if (isVNode(popover) || (popover as RenderVue).render) return { slots: { default: popover } } as PopoverSlots;
     return popover as PopoverAttrs;
   }
+  if (t === "Array") return { slots: { default: h(...(popover as HArgs)) } } as PopoverSlots;
   throw new Error(`暂不支持此popover类型：${t}`);
 }
 

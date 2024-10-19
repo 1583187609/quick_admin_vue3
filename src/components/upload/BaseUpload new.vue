@@ -1,12 +1,20 @@
 <template>
   <el-upload action="#" list-type="picture-card" :limit="1" :auto-upload="false">
-    <BaseIcon size="2em" name="Plus" />
+    <el-icon size="2em">
+      <Plus />
+    </el-icon>
     <template #file="{ file }">
       <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
       <div class="f-c-c">
-        <BaseIcon name="ZoomIn" @click="handlePictureCardPreview(file)" />
-        <BaseIcon name="Download" @click="handleDownload(file)" v-if="!disabled" />
-        <BaseIcon name="Delete" @click="handleRemove(file)" v-if="!disabled" />
+        <el-icon @click="handlePictureCardPreview(file)">
+          <ZoomIn />
+        </el-icon>
+        <el-icon @click="handleDownload(file)" v-if="!disabled">
+          <Download />
+        </el-icon>
+        <el-icon @click="handleRemove(file)" v-if="!disabled">
+          <Delete />
+        </el-icon>
       </div>
     </template>
     <template #tip>
@@ -18,6 +26,7 @@
 import { ref, inject } from "vue";
 import type { UploadFile } from "element-plus";
 import { OpenPopupInject } from "../_types";
+import { Plus, ZoomIn, Download, Delete } from "@element-plus/icons-vue";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const disabled = ref(false);

@@ -102,6 +102,11 @@
 ~~86、关于系统信息完善；并考虑移除`BaseKeyVal`组件~~
 ~~83、rulesType 增加 rmb 类型（自测）。~~
 ~~57、给 BaseCrud 导入/导出按钮添加 customRules 自定义规则功能并自测，换用 handleClickType（可选值：'common' | 'custom'）~~  
+~~85、验证 FieldItem 的 rulesType 为 rmb 时是否正常~~
+~~98、完善批量按钮栏中：导入按钮的 导入组件的配置及展示~~
+~~102、用 map 映射优化 api 代理~~
+~~103、将表格的 columns 的 prop 支持.多级属性访问，并验证~~
+~~104、扩展 BaseBtn 的 handleClickType 功能~~
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -119,26 +124,24 @@
 77、大屏页面第一个水滴图未正常显示  
 78、StepForm 必填项完成后，自动跳到下一步骤  
 79、BaseCopy 支持复制文本同时，可以跳转路由（完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑）
-82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
-85、验证 FieldItem 的 rulesType 为 rmb 时是否正常
 86、移除 `src/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 87、采用`git submodule`方式维护 mock 和基础方法
 88、完善`UserDetail`页面
-89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable（拖拽排序功能待完善）支持可传入函数，以及 TS 类型处理
-98、完善批量按钮栏中：导入按钮的 导入组件的配置及展示
 99、完善图片上传 BaseUpload 组件
-100、升级 ElementPlus 和 vue3，再完善代码
 101、SlotRender 组件视情况移除或完善
-102、用 map 映射优化 api 代理
-103、将表格的 columns 的 prop 支持.属性访问，并验证
 104、最好去掉 BaseCrud 中的 showPagination 属性
-105、处理白屏过久的问题
 106、将 BaseTable、BaseCrud 的公共 props 属性合并
 107、换用 pnpm 进行包管理，且只允许 pnpm
+
+82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
+89、BasicDialog 完善 header 和 footer 的自定义渲染并自测
+100、升级 ElementPlus 和 vue3，再完善代码
+105、处理白屏过久的问题
+108、完善 table 的 type 为 switch 的属性绑定
 
 ## TS 类型处理
 
@@ -170,7 +173,6 @@
 44、BaseTable、BaseForm 等的暴露方法处理
 45、打印设置功能
 46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算、组按钮的属性值及计算
-47、扩展 BaseBtn 的 handleClickType 功能
 
 ## 未来功能清单
 
@@ -214,7 +216,9 @@
 ~~29、大屏数据页面用统一的基础 Echarts 组件~~
 ~~39、大屏页面的 Echarts 基础组件统一处理~~
 ~~45、简化 BaseCrud 的 next 回调的刷新列表逻辑~~
-26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件  
+~~26、点击导入按钮，弹出的弹窗使用动态引入并解析该弹出层组件~~  
+~~36、将{component: '' }的组件渲染方式统一改成 h 函数渲染~~
+~~39、操作栏宽度如果指定了，则不会自动进行计算~~  
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
 15、测试三页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
 16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式）；  
@@ -223,7 +227,7 @@
 30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
 34、通过外链打开新标签页面时，没有页签图标显示  
 35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题  
-36、将{component: '' }的组件渲染方式统一改成 h 函数渲染（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）  
+37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、同时调整slots的位置到attrs.slots中    
 37、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑  
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置  
@@ -232,13 +236,12 @@
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
 38、打开或关闭弹窗时是否销毁（默认不销毁）
-~~39、操作栏宽度如果指定了，则不会自动进行计算~~
 40、优化全局加载的图标及样式（在 index.html 中）
 41、使用位运算等优化代码  
 42、组件采用按需加载（例：BaseCrud 中的导入组件、设置表格的组件、打印组件等）
 43、将 mock 数据进行缓存
 44、将缓存数据采用本地数据库或其他方式存储（要缓存的数据：字典映射、mock 数据）
-46、找一个通用的深度克隆方法
+46、找一个通用的深度克隆方法（可以持续完成这个方法：commonClone）  
 47、完善从虚拟 dom 中获取 innerText 文本的方法（getVNodeInnerText）
 48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的BaseIcon用`<el-icon></el-icon>`形式改写）
 49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
@@ -317,6 +320,7 @@
 71、BaseForm 上设置 `label-suffix="："` 不生效
 73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
 74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
+75、处理 BaseForm `type='cell' pureText` 时，自定义内容不显示问题，复现页面：/system/user/detail
 
 ## 四、Vue 极致优化清单
 

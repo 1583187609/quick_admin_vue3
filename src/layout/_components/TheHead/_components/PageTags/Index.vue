@@ -13,7 +13,9 @@
       {{ $t("layout.pageTags.home") }}
     </PageTagItem>
     <button @click="onArrowBtn(-1)" class="btn f-c-c f-0" :class="{ disabled: leftDisabled }" :disabled="leftDisabled">
-      <BaseIcon size="18" name="DArrowLeft"></BaseIcon>
+      <el-icon size="18">
+        <DArrowLeft />
+      </el-icon>
     </button>
     <div class="tags-box f-fs-c f-1">
       <Draggable
@@ -43,7 +45,9 @@
       <DropMenu class="f-0" :currInd="contMenuInd" :total="tags.length" :data="bcrInfo" @menuItem="onMenuItem"></DropMenu>
     </div>
     <button @click="onArrowBtn(1)" class="btn f-c-c f-0" :class="{ disabled: rightDisabled }" :disabled="rightDisabled">
-      <BaseIcon size="18" name="DArrowRight"></BaseIcon>
+      <el-icon size="18">
+        <DArrowRight />
+      </el-icon>
     </button>
   </div>
 </template>
@@ -64,6 +68,7 @@ import { CommonObj } from "@/vite-env";
 import { useEvent } from "@/hooks";
 import { defaultHomePath } from "@/utils";
 import { useKeepAliveStore, useSetStore } from "@/store";
+import { DArrowLeft, DArrowRight } from "@element-plus/icons-vue";
 
 const keepAliveStore = useKeepAliveStore();
 const setStore = useSetStore();

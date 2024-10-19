@@ -1,33 +1,40 @@
 <!-- 复制文本 -->
-<!-- @click="clickIconCopy ? undefined : handleCopy" -->
-<!-- <DocumentCopy class="f-0 ml-4 f-0" size="1em" /> -->
 <template>
-  <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !clickIconCopy }">
-    <span @click="handleClick" :class="`line-${line} f-1`">
-      <slot>{{ textStr || "-" }}</slot>
-    </span>
-    <template v-if="textStr">
-      <el-tooltip :show-after="500" content="点击复制">
-        <BaseIcon class="f-0 ml-4 icon hover" name="DocumentCopy" />
-        <!-- <el-icon class="f-0 ml-4 icon hover">
-          <DocumentCopy />
-        </el-icon> -->
+  <el-tooltip v-bind="tooltipAttrs" :disabled="clickIconCopy">
+    <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !clickIconCopy }">
+      <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!clickIconCopy && !to">
+        <span @click="handleClick" class="f-1" :class="{ [`line-${line}`]: true, link: clickIconCopy }">
+          <slot>{{ textStr || "-" }}</slot>
+        </span>
       </el-tooltip>
-    </template>
-  </div>
+      <template v-if="textStr">
+        <el-tooltip v-bind="tooltipAttrs" :disabled="!clickIconCopy">
+          <el-icon class="f-0 ml-4 icon hover">
+            <DocumentCopy />
+          </el-icon>
+        </el-tooltip>
+      </template>
+    </div>
+  </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { RouteTo, StrNum } from "@/vite-env";
+import { CommonObj, RouteTo, StrNum } from "@/vite-env";
 import { showMessage } from "./_utils";
-import { DocumentCopy } from "@element-plus/icons-vue";
 import { useSlots, computed } from "vue";
 import { useRouter } from "vue-router";
+import { typeOf } from "#/mock/utils";
+import { DocumentCopy } from "@element-plus/icons-vue";
 
+const tooltipAttrs = {
+  showAfter: 500,
+  content: "点击复制",
+};
 const $slots = useSlots();
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
-    to?: RouteTo;
+    data?: CommonObj;
+    to?: RouteTo | ((data: CommonObj) => RouteTo);
     text?: StrNum;
     line?: StrNum; //最多显示几行，超出文本会显示省略号
     clickIconCopy?: boolean; //是否只当点击图标时才复制文本
@@ -35,6 +42,7 @@ const props = withDefaults(
   }>(),
   {
     line: 1,
+    // 暂时没有实现，检测到绑定了onClick事件后，就将clickIconCopy设为true
     clickIconCopy: _props => !!_props.to,
   }
 );
@@ -42,8 +50,12 @@ const $emit = defineEmits(["click"]);
 const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 // 跳转页面或触发点击事件
 function handleClick(e) {
-  if (props.to) return router.push(props.to);
-  $emit("click", e);
+  const { to, data } = props;
+  if (to) {
+    if (typeOf(to) === "Function") return router.push((to as Function)(data));
+    return router.push(to as RouteTo);
+  }
+  $emit("click", data);
 }
 // 处理点击事件
 function handleCopy(e) {
@@ -73,10 +85,11 @@ function handleCopy(e) {
   &.hover {
     @include hover();
   }
+  .link {
+    text-decoration: underline;
+    @include hover();
+  }
   .icon {
-    // font-size: 1em;
-    //vertical-align: bottom;
-    //line-height: inherit;
     @include hover();
   }
 }
