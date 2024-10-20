@@ -1,6 +1,8 @@
 import { CommonObj } from "../_types";
+import { defaultFieldAttrs } from "@/components/form/_components/FieldItem";
 import { SpecialTableColType, TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
 import config from "@/config";
+import { TableColAttrs } from "@/components/table";
 
 //el-table 的属性，除了（data）
 export const defaultTableAttrs: TableAttrs = {
@@ -82,23 +84,6 @@ export const specialColMap: CommonObj = Object.assign(
       label: "修改时间",
       minWidth: 160,
     },
-    //switch开关
-    switch: {
-      prop: "status",
-      label: "启用状态",
-      minWidth: 80,
-      attrs: {
-        activeValue: 1,
-        inactiveValue: 0,
-        activeText: "启用",
-        inactiveText: "禁用",
-        inlinePrompt: true,
-        onChange(e) {
-          console.log(e, "e---------------");
-          // ElMessage.warning("暂未处理【启用/禁用】事件");
-        },
-      },
-    },
     //是否启用状态
     BaseTag: {
       prop: "status",
@@ -122,6 +107,36 @@ export const specialColMap: CommonObj = Object.assign(
     // 文本复制
     BaseCopy: {
       minWidth: 190,
+    },
+    //switch开关
+    switch: {
+      prop: "status",
+      label: "启用状态",
+      minWidth: 80,
+      attrs: {
+        activeValue: 1,
+        inactiveValue: 0,
+        activeText: "启用",
+        inactiveText: "禁用",
+        inlinePrompt: true,
+        // onChange(e) {
+        //   ElMessage.warning("暂未处理【启用/禁用】事件");
+        // },
+      },
+    },
+    // input输入框
+    input: {
+      prop: "value",
+      label: "编辑内容",
+      minWidth: 200,
+      attrs: defaultFieldAttrs?.input?.attrs,
+      getAttrs(col: TableColAttrs) {
+        const { label, attrs = {} } = col;
+        const { placeholder: phr } = attrs;
+        return {
+          placeholder: phr?.replace("${label}", label),
+        };
+      },
     },
     //用户信息
     // UserInfo: {

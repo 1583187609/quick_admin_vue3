@@ -24,18 +24,14 @@
         <el-table-column v-bind="newCol" v-if="newCol.formatter">
           <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <BaseRender :data="newCol._label ?? newCol.label" />
-              <QuestionPopover :popover="popoverAttrs" v-if="popoverAttrs" />
-              <MarkIcon v-if="getIsNoHandle(scope._self, scope.column, newCol)" />
+              <ColHead :col="newCol" :popover="popoverAttrs" :scope="scope" @update:colAttrs="handleUpdateCol" />
             </slot>
           </template>
         </el-table-column>
         <el-table-column v-bind="newCol" v-else>
           <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <BaseRender :data="newCol._label ?? newCol.label" />
-              <QuestionPopover :popover="popoverAttrs" v-if="popoverAttrs" />
-              <MarkIcon v-if="getIsNoHandle(scope._self, scope.column, newCol)" />
+              <ColHead :col="newCol" :popover="popoverAttrs" :scope="scope" @update:colAttrs="handleUpdateCol" />
             </slot>
           </template>
           <template #default="{ row, column, $index }">
@@ -88,10 +84,11 @@
               {{ renderValue(row[newCol.prop as string]) }}
             </BaseText>
             <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
-            <template v-else-if="!isOptimization && ['switch'].includes(newCol.type)">
-              <InnerExtendTableColComps :col="newCol" :row="row" :index="$index" :quickAttrs="currQuickAttrs" :refreshList="refreshList" />
+            <template v-else-if="!isOptimization && ['switch', 'input'].includes(newCol.type)">
+              <!-- v-model:row="row" -->
+              <InnerExtendTableColComps :col="newCol" :row="{ ...row, $index }" :quickAttrs="currQuickAttrs" :refreshList="refreshList" />
             </template>
-            <InsertCustomTableColComps :col="newCol" :row="row" :index="$index" v-else />
+            <InsertCustomTableColComps :col="newCol" :row="{ ...row, $index }" v-else />
           </template>
         </el-table-column>
       </template>
@@ -107,8 +104,7 @@ import InsertCustomTableColComps from "@/config/_components/InsertCustomTableCol
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import MarkIcon from "@/components/MarkIcon.vue";
-import QuestionPopover from "@/components/QuestionPopover.vue";
+import ColHead from "./ColHead.vue";
 import { defaultCommonSize } from "@/components/_utils";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
 import { operateBtnsEmitName, specialColKeys } from "..";
@@ -138,7 +134,7 @@ const props = withDefaults(
     config?.BaseCrud?._components?.Column
   )
 );
-const $emit = defineEmits([operateBtnsEmitName]);
+const $emit = defineEmits([operateBtnsEmitName, "update:colAttrs"]);
 let popoverAttrs: PopoverAttrs | PopoverSlots | string | undefined;
 let currQuickAttrs: any;
 const newCol = getNewCol(props.col);
@@ -154,26 +150,10 @@ function getNewCol(col: TableColAttrs) {
   delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
-// 该列是否标记为未联调
-function getIsNoHandle(_self: CommonObj, column: CommonObj, col: TableColAttrs) {
-  if (isOptimization) return false;
-  const { type, prop } = col;
-  if ((newCol.prop as string).startsWith("$") || type === "custom") return false;
-  if (!_self.data?.length) return false;
-  const row = _self.data[0];
-  if (prop?.includes(propsJoinChar)) {
-    return (prop as string).split(propsJoinChar).some(key => typeof row[key] === "undefined");
-  } else if (prop?.includes(".")) {
-    const keys = (prop as string).split(".");
-    let data: CommonObj = row;
-    for (const key of keys) {
-      data = row[key];
-      if (typeof data === "undefined") return true;
-    }
-    return false;
-  }
-  return row?.[prop as string] === undefined;
+function handleUpdateCol(colAttrs: TableColAttrs) {
+  $emit("update:colAttrs", colAttrs);
 }
+
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
   $emit("operateBtns", btnObj, { row, col, $index }, next);
 }

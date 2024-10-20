@@ -19,6 +19,7 @@
       :operateBtnsAttrs="operateBtnsAttrs"
       :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols)"
       @operateBtns="onOperateBtns"
+      @update:colAttrs="(colAttrs: TableColAttrs)=>handleUpdateCol(colAttrs, cInd)"
       :disabled="disabled"
       v-for="(col, cInd) in newCols"
       :key="cInd"
@@ -107,6 +108,9 @@ const newAttrs = computed(() => {
 
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
   $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next);
+}
+function handleUpdateCol(colAttrs: TableColAttrs, ind: number) {
+  Object.assign(newCols[ind], colAttrs);
 }
 //当选择项发生变化时会触发该事件
 function handleSelectionChange(rows: CommonObj[]) {

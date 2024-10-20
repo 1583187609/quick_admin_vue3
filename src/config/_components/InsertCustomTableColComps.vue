@@ -13,8 +13,10 @@ export type InsertTableColCompsType = "UserInfo";
 const props = withDefaults(
   defineProps<{
     col: TableColAttrs;
-    row: CommonObj;
-    index: number; // 行下标
+    row: {
+      $index: number; // 行下标
+      [key: string]: any;
+    };
   }>(),
   {}
 );

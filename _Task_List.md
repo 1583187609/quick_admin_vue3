@@ -110,6 +110,7 @@
 ~~89、BasicDialog 完善 header 和 footer 的自定义渲染并自测~~
 ~~88、完善`UserDetail`页面~~
 ~~101、SlotRender 组件视情况移除或完善~~
+~~108、完善 table 的 type 为 switch 的属性绑定~~
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -141,9 +142,9 @@
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 100、升级 ElementPlus 和 vue3，再完善代码
 105、处理白屏过久的问题
-108、完善 table 的 type 为 switch 的属性绑定
 109、自测 dialog 和 drawer 内部自动计算自适应滚动高度（并可以考虑将两个的共用逻辑提取成 hooks）
-110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`
+110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
+111、处理拖动排序不生效的问题
 
 ## TS 类型处理
 
@@ -230,16 +231,16 @@
 30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
 34、通过外链打开新标签页面时，没有页签图标显示  
 35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题  
-37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、同时调整slots的位置到attrs.slots中    
-37、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑  
+37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、同时调整slots的位置到attrs.slots中     
+37、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑   
 41、layout 系统设置的国际化语言的 bug 处理  
-42、研究能被 img 标签 src 属性识别的 svg 配置  
-43、整理全局的 any、CommonObj TS 类型
-45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度
+42、研究能被 img 标签 src 属性识别的 svg 配置    
+43、整理全局的 any、CommonObj TS 类型  
+45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度  
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
-37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
-38、打开或关闭弹窗时是否销毁（默认不销毁）
-40、优化全局加载的图标及样式（在 index.html 中）
+37、每次打开或新进入一个表单时，默认让第一个表单项聚焦    
+38、打开或关闭弹窗时是否销毁（默认不销毁） 
+40、优化全局加载的图标及样式（在 index.html 中） 
 41、使用位运算等优化代码  
 43、将 mock 数据进行缓存
 44、将缓存数据采用本地数据库或其他方式存储（要缓存的数据：字典映射、mock 数据）

@@ -494,7 +494,7 @@ const cols: TableCol[] = [
     minWidth: 100,
     attrs: {},
     quickAttrs: {
-      fetch: (row: CommonObj, rowInd: number, next: FinallyNext) => PostMockCommonUpdate().then((res: any) => next()),
+      handleChange: (val: any, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate().then((res: any) => next()),
       popover: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
     },
   },
@@ -521,6 +521,14 @@ const cols: TableCol[] = [
           }),
         },
       },
+    },
+  },
+  {
+    prop: "status",
+    label: "编辑内容",
+    type: "input",
+    quickAttrs: {
+      handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate({}).then((res: any) => next()),
     },
   },
   !isSimple && {
@@ -584,7 +592,7 @@ const cols: TableCol[] = [
     label: "未联调列",
     minWidth: 100,
     quickAttrs: {
-      popover: "未联调的列，表格头文字会被标红",
+      popover: "未联调的列，表格头右侧会新增一个标红的感叹号图标",
     },
   },
 ];

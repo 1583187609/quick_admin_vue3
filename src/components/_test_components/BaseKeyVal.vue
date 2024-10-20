@@ -9,7 +9,7 @@
     >
       <BaseIcon class="mr-4" :name="icon" v-if="icon" />
       <span class="f-1">{{ label }}</span>
-      <QuestionPopover :popover="popover" iconClass="tips-icon" v-if="popover" />
+      <QuestionPopover :popover="popover" class="tips-icon" v-if="popover" />
     </div>
     <div
       class="val f-1 f-fs-fs-w"

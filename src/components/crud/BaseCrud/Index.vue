@@ -39,7 +39,14 @@
         @click="onExtraBtns"
         v-if="newExtraBtns.length"
       />
-      <SetBtns v-model="newCols" :originCols="originCols" class="f-0 ml-o" :disabled="disabled" :size="tableAttrs?.size ?? size" />
+      <SetBtns
+        v-model="newCols"
+        :originCols="originCols"
+        class="f-0"
+        :class="newExtraBtns.length ? ' ml-o' : ' ml-a'"
+        :disabled="disabled"
+        :size="tableAttrs?.size ?? size"
+      />
     </div>
     <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
       <QueryTable

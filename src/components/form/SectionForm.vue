@@ -10,7 +10,7 @@
           <div class="head f-sb-c">
             <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
-              <QuestionPopover :popover="sItem.popover" iconClass="ml-q f-0 mr-h" v-if="sItem.popover" />
+              <QuestionPopover :popover="sItem.popover" class="ml-q f-0 mr-h" v-if="sItem.popover" />
             </div>
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
