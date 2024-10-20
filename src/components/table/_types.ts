@@ -1,5 +1,5 @@
 import { BaseDataType, CommonObj, CommonSize } from "@/vite-env";
-import { CustomSpecialColType } from "@/config/_components/CustomSpecialTableCols.vue";
+import { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
@@ -69,7 +69,7 @@ export type TableColType =
   | "BaseImg"
   | "BaseText"
   | "BaseCopy"
-  | CustomSpecialColType;
+  | InsertTableColCompsType;
 
 // export type TableIndexType = boolean | number | ((rowInd: number) => number);
 // export type TableSelectableType = boolean | ((row: any, rowInd: number) => boolean);

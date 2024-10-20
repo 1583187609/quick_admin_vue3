@@ -124,7 +124,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, reactive, inject, h } from "vue";
-import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
+import { GetMockCommonList, PostMockCommon, DeleteMockCommon, PostMockCommonUpdate } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
 import AddEdit from "./AddEdit.vue";
@@ -138,7 +138,8 @@ import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
-import CustomHead from "./_components/CustomHead.vue";
+import CustomColHead from "./_components/CustomColHead.vue";
+import CustomPopover from "./_components/CustomPopover.vue";
 import { SectionFormItemAttrs } from "@/components/form/_types";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
 
@@ -281,10 +282,23 @@ const cols: TableCol[] = [
   { type: "selection" },
   {
     // prop: "userData", // 默认值为userData
-    label: "自定义组件列-内置 [UserInfo]",
+    label: "用户信息",
     type: "UserInfo",
     quickAttrs: {
-      popover: `传递popover属性增加疑问小提示；可以自定义表格列并内嵌到系统中，设置 {type: "UserInfo"} 即可`,
+      popover: {
+        title: "业务内嵌组件 - UserInfo",
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              {
+                name: "描述",
+                desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
+              },
+              { name: "设置", desc: `{type: "UserInfo"}` },
+            ],
+          }),
+        },
+      },
     },
     attrs: {
       simple: isSimple,
@@ -293,55 +307,99 @@ const cols: TableCol[] = [
   //注意观察下面的关于是否显示的多种写法
   !isSimple && {
     prop: "info_complete",
-    label: "自定义组件-非内置",
+    label: "资料完善状态",
     width: 170,
     type: "custom",
     quickAttrs: {
-      popover: `需设置 {type: "custom"}`,
-    },
-  },
-  {
-    prop: "type_text",
-    // label: "自定义表格头",
-    label: h(CustomHead), // shallowRef(CustomHead),
-    minWidth: 210,
-    quickAttrs: {
-      // popover: "这是自定义popover示例（传入字符串）",
-      // popover: { title: "这是标题", width: 320, content: "这是自定义popover示例（传入属性对象）" },
-      // popover: h(CustomHead, { type: "popover" }),
+      // popover: `需设置 {type: "custom"}`,
       popover: {
-        title: "自定义【表格头+popover+formatter】示例",
-        width: 400,
+        title: "自定义组件 - InfoSteps",
         slots: {
-          default: h(CustomHead, { type: "popover" }),
+          default: h(CustomPopover, {
+            sections: [
+              { name: "描述", desc: "项目中的不常用组件，采用自定义方式插入" },
+              { name: "设置", desc: `{type: "custom"}` },
+            ],
+          }),
         },
       },
-    },
-    formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
-      return `用formatter处理-第${ind + 1}行`;
     },
   },
   {
     prop: "avatar",
-    label: "图片 [BaseImg]",
+    label: "头像",
     type: "BaseImg",
     minWidth: 160,
     quickAttrs: {
-      popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
+      // popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
+      popover: {
+        title: "系统内置组件 - BaseImg",
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              {
+                name: "描述",
+                desc: [
+                  "任意项目的常用组件，采用内置至系统的方式。",
+                  "预设了含列宽、图片大小、圆角样式、图片预览等功能。",
+                  "设置{minWidth: 160} 覆盖默认宽度",
+                ],
+              },
+              { name: "设置", desc: `{type: "BaseImg"}` },
+            ],
+          }),
+        },
+      },
     },
   },
   {
     prop: "produce",
-    label: "自我介绍 [BaseText]",
+    label: "自我介绍",
     type: "BaseText",
+    attrs: {
+      maxLine: 3,
+    },
     quickAttrs: {
-      popover: "内置文本组件 [BaseText]，内置列宽；超出文本后自动省略，且可点击后弹出弹窗查看完整内容",
+      popover: {
+        title: "系统内置组件 - BaseText",
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              {
+                name: "描述",
+                desc: [
+                  "任意项目的常用组件，采用内置至系统的方式。",
+                  "内置列宽；超出文本后自动省略，且可点击后弹出弹窗查看完整内容",
+                  "可通过attrs传入BaseText的props属性",
+                ],
+              },
+              { name: "设置", desc: `{type: "BaseText"}` },
+            ],
+          }),
+        },
+      },
     },
   },
   {
     prop: "avatar",
-    label: "文本复制[BaseCopy]",
+    label: "头像路径",
     type: "BaseCopy",
+    quickAttrs: {
+      popover: {
+        title: "系统内置组件 - BaseCopy",
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              {
+                name: "描述",
+                desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
+              },
+              { name: "设置", desc: `{type: "BaseCopy"}` },
+            ],
+          }),
+        },
+      },
+    },
   },
   {
     prop: "userCode",
@@ -356,7 +414,48 @@ const cols: TableCol[] = [
       },
     },
     quickAttrs: {
-      popover: `文本复制，支持跳转`,
+      // popover: `文本复制，支持跳转`,
+      popover: {
+        title: "系统内置组件 - BaseCopy",
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              {
+                name: "描述",
+                desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
+              },
+              { name: "设置", desc: `{type: "BaseCopy"}` },
+            ],
+          }),
+        },
+      },
+    },
+  },
+  {
+    prop: "type_text",
+    // label: "自定义多维度",
+    label: h(CustomColHead),
+    minWidth: 210,
+    quickAttrs: {
+      // popover: "这是自定义popover示例（传入字符串）",
+      // popover: { title: "这是标题", width: 320, content: "这是自定义popover示例（传入属性对象）" },
+      // popover: h(CustomColHead, { type: "popover" }),
+      popover: {
+        title: "自定义【格头 + popover + formatter】",
+        width: 400,
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              { name: "自定义表格头", desc: "展示如何自定义表格头" },
+              { name: "自定义popover", desc: "展示如何自定义popover" },
+              { name: "formatter", desc: "展示如何用继承自ElementPlus的formatter方法处理数据" },
+            ],
+          }),
+        },
+      },
+    },
+    formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
+      return `自定义第${ind}行：表格头 + popover + formatter`;
     },
   },
   isSimple
@@ -368,20 +467,60 @@ const cols: TableCol[] = [
       }
     : {
         prop: "status",
-        label: "状态 [BaseTag]",
+        label: "启/禁用状态",
         width: 150,
         type: "BaseTag",
         quickAttrs: {
-          popover: `非simple可见`,
+          popover: {
+            title: "系统内置组件 - BaseTag",
+            slots: {
+              default: h(CustomPopover, {
+                sections: [
+                  {
+                    name: "描述",
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "非simple可见"],
+                  },
+                  { name: "设置", desc: `{type: "BaseTag"}` },
+                ],
+              }),
+            },
+          },
         },
       },
   {
     prop: "status",
-    label: "请求状态 [BaseTag]",
+    label: "启/禁用",
+    type: "switch",
+    minWidth: 100,
+    attrs: {},
+    quickAttrs: {
+      fetch: (row: CommonObj, rowInd: number, next: FinallyNext) => PostMockCommonUpdate().then((res: any) => next()),
+      popover: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
+    },
+  },
+  {
+    prop: "status",
+    label: "请求状态",
     width: 150,
     type: "BaseTag",
     attrs: {
       name: "TestFetchLazy",
+    },
+    quickAttrs: {
+      popover: {
+        title: "系统内置组件 - BaseTag",
+        slots: {
+          default: h(CustomPopover, {
+            sections: [
+              {
+                name: "描述",
+                desc: ["测试请求到的下拉项的解析情况"],
+              },
+              { name: "设置", desc: `{type: "BaseTag"}` },
+            ],
+          }),
+        },
+      },
     },
   },
   !isSimple && {
@@ -395,7 +534,7 @@ const cols: TableCol[] = [
   //   ? [
   {
     type: "create",
-    label: "创建时间 [create]",
+    label: "创建时间",
     quickAttrs: {
       popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
     },
@@ -405,7 +544,7 @@ const cols: TableCol[] = [
   {
     type: "update",
     prop: "update_time",
-    label: "修改时间 [update]",
+    label: "修改时间",
     quickAttrs: {
       popover: `设置 {type: "update", prop: "updatedAt"}，只会显示 updatedAt 属性的值`,
     },
@@ -416,22 +555,10 @@ const cols: TableCol[] = [
   //   label: "创建时间（内置、双prop）",
   //   type: "create",
   // },
-  {
-    prop: "status",
-    label: "启/禁用",
-    type: "switch",
-    minWidth: 100,
-    quickAttrs: {
-      popover: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
-    },
-    attrs: {
-      // fetch: PostEnable,
-    },
-  },
   // 设置type为remark，默认 prop 为 remark，并自带宽度等其他设置
   {
     type: "remark",
-    label: "备注 [remark]",
+    label: "备注",
     quickAttrs: {
       popover: `设置{type: "remark"}，内置列宽度、label文案`,
     },
@@ -439,7 +566,7 @@ const cols: TableCol[] = [
   // 未设置type时，因label中含有备注字样，就被推断为type为remark类型，故也可以获得跟上面写法一样的配置
   // {
   //   prop: "remark",
-  //   label: "备注 [remark]",
+  //   label: "备注",
   //   quickAttrs: {
   //     popover: `设置{type: "remark"}，内置列宽度、label文案`,
   //   },

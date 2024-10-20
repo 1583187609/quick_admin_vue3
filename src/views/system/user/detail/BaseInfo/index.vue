@@ -69,7 +69,7 @@
     </template>
     <BaseForm v-model="detailInfoModelData" type="cell" pureText :fields="detailInfoFormFields">
       <template #yyjs>
-        <VideoPannel />
+        <BaseAudio />
       </template>
       <template #gyw="{ form }">
         <AboutTitle @submit="openAboutListPopup(1)" />
@@ -78,12 +78,6 @@
       <template #wdlxx="{ form }">
         <AboutTitle @submit="openAboutListPopup(2)" type="you" rejected />
         <div>{{ form.wdlxx }}</div>
-      </template>
-      <template #xqah>
-        <div class="f-fs-c f-1">
-          <el-button type="info" size="small">选择</el-button>
-          <el-button type="primary" size="small">驳回</el-button>
-        </div>
       </template>
       <template #qghwddf="{ field }">
         <el-tag class="mr-h" v-for="(item, ind) in 3" :key="ind">{{ "北京故宫" + ind }}</el-tag>
@@ -110,7 +104,6 @@ import LoveList from "./_components/LoveList.vue";
 import EvaluateList from "./_components/EvaluateList.vue";
 import AboutList from "./_components/AboutList.vue";
 import AboutTitle from "./_components/AboutTitle.vue";
-import VideoPannel from "./_components/VideoPannel.vue";
 import { ClosePopupInject, CommonObj, OpenPopupInject } from "@/vite-env";
 import { useDict } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
@@ -332,6 +325,7 @@ const detailInfoFormFields: FormFieldAttrs[] = [
     type: "custom",
     quickAttrs: {
       grid: 12,
+      valueAlignContent: "flex-start",
     },
   },
   {
@@ -340,14 +334,6 @@ const detailInfoFormFields: FormFieldAttrs[] = [
     type: "custom",
     quickAttrs: {
       grid: 12,
-    },
-  },
-  {
-    prop: "xqah",
-    label: "兴趣爱好",
-    type: "custom",
-    quickAttrs: {
-      grid: 24,
     },
   },
   {

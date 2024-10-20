@@ -5,23 +5,17 @@ provide了openPopup、closePopup方法。默认dialog，可在全局配置中进
 <template>
   <slot />
   <!-- 对话框 -->
-  <BasicDialog
-    v-model="dialog.show"
-    :footer="dialog.foot"
-    v-bind="dialog.attrs"
-    v-for="(dialog, ind) in dialogs"
-    :key="'dialog-' + ind"
-  >
+  <BasicDialog v-model="dialog.show" :footer="dialog.foot" v-bind="dialog.attrs" v-for="(dialog, ind) in dialogs" :key="'dialog-' + ind">
     <BaseRender :data="dialog.body" />
   </BasicDialog>
   <!-- 抽屉 -->
-  <BasicDrawer v-model="drawer.show" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
+  <BasicDrawer v-model="drawer.show" :footer="drawer.foot" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
     <BaseRender :data="drawer.body" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
-import { reactive, shallowReactive, provide } from "vue";
-import { showMessage, sortObjArrByKey } from "@/utils";
+import { reactive, shallowReactive, provide, isVNode } from "vue";
+import { showMessage, sortObjArrByKey, typeOf } from "@/utils";
 import { CommonObj, SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
@@ -55,8 +49,11 @@ const drawers = reactive<DrawerPopup[]>([]);
  * 获取弹出层的属性
  */
 function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: CommonObj): any {
-  if (typeof head !== "string") return { ...head, ...defAttrs };
-  return { title: head, onClose: () => closePopup(popupId), ...defAttrs };
+  const t = typeOf(head);
+  if (t === "String") return { ...defAttrs, title: head, onClose: () => closePopup(popupId) };
+  const isCustom = (t === "Array" && head.length <= 3) || (t === "Object" && (head.setup || isVNode(head)));
+  if (isCustom) return { ...defAttrs, title: head, onClose: () => closePopup(popupId) };
+  return { ...defAttrs, ...head };
 }
 
 /**
@@ -64,11 +61,14 @@ function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: Commo
  */
 function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foot: FootRenderData = false) {
   if (dialogTimer) return showMessage("您的操作太频繁了", "warning");
-  if (typeof head === "string" && head.startsWith("dialog-")) {
-    const id = Number(head.split("-")[1]);
-    const target = dialogs.find(it => it.id === id);
-    if (target) return (target.show = true);
-    return showMessage(`不存在对话框【dialog-${id}】`, "error");
+  const t = typeOf(head);
+  if (t === "String") {
+    if (head.startsWith("dialog-")) {
+      const id = Number(head.split("-")[1]);
+      const target = dialogs.find(it => it.id === id);
+      if (target) return (target.show = true);
+      return showMessage(`不存在对话框【dialog-${id}】`, "error");
+    }
   }
   const id = (dialogs.at(-1)?.id ?? -1) + 1;
   dialogs.push(
@@ -106,13 +106,16 @@ function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}
 /**
  * 抽屉 drawer
  */
-function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
+function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData, foot: FootRenderData = false) {
   if (drawerTimer) return showMessage("您的操作太频繁了", "warning");
-  if (typeof head === "string" && head.startsWith("drawer-")) {
-    const id = Number(head.split("-")[1]);
-    const target = drawers.find(it => it.id === id);
-    if (target) return (target.show = true);
-    return showMessage(`不存在抽屉【drawer-${id}】`, "error");
+  const t = typeOf(head);
+  if (t === "String") {
+    if (head.startsWith("drawer-")) {
+      const id = Number(head.split("-")[1]);
+      const target = drawers.find(it => it.id === id);
+      if (target) return (target.show = true);
+      return showMessage(`不存在抽屉【drawer-${id}】`, "error");
+    }
   }
   const id = (drawers.at(-1)?.id ?? -1) + 1;
   drawers.push(
@@ -122,6 +125,7 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
       show: true,
       attrs: getPopupAttrs(head, `drawer-${id}`, defaultDrawerAttrs),
       body,
+      foot,
       createAt: Date.now(),
     })
   );
@@ -160,7 +164,7 @@ function openPopup(
     if (isDiaId || head.startsWith("drawer-")) return isDiaId ? openDialog(head) : openDrawer(head);
   }
   if (type === "dialog") return openDialog(head, body, foot);
-  if (type === "drawer") return openDrawer(head, body);
+  if (type === "drawer") return openDrawer(head, body, foot);
   // 如果不是弹窗类型，则打开dialog，且type的值作为dialog的footer渲染
   return openDialog(head, body, type as FootRenderData);
 }

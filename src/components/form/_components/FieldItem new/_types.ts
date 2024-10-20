@@ -87,6 +87,7 @@ export interface FormFieldAttrs {
     rulesType?: RulesType; //规则类型
     before?: any; //字段前面拼接的内容，可以是文本、组件等
     after?: any; //字段后面拼接的内容，可以是文本、组件等
+    valueAlignContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
   };
   children?: FormField[]; //字段子项
   /** 控件（input、select……）的属性，例：placeholder **/

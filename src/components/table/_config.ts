@@ -93,9 +93,10 @@ export const specialColMap: CommonObj = Object.assign(
         activeText: "启用",
         inactiveText: "禁用",
         inlinePrompt: true,
-        // onChange() {
-        //   ElMessage.warning("暂未处理【启用/禁用】事件");
-        // },
+        onChange(e) {
+          console.log(e, "e---------------");
+          // ElMessage.warning("暂未处理【启用/禁用】事件");
+        },
       },
     },
     //是否启用状态

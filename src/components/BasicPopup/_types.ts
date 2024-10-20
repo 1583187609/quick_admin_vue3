@@ -1,4 +1,4 @@
-import { BaseRenderData } from "../BaseRender.vue";
+import { BaseRenderData, BaseRenderComponentType } from "../BaseRender.vue";
 
 export type PopupType = "drawer" | "dialog"; //弹窗类型
 export type DialogId = `dialog-${number}`; //id必须大于等于0，示例："dialog-1"
@@ -9,11 +9,11 @@ export interface DialogPopup {
   name: "dialog";
   show: boolean;
   attrs: {
-    title?: string;
+    title?: string | BaseRenderComponentType;
     [key: string]: any;
   };
   body: BaseRenderData;
-  foot?: FootRenderData; //底部按钮或自定义节点
+  foot?: FootRenderData; //底部按钮或自定义元素
   createAt: number; //创建时间戳
 }
 export type DirectionType = "rtl" | "ltr" | "ttb" | "btt";
@@ -22,19 +22,20 @@ export interface DrawerPopup {
   name: "drawer";
   show: boolean;
   attrs: {
-    title?: string;
+    title?: string | BaseRenderComponentType;
     direction?: DirectionType;
     [key: string]: any;
   };
   body: BaseRenderData;
+  foot?: FootRenderData; //底部按钮或自定义元素
   createAt: number; //创建时间戳
 }
 export interface DrawerHeadAttrs {
-  title?: string;
+  title?: string | BaseRenderComponentType;
   [key: string]: any;
 }
 export interface DialogHeadAttrs {
-  title?: string;
+  title?: string | BaseRenderComponentType;
   [key: string]: any;
 }
 //打开的弹窗类型
@@ -42,8 +43,8 @@ export type OpenPopupTypes = PopupType | DialogPopup | DrawerPopup | DialogId | 
 export type ClosePopupType = OpenPopupTypes | number | "all"; //关闭的弹窗类型：'all' 关闭所有dialog、drawer；number：关闭顶层的 n 个弹窗
 export type CloseDialogType = DialogPopup | DialogId | "all";
 export type CloseDrawerType = DrawerPopup | DrawerId | "all";
-export type DialogHeadTypes = string | DialogHeadAttrs;
-export type DrawerHeadTypes = string | DrawerHeadAttrs;
+export type DialogHeadTypes = string | DialogHeadAttrs | BaseRenderComponentType;
+export type DrawerHeadTypes = string | DrawerHeadAttrs | BaseRenderComponentType;
 
 export type OpenPopupInject = any;
 export type ClosePopupInject = any;

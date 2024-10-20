@@ -16,9 +16,9 @@ const defaultPopupAttrs = {
 };
 const props = withDefaults(
   defineProps<{
+    text?: string;
     maxLine?: StrNum; //最多显示几行，可选值：1~5 必须为整数
     popupAttrs?: any;
-    text?: string;
   }>(),
   {
     maxLine: 5,

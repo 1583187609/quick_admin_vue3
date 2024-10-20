@@ -204,16 +204,20 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
+const defaultPopoverAttrs = {
+  width: "fit-content",
+};
+const defaultPopoverWidth = "200px";
 export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
-  if (t === "String") return { content: popover as string };
+  if (t === "String") return { ...defaultPopoverAttrs, width: defaultPopoverWidth, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if (isVNode(popover) || (popover as RenderVue).render) return { slots: { default: popover } } as PopoverSlots;
-    return popover as PopoverAttrs;
+    if (isVNode(popover) || (popover as RenderVue).render) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
-  if (t === "Array") return { slots: { default: h(...(popover as HArgs)) } } as PopoverSlots;
+  if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: h(...popover) } } as PopoverAttrs;
   throw new Error(`暂不支持此popover类型：${t}`);
 }
 
@@ -271,3 +275,15 @@ export function getDevelopComponents() {
     unValidNames,
   };
 }
+
+/**
+ * 获取自定义渲染的元素
+ * @param {any} data
+ * @returns
+ */
+// export function getCustomRender(data: any) {
+//   const t = typeOf(data);
+//   if (t === "Array") return data.length <= 3 ? h(...data) : undefined;
+//   if (t === "Object") return data.setup || isVNode(data);
+//   return undefined;
+// }

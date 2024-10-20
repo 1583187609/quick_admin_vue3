@@ -1,31 +1,29 @@
 <template>
-  <el-dialog v-model="show" class="basic-dialog" :class="{ 'top-compact': !footer }" :title="title" ref="basicDialogRef">
-    <template #header="scoped" v-if="slots?.header">
-      <BaseRender :scoped="scoped" :data="slots.header" />
+  <el-dialog v-model="show" class="basic-dialog" :class="{ 'top-compact': !footer }" :title="isStr ? title : undefined" ref="basicDialogRef">
+    <template #header="scoped" v-if="!isStr">
+      <BaseRender :scoped="scoped" :data="title" />
     </template>
     <slot />
     <template #footer v-if="footer">
       <slot name="footer">
-        <div class="foot" v-if="footer === true">
-          <el-button v-debounce.immediate="handleCancel">取消</el-button>
-          <el-button type="primary" v-debounce.immediate="handleConfirm">确认</el-button>
-        </div>
+        <FootBtns @cancel="handleCancel" @confirm="handleConfirm" v-if="footer === true" />
         <BaseRender :data="footer" v-else />
       </slot>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, computed, onMounted } from "vue";
-import { popupCloseAnimationDuration, showMessage } from "@/components/_utils";
-// import { useEvent } from "@/componetns/_hooks";
+import { ref, computed, onMounted, isVNode } from "vue";
+import { popupCloseAnimationDuration, showMessage, typeOf } from "@/components/_utils";
+import { BaseRenderData, BaseRenderComponentType } from "@/components/BaseRender.vue";
+import FootBtns from "./FootBtns.vue";
+// import { useEvent } from "@/components/_hooks";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
-    title?: string;
+    title?: string | BaseRenderComponentType;
     footer?: any;
-    slots?: any;
     onCancel?: () => void; // 点击取消按钮
     onConfirm?: () => void; // 点击确认按钮
   }>(),
@@ -36,11 +34,24 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
+const isStr = typeOf(props.title) === "String";
 const basicDialogRef = ref<any>(null);
 const show = computed({
   get: () => props.modelValue,
   set: (isShow: boolean) => $emit("update:modelValue", isShow),
 });
+// 点击取消按钮
+function handleCancel() {
+  if (props.onCancel) return props.onCancel();
+  show.value = false;
+}
+// 点击确认按钮
+function handleConfirm() {
+  if (props.onConfirm) return props.onConfirm();
+  show.value = false;
+  showMessage("点击了【确认按钮 - onConfirm】", "info");
+}
+// 初始化内容区域的高度
 function initBodyHeight() {
   //必须要延迟一段时间，不然在过渡动画时间中时，获取到的高度会不足动画完成时的最终高度
   setTimeout(() => {
@@ -57,17 +68,6 @@ function initBodyHeight() {
     // body.style.height = `calc(100vh - ${cssVars.dialogTop} - ${cssVars.dialogTop} - 58px)`;
     body.style.height = hasVBar ? getComputedStyle(body).maxHeight : undefined;
   }, popupCloseAnimationDuration);
-}
-// 点击取消按钮
-function handleCancel() {
-  if (props.onCancel) return props.onCancel();
-  show.value = false;
-}
-// 点击确认按钮
-function handleConfirm() {
-  if (props.onConfirm) return props.onConfirm();
-  show.value = false;
-  showMessage("点击了【确认按钮 - onConfirm】", "info");
 }
 onMounted(() => {
   initBodyHeight();
@@ -106,7 +106,7 @@ onMounted(() => {
 </style>
 <style lang="scss" scoped>
 .basic-dialog {
-  .foot {
+  .foot-btns {
     padding: 0 $gap $gap;
   }
 }

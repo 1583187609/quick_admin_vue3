@@ -1,5 +1,9 @@
 <template>
-  <el-form-item class="field-item" v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options'])">
+  <el-form-item
+    class="field-item"
+    :class="{ 'label-h-center': !!popoverAttrs, [`value-v-${newField?.quickAttrs?.valueAlignContent}`]: true }"
+    v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options'])"
+  >
     <template #label v-if="(!prefixProp || newField.labelWidth) && newField.label">
       <BaseRender :data="newField.label" />
       <QuestionPopover :popover="popoverAttrs" :size="size" v-if="popoverAttrs" />
@@ -457,11 +461,41 @@ function handleInput(e: any, prop: string) {
     $emit("change", prop, val);
   }
 }
-
 defineExpose({});
 </script>
 <style lang="scss" scoped>
 .field-item {
+  &.label-h-center {
+    :deep(.el-form-item__label) {
+      align-items: center;
+    }
+  }
+  // 值区域的垂直方向上的布局方式
+  &.value-v-flex-start {
+    :deep(.el-form-item__content) {
+      align-content: flex-start;
+    }
+  }
+  &.value-v-center {
+    :deep(.el-form-item__content) {
+      align-content: center;
+    }
+  }
+  &.value-v-flex-end {
+    :deep(.el-form-item__content) {
+      align-content: flex-end;
+    }
+  }
+  &.value-v-space-between {
+    :deep(.el-form-item__content) {
+      align-content: space-between;
+    }
+  }
+  &.value-v-space-around {
+    :deep(.el-form-item__content) {
+      align-content: space-around;
+    }
+  }
 }
 .hide-tips,
 .show-tips {

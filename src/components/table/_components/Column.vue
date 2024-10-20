@@ -24,28 +24,18 @@
         <el-table-column v-bind="newCol" v-if="newCol.formatter">
           <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <BaseRender
-                :data="newCol._label ?? devErrorTips(scope.column.label, getIsMarkNoHandle(scope._self, scope.column, newCol) ? undefined : '')"
-              />
-              <QuestionPopover
-                :popover="popoverAttrs"
-                :type="getIsMarkNoHandle(scope._self, scope.column, newCol) ? 'danger' : 'info'"
-                v-if="popoverAttrs"
-              />
+              <BaseRender :data="newCol._label ?? newCol.label" />
+              <QuestionPopover :popover="popoverAttrs" v-if="popoverAttrs" />
+              <MarkIcon v-if="getIsNoHandle(scope._self, scope.column, newCol)" />
             </slot>
           </template>
         </el-table-column>
         <el-table-column v-bind="newCol" v-else>
           <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <BaseRender
-                :data="newCol._label ?? devErrorTips(scope.column.label, getIsMarkNoHandle(scope._self, scope.column, newCol) ? undefined : '')"
-              />
-              <QuestionPopover
-                :popover="popoverAttrs"
-                :type="getIsMarkNoHandle(scope._self, scope.column, newCol) ? 'danger' : 'info'"
-                v-if="popoverAttrs"
-              />
+              <BaseRender :data="newCol._label ?? newCol.label" />
+              <QuestionPopover :popover="popoverAttrs" v-if="popoverAttrs" />
+              <MarkIcon v-if="getIsNoHandle(scope._self, scope.column, newCol)" />
             </slot>
           </template>
           <template #default="{ row, column, $index }">
@@ -89,15 +79,6 @@
                 {{ renderValue(row?.[newCol.prop as string]) }}
               </template>
             </template>
-            <template v-else-if="newCol.type === 'switch'">
-              <el-switch
-                :modelValue="row[newCol.prop as string]"
-                v-bind="deleteAttrs(newCol.attrs, ['onChange'])"
-                @change="(val:StrNum | boolean)=>handleSwitchChange(newCol, row, $index)"
-                v-if="newCol?.attrs?.fetch"
-              />
-              <el-switch v-model="row[newCol.prop as string]" v-bind="newCol.attrs" v-else />
-            </template>
             <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
             <template v-else-if="newCol.type === 'BaseImg'">
               <BaseImg style="margin: 0 auto" :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-if="row[newCol.prop as string]" />
@@ -107,8 +88,10 @@
               {{ renderValue(row[newCol.prop as string]) }}
             </BaseText>
             <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
-            <CustomSpecialTableCols :row="row" :col="newCol" v-else />
-            <!-- </template> -->
+            <template v-else-if="!isOptimization && ['switch'].includes(newCol.type)">
+              <InnerExtendTableColComps :col="newCol" :row="row" :index="$index" :quickAttrs="currQuickAttrs" :refreshList="refreshList" />
+            </template>
+            <InsertCustomTableColComps :col="newCol" :row="row" :index="$index" v-else />
           </template>
         </el-table-column>
       </template>
@@ -120,9 +103,11 @@ import { propsJoinChar, deleteAttrs, devErrorTips, showMessage, renderValue, get
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TableColAttrs } from "@/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
-import CustomSpecialTableCols from "@/config/_components/CustomSpecialTableCols.vue";
+import InsertCustomTableColComps from "@/config/_components/InsertCustomTableColComps.vue";
+import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import MarkIcon from "@/components/MarkIcon.vue";
 import QuestionPopover from "@/components/QuestionPopover.vue";
 import { defaultCommonSize } from "@/components/_utils";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
@@ -155,19 +140,22 @@ const props = withDefaults(
 );
 const $emit = defineEmits([operateBtnsEmitName]);
 let popoverAttrs: PopoverAttrs | PopoverSlots | string | undefined;
+let currQuickAttrs: any;
 const newCol = getNewCol(props.col);
 
+// 获取新的列配置数据
 function getNewCol(col: TableColAttrs) {
   popoverAttrs = col?.quickAttrs?.popover;
   if (typeof col.label !== "string") {
     col._label = col.label;
     col.label = getVNodeInnerText(col._label);
   }
+  currQuickAttrs = col.quickAttrs;
   delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
-// 该列是否标记为未联调（表格头字体会变红）
-function getIsMarkNoHandle(_self: CommonObj, column: CommonObj, col: TableColAttrs) {
+// 该列是否标记为未联调
+function getIsNoHandle(_self: CommonObj, column: CommonObj, col: TableColAttrs) {
   if (isOptimization) return false;
   const { type, prop } = col;
   if ((newCol.prop as string).startsWith("$") || type === "custom") return false;
@@ -189,20 +177,7 @@ function getIsMarkNoHandle(_self: CommonObj, column: CommonObj, col: TableColAtt
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
   $emit("operateBtns", btnObj, { row, col, $index }, next);
 }
-// 此功能后续可能会移除
-function handleSwitchChange(col: TableColAttrs, row: CommonObj, ind: number) {
-  const { attrs = {} } = col;
-  const { fetch, idKeys = ["id", "id"], statusKey = "status" } = attrs;
-  const preKey = attrs?.activeValue === row[statusKey] ? "in" : "";
-  ind !== -1 &&
-    fetch?.({
-      [idKeys[0]]: row[idKeys[1]],
-      [statusKey]: attrs?.[preKey + "activeValue"],
-    }).then(() => {
-      showMessage(`${attrs?.[preKey + "activeText"]}成功`);
-      props.refreshList?.();
-    });
-}
+// 获取创建列或更新列的文本内容
 function getCreateOrUpdateText(row: CommonObj, prop: string, ind: number = 0) {
   const keys = prop.split(propsJoinChar);
   const val = row?.[keys?.[ind]];

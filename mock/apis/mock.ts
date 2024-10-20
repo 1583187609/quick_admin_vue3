@@ -95,7 +95,24 @@ export default toViteMockApi({
    * 通用的修改接口
    */
   "POST /mock/common/update": (req: CommonObj) => {
-    return resData();
+    // by 根据某些字段去查，to，去修改某些字段
+    const { by = { id: 10, status: 1 }, to = { status: 2 }, name = "users" } = getRequestParams(req);
+    if (!by || !to) return resData();
+    let queryList: any[] = [];
+    const listMap = {
+      users: allUsers,
+    };
+    const byConditions: [string, any][] = [];
+    Object.keys(by).forEach(key => {
+      byConditions.push([key, by[key]]);
+    });
+    queryList = filterByConditions(listMap[name], byConditions);
+    queryList.forEach(item => {
+      Object.keys(to).forEach(key => {
+        item[key] = to[key];
+      });
+    });
+    return resData({ data: queryList });
   },
   /**
    * 通用的导入接口

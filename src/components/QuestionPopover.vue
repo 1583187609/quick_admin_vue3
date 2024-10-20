@@ -14,9 +14,10 @@ import { computed } from "vue";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
 import { defaultCommonSize, getPopoverAttrs, ThemeColorType } from "@/components/_utils";
 import cssVars from "@/assets/styles/_var.module.scss";
-import { upperFirst } from "lodash";
 import { QuestionFilled } from "@element-plus/icons-vue";
+import _ from "lodash";
 
+const { upperFirst } = _;
 const props = withDefaults(
   defineProps<{
     popover?: PopoverAttrs | PopoverSlots | string;
