@@ -3,7 +3,7 @@
 /********************************************************************/
 
 import { CommonObj } from "@/vite-env";
-import { isDev } from "./consts";
+import { isDev } from "../../_consts";
 import { showMessage } from "../platform";
 // import { ElNotification } from "element-plus";
 

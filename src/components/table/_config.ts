@@ -130,7 +130,7 @@ export const specialColMap: CommonObj = Object.assign(
       label: "编辑内容",
       minWidth: 200,
       attrs: defaultFieldAttrs?.input?.attrs,
-      getAttrs(col: TableColAttrs) {
+      getInferredAttrs(col: TableColAttrs) {
         const { label, attrs = {} } = col;
         const { placeholder: phr } = attrs;
         return {
@@ -143,7 +143,7 @@ export const specialColMap: CommonObj = Object.assign(
     //   prop: "userData",
     //   label: "用户信息",
     //   fixed: "left",
-    //   getAttrs(col: TableColAttrs) {
+    //   getInferredAttrs(col: TableColAttrs) {
     //     return {
     //       width: col?.attrs?.simple ? 222 : 440,
     //     };

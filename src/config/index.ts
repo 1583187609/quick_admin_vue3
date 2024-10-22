@@ -75,7 +75,7 @@ const config = {
         label: "用户信息",
         // minWidth: 280, // 450/280
         fixed: "left",
-        getAttrs(col: TableColAttrs) {
+        getInferredAttrs(col: TableColAttrs) {
           return {
             width: col?.attrs?.simple ? 232 : 450,
           };

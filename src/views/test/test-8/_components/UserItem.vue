@@ -8,7 +8,7 @@
         class="avatar"
         round
       />
-      <el-tooltip content="已完成身份认证" :show-after="500" v-if="data?.[userDataKey].authType !== 1">
+      <el-tooltip content="已完成身份认证" v-bind="defaultTooltipAttrs" v-if="data?.[userDataKey].authType !== 1">
         <BaseIcon name="SuccessFilled" size="20" class="auth-icon" />
       </el-tooltip>
     </div>

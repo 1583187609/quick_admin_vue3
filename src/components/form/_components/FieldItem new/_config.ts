@@ -316,7 +316,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         clearable: true,
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary
         loadingText: "玩命加载中……",
-        getAttrs(field: FormFieldAttrs) {
+        getInferredAttrs(field: FormFieldAttrs) {
           const { remote, multiple } = field.attrs || {};
           const multiAttrs = multiple
             ? {
@@ -348,7 +348,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         valueFormat: "YYYY-MM-DD",
         placeholder: "请选择${label}",
         clearable: true,
-        getAttrs(field: FormFieldAttrs) {
+        getInferredAttrs(field: FormFieldAttrs) {
           const { attrs = {} } = field;
           const { type } = attrs;
           const newAttrs: CommonObj = {};
@@ -399,7 +399,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
       attrs: {
         // style: { width: "100%" },
         placeholder: "${label}",
-        // getAttrs(field: FormFieldAttrs) {
+        // getInferredAttrs(field: FormFieldAttrs) {
         //   const { style = {} } = field.attrs;
         //   const { before, after } = field;
         //   if ((before || after) && !style.width) {

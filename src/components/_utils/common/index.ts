@@ -7,6 +7,6 @@ export { default as regexp } from "./regexp";
 export * from "./system";
 export * from "./debug";
 export * from "./base";
-export * from "./consts";
+export * from "../../_consts";
 export * from "./_temp";
 export * from "./_init";

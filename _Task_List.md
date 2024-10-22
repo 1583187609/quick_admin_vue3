@@ -248,6 +248,7 @@
 47、完善从虚拟 dom 中获取 innerText 文本的方法（getVNodeInnerText）
 48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的BaseIcon用`<el-icon></el-icon>`形式改写）
 49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
+50、datetimerange 自动设值处理
 
 ## 三、Bug 清单
 

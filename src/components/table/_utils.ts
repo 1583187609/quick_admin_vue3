@@ -160,14 +160,21 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
   let newLev = lev;
   const { children, type, prop, label, visible = true, exportable = true, formatter } = col;
   const specialColAttrs = specialColMap[type as string];
-  const { getAttrs } = specialColAttrs || {};
+  const { getInferredAttrs } = specialColAttrs || {};
   // 如果是index、sort、selection、operate特殊列
   if (type && specialColKeys.includes(type as SpecialTableColType)) {
-    const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, getAttrs?.(col), col);
+    const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, getInferredAttrs?.(col), col);
     return { col: newCol, level: 1 };
   }
   const inferredColAttrs = getInferredColAttrs(col);
-  const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, inferredColAttrs, getAttrs?.(col), col);
+  const newCol = merge(
+    { visible, exportable },
+    defaultColumnAttrs,
+    specialColAttrs,
+    inferredColAttrs,
+    getInferredAttrs?.(col),
+    col
+  );
   if (typeOf(newCol.prop) === "Array") {
     newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   }

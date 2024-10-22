@@ -19,14 +19,13 @@
 </template>
 <script lang="ts" setup>
 import { CommonObj, RouteTo, StrNum } from "@/vite-env";
-import { showMessage } from "./_utils";
+import { showMessage, defaultTooltipAttrs, typeOf } from "./_utils";
 import { useSlots, computed } from "vue";
 import { useRouter } from "vue-router";
-import { typeOf } from "#/mock/utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
 
 const tooltipAttrs = {
-  showAfter: 500,
+  ...defaultTooltipAttrs,
   content: "点击复制",
 };
 const $slots = useSlots();

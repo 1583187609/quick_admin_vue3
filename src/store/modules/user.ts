@@ -10,9 +10,20 @@ import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 // import md5 from "@/services/md5";
 import md5 from "md5";
 
+export enum VipLevel {
+  none = 0, // 非会员
+  common = 1, // 普通会员
+  super = 2, // 超级会员
+}
+
+export type VipLevelKey = keyof typeof VipLevel; // "none" | "common" | "super";
+// export type VipLevelValue = `${VipLevel}`; // '"0" | "1" | "2"
+export type VipLevelValue = 0 | 1 | 2; // 0 | 1 | 2
+
 export default defineStore("user", () => {
   const router = useRouter();
   const route = useRoute();
+  const vipLevel = ref<VipLevelValue>(0); // vip 等级
   const userInfo = ref<CommonObj | null>(storage.getItem("userInfo"));
   const menuStore = useMenuStore();
   // 登录过期时间
@@ -102,6 +113,7 @@ export default defineStore("user", () => {
   }
   return {
     isLogin,
+    vipLevel,
     userInfo,
     handleLoginIn,
     handleLoginOut,

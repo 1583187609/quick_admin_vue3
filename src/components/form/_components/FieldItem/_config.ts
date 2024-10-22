@@ -89,7 +89,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         clearable: true,
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary
         loadingText: "玩命加载中……",
-        getAttrs(field: FormFieldAttrs) {
+        getInferredAttrs(field: FormFieldAttrs) {
           const { remote, multiple } = field.attrs || {};
           const multiAttrs = multiple
             ? {
@@ -121,18 +121,21 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         valueFormat: "YYYY-MM-DD", //绑定值的格式。 不指定则绑定值为 Date 对象
         placeholder: "请选择${label}",
         clearable: true,
-        getAttrs(field: FormFieldAttrs) {
+        getInferredAttrs(field: FormFieldAttrs) {
           const { attrs = {} } = field;
-          const { type } = attrs;
+          const { type, format } = attrs;
           const newAttrs: CommonObj = {};
-          if (!type.includes("range")) return newAttrs;
+          // 如果 format 为 YYYY-MM-DD HH:mm:ss 类型，则将 type 变为 datetimerange 类型
+          if (format?.includes(" ")) newAttrs.type = "datetimerange";
+          const newType = newAttrs.type ?? type;
+          if (!newType.endsWith("range")) return newAttrs;
           const defaultTime = [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)]; // 当选择同一天时，会以[2024-09-03 00:00:00, 2024-09-03 23:59:59]查询
           const rangeMap: CommonObj = {
             daterange: {
               text: "日期",
               attrs: {
                 shortcuts: defaultDateRangeShortcuts,
-                // defaultTime, // 范围选择时选中日期所使用的当日内具体时刻
+                defaultTime, // 范围选择时选中日期所使用的当日内具体时刻
                 // defaultValue: [], //选择器打开时默认显示的时间
               },
             },
@@ -147,7 +150,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
               attrs: {},
             },
           };
-          const { text, attrs: selfAttrs } = rangeMap[type];
+          const { text, attrs: selfAttrs } = rangeMap[newType];
           newAttrs.startPlaceholder = `开始${text}`;
           newAttrs.endPlaceholder = `结束${text}`;
           Object.assign(newAttrs, selfAttrs);
@@ -184,7 +187,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
       attrs: {
         // style: { width: "100%" },
         placeholder: "${label}",
-        // getAttrs(field: FormFieldAttrs) {
+        // getInferredAttrs(field: FormFieldAttrs) {
         //   const { style = {} } = field.attrs;
         //   const { before, after } = field;
         //   if ((before || after) && !style.width) {
@@ -194,11 +197,11 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         // },
       },
     },
-    slider: {
-      attrs: {
-        // showInput: false,
-      },
-    },
+    // slider: {
+    //   attrs: {
+    //     // showInput: false,
+    //   },
+    // },
     autocomplete: {
       attrs: {
         // style: { width: "100%" },

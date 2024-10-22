@@ -1,7 +1,7 @@
 <!-- 设置按钮 -->
 <template>
   <div class="set-btns" :class="size">
-    <el-tooltip :content="btn.title" :show-after="500" v-for="(btn, ind) in newToolBtns" :key="ind">
+    <el-tooltip :content="btn.title" v-bind="defaultTooltipAttrs" v-for="(btn, ind) in newToolBtns" :key="ind">
       <el-button :size="size" :disabled="disabled" @click="onToolBtn(btn.name)" v-bind="btn.attrs" />
     </el-tooltip>
   </div>
@@ -12,19 +12,23 @@ import { Setting, Printer } from "@element-plus/icons-vue";
 import config from "@/config";
 import { ClosePopupInject, CommonObj, CommonSize, OpenPopupInject } from "@/vite-env";
 import { SpecialTableColType, TableColAttrs } from "@/components/table/_types";
-import { defaultCommonSize } from "@/utils";
+import { defaultCommonSize, defaultTooltipAttrs } from "@/utils";
 import { specialColKeys } from "@/components/table";
 import type { SetTableChangeParams } from "./_components/SetTable.vue";
+import { useUserStore } from "@/store";
+
+export type ToolBtnName = "set" | "print";
 
 const SetPrint = defineAsyncComponent(() => import("./_components/SetPrint.vue"));
 const SetTable = defineAsyncComponent(() => import("./_components/SetTable.vue"));
 
-export type ToolBtnName = "set" | "print";
+const userStore = useUserStore();
 
 const toolsMap: CommonObj = {
   print: {
     name: "print",
     title: "打印",
+    show: !!userStore.vipLevel,
     attrs: {
       type: "primary",
       icon: Printer,
@@ -35,6 +39,7 @@ const toolsMap: CommonObj = {
   set: {
     name: "set",
     title: "设置",
+    show: true,
     attrs: {
       type: "primary",
       icon: Setting,
@@ -70,7 +75,7 @@ const cols = computed<TableColAttrs[]>({
   get: () => props.modelValue,
   set: (val: TableColAttrs[]) => $emit("update:modelValue", val),
 });
-const newToolBtns = computed(() => props.toolBtns.map(btn => toolsMap[btn]));
+const newToolBtns = computed(() => props.toolBtns.map(btn => toolsMap[btn]).filter(it => it.show));
 
 function onToolBtn(name: ToolBtnName) {
   const map = {

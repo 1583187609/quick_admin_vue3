@@ -167,8 +167,8 @@ const newField = computed<FormFieldAttrs>(() => {
     const defField = defaultFieldAttrs[type];
     // tempField = merge({ type, required: prefixProp ? true : false }, defField, validField, field);
     tempField = merge({ type }, defField, validField, field);
-    const { getAttrs } = tempField?.attrs ?? {};
-    getAttrs && merge(tempField, { attrs: getAttrs(tempField) }, field);
+    const { getInferredAttrs } = tempField?.attrs ?? {};
+    getInferredAttrs && merge(tempField, { attrs: getInferredAttrs(tempField) }, field);
     let { options } = tempField;
     if (typeof options === "string") tempField.options = getOpts(options as DictName);
     popoverAttrs = tempField.quickAttrs?.popover;

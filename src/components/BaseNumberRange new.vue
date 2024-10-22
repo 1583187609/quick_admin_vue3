@@ -1,5 +1,10 @@
 <template>
-  <el-form-item :prop="prop" :label="label" class="base-number-range" :rules="[{ validator, trigger: ['change', 'blur'] }, ...rules]">
+  <el-form-item
+    :prop="prop"
+    :label="label"
+    class="base-number-range"
+    :rules="[{ validator, trigger: ['change', 'blur'] }, ...rules]"
+  >
     <el-input
       v-model.number="modelVals[0]"
       @change="handleChange"
@@ -27,7 +32,6 @@ import { type FormItemRule } from "element-plus";
 import { CommonObj, StrNum, CommonSize } from "@/vite-env";
 import { useFormItem } from "element-plus";
 import { emptyVals, propsJoinChar, rangeJoinChar, showMessage } from "@/components/_utils";
-import { typeOf } from "#/mock/utils";
 
 type StrNumUnd = StrNum | undefined;
 type ValsArr = StrNumUnd[]; //[StrNumUnd, StrNumUnd]
