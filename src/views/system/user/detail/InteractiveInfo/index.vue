@@ -90,12 +90,12 @@
   </BaseSection>
 </template>
 <script lang="ts" setup>
-import { inject } from "vue";
 import AttitudeList from "./_components/AttitudeList.vue";
 import FriendsList from "./_components/FriendsList.vue";
-import { CommonObj, OpenPopupInject } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 
 const props = withDefaults(
   defineProps<{

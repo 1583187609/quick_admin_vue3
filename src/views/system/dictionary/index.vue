@@ -13,16 +13,16 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { inject } from "vue";
 import { GetMockCommonList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
 const cols: TableCol[] = [
   {

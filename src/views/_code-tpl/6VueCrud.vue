@@ -14,16 +14,17 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, computed } from "vue";
+import { reactive } from "vue";
 import { DeleteUserList, GetMockCommonList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { TableColAttrs } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import AddEdit from "./AddEdit.vue";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 
 const modelData = reactive<CommonObj>({
   xm: "张三",

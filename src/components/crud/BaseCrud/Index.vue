@@ -48,7 +48,14 @@
         :size="tableAttrs?.size ?? size"
       />
     </div>
-    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
+    <slot
+      :loading="loading"
+      :rows="newRows"
+      :total="pageInfo.total"
+      :hasMore="pageInfo.hasMore"
+      :params="params"
+      :onOperateBtns="onOperateBtns"
+    >
       <QueryTable
         :compact="compact"
         :loading="loading"

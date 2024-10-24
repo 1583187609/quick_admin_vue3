@@ -12,15 +12,16 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { inject } from "vue";
 import { GetUserList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
-const openPopup = inject<OpenPopupInject>("openPopup");
+import { CommonObj, FinallyNext } from "@/vite-env";
+import { usePopup } from "@/hooks";
+
+const { openPopup } = usePopup();
 const fields: FormField[] = [
   { prop: "yhid", label: "用户ID" },
   {

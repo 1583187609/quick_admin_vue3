@@ -10,24 +10,25 @@
     @operateBtns="onOperateBtns"
   >
     <template #icon="{ row }">
-      <BaseIcon :name="row.icon" size="22" v-if="row.icon"></BaseIcon>
-      <template v-else>-</template>
+      <BaseIcon :name="row.icon" size="22" v-if="row.icon" />
+      <template v-else>{{ emptyStr }}</template>
     </template>
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject } from "vue";
+import { ref } from "vue";
 import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
-import { handleBtnNext } from "@/utils";
+import { emptyStr, handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const menuTree = ref<MenuTreeNode[]>([]);
 const fields = ref<FormField[]>([
   { prop: "name", label: "菜单名称" },

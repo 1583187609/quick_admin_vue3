@@ -28,7 +28,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject, h } from "vue";
+import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs } from "@/components/form/_types";
 import { SectionFormItemAttrs } from "@/components/form/_types";
 import { CommonObj, OptionItem } from "@/vite-env";
@@ -36,10 +36,10 @@ import { exampleMap } from "./_config";
 import SectionForm from "@/components/form/SectionForm.vue";
 import Config from "./_components/Config.vue";
 import { omitAttrs, typeOf } from "@/utils";
-import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { OpenPopupInject } from "@/components/BasicPopup/_types";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
+
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

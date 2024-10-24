@@ -125,22 +125,22 @@
   </CustomCrud>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, watch } from "vue";
+import { reactive, watch } from "vue";
 import { GetImSearchFromUserList, GetImSearchFriendList, GetImSearchP2pChatList } from "@/api-mock";
 import { Search } from "@element-plus/icons-vue";
 import CustomCrud from "@/components/crud/CustomCrud/Index.vue";
 import { FormField } from "@/components/form/_types";
 import UserItem from "./_components/UserItem.vue";
 import MsgItem from "./_components/MsgItem/Index.vue";
-import { useSelectOpts } from "@/hooks";
-import { CommonObj, OpenPopupInject, StrNum } from "@/vite-env";
+import { usePopup, useSelectOpts } from "@/hooks";
+import { CommonObj, StrNum } from "@/vite-env";
 import LoadMore from "@/components/LoadMore.vue";
-import dayjs from "dayjs";
 import SearchMsg from "./_components/SearchMsg.vue";
+import dayjs from "dayjs";
 
 type ChatListQueryDirection = "prev" | "next"; //prev 向上/以前（默认） next向下/以后
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const { getSearchOpts } = useSelectOpts();
 const paddingBottom = 250;
 const doubleTypes = [8001, 8003, 8004, 8005, 8006];

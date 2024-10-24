@@ -11,17 +11,18 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
 import { GetAuthRoleList, DeleteAuthRoleList } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const fields = ref<FormField[]>([
   {
     prop: "role_type",

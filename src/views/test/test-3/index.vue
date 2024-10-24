@@ -123,16 +123,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, reactive, inject, h } from "vue";
+import { ref, onMounted, reactive, h } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon, PostMockCommonUpdate } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
 import { TableCol, TableColAttrs } from "@/components/table/_types";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/views/_components/InfoSteps.vue";
 import AuthInfo from "@/views/_components/AuthInfo.vue";
-import { useSelectOpts } from "@/hooks";
+import { usePopup, useSelectOpts } from "@/hooks";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import { useRoute, useRouter } from "vue-router";
 import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
@@ -158,7 +158,7 @@ const testImportCfg = {
     { prop: "labelName", label: "标签名称" },
   ],
 };
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const route = useRoute();
 const router = useRouter();
 const baseCrudRef = ref<any>(null);
@@ -292,7 +292,11 @@ const cols: TableCol[] = [
             sections: [
               {
                 name: "描述",
-                desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
+                desc: [
+                  "单个项目的常用组件，采用内嵌至系统的方式。",
+                  "预设了列宽，prop等属性",
+                  "可通过attrs传入UserInfo组件的props属性",
+                ],
               },
               { name: "设置", desc: `{type: "UserInfo"}` },
             ],
@@ -392,7 +396,11 @@ const cols: TableCol[] = [
             sections: [
               {
                 name: "描述",
-                desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
+                desc: [
+                  "任意项目的常用组件，采用内置至系统的方式。",
+                  "点击整个文本域进行复制",
+                  "可通过attrs传入BaseCopy的props属性",
+                ],
               },
               { name: "设置", desc: `{type: "BaseCopy"}` },
             ],
@@ -422,7 +430,11 @@ const cols: TableCol[] = [
             sections: [
               {
                 name: "描述",
-                desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
+                desc: [
+                  "任意项目的常用组件，采用内置至系统的方式。",
+                  "点击文本跳转页面，点击图标进行复制",
+                  "可通过attrs传入BaseCopy的props属性",
+                ],
               },
               { name: "设置", desc: `{type: "BaseCopy"}` },
             ],

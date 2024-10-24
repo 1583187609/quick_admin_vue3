@@ -18,14 +18,15 @@
   ></BaseCrud>
 </template>
 <script lang="ts" setup>
-import { reactive, inject } from "vue";
+import { reactive } from "vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { FormField } from "@/components/form/_types";
 import { GetMockCommonList } from "@/api-mock";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
-import { OpenPopupInject } from "@/components/BasicPopup/_types";
-const openPopup = inject<OpenPopupInject>("openPopup");
+import { usePopup } from "@/hooks";
+
+const { openPopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

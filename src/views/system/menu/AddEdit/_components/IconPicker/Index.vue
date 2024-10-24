@@ -8,13 +8,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed } from "vue";
+import { computed } from "vue";
 import { useFormItem } from "element-plus";
 import SelectIcon from "./_components/SelectIcon.vue";
-import { ClosePopupInject, OpenPopupInject } from "@/components/BasicPopup/_types";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
-const closePopup = inject<ClosePopupInject>("closePopup");
+const { openPopup, closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     modelValue?: string;

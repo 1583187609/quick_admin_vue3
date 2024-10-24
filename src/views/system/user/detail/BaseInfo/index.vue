@@ -14,7 +14,12 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog', true)">
+        <el-button
+          type="success"
+          style="width: 5em"
+          size="small"
+          @click="openPopup(null, '是否要重新比对人脸？', 'dialog', true)"
+        >
           比对人脸
         </el-button>
       </div>
@@ -37,8 +42,12 @@
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
         </div>
         <div class="comment mr-a f-fs-c">
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive"> 正面评价({{ 3 }}) </el-button>
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative"> 负面评价({{ 3 }}) </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive">
+            正面评价({{ 3 }})
+          </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative">
+            负面评价({{ 3 }})
+          </el-button>
         </div>
         <div class="attitude f-fs-c">
           <el-button type="warning" size="small" text @click="openReportListPopup(1)" class="item">举报({{ 3 }})</el-button>
@@ -94,7 +103,7 @@
   </BaseSection>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject } from "vue";
+import { ref, reactive } from "vue";
 import ImgItem from "./_components/ImgItem.vue";
 import { ElMessage } from "element-plus";
 import RejectAvatar from "./_components/RejectAvatar.vue";
@@ -104,13 +113,12 @@ import LoveList from "./_components/LoveList.vue";
 import EvaluateList from "./_components/EvaluateList.vue";
 import AboutList from "./_components/AboutList.vue";
 import AboutTitle from "./_components/AboutTitle.vue";
-import { ClosePopupInject, CommonObj, OpenPopupInject } from "@/vite-env";
-import { useDict } from "@/hooks";
+import { CommonObj } from "@/vite-env";
+import { useDict, usePopup } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
-const closePopup = inject<ClosePopupInject>("closePopup");
+const { openPopup, closePopup } = usePopup();
 const { getOpts, getText } = useDict();
 const genderOpts = getOpts("Gender");
 const infoStatusMap: CommonObj = {

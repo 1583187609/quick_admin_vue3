@@ -13,14 +13,15 @@
   ></BaseForm>
 </template>
 <script lang="ts" setup>
-import { inject } from "vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { BtnName } from "@/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
-import { OpenPopupInject } from "@/components/BasicPopup/_types";
-const openPopup = inject<OpenPopupInject>("openPopup");
+import { usePopup } from "@/hooks";
+
+const { openPopup } = usePopup();
+
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

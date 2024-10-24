@@ -22,17 +22,18 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
 import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
 import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },

@@ -29,14 +29,15 @@
 import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/components/form/_types";
 import { TableCol } from "@/components/table/_types";
-import { ref, reactive, inject } from "vue";
+import { ref, reactive } from "vue";
 import { BtnName } from "@/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import FormPopup from "./FormPopup.vue";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
+import { usePopup } from "@/hooks";
 
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const modelData = reactive<CommonObj>({ age: [20, 30] });
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },

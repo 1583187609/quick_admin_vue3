@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {  inject } from "vue";
+import { inject } from "vue";
 import { OpenPopupInject, ClosePopupInject } from "@/vite-env";
 
 const openPopup = inject<OpenPopupInject>("openPopup");

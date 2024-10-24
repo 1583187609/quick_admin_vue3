@@ -44,18 +44,19 @@ meta:
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { GetUserLoginAccounts } from "@/api-mock";
 import { FormFieldAttrs } from "@/components/form/_types";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
-import { CommonObj, OpenPopupInject } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import { storage } from "@/utils";
 import { useUserStore } from "@/store";
+import { usePopup } from "@/hooks";
 
 const { VITE_APP_NAME } = import.meta.env;
-const openPopup = inject<OpenPopupInject>("openPopup");
+const { openPopup } = usePopup();
 const userStore = useUserStore();
 const loading = ref(false);
 const accountOpts = ref<CommonObj[]>([]);

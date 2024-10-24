@@ -145,6 +145,7 @@
 109、自测 dialog 和 drawer 内部自动计算自适应滚动高度（并可以考虑将两个的共用逻辑提取成 hooks）
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
+112、扩展常用弹窗 `openPopupByName('name',{onConfirm(){}, onCancel(){}},{...attrs})`, 依次为弹窗类型名称、弹窗属性，弹窗内部组件属性
 
 ## TS 类型处理
 
@@ -249,6 +250,7 @@
 48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的BaseIcon用`<el-icon></el-icon>`形式改写）
 49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
 50、datetimerange 自动设值处理
+51、接入自动引入 vue、vue-router api 的 npm 包 `unplugin-auto-import/vite`
 
 ## 三、Bug 清单
 
