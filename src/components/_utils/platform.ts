@@ -214,11 +214,24 @@ export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string |
   if (t === "String") return { ...defaultPopoverAttrs, width: defaultPopoverWidth, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if (isVNode(popover) || (popover as RenderVue).render) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if (isVNode(popover) || (popover as RenderVue).render)
+      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: h(...popover) } } as PopoverAttrs;
   throw new Error(`暂不支持此popover类型：${t}`);
+}
+
+/**
+ * 获取插槽映射
+ * @param {any} slots 插槽值
+ * @returns {Object}
+ */
+export function getSlotsMap(slots: any) {
+  const t = typeOf(slots);
+  if (t === "String") return { default: slots };
+  if ((t === "Array" && slots.length <= 3) || (t === "Object" && (slots.setup || isVNode(slots)))) return { default: slots };
+  return slots;
 }
 
 /**

@@ -90,12 +90,12 @@ const fields = computed<FormField[]>(() => {
       required: true,
       attrs: {
         showWordLimit: false,
+        slots: {
+          prefix: h(BaseIcon, { name: "User", size: "24" }),
+        },
       },
       quickAttrs: {
         // rulesType: "phone",
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "User", size: "24" }),
       },
     },
     type.value !== "login" && {
@@ -106,21 +106,23 @@ const fields = computed<FormField[]>(() => {
       attrs: {
         maxlength: 4,
         showWordLimit: false,
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "Clock", size: "24" }),
-        append: CaptchaBtn,
+        slots: {
+          prefix: h(BaseIcon, { name: "Clock", size: "24" }),
+          append: CaptchaBtn,
+        },
       },
     },
     {
       prop: "password",
       label: "密码",
       required: true,
+      attrs: {
+        slots: {
+          prefix: h(BaseIcon, { name: "Lock", size: "24" }),
+        },
+      },
       quickAttrs: {
         rulesType: "password",
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "Lock", size: "24" }),
       },
     },
     type.value === "register" && {
@@ -130,12 +132,12 @@ const fields = computed<FormField[]>(() => {
       rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
       attrs: {
         placeholder: "请再次输入密码",
+        slots: {
+          prefix: h(BaseIcon, { name: "Unlock", size: "24" }),
+        },
       },
       quickAttrs: {
         rulesType: "password",
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "Unlock", size: "24" }),
       },
     },
     type.value === "login" && {

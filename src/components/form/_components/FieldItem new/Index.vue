@@ -62,8 +62,7 @@
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { h, ref, computed } from "vue";
 import _ from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, getPopoverAttrs, defaultFormItemType } from "@/components/_utils";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType } from "@/components/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
 import { defaultFieldAttrs, defaultRulesTypes } from ".";
@@ -78,7 +77,6 @@ import BaseRender from "@/components/BaseRender.vue";
 import BaseNumberRange from "@/components/BaseNumberRange.vue";
 import BaseUpload from "@/components/upload/BaseUpload.vue";
 import BaseEditor from "@/components/BaseEditor.vue";
-import { getWidgetMap } from "./_config";
 import {
   ElSelect,
   ElOption,

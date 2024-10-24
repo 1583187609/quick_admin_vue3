@@ -333,13 +333,13 @@ export const defaultRulesTypes: CommonObj = getExportData(
         precision: 2,
         step: 0.1,
         controlsPosition: "right",
+        // slots: {
+        //   suffix: "￥", // 要2.8.4以上才支持
+        // },
       },
       quickAttrs: {
         after: "元",
       },
-      // slots: {
-      //   suffix: "￥", // 要2.8.4以上才支持
-      // },
     },
     //年龄
     age: {
@@ -347,13 +347,13 @@ export const defaultRulesTypes: CommonObj = getExportData(
       attrs: {
         min: 0,
         max: 100,
+        // slots: {
+        //   suffix: "岁", // 要2.8.4以上才支持
+        // },
       },
       quickAttrs: {
         after: "岁",
       },
-      // slots: {
-      //   suffix: "岁", // 要2.8.4以上才支持
-      // },
     },
   },
   formCfg?.defaultRulesTypes

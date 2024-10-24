@@ -136,7 +136,7 @@
 96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable（拖拽排序功能待完善）支持可传入函数，以及 TS 类型处理
 99、完善图片上传 BaseUpload 组件
 104、最好去掉 BaseCrud 中的 showPagination 属性
-106、将 BaseTable、BaseCrud 的公共 props 属性合并
+106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
 107、换用 pnpm 进行包管理，且只允许 pnpm
 
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
@@ -145,7 +145,9 @@
 109、自测 dialog 和 drawer 内部自动计算自适应滚动高度（并可以考虑将两个的共用逻辑提取成 hooks）
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
-112、扩展常用弹窗 `openPopupByName('name',{onConfirm(){}, onCancel(){}},{...attrs})`, 依次为弹窗类型名称、弹窗属性，弹窗内部组件属性
+~~112、扩展常用弹窗 `openPopupByName('name',{onConfirm(){}, onCancel(){}},{...attrs})`, 依次为弹窗类型名称、弹窗属性，弹窗内部组件属性~~
+113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
+114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现
 
 ## TS 类型处理
 
@@ -166,7 +168,7 @@
 63、接入钉钉或飞书群通知消息
 17、vue3 封装敏感词、错别字检查的 WangEditor 组件
 18、生成 docs 文档
-19、生成 api 文件
+19、生成 api 文件（提取成 npm 包，Quickly generate api files）
 77、上传文件加一项，上传 zip 压缩文件（选择后，解压缩并展开，可勾选部分文件进行上传）
 25、增加个性化工作台可以拖动改变布局甚至大小处理功能（拖拽组件，可拖动的工作台）
 26、echarts 图表
@@ -174,8 +176,6 @@
 19、BaseCurd 打印功能  
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
 21、用上之前内江市国资委系统的皮肤
-44、BaseTable、BaseForm 等的暴露方法处理
-45、打印设置功能
 46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算、组按钮的属性值及计算
 
 ## 未来功能清单
@@ -240,8 +240,7 @@
 45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度  
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦    
-38、打开或关闭弹窗时是否销毁（默认不销毁） 
-40、优化全局加载的图标及样式（在 index.html 中） 
+40、优化全局加载的图标及样式（在 index.html文件中） 
 41、使用位运算等优化代码  
 43、将 mock 数据进行缓存
 44、将缓存数据采用本地数据库或其他方式存储（要缓存的数据：字典映射、mock 数据）
@@ -316,6 +315,7 @@
 ~~59、右上角头像 - 个人资料 - 点击编辑按钮 - 再点击查看按钮（不能回到有编辑按钮的页面了）~~  
 ~~60、右上角头像 - 个人资料 - 点击编辑按钮 - 上方的头像的删除图标被挡住了~~  
 ~~30、图片上传组件处理（并实现默认本地上传并展示出来）~~  
+~~75、处理 BaseForm `type='cell' pureText` 时，custom 列未靠上对齐，tabs 的头部应该固定，底部自适应高度滚动，还有疑问气泡未跟 label 文字水平对齐，复现页面：/system/user/detail~~
 34、vue 动态与非动态路由加载优化；
 47、FormItem 为 date-picker，type 为 dateRange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错
 61、BaseForm 的 @change 事件对 input 未生效，上级菜单选中后，也未触发 change 事件（系统管理 -> 菜单管理）；顺便让初始时候不要触发 change 事件  
@@ -326,7 +326,6 @@
 71、BaseForm 上设置 `label-suffix="："` 不生效
 73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
 74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
-75、处理 BaseForm `type='cell' pureText` 时，custom 列未靠上对齐，tabs 的头部应该固定，底部自适应高度滚动，还有疑问气泡未跟 label 文字水平对齐，复现页面：/system/user/detail
 76、优化 BaseNumberRange 嵌套层级
 
 ## 四、Vue 极致优化清单

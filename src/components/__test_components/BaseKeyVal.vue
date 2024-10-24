@@ -24,7 +24,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { toCssVal, typeOf, getPopoverAttrs, emptyVals } from "@/components/_utils";
+import { toCssVal, typeOf, emptyVals } from "@/components/_utils";
 import { StrNum } from "@/vite-env";
 import { PopoverAttrs } from "@/components/_types";
 import { DictName } from "@/dict/_types";

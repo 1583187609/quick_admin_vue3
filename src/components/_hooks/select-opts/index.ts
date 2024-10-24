@@ -28,7 +28,7 @@ const typeMap: CommonObj = {
       return {
         label: fullName,
         value: id,
-        optionRender: [CompanyOption, { fullName, shortName }],
+        slots: [CompanyOption, { fullName, shortName }],
       };
     },
   },

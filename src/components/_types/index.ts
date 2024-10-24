@@ -39,7 +39,7 @@ export interface OptionItem {
   label?: string;
   disabled?: boolean;
   children?: OptionItem[];
-  optionRender?: BaseRenderData;
+  slots?: BaseRenderData; // {default: ''} 或 [], 或 h(), 或引入的组件
 }
 
 // el-tab-pane 的 props 属性

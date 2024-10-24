@@ -1,5 +1,5 @@
 import { FormRules } from "element-plus";
-import { BaseRenderData, SlotsType } from "@/components/BaseRender.vue";
+import { BaseRenderComponentType, BaseRenderData, SlotsType } from "@/components/BaseRender.vue";
 import { BaseDataType, CommonSize, OptionItem, StrNum } from "@/vite-env";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
@@ -59,6 +59,7 @@ export type Grid = number | string | ElColAttrs;
 export interface WidgetAttrs {
   placeholder?: string;
   fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
+  slots?: SlotsType; // 各个控件的插槽
   [key: string]: any;
 }
 
@@ -91,8 +92,11 @@ export interface FormFieldAttrs {
   children?: FormField[]; //字段子项
   /** 控件（input、select……）的属性，例：placeholder **/
   attrs?: WidgetAttrs;
-  /** 插槽 **/
-  slots?: SlotsType;
+  /** el-form-item的插槽 **/
+  slots?: {
+    label?: BaseRenderComponentType;
+    error?: BaseRenderComponentType;
+  };
 }
 
 export interface StandardFormFieldAttrs extends FormFieldAttrs {

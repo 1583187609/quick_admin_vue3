@@ -323,29 +323,31 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "dhhm",
       label: "电话号码",
+      attrs: {
+        placeholder: "电话号码（这是自定义的placeholder）",
+        slots: {
+          prefix: "Tel",
+        },
+      },
       quickAttrs: {
         rulesType: "phone",
         tips: "prefix插槽插入图标（传入文本）；内置电话号码校验；自定义placeholder",
-      },
-      attrs: {
-        placeholder: "电话号码（这是自定义的placeholder）",
-      },
-      slots: {
-        prefix: "Tel",
       },
     },
     {
       prop: "mm",
       label: "密码",
+      attrs: {
+        slots: {
+          // prefix: h(BaseIcon, { name: "Lock" }),
+          // prefix: h(ElButton, {type: "primary" },'按钮'),
+          prefix: [BaseIcon, { name: "Lock" }],
+          // prefix: [ElButton, { type: "primary" }, { default: "按钮" }],
+        },
+      },
       quickAttrs: {
         rulesType: "password",
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
-      },
-      slots: {
-        // prefix: h(BaseIcon, { name: "Lock" }),
-        // prefix: h(ElButton, {type: "primary" },'按钮'),
-        prefix: [BaseIcon, { name: "Lock" }],
-        // prefix: [ElButton, { type: "primary" }, { default: "按钮" }],
       },
     },
     {
@@ -419,13 +421,15 @@ const fields = computed<FormField[]>(() => {
       prop: "jzw",
       label: "是否记住我",
       type: "checkbox",
+      attrs: {
+        slots: "记住我",
+        // slots: {
+        //   default: "记住我",
+        // },
+      },
       quickAttrs: {
         tips: "用slots.default改变多选框右侧的文字（默认跟label一样）",
       },
-      slots: "记住我",
-      // slots: {
-      //   default: "记住我",
-      // },
     },
     {
       prop: "ssq",

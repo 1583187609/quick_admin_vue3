@@ -5,21 +5,6 @@
 import { CommonObj } from "@/vite-env";
 
 /**
- * 获取时间阶段
- */
-export function getTimePeriodAlias() {
-  const hours = new Date().getHours();
-  if (hours < 1) return "凌晨";
-  if (hours < 8) return "清晨";
-  if (hours < 11) return "上午";
-  if (hours < 13) return "中午";
-  if (hours < 18) return "下午";
-  if (hours < 20) return "傍晚";
-  if (hours < 23) return "晚上";
-  return "深夜";
-}
-
-/**
  * 计算百分比
  * @param {number} num 当前值
  * @param {number} total 值总数

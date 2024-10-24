@@ -66,6 +66,21 @@ export function exportExcel(
 }
 
 /**
+ * 获取时间阶段
+ */
+export function getTimePeriodAlias() {
+  const hours = new Date().getHours();
+  if (hours < 1) return "凌晨";
+  if (hours < 8) return "清晨";
+  if (hours < 11) return "上午";
+  if (hours < 13) return "中午";
+  if (hours < 18) return "下午";
+  if (hours < 20) return "傍晚";
+  if (hours < 23) return "晚上";
+  return "深夜";
+}
+
+/**
  * 获取时间（几年/月/天/小时/分钟前）
  * @param {any} time 要处理的时间
  */
