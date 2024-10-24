@@ -4,12 +4,8 @@
     :class="{ 'label-h-center': !!currPopover, [`value-v-${newField?.quickAttrs?.valueAlignContent}`]: true }"
     v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options', 'slots'])"
   >
-    <!-- <template #label v-if="(!prefixProp || newField.labelWidth) && newField.label">
-      <BaseRender :data="newField.label" />
-      <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
-    </template> -->
-    <!-- el-form-item 的 label 或 error 插槽 -->
-    <template #[key] v-for="(val, key) in getFormItemSlots(newField?.slots)" :key="key">
+    <!-- el-form-item 的插槽(label、error等) -->
+    <template #[key] v-for="(val, key) in getFormItemSlots(newField, size)" :key="key">
       <BaseRender :data="val" />
     </template>
     <div class="mr-h" v-if="newField.quickAttrs?.before">
@@ -43,14 +39,11 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'select'"
         >
-          <template v-for="(opt, ind) in newField.options" :key="ind">
-            <el-option v-bind="deleteAttrs(opt, ['slots'])" v-if="opt?.slots">
-              <template #[key] v-for="(val, key) in getSlotsMap(opt.slots)" :key="key">
-                <BaseRender :data="val" />
-              </template>
-            </el-option>
-            <el-option v-bind="opt" v-else />
-          </template>
+          <el-option v-for="(opt, ind) in newField.options" :key="ind" v-bind="deleteAttrs(opt, ['slots'])">
+            <template #[key] v-for="(val, key) in getSlotsMap(opt.slots)" :key="key">
+              <BaseRender :data="val" />
+            </template>
+          </el-option>
           <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
             <BaseRender :data="val" />
           </template>
@@ -184,7 +177,6 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'checkbox'"
         >
-          <!-- <BaseRender :data="newField?.attrs?.slots?.default ?? newField.label" /> -->
           <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
             <BaseRender :data="val" />
           </template>
@@ -243,8 +235,7 @@
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { ref, computed, h } from "vue";
-import _ from "lodash";
-import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getSlotsMap } from "@/components/_utils";
+import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getSlotsMap, getFormItemSlots } from "@/components/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/components/form/_types";
 import { FormItemRule } from "element-plus";
@@ -257,6 +248,7 @@ import { RuleItem } from "./_types";
 import { defaultCommonSize } from "@/components/_utils";
 import { DictName } from "@/dict/_types";
 import QuestionPopover from "@/components/QuestionPopover.vue";
+import _ from "lodash";
 
 const { merge, cloneDeep } = _;
 const props = withDefaults(
@@ -292,7 +284,6 @@ const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
   const { type: fType, label, quickAttrs = {}, children } = field;
-  const { slots } = field?.attrs ?? {};
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   // let tempField: FormFieldAttrs = commonClone(field);
   const hasChildren = !!children?.length;
@@ -330,12 +321,10 @@ const newField = computed<FormFieldAttrs>(() => {
     getInferredAttrs && merge(tempField, { attrs: getInferredAttrs(tempField) }, field);
     if (typeof tempField.options === "string") tempField.options = getOpts(tempField.options as DictName);
     currPopover = tempField.quickAttrs?.popover;
-    // if (currPopover) tempField.slots = getFormItemSlots(tempField);
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
     if (tempField.attrs) {
       tempField.attrs.placeholder = getPlaceholder(tempField);
-      // tempField.attrs.slots = getSlotsMap(slots);
     }
   }
   if (tempField.attrs) {
@@ -358,22 +347,6 @@ const newField = computed<FormFieldAttrs>(() => {
   // }
   return tempField;
 });
-/**
- * 获取 el-form-item 的插槽
- * @param field
- */
-function getFormItemSlots(field: FormFieldAttrs) {
-  const { size } = props;
-  const { label, slots, quickAttrs = {} } = field;
-  const { popover } = quickAttrs;
-  if (!popover) return slots;
-  const questionIcon = h(QuestionPopover, { popover, size });
-  const labelIconSlost = { label: h("div", [h("span", label), questionIcon]) }; // h("template", [label, questionIcon])
-  if (!slots) return labelIconSlost;
-  // slots.label = h("template", [slots.label, questionIcon]);
-  slots.label = slots.label ? h("div", [slots.label, questionIcon]) : labelIconSlost;
-  return slots;
-}
 const flexClass = { "f-1": newField.value.quickAttrs?.before ?? newField.value.quickAttrs?.after };
 /**
  * 获取 placeholder 文本

@@ -8,7 +8,7 @@ import config from "@/config";
 import type { ConfigMergeStrategy } from "@/config/_types";
 import { CommonObj, StrNum } from "@/vite-env";
 import { BtnName } from "@/components/BaseBtn/_types";
-import { propsJoinChar, emptyVals } from "../../_consts";
+import { propsJoinChar, emptyVals } from "@/utils";
 
 const { merge, cloneDeep } = _;
 
@@ -254,11 +254,7 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(
-  sysData: any,
-  customData?: any,
-  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
-) {
+export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean"].includes(typeof sysData); //如果是基础数据类型
@@ -361,23 +357,3 @@ export function getIsOver(target: any) {
 //   }
 //   return false;
 // }
-
-/**
- * 获取虚拟dom的innerText
- * @param {object} vNode 虚拟dom对象
- * @returns string 虚拟dom中的文本内容
- */
-export function getVNodeInnerText(vNode) {
-  // const collectText = (vNode, text = "") => {
-  //   if (typeof vNode.children === "string") {
-  //     text += vNode.children;
-  //   } else if (Array.isArray(vNode.children)) {
-  //     vNode.children.forEach(child => {
-  //       text += collectText(child);
-  //     });
-  //   }
-  //   return text;
-  // };
-  // return collectText(vNode);
-  return "";
-}

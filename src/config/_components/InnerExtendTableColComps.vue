@@ -15,8 +15,8 @@
   <el-input v-model="newRow[col.prop]" v-bind="col.attrs" @change="handleInputChange" v-else-if="col.type === 'input'" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { propsJoinChar, deleteAttrs, devErrorTips, showMessage, renderValue, getVNodeInnerText } from "@/components/_utils";
+import { reactive, computed } from "vue";
+import { deleteAttrs, showMessage } from "@/components/_utils";
 import { TableColAttrs } from "@/components/table/_types";
 import { CommonObj } from "@/vite-env";
 

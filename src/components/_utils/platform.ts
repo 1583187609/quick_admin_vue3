@@ -9,8 +9,10 @@ import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf } from 
 import { FormField, FormFieldAttrs } from "@/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
-import { PopoverAttrs, PopoverSlots } from "@/components/_types";
+import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
 import { HArgs, RenderVue } from "@/components/BaseRender.vue";
+import QuestionPopover from "@/components/QuestionPopover.vue";
+import MarkIcon from "@/components/MarkIcon.vue";
 
 export const noAuthPaths = ["/login"]; //不需要授权就能登录的页面
 export const errorPaths = ["/403", "/404", "/500"];
@@ -214,8 +216,7 @@ export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string |
   if (t === "String") return { ...defaultPopoverAttrs, width: defaultPopoverWidth, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if (isVNode(popover) || (popover as RenderVue).render)
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if (isVNode(popover) || (popover as RenderVue).render) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: h(...popover) } } as PopoverAttrs;
@@ -231,6 +232,68 @@ export function getSlotsMap(slots: any) {
   const t = typeOf(slots);
   if (t === "String") return { default: slots };
   if ((t === "Array" && slots.length <= 3) || (t === "Object" && (slots.setup || isVNode(slots)))) return { default: slots };
+  return slots;
+}
+
+/**
+ * 获取 el-form-item 的插槽
+ * @param field
+ */
+export function getFormItemSlots(field: any, size?: CommonSize) {
+  const { label, slots, quickAttrs = {} } = field;
+  const { popover } = quickAttrs;
+  if (!popover) return slots;
+  const questionIcon = h(QuestionPopover, { popover, size });
+  const labelIconSlots = { label: h("span", [label, questionIcon]) };
+  if (!slots) return labelIconSlots;
+  slots.label = slots.label ? h("span", [slots.label, questionIcon]) : labelIconSlots;
+  return slots;
+}
+
+// const isMark = computed(() => {
+//   const isNo = getIsNoHandle();
+//   if (!isNo) return false;
+//   const { minWidth, width } = props.col;
+//   const obj: TableColAttrs = {};
+//   if (minWidth !== undefined) {
+//     obj.minWidth = Number(minWidth) + markWidth;
+//   }
+//   if (width !== undefined) {
+//     obj.width = Number(width) + markWidth;
+//   }
+//   $emit("update:colAttrs", obj);
+//   return true;
+// });
+
+/**
+ * 获取el-table-column 的插槽
+ * @param col
+ */
+export function getTableColumnSlots(col: any, quickAttrs = {}, size?: CommonSize, cb?: (col: TableColAttrs) => void) {
+  const { label, slots, minWidth, width } = col;
+  const { popover } = quickAttrs;
+  const isMark = false;
+  // const markWidth = 20;
+  // if (isMark) {
+  //   const obj: TableColAttrs = {};
+  //   if (minWidth !== undefined) {
+  //     obj.minWidth = Number(minWidth) + markWidth;
+  //   }
+  //   if (width !== undefined) {
+  //     obj.width = Number(width) + markWidth;
+  //   }
+  //   cb?.(obj);
+  // }
+  const questionIcon = h(QuestionPopover, { popover, size });
+  if (!popover) {
+    // if (!isMark) return slots;
+    // if (!slots) return { header: h("span", [label, h(MarkIcon)]) };
+    // slots.header = slots.header ? { header: "" ?? h("span", [slots.header, h(MarkIcon)]) } : "";
+    return slots;
+  }
+  const labelIconSlots = { header: h("span", [label, questionIcon, isMark ? h(MarkIcon) : ""]) };
+  if (!slots) return labelIconSlots;
+  // slots.header = slots.header ? h("span", [slots.header, questionIcon, isMark ? h(MarkIcon) : ""]) : labelIconSlots;
   return slots;
 }
 

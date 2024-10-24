@@ -292,11 +292,7 @@ const cols: TableCol[] = [
             sections: [
               {
                 name: "描述",
-                desc: [
-                  "单个项目的常用组件，采用内嵌至系统的方式。",
-                  "预设了列宽，prop等属性",
-                  "可通过attrs传入UserInfo组件的props属性",
-                ],
+                desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
               },
               { name: "设置", desc: `{type: "UserInfo"}` },
             ],
@@ -396,11 +392,7 @@ const cols: TableCol[] = [
             sections: [
               {
                 name: "描述",
-                desc: [
-                  "任意项目的常用组件，采用内置至系统的方式。",
-                  "点击整个文本域进行复制",
-                  "可通过attrs传入BaseCopy的props属性",
-                ],
+                desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
               },
               { name: "设置", desc: `{type: "BaseCopy"}` },
             ],
@@ -430,11 +422,7 @@ const cols: TableCol[] = [
             sections: [
               {
                 name: "描述",
-                desc: [
-                  "任意项目的常用组件，采用内置至系统的方式。",
-                  "点击文本跳转页面，点击图标进行复制",
-                  "可通过attrs传入BaseCopy的props属性",
-                ],
+                desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
               },
               { name: "设置", desc: `{type: "BaseCopy"}` },
             ],
@@ -445,9 +433,12 @@ const cols: TableCol[] = [
   },
   {
     prop: "type_text",
-    // label: "自定义多维度",
-    label: h(CustomColHead),
+    label: "$自定义多维度$",
+    // label: h(CustomColHead),
     minWidth: 210,
+    slots: {
+      header: h(CustomColHead),
+    },
     quickAttrs: {
       // popover: "这是自定义popover示例（传入字符串）",
       // popover: { title: "这是标题", width: 320, content: "这是自定义popover示例（传入属性对象）" },
@@ -538,7 +529,6 @@ const cols: TableCol[] = [
   {
     prop: "status",
     label: "编辑内容",
-    type: "input",
     quickAttrs: {
       handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate({}).then((res: any) => next()),
     },

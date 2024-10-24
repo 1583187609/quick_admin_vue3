@@ -21,25 +21,26 @@
       </el-table-column>
       <template v-else>
         <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
-        <el-table-column v-bind="newCol" v-if="newCol.formatter">
-          <template #header="scope">
+        <el-table-column v-bind="deleteAttrs(newCol, ['slots'])" v-if="newCol.formatter">
+          <!-- <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <ColHead :col="newCol" :popover="popoverAttrs" :scope="scope" @update:colAttrs="handleUpdateCol" />
+              <ColHead :col="newCol" :popover="currPopover" :scope="scope" @update:colAttrs="handleUpdateCol" />
             </slot>
+          </template> -->
+          <template #[key] v-for="(val, key) in getTableColumnSlots(newCol, currQuickAttrs, size, _col => $emit('update:colAttrs', _col))" :key="key">
+            <BaseRender :data="val" />
           </template>
         </el-table-column>
-        <el-table-column v-bind="newCol" v-else>
-          <template #header="scope">
+        <el-table-column v-bind="deleteAttrs(newCol, ['slots'])" v-else>
+          <!-- <template #header="scope">
             <slot name="header" v-bind="{ ...scope, col: newCol }">
-              <ColHead :col="newCol" :popover="popoverAttrs" :scope="scope" @update:colAttrs="handleUpdateCol" />
+              <ColHead :col="newCol" :popover="currPopover" :scope="scope" @update:colAttrs="handleUpdateCol" />
             </slot>
+          </template> -->
+          <template #[key] v-for="(val, key) in getTableColumnSlots(newCol, currQuickAttrs, size, _col => $emit('update:colAttrs', _col))" :key="key">
+            <BaseRender :data="val" />
           </template>
           <template #default="{ row, column, $index }">
-            <!-- <BaseRender
-            :data="devErrorTips(newCol.prop as string)"
-            v-if="!specialColKeys.includes(newCol.type) && row[newCol.prop as string] === undefined"
-          /> -->
-            <!-- <template v-else> -->
             <template v-if="!newCol.type">
               <slot v-bind="{ row, column, $index, col: newCol }">{{ renderValue(row[newCol.prop as string]) }}</slot>
             </template>
@@ -62,7 +63,6 @@
             <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'" />
             <!-- 创建和修改列（后面再考虑优化） -->
             <template v-else-if="['create', 'update'].includes(newCol.type)">
-              <!-- {{ getSplitPropsVal(row, newCol.prop) }} -->
               <template v-if="newCol.prop?.includes(propsJoinChar)">
                 <div>
                   <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 0) " />
@@ -96,18 +96,18 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { propsJoinChar, deleteAttrs, devErrorTips, showMessage, renderValue, getVNodeInnerText } from "@/components/_utils";
+import { propsJoinChar, deleteAttrs, renderValue, getTableColumnSlots } from "@/components/_utils";
 import { BtnItem } from "@/components/BaseBtn/_types";
 import { TableColAttrs } from "@/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "@/components/table/_components/GroupBtns.vue";
 import InsertCustomTableColComps from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/vite-env";
 import ColHead from "./ColHead.vue";
 import { defaultCommonSize } from "@/components/_utils";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/components/_types";
-import { operateBtnsEmitName, specialColKeys } from "..";
+import { operateBtnsEmitName } from "..";
 import { isOptimization } from "@/components/_utils";
 import { Sort } from "@element-plus/icons-vue";
 
@@ -135,17 +135,14 @@ const props = withDefaults(
   )
 );
 const $emit = defineEmits([operateBtnsEmitName, "update:colAttrs"]);
-let popoverAttrs: PopoverAttrs | PopoverSlots | string | undefined;
+let currPopover: PopoverAttrs | PopoverSlots | string | undefined;
 let currQuickAttrs: any;
 const newCol = getNewCol(props.col);
 
 // 获取新的列配置数据
 function getNewCol(col: TableColAttrs) {
-  popoverAttrs = col?.quickAttrs?.popover;
-  if (typeof col.label !== "string") {
-    col._label = col.label;
-    col.label = getVNodeInnerText(col._label);
-  }
+  currPopover = col.quickAttrs?.popover;
+  // col.slots = getTableColumnSlots(col, props.size);
   currQuickAttrs = col.quickAttrs;
   delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;

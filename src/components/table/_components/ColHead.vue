@@ -7,11 +7,12 @@
   <MarkIcon :class="size" v-if="isMark" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { computed } from "vue";
+import { CommonObj, CommonSize, PopoverAttrs } from "@/vite-env";
 import MarkIcon from "@/components/MarkIcon.vue";
 import QuestionPopover from "@/components/QuestionPopover.vue";
 import { isOptimization, propsJoinChar, defaultCommonSize } from "@/components/_utils";
+import { TableColAttrs } from "@/components/table/_types";
 
 const props = withDefaults(
   defineProps<{
@@ -33,10 +34,10 @@ const isMark = computed(() => {
   const { minWidth, width } = props.col;
   const obj: TableColAttrs = {};
   if (minWidth !== undefined) {
-    obj.minWidth = minWidth + markWidth;
+    obj.minWidth = Number(minWidth) + markWidth;
   }
   if (width !== undefined) {
-    obj.width = width + markWidth;
+    obj.width = Number(width) + markWidth;
   }
   $emit("update:colAttrs", obj);
   return true;
@@ -46,7 +47,7 @@ const isMark = computed(() => {
 function getIsNoHandle() {
   if (isOptimization) return false;
   const { scope, col } = props;
-  const { _self, column } = scope;
+  const { _self } = scope;
   const { type, prop } = col;
   if ((prop as string).startsWith("$") || type === "custom") return false;
   if (!_self.data?.length) return false;

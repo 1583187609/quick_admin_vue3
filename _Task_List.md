@@ -148,6 +148,7 @@
 ~~112、扩展常用弹窗 `openPopupByName('name',{onConfirm(){}, onCancel(){}},{...attrs})`, 依次为弹窗类型名称、弹窗属性，弹窗内部组件属性~~
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现
+115、完善 FieldItem 的插槽、完善 BaseCrud 的标记为联调 icon
 
 ## TS 类型处理
 
@@ -248,8 +249,8 @@
 47、完善从虚拟 dom 中获取 innerText 文本的方法（getVNodeInnerText）
 48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的BaseIcon用`<el-icon></el-icon>`形式改写）
 49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
-50、datetimerange 自动设值处理
-51、接入自动引入 vue、vue-router api 的 npm 包 `unplugin-auto-import/vite`
+50、`datetimerange`自动设值处理
+51、接入自动引入 vue、vue-router api 的 npm 包`unplugin-auto-import/vite`
 
 ## 三、Bug 清单
 

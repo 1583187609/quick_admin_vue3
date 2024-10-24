@@ -79,7 +79,6 @@ export type TableColType =
 export interface TableColAttrs {
   prop?: string | [string, string];
   label?: BaseRenderData;
-  _label?: BaseRenderData; // 这是自定义label（虚拟DOM），不需要手动写入，作为label的影子使用
   width?: string | number;
   minWidth?: string | number;
   align?: HorizontalAlign;
@@ -105,6 +104,9 @@ export interface TableColAttrs {
     handleChange?: (val: any, row: CommonObj, next: FinallyNext) => void;
     handleInput?: (val: any, row: CommonObj, next: FinallyNext) => void;
     handleBlur?: (val: any, row: CommonObj, next: FinallyNext) => void;
+  };
+  slots?: {
+    header: BaseRenderData;
   };
 }
 export type TableCol = BaseDataType | TableColAttrs;
