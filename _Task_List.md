@@ -149,6 +149,13 @@
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现
 115、完善 FieldItem 的插槽、完善 BaseCrud 的标记为联调 icon
+116、用 markRaw 优化代码
+117、将核心代码移入 core 文件夹中
+118、将 useSlots 替换为 defineSlots()
+119、考虑使用 v-once 和 v-memo 来优化渲染性能
+120、在 el-table-column 默认插槽中处理 formatter
+121、处理跳转路由时，跳转的 vue 文件不存在时，给出恰当的提示语
+122、深入研究浏览器缓存策略（包括但不限于本地数据库、localStorage、sessionStorage 等），并做好缓存优化
 
 ## TS 类型处理
 
@@ -251,6 +258,9 @@
 49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
 50、`datetimerange`自动设值处理
 51、接入自动引入 vue、vue-router api 的 npm 包`unplugin-auto-import/vite`
+52、加入 Suspense 优化渲染显示
+52、关注`resolveComponent`、`mergeProps` api
+53、Ts相关的定义`PropType `
 
 ## 三、Bug 清单
 

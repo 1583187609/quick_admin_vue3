@@ -7,7 +7,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import GenerateComponentName from "unplugin-generate-component-name/vite"; //npm 地址：https://www.npmjs.com/package/unplugin-generate-component-name
 import pkg from "./package.json";
 import { toCamelCase } from "./src/components/_utils/common/_init";
-import viteCompression from "vite-plugin-compression"; //可进一步压缩js、css文件大小。原理：gzip
+// import viteCompression from "vite-plugin-compression"; //可进一步压缩js、css文件大小。原理：gzip
 // import { autoComplete, Plugin as importToCDN } from "vite-plugin-cdn-import";
 // import { createHtmlPlugin } from "vite-plugin-html";
 
@@ -59,7 +59,13 @@ export default ({ mode, command }) => {
   // const env = loadEnv(mode, process.cwd(), ''); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const isVitepress = process.argv[1].includes("vitepress");
   const env = loadEnv(mode, process.cwd());
+  const isProd = mode === "production";
   return defineConfig({
+    define: {
+      __VUE_OPTIONS_API__: true, // 启用/禁用选项式 API 支持。禁用此功能将减小打包结果的体积，但如果第三方库依赖选项式 API，则可能影响兼容性
+      __VUE_PROD_DEVTOOLS__: !isProd, // 在生产环境中启用/禁用开发者工具支持。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
+    },
     base: "./", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // base: "/", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // root: "./src/pages", // 项目根目录
@@ -308,7 +314,7 @@ export default ({ mode, command }) => {
     },
     //vite构建时默认使用Esbuild，打包速度是其他打包工具的十几倍，但是缺点也很明显，不具备操作AST的能力，所以需要通过terser去除console.log
     build: {
-      outDir: mode === "production" ? "dist" : `dist-${mode}`,
+      outDir: isProd ? "dist" : `dist-${mode}`,
       // outDir: outDirPath,
       // 压缩和混淆代码：使用 Vite 的内置压缩工具（例如 Terser）对打包后的代码进行压缩和混淆，以减小文件大小并提高加载速度。可以通过在 vite.config.js 中设置 build.minify 选项来启用压缩
       minify: "terser",
@@ -318,7 +324,7 @@ export default ({ mode, command }) => {
           drop_debugger: true,
         },
       },
-      sourcemap: mode !== "production",
+      sourcemap: !isProd,
       // assetsInlineLimit: 4096, // 默认4096
       // cssCodeSplit: false, //默认为true，当启用时，在异步 chunk 中导入的 CSS 将内联到异步 chunk 本身，并在其被加载时一并获取。
       reportCompressedSize: false, //启用/禁用 gzip 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能。
