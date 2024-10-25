@@ -592,7 +592,7 @@ const cols: TableCol[] = [
   {
     prop: "wltl",
     label: "未联调列",
-    minWidth: 100,
+    minWidth: 120,
     quickAttrs: {
       popover: "未联调的列，表格头右侧会新增一个标红的感叹号图标",
     },

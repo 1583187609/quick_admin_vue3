@@ -74,7 +74,7 @@ const cols: TableCol[] = [
   { prop: "phone", label: "电话", minWidth: 120 },
   { prop: "type_text", label: "用户类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
-  // { type: "operate", label: "操作栏", width: 500 },  // 可覆盖操作列的属性设置
+  // { type: "operate", label: "操作栏", width: 500 }, //  245 可覆盖操作列的属性设置
 ];
 //点击操作栏的分组按钮
 function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {

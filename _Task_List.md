@@ -338,6 +338,7 @@
 73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
 74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
 76、优化 BaseNumberRange 嵌套层级
+77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
 
 ## 四、Vue 极致优化清单
 

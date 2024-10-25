@@ -100,6 +100,7 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
     operateCol.width = 100;
     return filterBtns;
   }
+  // console.log(operateCol.width, "operateCol.width-----------");
   if (operateCol.width) return filterBtns; // 如果操作栏设置了宽度，则不再进行自动计算，可用于性能优化
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
   const isLastRow = ind === rows.length - 1;
@@ -167,14 +168,7 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
     return { col: newCol, level: 1 };
   }
   const inferredColAttrs = getInferredColAttrs(col);
-  const newCol = merge(
-    { visible, exportable },
-    defaultColumnAttrs,
-    specialColAttrs,
-    inferredColAttrs,
-    getInferredAttrs?.(col),
-    col
-  );
+  const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, inferredColAttrs, getInferredAttrs?.(col), col);
   if (typeOf(newCol.prop) === "Array") {
     newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   }
