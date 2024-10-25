@@ -3,7 +3,7 @@ import { InsertTableColCompsType } from "@/config/_components/InsertCustomTableC
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
-import { BaseRenderData } from "../BaseRender.vue";
+import { BaseRenderData } from "@/core/BaseRender.vue";
 import { FormItemAttrs } from "@/core/form/_types";
 import { FinallyNext, HorizontalAlign, PopoverAttrs, PopoverSlots, UniteFetchType } from "@/core/_types";
 
@@ -78,7 +78,7 @@ export type TableColType =
 // 基础表格
 export interface TableColAttrs {
   prop?: string | [string, string];
-  label?: BaseRenderData;
+  label?: string;
   width?: string | number;
   minWidth?: string | number;
   align?: HorizontalAlign;
@@ -106,7 +106,7 @@ export interface TableColAttrs {
     handleBlur?: (val: any, row: CommonObj, next: FinallyNext) => void;
   };
   slots?: {
-    header: BaseRenderData;
+    header?: BaseRenderData;
   };
 }
 export type TableCol = BaseDataType | TableColAttrs;

@@ -111,6 +111,11 @@
 ~~88、完善`UserDetail`页面~~
 ~~101、SlotRender 组件视情况移除或完善~~
 ~~108、完善 table 的 type 为 switch 的属性绑定~~
+~~112、扩展常用弹窗 `openPopupByName('name',{onConfirm(){}, onCancel(){}},{...attrs})`, 依次为弹窗类型名称、弹窗属性，弹窗内部组件属性~~
+~~115、完善 FieldItem 的插槽、完善 BaseCrud 的标记为联调 icon~~
+~~117、将核心代码移入 core 文件夹中~~  
+~~118、将 useSlots 替换为 defineSlots()~~  
+~~120、在 el-table-column 默认插槽中处理 formatter~~
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -121,7 +126,6 @@
 62、全局错误拦截，在 App.vue 中处理  
 64、封装 TreeCrud 组件  
 69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
-70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md` 文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在 `src/_code-tpl` 中完善代码片段。
 74、将 Quick 的内核抽离成 npm 包
 75、完善 http 的 ts 类型书写  
 76、请求参数加解密  
@@ -145,15 +149,10 @@
 109、自测 dialog 和 drawer 内部自动计算自适应滚动高度（并可以考虑将两个的共用逻辑提取成 hooks）
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
-~~112、扩展常用弹窗 `openPopupByName('name',{onConfirm(){}, onCancel(){}},{...attrs})`, 依次为弹窗类型名称、弹窗属性，弹窗内部组件属性~~
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现
-115、完善 FieldItem 的插槽、完善 BaseCrud 的标记为联调 icon
 116、用 markRaw 优化代码
-117、将核心代码移入 core 文件夹中
-118、将 useSlots 替换为 defineSlots()
 119、考虑使用 v-once 和 v-memo 来优化渲染性能
-120、在 el-table-column 默认插槽中处理 formatter
 121、处理跳转路由时，跳转的 vue 文件不存在时，给出恰当的提示语
 122、深入研究浏览器缓存策略（包括但不限于本地数据库、localStorage、sessionStorage 等），并做好缓存优化
 
@@ -232,6 +231,11 @@
 ~~36、将{component: '' }的组件渲染方式统一改成 h 函数渲染~~
 ~~39、操作栏宽度如果指定了，则不会自动进行计算~~  
 ~~42、组件采用按需加载（例：BaseCrud 中的导入组件、设置表格的组件、打印组件等）~~
+~~47、完善从虚拟 dom 中获取 innerText 文本的方法（getVNodeInnerText）~~
+~~48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的 BaseIcon 用`<el-icon></el-icon>`形式改写）~~
+~~50、`datetimerange`自动设值处理~~
+~~51、接入自动引入 vue、vue-router api 的 npm 包`unplugin-auto-import/vite`~~
+
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
 15、测试 3 页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
 16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式）；  
@@ -253,14 +257,11 @@
 43、将 mock 数据进行缓存
 44、将缓存数据采用本地数据库或其他方式存储（要缓存的数据：字典映射、mock 数据）
 46、找一个通用的深度克隆方法（可以持续完成这个方法：commonClone）  
-47、完善从虚拟 dom 中获取 innerText 文本的方法（getVNodeInnerText）
-48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的BaseIcon用`<el-icon></el-icon>`形式改写）
 49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
-50、`datetimerange`自动设值处理
-51、接入自动引入 vue、vue-router api 的 npm 包`unplugin-auto-import/vite`
 52、加入 Suspense 优化渲染显示
 52、关注`resolveComponent`、`mergeProps` api
 53、Ts相关的定义`PropType `
+70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md`文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在`src/\_code-tpl` 中完善代码片段。
 
 ## 三、Bug 清单
 

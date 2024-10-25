@@ -86,7 +86,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, onMounted, inject, useSlots } from "vue";
+import { ref, reactive, watch, computed, onMounted, inject } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
 import { TableCol, TableColAttrs } from "@/core/table/_types";
 import ExtraBtns from "./_components/ExtraBtns.vue";
@@ -130,7 +130,12 @@ import { filterBtnsByAuth } from "@/core/crud/_utils";
 import { operateBtnsEmitName } from "@/core/table";
 
 const { merge, cloneDeep } = _;
-const $slots = useSlots();
+const $slots = defineSlots<{
+  default: () => void; // 默认插槽
+  middle: () => void; // 中间插槽
+  "[formItem]": () => void; // 表单项插槽
+  "[colItem]": () => void; // 表格列插槽
+}>();
 const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(
   defineProps<{

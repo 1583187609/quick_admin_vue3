@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
-import { CommonObj, ClassType, StyleType } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import { TableColAttrs } from "@/core/table/_types";
 import FieldItem from "@/core/form/_components/FieldItem/Index.vue";
 
@@ -35,9 +35,9 @@ defineOptions({
 const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
-    modelValue?: CommonObj[]; //表格行数据
-    cols: TableColAttrs[]; //表头
-    formAttrs?: CommonObj; //表单属性
+    cols: TableColAttrs[]; // 表头
+    modelValue?: CommonObj[]; // 表格行数据
+    formAttrs?: CommonObj; // 表单属性
   }>(),
   {
     modelValue: () => reactive([]),

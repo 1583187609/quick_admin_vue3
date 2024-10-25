@@ -16,7 +16,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, h } from "vue";
 import { SectionFormItem } from "@/core/form/_types";
 import SectionForm from "@/core/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";

@@ -18,17 +18,15 @@
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { CommonObj, RouteTo, StrNum } from "@/vite-env";
-import { showMessage, defaultTooltipAttrs, typeOf } from "./_utils";
-import { useSlots, computed } from "vue";
 import { useRouter } from "vue-router";
+import { CommonObj, RouteTo, StrNum } from "@/vite-env";
+import { showMessage, defaultTooltipAttrs, typeOf } from "@/utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
 
 const tooltipAttrs = {
   ...defaultTooltipAttrs,
   content: "点击复制",
 };
-const $slots = useSlots();
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
@@ -46,6 +44,9 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["click"]);
+const $slots = defineSlots<{
+  default?: () => any; // 默认插槽
+}>();
 const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 // 跳转页面或触发点击事件
 function handleClick(e) {

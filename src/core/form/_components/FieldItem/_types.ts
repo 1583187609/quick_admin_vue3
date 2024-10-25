@@ -23,7 +23,7 @@ export type FormItemType =
   | "slider"
   | "checkbox"
   | "empty"
-  // | "BaseEditor"
+  // | "BasicEditor"
   // | "time-picker"
   // | "time-select"
   | "BaseUpload"

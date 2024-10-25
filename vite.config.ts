@@ -7,6 +7,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import GenerateComponentName from "unplugin-generate-component-name/vite"; //npm 地址：https://www.npmjs.com/package/unplugin-generate-component-name
 import pkg from "./package.json";
 import { toCamelCase } from "./src/core/_utils/common/_init";
+import AutoImport from "unplugin-auto-import/vite";
 // import viteCompression from "vite-plugin-compression"; //可进一步压缩js、css文件大小。原理：gzip
 // import { autoComplete, Plugin as importToCDN } from "vite-plugin-cdn-import";
 // import { createHtmlPlugin } from "vite-plugin-html";
@@ -75,6 +76,11 @@ export default ({ mode, command }) => {
         ? []
         : [
             vue(),
+            AutoImport({
+              imports: ["vue", "vue-router"],
+              dts: "types/auto-imports.d.ts",
+              // dirs: ['src/stores']
+            }),
             /**
              * 打包体积可视化面板
              * @link npm 文档链接：https://gitcode.com/btd/rollup-plugin-visualizer/overview

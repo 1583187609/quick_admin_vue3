@@ -3,7 +3,7 @@
 -->
 <template>
   <el-form class="base-form f-fs-s-c f-1" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
-    <slot name="custom" v-if="$slots.custom" />
+    <slot name="header" v-if="$slots.header" />
     <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, useSlots } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
@@ -68,7 +68,12 @@ import { defaultCommonSize } from "@/core/_utils";
 import _ from "lodash";
 
 const { merge } = _;
-const $slots = useSlots();
+
+const $slots = defineSlots<{
+  header: () => void; // 顶部插槽
+  "[fieldItem]": () => void; // 字段Item插槽
+  footer: () => void; // 底部插槽
+}>();
 const props = withDefaults(
   defineProps<{
     type?: FormStyleType;

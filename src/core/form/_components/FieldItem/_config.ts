@@ -105,6 +105,13 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         },
       },
     },
+    "tree-select": {
+      attrs: {
+        style: { width: "100%" },
+        placeholder: "请选择${label}",
+        clearable: true,
+      },
+    },
     cascader: {
       attrs: {
         style: { width: "100%" },
@@ -240,7 +247,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     // BaseUpload: {
     //   attrs: {},
     // },
-    // BaseEditor: {
+    // BasicEditor: {
     //   attrs: {
     // style: { width: "100%" },
     //   },

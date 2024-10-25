@@ -1,4 +1,3 @@
-// import { useSlots } from "vue";
 import * as Icons from "@element-plus/icons-vue";
 import { CircleCloseFilled } from "@element-plus/icons-vue";
 import { getUserInfo, typeOf } from "@/core/_utils";
@@ -42,7 +41,6 @@ function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem): Popcon
  */
 export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): BtnItem {
   const t = typeOf(btn);
-  // const $slots = useSlots();
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {
     const targetBtn = btnsMap[btn as BtnName] || Object.assign({}, btnsMap.empty, { text: btn });

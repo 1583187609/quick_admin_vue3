@@ -21,7 +21,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
 import { CommonObj } from "@/vite-env";
 // infoStatus 0已完善已通过 1已完善未通过 2已完善待审核 3未完善
 // idCardStatus 0 为0 已实名

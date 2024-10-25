@@ -17,7 +17,6 @@
 </template>
 <script lang="ts" setup>
 // 官方文档地址：https://www.wangeditor.com/v5/getting-started.html
-import { onBeforeUnmount, computed, onMounted } from "vue";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
 import { showMessage, toCssVal } from "@/core/_utils";

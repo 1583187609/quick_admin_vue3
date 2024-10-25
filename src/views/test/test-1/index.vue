@@ -38,7 +38,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, h } from "vue";
 import { FormField } from "@/core/form/_types";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";

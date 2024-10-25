@@ -12,7 +12,6 @@
   </el-form-item>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
 import { type FormItemRule } from "element-plus";
 import { CommonObj, StrNum, CommonSize } from "@/vite-env";
 import { propsJoinChar, rangeJoinChar, showMessage } from "@/core/_utils";

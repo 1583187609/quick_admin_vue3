@@ -238,14 +238,10 @@ export function getSlotsMap(slots: any) {
  * 获取 el-form-item 的插槽
  * @param field
  */
-export function getFormItemSlots(field: any, size?: CommonSize) {
-  const { label, slots, quickAttrs = {} } = field;
-  const { popover } = quickAttrs;
+export function getFormItemSlots(field: any, popover: any = ""): CommonObj {
+  const { label, slots } = field;
   if (!popover) return slots;
-  const questionIcon = h(QuestionPopover, { popover, size });
-  const labelIconSlots = { label: h("span", [label, questionIcon]) };
-  if (!slots) return labelIconSlots;
-  slots.label = slots.label ? h("span", [slots.label, questionIcon]) : labelIconSlots;
+  if (!slots) return { label: label };
   return slots;
 }
 

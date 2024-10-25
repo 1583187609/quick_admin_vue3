@@ -49,7 +49,6 @@
  * https://blog.csdn.net/lhz_19/article/details/122428176
  * https://blog.csdn.net/lhz_19/article/details/122428176
  */
-import { ref } from "vue";
 import { VideoPause, VideoPlay, Mute, Microphone } from "@element-plus/icons-vue";
 
 const props = withDefaults(

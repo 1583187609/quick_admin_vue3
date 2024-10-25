@@ -5,8 +5,9 @@
     v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options', 'slots'])"
   >
     <!-- el-form-item 的插槽(label、error等) -->
-    <template #[key] v-for="(val, key) in getFormItemSlots(newField, size)" :key="key">
+    <template #[key] v-for="(val, key) in getFormItemSlots(newField, currPopover)" :key="key">
       <BaseRender :data="val" />
+      <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
     </template>
     <div class="mr-h" v-if="newField.quickAttrs?.before">
       <BaseRender :data="newField.quickAttrs.before" />
@@ -22,7 +23,7 @@
         <!-- 以下按照使用频率高低排序 -->
         <el-input
           :class="flexClass"
-          v-debounce:input="(e:any)=>handleInput(e, newField.prop as string)"
+          v-debounce:input="handleInput"
           @clear="() => $emit('change', newField.prop, '')"
           v-model.trim="newVal"
           v-bind="newField.attrs"
@@ -40,7 +41,7 @@
           v-else-if="newField.type === 'select'"
         >
           <el-option v-for="(opt, ind) in newField.options" :key="ind" v-bind="deleteAttrs(opt, ['slots'])">
-            <template #[key] v-for="(val, key) in getSlotsMap(opt.slots)" :key="key">
+            <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
               <BaseRender :data="val" />
             </template>
           </el-option>
@@ -55,7 +56,11 @@
           :data="newField.options"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'tree-select'"
-        />
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-tree-select>
         <el-date-picker
           :class="flexClass"
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
@@ -74,14 +79,21 @@
           v-else-if="newField.type === 'radio-group'"
         >
           <template v-if="newField?.attrs?.type === 'button'">
-            <el-radio-button :disabled="opt.disabled" :value="opt.value" v-for="(opt, ind) in newField.options" :key="ind">
-              {{ opt.label }}
+            <el-radio-button v-bind="opt as OptionItem" v-for="(opt, ind) in newField.options" :key="ind">
+              <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem)?.slots)" :key="key">
+                <BaseRender :data="val" />
+              </template>
             </el-radio-button>
           </template>
           <template v-else>
-            <el-radio :disabled="opt.disabled" :value="opt.value" v-for="(opt, ind) in newField.options" :key="ind">
-              {{ opt.label }}
+            <el-radio v-bind="opt as OptionItem" v-for="(opt, ind) in newField.options" :key="ind">
+              <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem)?.slots)" :key="key">
+                <BaseRender :data="val" />
+              </template>
             </el-radio>
+          </template>
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
           </template>
         </el-radio-group>
         <el-checkbox-group
@@ -91,16 +103,14 @@
           v-else-if="newField.type === 'checkbox-group'"
         >
           <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-          <el-checkbox
-            :disabled="opt.disabled"
-            :value="opt.value"
-            v-bind="deleteAttrs(opt, ['label'])"
-            :name="(newField.prop as string)"
-            v-for="(opt, ind) in newField.options"
-            :key="ind"
-          >
-            <BaseRender :data="opt.label" />
+          <el-checkbox v-bind="opt" :name="(newField.prop as string)" v-for="(opt, ind) in newField.options" :key="ind">
+            <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem)?.slots)" :key="key">
+              <BaseRender :data="val" />
+            </template>
           </el-checkbox>
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
         </el-checkbox-group>
         <el-input-number
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
@@ -117,7 +127,11 @@
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'switch'"
-        />
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-switch>
         <el-cascader
           :class="flexClass"
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
@@ -140,19 +154,31 @@
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'BaseNumberRange'"
-        />
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </BaseNumberRange>
         <BaseUpload
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-bind="newField.attrs"
           v-model="newVal"
           v-else-if="newField.type === 'BaseUpload'"
-        />
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </BaseUpload>
         <!-- <BaseEditor
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
-          v-else-if="newField.type === 'BaseEditor'"
-        ></BaseEditor> -->
+          v-else-if="newField.type === 'BasicEditor'"
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </BasicEditor> -->
         <el-autocomplete
           :class="flexClass"
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
@@ -170,7 +196,11 @@
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'slider'"
-        />
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-slider>
         <el-checkbox
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
@@ -188,13 +218,21 @@
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-picker'"
-        />
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-time-picker>
         <el-time-select
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-select'"
-        /> -->
+        >
+          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-time-select> -->
         <div class="color-danger" v-else>【不存在】{{ newField.type }}</div>
         <BaseRender :data="newField.quickAttrs?.after" v-if="newField.quickAttrs?.after" />
       </template>
@@ -234,14 +272,11 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { ref, computed, h } from "vue";
 import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getSlotsMap, getFormItemSlots } from "@/core/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/core/form/_types";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultRulesTypes } from ".";
-import AddDelList from "../AddDelList.vue";
-import AnyEleList from "../AnyEleList.vue";
 import { rangeJoinChar, emptyVals } from "@/core/_utils";
 import { useDict } from "@/hooks";
 import { RuleItem } from "./_types";
@@ -249,8 +284,11 @@ import { defaultCommonSize } from "@/core/_utils";
 import { DictName } from "@/dict/_types";
 import QuestionPopover from "@/core/QuestionPopover.vue";
 import _ from "lodash";
+// 下列两个组件不采用按需加载方式，不然控件会出现延迟出现的现象
+import AddDelList from "../AddDelList.vue";
+import AnyEleList from "../AnyEleList.vue";
 
-const { merge, cloneDeep } = _;
+const { merge } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
@@ -363,10 +401,10 @@ function getPlaceholder(field: FormFieldAttrs) {
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
   const arr: FormItemRule[] = [];
-  rules.forEach((item: CommonObj, ind: number) => {
+  rules.forEach((item: CommonObj) => {
     const keys: string[] = ["required", "min", "max", "pattern", "validator"];
     const { type } = item;
-    const findInd = rules.findIndex((it: CommonObj, i: number) => {
+    const findInd = rules.findIndex((it: CommonObj) => {
       // if (i < ind) return false;
       let isFind = false;
       if (type) {
@@ -448,12 +486,10 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
   if (emptyVals.includes(val)) val = emptyStr;
   return { label, value: val };
 }
-function handleInput(e: any, prop: string) {
-  if (props.inputDebounce) {
-    const inp = e.querySelector("input") || e.querySelector("textarea");
-    const val = inp.value;
-    $emit("change", prop, val);
-  }
+function handleInput(e: any) {
+  if (!props.inputDebounce) return;
+  const inp = e.querySelector("input") || e.querySelector("textarea");
+  $emit("change", newField.value.prop, inp.value);
 }
 defineExpose({});
 </script>

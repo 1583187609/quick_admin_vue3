@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, useSlots } from "vue";
+import { ref } from "vue";
 import { typeOf } from "@/core/_utils";
 
 interface TipsMap {
@@ -30,7 +30,10 @@ interface TipsMap {
 }
 type TipsType = null | string[] | TipsMap;
 
-const $slots = useSlots();
+const $slots = defineSlots<{
+  default: () => void; // 默认插槽
+  side: () => void; // 侧边栏插槽
+}>();
 
 const props = withDefaults(
   defineProps<{

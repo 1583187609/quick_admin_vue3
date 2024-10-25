@@ -5,7 +5,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, computed, useSlots } from "vue";
+import { ref, inject, onMounted, computed } from "vue";
 import { OpenPopupInject, StrNum } from "@/vite-env";
 import { getIsOver } from "@/core/_utils";
 
@@ -25,7 +25,9 @@ const props = withDefaults(
     popupAttrs: () => ({ title: "详情", width: "500px" }),
   }
 );
-const $slots = useSlots();
+const $slots = defineSlots<{
+  default: () => void; // 默认插槽
+}>();
 const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 const baseTextRef = ref<HTMLDivElement | null>(null);
 const isOver = ref(false);
