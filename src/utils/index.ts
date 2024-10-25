@@ -1,2 +1,2 @@
-export * from "@/components/_utils";
+export * from "@/core/_utils";
 export * from "./platform";

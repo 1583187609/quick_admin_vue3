@@ -17,11 +17,11 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, h } from "vue";
-import { SectionFormItem } from "@/components/form/_types";
-import SectionForm from "@/components/form/SectionForm.vue";
+import { SectionFormItem } from "@/core/form/_types";
+import SectionForm from "@/core/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
 import { PostMockCommon } from "@/api-mock";
-import AddDelBtn from "@/components/form/_components/AddDelBtn.vue";
+import AddDelBtn from "@/core/form/_components/AddDelBtn.vue";
 
 const tipsList: string[] = ["section块之间span属性功能完善", "label宽度根据各个section块决定"];
 //是否支持： 0否;1=是

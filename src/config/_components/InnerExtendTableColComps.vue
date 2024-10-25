@@ -16,8 +16,8 @@
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
-import { deleteAttrs, showMessage } from "@/components/_utils";
-import { TableColAttrs } from "@/components/table/_types";
+import { deleteAttrs, showMessage } from "@/core/_utils";
+import { TableColAttrs } from "@/core/table/_types";
 import { CommonObj } from "@/vite-env";
 
 export type InsertTabColFormType = "switch";

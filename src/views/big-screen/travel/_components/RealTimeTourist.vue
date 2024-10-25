@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import Chart from "@/components/chart/Chart.vue";
+import Chart from "@/core/chart/Chart.vue";
 
 const actualTotal = ref("216908");
 const option = {

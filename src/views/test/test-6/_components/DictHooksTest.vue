@@ -6,7 +6,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import TestView from "@/components/TestView.vue";
+import TestView from "@/core/TestView.vue";
 const records = {
   hasTest: {
     title: "已测试属性",

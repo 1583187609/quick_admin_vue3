@@ -4,27 +4,14 @@
       <CustomMsg :data="data" :position="position" />
     </template>
     <template v-else>
-      <BaseAvatar
-        :src="userInfo.avatar"
-        :gender="userInfo.gender"
-        size="40"
-        class="avatar f-0"
-        round
-      />
+      <BaseAvatar :src="userInfo.avatar" :gender="userInfo.gender" size="40" class="avatar f-0" round />
       <div class="msg-box">
         <template v-if="data.msgType === 'TIMTextElem'">
           {{ data.msgContent.Text }}
         </template>
         <ImgMsg :data="data" v-else-if="data.msgType === 'TIMImageElem'" />
-        <AudioMsg
-          :position="position"
-          :data="data"
-          v-else-if="data.msgType === 'TIMSoundElem'"
-        />
-        <VideoMsg
-          :data="data"
-          v-else-if="data.msgType === 'TIMVideoFileElem'"
-        />
+        <AudioMsg :position="position" :data="data" v-else-if="data.msgType === 'TIMSoundElem'" />
+        <VideoMsg :data="data" v-else-if="data.msgType === 'TIMVideoFileElem'" />
         <!-- <template :data="data" v-else-if="data.msgType === 'TIMCustomElem'">{{
         data.msgContent.Desc
       }}</template> -->
@@ -35,7 +22,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { BtnName } from "@/components/BaseBtn/_types";
+import { BtnName } from "@/core/BaseBtn/_types";
 import { CommonObj, NextHintCb, StrNum } from "@/vite-env";
 import CustomMsg from "./CustomMsg.vue";
 import AudioMsg from "./AudioMsg.vue";

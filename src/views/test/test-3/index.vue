@@ -125,13 +125,13 @@
 <script lang="ts" setup>
 import { ref, onMounted, reactive, h } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon, PostMockCommonUpdate } from "@/api-mock";
-import { FormFieldAttrs } from "@/components/form/_types";
-import { TableCol, TableColAttrs } from "@/components/table/_types";
+import { FormFieldAttrs } from "@/core/form/_types";
+import { TableCol, TableColAttrs } from "@/core/table/_types";
 import AddEdit from "./AddEdit.vue";
-import InfoSteps from "@/views/_components/InfoSteps.vue";
-import AuthInfo from "@/views/_components/AuthInfo.vue";
+import InfoSteps from "@/components/InfoSteps.vue";
+import AuthInfo from "@/components/AuthInfo.vue";
 import { usePopup, useSelectOpts } from "@/hooks";
-import { BtnName } from "@/components/BaseBtn/_types";
+import { BtnName } from "@/core/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { useRoute, useRouter } from "vue-router";
 import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
@@ -140,8 +140,8 @@ import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
 import CustomColHead from "./_components/CustomColHead.vue";
 import CustomPopover from "./_components/CustomPopover.vue";
-import { SectionFormItemAttrs } from "@/components/form/_types";
-import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { SectionFormItemAttrs } from "@/core/form/_types";
+import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
 
 const tempRow = {
   xm: "李四",

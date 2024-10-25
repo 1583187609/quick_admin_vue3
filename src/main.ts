@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import ElementPlus from "element-plus";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
-import components from "@/components";
+import baseComponents from "@/core";
 import router from "@/router";
 import store from "@/store";
 import mixin from "@/services/mixin";
@@ -28,7 +28,7 @@ app.mixin(mixin);
 app.use(ElementPlus, {
   locale: zhCn,
 });
-app.use(components); //全局注册基础组件
+app.use(baseComponents); //全局注册基础组件
 app.use(I18n);
 app.use(store);
 app.use(router);

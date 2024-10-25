@@ -54,14 +54,14 @@ export const vueStr = `
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { handleFields } from "@/components/form/_utils";
-import FieldItemCol from "@/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs } from "@/components/form/_components/FieldItemCol";
+import { handleFields } from "@/core/form/_utils";
+import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
+import { FormField, FormFieldAttrs } from "@/core/form/_components/FieldItemCol";
 import { merge } from "lodash";
-import FooterBtns from "@/components/form/_components/FooterBtns.vue";
-import { isProd } from "@/components/_utils";
-import { BaseBtnType } from "@/components/BaseBtn/_types";
-import { defaultFormAttrs } from "@/components/form";
+import FooterBtns from "@/core/form/_components/FooterBtns.vue";
+import { isProd } from "@/core/_utils";
+import { BaseBtnType } from "@/core/BaseBtn/_types";
+import { defaultFormAttrs } from "@/core/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 
 /** props Props

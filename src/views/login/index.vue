@@ -27,18 +27,10 @@ meta:
         </template>
       </BaseForm>
       <div class="foot f-sb-c">
-        <el-button
-          @click="openPopup({ title: '免费注册', direction: 'ltr' }, Register, 'drawer')"
-          class="btn"
-          type="info"
-          size="small"
-          link
-        >
+        <el-button @click="openPopup({ title: '免费注册', direction: 'ltr' }, Register, 'drawer')" class="btn" type="info" size="small" link>
           免费注册
         </el-button>
-        <el-button @click="openPopup('找回密码', FindPassword, 'drawer')" class="btn" type="info" size="small" link>
-          找回密码
-        </el-button>
+        <el-button @click="openPopup('找回密码', FindPassword, 'drawer')" class="btn" type="info" size="small" link> 找回密码 </el-button>
       </div>
     </div>
   </div>
@@ -46,7 +38,7 @@ meta:
 <script lang="ts" setup>
 import { ref, reactive, computed } from "vue";
 import { GetUserLoginAccounts } from "@/api-mock";
-import { FormFieldAttrs } from "@/components/form/_types";
+import { FormFieldAttrs } from "@/core/form/_types";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";

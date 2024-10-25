@@ -128,13 +128,13 @@
 import { reactive, watch } from "vue";
 import { GetImSearchFromUserList, GetImSearchFriendList, GetImSearchP2pChatList } from "@/api-mock";
 import { Search } from "@element-plus/icons-vue";
-import CustomCrud from "@/components/crud/CustomCrud/Index.vue";
-import { FormField } from "@/components/form/_types";
+import CustomCrud from "@/core/crud/CustomCrud/Index.vue";
+import { FormField } from "@/core/form/_types";
 import UserItem from "./_components/UserItem.vue";
 import MsgItem from "./_components/MsgItem/Index.vue";
 import { usePopup, useSelectOpts } from "@/hooks";
 import { CommonObj, StrNum } from "@/vite-env";
-import LoadMore from "@/components/LoadMore.vue";
+import LoadMore from "@/core/LoadMore.vue";
 import SearchMsg from "./_components/SearchMsg.vue";
 import dayjs from "dayjs";
 
@@ -358,11 +358,7 @@ function getChatList(fromUserId: number, toUserId: number, direction: ChatListQu
  * 是否要自动打开消息搜索弹窗
  * @return 返回类型 null | { fromUser: CommonObj; toUser: CommonObj }
  */
-async function isOpenSearchMsgPopup(
-  fromUserId: StrNum,
-  toUserId: StrNum,
-  keyWord: string
-): null | { fromUser: CommonObj; toUser: CommonObj } {
+async function isOpenSearchMsgPopup(fromUserId: StrNum, toUserId: StrNum, keyWord: string): null | { fromUser: CommonObj; toUser: CommonObj } {
   if (keyWord) {
     return await GetImSearchP2pChatList({
       fromUserId,

@@ -16,7 +16,7 @@ hello: world
 
 <script setup>
 import { ref } from 'vue'
-import UserInfo from '@/views/_components/UserInfo.vue'
+import UserInfo from '@/components/UserInfo.vue'
 
 const count = ref(0)
 </script>

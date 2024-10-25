@@ -41,11 +41,11 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, computed } from "vue";
 import { PostUserLogin } from "@/api-mock";
-import { FormField } from "@/components/form/_types";
+import { FormField } from "@/core/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import CaptchaBtn from "./_components/CaptchaBtn.vue";
 import { ElMessage, ElNotification } from "element-plus";
-import BaseIcon from "@/components/BaseIcon.vue";
+import BaseIcon from "@/core/BaseIcon.vue";
 import { getUserInfo } from "@/utils";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/store";
@@ -277,8 +277,8 @@ $transition-time: 0.5s;
     font-size: 16px;
     transition: $transition-time;
     border-radius: 44% 56% 65% 35%/57% 58% 42% 43%;
-    box-shadow: inset 10px 10px 10px rgba(190, 1, 254, 0.05), 15px 25px 10px rgba(190, 1, 254, 0.1),
-      15px 20px 20px rgba(190, 1, 254, 0.1), inset -10px -10px 15px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 10px 10px 10px rgba(190, 1, 254, 0.05), 15px 25px 10px rgba(190, 1, 254, 0.1), 15px 20px 20px rgba(190, 1, 254, 0.1),
+      inset -10px -10px 15px rgba(255, 255, 255, 0.5);
     &:hover {
       border-radius: 50%;
       font-size: 18px;
@@ -302,8 +302,8 @@ $transition-time: 0.5s;
     height: 110px * $ratio;
     background: #01b4ff;
     border-radius: 49% 51% 52% 48%/63% 59% 41% 37%;
-    box-shadow: inset 10px 10px 10px rgba(1, 180, 255, 0.05), 15px 25px 10px rgba(1, 180, 255, 0.1),
-      15px 20px 20px rgba(1, 180, 255, 0.1), inset -10px -10px 15px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 10px 10px 10px rgba(1, 180, 255, 0.05), 15px 25px 10px rgba(1, 180, 255, 0.1), 15px 20px 20px rgba(1, 180, 255, 0.1),
+      inset -10px -10px 15px rgba(255, 255, 255, 0.5);
     &::before {
       top: 16px * $ratio;
       left: 28px * $ratio;
@@ -323,8 +323,8 @@ $transition-time: 0.5s;
   :deep(.el-form-item:not(.rember)) {
     position: relative;
     border-radius: 30px * $ratio;
-    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1),
-      15px 15px 10px rgba(0, 0, 0, 0.5), 15px 10px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1), 15px 15px 10px rgba(0, 0, 0, 0.5),
+      15px 10px 15px rgba(0, 0, 0, 0.25);
     background: #eff0f4;
     margin-bottom: 36px * $ratio;
     &::before {
@@ -371,8 +371,8 @@ $transition-time: 0.5s;
     font-size: 18px;
     border-radius: 27px * $ratio;
     transition: $transition-time;
-    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1),
-      15px 15px 10px rgba(0, 0, 0, 0.5), 15px 10px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1), 15px 15px 10px rgba(0, 0, 0, 0.5),
+      15px 10px 15px rgba(0, 0, 0, 0.25);
     &::before {
       content: "";
       position: absolute;
@@ -389,8 +389,8 @@ $transition-time: 0.5s;
       margin: 0;
     }
     &:first-child {
-      box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 0.25),
-        15px 15px 10px rgba(0, 0, 0, 0.5), 15px 10px 15px rgba(0, 0, 0, 0.25);
+      box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 0.25), 15px 15px 10px rgba(0, 0, 0, 0.5),
+        15px 10px 15px rgba(0, 0, 0, 0.25);
     }
   }
   :deep(.el-form-item__label) {

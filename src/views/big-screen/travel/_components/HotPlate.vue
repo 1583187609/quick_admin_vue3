@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ranking1, ranking2, ranking3, ranking4 } from "../_assets/ranking-icon";
-import Chart from "@/components/chart/Chart.vue";
+import Chart from "@/core/chart/Chart.vue";
 
 interface ChartProp {
   name: string;

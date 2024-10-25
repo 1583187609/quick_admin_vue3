@@ -12,8 +12,8 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
-import TestView from "@/components/TestView.vue";
-import SectionForm from "@/components/form/SectionForm.vue";
+import TestView from "@/core/TestView.vue";
+import SectionForm from "@/core/form/SectionForm.vue";
 
 const records = {
   hasTest: {

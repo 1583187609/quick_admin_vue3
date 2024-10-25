@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-export * from "@/components/_types"
+export * from "@/core/_types";
 interface ImportMetaEnv {
   readonly VITE_APP_NAME: string;
 }
@@ -8,7 +8,6 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
-
 
 declare module "qs";
 declare module "lodash";
@@ -29,5 +28,3 @@ declare module "*.vue" {
 //   error: () => void;
 //   dir: () => void;
 // }
-
-

@@ -1,7 +1,7 @@
 import { CommonObj, PopupType } from "@/vite-env";
 import { defineAsyncComponent } from "vue";
 import { ElMessage } from "element-plus";
-import { usePopup } from "@/components/_hooks";
+import { usePopup } from "@/core/_hooks";
 
 export const compMap: CommonObj = {
   ChooseMedia: {

@@ -1,6 +1,6 @@
 import DefaultTheme from "vitepress/theme";
 import ElementPlus from "element-plus";
-import components from "@/components";
+import components from "@/core";
 import store from "@/store";
 import router from "@/router";
 import mixin from "@/services/mixin";

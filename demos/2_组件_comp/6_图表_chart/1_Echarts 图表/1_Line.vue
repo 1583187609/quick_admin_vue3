@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import ChartLine from "@/components/chart/ChartLine.vue";
+import ChartLine from "@/core/chart/ChartLine.vue";
 const data = [
   ["product", "2015", "2016", "2017"],
   ["YY1", 43.3, 85.8, 93.7],

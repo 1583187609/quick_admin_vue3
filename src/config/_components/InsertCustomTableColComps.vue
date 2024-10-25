@@ -4,8 +4,8 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import UserInfo from "@/views/_components/UserInfo.vue";
-import { TableColAttrs } from "@/components/table/_types";
+import UserInfo from "@/components/UserInfo.vue";
+import { TableColAttrs } from "@/core/table/_types";
 import { CommonObj } from "@/vite-env";
 
 export type InsertTableColCompsType = "UserInfo";

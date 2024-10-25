@@ -126,10 +126,10 @@ import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
 import { PostMockCommon, GetMockCommonList } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
-import BaseIcon from "@/components/BaseIcon.vue";
+import BaseIcon from "@/core/BaseIcon.vue";
 import { cancelHttp } from "@/services/http";
 
-// import UserInfo from "@/views/_components/UserInfo.vue";
+// import UserInfo from "@/components/UserInfo.vue";
 // console.log(h("div"), "UserInfo.vue----------------");
 
 const size = ref<ComponentSize>("default");

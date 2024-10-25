@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import ChartPie from "@/components/chart/ChartPie.vue";
+import ChartPie from "@/core/chart/ChartPie.vue";
 const data = [
   ["XX1", 120],
   ["XX2", 149],

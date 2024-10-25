@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import DefaultTheme from "vitepress/theme";
-import BasicPopup from "@/components/BasicPopup/Index.vue";
+import BasicPopup from "@/core/BasicPopup/Index.vue";
 
 const { Layout } = DefaultTheme;
 </script>

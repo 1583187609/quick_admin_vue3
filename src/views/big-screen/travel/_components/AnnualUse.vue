@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import Chart from "@/components/chart/Chart.vue";
+import Chart from "@/core/chart/Chart.vue";
 
 interface ChartProp {
   label: string;

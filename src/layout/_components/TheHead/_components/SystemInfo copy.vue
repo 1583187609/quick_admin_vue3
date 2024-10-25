@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import pkg from "#/package.json";
 import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form/_types";
+import { FormFieldAttrs } from "@/core/form/_types";
 import { reactive } from "vue";
 const { version, dependencies, devDependencies } = pkg;
 const { VITE_APP_NAME } = import.meta.env;
@@ -61,8 +61,7 @@ const fields: FormFieldAttrs[] = [
 ];
 const modelData = reactive<CommonObj>({
   name: VITE_APP_NAME,
-  description:
-    "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
+  description: "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
   version: `${env} - ${version}`,
   depends: Object.entries(dependencies),
   devDepends: Object.entries(devDependencies),

@@ -41,8 +41,8 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { FormField } from "@/components/form/_types";
-import { TableColAttrs } from "@/components/table/_types";
+import { FormField } from "@/core/form/_types";
+import { TableColAttrs } from "@/core/table/_types";
 import { CommonObj } from "@/vite-env";
 const props = withDefaults(
   defineProps<{

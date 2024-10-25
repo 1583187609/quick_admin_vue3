@@ -6,10 +6,10 @@
   </BasicPopup>
 </template>
 <script lang="ts" setup>
-import BasicPopup from "@/components/BasicPopup/Index.vue";
+import BasicPopup from "@/core/BasicPopup/Index.vue";
 //后续添加的
 import { ref, watch } from "vue";
-import WaterMark from "@/components/WaterMark.vue";
+import WaterMark from "@/core/WaterMark.vue";
 import { useRoute } from "vue-router";
 
 const { VITE_APP_NAME } = import.meta.env;

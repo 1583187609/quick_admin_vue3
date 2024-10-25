@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
-import TestView from "@/components/TestView.vue";
+import TestView from "@/core/TestView.vue";
 const records = {
   hasTest: {
     title: "已测试属性",

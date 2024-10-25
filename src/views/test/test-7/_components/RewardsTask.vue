@@ -13,9 +13,9 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import SectionForm from "@/components/form/SectionForm.vue";
-import { SectionFormItem } from "@/components/form/_types";
-import { FormField } from "@/components/form/_types";
+import SectionForm from "@/core/form/SectionForm.vue";
+import { SectionFormItem } from "@/core/form/_types";
+import { FormField } from "@/core/form/_types";
 import { CommonObj } from "@/vite-env";
 
 const modelData = reactive<CommonObj>({

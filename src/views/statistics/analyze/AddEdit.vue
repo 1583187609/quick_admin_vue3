@@ -16,9 +16,9 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { FormField } from "@/components/form/_types";
+import { FormField } from "@/core/form/_types";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
-import UploadAvatar from "@/components/upload/UploadAvatar.vue";
+import UploadAvatar from "@/core/upload/UploadAvatar.vue";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/vite-env";
 

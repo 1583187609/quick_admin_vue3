@@ -1,9 +1,9 @@
 import { FormRules } from "element-plus";
-import { SlotsType } from "@/components/BaseRender.vue";
+import { SlotsType } from "@/core/BaseRender.vue";
 import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
-import { PopoverSlots } from "@/components/_types";
+import { PopoverSlots } from "@/core/_types";
 
 export type RulesType = keyof typeof defaultRulesTypes;
 

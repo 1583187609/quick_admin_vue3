@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { CommonObj, OptionItem } from "@/vite-env";
-import { FormField } from "@/components/form/_types";
+import { FormField } from "@/core/form/_types";
 const userOpts: OptionItem[] = [
   { label: "喜欢我的", value: 1 },
   { label: "优质嘉宾", value: 2 },

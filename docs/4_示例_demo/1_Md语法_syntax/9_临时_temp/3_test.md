@@ -65,5 +65,5 @@ Wraps in a <div class="vp-raw">inner</div>
 ### Title4 <Badge type="danger" text="caution" />
 
 <script setup>
-import UserInfo from '@/views/_components/UserInfo.vue'
+import UserInfo from '@/components/UserInfo.vue'
 </script>

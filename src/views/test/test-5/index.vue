@@ -33,11 +33,11 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { GetMockCommonList } from "@/api-mock";
-import Chart from "@/components/chart/Chart.vue";
-import ChartLine from "@/components/chart/ChartLine.vue";
-import ChartBar from "@/components/chart/ChartBar.vue";
-import ChartPie from "@/components/chart/ChartPie.vue";
-import ChartBars from "@/components/chart/ChartBars.vue";
+import Chart from "@/core/chart/Chart.vue";
+import ChartLine from "@/core/chart/ChartLine.vue";
+import ChartBar from "@/core/chart/ChartBar.vue";
+import ChartPie from "@/core/chart/ChartPie.vue";
+import ChartBars from "@/core/chart/ChartBars.vue";
 const tabs = [
   {
     label: "我的待办",

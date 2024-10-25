@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import ChartBar from "@/components/chart/ChartBar.vue";
+import ChartBar from "@/core/chart/ChartBar.vue";
 const data = [
   ["product", "2015", "2016", "2017"],
   ["示例1", 43.3, 85.8, 93.7],

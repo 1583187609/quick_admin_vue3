@@ -14,12 +14,7 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button
-          type="success"
-          style="width: 5em"
-          size="small"
-          @click="openPopup(null, '是否要重新比对人脸？', 'dialog', true)"
-        >
+        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog', true)">
           比对人脸
         </el-button>
       </div>
@@ -42,12 +37,8 @@
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
         </div>
         <div class="comment mr-a f-fs-c">
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive">
-            正面评价({{ 3 }})
-          </el-button>
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative">
-            负面评价({{ 3 }})
-          </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive"> 正面评价({{ 3 }}) </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative"> 负面评价({{ 3 }}) </el-button>
         </div>
         <div class="attitude f-fs-c">
           <el-button type="warning" size="small" text @click="openReportListPopup(1)" class="item">举报({{ 3 }})</el-button>
@@ -116,7 +107,7 @@ import AboutTitle from "./_components/AboutTitle.vue";
 import { CommonObj } from "@/vite-env";
 import { useDict, usePopup } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
-import { FormFieldAttrs } from "@/components/form/_types";
+import { FormFieldAttrs } from "@/core/form/_types";
 
 const { openPopup, closePopup } = usePopup();
 const { getOpts, getText } = useDict();

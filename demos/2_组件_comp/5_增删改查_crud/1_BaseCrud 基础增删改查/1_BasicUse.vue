@@ -29,15 +29,15 @@
 <script lang="ts" setup>
 import { ref, reactive, inject, h } from "vue";
 import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
-import { FormField } from "@/components/form/_types";
-import { TableCol } from "@/components/table/_types";
-import { BtnName } from "@/components/BaseBtn/_types";
+import { FormField } from "@/core/form/_types";
+import { TableCol } from "@/core/table/_types";
+import { BtnName } from "@/core/BaseBtn/_types";
 // import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
-import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
-import { TableDragSortEndNext } from "@/components/table/_types";
+import { TableDragSortEndNext } from "@/core/table/_types";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
 const fields = ref<FormField[]>([

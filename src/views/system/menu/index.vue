@@ -18,14 +18,14 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn/_types";
-import { FormField } from "@/components/form/_types";
-import { TableCol } from "@/components/table/_types";
+import { BtnName } from "@/core/BaseBtn/_types";
+import { FormField } from "@/core/form/_types";
+import { TableCol } from "@/core/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
 import { emptyStr, handleBtnNext } from "@/utils";
-import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();

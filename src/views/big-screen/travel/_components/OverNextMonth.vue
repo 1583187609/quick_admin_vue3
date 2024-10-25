@@ -5,8 +5,8 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import Chart from "@/components/chart/Chart.vue";
-import { ChartOption } from "@/components/chart/_types";
+import Chart from "@/core/chart/Chart.vue";
+import { ChartOption } from "@/core/chart/_types";
 
 const initDate = (): string[] => {
   const dateList: string[] = [];

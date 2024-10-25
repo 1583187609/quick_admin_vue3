@@ -5,7 +5,7 @@
   <BaseForm :fields="fields" :fetch="PostMockCommon"></BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormFieldAttrs } from "@/components/form/_components/FieldItem";
+import { FormFieldAttrs } from "@/core/form/_components/FieldItem";
 import { PostMockCommon } from "@/api-mock";
 const fields: FormFieldAttrs[] = [
   {

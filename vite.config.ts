@@ -6,7 +6,7 @@ import { viteMockServe } from "vite-plugin-mock";
 import { visualizer } from "rollup-plugin-visualizer";
 import GenerateComponentName from "unplugin-generate-component-name/vite"; //npm 地址：https://www.npmjs.com/package/unplugin-generate-component-name
 import pkg from "./package.json";
-import { toCamelCase } from "./src/components/_utils/common/_init";
+import { toCamelCase } from "./src/core/_utils/common/_init";
 // import viteCompression from "vite-plugin-compression"; //可进一步压缩js、css文件大小。原理：gzip
 // import { autoComplete, Plugin as importToCDN } from "vite-plugin-cdn-import";
 // import { createHtmlPlugin } from "vite-plugin-html";

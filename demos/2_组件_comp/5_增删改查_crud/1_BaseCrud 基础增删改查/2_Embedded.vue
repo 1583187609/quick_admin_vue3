@@ -93,20 +93,20 @@
 <script lang="ts" setup>
 import { ref, reactive, inject } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import { FormField, FormFieldAttrs } from "@/components/form/_types";
-import { TableCol, TableColAttrs } from "@/components/table";
-import InfoSteps from "@/views/_components/InfoSteps.vue";
-import AuthInfo from "@/views/_components/AuthInfo.vue";
+import { FormField, FormFieldAttrs } from "@/core/form/_types";
+import { TableCol, TableColAttrs } from "@/core/table";
+import InfoSteps from "@/components/InfoSteps.vue";
+import AuthInfo from "@/components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
-import { BtnName } from "@/components/BaseBtn/_types";
+import { BtnName } from "@/core/BaseBtn/_types";
 import { CommonObj, FinallyNext, OpenPopupInject } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
-import { ExtraBtnRestArgs } from "@/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
-import { TableColumnAttrs } from "@/components/table/_types";
+import { TableColumnAttrs } from "@/core/table/_types";
 
 const tempRow = {
   xm: "李四",
