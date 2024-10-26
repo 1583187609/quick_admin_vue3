@@ -155,6 +155,7 @@
 119、考虑使用 v-once 和 v-memo 来优化渲染性能
 121、处理跳转路由时，跳转的 vue 文件不存在时，给出恰当的提示语
 122、深入研究浏览器缓存策略（包括但不限于本地数据库、localStorage、sessionStorage 等），并做好缓存优化
+123、完善`BaseNumRangeNew`组件
 
 ## TS 类型处理
 

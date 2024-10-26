@@ -520,9 +520,6 @@ const fields = computed<FormField[]>(() => {
       prop: "kmsj",
       label: "开幕时间",
       type: "time-picker",
-      quickAttrs: {
-        tips: "因为几乎用不到，考虑性能，故不放出time-picker。此处作为当type类型错误时的示例",
-      },
     },
     {
       prop: "cyxslx",

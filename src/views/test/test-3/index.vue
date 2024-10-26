@@ -37,6 +37,7 @@
     <BaseCrud
       class="f-3"
       v-model="modelData"
+      :rowNum="5"
       :cols="cols"
       :fields="fields"
       :fetch="GetMockCommonList"
@@ -113,6 +114,9 @@
           <div v-if="row.rechargeMoney">RMB充值：{{ row.rechargeMoney }}元</div>
         </div>
         <template v-else>-</template>
+      </template>
+      <template #num_range_arr_new>
+        <BaseNumberRangeNew />
       </template>
     </BaseCrud>
     <!-- <ul class="f-1 ml-o tips-list">
@@ -274,6 +278,7 @@ const fields: FormFieldAttrs[] = [
       popover: "hooks封装且自定义选择下拉项",
     },
   }),
+  { prop: "num_range_arr_new", label: "数字(新)", type: "custom" },
   {
     prop: "num_range_arr",
     label: "数字(数组)",

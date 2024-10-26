@@ -142,10 +142,10 @@ export default {
         let delay = 1000;
         const { value, arg: eventName = "click", modifiers = {} } = binding;
         const { immediate = false } = modifiers;
-        const type = typeOf(value);
-        if (type === "Function") {
+        const t = typeOf(value);
+        if (t === "Function") {
           fn = value;
-        } else if (type === "Array") {
+        } else if (t === "Array") {
           [fn, delay] = value;
         } else {
           throw new Error("value必须是Array或Function类型");
