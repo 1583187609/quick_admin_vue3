@@ -179,12 +179,15 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     //   attrs: {},
     // },
     "checkbox-group": {
-      attrs: {},
-      options: [], // [{ label: "多选项1" }]
+      attrs: {
+        options: [], // [{ label: "多选项1" }]
+      },
     },
     "radio-group": {
-      attrs: { type: "button" },
-      options: [], // [{ label: "单选项-error" }]
+      attrs: {
+        options: [], // [{ label: "单选项-error" }]
+        type: "button",
+      },
     },
     pureText: {
       attrs: {

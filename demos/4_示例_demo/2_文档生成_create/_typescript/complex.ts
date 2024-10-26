@@ -63,7 +63,10 @@ export interface FormFieldAttrs {
   // };
   children?: FormField[];
   //控件的属性，例：placeholder
-  attrs?: CommonObj;
+  attrs?: {
+    options?: DictName | OptionItem[]; //select、cascader等的options属性
+    [key: string]: any;
+  };
   //插槽
   slots?: CommonSlots;
   /**
@@ -75,13 +78,14 @@ export interface FormFieldAttrs {
   style?: any; //el-form-item 的style属性
   required?: boolean; //是否必填
   rules?: FormRules[]; //校验规则
-  options?: DictName | OptionItem[]; //select、cascader等的options属性
   labelWidth?: string | number; //label文字的宽度
   fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
 }
 
 export interface StandardFormFieldAttrs extends FormFieldAttrs {
-  options?: OptionItem[]; //select、cascader等的options属性
+  attrs: {
+    options?: OptionItem[]; //select、cascader等的options属性
+  };
 }
 
 export type FormField = BaseDataType | FormFieldAttrs;

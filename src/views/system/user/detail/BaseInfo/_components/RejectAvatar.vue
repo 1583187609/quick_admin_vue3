@@ -20,13 +20,13 @@ const fields: FormField[] = [
     prop: "bhly",
     label: "驳回理由",
     type: "radio-group",
-    options: [
-      { label: "不够严肃", value: 1 },
-      { label: "形象不佳", value: 2 },
-      { label: "卡通图片", value: 3 },
-    ],
     attrs: {
       type: "button",
+      options: [
+        { label: "不够严肃", value: 1 },
+        { label: "形象不佳", value: 2 },
+        { label: "卡通图片", value: 3 },
+      ],
     },
   },
   {

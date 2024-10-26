@@ -74,8 +74,8 @@ export default () => {
 
     return {
       ...{ ...defaultField, ...field },
-      options: opts,
       attrs: {
+        options: opts,
         filterable: true,
         remote: true,
         remoteShowSuffix: true,

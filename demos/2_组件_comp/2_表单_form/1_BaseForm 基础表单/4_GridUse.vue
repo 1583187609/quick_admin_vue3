@@ -9,8 +9,24 @@ import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs } from "@/core/form/_components/FieldItem";
 const fields: FormFieldAttrs[] = [
   { prop: "name", label: "姓名", required: true, quickAttrs: { grid: 8 } },
-  { prop: "gender", label: "性别", type: "select", options: "Gender", quickAttrs: { grid: 8 } },
-  { prop: "region", label: "省市区", type: "cascader", options: "Region", quickAttrs: { grid: 8 } },
+  {
+    prop: "gender",
+    label: "性别",
+    type: "select",
+    attrs: {
+      options: "Gender",
+    },
+    quickAttrs: { grid: 8 },
+  },
+  {
+    prop: "region",
+    label: "省市区",
+    type: "cascader",
+    attrs: {
+      options: "Region",
+    },
+    quickAttrs: { grid: 8 },
+  },
   { prop: "age", label: "年龄", type: "input-number" },
   { prop: "height", label: "身高", type: "slider", attrs: { min: 100, max: 250 }, quickAttrs: { grid: 24 } },
   { prop: "avatar", label: "头像", type: "BaseUpload" },

@@ -51,7 +51,9 @@ const childrenFields: FormField[] = [
     label: "奖励类型",
     // required: true,
     type: "select",
-    options: "TaskRewards",
+    attrs: {
+      options: "TaskRewards",
+    },
   },
   {
     prop: "jlmx",
@@ -67,7 +69,9 @@ const childrenFields: FormField[] = [
     label: "领取方式",
     type: "radio-group",
     required: true,
-    options: "GetRewardWay",
+    attrs: {
+      options: "GetRewardWay",
+    },
   },
 ];
 //如果在SectionFormItem中添加 prop 属性，则提交时的数据会包裹在对应的prop名称下

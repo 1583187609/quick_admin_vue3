@@ -34,7 +34,9 @@ const fields: FormField[] = [
     prop: "xb",
     label: "性别",
     type: "select",
-    options: "Gender",
+    attrs: {
+      options: "Gender",
+    },
   },
 ];
 </script>

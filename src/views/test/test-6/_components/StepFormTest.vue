@@ -39,18 +39,18 @@ const sections = [
       {
         prop: "id",
         label: "用户ID",
-        quickAttrs: {},
       },
-      { prop: "nc", label: "昵称", quickAttrs: {} },
+      { prop: "nc", label: "昵称" },
       {
         prop: "zy",
         label: "职业",
         type: "select",
-        options: [
-          { label: "职业0", value: 0 },
-          { label: "职业1", value: 1 },
-        ],
-        quickAttrs: {},
+        attrs: {
+          options: [
+            { label: "职业0", value: 0 },
+            { label: "职业1", value: 1 },
+          ],
+        },
       },
     ],
   },
@@ -61,8 +61,8 @@ const sections = [
     popover: "块级设置 {readonly: true}",
     fields: [
       { prop: "xm", label: "姓名", quickAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
-      { prop: "xb", label: "性别", required: true, size: "default", quickAttrs: {} },
-      { prop: "nl", label: "年龄", quickAttrs: {} },
+      { prop: "xb", label: "性别", required: true, size: "default" },
+      { prop: "nl", label: "年龄" },
     ],
   },
   {

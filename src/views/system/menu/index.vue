@@ -36,19 +36,25 @@ const fields = ref<FormField[]>([
     prop: "is_link",
     label: "是否外链",
     type: "select",
-    options: "YesNoStatus",
+    attrs: {
+      options: "YesNoStatus",
+    },
   },
   {
     prop: "status",
     label: "状态",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
   {
     prop: "is_cache",
     label: "是否缓存",
     type: "select",
-    options: "YesNoStatus",
+    attrs: {
+      options: "YesNoStatus",
+    },
   },
   {
     prop: "create_time_range",

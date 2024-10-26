@@ -13,7 +13,9 @@ const fields: FormField[] = [
     prop: "czyw",
     label: "操作业务",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
   { prop: "bz", label: "备注" },
   { prop: "rq", label: "日期", type: "date-picker" },

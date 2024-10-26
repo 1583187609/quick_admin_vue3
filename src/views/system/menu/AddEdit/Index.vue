@@ -56,12 +56,12 @@ const fields = computed(() => {
       label: "菜单类型",
       required: true,
       type: "radio-group",
-      options: "MenuType",
+      attrs: {
+        options: "MenuType",
+        type: "button",
+      },
       quickAttrs: {
         popover: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
-      },
-      attrs: {
-        type: "button",
       },
     },
     menuType === 1 && {
@@ -134,7 +134,9 @@ const fields = computed(() => {
             label: "是否缓存",
             type: "radio-group",
             required: true,
-            options: "YesNoStatus",
+            attrs: {
+              options: "YesNoStatus",
+            },
             quickAttrs: {
               grid: 12,
               popover: "是否缓存该页面",
@@ -145,7 +147,9 @@ const fields = computed(() => {
             label: "是否显示",
             type: "radio-group",
             required: true,
-            options: "YesNoStatus",
+            attrs: {
+              options: "YesNoStatus",
+            },
             quickAttrs: {
               grid: 12,
               popover: "在菜单目录中是否可见",
@@ -156,7 +160,9 @@ const fields = computed(() => {
             label: "是否外链",
             required: true,
             type: "radio-group",
-            options: "YesNoStatus",
+            attrs: {
+              options: "YesNoStatus",
+            },
             quickAttrs: {
               grid: 12,
             },
@@ -166,7 +172,9 @@ const fields = computed(() => {
             label: "新窗口打开",
             required: true,
             type: "radio-group",
-            options: "YesNoStatus",
+            attrs: {
+              options: "YesNoStatus",
+            },
             quickAttrs: {
               grid: 12,
             },
@@ -178,7 +186,9 @@ const fields = computed(() => {
       label: "状态",
       required: true,
       type: "radio-group",
-      options: "EnableStatus",
+      attrs: {
+        options: "EnableStatus",
+      },
       quickAttrs: {
         grid: 12,
         popover: "启用后，在菜单中可见，否则不可见",

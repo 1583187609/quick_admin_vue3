@@ -56,13 +56,6 @@ export type ElColAttrs = GridAttrs & ColOtherAttrs;
 
 export type Grid = number | string | ElColAttrs;
 
-export interface WidgetAttrs {
-  placeholder?: string;
-  fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
-  slots?: CommonSlots; // 各个控件的插槽
-  [key: string]: any;
-}
-
 export interface FormFieldAttrs {
   key?: any; //v-for的key，如果不写，则是默认的index作为key
   type?: FormItemType; //控件类型，例：input
@@ -74,7 +67,6 @@ export interface FormFieldAttrs {
   size?: CommonSize;
   required?: boolean; //是否必填
   rules?: FormRules[]; //校验规则
-  options?: DictName | OptionItem[]; //select、cascader等的options属性
   labelWidth?: string | number; //label文字的宽度
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
@@ -91,16 +83,24 @@ export interface FormFieldAttrs {
   };
   children?: FormField[]; //字段子项
   /** 控件（input、select……）的属性，例：placeholder **/
-  attrs?: WidgetAttrs;
-  /** el-form-item的插槽 **/
+  attrs?: {
+    options?: DictName | OptionItem[]; //select、cascader等的options属性
+    placeholder?: string;
+    fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
+    slots?: CommonSlots; // 各个控件的插槽
+    [key: string]: any;
+  };
+  /** el-form-item的 插槽 **/
   slots?: {
-    label?: BaseRenderComponentType;
-    error?: BaseRenderComponentType;
+    label?: string | BaseRenderComponentType;
+    error?: string | BaseRenderComponentType;
   };
 }
 
 export interface StandardFormFieldAttrs extends FormFieldAttrs {
-  options?: OptionItem[]; //select、cascader等的options属性
+  attrs?: {
+    options?: OptionItem[]; //select、cascader等的options属性
+  };
 }
 
 export type FormField = BaseDataType | FormFieldAttrs;

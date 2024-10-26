@@ -26,11 +26,18 @@ const modelData = reactive<CommonObj>({
 
 const fields: FormFieldAttrs[] = [
   { prop: "name", label: "姓名", required: true },
-  { prop: "gender", label: "性别", type: "select", options: genderOpts },
+  { prop: "gender", label: "性别", type: "select", attrs: { options: genderOpts } },
   { prop: "age", label: "年龄", type: "input-number" },
   { prop: "height", label: "身高", type: "slider", attrs: { min: 100, max: 250 } },
   { prop: "avatar", label: "头像", type: "BaseUpload" },
-  { prop: "region", label: "省市区", type: "cascader", options: regionOpts },
+  {
+    prop: "region",
+    label: "省市区",
+    type: "cascader",
+    attrs: {
+      options: regionOpts,
+    },
+  },
   {
     prop: "err",
     label: "分类",

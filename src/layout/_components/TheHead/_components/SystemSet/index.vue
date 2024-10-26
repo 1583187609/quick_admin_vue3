@@ -63,8 +63,8 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "widget_size",
           label: $t("sysSet.appearance.widgetSize.label"),
           type: "radio-group",
-          options: sizeOpts,
           attrs: {
+            options: sizeOpts,
             disabled: true,
           },
         },
@@ -72,8 +72,8 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           prop: "language",
           label: $t("sysSet.appearance.langType.label"),
           type: "radio-group",
-          options: languageOpts,
           attrs: {
+            options: languageOpts,
             // disabled: true,
           },
         },

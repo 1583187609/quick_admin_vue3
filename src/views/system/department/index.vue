@@ -3,7 +3,6 @@
   <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommonList" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject } from "vue";
 import { GetMockCommonList } from "@/api-mock";
 import { FormField } from "@/core/form/_types";
 import { TableCol } from "@/core/table/_types";
@@ -16,7 +15,9 @@ const fields: FormField[] = [
     prop: "jslx",
     label: "角色类型",
     type: "select",
-    options: "RoleType",
+    attrs: {
+      options: "RoleType",
+    },
   },
   { prop: "rq", label: "日期", type: "date-picker" },
 ];

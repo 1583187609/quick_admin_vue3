@@ -50,8 +50,8 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "radio-group",
-    options: "Gender",
     attrs: {
+      options: "Gender",
       type: "button",
     },
   },
@@ -69,15 +69,17 @@ const fields = ref<FormField[]>([
     label: "类型",
     type: "select",
     required: false,
-    options: "RoleType",
+    attrs: {
+      options: "RoleType",
+    },
   },
   {
     prop: "status",
     label: "状态",
     type: "radio-group",
     required: false,
-    options: "EnableStatus",
     attrs: {
+      options: "EnableStatus",
       type: "button",
     },
   },
@@ -86,8 +88,8 @@ const fields = ref<FormField[]>([
     label: "地址",
     required: false,
     type: "cascader",
-    options: "Region",
     attrs: {
+      options: "Region",
       style: "width: 100%",
     },
   },

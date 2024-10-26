@@ -44,7 +44,9 @@ const fields = computed<FormField[]>(() => {
       label: "性别",
       required: true,
       type: "select",
-      options: "Gender",
+      attrs: {
+        options: "Gender",
+      },
     },
     { prop: "nl", label: "年龄", rulesType: "age" },
     { prop: "dhhm", label: "电话号码", rulesType: "phone" },
@@ -56,7 +58,14 @@ const fields = computed<FormField[]>(() => {
         popover: "这是popover示例",
       },
     },
-    { prop: "cflx", label: "处罚类型", type: "radio-group", options: cflxOpts },
+    {
+      prop: "cflx",
+      label: "处罚类型",
+      type: "radio-group",
+      attrs: {
+        options: cflxOpts,
+      },
+    },
     modelData.cflx === 1 && {
       prop: "jgnr",
       label: "警告内容",

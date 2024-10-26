@@ -206,21 +206,25 @@ const fields = computed<FormField[]>(() => {
       label: "组件尺寸",
       prop: "widget_size",
       type: "radio-group",
-      options: [
-        { label: "大型", value: "large" },
-        { label: "默认", value: "default" },
-        { label: "小型", value: "small" },
-      ],
+      attrs: {
+        options: [
+          { label: "大型", value: "large" },
+          { label: "默认", value: "default" },
+          { label: "小型", value: "small" },
+        ],
+      },
     },
     {
       label: "标签所处位置",
       prop: "label_position",
       type: "radio-group",
-      options: [
-        { label: "左侧", value: "left" },
-        { label: "右侧", value: "right" },
-        { label: "上方", value: "top" },
-      ],
+      attrs: {
+        options: [
+          { label: "左侧", value: "left" },
+          { label: "右侧", value: "right" },
+          { label: "上方", value: "top" },
+        ],
+      },
     },
     {
       label: "嵌套（对象）",
@@ -290,10 +294,12 @@ const fields = computed<FormField[]>(() => {
       prop: "xb",
       label: "性别",
       type: "select",
-      options: [
-        { label: "男", value: 1 },
-        { label: "女", value: 2 },
-      ],
+      attrs: {
+        options: [
+          { label: "男", value: 1 },
+          { label: "女", value: 2 },
+        ],
+      },
       quickAttrs: {
         // popover: h("div", { style: "color:red" }, "这是内容"), // 暂时不要用h函数写，会报错
         // popover: ["div", { style: "color:red" }, "这是内容"],
@@ -401,20 +407,22 @@ const fields = computed<FormField[]>(() => {
       prop: "sfqy",
       label: "是否启用",
       type: "switch",
+      attrs: {},
       quickAttrs: {
         tips: "考虑【启用/禁用】用的多，故设为内置switch样式，可通过设置attrs覆盖内置默认样式",
       },
-      attrs: {},
     },
     {
       prop: "ly",
       label: "渠道来源",
       type: "checkbox-group",
-      options: [
-        { label: "来源1", value: 1 },
-        { label: "来源2", value: 2 },
-        { label: "来源3", value: 3 },
-      ],
+      attrs: {
+        options: [
+          { label: "来源1", value: 1 },
+          { label: "来源2", value: 2 },
+          { label: "来源3", value: 3 },
+        ],
+      },
     },
     {
       prop: "jzw",
@@ -434,23 +442,25 @@ const fields = computed<FormField[]>(() => {
       prop: "ssq",
       label: "省市区",
       type: "cascader",
-      options: tempAddressOpts,
+      attrs: {
+        options: tempAddressOpts,
+      },
     },
     {
       prop: "cyfs",
       label: "参与方式",
       labelWidth: "15em",
       type: "radio-group",
-      quickAttrs: {
-        tips: "手动指定label宽度，覆盖自动计算宽度",
-      },
-      options: [
-        { label: "方式1", value: 1 },
-        { label: "方式2", value: 2 },
-        { label: "方式3", value: 3 },
-      ],
       attrs: {
         type: "",
+        options: [
+          { label: "方式1", value: 1 },
+          { label: "方式2", value: 2 },
+          { label: "方式3", value: 3 },
+        ],
+      },
+      quickAttrs: {
+        tips: "手动指定label宽度，覆盖自动计算宽度",
       },
     },
     {
@@ -468,15 +478,17 @@ const fields = computed<FormField[]>(() => {
       prop: "bpzs2",
       label: "并排展示2",
       type: "select",
+      attrs: {
+        options: [
+          { label: "并排展示选项1", value: 1 },
+          { label: "并排展示选项2", value: 2 },
+        ],
+      },
       quickAttrs: {
         tips: "纯文本展示",
         grid: 12,
         pureText: true,
       },
-      options: [
-        { label: "并排展示选项1", value: 1 },
-        { label: "并排展示选项2", value: 2 },
-      ],
     },
     {
       prop: "bz",
@@ -516,10 +528,12 @@ const fields = computed<FormField[]>(() => {
       prop: "cyxslx",
       label: "差异显示类型",
       type: "radio-group",
-      options: [
-        { label: "认证方式有prop", value: 1 },
-        { label: "认证方式无prop", value: 2 },
-      ],
+      attrs: {
+        options: [
+          { label: "认证方式有prop", value: 1 },
+          { label: "认证方式无prop", value: 2 },
+        ],
+      },
       quickAttrs: {
         tips: "radio-group控件，默认为button样式",
         popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",

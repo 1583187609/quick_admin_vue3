@@ -182,19 +182,56 @@ const fields: FormFieldAttrs[] = [
     prop: "qyzt",
     label: "启用状态",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
-  { prop: "qqxl", label: "文本下拉", type: "select", options: "TestText" },
-  { prop: "hsxl", label: "函数下拉", type: "select", options: "TestFunction" },
-  { prop: "promxl", label: "Promise下拉", type: "select", options: "TestPromise" },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetch" },
-  { prop: "ybhsxl", label: "异步函数下拉", type: "select", options: "TestFetchLazy" },
+  {
+    prop: "qqxl",
+    label: "文本下拉",
+    type: "select",
+    attrs: {
+      options: "TestText",
+    },
+  },
+  {
+    prop: "hsxl",
+    label: "函数下拉",
+    type: "select",
+    attrs: {
+      options: "TestFunction",
+    },
+  },
+  {
+    prop: "promxl",
+    label: "Promise下拉",
+    type: "select",
+    attrs: {
+      options: "TestPromise",
+    },
+  },
+  {
+    prop: "qqxl",
+    label: "请求下拉",
+    type: "select",
+    attrs: {
+      options: "TestFetch",
+    },
+  },
+  {
+    prop: "ybhsxl",
+    label: "异步函数下拉",
+    type: "select",
+    attrs: {
+      options: "TestFetchLazy",
+    },
+  },
   {
     prop: "multi_tag",
     label: "多标签",
     type: "select",
-    options: "RoleType",
     attrs: {
+      options: "RoleType",
       multiple: true,
     },
   },
@@ -202,8 +239,8 @@ const fields: FormFieldAttrs[] = [
     prop: "liveCity",
     label: "居住地址",
     type: "cascader",
-    options: "Region",
     attrs: {
+      options: "Region",
       filterable: true,
     },
   },
@@ -211,13 +248,17 @@ const fields: FormFieldAttrs[] = [
     prop: "localCascader",
     label: "写死级联",
     type: "cascader",
-    options: "TestCascader",
+    attrs: {
+      options: "TestCascader",
+    },
   },
   {
     prop: "tree",
     label: "树形下拉",
     type: "tree-select",
-    options: "TestTree",
+    attrs: {
+      options: "TestTree",
+    },
   },
   getSearchOpts("school", {
     prop: "schoolId",

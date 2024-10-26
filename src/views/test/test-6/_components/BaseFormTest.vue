@@ -36,11 +36,12 @@ const fields = [
     prop: "zy",
     label: "职业",
     type: "select",
-    options: [
-      { label: "职业0", value: 0 },
-      { label: "职业1", value: 1 },
-    ],
-    quickAttrs: {},
+    attrs: {
+      options: [
+        { label: "职业0", value: 0 },
+        { label: "职业1", value: 1 },
+      ],
+    },
   },
   { prop: "xm", label: "姓名", quickAttrs: {} },
   { prop: "xb", label: "性别", quickAttrs: {} },

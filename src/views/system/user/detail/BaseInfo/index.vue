@@ -157,7 +157,9 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     prop: "xb",
     label: "性别",
     type: "select",
-    options: genderOpts,
+    attrs: {
+      options: genderOpts,
+    },
   },
   {
     prop: "nl",

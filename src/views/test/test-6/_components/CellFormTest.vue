@@ -31,24 +31,40 @@ const size: CommonSize = "default"; // large, default, small
 const pureText = false;
 const modelData = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "" });
 const fields = [
-  { prop: "id", label: "用户ID", required: true, quickAttrs: {} },
-  { prop: "nc", label: "昵称", quickAttrs: {} },
+  { prop: "id", label: "用户ID", required: true },
+  { prop: "nc", label: "昵称" },
   {
     prop: "zy",
     label: "职业",
     type: "select",
-    options: [
-      { label: "职业0", value: 0 },
-      { label: "职业1", value: 1 },
-    ],
-    quickAttrs: {},
+    attrs: {
+      options: [
+        { label: "职业0", value: 0 },
+        { label: "职业1", value: 1 },
+      ],
+    },
   },
-  { prop: "xm", label: "姓名", quickAttrs: {} },
-  { prop: "xb", label: "性别", type: "select", options: "Gender", quickAttrs: {} },
-  { prop: "nl", label: "年龄", quickAttrs: {} },
+  { prop: "xm", label: "姓名" },
+  {
+    prop: "xb",
+    label: "性别",
+    type: "select",
+    attrs: {
+      options: "Gender",
+    },
+  },
+  { prop: "nl", label: "年龄" },
   { prop: "xx", label: "学校", quickAttrs: { grid: 6 } },
   { prop: "jg", label: "籍贯", quickAttrs: { grid: 6 } },
-  { prop: "xjd", label: "现居地", type: "cascader", options: "Region", quickAttrs: { grid: 6 } },
+  {
+    prop: "xjd",
+    label: "现居地",
+    type: "cascader",
+    attrs: {
+      options: "Region",
+    },
+    quickAttrs: { grid: 6 },
+  },
   { prop: "ip", label: "IP地址", quickAttrs: { grid: 6 } },
   { prop: "dh", label: "电话", quickAttrs: { grid: 6 } },
   { prop: "zdy", label: "自定义", type: "custom", quickAttrs: { grid: 18 } },
@@ -63,18 +79,18 @@ const sections = [
       {
         prop: "id",
         label: "用户ID",
-        quickAttrs: {},
       },
-      { prop: "nc", label: "昵称", quickAttrs: {} },
+      { prop: "nc", label: "昵称" },
       {
         prop: "zy",
         label: "职业",
         type: "select",
-        options: [
-          { label: "职业0", value: 0 },
-          { label: "职业1", value: 1 },
-        ],
-        quickAttrs: {},
+        attrs: {
+          options: [
+            { label: "职业0", value: 0 },
+            { label: "职业1", value: 1 },
+          ],
+        },
       },
     ],
   },
@@ -86,8 +102,17 @@ const sections = [
     popover: "块级设置 {readonly: true}",
     fields: [
       { prop: "xm", label: "姓名", quickAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
-      { prop: "xb", label: "性别", required: true, size: "default", type: "select", options: "Gender", quickAttrs: {} },
-      { prop: "nl", label: "年龄", quickAttrs: {} },
+      {
+        prop: "xb",
+        label: "性别",
+        required: true,
+        size: "default",
+        type: "select",
+        attrs: {
+          options: "Gender",
+        },
+      },
+      { prop: "nl", label: "年龄" },
     ],
   },
   {
@@ -99,8 +124,10 @@ const sections = [
         prop: "xjd",
         label: "现居地",
         type: "cascader",
-        options: "Region",
         size: "default",
+        attrs: {
+          options: "Region",
+        },
         quickAttrs: { grid: 12, tips: "字段级的size【el-form-item】" },
       },
       {

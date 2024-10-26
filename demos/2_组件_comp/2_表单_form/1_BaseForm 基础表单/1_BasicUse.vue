@@ -29,12 +29,27 @@ const genderOpts = [
 const regionOpts = ref<OptionItem[]>([]);
 const fields: FormFieldAttrs[] = [
   { prop: "name", label: "姓名", required: true },
-  { prop: "gender", label: "性别", type: "select", required: true, options: genderOpts },
+  {
+    prop: "gender",
+    label: "性别",
+    type: "select",
+    required: true,
+    attrs: {
+      options: genderOpts,
+    },
+  },
   { prop: "age", label: "年龄", type: "input-number", attrs: { min: 0, max: 100 } },
   { prop: "height", label: "身高", type: "slider", attrs: { min: 100, max: 250 } },
   { prop: "weight", label: "体重", type: "slider", attrs: { min: 100, max: 250 } },
   { prop: "avatar", label: "头像", type: "BaseUpload" },
-  { prop: "region", label: "省市区", type: "cascader", options: regionOpts.value },
+  {
+    prop: "region",
+    label: "省市区",
+    type: "cascader",
+    attrs: {
+      options: regionOpts.value,
+    },
+  },
   { prop: "remark", label: "备注", attrs: { type: "textarea" } },
   {
     prop: "err",

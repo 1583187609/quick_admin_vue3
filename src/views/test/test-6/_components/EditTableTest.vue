@@ -41,13 +41,39 @@ const cols = [
     prop: "zy",
     label: "角色",
     width: 200,
-    field: { type: "select", options: "RoleType" },
+    field: {
+      type: "select",
+      attrs: {
+        options: "RoleType",
+      },
+    },
   },
-  { prop: "xb", label: "性别", required: true, width: 180, field: { type: "radio-group", options: "Gender" } },
+  {
+    prop: "xb",
+    label: "性别",
+    required: true,
+    width: 180,
+    field: {
+      type: "radio-group",
+      attrs: {
+        options: "Gender",
+      },
+    },
+  },
   { prop: "nl", label: "年龄", required: true, width: 200, field: { quickAttrs: { rulesType: "age" } } },
   // { prop: "xx", label: "学校" },
   { prop: "zt", label: "状态", width: 70, field: { type: "switch" } },
-  { prop: "xjd", label: "现居地", width: 200, field: { type: "cascader", options: "Region" } },
+  {
+    prop: "xjd",
+    label: "现居地",
+    width: 200,
+    field: {
+      type: "cascader",
+      attrs: {
+        options: "Region",
+      },
+    },
+  },
   { prop: "dh", label: "电话", width: 200, field: { quickAttrs: { rulesType: "phone" } } },
   { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
 ];

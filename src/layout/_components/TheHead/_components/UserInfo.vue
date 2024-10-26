@@ -61,9 +61,9 @@ const fields = computed<FormFieldAttrs[]>(() => {
       prop: "gender",
       label: "性别",
       type: "radio-group",
-      options: "Gender",
       attrs: {
         type: "button",
+        options: "Gender",
         disabled: true,
       },
     },

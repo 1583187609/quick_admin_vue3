@@ -37,7 +37,9 @@ const fields: FormFieldAttrs[] = [
     prop: "zt",
     label: "状态",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
 ];
 

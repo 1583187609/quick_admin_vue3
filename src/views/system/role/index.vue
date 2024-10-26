@@ -28,13 +28,17 @@ const fields = ref<FormField[]>([
     prop: "role_type",
     label: "角色类型",
     type: "select",
-    options: "RoleType",
+    attrs: {
+      options: "RoleType",
+    },
   },
   {
     prop: "status",
     label: "状态",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
   {
     prop: "create_time_range",

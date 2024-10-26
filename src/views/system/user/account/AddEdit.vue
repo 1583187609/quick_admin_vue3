@@ -58,8 +58,8 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "radio-group",
-    options: "Gender",
     attrs: {
+      options: "Gender",
       type: "button",
     },
     quickAttrs: {
@@ -83,22 +83,24 @@ const fields = ref<FormField[]>([
     label: "角色类型",
     type: "select",
     required: true,
+    attrs: {
+      options: "RoleType",
+    },
     quickAttrs: {
       grid: 12,
     },
-    options: "RoleType",
   },
   {
     prop: "status",
     label: "启用状态",
     type: "radio-group",
     required: true,
-    quickAttrs: {
-      grid: 12,
-    },
-    options: "EnableStatus",
     attrs: {
       type: "button",
+      options: "EnableStatus",
+    },
+    quickAttrs: {
+      grid: 12,
     },
   },
 
@@ -125,8 +127,8 @@ const fields = ref<FormField[]>([
     label: "居住地址",
     required: false,
     type: "cascader",
-    options: "Region",
     attrs: {
+      options: "Region",
       style: "width: 100%",
     },
   },

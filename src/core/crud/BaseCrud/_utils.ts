@@ -116,7 +116,8 @@ export function handleClickExtraBtns({
  * 获取查询条件的文本值
  */
 export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[], joinChar = "、") {
-  const { attrs, type = defaultFormItemType, options = [] } = field;
+  const { attrs = {}, type = defaultFormItemType } = field;
+  const { options = [] } = attrs;
   if (type === "cascader") {
     if (typeOf(val) === "Array") return getLabelFromOptionsByAllValues(options as CommonObj[], val as StrNum[]);
     return getLabelFromOptionsByLastValue(options as CommonObj[], val as StrNum);

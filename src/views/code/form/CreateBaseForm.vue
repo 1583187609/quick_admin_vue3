@@ -123,7 +123,9 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       prop: "type",
       label: "控件类型",
       type: "select",
-      options: widgetTypeOpts,
+      attrs: {
+        options: widgetTypeOpts,
+      },
       quickAttrs: {
         grid: 6,
         popover: "表单控件类型",
@@ -133,7 +135,9 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       prop: "required",
       label: "是否必填",
       type: "select",
-      options: yesNoOpts,
+      attrs: {
+        options: yesNoOpts,
+      },
       quickAttrs: {
         grid: 6,
       },
@@ -158,7 +162,9 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       prop: "rulesType",
       label: "规则类型",
       type: "select",
-      options: validOpts,
+      attrs: {
+        options: validOpts,
+      },
       quickAttrs: {
         grid: 6,
         popover: "内置的几种常用规则类型，含表单校验规则、属性等",
@@ -182,7 +188,9 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       prop: "pureText",
       label: "是否纯文本",
       type: "select",
-      options: yesNoOpts,
+      attrs: {
+        options: yesNoOpts,
+      },
       quickAttrs: {
         grid: 6,
         popover: "展示时，将不会看到输入框等边框，而是以纯文本展示",

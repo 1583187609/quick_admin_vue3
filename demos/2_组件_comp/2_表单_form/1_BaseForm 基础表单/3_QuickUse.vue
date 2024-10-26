@@ -28,15 +28,36 @@ const modelData = reactive<CommonObj>({
 const fields = computed<FormField[]>(() => {
   const { type } = modelData;
   return [
-    { prop: "type", label: "类型", type: "select", options: typeOpts },
+    {
+      prop: "type",
+      label: "类型",
+      type: "select",
+      attrs: {
+        options: typeOpts,
+      },
+    },
     { prop: "name", label: "姓名", required: true },
-    { prop: "gender", label: "性别", type: "select", options: "Gender" },
+    {
+      prop: "gender",
+      label: "性别",
+      type: "select",
+      attrs: {
+        options: "Gender",
+      },
+    },
     type !== 0 && { prop: "age", label: "年龄", type: "input-number" },
     ...(type === 2
       ? [
           { prop: "height", label: "身高", type: "slider", attrs: { min: 100, max: 250 } },
           { prop: "avatar", label: "头像", type: "BaseUpload" },
-          { prop: "region", label: "省市区", type: "cascader", options: "Region" },
+          {
+            prop: "region",
+            label: "省市区",
+            type: "cascader",
+            attrs: {
+              options: "Region",
+            },
+          },
         ]
       : []),
   ];

@@ -33,7 +33,9 @@ const fields: FormFieldAttrs[] = [
     prop: "xzk",
     label: "选择框",
     type: "select",
-    options: [],
+    attrs: {
+      options: [],
+    },
   },
   {
     prop: "rqqj",

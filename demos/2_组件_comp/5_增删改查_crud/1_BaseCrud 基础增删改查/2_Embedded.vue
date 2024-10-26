@@ -145,15 +145,24 @@ const fields: FormFieldAttrs[] = [
     prop: "qyzt",
     label: "启用状态",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
-  { prop: "qqxl", label: "请求下拉", type: "select", options: "TestFetchLazy" },
+  {
+    prop: "qqxl",
+    label: "请求下拉",
+    type: "select",
+    attrs: {
+      options: "TestFetchLazy",
+    },
+  },
   {
     prop: "multi_tag",
     label: "多标签",
     type: "select",
-    options: "RoleType",
     attrs: {
+      options: "RoleType",
       multiple: true,
     },
   },
@@ -161,8 +170,8 @@ const fields: FormFieldAttrs[] = [
     prop: "liveCity",
     label: "居住地址",
     type: "cascader",
-    options: "Region",
     attrs: {
+      options: "Region",
       filterable: true,
     },
   },

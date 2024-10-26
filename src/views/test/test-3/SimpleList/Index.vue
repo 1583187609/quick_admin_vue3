@@ -37,9 +37,9 @@ const props = withDefaults(
 );
 const fields = reactive<FormField[]>([
   { prop: "xm", label: "姓名" },
-  { prop: "jg", label: "籍贯", type: "cascader", options: [] },
+  { prop: "jg", label: "籍贯", type: "cascader" },
   { prop: "nl", label: "年龄", type: "BaseNumberRange" },
-  { prop: "zt", label: "账号状态", type: "select", options: [] },
+  { prop: "zt", label: "账号状态", type: "select" },
   { prop: "zcsj", label: "注册时间", type: "date-picker" },
 ]);
 const cols = [

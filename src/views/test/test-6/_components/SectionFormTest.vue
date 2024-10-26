@@ -37,18 +37,18 @@ const sections = [
       {
         prop: "id",
         label: "用户ID",
-        quickAttrs: {},
       },
-      { prop: "nc", label: "昵称", quickAttrs: {} },
+      { prop: "nc", label: "昵称" },
       {
         prop: "zy",
         label: "职业",
         type: "select",
-        options: [
-          { label: "职业0", value: 0 },
-          { label: "职业1", value: 1 },
-        ],
-        quickAttrs: {},
+        attrs: {
+          options: [
+            { label: "职业0", value: 0 },
+            { label: "职业1", value: 1 },
+          ],
+        },
       },
     ],
   },

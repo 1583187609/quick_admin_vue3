@@ -53,19 +53,25 @@ const fields = ref<FormField[]>([
     prop: "gender",
     label: "性别",
     type: "select",
-    options: "Gender",
+    attrs: {
+      options: "Gender",
+    },
   },
   {
     prop: "type",
     label: "用户类型",
     type: "select",
-    options: "RoleType",
+    attrs: {
+      options: "RoleType",
+    },
   },
   {
     prop: "status",
     label: "账号状态",
     type: "select",
-    options: "EnableStatus",
+    attrs: {
+      options: "EnableStatus",
+    },
   },
 ]);
 const cols: TableCol[] = [

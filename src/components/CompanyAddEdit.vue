@@ -49,8 +49,9 @@ const fields: FormField[] = [
     prop: "typeId",
     label: "公司类型",
     type: "select",
-    options: [],
-    attrs: {},
+    attrs: {
+      options: [],
+    },
   },
   {
     prop: "fullName",

@@ -21,10 +21,12 @@ const fields = computed<FormField[]>(() => {
       prop: "form_type",
       label: "表单类型",
       type: "radio-group",
-      options: [
-        { label: "基础表单", value: 0 },
-        { label: "分块表单", value: 1 },
-      ],
+      attrs: {
+        options: [
+          { label: "基础表单", value: 0 },
+          { label: "分块表单", value: 1 },
+        ],
+      },
     },
   ];
 });

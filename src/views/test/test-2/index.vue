@@ -53,7 +53,9 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "xb",
           label: "性别",
           type: "select",
-          options: "Gender",
+          attrs: {
+            options: "Gender",
+          },
           quickAttrs: {
             grid: 5,
           },
@@ -90,7 +92,9 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "dz",
           label: "地址",
           type: "cascader",
-          options: "Region",
+          attrs: {
+            options: "Region",
+          },
         },
         {
           prop: "hz",
@@ -177,10 +181,12 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "cyxslx",
           label: "差异显示类型",
           type: "radio-group",
-          options: [
-            { label: "认证方式有prop", value: 1 },
-            { label: "认证方式无prop", value: 2 },
-          ],
+          attrs: {
+            options: [
+              { label: "认证方式有prop", value: 1 },
+              { label: "认证方式无prop", value: 2 },
+            ],
+          },
           quickAttrs: {
             tips: "radio-group控件，默认为button样式",
             popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",

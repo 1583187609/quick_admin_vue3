@@ -31,9 +31,9 @@ const fields = ref<FormField[]>([
     prop: "status",
     label: "启用状态",
     type: "radio-group",
-    options: "EnableStatus",
     attrs: {
       type: "button",
+      options: "EnableStatus",
     },
   },
   {

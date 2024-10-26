@@ -61,8 +61,9 @@ const fields = computed<FormField[]>(() => {
             label: "处罚类型",
             type: "radio-group",
             required: true,
-            options: [],
-            attrs: {},
+            attrs: {
+              options: [],
+            },
           },
           scene === "all-interaction" && {
             prop: "timeDay",
@@ -92,8 +93,12 @@ const fields = computed<FormField[]>(() => {
             label: "违规级别",
             type: "radio-group",
             required: true,
-            options: [],
-            tips: "数值越小处罚程度越严重",
+            attrs: {
+              options: [],
+            },
+            quickAttrs: {
+              tips: "数值越小处罚程度越严重",
+            },
           },
         ]),
     {

@@ -28,7 +28,9 @@ const fields: FormField[] = [
     prop: "ffzt",
     label: "发放状态",
     type: "select",
-    options: "YesNoStatus",
+    attrs: {
+      options: "YesNoStatus",
+    },
   },
   { prop: "czr", label: "操作人" },
   { prop: "bz", label: "备注" },

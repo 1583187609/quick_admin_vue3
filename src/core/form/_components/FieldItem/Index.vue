@@ -2,7 +2,7 @@
   <el-form-item
     class="field-item"
     :class="{ 'label-h-center': !!currPopover, [`value-v-${newField?.quickAttrs?.valueAlignContent}`]: true }"
-    v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'options', 'slots'])"
+    v-bind="deleteAttrs(newField, ['children', 'attrs', 'quickAttrs', 'slots'])"
   >
     <!-- el-form-item 的插槽(label、error等) -->
     <template #[key] v-for="(val, key) in getFormItemSlots(newField, currPopover)" :key="key">
@@ -29,7 +29,7 @@
           v-bind="newField.attrs"
           v-if="newField.type === 'input'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-input>
@@ -40,12 +40,12 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'select'"
         >
-          <el-option v-for="(opt, ind) in newField.options" :key="ind" v-bind="deleteAttrs(opt, ['slots'])">
+          <el-option v-for="(opt, ind) in currOptions" :key="ind" v-bind="deleteAttrs(opt, ['slots'])">
             <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
               <BaseRender :data="val" />
             </template>
           </el-option>
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-select>
@@ -53,11 +53,11 @@
           :class="flexClass"
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
-          :data="newField.options"
+          :data="newField.attrs?.options"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'tree-select'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-tree-select>
@@ -68,7 +68,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'date-picker'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-date-picker>
@@ -79,20 +79,20 @@
           v-else-if="newField.type === 'radio-group'"
         >
           <template v-if="newField?.attrs?.type === 'button'">
-            <el-radio-button v-bind="opt as OptionItem" v-for="(opt, ind) in newField.options" :key="ind">
+            <el-radio-button v-bind="opt as OptionItem" v-for="(opt, ind) in currOptions" :key="ind">
               <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem)?.slots)" :key="key">
                 <BaseRender :data="val" />
               </template>
             </el-radio-button>
           </template>
           <template v-else>
-            <el-radio v-bind="opt as OptionItem" v-for="(opt, ind) in newField.options" :key="ind">
+            <el-radio v-bind="opt as OptionItem" v-for="(opt, ind) in currOptions" :key="ind">
               <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem)?.slots)" :key="key">
                 <BaseRender :data="val" />
               </template>
             </el-radio>
           </template>
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-radio-group>
@@ -103,12 +103,12 @@
           v-else-if="newField.type === 'checkbox-group'"
         >
           <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-          <el-checkbox v-bind="opt" :name="(newField.prop as string)" v-for="(opt, ind) in newField.options" :key="ind">
+          <el-checkbox v-bind="opt" :name="(newField.prop as string)" v-for="(opt, ind) in currOptions" :key="ind">
             <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem)?.slots)" :key="key">
               <BaseRender :data="val" />
             </template>
           </el-checkbox>
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-checkbox-group>
@@ -118,7 +118,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'input-number'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-input-number>
@@ -128,7 +128,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'switch'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-switch>
@@ -136,11 +136,11 @@
           :class="flexClass"
           @change="(val:any)=> $emit('change', newField.prop, val ?? '')"
           v-model="newVal"
-          :options="newField.options"
+          :options="newField.attrs?.options"
           v-bind="newField.attrs"
           v-else-if="newField.type === 'cascader'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-cascader>
@@ -155,7 +155,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'BaseNumberRange'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </BaseNumberRange>
@@ -165,7 +165,7 @@
           v-model="newVal"
           v-else-if="newField.type === 'BaseUpload'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </BaseUpload>
@@ -175,7 +175,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'BasicEditor'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </BasicEditor> -->
@@ -186,7 +186,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'autocomplete'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-autocomplete>
@@ -197,7 +197,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'slider'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-slider>
@@ -207,7 +207,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'checkbox'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-checkbox>
@@ -219,7 +219,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-picker'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-time-picker>
@@ -229,7 +229,7 @@
           v-bind="newField.attrs"
           v-else-if="newField.type === 'time-select'"
         >
-          <template #[key] v-for="(val, key) in getSlotsMap(newField?.attrs?.slots)" :key="key">
+          <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
         </el-time-select> -->
@@ -317,7 +317,9 @@ const newVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
+let currSlots: any; // 当前表单控件的插槽
 let currPopover: any;
+let currOptions: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
@@ -357,12 +359,22 @@ const newField = computed<FormFieldAttrs>(() => {
     tempField = merge({ type }, defField, validField, field);
     const { getInferredAttrs } = tempField?.attrs ?? {};
     getInferredAttrs && merge(tempField, { attrs: getInferredAttrs(tempField) }, field);
-    if (typeof tempField.options === "string") tempField.options = getOpts(tempField.options as DictName);
     currPopover = tempField.quickAttrs?.popover;
     tempField.prop = prefixProp ? `${prefixProp}.${field.prop}` : field.prop;
     tempField.rules = getRules(tempField, field.rules);
     if (tempField.attrs) {
+      const { slots, options } = tempField.attrs;
       tempField.attrs.placeholder = getPlaceholder(tempField);
+      if (options) {
+        if (typeof options === "string") {
+          const opts = getOpts(options as DictName);
+          tempField.attrs!.options = opts;
+          currOptions = opts;
+        } else {
+          currOptions = options;
+        }
+      }
+      if (slots) currSlots = slots;
     }
   }
   if (tempField.attrs) {
@@ -449,7 +461,8 @@ function getRules(field: FormFieldAttrs, rules: RuleItem[] = []) {
 //获取表单键值对的值
 function getOptionValue(field: FormFieldAttrs, val: any) {
   const { pureText } = props;
-  const { type = defaultFormItemType, label, attrs = {}, options = [], quickAttrs = {} } = field;
+  const { type = defaultFormItemType, label, attrs = {}, quickAttrs = {} } = field;
+  const { options = [] } = attrs;
   const { after = "" } = quickAttrs;
   if (["select", "radio-group"].includes(type)) {
     val = options?.find(it => it.value === val)?.label;
@@ -475,7 +488,7 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
   } else if (type === "checkbox") {
     val = val ? "是" : "否";
   } else if (type === "cascader") {
-    val = getTextFromOpts(attrs?.options, val);
+    val = getTextFromOpts(options, val);
   } else if (type === "BaseNumberRange") {
     val = val?.join(rangeJoinChar);
   } else if (type === "custom") {
