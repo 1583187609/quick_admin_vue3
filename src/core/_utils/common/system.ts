@@ -2,7 +2,7 @@
 /**************** 系统级别的方法，可能因工程改变而改变 ****************/
 /********************************************************************/
 
-import { needParam, typeOf } from "@/core/_utils";
+import { emptyStr, needParam, typeOf } from "@/core/_utils";
 import { FormFieldAttrs } from "@/core/form/_types";
 import { CommonObj, GetRequired, OptionItem, StrNum } from "@/vite-env";
 import { emptyVals, emptyTime } from "@/utils";
@@ -160,7 +160,7 @@ export const getImgUrl = (path: string): string => {
  * @param {OptionPropsMap} propsMap props映射
  * @param {string} emptyChar 空字符串
  */
-export function getLabelFromOptionsByLastValue(options: CommonObj[], val: StrNum, propsMap?: OptionPropsMap, emptyChar = "-") {
+export function getLabelFromOptionsByLastValue(options: CommonObj[], val: StrNum, propsMap?: OptionPropsMap, emptyChar = emptyStr) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   let target: CommonObj | undefined;
   function getLabel(opts: CommonObj[]): boolean {
@@ -211,7 +211,7 @@ export function getLabelFromOptionsByAllValues(options: CommonObj[] = [], values
  * 获取select、cascader、tree下拉项中的文本
  * @param {OptionPropsMap} propsMap 属性名映射
  */
-export function getTextFromOptions(options: CommonObj[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = "-") {
+export function getTextFromOptions(options: CommonObj[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = emptyStr) {
   if (emptyVals.includes(val as any)) return char;
   const t = typeOf(val);
   if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char);

@@ -4,7 +4,7 @@
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !clickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!clickIconCopy && !to">
         <span @click="handleClick" class="f-1" :class="{ [`line-${line}`]: true, link: clickIconCopy }">
-          <slot>{{ textStr || "-" }}</slot>
+          <slot>{{ textStr || emptyStr }}</slot>
         </span>
       </el-tooltip>
       <template v-if="textStr">
@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { CommonObj, RouteTo, StrNum } from "@/vite-env";
-import { showMessage, defaultTooltipAttrs, typeOf } from "@/utils";
+import { showMessage, defaultTooltipAttrs, typeOf, emptyStr } from "@/utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
 
 const tooltipAttrs = {

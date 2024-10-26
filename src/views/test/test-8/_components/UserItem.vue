@@ -23,7 +23,7 @@
           "
           class="nickname line-1 mr-a"
         >
-          {{ data?.[userDataKey]?.nickname || "-" }}
+          {{ data?.[userDataKey]?.nickname || emptyStr }}
         </b>
         <BaseTag
           name="AccountStatus"
@@ -35,7 +35,7 @@
       <div class="f-fs-c tips-info">
         <BaseCopy class="f-0" :text="data?.[userDataKey]?.id" line="1" />
         <div class="ml-h mr-h f-1 line-1">
-          {{ getText("Region", data?.[userDataKey]?.liveCity) || "-" }}
+          {{ getText("Region", data?.[userDataKey]?.liveCity) || emptyStr }}
         </div>
         <div class="f-0">{{ data?.[userDataKey]?.age }}岁</div>
       </div>

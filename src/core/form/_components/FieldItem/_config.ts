@@ -1,6 +1,6 @@
 import { CommonObj } from "@/vite-env";
 import { FormFieldAttrs } from "@/core/form/_types";
-import { getExportData, getInputLimitNum, rangeJoinChar, regexp } from "@/core/_utils";
+import { getExportData, rangeJoinChar, regexp } from "@/core/_utils";
 import config from "@/config";
 
 const formCfg = config?.form;
@@ -91,13 +91,14 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         loadingText: "玩命加载中……",
         getInferredAttrs(field: FormFieldAttrs) {
           const { remote, multiple } = field.attrs || {};
-          const multiAttrs = multiple
-            ? {
-                collapseTags: true,
-                collapseTagsTooltip: true,
-                maxCollapseTags: 2,
-              }
-            : undefined;
+          let multiAttrs;
+          if (multiple) {
+            multiAttrs = {
+              collapseTags: true,
+              collapseTagsTooltip: true,
+              maxCollapseTags: 2,
+            };
+          }
           return {
             placeholder: remote ? "请输入关键字搜索${label}" : "请选择${label}",
             ...multiAttrs,
@@ -254,17 +255,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     // },
   },
   formCfg?.defaultFieldAttrs
-);
-
-export const defaultPopoverAttrs: CommonObj = getExportData(
-  {
-    // placement: "top",
-    // title: "Title",
-    // width: 300,
-    // trigger: "hover",
-    // content: "自定义提示内容",
-  },
-  formCfg?.defaultPopoverAttrs
 );
 
 //默认的规则类型

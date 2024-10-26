@@ -5,18 +5,18 @@
   <el-popconfirm @confirm="handleClickDebounce" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs">
-        <slot>{{ emptyVals.includes(newBtn?.text) ? "-" : newBtn?.text }}</slot>
+        <slot>{{ emptyVals.includes(newBtn?.text) ? emptyStr : newBtn?.text }}</slot>
       </el-button>
     </template>
   </el-popconfirm>
   <el-button class="base-btn" v-bind="newBtn.attrs" @click="handleClickDebounce" v-else>
-    <slot>{{ emptyVals.includes(newBtn?.text) ? "-" : newBtn?.text }}</slot>
+    <slot>{{ emptyVals.includes(newBtn?.text) ? emptyStr : newBtn?.text }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
 import { computed, useAttrs } from "vue";
 import { getBtnObj } from "@/core/BaseBtn";
-import { debounce, emptyVals, typeOf } from "@/core/_utils";
+import { debounce, emptyStr, emptyVals, typeOf } from "@/core/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj, PopconfirmAttrs } from "@/vite-env";
 import { BaseBtnType, BtnHandleClickType, BtnItem, BtnName } from "./_types";

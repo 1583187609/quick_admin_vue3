@@ -3,18 +3,14 @@
 /********************************************************************/
 
 import cssVars from "@/assets/styles/_var.module.scss";
-import { RendererElement, RendererNode, VNode, h, isVNode } from "vue";
+import { RendererElement, RendererNode, VNode, h, isVNode, markRaw } from "vue";
 import { ElMessage } from "element-plus";
-import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf } from "@/core/_utils";
+import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf, defaultPopoverAttrs, noAuthPaths } from "@/core/_utils";
 import { FormField, FormFieldAttrs } from "@/core/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/vite-env";
-import { CommonSize, PopoverAttrs, PopoverSlots } from "@/core/_types";
+import { PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { HArgs, RenderVue } from "@/core/BaseRender.vue";
-import QuestionPopover from "@/core/QuestionPopover.vue";
-
-export const noAuthPaths = ["/login"]; //不需要授权就能登录的页面
-export const errorPaths = ["/403", "/404", "/500"];
 
 export const themeMap = {
   primary: cssVars.colorPrimary,
@@ -171,10 +167,10 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
     if (index === 0) return (sums[index] = "合计");
     const values = data.map(item => Number(item[column.property]));
     if (values.every(value => Number.isNaN(value))) {
-      sums[index] = "-"; //N/A
+      sums[index] = emptyStr; //N/A
     } else {
       if (exceptKeys?.includes(column.property)) {
-        sums[index] = "-";
+        sums[index] = emptyStr;
       } else {
         sums[index] = `${values.reduce((prev, curr) => {
           const value = Number(curr);
@@ -205,20 +201,16 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-const defaultPopoverAttrs = {
-  width: "fit-content",
-};
-const defaultPopoverWidth = "200px";
-export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
-  if (t === "String") return { ...defaultPopoverAttrs, width: defaultPopoverWidth, content: popover } as PopoverAttrs;
+  if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if (isVNode(popover) || (popover as RenderVue).render) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
-  if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: h(...popover) } } as PopoverAttrs;
+  if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
   throw new Error(`暂不支持此popover类型：${t}`);
 }
 

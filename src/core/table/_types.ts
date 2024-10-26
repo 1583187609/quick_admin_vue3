@@ -5,7 +5,7 @@ import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
 import { FormItemAttrs } from "@/core/form/_types";
-import { FinallyNext, HorizontalAlign, PopoverAttrs, PopoverSlots, UniteFetchType } from "@/core/_types";
+import { FinallyNext, HorizontalAlign, PopoverType, UniteFetchType } from "@/core/_types";
 
 /**
  * 这里是标准的ElementPlus属性
@@ -100,7 +100,7 @@ export interface TableColAttrs {
   attrs?: CommonObj; //该列所用组件的props属性
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
-    popover?: string | PopoverAttrs | PopoverSlots;
+    popover?: PopoverType;
     handleChange?: (val: any, row: CommonObj, next: FinallyNext) => void;
     handleInput?: (val: any, row: CommonObj, next: FinallyNext) => void;
     handleBlur?: (val: any, row: CommonObj, next: FinallyNext) => void;

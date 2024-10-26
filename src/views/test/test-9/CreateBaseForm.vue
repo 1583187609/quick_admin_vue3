@@ -35,7 +35,7 @@ import { CommonObj, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
 import SectionForm from "@/core/form/SectionForm.vue";
 import Config from "./_components/Config.vue";
-import { omitAttrs, typeOf } from "@/utils";
+import { emptyStr, omitAttrs, typeOf } from "@/utils";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -93,7 +93,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
     });
     return {
       prop,
-      title: `${label || "-"}(${prop || "-"})`,
+      title: `${label || emptyStr}(${prop || emptyStr})`,
       fields,
     };
   });

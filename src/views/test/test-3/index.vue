@@ -436,13 +436,11 @@ const cols: TableCol[] = [
     label: "$自定义多维度$",
     // label: h(CustomColHead),
     minWidth: 210,
-    slots: {
-      header: h(CustomColHead),
-    },
     quickAttrs: {
       // popover: "这是自定义popover示例（传入字符串）",
       // popover: { title: "这是标题", width: 320, content: "这是自定义popover示例（传入属性对象）" },
       // popover: h(CustomColHead, { type: "popover" }),
+      // popover: [CustomColHead],
       popover: {
         title: "自定义【格头 + popover + formatter】",
         width: 400,
@@ -459,6 +457,9 @@ const cols: TableCol[] = [
     },
     formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
       return `自定义第${ind}行：表格头 + popover + formatter`;
+    },
+    slots: {
+      header: h(CustomColHead),
     },
   },
   isSimple

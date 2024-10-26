@@ -33,8 +33,6 @@
 </template>
 <script lang="ts" setup>
 //form-create地址： http://www.form-create.com/v3/element-ui/
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 import { getDevelopPages, getDevelopComponents } from "@/utils";
 const pages = getDevelopPages();
 const comps = getDevelopComponents();

@@ -1,7 +1,5 @@
 import { FormRules } from "element-plus";
-import { SlotsType } from "@/core/BaseRender.vue";
-import { BaseDataType, CommonObj, OptionItem, StrNum } from "@/vite-env";
-import { BaseRenderData } from "@/core/BaseRender.vue";
+import { BaseDataType, CommonObj, OptionItem, StrNum, CommonSlots } from "@/vite-env";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 
@@ -67,7 +65,7 @@ export interface FormFieldAttrs {
   //控件的属性，例：placeholder
   attrs?: CommonObj;
   //插槽
-  slots?: SlotsType;
+  slots?: CommonSlots;
   /**
    * 下面是 el-form-item 的属性
    */

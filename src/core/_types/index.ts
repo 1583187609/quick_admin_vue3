@@ -33,6 +33,7 @@ export interface CommonObj {
 }
 export type RouteTo = string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric;
 export type CommonSize = "large" | "default" | "small"; //按钮、表单、表格等的通用大小
+export type CommonSlots = string | BaseRenderComponentType | { [key: string]: string | BaseRenderComponentType };
 export type ShowCodes = 0 | 1; //0 false  1 true
 export interface OptionItem {
   value: string | number | boolean;
@@ -157,6 +158,7 @@ export interface PopoverAttrs {
   title?: string;
   disabled?: boolean;
   width?: StrNum;
+  slots?: CommonSlots;
 }
 
 // popover的插槽

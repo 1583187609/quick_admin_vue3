@@ -5,6 +5,7 @@
 import { getExportData } from "@/core/_utils";
 import { ReqMap, ResMap } from "@/core/crud/BaseCrud/_types";
 import config from "@/config";
+import { CommonObj } from "@/vite-env";
 
 const { table, form, homePath, widgetSize } = config;
 
@@ -21,7 +22,7 @@ export const defaultWidgetSize = getExportData("medium", widgetSize); //控件�
 export const defaultCommonSize = getExportData("default", form?.defaultCommonSize);
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
-export const emptyTime = getExportData("", config?.form?.emptyTime, "alert"); //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
+export const emptyTime = getExportData("", form?.emptyTime, "alert"); //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
 
 export const defaultReqMap: ReqMap = {
   curr_page: "curr_page",
@@ -38,6 +39,18 @@ export const defaultResMap: ResMap = {
 export const defaultTooltipAttrs = {
   showAfter: 500,
 };
+
+export const defaultPopoverAttrs: CommonObj = getExportData(
+  {
+    // placement: "top",
+    // title: "Title",
+    // width: 300,
+    // trigger: "hover",
+    // content: "自定义提示内容",
+    width: "fit-content",
+  },
+  form?.defaultPopoverAttrs
+);
 
 // // 后续会提取成配置对象
 // export default {
@@ -56,7 +69,7 @@ export const defaultTooltipAttrs = {
 //   defaultCommonSize: getExportData("default", form?.defaultCommonSize),
 //   defaultGroupBtnsMaxNum: getExportData(3, table?.defaultGroupBtnsMaxNum),
 //   defaultFormItemType: getExportData("input", form?.defaultFormItemType),
-//   emptyTime: getExportData("", config?.form?.emptyTime, "alert"), //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
+//   emptyTime: getExportData("", form?.emptyTime, "alert"), //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
 
 //   defaultReqMap: {
 //     curr_page: "curr_page",

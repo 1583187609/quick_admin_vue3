@@ -3,7 +3,7 @@
  ********************************************************/
 
 import { CommonObj } from "@/vite-env";
-import { typeOf, emptyTime, storage, isProd } from "@/utils";
+import { typeOf, emptyTime, storage, isProd, emptyStr } from "@/utils";
 import dayjs from "dayjs";
 
 // 获取认证方式
@@ -52,7 +52,7 @@ export function handleRegionParams(args: CommonObj, keys: string[]) {
  * @tips 提取出来是为了方便后续集中处理，可能还有其他处理操作，或更简便的处理方式
  */
 export function handleDateTime(row: CommonObj, key: string) {
-  return row[key] === emptyTime ? "-" : row[key];
+  return row[key] === emptyTime ? emptyStr : row[key];
 }
 
 /**

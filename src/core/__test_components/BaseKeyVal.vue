@@ -18,13 +18,13 @@
         [`${props.valClass}`]: !!props.valClass,
       }"
     >
-      <slot>{{ emptyVals.includes(valText as any) ? "-" : valText }}</slot>
+      <slot>{{ emptyVals.includes(valText as any) ? emptyStr : valText }}</slot>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { toCssVal, typeOf, emptyVals } from "@/core/_utils";
+import { toCssVal, typeOf, emptyVals, emptyStr } from "@/core/_utils";
 import { StrNum } from "@/vite-env";
 import { PopoverAttrs } from "@/core/_types";
 import { DictName } from "@/dict/_types";

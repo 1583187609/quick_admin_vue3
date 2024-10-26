@@ -1,12 +1,13 @@
 <template>
-  <div class="base-num" :class="'color-' + (props.value > 0 ? 'success' : props.value < 0 ? 'danger' : 'info')">
-    <template v-if="showText">{{ props.value > 0 ? "收入" : props.value < 0 ? "支出" : "-" }} </template>
+  <div class="base-num" :class="'color-' + (num > 0 ? 'success' : num < 0 ? 'danger' : 'info')">
+    <template v-if="showText">{{ num > 0 ? "收入" : num < 0 ? "支出" : emptyStr }} </template>
     <template v-else>
-      {{ (props.value > 0 ? "+" : "") + props.value }}
+      {{ (num > 0 ? "+" : "") + num }}
     </template>
   </div>
 </template>
 <script lang="ts" setup>
+import { emptyStr } from "@/core/_utils";
 
 const props = withDefaults(
   defineProps<{
@@ -19,5 +20,6 @@ const props = withDefaults(
     value: 0,
   }
 );
+const num = computed(() => Number(props.value));
 </script>
 <style lang="scss" scoped></style>
