@@ -150,7 +150,7 @@
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
-114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现
+~~114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现~~
 116、用 markRaw 优化代码
 119、考虑使用 v-once 和 v-memo 来优化渲染性能
 121、处理跳转路由时，跳转的 vue 文件不存在时，给出恰当的提示语

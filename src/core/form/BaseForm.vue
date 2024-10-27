@@ -58,10 +58,10 @@ import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
+import { defaultFormAttrs, FormLevelsAttrs, getFormLevelAttrs } from "@/core/form";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { isProd } from "@/core/_utils";
 import { BaseBtnType } from "@/core/BaseBtn/_types";
-import { defaultFormAttrs } from "@/core/form";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/core/_utils";
@@ -113,6 +113,8 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
+const $attrs = useAttrs();
+provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);

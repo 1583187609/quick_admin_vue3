@@ -4,6 +4,7 @@ import { FormAttrs, GridAttrs } from "./_types";
 export const defaultFormAttrs: FormAttrs = {
   labelWidth: "auto",
   scrollToError: true,
+  // labelSuffix: "：",
   //statusIcon: true, //是否显示校验的状态图标
 };
 

@@ -9,6 +9,7 @@
     <template #[key] v-for="(val, key) in getFormItemSlots(newField, currPopover)" :key="key">
       <BaseRender :data="val" />
       <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
+      <template v-if="labelSuffix">{{ labelSuffix }}</template>
     </template>
     <template v-if="!subFields.length">
       <template v-if="newField.quickAttrs?.pureText ?? pureText">
@@ -32,7 +33,7 @@
             <BaseRender :data="val" />
           </template>
           <template v-if="newField.type === 'select'">
-            <el-option v-for="(opt, ind) in currOptions" :key="ind" v-bind="deleteAttrs(opt, ['slots'])">
+            <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in currOptions" :key="ind">
               <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
                 <BaseRender :data="val" />
               </template>
@@ -41,7 +42,7 @@
           <template v-else-if="newField.type === 'radio-group'">
             <component
               :is="`el-radio${newField?.attrs?.type ? `-${newField.attrs.type}` : ''}`"
-              v-bind="opt"
+              v-bind="deleteAttrs(opt, ['slots'])"
               v-for="(opt, ind) in currOptions"
               :key="ind"
             >
@@ -52,7 +53,7 @@
           </template>
           <template v-else-if="newField.type === 'checkbox-group'">
             <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-            <el-checkbox v-bind="opt" :name="newField.prop" v-for="(opt, ind) in currOptions" :key="ind">
+            <el-checkbox :name="newField.prop" v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in currOptions" :key="ind">
               <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
                 <BaseRender :data="val" />
               </template>
@@ -115,12 +116,13 @@ import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/core/form/_types";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultRulesTypes } from ".";
-import { rangeJoinChar, emptyVals } from "@/core/_utils";
+import { rangeJoinChar, emptyVals, throwTplError } from "@/core/_utils";
 import { useDict } from "@/hooks";
 import { RuleItem } from "./_types";
 import { defaultCommonSize } from "@/core/_utils";
 import { DictName } from "@/dict/_types";
 import QuestionPopover from "@/core/QuestionPopover.vue";
+import { FormLevelsAttrs } from "@/core/form/_consts";
 import _ from "lodash";
 // 下列两个组件不采用按需加载方式，不然控件会出现延迟出现的现象
 import AddDelList from "../AddDelList.vue";
@@ -148,7 +150,7 @@ const props = withDefaults(
     size: defaultCommonSize,
   }
 );
-
+const { labelSuffix } = inject<any>(FormLevelsAttrs);
 const $emit = defineEmits(["update:modelValue", "change"]);
 const { getOpts } = useDict();
 const newVal = computed({
@@ -236,7 +238,10 @@ const newField = computed<FormFieldAttrs>(() => {
   // }
   return tempField;
 });
-const flexClass = { "f-1": newField.value.quickAttrs?.before || newField.value.quickAttrs?.after };
+const flexClass = computed(() => {
+  const { before, after, middleFlexGrow = 1 } = newField.value.quickAttrs ?? {};
+  return { [`f-${middleFlexGrow}`]: before || after };
+});
 
 function getIsEl() {
   const code = newField.value.type[0].charCodeAt();
@@ -248,9 +253,23 @@ function getIsBase() {
   return code >= 65 && code <= 90;
 }
 
-function throwTplError(msg: string) {
-  throw new Error(msg);
-}
+// function getOptionItem() {
+//   const { type, prop, attrs = {} } = newField.value;
+//   const { type: subType } = attrs;
+//   const newAttrs: CommonObj = {};
+//   const isMap = {
+//     select: "el-option",
+//     "radio-group": `el-radio${subType ? `-${subType}` : ""}`,
+//     "checkbox-group": "el-checkbox",
+//   };
+//   if (type === "checkbox-group") {
+//     newAttrs.name = prop;
+//   }
+//   return {
+//     is: isMap[type],
+//     attrs: newAttrs,
+//   };
+// }
 
 // 获取elementPlus组件的属性
 function getElBindAttrs() {

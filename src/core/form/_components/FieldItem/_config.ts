@@ -207,6 +207,9 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         //   }
         // },
       },
+      quickAttrs: {
+        middleFlexGrow: 0,
+      },
     },
     // slider: {
     //   attrs: {

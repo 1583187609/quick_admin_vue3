@@ -70,16 +70,17 @@ export interface FormFieldAttrs {
   labelWidth?: string | number; //label文字的宽度
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
-    grid?: Grid; //占位栅格子的宽度，同ElementPlus 的 el-col 的属性，可以是数字：1~24
-    example?: string; //示例，写在placeholder中的示例文本
-    popover?: PopoverType; //ElementPlus 的 popover组件
-    tips?: string; //注意提示语，位于字段的下方
-    pureText?: boolean; //是否纯文本展示
-    disabled?: boolean; //是否禁用
-    readonly?: boolean; //是否只读
-    rulesType?: RulesType; //规则类型
-    before?: BaseRenderData; //字段前面拼接的内容，可以是文本、组件等
-    after?: BaseRenderData; //字段后面拼接的内容，可以是文本、组件等
+    grid?: Grid; // 占位栅格子的宽度，同ElementPlus 的 el-col 的属性，可以是数字：1~24
+    tips?: string; // 注意提示语，位于字段的下方
+    example?: string; // 示例，写在placeholder中的示例文本
+    popover?: PopoverType; // ElementPlus 的 popover组件
+    pureText?: boolean; // 是否纯文本展示
+    disabled?: boolean; // 是否禁用
+    readonly?: boolean; // 是否只读
+    rulesType?: RulesType; // 规则类型
+    before?: BaseRenderData; // 字段前面拼接的内容，可以是文本、组件等
+    after?: BaseRenderData; // 字段后面拼接的内容，可以是文本、组件等
+    middleFlexGrow?: StrNum; // 中间项的弹性伸缩值，默认1，即：flex-grow: 1,可选值为0~3，为其他值时不会生效。当出现 before 或 after 时，该属性才会生效。
   };
   children?: FormField[]; //字段子项
   /** 控件（input、select……）的属性，例：placeholder **/

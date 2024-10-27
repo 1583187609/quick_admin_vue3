@@ -117,3 +117,15 @@ export function getGridAttrs(grid: Grid = 24) {
   }
   return grid;
 }
+
+/**
+ * 获取el-form透传到el-form-item的属性
+ * @param mergeProps
+ * @returns
+ */
+export function getFormLevelAttrs(mergeProps: CommonObj) {
+  const { labelSuffix } = mergeProps;
+  return {
+    labelSuffix,
+  };
+}

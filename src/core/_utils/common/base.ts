@@ -342,6 +342,14 @@ export function getIsOver(target: any) {
 }
 
 /**
+ * 抛出错误信息（主要用在template模板中）
+ * @param {string} msg 脱误提示信息
+ */
+export function throwTplError(msg: string) {
+  throw new Error(msg);
+}
+
+/**
  * 是否是数组元素的删除
  */
 // export function isArrDel(fObj: CommonObj, tObj: CommonObj) {

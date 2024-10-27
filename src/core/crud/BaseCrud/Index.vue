@@ -254,8 +254,8 @@ const newExtraBtns = computed<BtnItem[]>(() => {
 });
 
 // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失
-const originCols: TableColAttrs[] = cloneDeep(props.cols.filter(it => !!it) as TableColAttrs[]);
-const newCols = ref<TableColAttrs[]>(cloneDeep(originCols));
+const originCols = computed<TableColAttrs[]>(() => props.cols.filter(it => !!it) as TableColAttrs[]);
+const newCols = ref<TableColAttrs[]>(toRaw(originCols.value));
 const dragSortable = computed<boolean>(() => !!newCols.value.find(col => col.type === "sort"));
 
 //当额外参数改变时，发起请求

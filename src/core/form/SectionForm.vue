@@ -28,15 +28,10 @@
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItemCol
                   :field="field"
-                  :grid="field?.quickAttrs?.grid ?? sItem.grid ?? grid"
-                  :readonly="field?.quickAttrs?.readonly ?? sItem.readonly ?? readonly"
-                  :pureText="field?.quickAttrs?.pureText ?? sItem.pureText ?? pureText"
-                  :disabled="field?.quickAttrs?.disabled ?? sItem.disabled ?? disabled"
-                  :size="field?.attrs?.size ?? field.size ?? sItem.size ?? size"
-                  :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
+                  :formRef="formRef"
+                  v-bind="getLevelsAttrs(field, sItem)"
                   v-model="formData[sItem.prop][field.prop as string]"
                   @change="(prop:any,val:any)=>$emit('change',prop,val)"
-                  :formRef="formRef"
                   v-if="sItem.prop"
                 >
                   <template #custom="scope">
@@ -47,15 +42,10 @@
                 </FieldItemCol>
                 <FieldItemCol
                   :field="field"
-                  :grid="field?.quickAttrs?.grid ?? sItem.grid ?? grid"
-                  :readonly="field?.quickAttrs?.readonly ?? sItem.readonly ?? readonly"
-                  :pureText="field?.quickAttrs?.pureText ?? sItem?.pureText ?? pureText"
-                  :disabled="field?.quickAttrs?.disabled ?? sItem.disabled ?? disabled"
-                  :size="field?.attrs?.size ?? field.size ?? sItem.size ?? size"
-                  :labelWidth="field?.labelWidth ?? sItem.labelWidth ?? labelWidth"
+                  :formRef="formRef"
+                  v-bind="getLevelsAttrs(field, sItem)"
                   v-model="formData[field.prop as string]"
                   @change="(prop:any,val:any)=>$emit('change',prop,val)"
-                  :formRef="formRef"
                   v-else
                 >
                   <template #custom="scope">
@@ -106,7 +96,7 @@ import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/form/_types";
-import { defaultFormAttrs } from "@/core/form";
+import { defaultFormAttrs, FormLevelsAttrs, getFormLevelAttrs } from "@/core/form";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
@@ -158,6 +148,8 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
+const $attrs = useAttrs();
+provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
 const footerBtnsRef = ref<any>(null);
 const folds = ref<boolean[]>([]);
 const formRef = ref<FormInstance>();
@@ -194,6 +186,28 @@ watch(
 //     folds.value[ind] = !folds.value[ind];
 //   }
 // }
+// function getLevelsAttrs(field, sItem) {
+//   const { grid, readonly, pureText, disabled, size, labelWidth } = props;
+//   return {
+//     grid: field?.quickAttrs?.grid ?? sItem.grid ?? grid,
+//     readonly: field?.quickAttrs?.readonly ?? sItem.readonly ?? readonly,
+//     pureText: field?.quickAttrs?.pureText ?? sItem?.pureText ?? pureText,
+//     disabled: field?.quickAttrs?.disabled ?? sItem.disabled ?? disabled,
+//     size: field?.attrs?.size ?? field.size ?? sItem.size ?? size,
+//     labelWidth: field?.labelWidth ?? sItem.labelWidth ?? labelWidth,
+//   };
+// }
+function getLevelsAttrs(field, sItem) {
+  const { attrs = {}, quickAttrs = {} } = field;
+  const { size = field.size ?? sItem.size ?? props.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth } = attrs;
+  const {
+    grid = sItem.grid ?? props.grid,
+    readonly = sItem.readonly ?? props.readonly,
+    pureText = sItem?.pureText ?? props.pureText,
+    disabled = sItem.disabled ?? props.disabled,
+  } = quickAttrs;
+  return { size, labelWidth, grid, readonly, pureText, disabled };
+}
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();
