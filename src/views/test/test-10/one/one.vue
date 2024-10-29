@@ -13,7 +13,7 @@
             },
             Test,
             'dialog',
-            true
+            'confirm'
           )
         "
         type="primary"
@@ -37,11 +37,11 @@
             },
             '弹窗内容',
             'dialog',
-            true
+            'confirm'
           )
         "
         type="warning"
-        >打开弹窗（自定义footer，传true）</el-button
+        >打开弹窗（自定义footer，传'confirm'）</el-button
       >
       <el-button
         @click="
@@ -60,7 +60,9 @@
       <el-button @click="openPopup(['div', {}, '抽屉标题（自定义渲染）'], '抽屉内容', 'drawer')" type="info"
         >打开抽屉（自定义header）</el-button
       >
-      <el-button @click="openPopup('抽屉', '抽屉内容', 'drawer', true)" type="info">打开抽屉（自定义footer，传true）</el-button>
+      <el-button @click="openPopup('抽屉', '抽屉内容', 'drawer', 'alert')" type="info"
+        >打开抽屉（自定义footer，传'alert'）</el-button
+      >
       <el-button
         @click="
           openPopup('抽屉', '抽屉内容', 'drawer', [
@@ -92,7 +94,7 @@ function handleBeforeClose(cb) {
     },
     "确认关闭吗？",
     "dialog",
-    true
+    "confirm"
   );
 }
 </script>

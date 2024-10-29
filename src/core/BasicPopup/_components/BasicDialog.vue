@@ -3,7 +3,7 @@
     v-model="show"
     class="basic-dialog"
     :class="{ 'top-compact': !footer }"
-    :title="isStr ? title : ''"
+    :title="isStr ? title : undefined"
     ref="basicDialogRef"
   >
     <template #header="scoped" v-if="!isStr">
@@ -12,13 +12,12 @@
     <slot />
     <template #footer v-if="footer">
       <slot name="footer">
-        <FootBtns @cancel="handleCancel" @confirm="handleConfirm" v-if="footer === true" />
-        <!-- <FootBtns
-          :btns="footer === true ? undefined : footer"
+        <FootBtns
+          :type="footer"
           @cancel="handleCancel"
           @confirm="handleConfirm"
-          v-if="isBaseBtns"
-        /> -->
+          v-if="['confirm','alert'].includes(footer as FootBtnsType)"
+        />
         <BaseRender :data="footer" v-else />
       </slot>
     </template>
@@ -27,42 +26,30 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from "vue";
 import { popupCloseAnimationDuration, showMessage, typeOf } from "@/core/_utils";
-import { BaseRenderComponentType } from "@/core/BaseRender.vue";
-import FootBtns from "./FootBtns.vue";
+import { BaseRenderData } from "@/core/BaseRender.vue";
+import FootBtns, { FootBtnsType } from "./FootBtns.vue";
 // import { useEvent } from "@/core/_hooks";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
-    title?: string | BaseRenderComponentType;
-    footer?: any;
+    title?: BaseRenderData;
+    footer?: FootBtnsType | BaseRenderData;
     onCancel?: () => void; // 点击取消按钮
     onConfirm?: () => void; // 点击确认按钮
   }>(),
   {
     modelValue: false,
     title: "温馨提示",
-    footer: true,
+    footer: "confirm",
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
-const isStr = typeOf(props.title) === "String";
+const isStr = computed(() => typeOf(props.title) === "String");
 const basicDialogRef = ref<any>(null);
 const show = computed({
   get: () => props.modelValue,
   set: (isShow: boolean) => $emit("update:modelValue", isShow),
-});
-const isBaseBtns = computed(() => {
-  const { footer } = props;
-  const t = typeOf(footer);
-  if (t !== "Array") return false;
-  if (!footer.length) return true;
-  const first = footer[0];
-  const _t = typeOf(first);
-  if (_t === "String") return true;
-  if (_t === "Object" && !!first.name) return true;
-  // if (_t === "Function" && !!first().name) return true;
-  return false;
 });
 // 点击取消按钮
 function handleCancel() {

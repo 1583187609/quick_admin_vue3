@@ -33,7 +33,7 @@ import { CommonObj, SetTimeout } from "@/vite-env";
 import BasicDialog from "./_components/BasicDialog.vue";
 import BasicDrawer from "./_components/BasicDrawer.vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
-import { popupCloseAnimationDuration } from "@/utils";
+import { popupCloseAnimationDuration, defaultDialogAttrs, defaultDrawerAttrs } from "@/utils";
 import type {
   PopupType,
   DialogId,
@@ -47,7 +47,6 @@ import type {
   DialogHeadTypes,
   DrawerHeadTypes,
 } from "./_types";
-import { defaultDialogAttrs, defaultDrawerAttrs } from "./_config";
 
 let dialogTimer: SetTimeout = null;
 let drawerTimer: SetTimeout = null;
@@ -67,7 +66,7 @@ function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: Commo
 /**
  * 对话框 dialog
  */
-function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foot: FootRenderData = false) {
+function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foot: FootRenderData = "") {
   if (dialogTimer) return showMessage("您的操作太频繁了", "warning");
   const t = typeOf(head);
   if (t === "String") {

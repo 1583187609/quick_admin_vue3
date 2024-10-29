@@ -96,7 +96,7 @@
 
 BaseBtn：基本用法（el-button 属性继承）、基础扩展属性（name, data, order, auth, to, popconfirm, isDebounce）、功能扩展属性（handleClickType, validate）
 BaseCopy：基本用法（text）、扩展用法（to、data、line、clickIconCopy）
-BasicPopup：基本用法（opeonDialog(string, string)）、title 属性覆盖（opeonDialog({}, string，[{name:'confirm',text: '我知道了'}])）、 传入组件+默认底部按钮 openDialog(string, [], true)、自定义 title+传入组件+自定义底部按钮 openPopup([], [], true)、打开类型（openDialog(string, [], 'drawer', true)）
+BasicPopup：基本用法（opeonDialog(string, string)）、title 属性覆盖（opeonDialog({draggable: false}, string)）、 传入组件+默认底部按钮 openDialog(string, [], true)、自定义 title+传入组件+自定义底部按钮 openPopup([], [], true)、打开类型（openDialog(string, [], 'drawer', true)）
 
 ## 进阶组件：
 

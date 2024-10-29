@@ -14,7 +14,12 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog', true)">
+        <el-button
+          type="success"
+          style="width: 5em"
+          size="small"
+          @click="openPopup(null, '是否要重新比对人脸？', 'dialog', 'confirm')"
+        >
           比对人脸
         </el-button>
       </div>
@@ -37,8 +42,12 @@
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
         </div>
         <div class="comment mr-a f-fs-c">
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive"> 正面评价({{ 3 }}) </el-button>
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative"> 负面评价({{ 3 }}) </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive">
+            正面评价({{ 3 }})
+          </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative">
+            负面评价({{ 3 }})
+          </el-button>
         </div>
         <div class="attitude f-fs-c">
           <el-button type="warning" size="small" text @click="openReportListPopup(1)" class="item">举报({{ 3 }})</el-button>
@@ -483,26 +492,26 @@ function handleReject(rejected: boolean) {
       },
       `确定${rejected ? "取消" : ""}驳回？`,
       "dialog",
-      true
+      "confirm"
     );
   } else {
-    openPopup("头像驳回", RejectAvatar, "dialog", false);
+    openPopup("头像驳回", RejectAvatar);
   }
 }
 function openCoinListPopup() {
-  openPopup("金币明细", CoinList, "dialog", false);
+  openPopup("金币明细", CoinList);
 }
 function openReportListPopup(type: number) {
-  openPopup((type === 2 ? "被" : "") + "举报记录", [ReportList, { type }], "dialog", false);
+  openPopup((type === 2 ? "被" : "") + "举报记录", [ReportList, { type }]);
 }
 function openLoveListPopup(type: number) {
-  openPopup((type === 2 ? "被" : "") + "喜欢记录", [LoveList, { type }], "dialog", false);
+  openPopup((type === 2 ? "被" : "") + "喜欢记录", [LoveList, { type }]);
 }
 function openEvaluateListPopup(type: number) {
-  openPopup((type === 2 ? "负" : "正") + "面评价", [EvaluateList, { type }], "dialog", false);
+  openPopup((type === 2 ? "负" : "正") + "面评价", [EvaluateList, { type }]);
 }
 function openAboutListPopup(type: number) {
-  openPopup((type === 1 ? "关于我" : "我的理想型") + "提交记录", [AboutList, { type }], "dialog", false);
+  openPopup((type === 1 ? "关于我" : "我的理想型") + "提交记录", [AboutList, { type }]);
 }
 </script>
 <style lang="scss" scoped>

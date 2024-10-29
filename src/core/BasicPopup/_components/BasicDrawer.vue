@@ -1,37 +1,43 @@
 <template>
-  <el-drawer v-model="show" class="basic-drawer" :title="isStr ? title : undefined">
+  <el-drawer v-model="show" class="basic-drawer" :title="isStr ? title : undefined" ref="basicDrawerRef">
     <template #header="scoped" v-if="!isStr">
       <BaseRender :scoped="scoped" :data="title" />
     </template>
     <slot />
     <template #footer="scoped" v-if="footer">
-      <FootBtns @cancel="handleCancel" @confirm="handleConfirm" v-if="footer === true" />
+      <FootBtns
+        :type="footer"
+        @cancel="handleCancel"
+        @confirm="handleConfirm"
+        v-if="['confirm','alert'].includes(footer as FootBtnsType)"
+      />
       <BaseRender :scoped="scoped" :data="footer" v-else />
     </template>
   </el-drawer>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { BaseRenderComponentType } from "@/core/BaseRender.vue";
+import { BaseRenderData } from "@/core/BaseRender.vue";
 import { popupCloseAnimationDuration, showMessage, typeOf } from "@/core/_utils";
-import FootBtns from "./FootBtns.vue";
+import FootBtns, { FootBtnsType } from "./FootBtns.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;
-    title?: string | BaseRenderComponentType;
-    footer?: boolean | BaseRenderComponentType;
+    title?: BaseRenderData;
+    footer?: FootBtnsType | BaseRenderData;
     onCancel?: () => void; // 点击取消按钮
     onConfirm?: () => void; // 点击确认按钮
   }>(),
   {
     modelValue: false,
     title: "查看详情",
-    footer: false,
+    footer: "",
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
-const isStr = typeOf(props.title) === "String";
+const basicDrawerRef = ref<any>(null);
+const isStr = computed(() => typeOf(props.title) === "String");
 const show = computed({
   get: () => props.modelValue,
   set: (isShow: boolean) => $emit("update:modelValue", isShow),
