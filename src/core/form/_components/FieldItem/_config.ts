@@ -174,13 +174,21 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         inactiveText: "禁用",
         inlinePrompt: true,
       },
+      quickAttrs: {
+        middleFlexGrow: 0,
+      },
     },
-    // checkbox: {
-    //   attrs: {},
-    // },
+    checkbox: {
+      quickAttrs: {
+        middleFlexGrow: 0,
+      },
+    },
     "checkbox-group": {
       attrs: {
         options: [], // [{ label: "多选项1" }]
+      },
+      quickAttrs: {
+        middleFlexGrow: 0,
       },
     },
     "radio-group": {
@@ -188,12 +196,15 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         options: [], // [{ label: "单选项-error" }]
         type: "button",
       },
-    },
-    pureText: {
-      attrs: {
-        style: { "line-height": "22px", "margin-top": "4px" },
+      quickAttrs: {
+        middleFlexGrow: 0,
       },
     },
+    // pureText: {
+    //   attrs: {
+    //     style: { "line-height": "22px", "margin-top": "4px" },
+    //   },
+    // },
     "input-number": {
       attrs: {
         // style: { width: "100%" },
@@ -251,9 +262,11 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         // style: { width: "100%" },
       },
     },
-    // BaseUpload: {
-    //   attrs: {},
-    // },
+    BaseUpload: {
+      quickAttrs: {
+        middleFlexGrow: 0,
+      },
+    },
     // BasicEditor: {
     //   attrs: {
     // style: { width: "100%" },

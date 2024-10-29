@@ -4,7 +4,7 @@
 已实现的功能大都没记录在下方列表中。以下清单是为了记录平时开发中临时发现（或想到的）的 bug、优化、功能点等。正持续完善中……  
 :::
 
-## 在线访问地址： https://fanlichuan.gitee.io/management/vue/#/login
+## 在线访问地址：https://1583187609.github.io/quick_admin/vue3/preview/#/login
 
 ## 一、功能清单
 
@@ -14,7 +14,7 @@
 ~~7、菜单权限分配页面&逻辑完善~~  
 ~~3、完善 mock 真实性~~  
 ~~4、完善组件属性全继承~~  
-~~6、完成导入 Excel 功能（联调 Mockk）~~  
+~~6、完成导入 Excel 功能（联调 Mock）~~  
 ~~7、dialog 弹出层中 Modal 可拖动~~  
 ~~1、年龄区间表单控件：除了支持区间数组，还要支持传入两个字段~~  
 ~~3、BaseCrud 行拖动排序功能~~  
@@ -88,7 +88,7 @@
 ~~7、Vue 组件深入极致优化~~
 ~~73、删除 `src/test_components` 文件夹下的内容~~  
 ~~81、storage 的 clear 方法完善~~  
-~~91、openPopup Dialo 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替~~
+~~91、openPopup Dialog 的确定取消按钮的 confirm 和 cancel 方法用 onConfirm 和 onCancel 代替~~
 ~~92、改造 el-dialog 弹窗居中方式（为了处理`position:fixed`失效问题，详见：https://www.jb51.net/article/213186.htm）~~
 ~~95、完善 filterBtnsByAuth 按钮权限，处理操作栏按钮不显示问题~~
 ~~22、文件目录结构改为 monorepo 式~~  
@@ -116,6 +116,12 @@
 ~~117、将核心代码移入 core 文件夹中~~  
 ~~118、将 useSlots 替换为 defineSlots()~~  
 ~~120、在 el-table-column 默认插槽中处理 formatter~~
+~~114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现~~
+~~84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常~~
+~~96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable（拖拽排序功能待完善）支持可传入函数，以及 TS 类型处理~~
+~~69、把组件 hooks 等抽成一个单独的文件夹（core），为拆包做准备（稍微晚一点再拆）~~
+~~79、BaseCopy 支持复制文本同时，可以跳转路由~~
+
 4、自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题  
@@ -123,26 +129,20 @@
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
 56、借助文件指令优化打包速度（使得不用每次都生成一大堆文件指令改变了的新文件）  
-62、全局错误拦截，在 App.vue 中处理  
 64、封装 TreeCrud 组件  
-69、把组件 hooks 等抽成一个单独的文件夹（quick-core），为拆包做准备（稍微晚一点再拆）
 74、将 Quick 的内核抽离成 npm 包
 75、完善 http 的 ts 类型书写  
 76、请求参数加解密  
 77、大屏页面第一个水滴图未正常显示  
 78、StepForm 必填项完成后，自动跳到下一步骤  
-79、BaseCopy 支持复制文本同时，可以跳转路由（完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑）
-84、验证 FieldItem 的 date-picker 的各项内容显示、传值等正常
-86、移除 `src/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
-87、采用`git submodule`方式维护 mock 和基础方法
+80、完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑
+86、移除 `src/core/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
-96、表格 BaseCrud、BaseTable 等的 index 、selectable、dragSortable（拖拽排序功能待完善）支持可传入函数，以及 TS 类型处理
 99、完善图片上传 BaseUpload 组件
 104、最好去掉 BaseCrud 中的 showPagination 属性
 106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
 107、换用 pnpm 进行包管理，且只允许 pnpm
-
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 100、升级 ElementPlus 和 vue3，再完善代码
 105、处理白屏过久的问题
@@ -150,12 +150,12 @@
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
-~~114、FieldItem 中的 el-input 的`v-debounce:input=`换用普通方法实现~~
-116、用 markRaw 优化代码
-119、考虑使用 v-once 和 v-memo 来优化渲染性能
 121、处理跳转路由时，跳转的 vue 文件不存在时，给出恰当的提示语
-122、深入研究浏览器缓存策略（包括但不限于本地数据库、localStorage、sessionStorage 等），并做好缓存优化
-123、完善`BaseNumRangeNew`组件
+123、完善 `BaseNumRangeNew` 组件
+
+## 待定事项
+
+1、采用`git submodule`方式维护 mock 和基础方法
 
 ## TS 类型处理
 
@@ -179,12 +179,12 @@
 19、生成 api 文件（提取成 npm 包，Quickly generate api files）
 77、上传文件加一项，上传 zip 压缩文件（选择后，解压缩并展开，可勾选部分文件进行上传）
 25、增加个性化工作台可以拖动改变布局甚至大小处理功能（拖拽组件，可拖动的工作台）
-26、echarts 图表
+26、完善 echarts 图表类型
 15、完善换肤主题样式  
 19、BaseCurd 打印功能  
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
-21、用上之前内江市国资委系统的皮肤
-46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算、组按钮的属性值及计算
+21、用上之前内江市国资委系统的皮肤  
+62、全局错误拦截，在 App.vue 中处理
 
 ## 未来功能清单
 
@@ -236,33 +236,25 @@
 ~~48、用 h 函数重写 BaseIcon 组件（将全局中的低阶组件中的 BaseIcon 用`<el-icon></el-icon>`形式改写）~~
 ~~50、`datetimerange`自动设值处理~~
 ~~51、接入自动引入 vue、vue-router api 的 npm 包`unplugin-auto-import/vite`~~
+~~39、调整 slots 的位置到 attrs.slots 中~~
+~~35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题~~
 
 4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
-15、测试 3 页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
 16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式）；  
 17、将 Echarts 的配置纳入到 config 中  
 18、将 WangEditor 的配置纳入到 config 中  
-30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
 34、通过外链打开新标签页面时，没有页签图标显示  
-35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题  
-37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、同时调整slots的位置到attrs.slots中     
-37、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑   
+37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、
+38、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑  
 41、layout 系统设置的国际化语言的 bug 处理  
-42、研究能被 img 标签 src 属性识别的 svg 配置    
-43、整理全局的 any、CommonObj TS 类型  
+42、研究能被 img 标签 src 属性识别的 svg 配置  
 45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度  
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
-37、每次打开或新进入一个表单时，默认让第一个表单项聚焦    
-40、优化全局加载的图标及样式（在 index.html文件中） 
-41、使用位运算等优化代码  
-43、将 mock 数据进行缓存
-44、将缓存数据采用本地数据库或其他方式存储（要缓存的数据：字典映射、mock 数据）
+40、优化全局加载的图标及样式（在 index.html 文件中）
+44、将缓存数据采用本地数据库或其他方式存储（要缓存的数据：字典映射、mock 数据）  
 46、找一个通用的深度克隆方法（可以持续完成这个方法：commonClone）  
-49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
-52、加入 Suspense 优化渲染显示
-52、关注`resolveComponent`、`mergeProps` api
-53、Ts相关的定义`PropType `
-70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md`文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在`src/\_code-tpl` 中完善代码片段。
+46、增加一个优化属性`optimization`，用于规避表格、表单中的复杂的计算，默认为 false。计算开销较多的场景示例：操作栏列宽计算、组按钮的属性值及计算
+122、深入研究浏览器缓存策略（包括但不限于本地数据库、localStorage、sessionStorage 等），并做好缓存优化
 
 ## 三、Bug 清单
 
@@ -329,6 +321,8 @@
 ~~60、右上角头像 - 个人资料 - 点击编辑按钮 - 上方的头像的删除图标被挡住了~~  
 ~~30、图片上传组件处理（并实现默认本地上传并展示出来）~~  
 ~~75、处理 BaseForm `type='cell' pureText` 时，custom 列未靠上对齐，tabs 的头部应该固定，底部自适应高度滚动，还有疑问气泡未跟 label 文字水平对齐，复现页面：/system/user/detail~~
+~~71、BaseForm 上设置 `label-suffix="："` 不生效~~
+
 34、vue 动态与非动态路由加载优化；
 47、FormItem 为 date-picker，type 为 dateRange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错
 61、BaseForm 的 @change 事件对 input 未生效，上级菜单选中后，也未触发 change 事件（系统管理 -> 菜单管理）；顺便让初始时候不要触发 change 事件  
@@ -336,7 +330,6 @@
 66、点击学校公司下拉项获取焦点时，会触发 crud 列表的请求 && 同时刚加载页面时，会连续触发两次请求（在测试 3 页面复现）  
 67、处理 AddDelList 中，初始为一行，然后新增了 n 项后，然后点击重置按钮，并没有回到最初一行的状态的 bug  
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
-71、BaseForm 上设置 `label-suffix="："` 不生效
 73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
 74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
 76、优化 BaseNumberRange 嵌套层级
@@ -354,6 +347,19 @@
 38、全局 Ts 命名语义化，从 UI 库中继承，从当前工程定义好的基础类型继承  
 28、看浏览器面板，做好细致性能分析  
 31、Eslint 优化处理
+43、整理全局的 any、CommonObj TS 类型
+116、用 markRaw 优化代码
+41、使用位运算等优化代码  
+43、将 mock 数据进行缓存
+49、当 extraBtns 渲染的组件过多时，采用陆续渲染的方式进行呈现（优化改写）
+52、加入 Suspense 优化渲染显示
+119、考虑使用 v-once 和 v-memo 来优化渲染性能
+52、关注`resolveComponent`、`mergeProps` api
+53、Ts 相关的定义`PropType `
+70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md`文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在`src/\_code-tpl` 中完善代码片段。
+30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
+15、测试 3 页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
+37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
 
 ### 动画优化相关
 
