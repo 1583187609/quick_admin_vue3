@@ -5,23 +5,34 @@ provide了openPopup、closePopup方法。默认dialog，可在全局配置中进
 <template>
   <slot />
   <!-- 对话框 -->
-  <BasicDialog v-model="dialog.show" :footer="dialog.foot" v-bind="dialog.attrs" v-for="(dialog, ind) in dialogs" :key="'dialog-' + ind">
+  <BasicDialog
+    v-model="dialog.show"
+    :footer="dialog.foot"
+    v-bind="dialog.attrs"
+    v-for="(dialog, ind) in dialogs"
+    :key="'dialog-' + ind"
+  >
     <BaseRender :data="dialog.body" />
   </BasicDialog>
   <!-- 抽屉 -->
-  <BasicDrawer v-model="drawer.show" :footer="drawer.foot" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
+  <BasicDrawer
+    v-model="drawer.show"
+    :footer="drawer.foot"
+    v-bind="drawer.attrs"
+    v-for="(drawer, ind) in drawers"
+    :key="'drawer-' + ind"
+  >
     <BaseRender :data="drawer.body" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide, isVNode } from "vue";
-import { showMessage, sortObjArrByKey, typeOf } from "@/utils";
+import { defaultPopupType, isRenderData, showMessage, sortObjArrByKey, typeOf } from "@/utils";
 import { CommonObj, SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
 import BasicDrawer from "./_components/BasicDrawer.vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
-import config from "@/config";
 import { popupCloseAnimationDuration } from "@/utils";
 import type {
   PopupType,
@@ -49,10 +60,7 @@ const drawers = reactive<DrawerPopup[]>([]);
  * 获取弹出层的属性
  */
 function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: CommonObj): any {
-  const t = typeOf(head);
-  if (t === "String") return { ...defAttrs, title: head, onClose: () => closePopup(popupId) };
-  const isCustom = (t === "Array" && head.length <= 3) || (t === "Object" && (head.setup || isVNode(head)));
-  if (isCustom) return { ...defAttrs, title: head, onClose: () => closePopup(popupId) };
+  if (isRenderData(head)) return { ...defAttrs, title: head, onClose: () => closePopup(popupId) };
   return { ...defAttrs, ...head };
 }
 
@@ -63,7 +71,7 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foo
   if (dialogTimer) return showMessage("您的操作太频繁了", "warning");
   const t = typeOf(head);
   if (t === "String") {
-    if (head.startsWith("dialog-")) {
+    if (head.startsWith("dialog-") && !body) {
       const id = Number(head.split("-")[1]);
       const target = dialogs.find(it => it.id === id);
       if (target) return (target.show = true);
@@ -110,7 +118,7 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData, foo
   if (drawerTimer) return showMessage("您的操作太频繁了", "warning");
   const t = typeOf(head);
   if (t === "String") {
-    if (head.startsWith("drawer-")) {
+    if (head.startsWith("drawer-") && !body) {
       const id = Number(head.split("-")[1]);
       const target = drawers.find(it => it.id === id);
       if (target) return (target.show = true);
@@ -156,12 +164,19 @@ function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}
 function openPopup(
   head: DrawerHeadTypes | DialogHeadTypes | DialogId | DrawerId,
   body?: BaseRenderData,
-  type: PopupType | FootRenderData = config?.popup?.defaultType ?? "dialog",
+  type: PopupType | FootRenderData = defaultPopupType,
   foot: FootRenderData = false
 ) {
   if (typeof head === "string") {
-    const isDiaId = head.startsWith("dialog-");
-    if (isDiaId || head.startsWith("drawer-")) return isDiaId ? openDialog(head) : openDrawer(head);
+    const isDiaId = head.startsWith("dialog-") && !body;
+    if (isDiaId) return openDialog(head);
+    const isDraId = head.startsWith("drawer-") && !body;
+    if (isDraId) return openDrawer(head);
+  }
+  const isPopupType = type === "dialog" || type === "drawer";
+  if (!isPopupType) {
+    foot = type;
+    type = defaultPopupType;
   }
   if (type === "dialog") return openDialog(head, body, foot);
   if (type === "drawer") return openDrawer(head, body, foot);

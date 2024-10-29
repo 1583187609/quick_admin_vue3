@@ -30,12 +30,12 @@ const tooltipAttrs = {
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
-    data?: CommonObj;
     to?: RouteTo | ((data: CommonObj) => RouteTo);
+    data?: CommonObj;
     text?: StrNum;
-    line?: StrNum; //最多显示几行，超出文本会显示省略号
-    clickIconCopy?: boolean; //是否只当点击图标时才复制文本
-    stop?: boolean; //是否阻止点击事件的冒泡
+    line?: StrNum; // 最多显示几行，超出文本会显示省略号
+    stop?: boolean; // 是否阻止点击事件的冒泡
+    clickIconCopy?: boolean; // 是否只当点击图标时才复制文本
   }>(),
   {
     line: 1,

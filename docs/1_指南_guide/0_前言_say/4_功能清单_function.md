@@ -90,8 +90,23 @@
 62、BaseBtn 统一做了防抖处理
 63、dialog 和 drawer 内部都会自动计算自适应滚动高度
 
-# 其他
+# 组件 Demo 清单
 
-需求轮动  
-请求体、响应体 ts 类型（CommonObj、Node）  
-会议、流程
+## 基础组件：
+
+BaseBtn：基本用法（el-button 属性继承）、基础扩展属性（name, data, order, auth, to, popconfirm, isDebounce）、功能扩展属性（handleClickType, validate）
+BaseCopy：基本用法（text）、扩展用法（to、data、line、clickIconCopy）
+BasicPopup：基本用法（opeonDialog(string, string)）、title 属性覆盖（opeonDialog({}, string，[{name:'confirm',text: '我知道了'}])）、 传入组件+默认底部按钮 openDialog(string, [], true)、自定义 title+传入组件+自定义底部按钮 openPopup([], [], true)、打开类型（openDialog(string, [], 'drawer', true)）
+
+## 进阶组件：
+
+BaseForm：常规渲染、条件渲染、快捷属性（grid、）
+SectionForm：
+BaseTable：
+BaseCrud：常规条件/条件分类
+
+## 布局组件：
+
+BaseSection：
+
+Echarts

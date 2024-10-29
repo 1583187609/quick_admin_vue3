@@ -7,7 +7,7 @@ import { ReqMap, ResMap } from "@/core/crud/BaseCrud/_types";
 import config from "@/config";
 import { CommonObj } from "@/vite-env";
 
-const { table, form, homePath, widgetSize } = config;
+const { table, form, homePath, widgetSize, popup } = config;
 
 export const isOptimization = false; // 是否开启优化。若为true，则会避免计算较复杂的逻辑，同时也会少一些良好的开发体验
 
@@ -17,8 +17,9 @@ export const defaultIconName = "ElemeFilled"; //默认图标
 export const defaultLoginExpired = 24 * 60 * 60 * 1000; //登录过期时间
 export const defaultRefreshDictExpired = 24 * 60 * 60 * 1000; //刷新字典的时间
 
-export const defaultHomePath = getExportData("/", homePath); //首页路径
-export const defaultWidgetSize = getExportData("medium", widgetSize); //控件大小
+export const defaultPopupType = getExportData("dialog", popup?.defaultType); // 弹窗类型
+export const defaultHomePath = getExportData("/", homePath); // 首页路径
+export const defaultWidgetSize = getExportData("medium", widgetSize); // 控件大小
 export const defaultCommonSize = getExportData("default", form?.defaultCommonSize);
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);

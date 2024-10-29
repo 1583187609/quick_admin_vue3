@@ -254,7 +254,11 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
+export function getExportData(
+  sysData: any,
+  customData?: any,
+  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
+) {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean"].includes(typeof sysData); //如果是基础数据类型
