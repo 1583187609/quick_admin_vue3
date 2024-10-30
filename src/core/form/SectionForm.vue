@@ -2,7 +2,14 @@
   分块（组）表单
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    :class="type"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -15,7 +22,13 @@
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
-            <el-icon @click="folds[sInd] = !folds[sInd]" class="fold-btn f-0" :class="folds[sInd] ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
+            <el-icon
+              @click="folds[sInd] = !folds[sInd]"
+              class="fold-btn f-0"
+              :class="folds[sInd] ? 'rotate-180' : ''"
+              size="1.5em"
+              v-if="foldable"
+            >
               <CaretTop />
             </el-icon>
           </div>
@@ -67,17 +80,17 @@
         :moreBtns="moreBtns"
         :submitText="submitText"
         :resetText="resetText"
+        :disabled="!newSections.length"
         :formRef="formRef"
-        :isOmit="isOmit"
+        :omit="omit"
         :log="log"
         :debug="debug"
         :params="params"
         :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
-        :noSubmitProps="noSubmitProps"
         :handleRequest="handleRequest"
-        :disabled="!newSections.length"
+        :handleResponse="handleResponse"
         @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
         @submit="(args:CommonObj)=>$emit('submit', args)"
         ref="footerBtnsRef"
@@ -127,21 +140,21 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
-    isOmit?: boolean; //是否剔除掉 undefined，'' 参数
+    omit?: boolean; //是否剔除掉 undefined，'' 参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
-    handleRequest?: (args: CommonObj) => CommonObj; //处理参数
+    handleRequest?: (args: any) => any; // 处理请求参数
+    handleResponse?: (data: any) => any; // 处理请求数据
   }>(),
   {
-    type: "",
-    size: defaultCommonSize,
     modelValue: () => reactive({}),
+    type: "common",
+    size: defaultCommonSize,
     log: !isProd,
     grid: 24,
     footer: true,
-    isOmit: true,
+    omit: true,
     foldable: true,
     autoFixedFoot: true,
     sections: () => [],
@@ -199,7 +212,10 @@ watch(
 // }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? props.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth } = attrs;
+  const {
+    size = field.size ?? sItem.size ?? props.size,
+    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth,
+  } = attrs;
   const {
     grid = sItem.grid ?? props.grid,
     readonly = sItem.readonly ?? props.readonly,
@@ -295,6 +311,6 @@ $g: 4px; // 2px 4px 6px small default large
 }
 .auto-fixed-foot {
   overflow: auto;
-  overscroll-behavior: auto;
+  // overscroll-behavior: auto; // 默认为auto
 }
 </style>

@@ -56,6 +56,7 @@ const props = withDefaults(
     size: defaultCommonSize,
     cols: () => [],
     rows: () => [],
+    operateBtns: () => [],
     summaryMethod: handleTableSummary,
   }
 );
@@ -68,24 +69,6 @@ const newCols = reactive<TableColAttrs[]>(
     rowNum += maxLev - 1;
   })
 );
-
-// const newAttrs = computed(() => {
-//   const { showSummary, summaryMethod } = props;
-//   return Object.assign(
-//     {
-//       maxHeight: `calc(100% + ${rowNum * 40}px)`,
-//       cellClassName(res: CommonObj) {
-//         if (res.column.property === "$sort") return "sort-cell";
-//       },
-//     },
-//     defaultTableAttrs,
-//     { showSummary, summaryMethod }
-//   );
-// });
-
-// function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-//   $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next);
-// }
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, isRefreshList: boolean = true) {
   const { name } = btnObj;

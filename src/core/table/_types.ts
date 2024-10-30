@@ -4,7 +4,7 @@ import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
-import { FormItemAttrs } from "@/core/form/_types";
+import { FormFieldAttrs } from "@/core/form/_types";
 import { FinallyNext, HorizontalAlign, PopoverType, UniteFetchType } from "@/core/_types";
 
 /**
@@ -113,7 +113,7 @@ export type TableCol = BaseDataType | TableColAttrs;
 
 // 可编辑的表格
 export interface EditTableColAttrs extends TableColAttrs {
-  field?: FormItemAttrs;
+  field?: FormFieldAttrs;
 }
 
 export type EditTableCol = BaseDataType | EditTableColAttrs;

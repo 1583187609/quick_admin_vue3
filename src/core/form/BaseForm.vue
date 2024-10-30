@@ -2,9 +2,19 @@
   基础表单。除了实现ElementPlus的默认功能外，还在extraAttrs中提供了grid、example、popover、tips、pureText、rulesType、before、after、……等功能
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
-    <slot name="header" v-if="$slots.header" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="type"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
+    <slot name="header" />
+    <el-row
+      class="section all-hide-scroll"
+      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+    >
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -32,17 +42,17 @@
         :moreBtns="moreBtns"
         :submitText="submitText"
         :resetText="resetText"
+        :disabled="!newFields.length"
         :formRef="formRef"
-        :isOmit="isOmit"
+        :omit="omit"
         :log="log"
         :debug="debug"
         :params="params"
         :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
-        :noSubmitProps="noSubmitProps"
         :handleRequest="handleRequest"
-        :disabled="!newFields.length"
+        :handleResponse="handleResponse"
         @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
         @submit="(args:CommonObj)=>$emit('submit', args)"
         ref="footerBtnsRef"
@@ -76,38 +86,37 @@ const $slots = defineSlots<{
 }>();
 const props = withDefaults(
   defineProps<{
-    type?: FormStyleType;
+    type?: FormStyleType; // 表格样式类型：cell单元格、common常用
     size?: CommonSize;
     modelValue?: CommonObj; //表单数据
     fields?: FormField[]; //表单字段项
     readonly?: boolean; //是否只读
     pureText?: boolean; //是否纯文本展示
-    fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
-    afterFail?: FinallyNext; //fetch请求失败之后的回调方法
     grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     footer?: boolean; //是否显示底部按钮
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
-    loading?: boolean; //提交按钮是否显示加载图标
-    isOmit?: boolean; //是否剔除掉 undefined，'' 参数
+    loading?: boolean; //提交请求状态。控制提交按钮是否显示加载图标
+    omit?: boolean; //是否剔除掉 undefined，'' 参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
-    isCache?: boolean; //是否缓存
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
-    handleRequest?: (args: CommonObj) => CommonObj; //处理参数
+    fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
+    afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
+    afterFail?: FinallyNext; //fetch请求失败之后的回调方法
+    handleRequest?: (args: any) => any; //处理请求参数
+    handleResponse?: (data: any) => any; //处理请求数据
   }>(),
   {
-    type: "",
+    type: "common",
     size: defaultCommonSize,
     modelValue: () => reactive({}),
     log: !isProd,
     grid: (_props: CommonObj) => (_props.type === "cell" ? 8 : 24),
     footer: true,
-    isOmit: true,
+    omit: true,
     autoFixedFoot: true,
     fields: () => [],
   }
@@ -190,7 +199,7 @@ $g: 4px; // 2px 4px 6px small default large
   height: 100%;
   .auto-fixed-foot {
     overflow: auto;
-    overscroll-behavior: auto;
+    // overscroll-behavior: auto; // 默认为auto
   }
 }
 </style>

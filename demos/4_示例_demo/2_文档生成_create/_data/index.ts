@@ -40,7 +40,6 @@ export const vueStr = `
       :fetch="fetch"
       :afterSuccess="onSuccess"
       :fetchFail="fetchFail"
-      :noSubmitProps="noSubmitProps"
       :handleRequest="handleRequest"
       :disabled="!newFields.length"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
@@ -88,7 +87,6 @@ const props = withDefaults(
     debug?: boolean; //是否终止提交，并打印传参
     isCache?: boolean; //是否缓存
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
     handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
   {

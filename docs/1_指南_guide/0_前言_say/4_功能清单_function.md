@@ -94,19 +94,56 @@
 
 ## 基础组件：
 
-BaseBtn：基本用法（el-button 属性继承）、基础扩展属性（name, data, order, auth, to, popconfirm, isDebounce）、功能扩展属性（handleClickType, validate）
-BaseCopy：基本用法（text）、扩展用法（to、data、line、clickIconCopy）
-BasicPopup：基本用法（opeonDialog(string, string)）、title 属性覆盖（opeonDialog({draggable: false}, string)）、 传入组件+默认底部按钮 openDialog(string, [], true)、自定义 title+传入组件+自定义底部按钮 openPopup([], [], true)、打开类型（openDialog(string, [], 'drawer', true)）
+### BaseBtn：
+
+基本用法：el-button 属性继承、
+基础扩展属性：name, data, order, auth, to, popconfirm, isDebounce
+功能扩展属性：handleClickType, validate
+
+### BaseCopy：
+
+基本用法：text、
+扩展用法：to、data、line、clickIconCopy
+
+### BasicPopup：
+
+基本用法：opeonDialog(string, string)、
+title 属性覆盖：opeonDialog({draggable: false}, string)、
+传入组件+默认底部按钮：openDialog(string, [], 'confirm')，可省略弹窗类型参数、
+自定义 title + 传入组件 + 自定义底部按钮：openPopup([], [], [])、
+打开类型：openDialog(string, string, 'drawer', 'confirm')
 
 ## 进阶组件：
 
-BaseForm：常规渲染、条件渲染、快捷属性（grid、）
-SectionForm：
-BaseTable：
-BaseCrud：常规条件/条件分类
+### BaseForm：
+
+基础用法：常规渲染、
+进阶用法：条件渲染、三元运算符渲染
+快捷属性：grid（传数值、对象）、tips、example、popover、pureText、disabled、readonly、rulesType、before、after
+样式风格：common 和 cell；纯文本展示；插槽 header；
+
+### SectionForm：
+
+基础用法：
+多级嵌套属性处理：
+快捷属性：grid（传数值、对象）、tips、example、popover、pureText、disabled、readonly、rulesType、before、after
+样式风格：common 和 cell；纯文本展示；插槽 header；
+
+### BaseTable：
+
+基础用法：
+快捷用法：内嵌组件、内置组件，操作栏按钮
+
+### BaseCrud：
+
+查询条件样式处理：常规条件/条件分类
 
 ## 布局组件：
 
-BaseSection：
+## BaseSection：
 
-Echarts
+待完善
+
+## Echarts
+
+待完善

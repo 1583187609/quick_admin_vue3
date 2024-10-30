@@ -53,7 +53,7 @@ const props = withDefaults(
   }
 );
 const formRef = ref<any>(null);
-const steps = computed<StepItemAttrs>(() => {
+const steps = computed<StepItemAttrs[]>(() => {
   return props.sections
     .filter(it => !!it)
     .map(item => {
@@ -61,7 +61,7 @@ const steps = computed<StepItemAttrs>(() => {
       return { title, description };
     });
 });
-const active = ref(1); //当前激活的步骤
+const active = ref(1); // 当前激活的步骤
 defineExpose({
   formRef,
 });

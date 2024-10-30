@@ -48,7 +48,14 @@
         :size="tableAttrs?.size ?? size"
       />
     </div>
-    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
+    <slot
+      :loading="loading"
+      :rows="newRows"
+      :total="pageInfo.total"
+      :hasMore="pageInfo.hasMore"
+      :params="params"
+      :onOperateBtns="onOperateBtns"
+    >
       <QueryTable
         :compact="compact"
         :loading="loading"
@@ -161,7 +168,7 @@ const props = withDefaults(
     filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
     formAttrs?: FormAttrs; //el-form 的属性配置
     /** 整体控制 **/
-    isOmit?: boolean; // 是否剔除掉undefined, ''的属性值
+    omit?: boolean; // 是否剔除掉undefined, ''的属性值
     size?: CommonSize; // 整体的控件大小
     compact?: boolean; // 表单项、表格列之间排列是否紧凑点
     readonly?: boolean; // 是否只读
@@ -191,7 +198,7 @@ const props = withDefaults(
       immediate: true,
       changeFetch: true,
       size: defaultCommonSize,
-      isOmit: true,
+      omit: true,
       inputDebounce: true,
       showPagination: true,
       pagination: () => ({ currPage: 1, pageSize: 20 }),
@@ -313,11 +320,11 @@ function handleChange(changedVals: CommonObj, withModelData?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { fetch, handleRequest, isOmit, handleResponse, summaryList, afterSuccess, afterFail, log } = props;
+  const { fetch, handleRequest, omit, handleResponse, summaryList, afterSuccess, afterFail, log } = props;
   if (!fetch) return;
   loading.value = true;
   if (handleRequest) args = handleRequest(args);
-  isOmit && (args = omitAttrs(args)); //剔除掉值为undefined, '', null的属性
+  omit && (args = omitAttrs(args)); //剔除掉值为undefined, '', null的属性
   log && printLog(args, "req");
   fetch(args)
     .then((res: any) => {
@@ -439,8 +446,8 @@ onMounted(() => {
 defineExpose({
   refreshList,
   getList,
-  getQueryParams(isOmit = props.isOmit) {
-    return isOmit ? omitAttrs(params) : params;
+  getQueryParams(omit = props.omit) {
+    return omit ? omitAttrs(params) : params;
   },
   getQueryFields(excludeKeys = [reqMap.curr_page, reqMap.page_size]) {
     const queryFields: KeyValItem[] = [];

@@ -43,14 +43,13 @@
       :submitText="submitText"
       :resetText="resetText"
       :formRef="formRef"
-      :isOmit="isOmit"
+      :omit="omit"
       :log="log"
       :debug="debug"
       :params="params"
       :fetch="fetch"
       :afterSuccess="afterSuccess"
       :onFail="onFail"
-      :noSubmitProps="noSubmitProps"
       :handleRequest="handleRequest"
       :disabled="!newFields.length"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
@@ -94,12 +93,10 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
-    isOmit?: boolean; //是否剔除掉 undefined，'' 参数
+    omit?: boolean; //是否剔除掉 undefined，'' 参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
-    isCache?: boolean; //是否缓存
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
     /**
      * 处理参数（如果有type，则返回type，否则返回 param 和 return 推导的类型
      * @type {(args: CommonObj) => CommonObj} TS类型
@@ -113,7 +110,7 @@ const props = withDefaults(
     log: !isProd,
     grid: 24,
     footer: true,
-    isOmit: true,
+    omit: true,
     autoFixedFoot: true,
     fields: () => [],
   }

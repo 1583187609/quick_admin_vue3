@@ -26,7 +26,7 @@ export interface CrudProps {
   // extraParams?: CommonObj; //额外的参数
   // log?: boolean; //是否console.log(rows)
   // debug?: boolean; //是否在打印请求数据之后不执行请求的逻辑
-  // isOmit?: boolean; //是否剔除掉undefined, ''的属性值
+  // omit?: boolean; //是否剔除掉undefined, ''的属性值
   // changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
   // inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
   // filterByAuth?: FilterByAuthFn;

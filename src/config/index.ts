@@ -88,7 +88,7 @@ const config = {
       // immediate: true,
       // changeFetch: true,
       // log: false,
-      // isOmit: true,
+      // omit: true,
       // inputDebounce: true,
       // exportLimit: 10000,
       // pagination: () => ({ currPage: 1, pageSize: 20 }),

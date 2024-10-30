@@ -16,7 +16,9 @@
       <BaseBtn @click="handleMoreBtns(btn)" :name="btn" :disabled="disabled" v-if="btn.popconfirm" />
       <BaseBtn v-debounce.immediate="() => handleMoreBtns(btn)" :name="btn" :disabled="disabled" v-else />
     </template>
-    <el-button :icon="RefreshLeft" @click="handleReset" :disabled="disabled || isLoading" v-if="resetText">{{ resetText }}</el-button>
+    <el-button :icon="RefreshLeft" @click="handleReset" :disabled="disabled || isLoading" v-if="resetText">
+      {{ resetText }}
+    </el-button>
   </div>
 </template>
 <script lang="ts" setup>
@@ -24,7 +26,7 @@ import { ref, watch, inject, computed } from "vue";
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { BaseBtnType, BtnItem } from "@/core/BaseBtn/_types";
 import { getBtnObj } from "@/core/BaseBtn";
-import { deleteAttrs, omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/_utils";
+import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/_utils";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 import { ClosePopupInject, ClosePopupType } from "@/core/BasicPopup/_types";
 import { Loading, Promotion } from "@element-plus/icons-vue";
@@ -35,21 +37,21 @@ const props = withDefaults(
     loading?: boolean;
     submitText?: string;
     resetText?: string;
-    moreBtns?: BaseBtnType[]; //底部的额外更多按钮
+    moreBtns?: BaseBtnType[]; // 底部的额外更多按钮
     formRef?: any;
-    isOmit?: boolean;
+    omit?: boolean;
     log?: boolean;
     debug?: boolean;
-    disabled?: boolean; //是否禁用按钮
+    disabled?: boolean; // 是否禁用按钮
     params?: any;
-    fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
+    fetch?: UniteFetchType; // 请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: FinallyNext;
     afterFail?: FinallyNext;
-    noSubmitProps?: string[]; //提交表单时，不要提交的prop属性
-    handleRequest?: (args: CommonObj) => CommonObj; //处理参数
+    handleRequest?: (args: any) => any; // 处理请求参数
+    handleResponse?: (data: any) => any; // 处理请求数据
   }>(),
   {
-    isOmit: true,
+    omit: true,
     submitText: "提交",
     resetText: "重置",
     moreBtns: () => [],
@@ -66,7 +68,7 @@ watch(
 const newMoreBtns = computed(() => props.moreBtns.map((btn: BaseBtnType) => getBtnObj(btn)));
 //处理校验逻辑
 function handleValidate() {
-  const { log, debug, isOmit, noSubmitProps } = props;
+  const { log, debug, omit } = props;
   return new Promise((resolve, reject) => {
     let { params } = props;
     const { formRef, handleRequest } = props;
@@ -74,11 +76,8 @@ function handleValidate() {
     formRef.validate((valid: any, fieldsObj: CommonObj) => {
       if (valid) {
         params = splitPropsParams(params);
-        if (handleRequest) {
-          params = handleRequest(params);
-        }
-        isOmit && (params = omitAttrs(params));
-        params = deleteAttrs(params, noSubmitProps);
+        if (handleRequest) params = handleRequest(params);
+        if (omit) params = omitAttrs(params);
         if (log || debug) {
           printLog(params, "req");
           if (debug) return;
@@ -93,7 +92,7 @@ function handleValidate() {
   });
 }
 //请求成功之后的回调函数
-const fetchSucCb: FinallyNext = (hint = props.submitText + "成功！", closeType?: ClosePopupType, cb?: () => void, isRefreshList = true) => {
+const defaultAfterSuccess: FinallyNext = (hint = props.submitText + "成功！", closeType?: ClosePopupType, cb?: () => void) => {
   showMessage(hint);
   closePopup(closeType);
   cb?.();
@@ -102,45 +101,39 @@ const fetchSucCb: FinallyNext = (hint = props.submitText + "成功！", closeTyp
 function handleSubmit() {
   handleValidate()
     .then((params: any) => {
-      const { log, fetch, afterSuccess = fetchSucCb, afterFail, submitText } = props;
-      if (fetch) {
-        isLoading.value = true;
-        fetch(params)
-          .then((res: any) => {
-            log && printLog(res, "res");
-            afterSuccess(submitText + "成功！");
-          })
-          .catch((err: any) => {
-            afterFail?.(err);
-          })
-          .finally(() => {
-            isLoading.value = false;
-          });
-      } else {
-        $emit("submit", params);
-      }
+      const { log, fetch, handleResponse, afterSuccess = defaultAfterSuccess, afterFail, submitText } = props;
+      if (!fetch) return $emit("submit", params);
+      isLoading.value = true;
+      fetch(params)
+        .then((res: any) => {
+          log && printLog(res, "res");
+          if (handleResponse) res = handleResponse(res);
+          afterSuccess(submitText + "成功！");
+        })
+        .catch((err: any) => {
+          afterFail?.(err);
+        })
+        .finally(() => {
+          isLoading.value = false;
+        });
     })
     .catch(() => {});
 }
 //重置表单
 function handleReset() {
   const { formRef } = props;
-  if (!formRef) return;
-  formRef.resetFields();
+  formRef?.resetFields();
 }
 //点击更多按钮时
 function handleMoreBtns(btn: BtnItem) {
   const { name, validate, to } = btn;
-  if (to !== undefined) return;
-  if (validate) {
-    handleValidate()
-      .then(params => {
-        $emit("moreBtns", name, params, fetchSucCb);
-      })
-      .catch(() => {});
-  } else {
-    $emit("moreBtns", name, props.params, fetchSucCb);
-  }
+  if (to) return;
+  if (!validate) return $emit("moreBtns", name, props.params, defaultAfterSuccess);
+  handleValidate()
+    .then(params => {
+      $emit("moreBtns", name, params, defaultAfterSuccess);
+    })
+    .catch(() => {});
 }
 defineExpose({
   formValidate: handleValidate,

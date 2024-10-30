@@ -31,7 +31,7 @@
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 |`isCache`|是否缓存|`boolean`|-|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|
-|`noSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
+|`filterSubmitProps`|提交表单时，不要提交的`prop`属性|`string[]`|-|
 |`handleRequest`|处理参数|`() => void`|-|
 |`grid`|-|-|`24`|
 
