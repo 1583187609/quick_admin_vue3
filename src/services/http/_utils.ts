@@ -62,3 +62,29 @@ export function showToast(msg: string, type: ToastType = "warning") {
   }, 300);
   return msg;
 }
+
+interface DefaultResDataMap {
+  code: any;
+  data: any;
+  msg: any;
+  successCode: any;
+}
+
+export const defaultResDataMap: DefaultResDataMap = {
+  code: "code",
+  data: "data",
+  msg: "msg",
+  successCode: 0,
+};
+
+/**
+ * 获取处理之后的响应数据的结构
+ * @param resData 响应数据
+ * @param resMap 响应数据字段的映射关系
+ * @returns 新的响应数据
+ */
+export function getResData(resData = {}, resMap = defaultResDataMap): CommonObj {
+  if (!resMap) return resData;
+  const { code, data, msg, successCode } = resMap;
+  return { code: resData[code], data: resData[data], msg: resData[msg], successCode };
+}

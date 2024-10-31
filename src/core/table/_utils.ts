@@ -1,4 +1,4 @@
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize, StrNum } from "@/vite-env";
 import {
   typeOf,
   propsJoinChar,
@@ -89,21 +89,26 @@ export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: 
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj, newCols: TableColAttrs[]) {
+export function getGroupBtnsOfRow(
+  row: CommonObj,
+  rowInd: number,
+  props: CommonObj,
+  operateCol?: TableColAttrs,
+  cb?: (width: StrNum) => void
+) {
   const { operateBtns = [], rows, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   const btnAttrs = { attrs: { disabled } };
-  const tempBtns = getTempGroupBtnsOfRow(row, ind, operateBtns, btnAttrs);
+  const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
-  const operateCol = newCols.at(-1)!;
+  // 如果没有操作栏按钮或者已手动设置操作栏宽度，则无需处理操作栏的宽度，故直接返回
+  if (!operateBtns?.length || operateCol?.width) return filterBtns;
   // 如果开启优化，则不会再进行操作栏列宽的计算
   if (isOptimization) {
-    operateCol.width = 100;
+    cb?.(100);
     return filterBtns;
   }
-  // console.log(operateCol.width, "operateCol.width-----------");
-  if (operateCol.width) return filterBtns; // 如果操作栏设置了宽度，则不再进行自动计算，可用于性能优化
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
-  const isLastRow = ind === rows.length - 1;
+  const isLastRow = rowInd === rows.length - 1;
   if (!isLastRow) {
     if (operateWidth < width) operateWidth = width;
   } else {
@@ -111,11 +116,17 @@ export function getGroupBtnsOfRow(row: CommonObj, ind: number, props: CommonObj,
     // if (operateWidth < 30) {
     //  operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
     // }
-    operateCol.width = operateWidth;
+    cb?.(operateWidth);
   }
   return filterBtns;
 }
 
+/**
+ * 根据带.的props读取数据值
+ * @param row 表格行数据
+ * @param prop prop值
+ * @returns any
+ */
 export function flatPropsValue(row: CommonObj, prop: string) {
   const keys = (prop as string).split(".");
   let data: CommonObj = row;
@@ -127,16 +138,16 @@ export function flatPropsValue(row: CommonObj, prop: string) {
 }
 
 /**
- * 获取推断的表格列属性
+ * 获取系统推断的表格列属性（根据label名称等标志，推断一些属性值）
  * @param col 表格列配置属性
  * @returns
  */
-export function getInferredColAttrs(col: TableColAttrs) {
+function getSysInferredAttrs(col: TableColAttrs) {
   const { type, prop, label, formatter } = col;
   if (typeof label !== "string") return;
   const colAttrs: TableColAttrs = {};
   // 是否需要处理多级 props
-  let isHandleMultiProps = !isOptimization && prop?.includes(".") && !formatter;
+  const isHandleMultiProps = !isOptimization && prop?.includes(".") && !formatter;
   if (isHandleMultiProps) {
     colAttrs.formatter = (row: CommonObj) => flatPropsValue(row, prop as string);
   }
@@ -160,15 +171,24 @@ export function getInferredColAttrs(col: TableColAttrs) {
 export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = defaultCommonSize): CommonObj {
   let newLev = lev;
   const { children, type, prop, label, visible = true, exportable = true, formatter } = col;
-  const specialColAttrs = specialColMap[type as string];
-  const { getInferredAttrs } = specialColAttrs || {};
+  const { getInferredAttrs, ...specialColAttrs } = specialColMap[type as string] ?? {};
   // 如果是index、sort、selection、operate特殊列
   if (type && specialColKeys.includes(type as SpecialTableColType)) {
     const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, getInferredAttrs?.(col), col);
     return { col: newCol, level: 1 };
   }
-  const inferredColAttrs = getInferredColAttrs(col);
-  const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, inferredColAttrs, getInferredAttrs?.(col), col);
+  const sysInferredAttrs = getSysInferredAttrs(col);
+  const newCol = merge(
+    { visible, exportable },
+    defaultColumnAttrs,
+    specialColAttrs,
+    sysInferredAttrs,
+    getInferredAttrs?.(col),
+    col
+  );
+  if (type === "BaseImg") {
+    console.log(specialColAttrs, sysInferredAttrs, getInferredAttrs?.(col), "dddd---------");
+  }
   if (typeOf(newCol.prop) === "Array") {
     newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   }

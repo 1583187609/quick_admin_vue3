@@ -2,7 +2,7 @@
 /*************** 为Base*.vue正常执行逻辑提供的常用的方法 ***************/
 /********************************************************************/
 
-import { regexp, showMessage, toCamelCase } from "@/core/_utils";
+import { regexp, showMessage } from "@/core/_utils";
 import _ from "lodash";
 import config from "@/config";
 import type { ConfigMergeStrategy } from "@/config/_types";
@@ -87,6 +87,20 @@ export const commonClone = (data: any) => {
   }
   return newData;
 };
+
+/**
+ * 将字符串转为驼峰
+ * @param {string} str 要转换的字符串
+ * @param {boolean} isBig 是否转成大驼峰，否则转成小驼峰
+ */
+export function toCamelCase(str: string, isBig = false) {
+  str = str.replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, ind) => {
+    if (ind === 0) return letter[isBig ? "toUpperCase" : "toLowerCase"]();
+    return letter.toUpperCase();
+  });
+  str = str.replace(/\s+|\/|-|}/g, "");
+  return str;
+}
 
 /**
  * 把css的值转换下，如果已经带有单位，则返回原值，如果没有带单位，则加上px

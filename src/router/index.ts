@@ -4,6 +4,8 @@ import { defaultHomePath, showMessage, storage } from "@/utils";
 import routes from "./routes";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { ElMessage } from "element-plus";
+import { CommonObj } from "@/vite-env";
 
 NProgress.configure({
   easing: "ease", // 动画方式
@@ -72,12 +74,21 @@ router.afterEach((to, from) => {
 /**
  * 路由跳转错误
  * */
-router.onError((error, to) => {
-  console.error("路由错误", error.message);
-  NProgress.done();
-  // if (error.message.includes("Failed to fetch dynamically imported module")) {
+router.onError((err, to) => {
+  const { message } = err;
+  const isNotFoundFile = message.includes("Failed to fetch dynamically imported module");
+  const { name, path } = to;
+  if (isNotFoundFile) {
+    const query: CommonObj = { type: "999" };
+    if (name !== "home") query.redirect = path;
+    router.push({ name: "error", query });
+  } else {
+    console.error("路由错误", message);
+  }
+  // if (message.includes("Failed to fetch dynamically imported module")) {
   //   window.location = to.fullPath;
   // }
+  NProgress.done();
 });
 
 export default router;

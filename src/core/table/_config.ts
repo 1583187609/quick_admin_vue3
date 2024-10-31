@@ -1,8 +1,9 @@
 import { CommonObj } from "../_types";
 import { defaultFieldAttrs } from "@/core/form/_components/FieldItem";
 import { SpecialTableColType, TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
+import { TableColAttrs } from "@/core/table/_types";
+import { getExportData } from "@/utils";
 import config from "@/config";
-import { TableColAttrs } from "@/core/table";
 
 //el-table 的属性，除了（data）
 export const defaultTableAttrs: TableAttrs = {
@@ -33,7 +34,8 @@ export const specialColKeys: SpecialTableColType[] = ["index", "sort", "selectio
 /**
  * 表格特殊列
  */
-export const specialColMap: CommonObj = Object.assign(
+
+export const specialColMap: CommonObj = getExportData(
   {
     //序号列
     index: {
@@ -96,7 +98,10 @@ export const specialColMap: CommonObj = Object.assign(
       prop: "imgUrl",
       label: "图片",
       minWidth: 136,
-      attrs: { size: "120" },
+      attrs: {
+        size: "120",
+        style: "margin: 0 auto",
+      },
     },
     //文本省略显示，点击查看更多
     BaseText: {
@@ -150,5 +155,6 @@ export const specialColMap: CommonObj = Object.assign(
     //   },
     // },
   },
-  config?.table?.customSpecialCol
+  config?.table?.customSpecialCol,
+  "merge"
 );

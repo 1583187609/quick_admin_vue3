@@ -33,11 +33,17 @@
             :loading="loading"
             :isFold="isFold"
             :showFoldBtn="showFoldBtn"
-            @submit="handleSubmit"
             @fold="isFold = !isFold"
-            @reset="resetForm"
+            @submit="handleSubmit"
+            @reset="handleReset"
             v-bind="getGridAttrs(grid)"
-            v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
+            v-if="
+              newSections.length <= rowNum
+                ? sInd === newSections.length - 1
+                : isFold
+                ? sInd === rowNum - 1
+                : sInd === newSections.length - 1
+            "
           />
         </div>
       </div>
@@ -62,9 +68,9 @@
         :loading="loading"
         :isFold="isFold"
         :showFoldBtn="showFoldBtn"
-        @submit="handleSubmit"
         @fold="isFold = !isFold"
-        @reset="resetForm"
+        @submit="handleSubmit"
+        @reset="handleReset"
         v-bind="getGridAttrs(grid)"
       />
     </div>
@@ -82,9 +88,9 @@ import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
 import { useEvent } from "@/hooks";
-import { handleFields, getGridAttrs } from "@/core/form/_utils";
+import { handleFields, getGridAttrs, getFormLevelAttrs } from "@/core/form/_utils";
 import { SectionFormItemAttrs } from "@/core/form/_types";
-import { defaultFormAttrs } from "@/core/form";
+import { defaultFormAttrs, FormLevelsAttrs } from "@/core/form";
 import { defaultCommonSize } from "@/core/_utils";
 
 const { merge } = _;
@@ -116,6 +122,8 @@ const props = withDefaults(
   )
 );
 const $emit = defineEmits(["update:modelValue", "search", "change", "reset"]);
+const $attrs = useAttrs();
+provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
 let isFirst = true;
 const formRef = ref<FormInstance>();
 const colNum = ref(2);
@@ -130,7 +138,11 @@ const sliceInd = computed((): any => {
     return (rowInd: number) => {
       const newSecLen = newSections.value.length;
       const isLast = rowInd === newSecLen - 1;
-      return newSecLen <= rowNum ? (colNum.value > 1 ? colNum.value - (isLast ? 1 : 0) : 1) : colNum.value - (rowInd === rowNum - 1 ? 1 : 0);
+      return newSecLen <= rowNum
+        ? colNum.value > 1
+          ? colNum.value - (isLast ? 1 : 0)
+          : 1
+        : colNum.value - (rowInd === rowNum - 1 ? 1 : 0);
     };
   } else {
     return colNum.value > 1 ? colNum.value * rowNum - 1 : 1 * rowNum;
@@ -236,7 +248,7 @@ function handleSubmit() {
   });
 }
 //重置表单
-function resetForm() {
+function handleReset() {
   formRef.value?.resetFields();
   $emit("reset");
 }

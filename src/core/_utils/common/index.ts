@@ -10,4 +10,3 @@ export * from "./base";
 export * from "./consts";
 export * from "./config";
 export * from "./_temp";
-export * from "./_init";

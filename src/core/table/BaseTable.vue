@@ -8,7 +8,7 @@
       :size="size"
       @operateBtns="onOperateBtns"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols)"
+      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols.at(-1), (width)=>(newCols.at(-1)!.width=width))"
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >

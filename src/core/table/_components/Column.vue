@@ -33,6 +33,7 @@
             <BaseRender :data="newCol.formatter(row, column, row[newCol.prop as string], $index)" v-if="newCol.formatter" />
             <template v-else>{{ renderValue(row[newCol.prop as string]) }}</template>
           </slot>
+          <!-- 操作栏按钮列 -->
           <GroupBtns
             :size="size"
             :row="{ ...row, $index }"
@@ -41,6 +42,7 @@
             @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
             v-else-if="newCol.type === 'operate'"
           />
+          <!-- 拖动排序列 -->
           <el-icon size="1.2em" v-else-if="newCol.type === 'sort'">
             <Sort />
           </el-icon>
@@ -65,7 +67,7 @@
             </template>
           </template>
           <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
-          <BaseImg style="margin: 0 auto" :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
+          <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
           <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
             {{ renderValue(row[newCol.prop as string]) }}
           </BaseText>
@@ -184,10 +186,4 @@ function getCreateOrUpdateText(row: CommonObj, prop: string, ind: number = 0) {
   return renderValue(val);
 }
 </script>
-<style lang="scss" scoped>
-.question-icon {
-  vertical-align: middle;
-  font-size: 1.1em;
-  margin-left: 2px;
-}
-</style>
+<style lang="scss" scoped></style>

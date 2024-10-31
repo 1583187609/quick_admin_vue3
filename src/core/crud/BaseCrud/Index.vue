@@ -4,9 +4,9 @@
 <template>
   <div class="base-crud f-fs-s-c" ref="baseCrudRef">
     <QueryForm
+      v-model="modelData"
       class="f-0"
       :class="formAttrs?.size ?? size"
-      v-model="modelData"
       :disabled="disabled"
       :readonly="readonly"
       :fields="fields"
@@ -76,7 +76,7 @@
         ref="queryTableRef"
       >
         <template #custom="{ row, col, $index }">
-          <slot :name="col.prop" v-bind="{ row, col, $index }" />
+          <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
         </template>
       </QueryTable>
     </slot>
@@ -139,7 +139,7 @@ import { operateBtnsEmitName } from "@/core/table";
 const { merge, cloneDeep } = _;
 const $slots = defineSlots<{
   default: () => void; // 默认插槽
-  middle: () => void; // 中间插槽
+  middle?: () => void; // 中间插槽
   "[formItem]": () => void; // 表单项插槽
   "[colItem]": () => void; // 表格列插槽
 }>();
@@ -265,7 +265,7 @@ const originCols = computed<TableColAttrs[]>(() => props.cols.filter(it => !!it)
 const newCols = ref<TableColAttrs[]>(toRaw(originCols.value));
 const dragSortable = computed<boolean>(() => !!newCols.value.find(col => col.type === "sort"));
 
-//当额外参数改变时，发起请求
+// 当额外参数改变时，发起请求
 watch(
   () => props.extraParams,
   newVal => {
@@ -275,18 +275,18 @@ watch(
   { deep: true }
 );
 
-//重置
+// 重置
 function handleReset() {
   Object.assign(currPageInfo, initPageInfo);
   params = cloneDeep(initParams);
   getList(params, undefined, "reset");
 }
-//点击搜索
+// 点击搜索
 function handleSearch(data: CommonObj) {
   Object.assign(params, { [`${reqMap.curr_page as string}`]: 1 });
   getList(params, undefined, "search");
 }
-//每页条数变化时
+// 每页条数变化时
 function handleSizeChange(val: number) {
   Object.assign(params, {
     [`${reqMap.curr_page as string}`]: 1,
@@ -294,7 +294,7 @@ function handleSizeChange(val: number) {
   });
   getList(params, undefined, "sizeChange");
 }
-//当前页码变化时
+// 当前页码变化时
 function handleCurrChange(val: number) {
   Object.assign(params, { [`${reqMap.curr_page as string}`]: val });
   getList(params, undefined, "currChange");
@@ -367,7 +367,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
     });
 }
 
-//点击额外的按钮
+// 点击额外的按钮
 function onExtraBtns(btnObj: BtnItem) {
   const { exportCfg, importCfg, tableAttrs, cols } = props;
   const { rowKey } = tableAttrs;
@@ -394,7 +394,7 @@ function onExtraBtns(btnObj: BtnItem) {
   });
 }
 
-//点击操作栏按钮
+// 点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
   const { name } = btnObj;
   $emit(operateBtnsEmitName, name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
@@ -403,7 +403,7 @@ function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRef
   });
 }
 
-//处理多选改变时
+// 处理多选改变时
 function handleSelectionChange(rows: CommonObj[], keys: string[]) {
   seledRows.value = rows;
   $emit("selectionChange", rows, keys);

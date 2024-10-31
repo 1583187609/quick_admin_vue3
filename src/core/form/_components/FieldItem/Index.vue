@@ -28,7 +28,14 @@
         <slot name="custom" :field="newField" v-if="newField.type === 'custom'">
           <div class="color-danger">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
         </slot>
-        <component :is="`el-${newField.type}`" :class="flexClass" v-model="newVal" @change="handleChange" v-bind="getElBindAttrs()" v-if="getIsEl()">
+        <component
+          :is="`el-${newField.type}`"
+          :class="flexClass"
+          v-model="newVal"
+          @change="handleChange"
+          v-bind="getElBindAttrs()"
+          v-if="getIsEl()"
+        >
           <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
             <BaseRender :data="val" />
           </template>
@@ -111,7 +118,15 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getSlotsMap, getFormItemSlots } from "@/core/_utils";
+import {
+  typeOf,
+  getTextFromOpts,
+  deleteAttrs,
+  defaultFormItemType,
+  emptyStr,
+  getSlotsMap,
+  getFormItemSlots,
+} from "@/core/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/core/form/_types";
 import { FormItemRule } from "element-plus";
@@ -150,7 +165,7 @@ const props = withDefaults(
     size: defaultCommonSize,
   }
 );
-const { labelSuffix } = inject<any>(FormLevelsAttrs);
+const { labelSuffix } = inject<any>(FormLevelsAttrs) ?? {};
 const $emit = defineEmits(["update:modelValue", "change"]);
 const { getOpts } = useDict();
 const newVal = computed({

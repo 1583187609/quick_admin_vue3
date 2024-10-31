@@ -2,10 +2,24 @@ import http from "@/services/http";
 import { CommonObj } from "@/vite-env";
 
 /************ 通用接口 *************/
-// 通用的获取数据（信息对象）接口
-export const GetMockCommonDetail = (data?: CommonObj) => http<any>("get", "/mock/common/detail", data);
 // 通用的获取列表（分页数组）接口
-export const GetMockCommonList = (data?: CommonObj) => http("get", "/mock/common/list", data);
+// ts类型示例
+export interface GetMockCommonListReq {
+  [key: string]: any;
+}
+export interface GetMockCommonListRes {
+  [key: string]: any;
+}
+export const GetMockCommonList = (data?: GetMockCommonListReq) =>
+  http<GetMockCommonListRes>("get", "/mock/common/list", data, {
+    // 此处是对单个请求的：是否字符串序列化、是否显示全局加载动效、是否吐司提示、请求失败后最大重连次数的设置
+    // isStringify: false,
+    // loadEnable: true,
+    // toastEnable: true,
+    // reconnectMax: 1,
+  });
+// 通用的获取数据（信息对象）接口
+export const GetMockCommonDetail = (data?: CommonObj) => http("get", "/mock/common/detail", data);
 // 通用的提交数据（信息对象）接口
 export const PostMockCommon = (data?: CommonObj) => http("post", "/mock/common", data);
 // 通用的新增接口

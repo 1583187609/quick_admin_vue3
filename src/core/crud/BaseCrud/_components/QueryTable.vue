@@ -17,7 +17,7 @@
       :compact="compact"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols)"
+      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols.at(-1), (width)=>(newCols.at(-1)!.width=width))"
       @operateBtns="onOperateBtns"
       @update:colAttrs="(colAttrs: TableColAttrs)=>handleUpdateCol(colAttrs, cInd)"
       :disabled="disabled"

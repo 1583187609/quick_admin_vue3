@@ -26,8 +26,17 @@ export default [
         },
       },
       {
+        path: "error",
+        name: "error",
+        meta: {
+          title: "Error",
+          cache: false,
+        },
+        component: () => import("@/views/error.vue"),
+      },
+      {
         path: ":pathMatch(.*)",
-        name: "viewNotFound",
+        name: "routeNotFound",
         meta: {
           title: "404",
           cache: false,
@@ -47,9 +56,18 @@ export default [
     // component: () => import("@/views/login/index-new.vue"),  //新版登录页面
     // component: () => import("@/views/login/index-canvas.vue"),  //canvas背景登录页面
   },
+  // {
+  //   path: "/file_not_found",
+  //   name: "fileNotFound",
+  //   meta: {
+  //     title: "文件未找到",
+  //     cache: false,
+  //   },
+  //   component: () => import("@/views/error.vue"),
+  // },
   {
     path: "/:pathMatch(.*)",
-    name: "pageNotFound",
+    name: "routeNotFound",
     meta: {
       title: "404",
       auth: false,

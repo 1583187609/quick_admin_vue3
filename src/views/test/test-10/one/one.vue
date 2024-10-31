@@ -75,14 +75,21 @@
         >打开抽屉（自定义footer，传渲染元素）</el-button
       >
     </div>
+    <div class="mt-o">
+      <el-button @click="openCommonPopup('ChooseMedia', 'all')" type="primary">打开常用弹窗（ChooseMedia）所有媒体</el-button>
+      <el-button @click="openCommonPopup('ChooseMedia', 'image')" type="primary">打开常用弹窗（ChooseMedia）图片</el-button>
+      <el-button @click="openCommonPopup('ChooseMedia', 'audio')" type="primary">打开常用弹窗（ChooseMedia）音频</el-button>
+      <el-button @click="openCommonPopup('ChooseMedia', 'video')" type="primary">打开常用弹窗（ChooseMedia）视频</el-button>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ElMessage } from "element-plus";
 import Test from "./Test.vue";
-import { usePopup } from "@/hooks";
+import { useCommonPopup, usePopup } from "@/hooks";
 
 const { openPopup, closePopup } = usePopup();
+const openCommonPopup = useCommonPopup();
 function handleBeforeClose(cb) {
   openPopup(
     {
