@@ -1,95 +1,131 @@
 <template>
-  <el-form-item class="base-number-range">
-    <el-form-item class="f-1 hide-err-text" :prop="minProp" :rules="[{ validator: validate, trigger: 'blur' }]">
-      <el-input v-model.number="minVal" @change="handleChange" @clear="handleClear('min')" :placeholder="minPlaceholder" clearable v-bind="attrs" />
-    </el-form-item>
-    <div class="f-c-c f-0 separator" :class="size">
-      {{ rangeSeparator }}
-    </div>
-    <el-form-item class="f-1 hide-err-text" :prop="maxProp" :rules="[{ validator: validate, trigger: 'blur' }]">
-      <el-input v-model.number="maxVal" @change="handleChange" @clear="handleClear('max')" :placeholder="maxPlaceholder" clearable v-bind="attrs" />
-    </el-form-item>
-  </el-form-item>
+  <div
+    :class="{ [`el-range-editor--${size}`]: true }"
+    class="base-number-range el-date-editor el-date-editor--daterange el-input__wrapper el-range-editor"
+  >
+    <input
+      v-model="modelVals[0]"
+      class="el-range-input"
+      :maxlength="maxLength"
+      :placeholder="minPlaceholder"
+      @input="handleEvent('input', $event, 0)"
+      @change="handleEvent('change', $event, 0)"
+      @blur="handleBlur"
+    />
+    <span class="el-range-separator">{{ separator }}</span>
+    <input
+      v-model="modelVals[1]"
+      class="el-range-input"
+      :maxlength="maxLength"
+      :placeholder="maxPlaceholder"
+      @input="handleEvent('input', $event, 1)"
+      @change="handleEvent('change', $event, 1)"
+      @blur="handleBlur"
+    />
+    <el-icon
+      class="el-icon el-input__icon el-range__close-icon"
+      :class="{ hidden: !modelVals?.length }"
+      @click="handleEvent('clear')"
+    >
+      <CircleClose />
+    </el-icon>
+  </div>
 </template>
 <script lang="ts" setup>
-import { type FormItemRule } from "element-plus";
-import { CommonObj, StrNum, CommonSize } from "@/vite-env";
-import { propsJoinChar, rangeJoinChar, showMessage } from "@/core/_utils";
+import { computed, reactive } from "vue";
+import { useFormItem } from "element-plus";
+import { CircleClose } from "@element-plus/icons-vue";
+import { emptyVals, defaultCommonSize, rangeJoinChar } from "@/core/_utils";
+import { StrNum, CommonSize } from "@/vite-env";
 
-type InputType = "min" | "max";
-type StrNumUnd = StrNum | undefined;
+type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]
+
+const { formItem } = useFormItem();
 const props = withDefaults(
   defineProps<{
-    modelValue?: [StrNumUnd, StrNumUnd];
-    prop?: string | [string, string];
-    label?: string;
+    modelValue?: ValsArr;
+    min?: number;
+    max?: number;
+    size?: CommonSize;
+    fixedNum?: number; // 保留n位小数
     minPlaceholder?: string;
     maxPlaceholder?: string;
-    rules?: FormItemRule[];
-    attrs?: CommonObj;
-    rangeSeparator?: string;
-    size?: CommonSize;
+    separator?: string;
   }>(),
   {
-    label: "",
+    modelValue: () => [],
+    // min: -100,
+    // max: 100,
+    // fixedNum: 2,
     minPlaceholder: "最小值",
     maxPlaceholder: "最大值",
-    rangeSeparator: rangeJoinChar,
+    size: defaultCommonSize,
+    separator: rangeJoinChar,
   }
 );
-const $emit = defineEmits(["update:modelValue", "change", "clear"]);
-const [minProp, maxProp] = [`${props.prop}[0]`, `${props.prop}[1]`];
-const minVal = computed<StrNumUnd>({
-  get: () => props.modelValue?.[0],
-  set(val: StrNumUnd) {
-    $emit("update:modelValue", [val, maxVal.value]);
-  },
+const $emit = defineEmits(["update:modelValue", "change", "input", "clear"]);
+const modelVals = reactive<ValsArr>(props.modelValue);
+const maxLength = computed(() => {
+  const { min, max, fixedNum } = props;
+  if (min === undefined || max === undefined) return undefined;
+  const numLen = Math.max(String(min || 0).length, String(max || 0).length);
+  if (!fixedNum) return numLen;
+  return numLen + fixedNum + 1;
 });
-const maxVal = computed<StrNumUnd>({
-  get: () => props.modelValue?.[1],
-  set(val: StrNumUnd) {
-    $emit("update:modelValue", [minVal.value, val]);
-  },
-});
+// 判断最小值是否超过了最大值
+function isMinOverMax(vals: ValsArr = []) {
+  const [minVal = 0, maxVal = 0] = vals;
+  if (emptyVals.includes(minVal) || emptyVals.includes(maxVal)) return false;
+  return Number(minVal) > Number(maxVal);
+}
 
-function validate(rule: FormItemRule, value: any, callback: any) {
-  const min = minVal.value ?? "";
-  const max = maxVal.value ?? "";
-  if (min === "" || max === "") return callback();
-  if (min <= max) return callback();
-  const msg = props.label + "最小值不能超过最大值";
-  showMessage(msg, "error");
-  callback(new Error(msg));
+function handleEvent(type: "input" | "change" | "clear", e, ind: number) {
+  if (type === "clear") {
+    modelVals.length = 0;
+    formItem?.validate("change");
+    $emit("change", modelVals);
+    $emit("update:modelValue", modelVals);
+    return;
+  }
+  const { value } = e.target;
+  let val = value.replace(/[^\d.-]/g, "");
+  const { min, max, fixedNum } = props;
+  if (type === "change") {
+    const valNum = Number(val);
+    if (!emptyVals.includes(min) && valNum < Number(min)) val = min;
+    if (!emptyVals.includes(max) && valNum > Number(max)) val = max;
+  }
+  modelVals[ind] = val;
+  if (type === "change") {
+    const isOver = isMinOverMax(modelVals);
+    if (isOver) modelVals[ind === 0 ? 1 : 0] = "";
+    if (!fixedNum) return;
+    modelVals.forEach((v?: StrNum, i: number) => {
+      if (!emptyVals.includes(v)) modelVals[i] = Number(v).toFixed(fixedNum);
+    });
+  }
+  formItem?.validate(type);
+  $emit(type, modelVals);
+  $emit("update:modelValue", modelVals);
 }
-function handleChange() {
-  const { prop } = props;
-  const arrVals = [minVal.value, maxVal.value];
-  $emit("change", prop?.join?.(propsJoinChar) ?? prop, arrVals);
-}
-function handleClear(type: InputType) {
-  const { prop } = props;
-  const arrVals = type === "min" ? [undefined, maxVal.value] : [minVal.value, undefined];
-  const _prop = prop?.join?.(propsJoinChar) ?? prop;
-  $emit("change", _prop, arrVals);
-  $emit("clear", _prop, arrVals);
+function handleBlur() {
+  formItem?.validate("blur");
 }
 </script>
 <style lang="scss" scoped>
 .base-number-range {
-  width: 100%;
-  // width: 202px;
-  .separator {
-    line-height: 32px;
-    margin: 0 $gap-half;
-    &.small {
-      line-height: 24px;
-      margin: 0 $gap-qtr;
+  .el-range__close-icon {
+    opacity: 0;
+    visibility: hidden;
+    &.hidden {
+      display: none;
     }
   }
-}
-:deep(.hide-err-text) {
-  .el-form-item__error {
-    display: none;
+  &:hover {
+    .el-range__close-icon {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 </style>

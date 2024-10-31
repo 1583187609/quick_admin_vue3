@@ -36,7 +36,7 @@ export default [
       },
       {
         path: ":pathMatch(.*)",
-        name: "routeNotFound",
+        name: "viewNotFound",
         meta: {
           title: "404",
           cache: false,
@@ -67,7 +67,7 @@ export default [
   // },
   {
     path: "/:pathMatch(.*)",
-    name: "routeNotFound",
+    name: "pageNotFound",
     meta: {
       title: "404",
       auth: false,
