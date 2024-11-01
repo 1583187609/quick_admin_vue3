@@ -1,12 +1,11 @@
 <template>
-  <Chart class="chart-pie" :option="newOpt" :height="height" :width="width" :theme="theme"></Chart>
+  <Chart class="chart-pie" :option="newOpt" :height="height" :width="width" :theme="theme" />
 </template>
 
 <script lang="ts" setup>
-import * as echarts from "echarts";
 import { reactive, computed } from "vue";
 import Chart from "@/core/chart/Chart.vue";
-import { axisCfg, gradColors, titleCfg } from "./_config";
+import echarts, { gradColors, titleCfg } from "./_config";
 import type { EchartTheme, ChartData } from "./_types";
 import { CommonObj } from "@/vite-env";
 import _ from "lodash";
@@ -168,4 +167,3 @@ function getHollowSeriesCfg() {
 }
 </script>
 <style lang="scss" scoped></style>
-./types .

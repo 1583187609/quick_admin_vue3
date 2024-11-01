@@ -63,10 +63,10 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
       },
     };
     const { text, bgColor } = map[type];
-    console.log(`%c ${text}：`, `background:${bgColor};color:#fff;`, data);
+    console.log(`%c ${text}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
   } else {
     const bgColor = themeMap[type as ThemeColorType];
-    console.log(`%c ${text}：`, `background:${bgColor};color:#fff;`, data);
+    console.log(`%c ${text}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
   }
 }
 

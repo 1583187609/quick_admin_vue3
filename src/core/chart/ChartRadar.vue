@@ -1,16 +1,16 @@
 <template>
-  <Chart class="chart-radar" :option="newOpt" :height="height" :width="width" :theme="theme"></Chart>
+  <Chart class="chart-radar" :option="newOpt" :height="height" :width="width" :theme="theme" :use="[RadarChart]" />
 </template>
 
 <script lang="ts" setup>
-import * as echarts from "echarts";
 import { reactive, computed } from "vue";
 import Chart from "@/core/chart/Chart.vue";
 import { typeOf } from "@/core/_utils";
 import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
 import { CommonObj } from "@/vite-env";
-import { axisCfg, gradColors, titleCfg } from "./_config";
+import echarts, { gradColors, titleCfg } from "./_config";
+import { RadarChart } from "echarts/charts";
 
 const { merge } = _;
 const defaultOption = {
@@ -23,12 +23,12 @@ const defaultOption = {
   radar: {
     // shape: 'circle',
     indicator: [
-      { name: "Sales", max: 6500 },
-      { name: "Administration", max: 16000 },
-      { name: "Information Technology", max: 30000 },
-      { name: "Customer Support", max: 38000 },
-      { name: "Development", max: 52000 },
-      { name: "Marketing", max: 25000 },
+      { name: "Sales" },
+      { name: "Administration" },
+      { name: "Information Technology" },
+      { name: "Customer Support" },
+      { name: "Development" },
+      { name: "Marketing" },
     ],
   },
   // dataset: {
@@ -156,4 +156,3 @@ function getItemColor(ind: number, isMulti?: boolean) {
 }
 </script>
 <style lang="scss" scoped></style>
-./types .

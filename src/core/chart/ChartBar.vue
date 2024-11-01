@@ -1,16 +1,15 @@
 <template>
-  <Chart class="chart-bar" :option="newOpt" :height="height" :width="width" :theme="theme"></Chart>
+  <Chart class="chart-bar" :option="newOpt" :height="height" :width="width" :theme="theme" />
 </template>
 
 <script lang="ts" setup>
-import * as echarts from "echarts";
 import { reactive, computed } from "vue";
 import Chart from "@/core/chart/Chart.vue";
 import { typeOf } from "@/core/_utils";
 import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
 import { CommonObj } from "@/vite-env";
-import { axisCfg, gradColors, titleCfg } from "./_config";
+import echarts, { axisCfg, gradColors, titleCfg } from "./_config";
 
 const { merge } = _;
 const defaultOption = {
@@ -145,4 +144,3 @@ function getItemColor(ind: number, isMulti?: boolean) {
 }
 </script>
 <style lang="scss" scoped></style>
-./types .

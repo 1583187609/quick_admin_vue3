@@ -7,6 +7,10 @@ import {
   BarSeriesOption,
   LineChart,
   LineSeriesOption,
+  // 其他
+  ScatterChart,
+  RadarChart,
+  GaugeChart,
 } from "echarts/charts";
 import {
   LegendComponent,
@@ -22,11 +26,14 @@ import {
   DatasetComponentOption,
   // 内置数据转换器组件 (filter, sort)
   TransformComponent,
+  // 其他
+  PolarComponent,
+  ToolboxComponent,
+  DataZoomComponent,
 } from "echarts/components";
-// import { ScatterChart, RadarChart, GaugeChart } from "echarts/charts";
-import { PolarComponent, ToolboxComponent, DataZoomComponent } from "echarts/components";
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
+import { typeOf } from "../_utils";
 
 // 渐变色调色盘
 export const gradColors = [
@@ -79,23 +86,105 @@ export const titleCfg = {
 
 // 注册必须的组件
 echarts.use([
-  LegendComponent,
-  TitleComponent,
-  TooltipComponent,
+  // 基础
   GridComponent,
   DatasetComponent,
   TransformComponent,
-  PieChart,
-  BarChart,
-  LineChart,
   LabelLayout,
   UniversalTransition,
   CanvasRenderer,
-  PolarComponent,
+  // 常用
+  LegendComponent,
+  TitleComponent,
+  TooltipComponent,
+  // 常用图表
+  PieChart,
+  BarChart,
+  LineChart,
+  // 不常用图表
+  // RadarChart,
+  // PolarComponent,
+  // 其他
   // ToolboxComponent,
   // DataZoomComponent,
   // ScatterChart,
-  // RadarChart,
   // GaugeChart,
 ]);
 export default echarts;
+
+// const baseComps = [GridComponent, DatasetComponent, TransformComponent, LabelLayout, UniversalTransition, CanvasRenderer];
+// const commonComps = [LegendComponent, TitleComponent, TooltipComponent];
+// const compsMap = {
+//   pie: [...baseComps, ...commonComps, PieChart],
+//   bar: [...baseComps, ...commonComps, BarChart],
+//   line: [...baseComps, ...commonComps, LineChart],
+//   radar: [...baseComps, ...commonComps, RadarChart],
+//   all: [
+//     // 基础
+//     GridComponent,
+//     DatasetComponent,
+//     TransformComponent,
+//     LabelLayout,
+//     UniversalTransition,
+//     CanvasRenderer,
+//     // 常用
+//     LegendComponent,
+//     TitleComponent,
+//     TooltipComponent,
+//     // 常用图表
+//     PieChart,
+//     BarChart,
+//     LineChart,
+//     RadarChart,
+//     PolarComponent,
+//     // 其他
+//     // ToolboxComponent,
+//     // DataZoomComponent,
+//     // ScatterChart,
+//     // GaugeChart,
+//   ],
+// };
+
+// type EchartsType = "bar" | "line" | "pie" | "radar" | "all";
+// type EchartsComponents = any[];
+// export function getEcharts(comp: EchartsType | EchartsComponents = "all") {
+//   // let useComps: EchartsComponents = [];
+//   // const t = typeOf(comp);
+//   // if (t === "String") {
+//   //   const uses = compsMap[comp as EchartsType];
+//   //   if (!uses) throw new Error(`不存在此类型：${comp}`);
+//   //   useComps = uses;
+//   // } else if (t === "Array") {
+//   //   useComps = comp as EchartsComponents;
+//   // } else {
+//   //   throw new Error(`暂未处理此类型参数：${t}`);
+//   // }
+//   // echarts.use(useComps);
+//   // return echarts;
+//   // 注册必须的组件
+//   echarts.use([
+//     // 基础
+//     GridComponent,
+//     DatasetComponent,
+//     TransformComponent,
+//     LabelLayout,
+//     UniversalTransition,
+//     CanvasRenderer,
+//     // 常用
+//     LegendComponent,
+//     TitleComponent,
+//     TooltipComponent,
+//     // 常用图表
+//     PieChart,
+//     BarChart,
+//     LineChart,
+//     RadarChart,
+//     PolarComponent,
+//     // 其他
+//     // ToolboxComponent,
+//     // DataZoomComponent,
+//     // ScatterChart,
+//     // GaugeChart,
+//   ]);
+//   return echarts;
+// }

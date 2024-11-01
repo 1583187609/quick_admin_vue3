@@ -4,6 +4,7 @@
 </template>
 
 <script setup lang="ts">
+// import echarts from "@/core/chart/_config";
 import echarts from "@/core/chart/_config";
 import { ChartOption } from "@/core/chart/_types";
 import Chart from "@/core/chart/Chart.vue";

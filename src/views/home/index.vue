@@ -49,7 +49,7 @@
     </div>
     <div class="row f-sb-s">
       <BaseSection class="section f-1" title="自定义option - Chart">
-        <Chart :option="chartData.zdyopt"></Chart>
+        <Chart :option="chartData.zdyopt" />
       </BaseSection>
       <BaseSection class="section f-1" title="折线图 - ChartLine">
         <ChartLine :data="chartData.zxt" />
@@ -62,7 +62,8 @@
       </BaseSection>
     </div>
     <BaseSection class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
-      <MultiCharts height="500px" />
+      <MultiCharts height="500px" layout="2x2" v-if="true" />
+      <MultiCharts height="1000px" layout="3x2" v-else />
     </BaseSection>
   </div>
 </template>

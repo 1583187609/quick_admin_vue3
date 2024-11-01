@@ -16,7 +16,7 @@
     </div>
     <div class="row f-sb-s">
       <BaseSection class="section f-1" title="自定义option - Chart">
-        <Chart :option="customOption"></Chart>
+        <Chart :option="customOption" />
       </BaseSection>
       <BaseSection class="section f-1" title="折线图 - ChartLine">
         <ChartLine />

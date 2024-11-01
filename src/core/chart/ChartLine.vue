@@ -1,15 +1,14 @@
 <template>
-  <Chart class="chart-line" :option="newOpt" :height="height" :width="width" :theme="theme"></Chart>
+  <Chart class="chart-line" :option="newOpt" :height="height" :width="width" :theme="theme" />
 </template>
 
 <script lang="ts" setup>
-import * as echarts from "echarts";
 import { computed } from "vue";
 import Chart from "@/core/chart/Chart.vue";
-import { axisCfg, gradColors, titleCfg } from "./_config";
-import _ from "lodash";
+import echarts, { axisCfg, gradColors, titleCfg } from "./_config";
 import type { ChartData, EchartTheme } from "./_types";
 import { CommonObj } from "@/vite-env";
+import _ from "lodash";
 
 const { merge } = _;
 const defaultOption = {
@@ -114,4 +113,3 @@ function getItemColor(ind: number) {
 }
 </script>
 <style lang="scss" scoped></style>
-./types .

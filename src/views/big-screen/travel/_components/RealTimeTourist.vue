@@ -10,13 +10,15 @@
         <div class="actual-item f-c-c">人</div>
       </div>
     </div>
-    <Chart :option="option" height="260px" />
+    <Chart :option="option" height="260px" :use="[PolarComponent]" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import Chart from "@/core/chart/Chart.vue";
+import { PolarComponent } from "echarts/components";
+import "echarts-liquidfill";
 
 const actualTotal = ref("216908");
 const option = {

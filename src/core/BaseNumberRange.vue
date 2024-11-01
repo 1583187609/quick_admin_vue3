@@ -12,7 +12,7 @@
       @change="handleEvent('change', $event, 0)"
       @blur="handleBlur"
     />
-    <span class="el-range-separator">{{ separator }}</span>
+    <span class="el-range-separator">{{ rangeSeparator }}</span>
     <input
       v-model="modelVals[1]"
       class="el-range-input"
@@ -50,7 +50,8 @@ const props = withDefaults(
     fixedNum?: number; // 保留n位小数
     minPlaceholder?: string;
     maxPlaceholder?: string;
-    separator?: string;
+    // 属性名跟date-picker的保持一致
+    rangeSeparator?: string;
   }>(),
   {
     modelValue: () => [],
@@ -60,7 +61,7 @@ const props = withDefaults(
     minPlaceholder: "最小值",
     maxPlaceholder: "最大值",
     size: defaultCommonSize,
-    separator: rangeJoinChar,
+    rangeSeparator: rangeJoinChar,
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "input", "clear"]);

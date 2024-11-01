@@ -1,5 +1,5 @@
 <template>
-  <div class="chart" ref="chartRef" :style="{ height: toCssVal(height), width: toCssVal(width) }"></div>
+  <div class="chart" ref="chartRef" :style="{ height: toCssVal(height), width: toCssVal(width) }" />
 </template>
 
 <script lang="ts" setup>
@@ -19,6 +19,7 @@ const props = withDefaults(
     theme?: EchartTheme;
     option?: CommonObj;
     renderer?: "canvas" | "svg";
+    use?: any[];
   }>(),
   {
     height: "300px",
@@ -46,11 +47,13 @@ const props = withDefaults(
   }
 );
 useEvent("resize", () => echartInstance.resize(), false, 200);
+let currOptions: CommonObj = {};
 watch(
   () => props.option,
   newVal => drawChart(newVal),
   { deep: true }
 );
+if (props.use) echarts.use(props.use);
 onMounted(() => {
   nextTick(() => {
     // 初始化 echartInstance 实例
@@ -62,7 +65,13 @@ onMounted(() => {
 function drawChart(option: CommonObj) {
   // notMerge 可选。是否不跟之前设置的 option 进行合并。默认为 false。即表示合并。合并的规则，详见 组件合并模式。如果为 true，表示所有组件都会被删除，然后根据新 option 创建所有新组件。
   // setOption 见 https://echarts.apache.org/zh/api.html#echartsInstance.setOption
-  echartInstance.setOption(Object.assign({ color: colors }, option), true);
+  currOptions = Object.assign({ color: colors }, option);
+  echartInstance.setOption(currOptions, true);
 }
+defineExpose({
+  getOptions() {
+    return currOptions;
+  },
+});
 </script>
 <style lang="scss" scoped></style>
