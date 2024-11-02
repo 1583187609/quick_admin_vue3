@@ -24,9 +24,10 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseSection.vue
+/src/core/BaseSection.vue
 
 ``` ts
+
 
 
 ```

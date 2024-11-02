@@ -32,7 +32,7 @@
 |`errTips`|-|`string`|加载失败|
 |`errImgSrc`|-|`string`|-|
 
-### Emits
+### $emit
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
@@ -43,7 +43,7 @@
 
 ## 类型声明
 ::: details
-/src/components/img/BaseImg.vue
+/src/core/img/BaseImg.vue
 
 ``` ts
 

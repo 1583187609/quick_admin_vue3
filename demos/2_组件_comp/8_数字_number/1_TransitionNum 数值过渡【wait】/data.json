@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/components/number/TransitionNum.vue",
-  "tsPath": "/src/components/number/TransitionNum.vue"
+  "apiPath": "/src/core/number/TransitionNum.vue",
+  "tsPath": "/src/core/number/TransitionNum.vue"
 }

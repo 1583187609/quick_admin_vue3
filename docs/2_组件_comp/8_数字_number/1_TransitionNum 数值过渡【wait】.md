@@ -19,7 +19,7 @@
 
 ## 类型声明
 ::: details
-/src/components/number/TransitionNum.vue
+/src/core/number/TransitionNum.vue
 
 ``` ts
 

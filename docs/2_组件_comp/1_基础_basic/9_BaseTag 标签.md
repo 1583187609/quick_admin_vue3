@@ -20,9 +20,8 @@
 |:---|:---|:---|:---|
 |`name`|-|`DictName`|`EnableStatus`|
 |`value`|-|`StrNum`|-|
-|`map`|-|`CommonObj`|-|
 |`pureText`|-|`boolean`|-|
-|`empty`|-|`any`|-|
+|`empty`|-|`any`|`emptyStr`|
 |`count`|-|`StrNum`|-|
 
 ### Slots
@@ -35,7 +34,7 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseTag.vue
+/src/core/BaseTag.vue
 
 ``` ts
 

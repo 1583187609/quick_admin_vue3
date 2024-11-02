@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/BaseCopy.vue",
-    "tsPath": "/src/components/BaseCopy.vue"
+  "apiPath": "/src/core/BaseCopy.vue",
+  "tsPath": "/src/core/BaseCopy.vue"
 }

@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/img/BaseAvatar.vue",
-    "tsPath": "/src/components/img/BaseAvatar.vue"
+  "apiPath": "/src/core/img/BaseAvatar.vue",
+  "tsPath": "/src/core/img/BaseAvatar.vue"
 }

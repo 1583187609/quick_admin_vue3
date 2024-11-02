@@ -29,7 +29,7 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseEmpty.vue
+/src/core/BaseEmpty.vue
 
 ``` ts
 

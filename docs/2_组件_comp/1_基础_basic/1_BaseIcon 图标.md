@@ -16,19 +16,20 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`name`|-|`string`|`defaultIconName`|
-|`size`|-|`string\|number`|`1em`|
+|`name`|-|`IconNames`|`defaultIconName`|
+|`size`|-|`StrNum`|`1em`|
 
 
 
 ## 类型声明
 ::: details
-/src/components/BaseIcon.vue
+/src/core/BaseIcon.vue
 
 ``` ts
 
 
 export type IconNames = keyof typeof Icons;
+
 
 ```
 

@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/img/BarsImg.vue",
-    "tsPath": "/src/components/img/BarsImg.vue"
+  "apiPath": "/src/core/img/BarsImg.vue",
+  "tsPath": "/src/core/img/BarsImg.vue"
 }

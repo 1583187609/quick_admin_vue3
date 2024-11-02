@@ -1,13 +1,17 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleTabClick">
-    <el-tab-pane label="基础信息" name="1"></el-tab-pane>
-    <el-tab-pane label="认证信息" name="2"></el-tab-pane>
-    <el-tab-pane label="互动信息" name="3"></el-tab-pane>
-    <el-tab-pane label="登录信息" name="4"></el-tab-pane>
-    <BaseInfo v-if="activeName === '1'" />
-    <AuthInfo v-else-if="activeName === '2'" />
-    <InteractiveInfo v-else-if="activeName === '3'" />
-    <LoginInfo v-else-if="activeName === '4'" />
+    <el-tab-pane label="基础信息" name="1">
+      <BaseInfo v-if="activeName === '1'" />
+    </el-tab-pane>
+    <el-tab-pane label="认证信息" name="2">
+      <AuthInfo v-if="activeName === '2'" />
+    </el-tab-pane>
+    <el-tab-pane label="互动信息" name="3">
+      <InteractiveInfo v-if="activeName === '3'" />
+    </el-tab-pane>
+    <el-tab-pane label="登录信息" name="4">
+      <LoginInfo v-if="activeName === '4'" />
+    </el-tab-pane>
   </el-tabs>
 </template>
 <script lang="ts" setup>
@@ -32,4 +36,17 @@ const handleTabClick = (tab: TabsPaneContext, event: Event) => {
   activeName.value = tab.paneName;
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.el-tabs {
+  // display: flex;
+  // justify-content: flex-start;
+  // align-items: stretch;
+  // flex-direction: column;
+  height: 100%;
+}
+// :deep(.el-tabs__header) {
+// }
+:deep(.el-tabs__content) {
+  overflow: auto;
+}
+</style>

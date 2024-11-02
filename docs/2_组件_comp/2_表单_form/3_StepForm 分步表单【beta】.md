@@ -6,6 +6,8 @@
 :::
 
 
+&emsp;&emsp;步骤表单
+
 
 
 ## API 
@@ -16,7 +18,16 @@
 |`sections`|-|`SectionFormItem[]`|`[]`|
 |`direction`|-|`StepDirection`|`vertical`|
 |`stepAttrs`|-|`StepItemAttrs`|-|
-|`formAttrs`|-|`SectionFormAtrrs`|-|
+|`formAttrs`|`SectionFormAtrrs`;|`CommonObj`|-|
+|`footer`|-|`boolean`|`true`|
+
+### $emit
+
+|事件名称|说明|回调参数|
+|:---|:---|:---|
+|`blur`|-|-|
+|`change`|-|-|
+|`focus`|-|-|
 
 ### Expose
 
@@ -31,13 +42,14 @@
 |'`head-right-' + (scope.section.prop ?? scope.index + 1)`|-|`name`|
 |'`body-' + scope.section.prop`|-|`name`|
 |`scope.field.prop`|-|`name`|
+|`footer`|-|-|
 
 
 
 ## 类型声明
 ::: details
-/src/components/form/_types.ts
-<<< E:\Quick-Admin\quick_admin_vue3/src/components/form/_types.ts
+/src/core/form/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
 :::  
 
 

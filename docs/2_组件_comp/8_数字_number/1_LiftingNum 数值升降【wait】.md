@@ -19,7 +19,7 @@
 
 ## 类型声明
 ::: details
-/src/components/number/LiftingNum.vue
+/src/core/number/LiftingNum.vue
 
 ``` ts
 

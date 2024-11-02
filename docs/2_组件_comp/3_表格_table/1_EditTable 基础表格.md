@@ -9,13 +9,11 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|表格行数据|`CommonObj[]`|`reactive([])`|
-|`class`|-|`ClassType`|-|
-|`style`|-|`StyleType`|-|
 |`cols`|表头|`TableColAttrs[]`|-|
+|`modelValue`|表格行数据|`CommonObj[]`|`reactive([])`|
 |`formAttrs`|表单属性|`CommonObj`|-|
 
-### Emits
+### $emit
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
@@ -32,14 +30,16 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
+|`front`|-|-|
 |`scope.col.prop`|-|`name`|
+|`behind`|-|-|
 
 
 
 ## 类型声明
 ::: details
-/src/components/table/_types.ts
-<<< E:\Quick-Admin\quick_admin_vue3/src/components/table/_types.ts
+/src/core/table/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/table/_types.ts
 :::  
 
 

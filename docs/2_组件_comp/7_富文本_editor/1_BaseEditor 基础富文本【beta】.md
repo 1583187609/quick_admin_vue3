@@ -21,7 +21,7 @@
 |`toolBarConfig`|-|`CommonObj`|{}|
 |`editorConfig`|-|`CommonObj`|{}|
 
-### Emits
+### $emit
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
@@ -40,7 +40,7 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseEditor.vue
+/src/core/BaseEditor.vue
 
 ``` ts
 

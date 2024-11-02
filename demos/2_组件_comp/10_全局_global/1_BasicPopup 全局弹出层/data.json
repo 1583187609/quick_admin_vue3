@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/components/BasicPopup/Index.vue",
-  "tsPath": "/src/components/BasicPopup/Index.vue"
+  "apiPath": "/src/core/BasicPopup/Index.vue",
+  "tsPath": "/src/core/BasicPopup/Index.vue"
 }

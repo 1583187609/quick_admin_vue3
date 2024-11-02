@@ -1,15 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {
-  N,
-  getAtMdStr,
-  getFileName,
-  getNoticesFromTags,
-  getNoticesStr,
-  needParam,
-  upperFirst,
-  vueFileNameTitleMap,
-} from "../../utils/index.js";
+import { N, getAtMdStr, getFileName, getNoticesFromTags, getNoticesStr, needParam, upperFirst, vueFileNameTitleMap } from "../../utils/index.js";
 import compiler from "@vue/compiler-sfc";
 
 /**
@@ -81,8 +72,7 @@ export function getVueScriptStr(readPathHalf = needParam()) {
   //   shouldForceReload,
   // } = sfc.descriptor;
   const { scriptSetup, script } = sfc.descriptor;
-  const scriptContent = scriptSetup?.content ?? script?.content;
-  return scriptContent;
+  return scriptSetup?.content ?? script?.content ?? "";
 }
 
 /**

@@ -10,10 +10,9 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseQrcode.vue
+/src/core/BaseQrcode.vue
 
 ``` ts
-
 
 ```
 

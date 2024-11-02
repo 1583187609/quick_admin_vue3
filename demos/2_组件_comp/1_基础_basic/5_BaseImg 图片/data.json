@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/img/BaseImg.vue",
-    "tsPath": "/src/components/img/BaseImg.vue"
+  "apiPath": "/src/core/img/BaseImg.vue",
+  "tsPath": "/src/core/img/BaseImg.vue"
 }

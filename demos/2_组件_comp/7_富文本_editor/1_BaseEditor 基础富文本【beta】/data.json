@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/BaseEditor.vue",
-    "tsPath": "/src/components/BaseEditor.vue"
+  "apiPath": "/src/core/BaseEditor.vue",
+  "tsPath": "/src/core/BaseEditor.vue"
 }

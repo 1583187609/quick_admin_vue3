@@ -16,36 +16,36 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|-|`tuple`|-|
-|`prop`|-|`string \| tuple`|-|
-|`label`|-|`string`||
+|`modelValue`|-|`ValsArr`|`[]`|
+|`min`|-|`number`|-|
+|`max`|-|`number`|-|
+|`size`|-|`CommonSize`|`defaultCommonSize`|
+|`fixedNum`|保留`n`位小数|`number`|-|
 |`minPlaceholder`|-|`string`|最小值|
 |`maxPlaceholder`|-|`string`|最大值|
-|`rules`|-|`FormItemRule[]`|-|
-|`attrs`|-|`CommonObj`|-|
-|`rangeSeparator`|-|`string`|`rangeJoinChar`|
-|`size`|-|`CommonSize`|-|
+|`rangeSeparator`|属性名跟`date-picker`的保持一致|`string`|`rangeJoinChar`|
 
-### Emits
+### $emit
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
 |`update:modelValue`|-|-|
 |`change`|-|-|
+|`input`|-|-|
 |`clear`|-|-|
+|`blur`|-|-|
 
 
 
 ## 类型声明
 ::: details
-/src/components/BaseNumberRange.vue
+/src/core/BaseNumberRange.vue
 
 ``` ts
 
-import { type FormItemRule} from "element-plus";
 
-type InputType = "min" | "max";
-type StrNumUnd = StrNum | undefined;
+type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]
+
 
 
 ```

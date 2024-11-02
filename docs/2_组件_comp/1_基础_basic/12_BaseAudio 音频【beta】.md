@@ -50,9 +50,10 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseAudio.vue
+/src/core/BaseAudio.vue
 
 ``` ts
+
 
 
 ```

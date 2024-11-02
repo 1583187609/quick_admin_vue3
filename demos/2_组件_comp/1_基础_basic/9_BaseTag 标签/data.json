@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/BaseTag.vue",
-    "tsPath": "/src/components/BaseTag.vue"
+  "apiPath": "/src/core/BaseTag.vue",
+  "tsPath": "/src/core/BaseTag.vue"
 }

@@ -16,22 +16,21 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`maxLine`|最多显示几行，可选值：`1~5 `必须为整数|`StrNum`|`5`|
-|`title`|-|`string`|详情|
-|`width`|-|`StrNum`|`500px`|
 |`text`|-|`string`|-|
+|`maxLine`|最多显示几行，可选值：`1~5 `必须为整数|`StrNum`|`5`|
+|`popupAttrs`|-|`any`|{ `title`: "详情", `width: "500px" `}|
 
 ### Slots
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`default`|-|-|
+|`default`|默认插槽|-|
 
 
 
 ## 类型声明
 ::: details
-/src/components/BaseText.vue
+/src/core/BaseText.vue
 
 ``` ts
 

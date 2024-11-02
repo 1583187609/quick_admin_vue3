@@ -26,7 +26,7 @@
 
 ## 类型声明
 ::: details
-/src/components/img/BarsImg.vue
+/src/core/img/BarsImg.vue
 
 ``` ts
 

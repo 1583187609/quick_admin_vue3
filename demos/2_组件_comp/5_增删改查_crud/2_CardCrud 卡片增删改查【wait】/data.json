@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/crud/CardCrud/Index.vue",
-    "tsPath": "/src/components/crud/CardCrud/Index.vue"
+  "apiPath": "/src/core/crud/CardCrud/Index.vue",
+  "tsPath": "/src/core/crud/CardCrud/Index.vue"
 }

@@ -34,7 +34,7 @@
 
 ## 类型声明
 ::: details
-/src/components/BaseVideo.vue
+/src/core/BaseVideo.vue
 
 ``` ts
 

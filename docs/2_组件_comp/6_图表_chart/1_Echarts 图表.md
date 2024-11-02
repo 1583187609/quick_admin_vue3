@@ -39,13 +39,21 @@
 |`theme`|-|`EchartTheme`|`macarons`|
 |`option`|-|`CommonObj`|（暂未处理复杂默认值）|
 |`renderer`|-|"`canvas" \| "svg"`|-|
+|`log`|是否打印`options`|`boolean \| string`|-|
+|`use`|-|`any[]`|-|
+
+### Expose
+
+|方法名|说明|类型|
+|:---|:---|:---|
+|`getOptions`|-|`() => void`|
 
 
 
 ## 类型声明
 ::: details
-/src/components/chart/_config/types.ts
-<<< E:\Quick-Admin\quick_admin_vue3/src/components/chart/_config/types.ts
+/src/core/chart/_config/types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/chart/_config/types.ts
 :::  
 
 

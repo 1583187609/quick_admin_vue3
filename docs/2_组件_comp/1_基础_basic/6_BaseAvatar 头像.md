@@ -26,7 +26,7 @@
 
 ## 类型声明
 ::: details
-/src/components/img/BaseAvatar.vue
+/src/core/img/BaseAvatar.vue
 
 ``` ts
 

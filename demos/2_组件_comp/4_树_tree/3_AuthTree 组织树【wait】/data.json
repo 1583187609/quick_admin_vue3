@@ -1,4 +1,4 @@
 {
-    "apiPath": "/src/components/tree/AuthTree.vue",
-    "tsPath": "/src/components/tree/_types.ts"
+  "apiPath": "/src/core/tree/AuthTree.vue",
+  "tsPath": "/src/core/tree/_types.ts"
 }
