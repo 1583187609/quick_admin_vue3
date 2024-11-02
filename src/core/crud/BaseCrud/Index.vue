@@ -48,14 +48,7 @@
         :size="tableAttrs?.size ?? size"
       />
     </div>
-    <slot
-      :loading="loading"
-      :rows="newRows"
-      :total="pageInfo.total"
-      :hasMore="pageInfo.hasMore"
-      :params="params"
-      :onOperateBtns="onOperateBtns"
-    >
+    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
       <QueryTable
         :compact="compact"
         :loading="loading"
@@ -102,18 +95,7 @@ import QueryTable from "@/core/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/BaseBtn/_types";
 import { getBtnObj } from "@/core/BaseBtn";
-import {
-  isProd,
-  omitAttrs,
-  printLog,
-  propsJoinChar,
-  rangeJoinChar,
-  showMessage,
-  typeOf,
-  emptyVals,
-  defaultReqMap,
-  defaultResMap,
-} from "@/core/_utils";
+import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/_utils";
 import _ from "lodash";
 import config from "@/config";
 import Sortable from "sortablejs";
@@ -192,7 +174,6 @@ const props = withDefaults(
   }>(),
   Object.assign(
     {
-      log: !isProd,
       fields: () => [],
       cols: () => [],
       immediate: true,
@@ -306,6 +287,7 @@ function handleCurrChange(val: number) {
  */
 function handleChange(changedVals: CommonObj, withModelData?: boolean) {
   const { immediate, changeFetch } = props;
+  console.log(changedVals, "changedVals-----------");
   changedVals = splitPropsParams(changedVals);
   if (withModelData) {
     merge(params, changedVals);

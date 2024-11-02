@@ -1,16 +1,18 @@
 <!-- 页面-简介 -->
 <template>
   <FieldItemCol
-    :colAttrs="{ class: 'query-field-item' }"
+    v-model="modelData[field!.prop as string]"
     class="form-item"
     :class="currSize"
-    :field="field"
     :size="currSize"
+    :field="field"
+    :colAttrs="{ class: 'query-field-item' }"
     :disabled="field?.quickAttrs?.disabled ?? disabled"
     :readonly="field?.quickAttrs?.readonly ?? readonly"
     :inputDebounce="inputDebounce"
-    @change="(key:string, val:any)=>$emit('change', key,val)"
-    v-model="modelData[field!.prop as string]"
+    @blur="(val:any, prop:any) => $emit('blur', val, prop)"
+    @focus="(val:any, prop:any) => $emit('focus', val, prop)"
+    @change="(val:any, prop:any) => $emit('change', val, prop)"
   >
     <template #custom="{ field: currField }">
       <slot name="custom" :field="currField" />
@@ -27,7 +29,7 @@ import { defaultCommonSize } from "@/core/_utils";
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj;
-    field?: FormFieldAttrs;
+    field: FormFieldAttrs;
     size?: CommonSize;
     disabled?: boolean;
     readonly?: boolean;
@@ -38,7 +40,7 @@ const props = withDefaults(
     size: defaultCommonSize,
   }
 );
-const $emit = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change", "blur", "focus"]);
 const currSize = computed(() => props.field?.size ?? props.size);
 const modelData = computed<CommonObj>({
   get: () => props.modelValue,

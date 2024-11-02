@@ -1,154 +1,134 @@
 <!-- 页面-简介 -->
 <template>
-  <Chart :option="getOptionsSingle()" ref="chartRef" />
+  <Chart :option="options" :height="newHeight" ref="chartRef" />
 </template>
 <script lang="ts" setup>
 import Chart from "./Chart.vue";
-import { ref, onMounted, nextTick } from "vue";
-import { CommonObj } from "@/vite-env";
 import { axisCfg } from "./_config";
-import { typeOf } from "../_utils";
+import { calCssVal, typeOf } from "@/core/_utils";
+import { CommonObj } from "@/vite-env";
 
-const otherOptions = {
-  tooltip: {
-    trigger: "axis",
-  },
-  legend: {
-    y: "96%",
-  },
-};
-
-const tempSimpleData = [
-  {
-    type: "line",
-    title: "折线图",
-    dataset: [
-      ["type", "销售额", "订单量", "客单价", "动销率"],
-      ["2019-01-01", 100, 20, 4, 30],
-      ["2019-01-02", 110, 21, 5, 30],
-      ["2019-01-03", 120, 22, 6, 30],
-      ["2019-01-04", 140, 23, 7, 30],
-      ["2019-01-05", 150, 24, 8, 30],
-      ["2019-01-06", 160, 25, 9, 30],
-    ],
-    grid: {},
-    xAxis: { name: "日期" },
-    yAxis: { name: "金额($)" },
-    series: { smooth: true },
-  },
-  {
-    type: "line",
-    title: "折线图",
-    dataset: [
-      ["type", "销售额", "订单量", "客单价", "动销率"],
-      ["2019-01-01", 100, 20, 44, 30],
-      ["2019-01-02", 110, 21, 55, 30],
-      ["2019-01-03", 120, 22, 66, 30],
-      ["2019-01-04", 140, 23, 72, 30],
-      ["2019-01-05", 150, 24, 180, 30],
-      ["2019-01-06", 160, 25, 92, 30],
-    ],
-    grid: {},
-    xAxis: { name: "日期" },
-    yAxis: { name: "%" },
-    series: { smooth: true },
-  },
-  // {
-  //   type: "bar",
-  //   title: "柱状图",
-  //   dataset: [
-  //     ["type", "销售额", "订单量", "客单价", "动销率"],
-  //     ["2019-01-01", 100, 20, 44, 30],
-  //     ["2019-01-02", 110, 21, 55, 30],
-  //     ["2019-01-03", 120, 22, 66, 30],
-  //     ["2019-01-04", 140, 23, 72, 30],
-  //     ["2019-01-05", 150, 24, 180, 30],
-  //     ["2019-01-06", 160, 25, 92, 30],
-  //   ],
-  //   grid: {},
-  //   xAxis: { name: "日期" },
-  //   yAxis: { name: "数量" },
-  //   series: {
-  //     barWidth: 16,
-  //     itemStyle: {
-  //       borderRadius: [8, 8, 0, 0],
-  //     },
-  //   },
-  // },
-  {
-    type: "bar",
-    title: "柱状图",
-    dataset: [
-      ["type", "销售额", "订单量", "客单价", "动销率"],
-      ["2019-01-01", 100, 20, 44, 30],
-      ["2019-01-02", 110, 21, 55, 30],
-      ["2019-01-03", 120, 22, 66, 30],
-      ["2019-01-04", 140, 23, 72, 30],
-      ["2019-01-05", 150, 24, 180, 30],
-      ["2019-01-06", 160, 25, 92, 30],
-    ],
-    grid: {},
-    xAxis: { name: "日期" },
-    yAxis: { name: "数量" },
-    series: {
-      barWidth: 16,
-      itemStyle: {
-        borderRadius: [8, 8, 0, 0],
-      },
-    },
-  },
-  // {
-  //   type: "pie",
-  //   title: "饼状图",
-  //   dataset: [
-  //     ["type", "销售额"],
-  //     ["销售额", 100],
-  //     ["订单量", 110],
-  //     ["客单价", 120],
-  //     ["动销率", 150],
-  //   ],
-  //   grid: {},
-  //   xAxis: { show: false },
-  //   yAxis: { show: false },
-  //   series: [{ radius: 70 }, { radius: [45, 70] }],
-  // },
-  {
-    type: "pie",
-    title: "饼状图",
-    dataset: [
-      ["type", "销售额"],
-      ["销售额", 100],
-      ["订单量", 110],
-      ["客单价", 120],
-      ["动销率", 150],
-    ],
-    grid: {},
-    xAxis: { show: false },
-    yAxis: { show: false },
-    series: [{ radius: 70 }, { radius: [45, 70] }],
-  },
-];
+// const tempSimpleData = [
+//   {
+//     type: "line",
+//     title: "折线图",
+//     dataset: [
+//       ["type", "销售额", "订单量", "客单价", "动销率"],
+//       ["2019-01-01", 100, 20, 4, 30],
+//       ["2019-01-02", 110, 21, 5, 30],
+//       ["2019-01-03", 120, 22, 6, 30],
+//       ["2019-01-04", 140, 23, 7, 30],
+//       ["2019-01-05", 150, 24, 8, 30],
+//       ["2019-01-06", 160, 25, 9, 30],
+//     ],
+//     xAxis: { name: "日期" },
+//     yAxis: { name: "金额($)" },
+//     series: { smooth: true },
+//   },
+//   {
+//     type: "bar",
+//     title: "柱状图",
+//     dataset: [
+//       ["type", "销售额", "订单量", "客单价", "动销率"],
+//       ["2019-01-01", 100, 20, 44, 30],
+//       ["2019-01-02", 110, 21, 55, 30],
+//       ["2019-01-03", 120, 22, 66, 30],
+//       ["2019-01-04", 140, 23, 72, 30],
+//       ["2019-01-05", 150, 24, 180, 30],
+//       ["2019-01-06", 160, 25, 92, 30],
+//     ],
+//     xAxis: { name: "日期" },
+//     yAxis: { name: "数量" },
+//     series: {
+//       barWidth: 10,
+//       itemStyle: {
+//         borderRadius: [8, 8, 0, 0],
+//       },
+//     },
+//   },
+//   {
+//     type: "pie",
+//     title: "饼状图",
+//     dataset: [
+//       ["type", "销售额"],
+//       ["销售额", 100],
+//       ["订单量", 110],
+//       ["客单价", 120],
+//       ["动销率", 150],
+//     ],
+//     xAxis: { show: false },
+//     yAxis: { show: false },
+//     series: [{ radius: 70 }, { radius: [45, 70] }],
+//   },
+// ];
 
 type PositionType = "title" | "grid";
-function getTop(currInd, [rows, cols], gap = 0, type: PositionType = "title") {
-  const r = Math.floor(currInd / cols);
-  const c = Math.floor(currInd % cols);
+
+const props = withDefaults(
+  defineProps<{
+    data?: CommonObj[];
+    height?: string;
+    itemHeight?: string;
+    // log?: boolean | string;
+    layout?: string;
+    rootOptions?: CommonObj;
+  }>(),
+  {
+    data: () => [],
+    layout: "1x1",
+    itemHeight: "250px",
+    rootOptions: () => {
+      return {
+        tooltip: {
+          trigger: "axis",
+        },
+        legend: {
+          y: "bottom",
+        },
+      };
+    },
+  }
+);
+const chartRef = ref<any>(null);
+const options = computed(() => {
+  const { data, rootOptions } = props;
+  return getOptionsSingle(data, rootOptions);
+});
+const newHeight = computed(() => {
+  const { height, itemHeight, layout } = props;
+  if (height) return height;
+  const rowNum = Number(layout!.split("x")[0]);
+  return calCssVal(itemHeight!, "*", rowNum);
+});
+function getTop(gInd, [rows, cols], gap = 0, type: PositionType = "title") {
+  const r = Math.floor(gInd / cols);
+  const c = Math.floor(gInd % cols);
   const num = (100 / rows) * r + gap;
   return `${num}%`;
 }
-function getLeft(currInd, [rows, cols], gap = 0, type: PositionType = "title") {
-  const r = Math.floor(currInd / cols);
-  const c = Math.floor(currInd % cols);
+function getLeft(gInd, [rows, cols], gap = 0, type: PositionType = "title") {
+  const r = Math.floor(gInd / cols);
+  const c = Math.floor(gInd % cols);
   let num = (100 / cols) * c + gap;
   if (type === "title") num += 100 / cols / 2;
   return `${num}%`;
 }
-function getOptionsSingle(data = tempSimpleData, opts = otherOptions) {
+function getGrid(gInd, [rows, cols], gap = { tGap: 8, lGap: 4, bGap: 0 }) {
+  const { tGap, lGap, bGap } = gap;
+  return {
+    top: getTop(gInd, [rows, cols], tGap, "grid"),
+    left: getLeft(gInd, [rows, cols], lGap, "grid"),
+    height: `${100 / rows - tGap * 2 - bGap * rows}%`,
+    width: `${100 / cols - lGap * 2}%`,
+  };
+}
+function getOptionsSingle(data: CommonObj[] = [], opts: CommonObj = {}) {
   const options = { ...opts };
   const [rows, cols] = props.layout.split("x").map(it => Number(it)); // 2行2列
   data.forEach((item, gInd) => {
     const { type, ...restItem } = item;
-    const keys = Object.keys(restItem);
+    // const keys = Object.keys(restItem);
+    const keys = ["title", "dataset", "grid", "xAxis", "yAxis", "series"];
     const isXYAxis = ["line", "bar"].includes(type); // 是否是坐标轴
     keys.forEach((key: string) => {
       let val = item[key];
@@ -157,12 +137,7 @@ function getOptionsSingle(data = tempSimpleData, opts = otherOptions) {
       } else if (key === "dataset") {
         val = { source: val };
       } else if (key === "grid") {
-        val = {
-          top: getTop(gInd, [rows, cols], 10, "grid"),
-          left: getLeft(gInd, [rows, cols], 4, "grid"),
-          height: "30%", // 50 - 10*2
-          width: "42%", // 50 - 4*2
-        };
+        val = getGrid(gInd, [rows, cols]);
       } else if (key === "xAxis") {
         const lineAttrs = isXYAxis ? { type: "category", ...axisCfg, axisTick: { alignWithLabel: true } } : {};
         val = { ...lineAttrs, gridIndex: gInd, ...val };
@@ -208,22 +183,8 @@ function getOptionsSingle(data = tempSimpleData, opts = otherOptions) {
   });
   return options;
 }
-
-const props = withDefaults(
-  defineProps<{
-    data?: CommonObj[];
-    layout?: string;
-  }>(),
-  {
-    data: () => [],
-    layout: "2x2",
-  }
-);
-const chartRef = ref<any>(null);
-onMounted(() => {
-  nextTick(() => {
-    console.log(chartRef.value.getOptions(), "getOpts-ref---------");
-  });
+defineExpose({
+  getOptions: chartRef.value?.getOptions,
 });
 // const options = {
 //   legend: {

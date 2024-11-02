@@ -1,65 +1,87 @@
 <template>
-  <Chart class="chart-radar" :option="newOpt" :height="height" :width="width" :theme="theme" :use="[RadarChart]" />
+  <Chart class="chart-radar" :option="newOpt" ref="chartRef" />
 </template>
 
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
 import Chart from "@/core/chart/Chart.vue";
-import { typeOf } from "@/core/_utils";
 import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, StrNum } from "@/vite-env";
 import echarts, { gradColors, titleCfg } from "./_config";
-import { RadarChart } from "echarts/charts";
+import { nextTick } from "vue";
 
 const { merge } = _;
+
 const defaultOption = {
   title: {
-    // text: "Budget vs spending",
+    text: "雷达图示例",
   },
   legend: {
-    // data: ["Allocated Budget", "Actual Spending"],
+    data: ["Allocated", "Spending"],
   },
   radar: {
     // shape: 'circle',
+    // 去掉max，不然会抛出警告：The ticks may be not readable when set min: 0, max: 7000 and alignTicks: true
     indicator: [
-      { name: "Sales" },
-      { name: "Administration" },
-      { name: "Information Technology" },
-      { name: "Customer Support" },
-      { name: "Development" },
-      { name: "Marketing" },
+      { name: "维度1" }, // max: 7000
+      { name: "维度2" }, // max: 7000
+      { name: "维度3" }, // max: 7000
+      { name: "维度4" }, // max: 7000
+      { name: "维度5" }, // max: 7000
+      { name: "维度6" }, // max: 7000
     ],
   },
-  // dataset: {
-  //   source: [
-  //     ["type", "Sales", "Administration", "Information Technology", "Customer Support", "Development", "Marketing"],
-  //     ["Actual Spending", 5000, 14000, 28000, 26000, 42000, 21000],
-  //     ["Allocated Budget", 4200, 3000, 20000, 35000, 50000, 18000],
-  //   ],
-  // },
   series: [
     {
-      name: "Budget vs spending",
       type: "radar",
       data: [
         {
-          value: [4200, 3000, 20000, 35000, 50000, 18000],
-          name: "Allocated Budget",
+          name: "Allocated",
+          value: [1000, 2000, 3000, 4000, 5000, 6000],
         },
         {
-          value: [5000, 14000, 28000, 26000, 42000, 21000],
-          name: "Actual Spending",
+          name: "Spending",
+          value: [6000, 5000, 4000, 3000, 2000, 1000],
         },
       ],
     },
   ],
 };
+
+// const defaultOption = {
+//   title: {
+//     text: "雷达图示例",
+//   },
+//   legend: {
+//     data: ["Spending", "Allocated"],
+//   },
+//   radar: {
+//     // shape: 'circle',
+//     indicator: [
+//       { name: "维度1", max: 6000 },
+//       { name: "维度2", max: 6000 },
+//       { name: "维度3", max: 6000 },
+//       { name: "维度4", max: 6000 },
+//       { name: "维度5", max: 6000 },
+//       { name: "维度6", max: 6000 },
+//     ],
+//   },
+//   dataset: {
+//     source: [
+//       ["type", "维度1", "维度2", "维度3", "维度4", "维度5", "维度6"],
+//       ["Spending", 1000, 2000, 3000, 4000, 5000, 6000],
+//       ["Allocated", 6000, 5000, 4000, 3000, 2000, 1000],
+//     ],
+//   },
+//   series: [{ type: "radar" }],
+// };
+
 const props = withDefaults(
   defineProps<{
     theme?: EchartTheme;
-    height?: string | number;
-    width?: string | number;
+    width?: StrNum;
+    height?: StrNum;
     title?: string;
     data?: ChartData;
     option?: CommonObj;
@@ -75,6 +97,7 @@ const props = withDefaults(
     option: () => ({}),
   }
 );
+const chartRef = ref<any>(null);
 const newOpt = computed(() => {
   const { option, data, title } = props;
   return merge(
@@ -90,69 +113,5 @@ const newOpt = computed(() => {
     option
   );
 });
-/**
- * 获取series
- */
-function getSeries() {
-  const { data, option } = props;
-  const barWidth = option.barWidth || defaultOption.barWidth;
-  return (
-    data[0]?.slice(1)?.map((item: any, ind: number) => {
-      return {
-        type: "bar",
-        itemStyle: {
-          borderRadius: [barWidth / 2, barWidth / 2, 0, 0],
-          color: getItemColor(ind),
-        },
-        label: {
-          show: true,
-          position: "top",
-          color: "#666",
-          fontSize: 14,
-        },
-      };
-    }) || []
-  );
-}
-
-/**
- * 获取series 的itemStyle的color值
- * @param ind {number} 数组下标值
- * @param isMulti {boolean} 是否是多维度
- */
-function getItemColor(ind: number, isMulti?: boolean) {
-  const { data } = props;
-  isMulti = typeOf(isMulti) === "Undefined" ? data[0].length > 2 : isMulti;
-  /** 多维度多色，同一维度同一种颜色 */
-  if (isMulti) {
-    //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
-    return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-      {
-        offset: 0,
-        color: gradColors[ind][0],
-      },
-      {
-        offset: 1,
-        color: gradColors[ind][1],
-      },
-    ]);
-  } else {
-    /** 单维度多色可用，同一维度不同颜色 */
-    return (params: CommonObj) => {
-      const i = params.dataIndex;
-      //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
-      return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        {
-          offset: 0,
-          color: gradColors[i][0],
-        },
-        {
-          offset: 1,
-          color: gradColors[i][1],
-        },
-      ]);
-    };
-  }
-}
 </script>
 <style lang="scss" scoped></style>

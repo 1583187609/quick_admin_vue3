@@ -131,7 +131,8 @@ export const getCssValUnit = (val: string) => {
  * @param {string} num 操作数
  * @returns {string}
  */
-export const calCssVal = (val: number | string | undefined, operator: string, num: number): string => {
+type CalCssValOperator = "+" | "-" | "*" | "/";
+export const calCssVal = (val: StrNum, operator: CalCssValOperator, num: number): string => {
   val = String(val);
   const unit = getCssValUnit(val);
   const newVal = parseFloat(val);
@@ -226,23 +227,23 @@ export function deleteAttrs(obj: CommonObj = {}, keys?: string | string[]) {
 export function splitPropsParams(args: CommonObj): CommonObj {
   const obj = JSON.parse(JSON.stringify(args));
   const entrs = Object.keys(obj).filter(it => it.includes(propsJoinChar));
-  entrs.forEach((prop: string, ind: number) => {
+  entrs.forEach((prop: string) => {
     if (!obj[prop]) return;
-    const type = typeOf(obj[prop]);
+    const t = typeOf(obj[prop]);
     //区间数组 [min,max] = [最小值，最大值]
-    if (type === "Array") {
+    if (t === "Array") {
       const [minProp, maxProp] = prop.split(propsJoinChar);
       const [minVal, maxVal] = obj[prop];
       obj[minProp] = minVal;
       obj[maxProp] = maxVal;
-    } else if (type === "Object") {
+    } else if (t === "Object") {
       //表单字段中无prop，但是有children属性
       const keys = prop.split(propsJoinChar);
       keys.forEach((key: string) => {
         obj[key] = obj[prop][key];
       });
     } else {
-      throw new Error(`暂未处理type为${type}的类型`);
+      throw new Error(`暂未处理此类型：${t}`);
     }
     delete obj[prop];
   });
@@ -268,14 +269,10 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(
-  sysData: any,
-  customData?: any,
-  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
-) {
+export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
-  const isBaseData = ["string", "number", "boolean"].includes(typeof sysData); //如果是基础数据类型
+  const isBaseData = ["string", "number", "boolean", "undefined"].includes(typeof sysData); //如果是基础数据类型
   if (isBaseData) mergeType = "alert";
   if (mergeType === "merge") return merge(sysData, customData);
   if (mergeType === "assign") return Object.assign(sysData, customData);

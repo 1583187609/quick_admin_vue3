@@ -10,10 +10,11 @@
   </TestView>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
+import { reactive } from "vue";
+import { CommonSize } from "@/vite-env";
 import TestView from "@/core/TestView.vue";
 import StepForm from "@/core/form/StepForm.vue";
+import { SectionFormItemAttrs } from "@/core/form/_types";
 
 const records = {
   hasTest: {
@@ -27,7 +28,7 @@ const records = {
 };
 const size: CommonSize = "large"; // large, default, small
 const modelData = reactive({ id: 0, nc: "这是用户昵称", zy: 0, xm: "张三", partThree: { xjd: "成都" } });
-const sections = [
+const sections: SectionFormItemAttrs[] = [
   {
     title: "第一部分",
     // pureText: true,

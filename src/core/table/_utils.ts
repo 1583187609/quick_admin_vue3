@@ -89,13 +89,7 @@ export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: 
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getGroupBtnsOfRow(
-  row: CommonObj,
-  rowInd: number,
-  props: CommonObj,
-  operateCol?: TableColAttrs,
-  cb?: (width: StrNum) => void
-) {
+export function getGroupBtnsOfRow(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
   const { operateBtns = [], rows, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);
@@ -178,17 +172,7 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
     return { col: newCol, level: 1 };
   }
   const sysInferredAttrs = getSysInferredAttrs(col);
-  const newCol = merge(
-    { visible, exportable },
-    defaultColumnAttrs,
-    specialColAttrs,
-    sysInferredAttrs,
-    getInferredAttrs?.(col),
-    col
-  );
-  if (type === "BaseImg") {
-    console.log(specialColAttrs, sysInferredAttrs, getInferredAttrs?.(col), "dddd---------");
-  }
+  const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, sysInferredAttrs, getInferredAttrs?.(col), col);
   if (typeOf(newCol.prop) === "Array") {
     newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   }

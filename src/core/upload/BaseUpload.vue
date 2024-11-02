@@ -144,7 +144,7 @@ const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
     width: 100%;
   }
   .tips {
-    color: $color-danger;
+    color: $color-info;
     line-height: 1.4;
     font-size: $font-size-lighter;
   }

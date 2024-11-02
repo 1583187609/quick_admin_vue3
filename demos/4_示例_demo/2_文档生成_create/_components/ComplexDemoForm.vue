@@ -93,7 +93,6 @@ const props = withDefaults(
   }>(),
   {
     modelValue: () => reactive({}),
-    log: !isProd,
     grid: 24,
     footer: true,
     omit: true,

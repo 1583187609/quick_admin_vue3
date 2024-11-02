@@ -1,10 +1,11 @@
 import { BaseComponentsConfig } from "./_types";
 import { TableColAttrs } from "@/core/table/_types";
 import { getUserInfo, storage } from "@/utils";
-import { CommonObj } from "@/vite-env";
 
 // const isSmall = true;
-const isProd = import.meta.env.MODE === "production";
+// 应该从@/utils取isProd的值，但是会报错
+const isProd = import.meta.env.MODE === "prod";
+const isLog = !isProd;
 // 首页地址（默认）
 
 const config = {
@@ -87,7 +88,7 @@ const config = {
     Index: {
       // immediate: true,
       // changeFetch: true,
-      // log: false,
+      log: isLog,
       // omit: true,
       // inputDebounce: true,
       // exportLimit: 10000,
@@ -127,6 +128,16 @@ const config = {
     //   SetPrint: undefined,
     //   SetTable: undefined,
     // },
+  },
+  BaseForm: {
+    Index: {
+      log: isLog,
+    },
+  },
+  SectionForm: {
+    Index: {
+      log: isLog,
+    },
   },
   BaseBtn: {
     btnsMap: {

@@ -6,21 +6,36 @@
     v-bind="defaultFormAttrs"
     @keyup.enter="handleSubmit"
     ref="formRef"
-    v-if="!noFieldsHide || newFields.length || newSections.length"
   >
+    <!-- v-if="!noFieldsHide || newFields.length || newSections.length" -->
     <div class="all-hide-scroll wrap-box" :style="{ maxHeight: getMaxHeight() }" v-if="newSections.length">
       <div class="f-fs-fs" v-for="(sItem, sInd) in newSections.slice(0, isFold ? rowNum : undefined)" :key="sInd">
-        <div class="sec-label f-0">{{ sItem.label }}</div>
+        <el-button
+          class="f-0"
+          @click="sectionFolds[sInd] = !sectionFolds[sInd]"
+          text
+          type="info"
+          :disabled="!sectionFoldable || sectionFolds[sInd] === undefined"
+        >
+          <!-- <template #icon v-if="sectionFoldable">
+            <el-icon :class="{ 'rotate-180': !sectionFolds[sInd] && !sectionFolds[sInd], 'icon-fold': true }">
+              <Minus v-if="sectionFolds[sInd] === undefined" />
+              <ArrowDown v-else />
+            </el-icon>
+          </template> -->
+          {{ sItem.title }}
+        </el-button>
         <div class="sec-fields f-fs-fs-w f-1">
           <QueryFields
             v-model="formData"
             :field="field"
+            :size="size"
+            :grid="getGridAttrs(sItem.grid ?? field?.quickAttrs?.grid ?? grid)"
             :disabled="disabled"
             :readonly="readonly"
-            :size="size"
             :inputDebounce="inputDebounce"
-            @change="(key:string, val:any)=>$emit('change', {[key]: val})"
-            v-for="(field, ind) in sItem.fields.slice(0, sliceInd?.(sInd))"
+            @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
+            v-for="(field, ind) in sItem.fields!.slice(0, sliceInd?.(sInd))"
             :key="ind"
           >
             <template #custom="{ field: currField }">
@@ -37,13 +52,7 @@
             @submit="handleSubmit"
             @reset="handleReset"
             v-bind="getGridAttrs(grid)"
-            v-if="
-              newSections.length <= rowNum
-                ? sInd === newSections.length - 1
-                : isFold
-                ? sInd === rowNum - 1
-                : sInd === newSections.length - 1
-            "
+            v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
           />
         </div>
       </div>
@@ -53,8 +62,10 @@
         v-model="formData"
         :field="field"
         :size="size"
+        :disabled="disabled"
+        :readonly="readonly"
         :inputDebounce="inputDebounce"
-        @change="(key:string, val:any)=>$emit('change', {[key]: val})"
+        @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
         v-for="(field, ind) in newFields.slice(0, sliceInd)"
         :key="ind"
       >
@@ -79,6 +90,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
+import { ArrowDown, Minus } from "@element-plus/icons-vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/core/_utils";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
@@ -108,18 +120,18 @@ const props = withDefaults(
     inputDebounce?: boolean;
     grid: Grid;
     compact?: boolean; //是否是紧凑的
-    noFieldsHide?: boolean; //没有字段时是否不显示表单内容
+    // noFieldsHide?: boolean; //没有字段时是否不显示表单内容
+    sectionFoldable?: boolean;
   }>(),
-  Object.assign(
-    {
-      size: defaultCommonSize,
-      rowNum: 2,
-      fields: () => [],
-      modelValue: () => reactive({}),
-      noFieldsHide: true,
-    },
-    config?.BaseCrud?._components?.QueryForm
-  )
+  {
+    size: defaultCommonSize,
+    rowNum: 2,
+    fields: () => [],
+    modelValue: () => reactive({}),
+    // noFieldsHide: true,
+    sectionFoldable: true,
+    ...config?.BaseCrud?._components?.QueryForm,
+  }
 );
 const $emit = defineEmits(["update:modelValue", "search", "change", "reset"]);
 const $attrs = useAttrs();
@@ -128,9 +140,16 @@ let isFirst = true;
 const formRef = ref<FormInstance>();
 const colNum = ref(2);
 const isFold = ref(true);
+const sectionFolds = reactive(
+  props?.sections?.map(it => {
+    if (it?.fields?.length <= 4) return;
+    return false;
+  }) ?? []
+);
 const newFields = ref<FormFieldAttrs[]>([]);
+// 暂时按 SectionFormItemAttrs 类型来定义，后续迭代可能会跟 SectionForm 的字段会保持一致
 const newSections = ref<SectionFormItemAttrs[]>([]);
-//折叠或展开时，要截取的fields的长度的第二个参数的下标
+// 折叠或展开时，要截取的fields的长度的第二个参数的下标
 const sliceInd = computed((): any => {
   if (!isFold.value) return;
   const { sections, rowNum } = props;
@@ -138,11 +157,7 @@ const sliceInd = computed((): any => {
     return (rowInd: number) => {
       const newSecLen = newSections.value.length;
       const isLast = rowInd === newSecLen - 1;
-      return newSecLen <= rowNum
-        ? colNum.value > 1
-          ? colNum.value - (isLast ? 1 : 0)
-          : 1
-        : colNum.value - (rowInd === rowNum - 1 ? 1 : 0);
+      return newSecLen <= rowNum ? (colNum.value > 1 ? colNum.value - (isLast ? 1 : 0) : 1) : colNum.value - (rowInd === rowNum - 1 ? 1 : 0);
     };
   } else {
     return colNum.value > 1 ? colNum.value * rowNum - 1 : 1 * rowNum;
@@ -294,20 +309,12 @@ defineExpose({
   //   :deep(.el-range-editor.el-input__wrapper) {
   //     padding: 0 $gap-qtr;
   //   }
-  //   .sec-label {
-  //     padding: $gap-qtr;
-  //   }
   // }
 }
 .wrap-box {
   overflow: auto;
   transition: max-height $transition-time-main;
   overscroll-behavior: auto;
-}
-.sec-label {
-  padding: $gap-half;
-  font-weight: 900;
-  font-size: $font-size-lighter;
 }
 .icon-fold {
   transition: transform $transition-time-main;

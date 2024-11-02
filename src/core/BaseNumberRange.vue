@@ -10,7 +10,7 @@
       :placeholder="minPlaceholder"
       @input="handleEvent('input', $event, 0)"
       @change="handleEvent('change', $event, 0)"
-      @blur="handleBlur"
+      @blur="handleBlur(0)"
     />
     <span class="el-range-separator">{{ rangeSeparator }}</span>
     <input
@@ -20,13 +20,9 @@
       :placeholder="maxPlaceholder"
       @input="handleEvent('input', $event, 1)"
       @change="handleEvent('change', $event, 1)"
-      @blur="handleBlur"
+      @blur="handleBlur(1)"
     />
-    <el-icon
-      class="el-icon el-input__icon el-range__close-icon"
-      :class="{ hidden: !modelVals?.length }"
-      @click="handleEvent('clear')"
-    >
+    <el-icon class="el-icon el-input__icon el-range__close-icon" :class="{ hidden: !modelVals?.length }" @click="handleEvent('clear')">
       <CircleClose />
     </el-icon>
   </div>
@@ -64,7 +60,7 @@ const props = withDefaults(
     rangeSeparator: rangeJoinChar,
   }
 );
-const $emit = defineEmits(["update:modelValue", "change", "input", "clear"]);
+const $emit = defineEmits(["update:modelValue", "change", "input", "clear", "blur"]);
 const modelVals = reactive<ValsArr>(props.modelValue);
 const maxLength = computed(() => {
   const { min, max, fixedNum } = props;
@@ -109,7 +105,8 @@ function handleEvent(type: "input" | "change" | "clear", e, ind: number) {
   $emit(type, modelVals);
   $emit("update:modelValue", modelVals);
 }
-function handleBlur() {
+function handleBlur(ind) {
+  $emit("blur", modelVals[ind]);
   formItem?.validate("blur");
 }
 </script>

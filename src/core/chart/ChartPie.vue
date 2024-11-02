@@ -7,7 +7,7 @@ import { reactive, computed } from "vue";
 import Chart from "@/core/chart/Chart.vue";
 import echarts, { gradColors, titleCfg } from "./_config";
 import type { EchartTheme, ChartData } from "./_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj, StrNum } from "@/vite-env";
 import _ from "lodash";
 
 const { merge } = _;
@@ -50,8 +50,8 @@ const defaultOption = {
 const props = withDefaults(
   defineProps<{
     theme?: EchartTheme;
-    height?: string | number;
-    width?: string | number;
+    height?: StrNum;
+    width?: StrNum;
     title?: string;
     unit?: string;
     data?: ChartData;

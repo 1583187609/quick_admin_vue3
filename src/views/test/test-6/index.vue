@@ -50,7 +50,7 @@ import CardCrudTest from "./_components/CardCrudTest.vue";
 import CustomCrudTest from "./_components/CustomCrudTest.vue";
 import DictHooksTest from "./_components/DictHooksTest.vue";
 
-const activeName = ref("dictHooksTest");
+const activeName = ref("stepForm");
 </script>
 <style lang="scss">
 .demo-tabs {

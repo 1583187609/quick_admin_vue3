@@ -6,7 +6,7 @@
 import { useEvent } from "@/hooks";
 import { ref, nextTick, watch, onMounted } from "vue";
 import echarts, { colors } from "./_config";
-import { toCssVal } from "@/core/_utils";
+import { printLog, toCssVal } from "@/core/_utils";
 import type { EchartTheme } from "./_types";
 import { CommonObj } from "@/vite-env";
 
@@ -19,6 +19,7 @@ const props = withDefaults(
     theme?: EchartTheme;
     option?: CommonObj;
     renderer?: "canvas" | "svg";
+    log?: boolean | string; // 是否打印options
     use?: any[];
   }>(),
   {
@@ -66,6 +67,11 @@ function drawChart(option: CommonObj) {
   // notMerge 可选。是否不跟之前设置的 option 进行合并。默认为 false。即表示合并。合并的规则，详见 组件合并模式。如果为 true，表示所有组件都会被删除，然后根据新 option 创建所有新组件。
   // setOption 见 https://echarts.apache.org/zh/api.html#echartsInstance.setOption
   currOptions = Object.assign({ color: colors }, option);
+  const { log } = props;
+  if (log) {
+    const label = log === true ? "options" : `${log}options`;
+    printLog(currOptions, "log", label);
+  }
   echartInstance.setOption(currOptions, true);
 }
 defineExpose({

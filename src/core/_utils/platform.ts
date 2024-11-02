@@ -44,26 +44,30 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param data any 要打印的数据
  * @param type PrintLogType 要打印的日志类型 或要输出的文本内容
  */
-export type PrintLogType = "req" | "res" | "err";
+export type PrintLogType = "req" | "res" | "err" | "log";
 export type ThemeColorType = "primary" | "success" | "danger" | "warning" | "info";
 export function printLog(data: any, type: PrintLogType | ThemeColorType = "req", text: string = "") {
-  if (["req", "res", "err"].includes(type)) {
+  if (["req", "res", "err", "log"].includes(type)) {
     const map: CommonObj = {
       req: {
-        text: "请求参数",
+        label: "请求参数",
         bgColor: cssVars.colorPrimary,
       },
       res: {
-        text: "响应数据",
+        label: "响应数据",
         bgColor: cssVars.colorSuccess,
       },
       err: {
-        text: "错误数据",
+        label: "错误数据",
         bgColor: cssVars.colorDanger,
       },
+      log: {
+        label: "查看数据",
+        bgColor: cssVars.colorInfo,
+      },
     };
-    const { text, bgColor } = map[type];
-    console.log(`%c ${text}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
+    const { label, bgColor } = map[type];
+    console.log(`%c ${text || label}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
   } else {
     const bgColor = themeMap[type as ThemeColorType];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
@@ -201,17 +205,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;

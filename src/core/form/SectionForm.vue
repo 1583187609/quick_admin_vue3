@@ -2,14 +2,7 @@
   分块（组）表单
 -->
 <template>
-  <el-form
-    class="section-form f-fs-s-c"
-    :class="type"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="section-form f-fs-s-c" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -22,13 +15,7 @@
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
-            <el-icon
-              @click="folds[sInd] = !folds[sInd]"
-              class="fold-btn f-0"
-              :class="folds[sInd] ? 'rotate-180' : ''"
-              size="1.5em"
-              v-if="foldable"
-            >
+            <el-icon @click="folds[sInd] = !folds[sInd]" class="fold-btn f-0" :class="folds[sInd] ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
               <CaretTop />
             </el-icon>
           </div>
@@ -44,7 +31,9 @@
                   :formRef="formRef"
                   v-bind="getLevelsAttrs(field, sItem)"
                   v-model="formData[sItem.prop][field.prop as string]"
-                  @change="(prop:any,val:any)=>$emit('change',prop,val)"
+                  @blur="(...args) => $emit('blur', ...args)"
+                  @focus="(...args) => $emit('focus', ...args)"
+                  @change="(val:any, prop:any) => $emit('change', val, prop)"
                   v-if="sItem.prop"
                 >
                   <template #custom="scope">
@@ -58,7 +47,9 @@
                   :formRef="formRef"
                   v-bind="getLevelsAttrs(field, sItem)"
                   v-model="formData[field.prop as string]"
-                  @change="(prop:any,val:any)=>$emit('change',prop,val)"
+                  @blur="(...args) => $emit('blur', ...args)"
+                  @focus="(...args) => $emit('focus', ...args)"
+                  @change="(val:any, prop:any) => $emit('change', val, prop)"
                   v-else
                 >
                   <template #custom="scope">
@@ -104,7 +95,6 @@
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { typeOf, isProd } from "@/core/_utils";
-import _ from "lodash";
 import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/BaseBtn/_types";
@@ -117,6 +107,8 @@ import { Grid } from "./_components/FieldItem/_types";
 import { defaultCommonSize } from "@/core/_utils";
 import QuestionPopover from "@/core/QuestionPopover.vue";
 import { CaretTop } from "@element-plus/icons-vue";
+import config from "@/config";
+import _ from "lodash";
 
 const { merge } = _;
 const props = withDefaults(
@@ -151,16 +143,16 @@ const props = withDefaults(
     modelValue: () => reactive({}),
     type: "common",
     size: defaultCommonSize,
-    log: !isProd,
     grid: 24,
     footer: true,
     omit: true,
     foldable: true,
     autoFixedFoot: true,
     sections: () => [],
+    ...config?.SectionForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "submit", "change", "blur", "focus", "moreBtns"]);
 const $attrs = useAttrs();
 provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
 const footerBtnsRef = ref<any>(null);
@@ -212,10 +204,7 @@ watch(
 // }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const {
-    size = field.size ?? sItem.size ?? props.size,
-    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth,
-  } = attrs;
+  const { size = field.size ?? sItem.size ?? props.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth } = attrs;
   const {
     grid = sItem.grid ?? props.grid,
     readonly = sItem.readonly ?? props.readonly,

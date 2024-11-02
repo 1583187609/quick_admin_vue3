@@ -32,6 +32,8 @@
           :is="`el-${newField.type}`"
           :class="flexClass"
           v-model="newVal"
+          @blur="handleBlur"
+          @focus="handleFocus"
           @change="handleChange"
           v-bind="getElBindAttrs()"
           v-if="getIsEl()"
@@ -71,6 +73,8 @@
           :is="newField.type"
           :class="flexClass"
           v-model="newVal"
+          @blur="handleBlur"
+          @focus="handleFocus"
           @change="handleChange"
           v-bind="getBaseBindAttrs()"
           v-else-if="getIsBase()"
@@ -118,15 +122,7 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import {
-  typeOf,
-  getTextFromOpts,
-  deleteAttrs,
-  defaultFormItemType,
-  emptyStr,
-  getSlotsMap,
-  getFormItemSlots,
-} from "@/core/_utils";
+import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getSlotsMap, getFormItemSlots } from "@/core/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/core/form/_types";
 import { FormItemRule } from "element-plus";
@@ -166,15 +162,15 @@ const props = withDefaults(
   }
 );
 const { labelSuffix } = inject<any>(FormLevelsAttrs) ?? {};
-const $emit = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "change", "blur", "focus"]);
+let currSlots: any; // 当前表单控件的插槽
+let currPopover: any;
+let currOptions: any;
 const { getOpts } = useDict();
 const newVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
-let currSlots: any; // 当前表单控件的插槽
-let currPopover: any;
-let currOptions: any;
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
   const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
@@ -224,7 +220,7 @@ const newField = computed<FormFieldAttrs>(() => {
       if (options) {
         if (typeof options === "string") {
           const opts = getOpts(options as DictName);
-          tempField.attrs!.options = opts;
+          tempField.attrs.options = opts;
           currOptions = opts;
         } else {
           currOptions = options;
@@ -268,50 +264,39 @@ function getIsBase() {
   return code >= 65 && code <= 90;
 }
 
-// function getOptionItem() {
-//   const { type, prop, attrs = {} } = newField.value;
-//   const { type: subType } = attrs;
-//   const newAttrs: CommonObj = {};
-//   const isMap = {
-//     select: "el-option",
-//     "radio-group": `el-radio${subType ? `-${subType}` : ""}`,
-//     "checkbox-group": "el-checkbox",
-//   };
-//   if (type === "checkbox-group") {
-//     newAttrs.name = prop;
-//   }
-//   return {
-//     is: isMap[type],
-//     attrs: newAttrs,
-//   };
-// }
-
 // 获取elementPlus组件的属性
 function getElBindAttrs() {
   const { type, attrs = {} } = newField.value;
-  const { options } = attrs;
-  const newAttrs = attrs;
-  if (type === "tree-select") {
-    newAttrs.data = options;
-  } else if (type === "cascader") {
-    newAttrs.options = options;
-  }
-  return newAttrs;
+  // const { options } = attrs;
+  // const newAttrs = attrs;
+  //  if (type === "cascader") {
+  //   newAttrs.options = options;
+  // }
+  // return newAttrs;
+  // if (type === "cascader") {
+  //   console.log(newField.value, "cascader------------");
+  // }
+  return attrs;
 }
 // 获取自定义基础组件的属性
 function getBaseBindAttrs() {
-  const { type, attrs = {} } = newField.value;
+  const { attrs = {} } = newField.value;
   const { size } = props;
   const newAttrs = attrs;
-  if (type === "BaseNumberRange") {
-    newAttrs.onChange = (prop: string, val: any = "") => $emit("change", prop, val);
-  }
   newAttrs.size = size;
   return newAttrs;
 }
 
+function handleBlur(e: any = "") {
+  const val = e.target?.value ?? e;
+  $emit("blur", val, newField.value.prop);
+}
+function handleFocus(e: any = "") {
+  const val = e.target?.value ?? e;
+  $emit("focus", val, newField.value.prop);
+}
 function handleChange(val: any = "") {
-  $emit("change", newField.value.prop, val);
+  $emit("change", val, newField.value.prop);
 }
 /**
  * 获取 placeholder 文本
@@ -413,11 +398,6 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
   }
   if (emptyVals.includes(val)) val = emptyStr;
   return { label, value: val };
-}
-function handleInput(e: any) {
-  if (!props.inputDebounce) return;
-  const inp = e.querySelector("input") || e.querySelector("textarea");
-  $emit("change", newField.value.prop, inp.value);
 }
 defineExpose({});
 </script>

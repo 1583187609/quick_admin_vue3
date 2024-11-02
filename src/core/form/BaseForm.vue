@@ -2,30 +2,20 @@
   基础表单。除了实现ElementPlus的默认功能外，还在extraAttrs中提供了grid、example、popover、tips、pureText、rulesType、before、after、……等功能
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="type"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
-    <el-row
-      class="section all-hide-scroll"
-      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-    >
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
+          v-model="formData[field.prop as string]"
           :grid="grid"
           :size="size"
           :field="field"
           :readonly="readonly"
           :pureText="pureText"
-          v-model="formData[field.prop as string]"
-          @change="(prop:any,val:any)=>$emit('change',prop,val)"
           :formRef="formRef"
+          @change="(val:any, prop:any) => $emit('change', val, prop)"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
         >
@@ -70,11 +60,11 @@ import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs, getFormLevelAttrs } from "@/core/form";
 import FooterBtns from "./_components/FooterBtns.vue";
-import { isProd } from "@/core/_utils";
 import { BaseBtnType } from "@/core/BaseBtn/_types";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/core/_utils";
+import config from "@/config";
 import _ from "lodash";
 
 const { merge } = _;
@@ -113,12 +103,12 @@ const props = withDefaults(
     type: "common",
     size: defaultCommonSize,
     modelValue: () => reactive({}),
-    log: !isProd,
     grid: (_props: CommonObj) => (_props.type === "cell" ? 8 : 24),
     footer: true,
     omit: true,
     autoFixedFoot: true,
     fields: () => [],
+    ...config?.BaseForm?.Index,
   }
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);

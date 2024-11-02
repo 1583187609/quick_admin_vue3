@@ -51,7 +51,7 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
       } else {
         const val = children?.length ? handleFields(children, $emit, defVal).data : defVal;
         resObj.data[prop as string] = val;
-        val !== undefined && $emit?.("change", prop, val);
+        val !== undefined && $emit?.("change", val, prop);
       }
     } else if (propType === "Array") {
       //此处不会有children
@@ -63,7 +63,7 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
       const val = isAllUnd ? undefined : [minVal, maxVal];
       resObj.data[newProp] = val;
       (field as FormFieldAttrs).prop = newProp;
-      val !== undefined && $emit?.("change", newProp, val);
+      val !== undefined && $emit?.("change", val, newProp);
     } else if (propType === "Undefined") {
       if (!children?.length) throw new Error("不能同时没有prop和children属性");
       const defVal: CommonObj = {};
@@ -77,7 +77,7 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
       const val = defVal;
       (field as FormFieldAttrs).prop = joinProp;
       resObj.data[joinProp as string] = val;
-      Object.keys(val).length && $emit?.("change", joinProp, val);
+      Object.keys(val).length && $emit?.("change", val, joinProp);
       console.warn("children不能为空数组");
     } else {
       throw new Error(`暂未处理prop为${propType}类型的值`);

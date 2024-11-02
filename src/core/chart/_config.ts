@@ -101,8 +101,8 @@ echarts.use([
   PieChart,
   BarChart,
   LineChart,
+  RadarChart,
   // 不常用图表
-  // RadarChart,
   // PolarComponent,
   // 其他
   // ToolboxComponent,
