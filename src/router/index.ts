@@ -49,7 +49,7 @@ router.beforeEach((to: any, from: any, next) => {
     showMessage(`未登录，请先登录！`, "warning");
     // 跳转时传递参数到登录页面，以便登录后可以跳转到对应页面
     next({
-      path: "/login?redirect=" + path,
+      path: "/login?redirectTo=" + path,
       replace: true,
     });
   }
@@ -78,17 +78,16 @@ router.onError((err, to) => {
   const { message } = err;
   const isNotFoundFile = message.includes("Failed to fetch dynamically imported module");
   const { name, path } = to;
+  NProgress.done();
   if (isNotFoundFile) {
     const query: CommonObj = { type: "999" };
-    if (name !== "home") query.redirect = path;
-    router.push({ name: "error", query });
-  } else {
-    console.error("路由错误", message);
+    if (name !== "home") query.redirectTo = path;
+    return router.push({ name: "error", query });
   }
+  console.error("路由错误", message);
   // if (message.includes("Failed to fetch dynamically imported module")) {
   //   window.location = to.fullPath;
   // }
-  NProgress.done();
 });
 
 export default router;

@@ -71,6 +71,9 @@
         <template #custom="{ row, col, $index }">
           <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
         </template>
+        <template #children-custom="{ row, col, $index }">
+          <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
+        </template>
       </QueryTable>
     </slot>
     <Pagination
@@ -172,28 +175,26 @@ const props = withDefaults(
     /** 下面是待确定项，可以更改名称，可能移除或替换 **/
     summaryList?: SummaryListType; // 汇总请求数据的 list
   }>(),
-  Object.assign(
-    {
-      fields: () => [],
-      cols: () => [],
-      immediate: true,
-      changeFetch: true,
-      size: defaultCommonSize,
-      omit: true,
-      inputDebounce: true,
-      showPagination: true,
-      pagination: () => ({ currPage: 1, pageSize: 20 }),
-      reqMap: () => defaultReqMap,
-      resMap: () => defaultResMap,
-      grid: () => defaultGridAttrs,
-      compact: (_props: CommonObj) => _props.grid.xl < 6,
-      filterByAuth: (auth: number[]) => true,
-      exportCfg: () => ({ limit: 10000 }),
-      formAttrs: () => defaultFormAttrs,
-      tableAttrs: () => defaultTableAttrs,
-    },
-    config?.BaseCrud?.Index
-  )
+  {
+    fields: () => [],
+    cols: () => [],
+    immediate: true,
+    changeFetch: true,
+    size: defaultCommonSize,
+    omit: true,
+    inputDebounce: true,
+    showPagination: true,
+    pagination: () => ({ currPage: 1, pageSize: 20 }),
+    reqMap: () => defaultReqMap,
+    resMap: () => defaultResMap,
+    grid: () => defaultGridAttrs,
+    compact: (_props: CommonObj) => _props.grid.xl < 6,
+    filterByAuth: (auth: number[]) => true,
+    exportCfg: () => ({ limit: 10000 }),
+    formAttrs: () => defaultFormAttrs,
+    tableAttrs: () => defaultTableAttrs,
+    ...config?.BaseCrud?.Index,
+  }
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
 const closePopup = inject<ClosePopupInject>("closePopup");
@@ -241,8 +242,17 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   return filterBtnsByAuth(btns, filterByAuth);
 });
 
+function filterCycle(cols: TableCol[] = []) {
+  return cols.filter(item => {
+    if (!item) return false;
+    const { children } = item as TableColAttrs;
+    if (children?.length) (item as TableColAttrs).children = filterCycle(children);
+    return true;
+  });
+}
+
 // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失
-const originCols = computed<TableColAttrs[]>(() => props.cols.filter(it => !!it) as TableColAttrs[]);
+const originCols = computed<TableColAttrs[]>(() => filterCycle(props.cols) as TableColAttrs[]);
 const newCols = ref<TableColAttrs[]>(toRaw(originCols.value));
 const dragSortable = computed<boolean>(() => !!newCols.value.find(col => col.type === "sort"));
 
@@ -287,7 +297,6 @@ function handleCurrChange(val: number) {
  */
 function handleChange(changedVals: CommonObj, withModelData?: boolean) {
   const { immediate, changeFetch } = props;
-  console.log(changedVals, "changedVals-----------");
   changedVals = splitPropsParams(changedVals);
   if (withModelData) {
     merge(params, changedVals);

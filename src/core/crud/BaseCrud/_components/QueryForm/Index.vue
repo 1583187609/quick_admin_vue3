@@ -17,12 +17,12 @@
           type="info"
           :disabled="!sectionFoldable || sectionFolds[sInd] === undefined"
         >
-          <!-- <template #icon v-if="sectionFoldable">
+          <template #icon v-if="sectionFoldable">
             <el-icon :class="{ 'rotate-180': !sectionFolds[sInd] && !sectionFolds[sInd], 'icon-fold': true }">
               <Minus v-if="sectionFolds[sInd] === undefined" />
               <ArrowDown v-else />
             </el-icon>
-          </template> -->
+          </template>
           {{ sItem.title }}
         </el-button>
         <div class="sec-fields f-fs-fs-w f-1">
@@ -35,7 +35,7 @@
             :readonly="readonly"
             :inputDebounce="inputDebounce"
             @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
-            v-for="(field, ind) in sItem.fields!.slice(0, sliceInd?.(sInd))"
+            v-for="(field, ind) in sItem.fields!.slice(0, sectionFolds[sInd] ? getSectionFoldSliceInd(sInd) : getSliceInd(sInd))"
             :key="ind"
           >
             <template #custom="{ field: currField }">
@@ -62,11 +62,12 @@
         v-model="formData"
         :field="field"
         :size="size"
+        :grid="getGridAttrs(field?.quickAttrs?.grid ?? grid)"
         :disabled="disabled"
         :readonly="readonly"
         :inputDebounce="inputDebounce"
         @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
-        v-for="(field, ind) in newFields.slice(0, sliceInd)"
+        v-for="(field, ind) in newFields.slice(0, getSliceInd())"
         :key="ind"
       >
         <template #custom="{ field: currField }">
@@ -138,11 +139,11 @@ const $attrs = useAttrs();
 provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
 let isFirst = true;
 const formRef = ref<FormInstance>();
-const colNum = ref(2);
+const colNum = ref(getColNum());
 const isFold = ref(true);
 const sectionFolds = reactive(
   props?.sections?.map(it => {
-    if (it?.fields?.length <= 4) return;
+    if (it?.fields?.length <= colNum.value) return;
     return false;
   }) ?? []
 );
@@ -150,19 +151,20 @@ const newFields = ref<FormFieldAttrs[]>([]);
 // 暂时按 SectionFormItemAttrs 类型来定义，后续迭代可能会跟 SectionForm 的字段会保持一致
 const newSections = ref<SectionFormItemAttrs[]>([]);
 // 折叠或展开时，要截取的fields的长度的第二个参数的下标
-const sliceInd = computed((): any => {
+function getSliceInd(sInd?: number): any {
   if (!isFold.value) return;
   const { sections, rowNum } = props;
-  if (sections) {
-    return (rowInd: number) => {
-      const newSecLen = newSections.value.length;
-      const isLast = rowInd === newSecLen - 1;
-      return newSecLen <= rowNum ? (colNum.value > 1 ? colNum.value - (isLast ? 1 : 0) : 1) : colNum.value - (rowInd === rowNum - 1 ? 1 : 0);
-    };
-  } else {
-    return colNum.value > 1 ? colNum.value * rowNum - 1 : 1 * rowNum;
-  }
-});
+  if (!sections) return colNum.value > 1 ? colNum.value * rowNum - 1 : 1 * rowNum;
+  const newSecLen = newSections.value.length;
+  if (newSecLen > rowNum) return colNum.value - (sInd === rowNum - 1 ? 1 : 0);
+  const isLast = sInd === newSecLen - 1;
+  return colNum.value > 1 ? colNum.value - (isLast ? 1 : 0) : 1;
+}
+function getSectionFoldSliceInd(sInd: number) {
+  const isLast = sInd === newSections.value.length - 1;
+  if (isLast) return colNum.value - 1;
+  return colNum.value;
+}
 //是否展示折叠按钮
 const showFoldBtn = computed(() => {
   const { sections, rowNum } = props;

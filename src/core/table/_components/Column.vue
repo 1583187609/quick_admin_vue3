@@ -8,6 +8,12 @@
     <el-table-column v-bind="bindAttrs" v-if="newCol.type && ['index', 'selection'].includes(newCol.type)" />
     <template v-else>
       <el-table-column v-bind="bindAttrs" v-if="newCol.children?.length">
+        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(newCol, currPopover)" :key="key">
+          <BaseRender :data="val" />
+          <template v-if="key === 'header'">
+            <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
+          </template>
+        </template>
         <Column
           :col="subCol"
           :size="size"
@@ -15,9 +21,13 @@
           :operateBtnsAttrs="operateBtnsAttrs"
           :getGroupBtnsByRow="getGroupBtnsByRow"
           :disabled="disabled"
-          v-for="(subCol, subInd) in newCol?.children"
+          v-for="(subCol, subInd) in (newCol?.children as TableColAttrs[])"
           :key="subInd"
-        />
+        >
+          <template #custom="scope">
+            <slot name="children-custom" v-bind="scope" />
+          </template>
+        </Column>
       </el-table-column>
       <el-table-column v-bind="bindAttrs" v-else>
         <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(newCol, currPopover)" :key="key">
@@ -77,7 +87,7 @@
             :row="{ ...row, $index }"
             :quickAttrs="currQuickAttrs"
             :refreshList="refreshList"
-            v-else-if="!isOptimization && ['switch', 'input'].includes(newCol.type)"
+            v-else-if="!isOptimization && formItemTypes.includes(newCol.type)"
           />
           <InsertCustomTableColComps :col="newCol" :row="{ ...row, $index }" v-else />
         </template>
@@ -101,6 +111,7 @@ import { isOptimization } from "@/core/_utils";
 import { Sort } from "@element-plus/icons-vue";
 import QuestionPopover from "@/core/QuestionPopover.vue";
 import MarkIcon from "@/core/MarkIcon.vue";
+import { formItemTypes } from "@/core/form/_components/FormItem/_config";
 
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {

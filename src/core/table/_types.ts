@@ -5,7 +5,8 @@ import { RendererNode, VNode } from "vue";
 import { RendererElement } from "vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
 import { FormFieldAttrs } from "@/core/form/_types";
-import { FinallyNext, HorizontalAlign, PopoverType, UniteFetchType } from "@/core/_types";
+import { FinallyNext, HorizontalAlign, PopoverType, StrNum, UniteFetchType } from "@/core/_types";
+import { InsertTabColFormType } from "@/config/_components/InnerExtendTableColComps.vue";
 
 /**
  * 这里是标准的ElementPlus属性
@@ -69,6 +70,7 @@ export type TableColType =
   | "BaseImg"
   | "BaseText"
   | "BaseCopy"
+  | InsertTabColFormType
   | InsertTableColCompsType;
 
 // export type TableIndexType = boolean | number | ((rowInd: number) => number);
@@ -77,10 +79,11 @@ export type TableColType =
 
 // 基础表格
 export interface TableColAttrs {
+  type?: TableColType; // 列类型
   prop?: string | [string, string];
   label?: string;
-  width?: string | number;
-  minWidth?: string | number;
+  width?: StrNum;
+  minWidth?: StrNum;
   align?: HorizontalAlign;
   headerAlign?: HorizontalAlign;
   fixed?: boolean | "left" | "right";
@@ -89,14 +92,13 @@ export interface TableColAttrs {
   sortable?: boolean | "custom"; //是否启用排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
   exportable?: boolean; // 是否可导出
   visible?: boolean; // 是否可见
-  type?: TableColType; //列类型
   formatter?: (
     row: CommonObj,
     column?: TableColumnCtx<any>,
     cellValue?: any,
     index?: number
   ) => string | VNode<RendererNode, RendererElement, { [key: string]: any }>;
-  children?: TableColAttrs[];
+  children?: TableCol[];
   attrs?: CommonObj; //该列所用组件的props属性
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
@@ -109,6 +111,11 @@ export interface TableColAttrs {
     header?: BaseRenderData;
   };
 }
+
+export interface TableColStandardAttrs extends TableColAttrs {
+  prop: string;
+}
+
 export type TableCol = BaseDataType | TableColAttrs;
 
 // 可编辑的表格

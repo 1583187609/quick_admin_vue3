@@ -26,8 +26,8 @@ export default [
         },
       },
       {
-        path: "error",
-        name: "error",
+        path: "error", // 示例：/error?type=999
+        name: "errorPage",
         meta: {
           title: "Error",
           cache: false,

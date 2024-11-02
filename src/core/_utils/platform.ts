@@ -224,6 +224,7 @@ export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string |
  * @returns {Object}
  */
 export function getSlotsMap(slots: any) {
+  if (!slots) return;
   const t = typeOf(slots);
   if (t === "String") return { default: slots };
   if ((t === "Array" && slots.length <= 3) || (t === "Object" && (slots.setup || isVNode(slots)))) return { default: slots };

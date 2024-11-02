@@ -27,6 +27,9 @@
       <template #custom="{ row, col: c, $index: ind }">
         <slot name="custom" v-bind="{ row, col: c, $index: ind }" />
       </template>
+      <template #children-custom="{ row, col: c, $index: ind }">
+        <slot name="children-custom" v-bind="{ row, col: c, $index: ind }" />
+      </template>
     </Column>
     <template #empty v-if="!loading">
       <BaseEmpty />

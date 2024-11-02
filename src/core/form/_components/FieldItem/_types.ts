@@ -14,19 +14,22 @@ export type FormItemType =
   | "date-picker"
   | "radio-group"
   | "checkbox-group"
+  | "checkbox"
   | "input-number"
   | "switch"
   | "cascader"
-  | "custom"
-  | "BaseNumberRange"
   | "autocomplete"
   | "slider"
-  | "checkbox"
+  | "time-picker"
+  | "time-select"
+  // 其他
+  | "custom"
   | "empty"
-  // | "BasicEditor"
-  // | "time-picker"
-  // | "time-select"
+  // 内置系统组件
+  | "BaseNumberRange"
+  | "BasicEditor"
   | "BaseUpload"
+  // 子类分组
   | "addDel"; //新增删除分组
 
 export interface RowAttrs {

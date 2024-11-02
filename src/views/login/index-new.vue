@@ -39,15 +39,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { PostUserLogin } from "@/api-mock";
 import { FormField } from "@/core/form/_types";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj } from "@/vite-env";
 import CaptchaBtn from "./_components/CaptchaBtn.vue";
-import { ElMessage, ElNotification } from "element-plus";
+import { ElMessage } from "element-plus";
 import BaseIcon from "@/core/BaseIcon.vue";
-import { getUserInfo } from "@/utils";
-import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/store";
 import { h } from "vue";
 export type FormType = "login" | "register" | "forget";
@@ -70,12 +68,9 @@ const typeMap: CommonObj = {
 };
 // const props = withDefaults(defineProps<{}>(), {});
 const type = ref<FormType>("login");
-const router = useRouter();
-const route = useRoute();
 const userStore = useUserStore();
 const loading = ref(false);
 const title = import.meta.env.VITE_APP_TITLE;
-const redirect = ref(route.query.redirect?.toString() ?? "/");
 const { login_account } = localStorage;
 const modelData = reactive<CommonObj>({
   account: login_account || "",

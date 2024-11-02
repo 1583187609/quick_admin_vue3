@@ -3,7 +3,8 @@
   此组件后续可能会移除
 -->
 <template>
-  <template v-if="col.type === 'switch'">
+  <FormItem v-model="newRow[col.prop]" :elType="col.type" v-bind="col.attrs" @change="handleChange" />
+  <!-- <template v-if="col.type === 'switch'">
     <el-switch
       :modelValue="newRow[col.prop]"
       v-bind="deleteAttrs(col.attrs, ['onChange'])"
@@ -12,20 +13,22 @@
     />
     <el-switch v-model="newRow[col.prop]" v-bind="col.attrs" v-else />
   </template>
-  <el-input v-model="newRow[col.prop]" v-bind="col.attrs" @change="handleInputChange" v-else-if="col.type === 'input'" />
+  <el-input v-model="newRow[col.prop]" v-bind="col.attrs" @change="handleInputChange" v-else-if="col.type === 'input'" /> -->
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from "vue";
 import { deleteAttrs, showMessage } from "@/core/_utils";
-import { TableColAttrs } from "@/core/table/_types";
-import { CommonObj } from "@/vite-env";
+import { TableColStandardAttrs } from "@/core/table/_types";
+import { CommonObj, StrNum } from "@/vite-env";
+import { RefreshListFn } from "@/core/table/_components/Column.vue";
+import FormItem from "@/core/form/_components/FormItem/Index.vue";
+import { ElFormItemType } from "@/core/form/_components/FormItem/_types";
 
-export type InsertTabColFormType = "switch";
+export type InsertTabColFormType = ElFormItemType;
 
-let isFirst = true;
+// let isFirst = true;
 const props = withDefaults(
   defineProps<{
-    col: TableColAttrs;
+    col: TableColStandardAttrs;
     row: {
       $index: number; // 行下标
       [key: string]: any;
@@ -45,38 +48,42 @@ const newRow = computed({
   set: (val: any) => $emit("update:row", val),
 });
 
-// 处理switch的change事件
-function handleSwitchChange(val: StrNum | boolean) {
-  if (isFirst) {
-    isFirst = false;
-    return;
-  }
-  const { col, row, refreshList, quickAttrs } = props;
-  const { prop, attrs = {} } = col;
-  const { activeValue } = attrs;
-  const { handleChange } = quickAttrs;
-  const preKey = activeValue === row[prop] ? "in" : "";
-  handleChange(val, row, (hint = `${attrs[preKey + "activeText"]}成功`) => {
-    showMessage(hint);
-    newRow.value[prop] = val;
-    refreshList?.();
-  });
+function handleChange(val: any) {
+  console.log(val, "val-change------------");
 }
 
+// 处理switch的change事件
+// function handleSwitchChange(val: StrNum | boolean) {
+//   if (isFirst) {
+//     isFirst = false;
+//     return;
+//   }
+//   const { col, row, refreshList, quickAttrs } = props;
+//   const { prop, attrs = {} } = col;
+//   const { activeValue } = attrs;
+//   const { handleChange } = quickAttrs;
+//   const preKey = activeValue === row[prop] ? "in" : "";
+//   handleChange(val, row, (hint = `${attrs[preKey + "activeText"]}成功`) => {
+//     showMessage(hint);
+//     newRow.value[prop] = val;
+//     refreshList?.();
+//   });
+// }
+
 // 处理input的change事件
-function handleInputChange(val: any) {
-  if (isFirst) {
-    isFirst = false;
-    return;
-  }
-  const { col, row, refreshList, quickAttrs } = props;
-  const { attrs = {}, prop, label = "" } = col;
-  const { handleBlur } = quickAttrs;
-  handleBlur?.(val, row, (hint = `${label}修改成功`) => {
-    showMessage(hint);
-    newRow.value[prop] = val;
-    refreshList?.();
-  });
-}
+// function handleInputChange(val: any) {
+//   if (isFirst) {
+//     isFirst = false;
+//     return;
+//   }
+//   const { col, row, refreshList, quickAttrs } = props;
+//   const { attrs = {}, prop, label = "" } = col;
+//   const { handleBlur } = quickAttrs;
+//   handleBlur?.(val, row, (hint = `${label}修改成功`) => {
+//     showMessage(hint);
+//     newRow.value[prop] = val;
+//     refreshList?.();
+//   });
+// }
 </script>
 <style lang="scss" scoped></style>
