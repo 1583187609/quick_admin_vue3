@@ -7,7 +7,8 @@ import { N, readMeName, needParam, getVueScriptStr, getPartStrFromVueScript } fr
 const specialRegStrs = [
   `\\([\\s\\S]*\\) *(=>){1} *[\\s\\S]+`, //Ts的箭头函数
   `\\w+\\[ *\\]`, //BaseBtnType[]
-  `\\[ *\\]`, //默认值展示（[]）
+  `\\[ *\\]`, //默认值展示:[]
+  // `\\{ *\\}`, //默认值展示:{title: "详情", width: "500px"}  未生效，暂时不清楚原因
   `\\b\\w+\\b\\( *[{\\[]* *[\\]}]* *\\)`, //reactive({})或reactive()或reactive([])
 ];
 const tempRegStr = `(\\!*(\\b\\w+\\b)([,: -~\\|]+(\\b\\w+\\b))*[!,. %\\'")]*)+|(\\b\\w+\\b)|(<[^>]*/>)|(<[^>]+>.*?</[^>]+>)|(\`[^\`]+\`)`;

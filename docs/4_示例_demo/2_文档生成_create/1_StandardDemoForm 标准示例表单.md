@@ -75,7 +75,7 @@
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`moreBtns`|底部的额外更多按钮|`BaseBtnType[]`|-|
 |`loading`|提交按钮是否显示加载图标|`boolean`|-|
-|`omit`|是否剔除掉 `undefined`，'' 参数|`boolean`|`true`|
+|`omit`|是否剔除掉值为 `undefined, null, `“” 的参数|`boolean`|`true`|
 |`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|

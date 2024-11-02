@@ -1,22 +1,11 @@
 <template>
-  <BaseImg
-    class="base-avatar"
-    :class="{ round }"
-    loadTips="加载中…"
-    :style="style"
-    :to="to"
-    :src="src || avatarMap[gender] || avatarImg"
-    :preview="!!src"
-  />
+  <BaseImg class="base-avatar" loadTips="加载中…" :src="src || avatarMap[gender] || avatarImg" :preview="!!src" />
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
 import avatarImg from "@/assets/images/default/avatar.png";
 import avatarManImg from "@/assets/images/default/avatar-man.png";
 import avatarWomanImg from "@/assets/images/default/avatar-woman.png";
-import { toCssVal } from "@/core/_utils";
-import { CommonObj } from "@/vite-env";
 
 export type GenderType = 0 | 1;
 
@@ -26,20 +15,11 @@ const avatarMap = {
 };
 const props = withDefaults(
   defineProps<{
-    size?: number | string;
     src?: string;
-    round?: boolean;
-    to?: string | CommonObj;
     gender?: GenderType; //性别
   }>(),
-  {
-    // size: 60,
-  }
+  {}
 );
-const style = reactive({
-  height: toCssVal(props.size),
-  width: toCssVal(props.size),
-});
 </script>
 
 <style lang="scss" scoped>
@@ -47,9 +27,5 @@ const style = reactive({
   height: 60px;
   width: 60px;
   border-radius: $radius-main;
-}
-
-.round {
-  border-radius: 50%;
 }
 </style>
