@@ -1,10 +1,8 @@
 # BaseVideo 视频  <Badge class="title-badge" type="warning" text="beta" />
 
-
 ::: warning 实验性
 本功能处于实验性阶段，谨慎使用！
 :::
-
 
 
 ## 基础用法
@@ -16,8 +14,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -31,16 +29,8 @@
 |`default`|-|-|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/BaseVideo.vue
-
-``` ts
-
-
-```
-
 :::  
-
-

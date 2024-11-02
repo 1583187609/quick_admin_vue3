@@ -1,13 +1,10 @@
 # CustomCrud 自定义增删改查  <Badge class="title-badge" type="danger" text="wait" />
 
-
 ::: danger 待完善
 本功能暂不可用，敬请期待！
 :::
 
-
 &emsp;&emsp;自定义的增删改查列表
-
 
 ## 聊天记录
 
@@ -16,7 +13,6 @@
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Chat.vue
 :::
-
 
 ## 相册
 
@@ -27,8 +23,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -100,17 +96,8 @@
 |`col.prop as string`|-|`row, col, $index, name`|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/crud/CustomCrud/Index.vue
-
-``` ts
-
-
-
-```
-
 :::  
-
-

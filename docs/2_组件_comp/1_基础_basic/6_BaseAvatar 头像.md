@@ -10,8 +10,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -23,19 +23,13 @@
 |`gender`|性别|`GenderType`|-|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/img/BaseAvatar.vue
 
 ``` ts
-
-
 export type GenderType = 0 | 1;
-
-
 ```
 
 :::  
-
-

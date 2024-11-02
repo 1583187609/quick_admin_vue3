@@ -10,8 +10,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -20,19 +20,13 @@
 |`size`|-|`StrNum`|`1em`|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/BaseIcon.vue
 
 ``` ts
-
-
 export type IconNames = keyof typeof Icons;
-
-
 ```
 
 :::  
-
-

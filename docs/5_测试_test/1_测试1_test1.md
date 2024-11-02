@@ -24,21 +24,11 @@
 
 ## 从Vue文件中直接获取Ts类型
 
+
 ## 类型声明
+
 ::: details
 /demos/4_示例_demo/2_文档生成_create/_components/StandardDemoForm.vue
-
-``` ts
-
-
-
-
-
-
-
-
-```
-
 :::  
 
 

@@ -2,19 +2,18 @@
 
 &emsp;&emsp;在这里，会考虑其他复杂边界情况的解析处理
 
-
 ::: tip
 此表单仅做示例使用，不含任何业务功能
 :::
 
 
 
-
 ## API 
+
 ### Props
 
-
 &emsp;&emsp;通过设置 `@title: Props` 可覆盖默认的 `title`（属性）。
+
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
@@ -37,11 +36,9 @@
 |`handleRequest`|处理参数|`() => void`|-|
 |`grid`|-|-|`24`|
 
-
 ::: tip
 这是 `props `的`tip`信息
 :::
-
 
 ### $emit
 
@@ -54,8 +51,8 @@
 
 ### 方法(expose)
 
-
 &emsp;&emsp;这是 `expose `的 `description`。通过写入 `description `获得
+
 |方法名|说明|类型|
 |:---|:---|:---|
 |`refreshList`|这是测试方法|`() => void`|
@@ -63,11 +60,9 @@
 |`getQueryParams`|-|`() => void`|
 |`getQueryFields`|-|`() => void`|
 
-
 ::: warning
 注意这部分的`title`——【方法(`expose)`】是通过写入覆盖默认值的
 :::
-
 
 ### Slots
 
@@ -77,18 +72,13 @@
 |`default`|默认插槽|-|
 |`tempTest`|这是临时写的用作测试的插槽|-|
 
-
 ::: danger
 这是 `slots `的`tip`信息
 :::
 
 
-
-
 ## 类型声明
+
 ::: details
-/demos/4_示例_demo/2_文档生成_create/_typescript/complex.ts
-<<< E:\Quick-Admin\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/complex.ts
+/demos/4_示例_demo/2_文档生成_create/_typescript/complex.ts<<< E:\Quick-Admin\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/complex.ts
 :::  
-
-

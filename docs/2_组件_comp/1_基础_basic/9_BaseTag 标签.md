@@ -2,7 +2,6 @@
 
 &emsp;&emsp;`el-tag`标签的升级版，可以解析字典映射、纯文本显示等
 
-
 ## 基础用法
 
 
@@ -12,8 +11,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -31,13 +30,12 @@
 |`default`|-|`tag`|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/BaseTag.vue
 
 ``` ts
-
 import type { TagProps } from "element-plus";
 
 export type TagType = TagProps["type"];
@@ -51,10 +49,6 @@ export interface TagAttrs {
   class?: ClassType;
   effect?: TagEffect;
 }
-
-
 ```
 
 :::  
-
-

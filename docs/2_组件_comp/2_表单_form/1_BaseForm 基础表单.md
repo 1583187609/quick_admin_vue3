@@ -2,7 +2,6 @@
 
 &emsp;&emsp;基础表单。除了实现`ElementPlus`的默认功能外，还在`extraAttrs`中提供了`grid`、`example`、`popover`、`tips`、`pureText`、`rulesType`、`before`、`after`、……等功能
 
-
 ## 基础用法
 
 &emsp;&emsp;支持的控件类型包括以下三部分：  
@@ -14,7 +13,6 @@
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/1_BasicUse.vue
 :::
 
-
 ## 额外属性
 
 &emsp;&emsp;除了`ElementPlus`的属性外，提供了一系列额外属性，方便快速开发，放置在 `quickAttrs `中。
@@ -22,7 +20,6 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/2_ExtraAttrs.vue
 :::
-
 
 ## 快速开发
 
@@ -32,7 +29,6 @@
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/3_QuickUse.vue
 :::
 
-
 ## 栅格布局
 
 &emsp;&emsp;通过`grid`属性实现。遵循子级覆盖父级原则。
@@ -40,7 +36,6 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/4_GridUse.vue
 :::
-
 
 ## 继承与扩展
 
@@ -51,8 +46,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -105,11 +100,8 @@
 |`footer`|底部插槽|-|
 
 
-
 ## 类型声明
+
 ::: details
-/src/core/form/_types.ts
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
+/src/core/form/_types.ts<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
 :::  
-
-

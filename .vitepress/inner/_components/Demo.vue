@@ -155,7 +155,12 @@ const copyCode = async () => {
             @keydown.prevent.space="copyCode"
           />
         </ElTooltip>
-        <ElTooltip :content="locale['view-source']" :show-arrow="false" :trigger="['hover', 'focus']" :trigger-keys="[]">
+        <ElTooltip
+          :content="locale[sourceVisible ? 'hide-source' : 'view-source']"
+          :show-arrow="false"
+          :trigger="['hover', 'focus']"
+          :trigger-keys="[]"
+        >
           <!-- <button
             ref="sourceCodeRef"
             :aria-label="sourceVisible ? locale['hide-source'] : locale['view-source']"
@@ -166,7 +171,7 @@ const copyCode = async () => {
               <i-ri-code-line />
             </ElIcon>
           </button> -->
-          <BaseIcon class="op-btn" @click="toggleSourceVisible()" :size="16" name="Document" />
+          <BaseIcon class="op-btn" @click="toggleSourceVisible()" :size="16" :name="sourceVisible ? 'Hide' : 'View'" />
         </ElTooltip>
       </div>
 

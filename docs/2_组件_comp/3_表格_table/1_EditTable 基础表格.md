@@ -3,8 +3,8 @@
 &emsp;&emsp;可编辑的表格
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -35,11 +35,8 @@
 |`behind`|-|-|
 
 
-
 ## 类型声明
+
 ::: details
-/src/core/table/_types.ts
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/table/_types.ts
+/src/core/table/_types.ts<<< E:\Quick-Admin\quick_admin_vue3/src/core/table/_types.ts
 :::  
-
-

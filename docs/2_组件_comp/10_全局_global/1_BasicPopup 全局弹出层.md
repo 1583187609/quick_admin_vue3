@@ -3,7 +3,6 @@
 &emsp;&emsp;提供了两个弹出层`dialog`和`drawer`。  
 &emsp;&emsp;`provide`了`openPopup`、`closePopup`方法。默认`dialog`，可在全局配置中进行配置。
 
-
 ## 基础使用
 
 &emsp;&emsp;打开弹窗示例。默认是打开`Dialog`。
@@ -11,7 +10,6 @@
 ::: demo 
 /demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/1_BasicUse.vue
 :::
-
 
 ## 打开与关闭
 
@@ -22,8 +20,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -95,13 +93,12 @@
 |`col.prop as string`|-|`row, col, $index, name`|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/BasicPopup/Index.vue
 
 ``` ts
-
 import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";
 
 
@@ -113,12 +110,6 @@ import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPop
 
     type = defaultPopupType;
   // 如果不是弹窗类型，则打开dialog，且type的值作为dialog的footer渲染
-
-
-
-
 ```
 
 :::  
-
-

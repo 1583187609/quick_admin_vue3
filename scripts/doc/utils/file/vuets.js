@@ -412,7 +412,7 @@ export function getPartStrFromVueScript(scriptStr = needParam(), name = "origin"
     }
     newLines.push(isTrim ? line : item);
   });
-  return newLines.join(nN);
+  return newLines.join(nN).trim();
 }
 
 // const vueStr = getVueScriptStr(mockVueFile);

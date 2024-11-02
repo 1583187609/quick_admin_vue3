@@ -1,16 +1,14 @@
 # CardCrud 卡片增删改查  <Badge class="title-badge" type="danger" text="wait" />
 
-
 ::: danger 待完善
 本功能暂不可用，敬请期待！
 :::
 
-
 &emsp;&emsp;卡片式的增删改查列表
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -82,21 +80,15 @@
 |`col.prop as string`|-|`row, col, $index, name`|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/crud/CardCrud/Index.vue
 
 ``` ts
-
-
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";
 export type ItemType = "avatar-audit" | "avatar-patrol" | "about" | "photo" | "face";
 export type AuditStatus = 0 | 1 | 2; // 0通过 1驳回 2未审核
-
-
 ```
 
 :::  
-
-

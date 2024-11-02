@@ -68,7 +68,7 @@ function getCodeDemos(readPath) {
 ${description}${N}
 ::: demo 
 ${newFilePath}
-:::${N}${getNoticesStr(notices)}${N}`;
+:::${N}${getNoticesStr(notices)}`;
   });
   return mdStr;
 }
@@ -122,13 +122,11 @@ export function getTypeTable(type = "props", rows = [], info) {
   const { title, cols } = tableTypeMap[type];
   let mdStr = "";
   if (description) mdStr += `${N}${description}${N}`;
-  mdStr += `${getTable(cols, rows, notices)}${N}`;
-  if (notices) mdStr += `${getNoticesStr(notices)}${N}${N}`;
+  mdStr += `${N}${getTable(cols, rows, notices)}${N}`;
+  if (notices) mdStr += getNoticesStr(notices);
   if (!mdStr) return "";
-  return `### ${overTitle ?? title}${N}${N}${mdStr}`;
+  return `${N}### ${overTitle ?? title}${N}${mdStr}`;
 }
-
-/**
 
 /**
  * 写入（生成）组件说明文档文件
@@ -164,9 +162,9 @@ export default async (writeFilePath = needParam(), demoPath = needParam()) => {
     };
     const { type = "info", notice = "无", title: tit } = typeMap[badge] ?? {};
     badgeStr = `  <Badge class="title-badge" type="${type}" text="${badge}" />`;
-    noticeStr = `${getNoticesStr({ [type]: notice }, tit)}${N}${N}`;
+    noticeStr = `${getNoticesStr({ [type]: notice }, tit)}`;
   }
-  fileStr += `# ${title}${badgeStr}${N}${N}${noticeStr}`;
+  fileStr += `# ${title}${badgeStr}${N}${noticeStr}`;
   const oldFileStr = fileStr;
 
   // 从ReadMe文件中读取摘要信息
@@ -183,21 +181,22 @@ export default async (writeFilePath = needParam(), demoPath = needParam()) => {
 
   // 从api来源文件中读取摘要信息，并拼接字符串
   if (apiPath) {
-    fileStr += getSummaryFileStr(apiPath, title);
+    const summary = getSummaryFileStr(apiPath, title);
+    if (summary) fileStr += `${N}${summary}`;
   }
 
-  if (demoPath) fileStr += `${getCodeDemos(demoPath)}${N}${N}`;
+  if (demoPath) fileStr += `${N}${getCodeDemos(demoPath)}`;
 
   if (apiPath) {
     const apiStr = await getApiTablesStr(apiPath);
-    if (apiStr) fileStr += `${apiStr}${N}${N}`;
+    if (apiStr) fileStr += `${N}${apiStr}`;
   }
 
   if (tsPath) {
     const tsFileStr = getTsTypeDeclare(tsPath);
-    if (tsFileStr) fileStr += `${tsFileStr}${N}${N}`;
+    if (tsFileStr) fileStr += `${N}${tsFileStr}`;
   }
 
-  if (oldFileStr.trim() === fileStr.trim()) fileStr += `待完善${N}${N}`;
+  if (oldFileStr.trim() === fileStr.trim()) fileStr += `${N}待完善${N}`;
   writeFileSync(path.join(process.cwd(), writeFilePath), fileStr);
 };

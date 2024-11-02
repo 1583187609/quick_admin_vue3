@@ -42,9 +42,9 @@ export function getSummaryFileStr(readPath = "") {
   if (!readPath) return "";
   const info = getInfoByAnnoName(readPath);
   const { tags, description } = info;
-  if (description) fileStr += `${description}${N}${N}`;
+  if (description) fileStr += description;
   const notices = getNoticesFromTags(tags);
-  if (notices) fileStr += `${getNoticesStr(notices)}${N}${N}`;
+  if (notices) fileStr += `${N}${getNoticesStr(notices)}`;
   return fileStr;
 }
 
@@ -97,7 +97,7 @@ export function getFileStrWithoutDocAnno(fileStr = needParam()) {
   const infoAnnoReg = getRegexpOfInfoAnno();
   // 这样处理下是为了占用高度资源最小化
   fileStr = fileStr.replace(infoAnnoReg, () => "").trim();
-  return `${fileStr}${N}`;
+  return fileStr;
 }
 
 /**

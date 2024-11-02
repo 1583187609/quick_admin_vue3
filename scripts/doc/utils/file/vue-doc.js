@@ -252,8 +252,8 @@ export async function getApiTablesStr(readPath = needParam()) {
   Object.keys(map).forEach(key => {
     const rows = map[key](data[key]);
     const descInfo = getInfoByAnnoName(readPath, key);
-    fileStr += `${getTypeTable(key, rows, descInfo)}`;
+    fileStr += getTypeTable(key, rows, descInfo);
   });
-  if (fileStr) return `## API ${N}${fileStr}`;
+  if (fileStr) return `${N}## API ${N}${fileStr}`;
   return fileStr;
 }

@@ -3,6 +3,7 @@
 
 
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -21,17 +22,8 @@
 |`default`|-|-|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/BaseSection.vue
-
-``` ts
-
-
-
-```
-
 :::  
-
-

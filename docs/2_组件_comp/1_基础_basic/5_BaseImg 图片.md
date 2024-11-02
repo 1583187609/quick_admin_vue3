@@ -10,8 +10,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -40,18 +40,13 @@
 |`error`|-|-|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/img/BaseImg.vue
 
 ``` ts
-
-
 export type ImgFitType = "fill" | "contain" | "cover" | "none" | "scale-down";
-
 ```
 
 :::  
-
-

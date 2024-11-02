@@ -46,18 +46,18 @@ export function getMdFileByPath(dirPathHalf = needParam(), rowsRange = "") {
  */
 export function getTsTypeDeclare(filePathHalf = needParam()) {
   if (!filePathHalf) return "";
-  let contStr = `${filePathHalf}${N}`;
+  let contStr = filePathHalf;
   const ext = path.extname(filePathHalf);
   if (ext === ".ts") {
     contStr += `<<< ${process.cwd()}${filePathHalf}`;
   } else if (ext === ".vue") {
     const scriptStr = getVueScriptStr(filePathHalf);
     const tsStr = getPartStrFromVueScript(scriptStr, "ts");
-    contStr += `${toCodeBlock(tsStr, "ts")}`;
+    if (tsStr) contStr += `${N}${toCodeBlock(tsStr, "ts")}`;
   } else {
     throw new Error(`暂未处理${ext}类型文件`);
   }
-  const fileStr = `## 类型声明
+  const fileStr = `${N}## 类型声明${N}
 ::: details
 ${contStr}
 :::  
@@ -111,20 +111,19 @@ export function getTable(cols = needParam(), rows = []) {
     const rowStr = `|${props.map(prop => row[prop]).join("|")}|`;
     tableStr += `${N}${rowStr}`;
   });
-  return `${tableStr}${N}`;
+  return tableStr;
 }
 
 /**
  * 将代码推进代码块中
- * @param {string} code 代码字符串
+ * @param {string} codeStr 代码字符串
  * @param {js|ts|md|css|……} type 代码块类型
  */
-export function toCodeBlock(code, type = "md") {
-  if (!type) return code;
-  if (type)
-    return `
+export function toCodeBlock(codeStr, type = "md") {
+  if (!type) return codeStr;
+  return `
 \`\`\` ${type}
-${code}
+${codeStr}
 \`\`\`
 `;
 }
@@ -146,6 +145,7 @@ export function getNoticesStr(notices, title = "") {
   let descStr = "";
   for (const key in notices) {
     const val = getAtMdStr(notices[key]);
+    if (!val) continue;
     if (title) title = ` ${title}`;
     descStr += `${N}::: ${key}${title}${N}${val}${N}:::${N}`;
   }

@@ -47,13 +47,13 @@ const props = withDefaults(
     minPlaceholder?: string;
     maxPlaceholder?: string;
     // 属性名跟date-picker的保持一致
-    rangeSeparator?: string;
+    rangeSeparator?: string; // 分隔符
   }>(),
   {
     modelValue: () => [],
     // min: -100,
     // max: 100,
-    // fixedNum: 2,
+    fixedNum: 0,
     minPlaceholder: "最小值",
     maxPlaceholder: "最大值",
     size: defaultCommonSize,

@@ -10,8 +10,8 @@
 :::
 
 
-
 ## API 
+
 ### Props
 
 |属性|说明|类型|默认值|
@@ -20,10 +20,10 @@
 |`min`|-|`number`|-|
 |`max`|-|`number`|-|
 |`size`|-|`CommonSize`|`defaultCommonSize`|
-|`fixedNum`|保留`n`位小数|`number`|-|
+|`fixedNum`|保留`n`位小数|`number`|`0`|
 |`minPlaceholder`|-|`string`|最小值|
 |`maxPlaceholder`|-|`string`|最大值|
-|`rangeSeparator`|属性名跟`date-picker`的保持一致|`string`|`rangeJoinChar`|
+|`rangeSeparator`|分隔符|`string`|`rangeJoinChar`|
 
 ### $emit
 
@@ -36,20 +36,13 @@
 |`blur`|-|-|
 
 
-
 ## 类型声明
+
 ::: details
 /src/core/BaseNumberRange.vue
 
 ``` ts
-
-
 type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]
-
-
-
 ```
 
 :::  
-
-
