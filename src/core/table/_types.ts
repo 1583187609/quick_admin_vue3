@@ -1,8 +1,7 @@
 import { BaseDataType, CommonObj, CommonSize } from "@/vite-env";
 import { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import { TableColumnCtx } from "element-plus";
-import { RendererNode, VNode } from "vue";
-import { RendererElement } from "vue";
+import { RendererNode, VNode, RendererElement } from "vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
 import { FormFieldAttrs } from "@/core/form/_types";
 import { FinallyNext, HorizontalAlign, PopoverType, StrNum, UniteFetchType } from "@/core/_types";

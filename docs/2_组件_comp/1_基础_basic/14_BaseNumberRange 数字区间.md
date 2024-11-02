@@ -1,6 +1,5 @@
 # BaseNumberRange 数字区间
 
-
 ## 基础用法
 
 
@@ -39,7 +38,7 @@
 ## 类型声明
 
 ::: details
-/src/core/BaseNumberRange.vue
+
 
 ``` ts
 type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]

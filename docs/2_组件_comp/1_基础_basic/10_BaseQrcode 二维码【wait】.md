@@ -5,9 +5,4 @@
 :::
 
 
-
-## 类型声明
-
-::: details
-/src/core/BaseQrcode.vue
-:::  
+待完善

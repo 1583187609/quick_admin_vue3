@@ -85,7 +85,7 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
-    omit?: boolean; //是否剔除掉 undefined，'' 参数
+    omit?: boolean; //是否剔除掉值为 undefined, null, “” 的参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）

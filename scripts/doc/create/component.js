@@ -62,13 +62,15 @@ function getCodeDemos(readPath) {
     const newFilePath = `${readPath}/${file}`;
     const info = getInfoByAnnoName(path.join(readPath, file));
     const { title, description = "", tags } = info ?? {};
-    const notices = getNoticesFromTags(tags);
-    mdStr += `
-## ${title}${N}
+    mdStr += `## ${title}${N}
 ${description}${N}
 ::: demo 
 ${newFilePath}
-:::${N}${getNoticesStr(notices)}`;
+:::
+`;
+    const notices = getNoticesFromTags(tags);
+    const noticeStr = getNoticesStr(notices);
+    if (noticeStr) mdStr += `${N}${noticeStr}`;
   });
   return mdStr;
 }

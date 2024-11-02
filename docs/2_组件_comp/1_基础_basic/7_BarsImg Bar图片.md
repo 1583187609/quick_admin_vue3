@@ -1,6 +1,5 @@
 # BarsImg Bar图片
 
-
 ## 基础用法
 
 
@@ -26,7 +25,7 @@
 ## 类型声明
 
 ::: details
-/src/core/img/BarsImg.vue
+
 
 ``` ts
 export interface BarAttrs {

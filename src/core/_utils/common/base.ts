@@ -194,7 +194,7 @@ export function omitAttrs(obj: CommonObj, list = emptyVals) {
     }
     // 如果range类字段，每个值都为空字符串，则剔除掉这个属性
     if (t === "Array") {
-      if (val.some((it: StrNum) => it !== "")) newObj[key] = val;
+      if (val.some((it: StrNum) => !list.includes(it))) newObj[key] = val;
       continue;
     }
     if (!list.includes(val)) {

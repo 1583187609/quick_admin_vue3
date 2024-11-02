@@ -1,7 +1,6 @@
 # SectionForm 分块表单
 
 &emsp;&emsp;分块（组）表单
-
 ## 基础用法
 
 &emsp;&emsp;这是分块表单基础用法的介绍内容，待完善。
@@ -9,7 +8,6 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/2_SectionForm 分块表单/1_BasicUse.vue
 :::
-
 ## 传参规则
 
 &emsp;&emsp;这是分块表单传参规则的介绍内容，待完善。
@@ -85,5 +83,5 @@
 ## 类型声明
 
 ::: details
-/src/core/form/_types.ts<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
 :::  

@@ -4,7 +4,6 @@
 本功能处于实验性阶段，谨慎使用！
 :::
 
-
 ## 基础用法
 
 
@@ -43,10 +42,3 @@
 |插槽名|说明|Scope|
 |:---|:---|:---|
 |`default`|-|`playing, muted, currentTime, duration, timeStr, progress, play, pause, togglePlaying, toggleMuted, formatTime`|
-
-
-## 类型声明
-
-::: details
-/src/core/BaseAudio.vue
-:::  

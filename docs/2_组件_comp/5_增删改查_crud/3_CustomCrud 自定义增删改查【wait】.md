@@ -5,7 +5,6 @@
 :::
 
 &emsp;&emsp;自定义的增删改查列表
-
 ## 聊天记录
 
 &emsp;&emsp;这是聊天记录的摘要描述
@@ -13,7 +12,6 @@
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Chat.vue
 :::
-
 ## 相册
 
 &emsp;&emsp;这是相册的摘要描述
@@ -94,10 +92,3 @@
 |`middle`|中间插槽|-|
 |`default`|默认插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|
-
-
-## 类型声明
-
-::: details
-/src/core/crud/CustomCrud/Index.vue
-:::  

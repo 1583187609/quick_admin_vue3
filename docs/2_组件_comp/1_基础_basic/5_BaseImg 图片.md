@@ -1,6 +1,5 @@
 # BaseImg 图片
 
-
 ## 基础用法
 
 
@@ -43,7 +42,7 @@
 ## 类型声明
 
 ::: details
-/src/core/img/BaseImg.vue
+
 
 ``` ts
 export type ImgFitType = "fill" | "contain" | "cover" | "none" | "scale-down";

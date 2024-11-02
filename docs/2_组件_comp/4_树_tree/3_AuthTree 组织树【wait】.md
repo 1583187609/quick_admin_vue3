@@ -10,5 +10,5 @@
 ## 类型声明
 
 ::: details
-/src/core/tree/_types.ts<<< E:\Quick-Admin\quick_admin_vue3/src/core/tree/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/tree/_types.ts
 :::  

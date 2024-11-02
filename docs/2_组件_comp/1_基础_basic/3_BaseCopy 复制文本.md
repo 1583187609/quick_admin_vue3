@@ -1,6 +1,5 @@
 # BaseCopy 复制文本
 
-
 ## 基础用法
 
 
@@ -34,10 +33,3 @@
 |插槽名|说明|Scope|
 |:---|:---|:---|
 |`default`|默认插槽|-|
-
-
-## 类型声明
-
-::: details
-/src/core/BaseCopy.vue
-:::  

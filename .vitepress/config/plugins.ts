@@ -45,7 +45,7 @@ export default (md: MarkdownIt) => {
           source = getFileStrWithoutDocAnno(fileStr);
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`);
-        return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\`\`\``))}" path="${sourceFile.replace(
+        return `<Demo source="${encodeURIComponent(md.render(`\`\`\` vue\n${source}\n\`\`\``))}" path="${sourceFile.replace(
           `${demosPath}/`,
           ""
         )}" raw-source="${encodeURIComponent(source)}" description="${encodeURIComponent(md.render(description))}">`;

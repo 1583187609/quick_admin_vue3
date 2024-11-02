@@ -42,21 +42,24 @@ export function getMdFileByPath(dirPathHalf = needParam(), rowsRange = "") {
 
 /**
  * 获取Ts类型
- * @param {string} filePathHalf 要读取文件的路径。例："/src/components/form/_types.ts"
+ * @param {string} filePathHalf 要读取文件的路径。例："/src/core/form/_types.ts"
  */
 export function getTsTypeDeclare(filePathHalf = needParam()) {
   if (!filePathHalf) return "";
-  let contStr = filePathHalf;
+  let contStr = "";
   const ext = path.extname(filePathHalf);
   if (ext === ".ts") {
-    contStr += `<<< ${process.cwd()}${filePathHalf}`;
+    contStr = `<<< ${process.cwd()}${filePathHalf}`;
   } else if (ext === ".vue") {
     const scriptStr = getVueScriptStr(filePathHalf);
     const tsStr = getPartStrFromVueScript(scriptStr, "ts");
-    if (tsStr) contStr += `${N}${toCodeBlock(tsStr, "ts")}`;
+    if (tsStr) contStr = `${N}${toCodeBlock(tsStr, "ts")}`;
   } else {
     throw new Error(`暂未处理${ext}类型文件`);
   }
+  if (!contStr) return "";
+  // 来源文件暂时不加，后续看情况再添加
+  // 来源：${filePathHalf}${N}
   const fileStr = `${N}## 类型声明${N}
 ::: details
 ${contStr}

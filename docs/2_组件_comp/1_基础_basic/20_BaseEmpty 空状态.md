@@ -1,6 +1,5 @@
 # BaseEmpty 空状态
 
-
 ## 基础用法
 
 
@@ -24,10 +23,3 @@
 |插槽名|说明|Scope|
 |:---|:---|:---|
 |`default`|-|-|
-
-
-## 类型声明
-
-::: details
-/src/core/BaseEmpty.vue
-:::  

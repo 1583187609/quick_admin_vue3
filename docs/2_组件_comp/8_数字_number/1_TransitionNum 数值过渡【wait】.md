@@ -13,10 +13,3 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`exampleProp`|-|`CommonObj`|{}|
-
-
-## 类型声明
-
-::: details
-/src/core/number/TransitionNum.vue
-:::  

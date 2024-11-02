@@ -1,6 +1,5 @@
 # Echarts 图表
 
-
 ## 折线图（Line）
 
 &emsp;&emsp;只需传入一个简单的二维数组即可展示图表
@@ -8,7 +7,6 @@
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/1_Line.vue
 :::
-
 ## 柱状图（Bar）
 
 &emsp;&emsp;只需传入一个简单的二维数组即可展示图表
@@ -16,7 +14,6 @@
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/2_Bar.vue
 :::
-
 ## 饼图（Pie）
 
 &emsp;&emsp;只需传入一个简单的一维数组即可展示图表
@@ -50,5 +47,5 @@
 ## 类型声明
 
 ::: details
-/src/core/chart/_config/types.ts<<< E:\Quick-Admin\quick_admin_vue3/src/core/chart/_config/types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/chart/_types.ts
 :::  

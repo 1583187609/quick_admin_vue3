@@ -1,6 +1,5 @@
 # BaseAvatar 头像
 
-
 ## 基础用法
 
 
@@ -26,7 +25,7 @@
 ## 类型声明
 
 ::: details
-/src/core/img/BaseAvatar.vue
+
 
 ``` ts
 export type GenderType = 0 | 1;

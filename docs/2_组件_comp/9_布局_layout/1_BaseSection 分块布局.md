@@ -20,10 +20,3 @@
 |:---|:---|:---|
 |`head-right`|-|-|
 |`default`|-|-|
-
-
-## 类型声明
-
-::: details
-/src/core/BaseSection.vue
-:::  

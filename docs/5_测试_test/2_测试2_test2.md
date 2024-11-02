@@ -1,7 +1,6 @@
 # 测试2
 
 &emsp;&emsp;常规同用增删改查列表
-
 ## 基础用法
 
 &emsp;&emsp;摘要介绍暂时略
@@ -9,7 +8,6 @@
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
-
 ## 内嵌组件
 
 &emsp;&emsp;内嵌组件的说明
@@ -95,5 +93,5 @@
 ## 类型声明
 
 ::: details
-/src/core/crud/BaseCrud/_types.ts<<< E:\Quick-Admin\quick_admin_vue3/src/core/crud/BaseCrud/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/crud/BaseCrud/_types.ts
 :::  

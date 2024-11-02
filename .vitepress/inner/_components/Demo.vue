@@ -1,103 +1,3 @@
-<script setup lang="ts">
-import { computed, getCurrentInstance, ref, toRef, onBeforeMount } from "vue";
-import { isClient, useClipboard, useToggle } from "@vueuse/core";
-import { ElMessage } from "element-plus";
-import { CaretTop, Edit } from "@element-plus/icons-vue";
-import { useSourceCode } from "../composables/source-code";
-import { usePlayground } from "../composables/use-playground";
-import Example from "./demo/vp-example.vue";
-import SourceCode from "./demo/vp-source-code.vue";
-import { demosPath } from "../../../scripts/doc/utils/index.js";
-
-// import { useLang } from "../composables/lang";
-// import demoBlockLocale from "../../i18n/component/demo-block.json"; //这是原来的github上的地址
-
-// const demoBlockLocale = {
-//   "view-source": "View source",
-//   "hide-source": "Hide source",
-//   "edit-in-editor": "Edit in Playground",
-//   "edit-on-github": "Edit on GitHub",
-//   "edit-in-codepen": "Edit in Codepen.io",
-//   "copy-code": "Copy code",
-//   "switch-button-option-text": "Switch to Options API",
-//   "switch-button-setup-text": "Switch to Composition API",
-//   "copy-success": "Copied!",
-//   "copy-error": "This browser does not support automatic copy！",
-// };
-
-const demoBlockLocale = {
-  "view-source": "查看源代码",
-  "hide-source": "隐藏源代码",
-  "edit-in-editor": "在 Playground 中编辑",
-  "edit-on-github": "在 GitHub 中编辑",
-  "edit-in-codepen": "在 Codepen 中编辑",
-  "copy-code": "复制代码",
-  "switch-button-option-text": "切换到 Options API",
-  "switch-button-setup-text": "切换到 Composition API",
-  "copy-success": "复制成功！",
-  "copy-error": "当前浏览器不支持复制功能！",
-};
-
-const props = defineProps<{
-  source: string;
-  path: string;
-  rawSource: string;
-  description?: string;
-}>();
-
-const vm = getCurrentInstance()!;
-
-const { copy, isSupported } = useClipboard({
-  source: decodeURIComponent(props.rawSource),
-  read: false,
-});
-
-const [sourceVisible, toggleSourceVisible] = useToggle();
-// const lang = useLang();
-// const demoSourceUrl = useSourceCode(toRef(props, "path"));
-
-const sourceCodeRef = ref<HTMLButtonElement>();
-const formatPathDemos = computed(() => {
-  const demos = {};
-  const demoFiles = import.meta.glob(`../../../demos/**/*.vue`, { eager: true });
-  Object.keys(demoFiles).forEach(key => {
-    demos[key.replace(`../../../demos/`, "")] = demoFiles[key].default;
-  });
-  return demos;
-});
-
-// const locale = computed(() => demoBlockLocale[lang.value]);
-const locale = computed(() => demoBlockLocale);
-const decodedDescription = computed(() => decodeURIComponent(props.description!));
-
-// const onPlaygroundClick = () => {
-//   const { link } = usePlayground(props.rawSource);
-//   if (!isClient) return;
-//   window.open(link);
-// };
-
-const onSourceVisibleKeydown = (e: KeyboardEvent) => {
-  if (["Enter", "Space"].includes(e.code)) {
-    e.preventDefault();
-    toggleSourceVisible(false);
-    sourceCodeRef.value?.focus();
-  }
-};
-
-const copyCode = async () => {
-  const { $message } = vm.appContext.config.globalProperties;
-  if (!isSupported) {
-    $message.error(locale.value["copy-error"]);
-  }
-  try {
-    await copy();
-    $message.success(locale.value["copy-success"]);
-  } catch (e: any) {
-    $message.error(e.message);
-  }
-};
-</script>
-
 <template>
   <ClientOnly>
     <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
@@ -197,6 +97,106 @@ const copyCode = async () => {
     </div>
   </ClientOnly>
 </template>
+
+<script setup lang="ts">
+import { computed, getCurrentInstance, ref, toRef, onBeforeMount } from "vue";
+import { isClient, useClipboard, useToggle } from "@vueuse/core";
+import { ElMessage } from "element-plus";
+import { CaretTop, Edit } from "@element-plus/icons-vue";
+import { useSourceCode } from "../composables/source-code";
+import { usePlayground } from "../composables/use-playground";
+import Example from "./demo/vp-example.vue";
+import SourceCode from "./demo/vp-source-code.vue";
+import { demosPath } from "../../../scripts/doc/utils/index.js";
+
+// import { useLang } from "../composables/lang";
+// import demoBlockLocale from "../../i18n/component/demo-block.json"; //这是原来的github上的地址
+
+// const demoBlockLocale = {
+//   "view-source": "View source",
+//   "hide-source": "Hide source",
+//   "edit-in-editor": "Edit in Playground",
+//   "edit-on-github": "Edit on GitHub",
+//   "edit-in-codepen": "Edit in Codepen.io",
+//   "copy-code": "Copy code",
+//   "switch-button-option-text": "Switch to Options API",
+//   "switch-button-setup-text": "Switch to Composition API",
+//   "copy-success": "Copied!",
+//   "copy-error": "This browser does not support automatic copy！",
+// };
+
+const demoBlockLocale = {
+  "view-source": "查看源代码",
+  "hide-source": "隐藏源代码",
+  "edit-in-editor": "在 Playground 中编辑",
+  "edit-on-github": "在 GitHub 中编辑",
+  "edit-in-codepen": "在 Codepen 中编辑",
+  "copy-code": "复制代码",
+  "switch-button-option-text": "切换到 Options API",
+  "switch-button-setup-text": "切换到 Composition API",
+  "copy-success": "复制成功！",
+  "copy-error": "当前浏览器不支持复制功能！",
+};
+
+const props = defineProps<{
+  source: string;
+  path: string;
+  rawSource: string;
+  description?: string;
+}>();
+
+const vm = getCurrentInstance()!;
+
+const { copy, isSupported } = useClipboard({
+  source: decodeURIComponent(props.rawSource),
+  read: false,
+});
+
+const [sourceVisible, toggleSourceVisible] = useToggle();
+// const lang = useLang();
+// const demoSourceUrl = useSourceCode(toRef(props, "path"));
+
+const sourceCodeRef = ref<HTMLButtonElement>();
+const formatPathDemos = computed(() => {
+  const demos = {};
+  const demoFiles = import.meta.glob(`../../../demos/**/*.vue`, { eager: true });
+  Object.keys(demoFiles).forEach(key => {
+    demos[key.replace(`../../../demos/`, "")] = demoFiles[key].default;
+  });
+  return demos;
+});
+
+// const locale = computed(() => demoBlockLocale[lang.value]);
+const locale = computed(() => demoBlockLocale);
+const decodedDescription = computed(() => decodeURIComponent(props.description!));
+
+// const onPlaygroundClick = () => {
+//   const { link } = usePlayground(props.rawSource);
+//   if (!isClient) return;
+//   window.open(link);
+// };
+
+const onSourceVisibleKeydown = (e: KeyboardEvent) => {
+  if (["Enter", "Space"].includes(e.code)) {
+    e.preventDefault();
+    toggleSourceVisible(false);
+    sourceCodeRef.value?.focus();
+  }
+};
+
+const copyCode = async () => {
+  const { $message } = vm.appContext.config.globalProperties;
+  if (!isSupported) {
+    $message.error(locale.value["copy-error"]);
+  }
+  try {
+    await copy();
+    $message.success(locale.value["copy-success"]);
+  } catch (e: any) {
+    $message.error(e.message);
+  }
+};
+</script>
 
 <style scoped lang="scss">
 .example {

@@ -36,11 +36,6 @@ export default ({ mode, command }, apiMap?: object) => {
         ? []
         : [
             vue(),
-            AutoImport({
-              imports: ["vue", "vue-router"],
-              dts: "types/auto-imports.d.ts",
-              // dirs: ['src/stores']
-            }),
             //vite mock 参考地址：http://events.jianshu.io/p/8ce94077af2a
             viteMockServe({
               // ignore?: RegExp | ((fileName: string) => boolean);
@@ -81,6 +76,11 @@ export default ({ mode, command }, apiMap?: object) => {
             //   webp: { quality: 75 }, // 配置 WebP 转换选项
             // }),
           ]),
+      AutoImport({
+        imports: ["vue", "vue-router"],
+        dts: "types/auto-imports.d.ts",
+        // dirs: ['src/stores']
+      }),
       // 自动给组件命名
       GenerateComponentName({
         include: ["**/*.vue"],

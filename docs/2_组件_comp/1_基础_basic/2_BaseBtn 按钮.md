@@ -1,7 +1,6 @@
 # BaseBtn 按钮
 
 &emsp;&emsp;基础按钮，用于增删改查列表页：中间或表格操作栏的按钮。集成了样式、图标、位置、权限、路由跳转、气泡确认框（`popconfirm`）等功能。
-
 ## 基础用法
 
 &emsp;&emsp;默认按钮，方便快速开发（占位，省去引入图标、保证样式风格统一等时间）。  
@@ -85,10 +84,3 @@
 |`middle`|中间插槽|-|
 |`default`|默认插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|
-
-
-## 类型声明
-
-::: details
-/src/core/BaseBtn/Index.vue
-:::  

@@ -1,6 +1,5 @@
 # BaseIcon 图标
 
-
 ## 基础用法
 
 &emsp;&emsp;默认图标，方便快速开发（占位，省去引入图标再使用的时间），并可设置名称、大小属性覆盖。
@@ -23,7 +22,7 @@
 ## 类型声明
 
 ::: details
-/src/core/BaseIcon.vue
+
 
 ``` ts
 export type IconNames = keyof typeof Icons;

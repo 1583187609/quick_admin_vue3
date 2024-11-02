@@ -1,7 +1,6 @@
 # BaseTag 标签
 
 &emsp;&emsp;`el-tag`标签的升级版，可以解析字典映射、纯文本显示等
-
 ## 基础用法
 
 
@@ -33,7 +32,7 @@
 ## 类型声明
 
 ::: details
-/src/core/BaseTag.vue
+
 
 ``` ts
 import type { TagProps } from "element-plus";

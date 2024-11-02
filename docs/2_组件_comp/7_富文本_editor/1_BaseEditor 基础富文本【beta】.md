@@ -39,7 +39,7 @@
 ## 类型声明
 
 ::: details
-/src/core/BaseEditor.vue
+
 
 ``` ts
 export type ModeTypes = "default" | "simple";

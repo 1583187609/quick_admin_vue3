@@ -83,7 +83,7 @@
 ## 类型声明
 
 ::: details
-/src/core/crud/CardCrud/Index.vue
+
 
 ``` ts
 export type AboutCode = 0 | 1; //| "aboutMe" | "aboutYou";
