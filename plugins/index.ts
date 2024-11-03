@@ -36,20 +36,6 @@ export default ({ mode, command }, apiMap?: object) => {
         ? []
         : [
             vue(),
-            //vite mock 参考地址：http://events.jianshu.io/p/8ce94077af2a
-            viteMockServe({
-              // ignore?: RegExp | ((fileName: string) => boolean);
-              // ignoreFiles?: string[];
-              // configPath?: string;
-              // injectFile?: string;
-              // injectCode?: string;
-              // logger?:boolean;
-              mockPath: "mock", //解析根目录下的mock文件夹
-              localEnabled: true, // 开发打包开关
-              prodEnabled: true, // 生产打包开关
-              supportTs: true, // 打开后，可以读取 ts 文件模块。 请注意，打开后将无法监视.js 文件。
-              watchFiles: true, // 监视文件更改
-            }),
             /**
              * 打包体积可视化面板
              * @link npm 文档链接：https://gitcode.com/btd/rollup-plugin-visualizer/overview
@@ -69,18 +55,32 @@ export default ({ mode, command }, apiMap?: object) => {
               // sourcemap: false,
               // Filter: { bundle: picomatchPattern, file: picomatchPattern },
             }),
-            // 将图片转换为 WebP 格式 压缩算法和格式来减小文件大小
-            // imageminPlugin({
-            //   gifsicle: { optimizationLevel: 3 }, // 配置 GIF 优化选项
-            //   optipng: { optimizationLevel: 5 }, // 配置 PNG 优化选项
-            //   webp: { quality: 75 }, // 配置 WebP 转换选项
-            // }),
           ]),
+      //vite mock 参考地址：http://events.jianshu.io/p/8ce94077af2a
+      viteMockServe({
+        // ignore?: RegExp | ((fileName: string) => boolean);
+        // ignoreFiles?: string[];
+        // configPath?: string;
+        // injectFile?: string;
+        // injectCode?: string;
+        // logger?:boolean;
+        mockPath: "mock", //解析根目录下的mock文件夹
+        localEnabled: true, // 开发打包开关
+        prodEnabled: true, // 生产打包开关
+        supportTs: true, // 打开后，可以读取 ts 文件模块。 请注意，打开后将无法监视.js 文件。
+        watchFiles: true, // 监视文件更改
+      }),
       AutoImport({
         imports: ["vue", "vue-router"],
         dts: "types/auto-imports.d.ts",
         // dirs: ['src/stores']
       }),
+      // 将图片转换为 WebP 格式 压缩算法和格式来减小文件大小
+      // imageminPlugin({
+      //   gifsicle: { optimizationLevel: 3 }, // 配置 GIF 优化选项
+      //   optipng: { optimizationLevel: 5 }, // 配置 PNG 优化选项
+      //   webp: { quality: 75 }, // 配置 WebP 转换选项
+      // }),
       // 自动给组件命名
       GenerateComponentName({
         include: ["**/*.vue"],

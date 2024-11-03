@@ -10,7 +10,7 @@ import { handleError } from "@/utils";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Demo from "../inner/_components/Demo.vue";
 import Root from "./Root.vue";
-import { setupProdMockServer } from "../../src/mockProdServer";
+import { setupProdMockServer } from "../../mock/mockProdServer";
 
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";

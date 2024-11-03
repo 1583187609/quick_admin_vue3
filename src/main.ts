@@ -7,7 +7,7 @@ import router from "@/router";
 import store from "@/store";
 import mixin from "@/services/mixin";
 import I18n from "@/langs";
-import { setupProdMockServer } from "./mockProdServer";
+import { setupProdMockServer } from "#/mock/mockProdServer";
 import { handleError } from "@/utils";
 
 import "@/assets/styles/base.scss";
