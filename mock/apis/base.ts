@@ -35,21 +35,13 @@ export default toViteMockApi({
       const { id, name, city } = pItem;
       const cloneCity = city.map((cItem, cInd) => {
         const { id, name, area } = cItem;
-        const cloenArea = area.map((aItem, aInd) => {
+        const cloneArea = area.map((aItem, aInd) => {
           const { id, name } = aItem;
           return { value: id, label: name };
         });
-        return {
-          value: id,
-          label: name,
-          children: cloenArea,
-        };
+        return { value: id, label: name, children: cloneArea };
       });
-      return {
-        value: id,
-        label: name,
-        children: cloneCity,
-      };
+      return { value: id, label: name, children: cloneCity };
     });
     return resData({ data: cloneAddress });
   },

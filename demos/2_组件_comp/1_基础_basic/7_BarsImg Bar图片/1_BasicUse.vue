@@ -1,9 +1,11 @@
 <template>
-  <BarsImg />
-  <BarsImg topBar="顶部信息" :src="url" to="/" />
-  <BarsImg bottomBar="底部信息" :src="url" round />
-  <BarsImg :leftTags="['左1', '左左2', '左左左3']" :src="url" size="60px" />
-  <BarsImg topBar="顶部信息" bottomBar="底部信息" sizeType="small" :src="url" height="60px" width="100px" />
+  <div class="f-fs-fs-w">
+    <BarsImg />
+    <BarsImg topBar="顶部信息" :src="url" to="/" />
+    <BarsImg bottomBar="底部信息" :src="url" />
+    <BarsImg :leftTags="['左1', '左左2', '左左左3']" :src="url" size="180px" />
+    <BarsImg topBar="顶部信息" bottomBar="底部信息" sizeType="small" :src="url" height="180px" width="100px" />
+  </div>
 </template>
 <script lang="ts" setup>
 import BarsImg from "@/core/img/BarsImg.vue";

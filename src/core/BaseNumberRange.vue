@@ -31,7 +31,7 @@
 import { computed, reactive } from "vue";
 import { useFormItem } from "element-plus";
 import { CircleClose } from "@element-plus/icons-vue";
-import { emptyVals, defaultCommonSize, rangeJoinChar } from "@/core/_utils";
+import { emptyVals, defaultCommonSize, rangeJoinChar, showMessage } from "@/core/_utils";
 import { StrNum, CommonSize } from "@/vite-env";
 
 type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]
@@ -48,6 +48,7 @@ const props = withDefaults(
     maxPlaceholder?: string;
     // 属性名跟date-picker的保持一致
     rangeSeparator?: string; // 分隔符
+    maxlength?: number;
   }>(),
   {
     modelValue: () => [],
@@ -61,14 +62,33 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "input", "clear", "blur"]);
-const modelVals = reactive<ValsArr>(props.modelValue);
+const modelVals = reactive<ValsArr>(props.modelValue?.map((it, i) => getLimitNum(it, i, false)));
 const maxLength = computed(() => {
-  const { min, max, fixedNum } = props;
+  const { min, max, maxlength, fixedNum } = props;
+  if (maxlength !== undefined) return maxlength;
   if (min === undefined || max === undefined) return undefined;
   const numLen = Math.max(String(min || 0).length, String(max || 0).length);
   if (!fixedNum) return numLen;
   return numLen + fixedNum + 1;
 });
+
+// 获取限制最大最小值之后的值
+function getLimitNum(val: StrNum, ind: number, isHandle = true) {
+  const { min, max } = props;
+  const valNum = Number(val);
+  const currValText = `最${ind === 0 ? "小" : "大"}值`;
+  if (!emptyVals.includes(min) && valNum < Number(min)) {
+    if (isHandle) val = min;
+    else showMessage(`${currValText}不能小于${min}，当前为：${val}`, "warning");
+  }
+  if (!emptyVals.includes(max) && valNum > Number(max)) {
+    if (isHandle) val = max;
+    else showMessage(`${currValText}不能大于${max}，当前为：${val}`, "warning");
+  }
+  // 当失去焦点时，将012转为12，不将''转为0
+  return val ? Number(val) : val;
+}
+
 // 判断最小值是否超过了最大值
 function isMinOverMax(vals: ValsArr = []) {
   const [minVal = 0, maxVal = 0] = vals;
@@ -86,14 +106,10 @@ function handleEvent(type: "input" | "change" | "clear", e, ind: number) {
   }
   const { value } = e.target;
   let val = value.replace(/[^\d.-]/g, "");
-  const { min, max, fixedNum } = props;
-  if (type === "change") {
-    const valNum = Number(val);
-    if (!emptyVals.includes(min) && valNum < Number(min)) val = min;
-    if (!emptyVals.includes(max) && valNum > Number(max)) val = max;
-  }
+  if (type === "change") val = getLimitNum(modelVals[ind]);
   modelVals[ind] = val;
   if (type === "change") {
+    const { fixedNum } = props;
     const isOver = isMinOverMax(modelVals);
     if (isOver) modelVals[ind === 0 ? 1 : 0] = "";
     if (!fixedNum) return;

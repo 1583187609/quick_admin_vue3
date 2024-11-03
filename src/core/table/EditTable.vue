@@ -84,6 +84,7 @@ defineExpose({
 <style lang="scss" scoped>
 .edit-table {
   max-height: 100%;
+  width: 100%;
   overflow: auto;
   .table {
     width: 100%;

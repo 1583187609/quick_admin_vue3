@@ -121,6 +121,7 @@ const props = withDefaults(
     disabled?: boolean; //是否禁用
     size?: CommonSize; //是否禁用
     labelWidth?: string; //label的宽度
+    scrollToError?: boolean; //校验失败后是否自动滚到失败位置
     foldable?: boolean; //是否允许折叠
     fetch?: UniteFetchType; //接口请求
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
@@ -143,6 +144,7 @@ const props = withDefaults(
     modelValue: () => reactive({}),
     type: "common",
     size: defaultCommonSize,
+    scrollToError: true,
     grid: 24,
     footer: true,
     omit: true,

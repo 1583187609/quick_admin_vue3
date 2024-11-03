@@ -164,7 +164,7 @@ const props = withDefaults(
     optimization?: boolean; // 默认为 false。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算
     showPagination?: boolean; // 是否显示分页
     /** 请求控制 **/
-    log?: boolean; // 是否打印console.log(rows)
+    log?: boolean | "req" | "res"; // 是否打印console.log(rows)
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
     reqMap?: ReqMap; // 请求参数的键名映射
     resMap?: ResMap; // 响应参数的键名映射
@@ -316,14 +316,14 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
   loading.value = true;
   if (handleRequest) args = handleRequest(args);
   omit && (args = omitAttrs(args)); //剔除掉值为undefined, '', null的属性
-  log && printLog(args, "req");
+  (log === true || log === "req") && printLog(args, "req");
   fetch(args)
     .then((res: any) => {
       if (!res) return showMessage("未请求到预期数据，请检查接口是否有误");
       if (handleResponse) res = handleResponse(res);
       const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);
-      log && printLog(newList, "res");
+      (log === true || log === "res") && printLog(newList, "res");
       const _currPage = args[reqMap.curr_page as string];
       if (summaryList) {
         const t = typeOf(summaryList);

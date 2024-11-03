@@ -2,19 +2,33 @@
 
 &emsp;&emsp;提供了两个弹出层`dialog`和`drawer`。  
 &emsp;&emsp;`provide`了`openPopup`、`closePopup`方法。默认`dialog`，可在全局配置中进行配置。
-## 基础使用
+## 基础用法
 
 &emsp;&emsp;打开弹窗示例。默认是打开`Dialog`。
 
 ::: demo 
 /demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/1_BasicUse.vue
 :::
-## 打开与关闭
+## 对话框 Dialog
 
-&emsp;&emsp;打开弹出层可自动叠加。关闭弹出层每次默认关闭最顶层
+&emsp;&emsp;打开弹窗示例。默认是打开`Dialog`。
 
 ::: demo 
-/demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/2_OpenClose.vue
+/demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/2_DialogUse.vue
+:::
+## 抽屉 Drawer
+
+&emsp;&emsp;打开抽屉示例
+
+::: demo 
+/demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/3_DrawerUse.vue
+:::
+## 通用弹窗
+
+&emsp;&emsp;适合全局常用的弹窗
+
+::: demo 
+/demos/2_组件_comp/10_全局_global/1_BasicPopup 全局弹出层/4_CommonUse.vue
 :::
 
 
@@ -52,7 +66,7 @@
 |`pagination`|是否分页|`false \| TablePaginationAttrs`|{ `currPage: 1, pageSize: 20 `}|
 |`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
 |`showPagination`|是否显示分页|`boolean`|`true`|
-|`log`|是否打印`console.log(rows)`|`boolean`|-|
+|`log`|是否打印`console.log(rows)`|`boolean \| "req" \| "res"`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
 |`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|

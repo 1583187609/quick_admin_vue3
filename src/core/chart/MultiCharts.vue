@@ -5,8 +5,8 @@
 <script lang="ts" setup>
 import Chart from "./Chart.vue";
 import { axisCfg } from "./_config";
-import { calCssVal, typeOf } from "@/core/_utils";
-import { CommonObj } from "@/vite-env";
+import { calCssVal, needParam, typeOf } from "@/core/_utils";
+import { CommonObj, StrNum } from "@/vite-env";
 
 // const tempSimpleData = [
 //   {
@@ -96,30 +96,55 @@ const options = computed(() => {
 });
 const newHeight = computed(() => {
   const { height, itemHeight, layout } = props;
+  if (!layout.includes("x")) throw new Error(`layout格式应为：nxM，当前为${layout}`);
   if (height) return height;
   const rowNum = Number(layout!.split("x")[0]);
   return calCssVal(itemHeight!, "*", rowNum);
 });
 function getTop(gInd, [rows, cols], gap = 0, type: PositionType = "title") {
   const r = Math.floor(gInd / cols);
-  const c = Math.floor(gInd % cols);
+  // const c = Math.floor(gInd % cols);
   const num = (100 / rows) * r + gap;
   return `${num}%`;
 }
 function getLeft(gInd, [rows, cols], gap = 0, type: PositionType = "title") {
-  const r = Math.floor(gInd / cols);
+  // const r = Math.floor(gInd / cols);
   const c = Math.floor(gInd % cols);
   let num = (100 / cols) * c + gap;
   if (type === "title") num += 100 / cols / 2;
   return `${num}%`;
 }
-function getGrid(gInd, [rows, cols], gap = { tGap: 8, lGap: 4, bGap: 0 }) {
+function getRatio(num: StrNum, max?: number) {
+  let t = typeof num;
+  if (t === "string") {
+    const isNumStr = !isNaN(Number(num));
+    // 说明带单位
+    if (!isNumStr) {
+      if (!num.includes("%")) throw new Error(`目前只支持传入%单位`);
+      return parseInt(num as string);
+    }
+    num = Number(num);
+    t = "number";
+  }
+  if (t === "number") {
+    // 说明是px，省略了单位
+    if (!num) return 0;
+    if (max === undefined) needParam("max");
+    return (num / max) * 100;
+  }
+  throw new Error(`暂未处理此类型：${t}`);
+}
+function getGrid(gInd, [rows, cols], gap = { tGap: 40, lGap: "6%", bGap: 0 }) {
   const { tGap, lGap, bGap } = gap;
+  const h = parseInt(newHeight.value);
+  const tG = getRatio(tGap, h); // (tGap / h) * 100;
+  const lG = getRatio(lGap);
+  const bG = getRatio(bGap, h);
   return {
-    top: getTop(gInd, [rows, cols], tGap, "grid"),
-    left: getLeft(gInd, [rows, cols], lGap, "grid"),
-    height: `${100 / rows - tGap * 2 - bGap * rows}%`,
-    width: `${100 / cols - lGap * 2}%`,
+    top: getTop(gInd, [rows, cols], tG, "grid"),
+    left: getLeft(gInd, [rows, cols], lG, "grid"),
+    height: `${100 / rows - tG * 2 - bG * rows}%`,
+    width: `${100 / cols - lG * 2}%`,
   };
 }
 function getOptionsSingle(data: CommonObj[] = [], opts: CommonObj = {}) {
@@ -160,7 +185,10 @@ function getOptionsSingle(data: CommonObj[] = [], opts: CommonObj = {}) {
               const x = (100 / cols / num / 2) * (ind * num + 1) + ox;
               const y = 100 / rows / 2 + oy;
               const center = [`${x}%`, `${y}%`];
-              return { ...attrs, center, ...item };
+
+              // const radius = ind === 0 ? { radius: 70 } : { radius: [45, 70] };
+              const radius = undefined;
+              return { ...attrs, radius, center, ...item };
             });
           } else {
             val = val.map(it => ({ ...attrs, ...it }));
@@ -186,6 +214,7 @@ function getOptionsSingle(data: CommonObj[] = [], opts: CommonObj = {}) {
 defineExpose({
   getOptions: chartRef.value?.getOptions,
 });
+
 // const options = {
 //   legend: {
 //     y: "96%",

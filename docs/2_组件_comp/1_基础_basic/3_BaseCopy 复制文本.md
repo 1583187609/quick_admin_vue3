@@ -20,13 +20,8 @@
 |`text`|-|`StrNum`|-|
 |`line`|最多显示几行，超出文本会显示省略号|`StrNum`|`1`|
 |`stop`|是否阻止点击事件的冒泡|`boolean`|-|
-|`clickIconCopy`|是否只当点击图标时才复制文本|`boolean`|`!!_props.to`|
-
-### $emit
-
-|事件名称|说明|回调参数|
-|:---|:---|:---|
-|`click`|-|-|
+|`clickIconCopy`|是否只当点击图标时才复制文本|`boolean`|`undefined`|
+|`successTips`|-|`string`|复制成功！|
 
 ### Slots
 

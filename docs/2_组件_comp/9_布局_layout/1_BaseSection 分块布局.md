@@ -1,5 +1,12 @@
 # BaseSection 分块布局
 
+## 基础用法
+
+&emsp;&emsp;这是`BaseSection`的基础使用示例。
+
+::: demo 
+/demos/2_组件_comp/9_布局_layout/1_BaseSection 分块布局/1_BasicUse.vue
+:::
 
 
 ## API 

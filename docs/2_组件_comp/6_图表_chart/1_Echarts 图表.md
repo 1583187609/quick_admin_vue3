@@ -1,25 +1,44 @@
 # Echarts 图表
 
+&emsp;&emsp;致力于仅通过`dataset`实现图表渲染，而无需再配置其他`options`
 ## 折线图（Line）
 
-&emsp;&emsp;只需传入一个简单的二维数组即可展示图表
+&emsp;&emsp;只需传入一个简单的二维数组即可展示图表。  
+&emsp;&emsp;传入`log`可查看渲染此图表的`options`。
 
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/1_Line.vue
 :::
 ## 柱状图（Bar）
 
-&emsp;&emsp;只需传入一个简单的二维数组即可展示图表
+&emsp;&emsp;只需传入一个简单的二维数组即可展示图表。  
+&emsp;&emsp;传入`option`可覆盖默认配置
 
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/2_Bar.vue
 :::
 ## 饼图（Pie）
 
-&emsp;&emsp;只需传入一个简单的一维数组即可展示图表
+&emsp;&emsp;只需传入一个简单的一维数组即可展示图表。  
+&emsp;&emsp;设置`height`改变高度。
 
 ::: demo 
 /demos/2_组件_comp/6_图表_chart/1_Echarts 图表/3_Pie.vue
+:::
+## 雷达图（Radar）
+
+&emsp;&emsp;只需传入一个简单的一维数组即可展示图表。
+
+::: demo 
+/demos/2_组件_comp/6_图表_chart/1_Echarts 图表/4_Radar.vue
+:::
+## 单例多图
+
+&emsp;&emsp;一个`dom`载体，渲染多个图表。  
+&emsp;&emsp;`layout`设置行`x`列。
+
+::: demo 
+/demos/2_组件_comp/6_图表_chart/1_Echarts 图表/5_Charts.vue
 :::
 
 
@@ -41,6 +60,7 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
+|`getWidth`|-|`() => void`|
 |`getOptions`|-|`() => void`|
 
 

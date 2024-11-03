@@ -1,12 +1,11 @@
 <!-- summary 饼图（Pie）
-  只需传入一个简单的一维数组即可展示图表
+  只需传入一个简单的一维数组即可展示图表。
+  设置height改变高度。
 -->
 <template>
-  <ChartPie :data="data" />
+  <ChartPie :data="data" height="200" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import ChartPie from "@/core/chart/ChartPie.vue";
 const data = [
   ["XX1", 120],

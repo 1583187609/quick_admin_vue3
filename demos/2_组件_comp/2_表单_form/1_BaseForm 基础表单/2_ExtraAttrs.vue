@@ -1,4 +1,4 @@
-<!-- summary 额外属性
+<!-- summary 快捷属性
   除了ElementPlus的属性外，提供了一系列额外属性，方便快速开发，放置在 quickAttrs 中。
  -->
 <template>

@@ -1,5 +1,8 @@
+<!-- summary
+  致力于仅通过dataset实现图表渲染，而无需再配置其他options
+-->
 <template>
-  <div class="chart" ref="chartRef" :style="{ height: toCssVal(height), width: toCssVal(width) }" />
+  <div class="chart" :style="{ height: toCssVal(height), width: toCssVal(width) }" ref="chartRef" />
 </template>
 
 <script lang="ts" setup>
@@ -75,6 +78,11 @@ function drawChart(option: CommonObj) {
   echartInstance.setOption(currOptions, true);
 }
 defineExpose({
+  getWidth() {
+    if (!chartRef.value) return null;
+    const { clientHeight, clientWidth } = chartRef.value;
+    return { height: clientHeight, width: clientWidth };
+  },
   getOptions() {
     return currOptions;
   },

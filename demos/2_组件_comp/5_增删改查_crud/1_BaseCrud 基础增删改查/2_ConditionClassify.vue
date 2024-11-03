@@ -1,4 +1,4 @@
-<!-- summary 基础用法
+<!-- summary 查询条件分类
   摘要介绍暂时略
 -->
 <template>
@@ -6,6 +6,7 @@
     :style="{ height: showMaxHeight }"
     :cols="cols"
     :fields="fields"
+    :sections="sections"
     :fetch="GetUserList"
     :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
@@ -27,23 +28,21 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
 import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
-import { FormField } from "@/core/form/_types";
 import { TableCol } from "@/core/table/_types";
 import { BtnName } from "@/core/BaseBtn/_types";
-// import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 import { TableDragSortEndNext } from "@/core/table/_types";
-
-import { usePopup } from "@/hooks";
+import { SectionFormItemAttrs } from "@/core/form/_types";
+import { useSelectOpts, usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 
-const fields = ref<FormField[]>([
+const { getSearchOpts } = useSelectOpts();
+const fields = [
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },
   {
@@ -75,7 +74,44 @@ const fields = ref<FormField[]>([
       options: "EnableStatus",
     },
   },
-]);
+  {
+    prop: "multi_tag",
+    label: "多标签",
+    type: "select",
+    attrs: {
+      options: "RoleType",
+      multiple: true,
+    },
+  },
+  {
+    prop: "liveCity",
+    label: "居住地址",
+    type: "cascader",
+    attrs: {
+      options: "Region",
+      filterable: true,
+    },
+  },
+  getSearchOpts("school", {
+    prop: "schoolId",
+    label: "学校",
+    quickAttrs: {
+      popover: "采用hooks封装复杂逻辑",
+    },
+  }),
+  getSearchOpts("company", {
+    prop: "companyId",
+    label: "公司",
+    quickAttrs: {
+      popover: "hooks封装且自定义选择下拉项",
+    },
+  }),
+];
+const sections: SectionFormItemAttrs[] = [
+  { title: "基础", fields: fields.slice(0, 2) },
+  { title: "下拉", fields: fields.slice(2, 8) },
+  { title: "其他", fields: fields.slice(8) },
+];
 const cols: TableCol[] = [
   { type: "selection" },
   { type: "sort" },

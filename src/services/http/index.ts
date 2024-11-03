@@ -3,14 +3,7 @@
  */
 
 import qs from "qs";
-import axios, {
-  AxiosInstance,
-  AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-  AxiosResponse,
-  CancelTokenSource,
-} from "axios";
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
 import { typeOf, isDev } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
 import { GetRequired } from "@/vite-env";
@@ -78,8 +71,10 @@ service.interceptors.response.use(
     loadEnable && hideLoading();
     if (status !== 200) return Promise.reject(showToast(statusMap[status] || "请求失败"));
     if (code === successCode) return data;
-    toastEnable && showToast(msg);
-    console.error("请求错误：", msg);
+    let newMsg = msg ?? "网络错误";
+    toastEnable && showToast(newMsg);
+    if (!msg) newMsg += "(接口异常)";
+    console.error("请求错误：", { data, msg: msg ?? newMsg, url: config.url });
     return Promise.reject(msg);
   },
   (err: AxiosError) => {

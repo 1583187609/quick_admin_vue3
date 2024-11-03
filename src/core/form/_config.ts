@@ -3,7 +3,7 @@ import { FormAttrs, GridAttrs } from "./_types";
 //覆盖重写 el-form 的默认属性值
 export const defaultFormAttrs: FormAttrs = {
   labelWidth: "auto",
-  scrollToError: true,
+  // scrollToError: true,
   // labelSuffix: "：",
   //statusIcon: true, //是否显示校验的状态图标
 };

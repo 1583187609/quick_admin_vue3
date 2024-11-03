@@ -8,12 +8,19 @@
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
+## 查询条件分类
+
+&emsp;&emsp;摘要介绍暂时略
+
+::: demo 
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_ConditionClassify.vue
+:::
 ## 内嵌组件
 
 &emsp;&emsp;内嵌组件的说明
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_Embedded.vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/3_Embedded.vue
 :::
 
 
@@ -51,7 +58,7 @@
 |`pagination`|是否分页|`false \| TablePaginationAttrs`|{ `currPage: 1, pageSize: 20 `}|
 |`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
 |`showPagination`|是否显示分页|`boolean`|`true`|
-|`log`|是否打印`console.log(rows)`|`boolean`|-|
+|`log`|是否打印`console.log(rows)`|`boolean \| "req" \| "res"`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
 |`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|

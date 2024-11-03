@@ -11,14 +11,14 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/1_BasicUse.vue
 :::
-## 额外属性
+## 快捷属性
 
 &emsp;&emsp;除了`ElementPlus`的属性外，提供了一系列额外属性，方便快速开发，放置在 `quickAttrs `中。
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/2_ExtraAttrs.vue
 :::
-## 快速开发
+## 字段显示与隐藏
 
 &emsp;&emsp;下面介绍了如何控制字段的显示与隐藏，实现快速开发页面。
 

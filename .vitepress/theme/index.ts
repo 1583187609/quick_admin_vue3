@@ -1,5 +1,7 @@
+import { h } from "vue";
 import DefaultTheme from "vitepress/theme";
 import ElementPlus from "element-plus";
+import I18n from "@/langs";
 import components from "@/core";
 import store from "@/store";
 import router from "@/router";
@@ -8,7 +10,7 @@ import { handleError } from "@/utils";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Demo from "../inner/_components/Demo.vue";
 import Root from "./Root.vue";
-import { h } from "vue";
+import { setupProdMockServer } from "../../src/mockProdServer";
 
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";
@@ -19,10 +21,12 @@ export default {
   extends: DefaultTheme,
   Layout: Root,
   enhanceApp({ app }) {
+    setupProdMockServer();
     app.config.globalProperties.$version = "1.0.0"; // 设置当前版本号
     app.config.errorHandler = handleError;
     // 注册全局组件
     app.component("Demo", Demo), app.use(components); //全局注册基础组件
+    app.use(I18n);
     app.mixin(mixin);
     app.use(ElementPlus, { locale: zhCn });
     app.use(store);

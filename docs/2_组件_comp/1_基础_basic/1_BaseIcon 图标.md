@@ -17,6 +17,8 @@
 |:---|:---|:---|:---|
 |`name`|-|`IconNames`|`defaultIconName`|
 |`size`|-|`StrNum`|`1em`|
+|`to`|-|`RouteTo \| TSParenthesizedType`|-|
+|`data`|`to `的函数要传递的参数|`any`|-|
 
 
 ## 类型声明

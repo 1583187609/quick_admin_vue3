@@ -41,8 +41,8 @@ const props = withDefaults(
     name?: DictName;
     value?: StrNum;
     pureText?: boolean;
-    empty?: any;
     count?: StrNum;
+    empty?: any;
   }>(),
   {
     name: "EnableStatus",
@@ -55,8 +55,9 @@ const tag = computed(() => {
   const currMap = getMap(name);
   // console.log(currMap, "currMap----------");
   const val = currMap?.[value as string];
-  if (typeof val === "string") return { text: val };
-  if (typeof val === "undefined") return { text: value };
+  const t = typeof val;
+  if (t === "string") return { text: val };
+  if (t === "undefined") return { text: value };
   return val;
 });
 const tagText = computed(() => {

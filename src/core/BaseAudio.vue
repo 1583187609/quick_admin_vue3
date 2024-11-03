@@ -1,6 +1,6 @@
 <!-- 语音播放组件面板 -->
 <template>
-  <div class="base-audio f-sb-c" :class="{ default: !$slots.default }">
+  <div class="base-audio f-sb-c" :class="{ default: !controls && !$slots.default }">
     <slot
       :playing="playing"
       :muted="muted"
@@ -13,6 +13,7 @@
       :togglePlaying="togglePlaying"
       :toggleMuted="toggleMuted"
       :formatTime="formatTime"
+      v-if="!controls"
     >
       <el-icon @click="togglePlaying" size="20" class="f-0 btn" :class="{ disabled }">
         <VideoPause v-if="playing" />
@@ -36,7 +37,17 @@
         </el-icon>
       </el-tooltip>
     </slot>
-    <audio @canplay="handleCanPlay" @timeupdate="handleTimeupdate" @ended="handleEnded" :muted="muted" controls hidden ref="audioRef" v-if="src">
+    <audio
+      class="audio"
+      :muted="muted"
+      :controls="controls"
+      hidden
+      @canplay="handleCanPlay"
+      @timeupdate="handleTimeupdate"
+      @ended="handleEnded"
+      ref="audioRef"
+      v-if="src"
+    >
       <source :src="src" type="audio/mpeg" />
       <source :src="src" type="audio/ogg" />
       您的浏览器不支持音频播放
@@ -56,6 +67,7 @@ const props = withDefaults(
     src?: string;
     showProgress?: boolean;
     default?: boolean;
+    controls?: boolean;
   }>(),
   {
     default: true,
@@ -161,6 +173,9 @@ defineExpose<any>({
         }
       }
     }
+  }
+  .audio {
+    width: 100%;
   }
 }
 </style>

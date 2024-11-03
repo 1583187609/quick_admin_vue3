@@ -22,6 +22,7 @@
 |`src`|-|`string`|-|
 |`showProgress`|-|`boolean`|`true`|
 |`default`|-|`boolean`|`true`|
+|`controls`|-|`boolean`|-|
 
 ### Expose
 

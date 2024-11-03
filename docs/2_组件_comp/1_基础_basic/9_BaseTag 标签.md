@@ -19,8 +19,8 @@
 |`name`|-|`DictName`|`EnableStatus`|
 |`value`|-|`StrNum`|-|
 |`pureText`|-|`boolean`|-|
-|`empty`|-|`any`|`emptyStr`|
 |`count`|-|`StrNum`|-|
+|`empty`|-|`any`|`emptyStr`|
 
 ### Slots
 

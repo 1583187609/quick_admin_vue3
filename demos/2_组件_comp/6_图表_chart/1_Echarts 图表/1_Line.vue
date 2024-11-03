@@ -1,12 +1,11 @@
 <!-- summary 折线图（Line）
-  只需传入一个简单的二维数组即可展示图表
+  只需传入一个简单的二维数组即可展示图表。
+  传入log可查看渲染此图表的options。
 -->
 <template>
-  <ChartLine :data="data" />
+  <ChartLine :data="data" log="折线图" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import ChartLine from "@/core/chart/ChartLine.vue";
 const data = [
   ["product", "2015", "2016", "2017"],

@@ -23,6 +23,7 @@
 |`minPlaceholder`|-|`string`|最小值|
 |`maxPlaceholder`|-|`string`|最大值|
 |`rangeSeparator`|分隔符|`string`|`rangeJoinChar`|
+|`maxlength`|-|`number`|-|
 
 ### $emit
 

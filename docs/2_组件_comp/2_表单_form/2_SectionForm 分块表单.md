@@ -31,6 +31,7 @@
 |`disabled`|是否禁用|`boolean`|-|
 |`size`|是否禁用|`CommonSize`|`defaultCommonSize`|
 |`labelWidth`|`label`的宽度|`string`|-|
+|`scrollToError`|校验失败后是否自动滚到失败位置|`boolean`|`true`|
 |`foldable`|是否允许折叠|`boolean`|`true`|
 |`fetch`|接口请求|`UniteFetchType`|-|
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
