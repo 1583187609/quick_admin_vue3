@@ -1,16 +1,18 @@
 import fs from "fs";
 import path from "path";
 import mdContainer from "markdown-it-container";
-import headers from "../plugins/headers";
-import externalLinkIcon from "../plugins/external-link-icon";
-import tableWrapper from "../plugins/table-wrapper";
-import tooltip from "../plugins/tooltip";
-import tag from "../plugins/tag";
-import { ApiTableContainer } from "../plugins/api-table";
 import type Token from "markdown-it/lib/token";
 import type Renderer from "markdown-it/lib/renderer";
 import type MarkdownIt from "markdown-it";
-import { demosPath, getFileStrWithoutDocAnno } from "../../scripts/doc/utils";
+
+import headers from "./modules/headers";
+import externalLinkIcon from "./modules/external-link-icon";
+import tableWrapper from "./modules/table-wrapper";
+import tooltip from "./modules/tooltip";
+import tag from "./modules/tag";
+import { ApiTableContainer } from "./modules/api-table";
+
+import { demosPath, getFileStrWithoutDocAnno } from "../../../scripts/doc/utils";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {

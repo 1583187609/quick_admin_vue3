@@ -8,7 +8,7 @@ import router from "@/router";
 import mixin from "@/services/mixin";
 import { handleError } from "@/utils";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
-import Demo from "../inner/_components/Demo.vue";
+import Demo from "../render/inner/_components/Demo.vue";
 import Root from "./Root.vue";
 import { setupProdMockServer } from "../../mock/mockProdServer";
 

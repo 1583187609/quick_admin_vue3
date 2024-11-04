@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 import { getNavs, getSidebarAndRewrites } from "../../scripts/doc/menus/index.js";
-import plugins from "./plugins.ts";
+import getPluginsConfig from "../render/plugins";
 import { hotRun } from "../../scripts/doc/index.js";
 
 const { sidebar, rewrites } = getSidebarAndRewrites() as any;
@@ -46,7 +46,7 @@ export default defineConfig({
       //   infoLabel: "内容描述",
       detailsLabel: "查看详情",
     },
-    config: md => plugins(md),
+    config: md => getPluginsConfig(md),
   },
   // vue:{
   //   // Vite 配置选项

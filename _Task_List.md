@@ -146,11 +146,17 @@
 106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
 107、换用 pnpm 进行包管理，且只允许 pnpm
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
-100、升级 ElementPlus 和 vue3，再完善代码
+100、升级 ElementPlus、vue3、vitepress 再完善代码
 105、极致优化白屏时长问题
+
+- 对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn
+- 将需要 cdn 引入的 npm 下载方式改为 dev
+
+106、将 docs 的 Demo 相关文件提到一个单独的文件夹里面
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
+114、将 docs、demos 文件夹放入.vitepress 中
 
 ## 待定事项
 

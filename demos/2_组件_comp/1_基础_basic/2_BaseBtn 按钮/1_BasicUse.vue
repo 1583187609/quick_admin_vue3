@@ -25,8 +25,6 @@ import { ElMessage } from "element-plus";
 </script>
 <style lang="scss" scoped>
 .base-btn {
-  &:not(:last-child) {
-    margin-left: $gap;
-  }
+  margin: $gap-half;
 }
 </style>
