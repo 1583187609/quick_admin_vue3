@@ -40,7 +40,7 @@ const cols = [
 //   { id: 2, zy: "大家看到", xb: 2, nc: "昵称3", nl: 18, zt: 0 },
 // ];
 const rows = reactive(
-  Array(30)
+  Array(3)
     .fill("")
     .map((item, ind) => {
       return {

@@ -9,7 +9,7 @@
       :size="size"
       @operateBtns="onOperateBtns"
     >
-      <template #zdy>这是自定义表格列</template>
+      <template #zdy>$$这是自定义表格列$$</template>
     </EditTable>
   </TestView>
 </template>
@@ -19,6 +19,7 @@ import TestView from "@/core/TestView.vue";
 import EditTable from "@/core/table/EditTable.vue";
 import { handleBtnNext } from "@/utils";
 import { BtnName } from "@/core/BaseBtn/_types";
+import { EditTableColAttrs } from "@/core/table/_types";
 
 const records = {
   hasTest: {
@@ -31,16 +32,24 @@ const records = {
   },
 };
 const size: CommonSize = "default"; // large, default, small
-const cols = [
+const cols: EditTableColAttrs[] = [
   { type: "selection" },
   { type: "sort" },
   { type: "index" },
-  { prop: "id", label: "用户ID", width: 80, required: true, fixed: "left" },
-  { prop: "nc", label: "昵称", width: 200, required: true, field: { type: "input" } },
+  {
+    prop: "id",
+    label: "用户ID",
+    width: 80,
+    fixed: "left",
+    field: {
+      required: true,
+    },
+  },
+  { prop: "nc", label: "昵称", width: 120, field: { type: "input", required: true } },
   {
     prop: "zy",
     label: "角色",
-    width: 200,
+    width: 150,
     field: {
       type: "select",
       attrs: {
@@ -51,16 +60,16 @@ const cols = [
   {
     prop: "xb",
     label: "性别",
-    required: true,
     width: 180,
     field: {
       type: "radio-group",
+      required: true,
       attrs: {
         options: "Gender",
       },
     },
   },
-  { prop: "nl", label: "年龄", required: true, width: 200, field: { quickAttrs: { rulesType: "age" } } },
+  { prop: "nl", label: "年龄", width: 200, field: { required: true, quickAttrs: { rulesType: "age" } } },
   // { prop: "xx", label: "学校" },
   { prop: "zt", label: "状态", width: 70, field: { type: "switch" } },
   {

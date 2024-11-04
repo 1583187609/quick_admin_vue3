@@ -49,40 +49,42 @@
       />
     </div>
     <slot
+      name="content"
       :loading="loading"
       :rows="newRows"
       :total="pageInfo.total"
       :hasMore="pageInfo.hasMore"
       :params="params"
       :onOperateBtns="onOperateBtns"
+      v-if="$slots.content"
+    />
+    <QueryTable
+      :compact="compact"
+      :loading="loading"
+      :cols="newCols"
+      :rows="newRows"
+      :total="pageInfo.total"
+      :operateBtns="operateBtns"
+      :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
+      :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
+      :refreshList="refreshList"
+      :disabled="disabled"
+      :size="tableAttrs?.size ?? size"
+      :operateBtnsAttrs="operateBtnsAttrs"
+      v-bind="tableAttrs"
+      @operateBtns="onOperateBtns"
+      @selectionChange="handleSelectionChange"
+      @update:cols="(cols: TableColAttrs[]) => newCols = cols"
+      ref="queryTableRef"
+      v-else
     >
-      <QueryTable
-        :compact="compact"
-        :loading="loading"
-        :cols="newCols"
-        :rows="newRows"
-        :total="pageInfo.total"
-        :operateBtns="operateBtns"
-        :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
-        :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
-        :refreshList="refreshList"
-        :disabled="disabled"
-        :size="tableAttrs?.size ?? size"
-        :operateBtnsAttrs="operateBtnsAttrs"
-        v-bind="tableAttrs"
-        @operateBtns="onOperateBtns"
-        @selectionChange="handleSelectionChange"
-        @update:cols="(cols: TableColAttrs[]) => newCols = cols"
-        ref="queryTableRef"
-      >
-        <template #custom="{ row, col, $index }">
-          <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
-        </template>
-        <template #children-custom="{ row, col, $index }">
-          <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
-        </template>
-      </QueryTable>
-    </slot>
+      <template #custom="{ row, col, $index }">
+        <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
+      </template>
+      <template #children-custom="{ row, col, $index }">
+        <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
+      </template>
+    </QueryTable>
     <Pagination
       v-bind="pageAttrs"
       v-model:currPage="currPageInfo[reqMap.curr_page]"
@@ -105,17 +107,7 @@ import QueryTable from "@/core/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/BaseBtn/_types";
 import { getBtnObj } from "@/core/BaseBtn";
-import {
-  omitAttrs,
-  printLog,
-  propsJoinChar,
-  rangeJoinChar,
-  showMessage,
-  typeOf,
-  emptyVals,
-  defaultReqMap,
-  defaultResMap,
-} from "@/core/_utils";
+import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/_utils";
 import _ from "lodash";
 import config from "@/config";
 import Sortable from "sortablejs";
@@ -142,6 +134,7 @@ const { merge, cloneDeep } = _;
 const $slots = defineSlots<{
   default: () => void; // 默认插槽
   middle?: () => void; // 中间插槽
+  content?: () => void; // 内容插槽
   "[formItem]": () => void; // 表单项插槽
   "[colItem]": () => void; // 表格列插槽
 }>();

@@ -3,11 +3,13 @@
 -->
 <template>
   <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="edit-table" ref="formRef">
-    <slot name="front" />
-    <template #custom>
+    <template #header="scope">
+      <slot name="header" v-bind="scope" />
+    </template>
+    <template #content>
       <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="tableRef">
         <template #header="{ column, col }">
-          <span :class="{ required: col?.required && col.field }">{{ column.label }}</span>
+          <span :class="{ required: !!col?.field?.required }">{{ column.label }}</span>
         </template>
         <template #default="scope">
           <template v-if="scope.col.field">
@@ -18,14 +20,16 @@
         </template>
       </BaseTable>
     </template>
-    <slot name="behind" />
+    <template #footer="scope">
+      <slot name="footer" v-bind="scope" />
+    </template>
   </BaseForm>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, computed, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
 import { CommonObj } from "@/vite-env";
-import { TableColAttrs } from "@/core/table/_types";
+import { EditTableColAttrs } from "@/core/table/_types";
 import FieldItem from "@/core/form/_components/FieldItem/Index.vue";
 
 defineOptions({
@@ -35,7 +39,7 @@ defineOptions({
 const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
-    cols: TableColAttrs[]; // 表头
+    cols: EditTableColAttrs[]; // 表头
     modelValue?: CommonObj[]; // 表格行数据
     formAttrs?: CommonObj; // 表单属性
   }>(),
@@ -65,12 +69,13 @@ const modelData = computed({
 // getVals();
 const fields = computed(() => {
   const { cols } = props;
+  console.log(cols, "cols---------");
   return cols
+    .filter(it => !!it)
     .map(it => {
-      const { prop, label, required, field } = it;
-      return { prop, label, required, ...field };
-    })
-    .filter(it => !!it);
+      const { prop, label, field, ...rest } = it;
+      return { prop, label, ...rest, ...field };
+    });
 });
 
 // 暴露属性方法

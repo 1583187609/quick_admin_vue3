@@ -3,7 +3,7 @@
  -->
 <template>
   <BaseCrud class="card-crud" @rows="getRows" ref="crudRef">
-    <template #default="{ loading, params, rows }">
+    <template #content="{ loading, params, rows }">
       <div class="list-box f-fs-fs-w f-1" v-loading="loading">
         <template v-for="(row, $index) in rows" :key="$index">
           <template v-if="['avatar-audit', 'avatar-patrol'].includes(type)">

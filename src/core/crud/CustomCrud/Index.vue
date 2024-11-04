@@ -3,7 +3,7 @@
  -->
 <template>
   <BaseCrud class="custom-crud" :summaryList="summaryList" :showPagination="!summaryList" ref="crudRef">
-    <template #default="{ loading, params, rows, total, hasMore }">
+    <template #content="{ loading, params, rows, total, hasMore }">
       <LoadMore class="f-1" @reachBottom="handleReachBottom(params)" :paddingBottom="hasMore ? 0 : 250" :loading="loading" v-if="summaryList">
         <slot name="list" :list="rows" :total="total" :hasMore="hasMore" />
       </LoadMore>

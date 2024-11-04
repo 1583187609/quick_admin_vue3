@@ -4,7 +4,8 @@
 <template>
   <el-form class="base-form f-fs-s-c f-1" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']">
+    <slot name="content" v-if="$slots.content" />
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -26,6 +27,7 @@
       </template>
       <BaseEmpty v-else />
     </el-row>
+
     <slot name="footer" v-if="footer">
       <FooterBtns
         :loading="loading"
@@ -70,9 +72,10 @@ import _ from "lodash";
 const { merge } = _;
 
 const $slots = defineSlots<{
-  header: () => void; // 顶部插槽
+  header?: () => void; // 顶部插槽
+  content?: () => void; // 内容插槽
   "[fieldItem]": () => void; // 字段Item插槽
-  footer: () => void; // 底部插槽
+  footer?: () => void; // 底部插槽
 }>();
 const props = withDefaults(
   defineProps<{
