@@ -27,6 +27,8 @@ app.config.errorHandler = handleError;
 app.mixin(mixin);
 app.use(ElementPlus, {
   locale: zhCn,
+  // size: "small",
+  // zIndex: 3000,
 });
 app.use(baseComponents); //全局注册基础组件
 app.use(I18n);

@@ -6,8 +6,8 @@
     v-bind="defaultFormAttrs"
     @keyup.enter="handleSubmit"
     ref="formRef"
+    v-if="!noFieldsHide || newFields.length || newSections.length"
   >
-    <!-- v-if="!noFieldsHide || newFields.length || newSections.length" -->
     <div class="all-hide-scroll wrap-box" :style="{ maxHeight: getMaxHeight() }" v-if="newSections.length">
       <div class="f-fs-fs" v-for="(sItem, sInd) in newSections.slice(0, isFold ? rowNum : undefined)" :key="sInd">
         <el-button
@@ -52,7 +52,13 @@
             @submit="handleSubmit"
             @reset="handleReset"
             v-bind="getGridAttrs(grid)"
-            v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
+            v-if="
+              newSections.length <= rowNum
+                ? sInd === newSections.length - 1
+                : isFold
+                ? sInd === rowNum - 1
+                : sInd === newSections.length - 1
+            "
           />
         </div>
       </div>
@@ -121,7 +127,7 @@ const props = withDefaults(
     inputDebounce?: boolean;
     grid: Grid;
     compact?: boolean; //是否是紧凑的
-    // noFieldsHide?: boolean; //没有字段时是否不显示表单内容
+    noFieldsHide?: boolean; //没有字段时是否不显示表单内容
     sectionFoldable?: boolean;
   }>(),
   {
@@ -129,7 +135,7 @@ const props = withDefaults(
     rowNum: 2,
     fields: () => [],
     modelValue: () => reactive({}),
-    // noFieldsHide: true,
+    noFieldsHide: true,
     sectionFoldable: true,
     ...config?.BaseCrud?._components?.QueryForm,
   }
@@ -184,12 +190,8 @@ const showFoldBtn = computed(() => {
   }
 });
 const formData = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: CommonObj) {
-    $emit("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val: CommonObj) => $emit("update:modelValue", val),
 });
 // watch fields 和 watch sections 只能两者选其一执行
 watch(
@@ -255,13 +257,12 @@ function handleSubmit() {
   if (!formInst) return;
   //fieldsObj: ValidateFieldsError
   formInst.validate((valid, fieldsObj) => {
-    if (valid) {
-      const { extraParams } = props;
-      $emit("search", merge({}, extraParams, formData.value));
-    } else {
+    if (!valid) {
       const target = Object.values(fieldsObj)[0][0];
-      showMessage(target.message, "error");
+      return showMessage(target?.message, "error");
     }
+    const { extraParams } = props;
+    $emit("search", merge({}, extraParams, formData.value));
   });
 }
 //重置表单

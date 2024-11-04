@@ -128,6 +128,7 @@
 ~~78、StepForm 必填项完成后，自动跳到下一步骤~~  
 ~~123、完善 `BaseNumRangeNew` 组件~~
 ~~124、统一跳转错误页面、登录、登出时候的路由方法、重定向等逻辑处理~~
+~~100、升级 ElementPlus、vue3、vite、vitepress 再完善代码~~
 
 4、支持静态路由传入。思考自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
@@ -146,7 +147,7 @@
 106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
 107、换用 pnpm 进行包管理，且只允许 pnpm
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
-100、升级 ElementPlus、vue3、vitepress 再完善代码
+101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
 105、极致优化白屏时长问题
 
 - 对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn
@@ -157,6 +158,7 @@
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、将 docs、demos 文件夹放入.vitepress 中
+115、删除.vitepress/inner 文件夹
 
 ## 待定事项
 
@@ -263,6 +265,8 @@
 36、进行排序 hooks 封装；并优化点击重置之后，排序参数已重置，但是排序三角形图标仍然高亮的问题
 56、借助文件指令优化打包速度（使得不用每次都生成一大堆文件指令改变了的新文件）
 109、自测 dialog 和 drawer 内部自动计算自适应滚动高度（并可以考虑将两个的共用逻辑提取成 hooks）
+57、按需导入 element-plus
+58、不要在 defineEmits 中定义本身就有的 click 事件
 
 ## 三、Bug 清单
 
