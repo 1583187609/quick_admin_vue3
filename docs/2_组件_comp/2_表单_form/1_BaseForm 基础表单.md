@@ -98,5 +98,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/form/_types.ts
 :::  
