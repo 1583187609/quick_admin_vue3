@@ -1,13 +1,13 @@
 /**
 * @link 全局css变量 https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
 */
+// @use "./_var.scss";
 :root {
   --vp-sidebar-width: 300px; //左侧边栏的宽度
   --vp-layout-max-width: 100vw;
 
   // 主题色
-  // --vp-c-brand-1: red; // $color-primary;
-  // --vp-c-brand-1: $color-primary;
+  --vp-c-brand-1: #ff8000;
 
   // 自定义 hero 的 name 的颜色
   //   --vp-home-hero-name-color: blue;
