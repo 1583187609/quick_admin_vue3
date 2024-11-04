@@ -3,7 +3,14 @@
  */
 
 import qs from "qs";
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenSource,
+} from "axios";
 import { typeOf, isDev } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
 import { GetRequired } from "@/vite-env";
@@ -157,7 +164,7 @@ function http<T = any>(
   const reconnectMax = customCfg.reconnectMax!;
   return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg).catch(err => {
     if (axios.isCancel(err) || max <= 1) {
-      Promise.reject(err);
+      return Promise.reject(err);
     } else {
       console.warn(`接口请求失败，尝试第${reconnectMax - max + 1}次重新请求`);
       http(method, url, data, customCfg, othersCfg, max - 1);

@@ -1,21 +1,21 @@
-//  mockProdServer.ts
 import { createProdMockServer } from "vite-plugin-mock/es/createProdMockServer";
-// 逐一导入您的mock.js文件
-// 如果使用vite.mock.config.js，只需直接导入文件
-// 可以使用 import.meta.glob功能来进行全部导入
 import apis from "./apis";
-
 export function setupProdMockServer() {
   createProdMockServer(apis);
 }
 
+// import mockServer from "vite-plugin-mock/es/createProdMockServer";
+// import apis from "./apis";
+// const { createProdMockServer } = mockServer;
+// export function setupProdMockServer() {
+//   createProdMockServer(apis);
+// }
+
 // import Mock from "mockjs";
-// const mockServer = (data: any) => {
-//   Object.keys(data).forEach((path) => {
-//     Mock.mock(
-//       new RegExp(`^${process.env.VITE_API_BASE_URL}${path}`),
-//       data[path]
-//     );
+// import apis from "./apis";
+// export function setupProdMockServer() {
+//   Object.keys(apis).forEach(path => {
+//     // Mock.mock(new RegExp(`^${process.env.VITE_API_BASE_URL}${path}`), apis[path]);
+//     Mock.mock(new RegExp(path), apis[path]);
 //   });
-// };
-// mockServer(apis);
+// }

@@ -48,7 +48,14 @@
         :size="tableAttrs?.size ?? size"
       />
     </div>
-    <slot :loading="loading" :rows="newRows" :total="pageInfo.total" :hasMore="pageInfo.hasMore" :params="params" :onOperateBtns="onOperateBtns">
+    <slot
+      :loading="loading"
+      :rows="newRows"
+      :total="pageInfo.total"
+      :hasMore="pageInfo.hasMore"
+      :params="params"
+      :onOperateBtns="onOperateBtns"
+    >
       <QueryTable
         :compact="compact"
         :loading="loading"
@@ -98,7 +105,17 @@ import QueryTable from "@/core/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/BaseBtn/_types";
 import { getBtnObj } from "@/core/BaseBtn";
-import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/_utils";
+import {
+  omitAttrs,
+  printLog,
+  propsJoinChar,
+  rangeJoinChar,
+  showMessage,
+  typeOf,
+  emptyVals,
+  defaultReqMap,
+  defaultResMap,
+} from "@/core/_utils";
 import _ from "lodash";
 import config from "@/config";
 import Sortable from "sortablejs";
@@ -319,7 +336,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
   (log === true || log === "req") && printLog(args, "req");
   fetch(args)
     .then((res: any) => {
-      if (!res) return showMessage("未请求到预期数据，请检查接口是否有误");
+      // if (!res) return console.error("未请求到预期数据，请检查接口是否有误");
       if (handleResponse) res = handleResponse(res);
       const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);

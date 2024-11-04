@@ -1,3 +1,7 @@
+/********************************************************************/
+/***************** vite.config.ts初始化时会用到的方法 *****************/
+/********************************************************************/
+
 /**
  * 将字符串转为驼峰
  * @param {string} str 要转换的字符串
@@ -16,7 +20,7 @@ export function toCamelCase(str: string, isBig = false) {
  * 获取代理映射
  * @param {object} apiMap api映射对象
  */
-export function getApiProxy(apiMap) {
+export function getApiProxy(apiMap): any {
   // 开发环境用devServer做接口代理
   return Object.keys(apiMap).map(key => {
     const reg = new RegExp(`^${key}`);
