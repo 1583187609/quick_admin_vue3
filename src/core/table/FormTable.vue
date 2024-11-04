@@ -2,7 +2,7 @@
   可编辑的表格
 -->
 <template>
-  <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="edit-table" ref="formRef">
+  <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="form-table" ref="formRef">
     <template #header="scope">
       <slot name="header" v-bind="scope" />
     </template>
@@ -29,7 +29,7 @@
 import { ref, reactive, computed, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
 import { CommonObj } from "@/vite-env";
-import { EditTableColAttrs } from "@/core/table/_types";
+import { FormTableColAttrs } from "@/core/table/_types";
 import FieldItem from "@/core/form/_components/FieldItem/Index.vue";
 
 defineOptions({
@@ -39,7 +39,7 @@ defineOptions({
 const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
-    cols: EditTableColAttrs[]; // 表头
+    cols: FormTableColAttrs[]; // 表头
     modelValue?: CommonObj[]; // 表格行数据
     formAttrs?: CommonObj; // 表单属性
   }>(),
@@ -69,7 +69,6 @@ const modelData = computed({
 // getVals();
 const fields = computed(() => {
   const { cols } = props;
-  console.log(cols, "cols---------");
   return cols
     .filter(it => !!it)
     .map(it => {
@@ -87,7 +86,7 @@ defineExpose({
 });
 </script>
 <style lang="scss" scoped>
-.edit-table {
+.form-table {
   max-height: 100%;
   width: 100%;
   overflow: auto;

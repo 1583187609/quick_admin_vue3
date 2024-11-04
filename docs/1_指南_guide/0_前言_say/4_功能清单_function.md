@@ -44,7 +44,7 @@
 38、易上手；json 嵌套原则遵循 dom 嵌套规则  
 39、更美观的空白占位（表格列空位：-）  
 40、清晰的组件抽离原则（方便任意组合，保持来源单一性）  
-41、支持多种表单（BaseForm、SectionForm）、多种表格（BaseTable、EditTable）；极强的扩展性与维护性（内容不串，各自维护）  
+41、支持多种表单（BaseForm、SectionForm）、多种表格（BaseTable、FormTable）；极强的扩展性与维护性（内容不串，各自维护）  
 42、省事省力： popover, popconfirm 轻松拿捏  
 43、配置 VsCode 的列表页、新增编辑页 的快速代码片段  
 44、弹性布局基础类：提升静态页面开发效率约 30%  

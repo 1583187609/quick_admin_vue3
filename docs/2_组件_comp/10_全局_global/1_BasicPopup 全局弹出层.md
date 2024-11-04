@@ -101,8 +101,9 @@
 |:---|:---|:---|
 |`field.prop`|-|`name, field, form`|
 |`middle`|中间插槽|-|
-|`default`|默认插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
+|`content`|内容插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|
+|`default`|默认插槽|-|
 
 
 ## 类型声明

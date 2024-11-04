@@ -21,7 +21,7 @@ export * from "./utils";
 export default ({ mode, command }) => {
   // const env = loadEnv(mode, process.cwd()); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const isVitepress = process.argv[1].includes("vitepress");
-  const isProd = mode === "prod"; // 原来取值范围是：production, develop, 但配置了env文件后，所以改变了mode的值
+  const isProd = mode === "production"; // 原来取值范围是：production, develop, 但配置了env文件后，所以改变了mode的值
   return defineConfig({
     // define: {
     //   __VUE_OPTIONS_API__: true, // 启用/禁用选项式 API 支持。禁用此功能将减小打包结果的体积，但如果第三方库依赖选项式 API，则可能影响兼容性

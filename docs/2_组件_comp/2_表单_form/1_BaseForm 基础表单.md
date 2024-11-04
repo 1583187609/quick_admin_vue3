@@ -91,6 +91,7 @@
 |插槽名|说明|Scope|
 |:---|:---|:---|
 |`header`|顶部插槽|-|
+|`content`|内容插槽|-|
 |`currField.prop`|-|`name, field, form`|
 |`footer`|底部插槽|-|
 

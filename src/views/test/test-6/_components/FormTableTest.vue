@@ -1,7 +1,7 @@
 <!-- 可编辑表格测试 -->
 <template>
   <TestView :records="records">
-    <EditTable
+    <FormTable
       v-model="rows"
       :cols="cols"
       style="width: calc(100vw - 600px)"
@@ -10,16 +10,16 @@
       @operateBtns="onOperateBtns"
     >
       <template #zdy>$$这是自定义表格列$$</template>
-    </EditTable>
+    </FormTable>
   </TestView>
 </template>
 <script lang="ts" setup>
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
 import TestView from "@/core/TestView.vue";
-import EditTable from "@/core/table/EditTable.vue";
+import FormTable from "@/core/table/FormTable.vue";
 import { handleBtnNext } from "@/utils";
 import { BtnName } from "@/core/BaseBtn/_types";
-import { EditTableColAttrs } from "@/core/table/_types";
+import { FormTableColAttrs } from "@/core/table/_types";
 
 const records = {
   hasTest: {
@@ -32,7 +32,7 @@ const records = {
   },
 };
 const size: CommonSize = "default"; // large, default, small
-const cols: EditTableColAttrs[] = [
+const cols: FormTableColAttrs[] = [
   { type: "selection" },
   { type: "sort" },
   { type: "index" },

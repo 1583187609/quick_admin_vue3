@@ -20,7 +20,7 @@
       <BaseTableTest v-if="activeName === 'baseTable'" />
     </el-tab-pane>
     <el-tab-pane label="编辑表格？" name="editTable">
-      <EditTableTest v-if="activeName === 'editTable'" />
+      <FormTableTest v-if="activeName === 'editTable'" />
     </el-tab-pane>
     <el-tab-pane label="基础增删改查" name="baseCrud">
       <BaseCrudTest v-if="activeName === 'baseCrud'" />
@@ -44,7 +44,7 @@ import NestedFormTest from "./_components/NestedFormTest.vue";
 import SectionFormTest from "./_components/SectionFormTest.vue";
 import StepFormTest from "./_components/StepFormTest.vue";
 import BaseTableTest from "./_components/BaseTableTest.vue";
-import EditTableTest from "./_components/EditTableTest.vue";
+import FormTableTest from "./_components/FormTableTest.vue";
 import BaseCrudTest from "./_components/BaseCrudTest.vue";
 import CardCrudTest from "./_components/CardCrudTest.vue";
 import CustomCrudTest from "./_components/CustomCrudTest.vue";

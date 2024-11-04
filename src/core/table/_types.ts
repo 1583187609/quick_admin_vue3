@@ -118,11 +118,11 @@ export interface TableColStandardAttrs extends TableColAttrs {
 export type TableCol = BaseDataType | TableColAttrs;
 
 // 可编辑的表格
-export interface EditTableColAttrs extends TableColAttrs {
+export interface FormTableColAttrs extends TableColAttrs {
   field?: FormFieldAttrs;
 }
 
-export type EditTableCol = BaseDataType | EditTableColAttrs;
+export type EditTableCol = BaseDataType | FormTableColAttrs;
 
 //表格的特殊列类型
 export type SpecialTableColType = "index" | "sort" | "selection" | "operate";

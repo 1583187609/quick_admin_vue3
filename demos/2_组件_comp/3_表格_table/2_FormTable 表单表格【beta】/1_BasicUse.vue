@@ -2,12 +2,12 @@
   基础用法
  -->
 <template>
-  <EditTable :cols="cols" v-model="rows" :operateBtns="['edit', 'delete']" @operateBtns="onOperateBtns">
+  <FormTable :cols="cols" v-model="rows" :operateBtns="['edit', 'delete']" @operateBtns="onOperateBtns">
     <template #zdy>这是自定义表格列</template>
-  </EditTable>
+  </FormTable>
 </template>
 <script lang="ts" setup>
-import EditTable from "@/core/table/EditTable.vue";
+import FormTable from "@/core/table/FormTable.vue";
 import { handleBtnNext } from "@/utils";
 import { BtnName } from "@/core/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
