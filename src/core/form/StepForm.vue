@@ -1,5 +1,6 @@
 <!-- summary 
-  步骤表单
+  目标：定位为步骤表单。
+  功能：结合了分块表单（SectionForm）和步骤条的功能。
 -->
 <template>
   <div class="step-form f-sb-fs">

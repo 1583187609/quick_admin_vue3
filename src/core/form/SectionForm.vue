@@ -1,8 +1,16 @@
 <!-- summary
-  分块（组）表单
+  目标：定位为分块（组）表单。
+  功能：继承并扩展基础表单（BaseForm），并扩展了展开/折叠，多级属性设置等功能。
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    :class="type"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -15,7 +23,13 @@
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
-            <el-icon @click="folds[sInd] = !folds[sInd]" class="fold-btn f-0" :class="folds[sInd] ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
+            <el-icon
+              @click="folds[sInd] = !folds[sInd]"
+              class="fold-btn f-0"
+              :class="folds[sInd] ? 'rotate-180' : ''"
+              size="1.5em"
+              v-if="foldable"
+            >
               <CaretTop />
             </el-icon>
           </div>
@@ -206,7 +220,10 @@ watch(
 // }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? props.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth } = attrs;
+  const {
+    size = field.size ?? sItem.size ?? props.size,
+    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth,
+  } = attrs;
   const {
     grid = sItem.grid ?? props.grid,
     readonly = sItem.readonly ?? props.readonly,

@@ -1,3 +1,6 @@
+<!-- summary
+目标：数字区间组件。
+-->
 <template>
   <div
     :class="{ [`el-range-editor--${size}`]: true }"
@@ -22,7 +25,11 @@
       @change="handleEvent('change', $event, 1)"
       @blur="handleBlur(1)"
     />
-    <el-icon class="el-icon el-input__icon el-range__close-icon" :class="{ hidden: !modelVals?.length }" @click="handleEvent('clear')">
+    <el-icon
+      class="el-icon el-input__icon el-range__close-icon"
+      :class="{ hidden: !modelVals?.length }"
+      @click="handleEvent('clear')"
+    >
       <CircleClose />
     </el-icon>
   </div>

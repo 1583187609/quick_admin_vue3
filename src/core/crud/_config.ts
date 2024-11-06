@@ -1,1 +1,1 @@
-export const testCfg= ''
+export const testCfg = "";

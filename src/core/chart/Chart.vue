@@ -1,5 +1,5 @@
 <!-- summary
-  致力于仅通过dataset实现图表渲染，而无需再配置其他options
+  目标：仅通过传入data属性（等价于echarts的dataset），即可实现图表渲染，而无需关心其他配置，但支持配置覆盖。
 -->
 <template>
   <div class="chart" :style="{ height: toCssVal(height), width: toCssVal(width) }" ref="chartRef" />
@@ -58,25 +58,24 @@ watch(
   { deep: true }
 );
 if (props.use) echarts.use(props.use);
-onMounted(() => {
-  nextTick(() => {
-    // 初始化 echartInstance 实例
-    const { theme, option, renderer } = props;
-    echartInstance = echarts.init(chartRef.value, theme, { renderer });
-    drawChart(option);
-  });
-});
 function drawChart(option: CommonObj) {
-  // notMerge 可选。是否不跟之前设置的 option 进行合并。默认为 false。即表示合并。合并的规则，详见 组件合并模式。如果为 true，表示所有组件都会被删除，然后根据新 option 创建所有新组件。
-  // setOption 见 https://echarts.apache.org/zh/api.html#echartsInstance.setOption
   currOptions = Object.assign({ color: colors }, option);
   const { log } = props;
   if (log) {
     const label = log === true ? "options" : `${log}options`;
     printLog(currOptions, "log", label);
   }
+  // notMerge 可选。是否不跟之前设置的 option 进行合并。默认为 false。即表示合并。合并的规则，详见 组件合并模式。如果为 true，表示所有组件都会被删除，然后根据新 option 创建所有新组件。
+  // setOption 见 https://echarts.apache.org/zh/api.html#echartsInstance.setOption
   echartInstance.setOption(currOptions, true);
 }
+onMounted(() => {
+  nextTick(() => {
+    const { theme, option, renderer } = props;
+    echartInstance = echarts.init(chartRef.value, theme, { renderer }); // 初始化 echartInstance 实例
+    drawChart(option);
+  });
+});
 defineExpose({
   getWidth() {
     if (!chartRef.value) return null;

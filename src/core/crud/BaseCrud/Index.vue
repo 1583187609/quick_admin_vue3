@@ -1,6 +1,7 @@
-<!--  summary
-  常规同用增删改查列表
- -->
+<!-- summary
+  目标：简化增删改查的逻辑书写。
+  功能：支持条件展开/折叠、条件分组；请求参数、响应数据处理；
+-->
 <template>
   <div class="base-crud f-fs-s-c" ref="baseCrudRef">
     <QueryForm
@@ -107,7 +108,17 @@ import QueryTable from "@/core/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/BaseBtn/_types";
 import { getBtnObj } from "@/core/BaseBtn";
-import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/_utils";
+import {
+  omitAttrs,
+  printLog,
+  propsJoinChar,
+  rangeJoinChar,
+  showMessage,
+  typeOf,
+  emptyVals,
+  defaultReqMap,
+  defaultResMap,
+} from "@/core/_utils";
 import _ from "lodash";
 import config from "@/config";
 import Sortable from "sortablejs";

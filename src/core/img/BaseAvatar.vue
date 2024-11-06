@@ -1,3 +1,6 @@
+<!-- summary
+目标：定位为头像。用作占位，实现快速开发，兼顾细节处理，性别默认头像等，同时考虑扩展性，可能会增加会员标识、用户类型标识等。 
+-->
 <template>
   <BaseImg class="base-avatar" loadTips="加载中…" :src="src || avatarMap[gender] || avatarImg" :preview="!!src" />
 </template>

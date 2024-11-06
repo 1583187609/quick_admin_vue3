@@ -1,3 +1,6 @@
+<!-- summary
+目标：统一空状态组件
+-->
 <template>
   <el-empty class="base-empty" style="padding: 16px" :description="tips" :image-size="Number(size)">
     <slot />

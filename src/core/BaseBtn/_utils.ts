@@ -4,7 +4,7 @@ import { getUserInfo, typeOf } from "@/core/_utils";
 import { btnsMap } from "@/core/BaseBtn";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/vite-env";
-import { BaseBtnType, BtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
+import { BaseBtnType, BtnItem, EndBtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/core/crud/BaseCrud/_types";
 import { PopconfirmAttrs, PopconfirmType } from "../_types";
 import _ from "lodash";
@@ -39,7 +39,7 @@ function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem): Popcon
  * @param {string | object | Function} btn 按钮名或按钮对象或方法函数
  * @param {CommonObj} baseBtnAttrs  额外添加的属性，用来覆盖
  */
-export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): BtnItem {
+export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): EndBtnItem {
   const t = typeOf(btn);
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {

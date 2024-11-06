@@ -1,6 +1,6 @@
-<!--  summary
-  卡片式的增删改查列表
- -->
+<!-- summary
+  目标：基础增删改查的扩展，每一项元素的呈现样式为卡片。
+-->
 <template>
   <BaseCrud class="card-crud" @rows="getRows" ref="crudRef">
     <template #content="{ loading, params, rows }">

@@ -1,3 +1,7 @@
+<!-- summary
+目标：简化传参。
+注意：该功能待完善。 
+-->
 <template>
   <div class="base-editor">
     <Toolbar class="tool-bar" :editor="editorInst" :defaultConfig="toolbarCfg" :mode="mode" />
@@ -130,9 +134,7 @@ const value = computed({
     return props.modelValue || "";
   },
   set(val: string) {
-    if (val === "<p><br></p>") {
-      val = "";
-    }
+    if (val === "<p><br></p>") val = "";
     $emit("update:modelValue", val);
   },
 });

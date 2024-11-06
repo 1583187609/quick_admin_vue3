@@ -1,4 +1,6 @@
-<!-- 文本内容 -->
+<!-- summary
+目标：对文本内容进行展示，多行时自动省略，并支持弹窗展示全部内容，同时自带样式。
+-->
 <template>
   <div class="base-text" :class="{ [`line-${maxLine}`]: true, over: isOver }" @click="handleClick" ref="baseTextRef">
     <slot>{{ textStr }}</slot>

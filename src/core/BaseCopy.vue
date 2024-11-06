@@ -1,9 +1,15 @@
-<!-- 复制文本 -->
+<!-- summary
+目标：定位为复制文本。提供文本复制功能，并扩展路由跳转、自定义点击时间、同时兼顾复制文本（仅点击图标时可复制）等功能，同时自带样式。
+-->
 <template>
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !isClickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!to">
-        <span @click="handleClick" class="f-1" :class="{ [`line-${line}`]: true, link: !!to, click: textStr && !!$attrs.onClick }">
+        <span
+          @click="handleClick"
+          class="f-1"
+          :class="{ [`line-${line}`]: true, link: !!to, click: textStr && !!$attrs.onClick }"
+        >
           <slot>{{ textStr || emptyStr }}</slot>
         </span>
       </el-tooltip>

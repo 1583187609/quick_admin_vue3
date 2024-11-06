@@ -1,11 +1,24 @@
 <!-- summary
-  基础表单。除了实现ElementPlus的默认功能外，还在extraAttrs中提供了grid、example、popover、tips、pureText、rulesType、before、after、……等功能
+  目标：定位为基础（通用）表单，继承并扩展 el-form 的功能，提供快捷属性，实现快速开发。
+  快捷属性：在 quickAttrs 中，例：grid、example、popover、tips、pureText、rulesType、before、after、……
+  表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="type" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="type"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
+    <el-row
+      class="section all-hide-scroll"
+      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+      v-else
+    >
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol

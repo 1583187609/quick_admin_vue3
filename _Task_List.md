@@ -129,6 +129,7 @@
 ~~123、完善 `BaseNumRangeNew` 组件~~
 ~~124、统一跳转错误页面、登录、登出时候的路由方法、重定向等逻辑处理~~
 ~~100、升级 ElementPlus、vue3、vite、vitepress 再完善代码~~
+~~80、完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑~~
 
 4、支持静态路由传入。思考自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
@@ -138,7 +139,6 @@
 64、封装 TreeCrud 组件  
 74、将 Quick 的内核抽离成 npm 包
 76、请求参数加解密  
-80、完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑
 86、移除 `src/core/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
@@ -149,11 +149,12 @@
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
 105、极致优化白屏时长问题
+106、将表单的 pureText 整合到 type='cell'中，将 type 改为 styleType
+107、BarsImg 视情况而改名。
 
 - 对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn
 - 将需要 cdn 引入的 npm 下载方式改为 dev
 
-106、将 docs 的 Demo 相关文件提到一个单独的文件夹里面
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
@@ -254,7 +255,7 @@
 37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、
 38、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑  
 41、layout 系统设置的国际化语言的 bug 处理  
-42、研究能被 img 标签 src 属性识别的 svg 配置  
+42、研究能被 img 标签 src 属性识别的 svg 配置(参见：https://blog.51cto.com/jackiehao/10750501)  
 45、重新处理方法 initBodyHeight，让 dialog 内部 form 和 table 自适应高度  
 18、编辑时，如果未保存就关闭弹窗，给出提示还未保存，确认关闭？（统一处理），还有未作任何改动时前端统一提示未作任何修改
 40、优化全局加载的图标及样式（在 index.html 文件中）

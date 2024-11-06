@@ -1,7 +1,11 @@
-<!-- 语音播放组件面板 -->
+<!-- summary
+目标：处理基础逻辑，减少开发心智负担，并可暴露给自定义的播放面板直接使用。
+注意：该功能待完善。
+-->
 <template>
   <div class="base-audio f-sb-c" :class="{ default: !controls && !$slots.default }">
     <slot
+      name="content"
       :playing="playing"
       :muted="muted"
       :currentTime="audioRef?.currentTime || 0"
@@ -13,30 +17,32 @@
       :togglePlaying="togglePlaying"
       :toggleMuted="toggleMuted"
       :formatTime="formatTime"
-      v-if="!controls"
-    >
-      <el-icon @click="togglePlaying" size="20" class="f-0 btn" :class="{ disabled }">
-        <VideoPause v-if="playing" />
-        <VideoPlay v-else />
-      </el-icon>
-
-      <time class="f-0 ml-h">{{ timeStr }}</time>
-      <el-slider
-        @change="handleSliderChange"
-        @input="handleSliderInput"
-        v-model="progress"
-        :show-tooltip="false"
-        :disabled="disabled"
-        class="f-1 ml-o"
-        v-if="showProgress"
-      />
-      <el-tooltip :content="muted ? '取消静音' : '静音'" :show-after="400" :disabled="disabled">
-        <el-icon @click="toggleMuted" size="20" class="btn f-0 ml-h" :class="{ disabled }">
-          <Mute v-if="muted" />
-          <Microphone v-else />
+      v-if="$slots.content"
+    />
+    <template v-else>
+      <template v-if="!controls">
+        <el-icon @click="togglePlaying" size="20" class="f-0 btn" :class="{ disabled }">
+          <VideoPause v-if="playing" />
+          <VideoPlay v-else />
         </el-icon>
-      </el-tooltip>
-    </slot>
+        <time class="f-0 ml-h">{{ timeStr }}</time>
+        <el-slider
+          @change="handleSliderChange"
+          @input="handleSliderInput"
+          v-model="progress"
+          :show-tooltip="false"
+          :disabled="disabled"
+          class="f-1 ml-o"
+          v-if="showProgress"
+        />
+        <el-tooltip :content="muted ? '取消静音' : '静音'" :show-after="400" :disabled="disabled">
+          <el-icon @click="toggleMuted" size="20" class="btn f-0 ml-h" :class="{ disabled }">
+            <Mute v-if="muted" />
+            <Microphone v-else />
+          </el-icon>
+        </el-tooltip>
+      </template>
+    </template>
     <audio
       class="audio"
       :muted="muted"
@@ -75,6 +81,9 @@ const props = withDefaults(
     // src: "http://files.xiangqinjiaoapp.com/user/voice/2022-10-26/sKHFUKQiaOeZwgtwUjh5rq3FNoIKQ90y.aac",
   }
 );
+const $slots = defineSlots<{
+  content?: () => void; // 自定义内容插槽
+}>();
 const audioRef = ref<any>(null);
 const playing = ref(false);
 const progress = ref(0);

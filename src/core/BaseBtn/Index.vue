@@ -1,5 +1,5 @@
 <!-- summary
-基础按钮，用于增删改查列表页：中间或表格操作栏的按钮。集成了样式、图标、位置、权限、路由跳转、气泡确认框（popconfirm）等功能。
+ 目标：仅传入name属性，即可享有对应按钮的全部功能（含颜色、文本、图标、权限、默认逻辑等），也可传入属性值进行覆盖，同时提供了快捷属性（to、popoconfirm）。
 -->
 <template>
   <el-popconfirm @confirm="handleClickDebounce" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
@@ -19,7 +19,7 @@ import { getBtnObj } from "@/core/BaseBtn";
 import { debounce, emptyStr, emptyVals, typeOf } from "@/core/_utils";
 import { useRouter } from "vue-router";
 import { CommonObj, PopconfirmAttrs } from "@/vite-env";
-import { BaseBtnType, BtnHandleClickType, BtnItem, BtnName } from "./_types";
+import { BaseBtnType, BtnHandleClickType, EndBtnItem, BtnName } from "./_types";
 
 defineOptions({
   inheritAttrs: false,
@@ -63,7 +63,7 @@ const $emit = defineEmits<{
    */
   click: [BtnName];
 }>();
-const newBtn = computed<BtnItem>(() => {
+const newBtn = computed<EndBtnItem>(() => {
   const { name } = props;
   return getBtnObj(name, undefined, { attrs: $attrs });
 });

@@ -1,5 +1,5 @@
-<!-- summary Tag标签
-  el-tag标签的升级版，可以解析字典映射、纯文本显示等
+<!-- summary
+目标：对el-tag进行封装，使得可以处理字典文件，并包含样式，然后可应用于表单、表格中，并保证样式风格统一。
 -->
 <template>
   <span class="base-tag span m-2" :class="tag?.attrs?.type ?? 'main'" v-bind="tag?.attrs" v-if="pureText || !tag">

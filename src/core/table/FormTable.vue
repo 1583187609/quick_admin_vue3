@@ -1,5 +1,5 @@
 <!-- summary
-  可编辑的表格
+  目标：定位为表单表格。继承自BaseForm和BaseTable，兼顾了表单编辑校验，并且样式以表格呈现。
 -->
 <template>
   <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="form-table" ref="formRef">

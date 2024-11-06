@@ -1,4 +1,6 @@
-<!-- 组件 - 渲染内容元素 -->
+<!-- summary
+描述：渲染内容元素
+-->
 <template>
   <!-- 如果是引入的组件或者是虚拟dom -->
   <component :is="data" v-bind="$attrs" v-if="dataType === 'Object' && ((data as RenderVue).setup || isVNode(data))" />

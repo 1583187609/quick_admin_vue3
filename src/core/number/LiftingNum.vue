@@ -1,17 +1,19 @@
-<!-- 页面-简介 -->
+<!-- summary
+目标：
+注意：此功能待完善。
+-->
 <template>
-    <div class="example-vue">数字升降</div>
+  <div class="example-vue">数字升降</div>
 </template>
 <script lang="ts" setup>
-import {ref,reactive,watch,computed} from "vue"
+import { ref, reactive, watch, computed } from "vue";
 const props = withDefaults(
-    defineProps<{
-        exampleProp?: CommonObj;
-    }>(),
-    {
-        exampleProp: () => ({}),
-    }
+  defineProps<{
+    exampleProp?: CommonObj;
+  }>(),
+  {
+    exampleProp: () => ({}),
+  }
 );
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

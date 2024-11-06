@@ -22,7 +22,7 @@ export type BtnName = BtnAllNames | string; //常用基础按钮或其他自定�
 export type ButtonType = "primary" | "success" | "warning" | "danger" | "info"; //按钮类型。注"text" 已弃用
 export interface BtnAttrs {
   icon?: any;
-  text?: string;
+  text?: boolean;
   type?: ButtonType;
   size?: CommonSize;
   plain?: boolean;
@@ -42,6 +42,10 @@ export interface BtnItem {
   popconfirm?: boolean | string | PopconfirmAttrs;
   attrs?: BtnAttrs; //按钮属性
   handleClickType?: BtnHandleClickType; // 点击按钮后，执行的逻辑类型。可选值：common（通用）、custom（自定义）
+}
+
+export interface EndBtnItem extends BtnItem {
+  popconfirm?: PopconfirmAttrs;
 }
 export type BtnFn = (row: CommonObj) => BtnName | BtnItem;
 export type BaseBtnType = BtnName | BtnItem | BtnFn;

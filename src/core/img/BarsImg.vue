@@ -1,3 +1,6 @@
+<!-- summary
+  目标：给图片提供带 bar 提示语的功能
+-->
 <template>
   <div :style="newStyle" class="bars-img f-c-c" :class="{ 'hover-move': hoverMove }">
     <el-tag class="f-c-c top-bar" v-bind="topTip.attrs" v-if="topTip.text">

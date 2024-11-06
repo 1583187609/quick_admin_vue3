@@ -1,3 +1,6 @@
+<!-- summary
+目标：内容分块的布局载体。并提供了折叠等功能。
+-->
 <template>
   <div class="base-section">
     <div class="head f-sb-c">

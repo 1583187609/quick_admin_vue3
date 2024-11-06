@@ -1,5 +1,5 @@
 <!-- summary
-设计这个组件的初衷是为了方便快速开发（占位，省去引入图标再使用的时间）。
+目标：占位，方便快速开发。
 -->
 <template>
   <el-icon class="base-icon" @click="handleClick" :class="{ pointer: !!to || !!$attrs.onClick }" :size="size">

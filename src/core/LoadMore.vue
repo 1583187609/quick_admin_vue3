@@ -1,4 +1,6 @@
-<!-- 页面-简介 -->
+<!-- summary
+目标：加载更多内容
+-->
 <template>
   <el-scrollbar @mousewheel.passive="handleMousewheel" class="load-more" ref="boxRef">
     <div class="no-more-tips top f-c-c" :class="{ show: !topHasMore && isReachTop }">
