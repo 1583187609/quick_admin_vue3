@@ -3,7 +3,7 @@
 注意：该功能待完善
 -->
 <template>
-  <div class="base-qrcode f-c-c" ref="baseQrcodeRef">
+  <div class="basic-qrcode f-c-c" ref="basicQrcodeRef">
     <div class="f-c-c-c" v-if="errTips">
       <span class="tips">{{ errTips }}</span>
       <el-button @click="createQrCode(value)">重试</el-button>
@@ -39,7 +39,7 @@ const props = withDefaults(
 );
 
 const canvasRef = ref(null);
-const baseQrcodeRef = ref(null);
+const basicQrcodeRef = ref(null);
 const errTips = ref<string>("");
 
 const createQrCode = (text: string = props.value) => {
@@ -61,7 +61,7 @@ const createQrCode = (text: string = props.value) => {
     },
   })
     .then(canvasDom => {
-      baseQrcodeRef.value.append(canvasDom);
+      basicQrcodeRef.value.append(canvasDom);
       oldText = text;
     })
     .catch(err => {

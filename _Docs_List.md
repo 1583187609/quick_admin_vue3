@@ -42,7 +42,7 @@
 5、BaseEditor
 6、完善 BaseKeyVal 的 optsName
 7、BaseNum
-8、BaseQrcode
+8、BasicQrcode
 9、LoadMore
 10、OpenFile 考虑看要不要移出
 11、TestView 考虑改名
@@ -63,4 +63,4 @@
 6、创建一个读取器去解析字典
 7、完成 http Ts 类型的书写
 8、当 summary 的描述类文字为多个换行时，则换行展示
-9、将FieldItem 用 map 映射重写
+9、将 FieldItem 用 map 映射重写

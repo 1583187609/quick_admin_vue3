@@ -95,9 +95,11 @@ function getItems(paths = [], dirPath = "", file = "") {
       // if (isShortPath) {
       //   link = getShortPath(link).replace(docsPath, "");
       // }
+      const activeMatch = link.split("/")[0] + "/";
       return {
         text: getFileName(dirName),
         link,
+        // activeMatch,
       };
     } else {
       const { text, items } = subPaths;
@@ -176,15 +178,20 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
         });
       } else {
         const items = getItems(paths, dirPath, file);
+        const firstLink = getFirstPath(items);
+        const activeMatch = firstLink.split("/")[0] + "/";
         navs.push({
           text: cnName,
-          link: getFirstPath(items),
+          link: firstLink,
+          // activeMatch,
         });
       }
     } else {
+      const activeMatch = `${file.split("/")[0]}/`;
       navs.push({
         text: cnName,
         link: `${dirPath}/${file}`,
+        // activeMatch,
       });
     }
   });
