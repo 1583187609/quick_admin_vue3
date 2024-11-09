@@ -23,6 +23,7 @@ export const defaultWidgetSize = getExportData("medium", widgetSize); // 控件�
 export const defaultCommonSize = getExportData("default", form?.defaultCommonSize);
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
+export const defaultFormChildrenType = getExportData("childrenFields", form?.defaultFormChildrenType); // 当有子项时，children的布局样式类型
 export const emptyTime = getExportData("", form?.emptyTime, "alert"); //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
 
 export const defaultReqMap: ReqMap = {

@@ -3,18 +3,17 @@
   <el-form-item style="width: 100%" :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }" v-for="(item, ind) in newList" :key="ind">
     <!-- <el-space> -->
     <el-row>
+      <!-- :grid="field?.quickAttrs?.grid ?? grid"
+      :readonly="field?.quickAttrs?.readonly ?? readonly"
+      :pureText="field?.quickAttrs?.pureText ?? pureText"
+      :disabled="field?.quickAttrs?.disabled ?? disabled"
+      :size="field?.attrs?.size ?? field.size ?? size"
+      :labelWidth="field?.labelWidth ?? labelWidth" -->
       <FieldItemCol
         :prefixProp="`${parentProp}[${ind}]`"
         :field="field"
-        :grid="field?.quickAttrs?.grid ?? grid"
-        :readonly="field?.quickAttrs?.readonly ?? readonly"
-        :pureText="field?.quickAttrs?.pureText ?? pureText"
-        :disabled="field?.quickAttrs?.disabled ?? disabled"
-        :size="field?.attrs?.size ?? field.size ?? size"
-        :labelWidth="field?.labelWidth ?? labelWidth"
         :showChildrenLabel="showChildrenLabel"
         v-model="newList[ind][field.prop as string]"
-        v-bind="field"
         isChild
         :ref="el => initRefsList(el, ind)"
         v-for="(field, fInd) in newFields"
@@ -29,11 +28,11 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
 import AddDelBtn, { AddDelBtnType } from "@/core/form/_components/AddDelBtn.vue";
-import _ from "lodash";
 import { handleFields, getAddDelItem } from "@/core/form/_utils";
 import { CommonObj, CommonSize } from "@/vite-env";
 import { showMessage } from "@/core/_utils";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
+import _ from "lodash";
 
 const { merge } = _;
 const props = withDefaults(
@@ -41,12 +40,12 @@ const props = withDefaults(
     modelValue?: any;
     parentProp: string;
     fields: FormField[];
-    pureText?: boolean;
-    grid?: Grid;
-    size?: CommonSize;
-    readonly?: boolean;
-    disabled?: boolean;
-    labelWidth?: string;
+    // grid?: Grid;
+    // size?: CommonSize;
+    // readonly?: boolean;
+    // disabled?: boolean;
+    // pureText?: boolean;
+    // labelWidth?: string;
     showChildrenLabel?: boolean; //是否显示子级的label
     formRef?: any;
   }>(),
@@ -114,24 +113,17 @@ function handleAddDel(type: AddDelBtnType, ind: number) {
       //   console.log(refsList.value.at(-1), "让第一个元素聚焦暂未处理-------------");
       // }, 500);
     }
-    if (formRef) {
-      const propsArr = Object.keys(newList.value[0]).map((key: string) => `${props.parentProp}[${ind}].${key}`);
-      formRef.validateField(propsArr, (isValid, inValidFields: CommonObj) => {
-        if (isValid) {
-          handle();
-        } else {
-          const target = Object.values(inValidFields)[0][0];
-          showMessage(target.message, "error");
-        }
-      });
-    } else {
-      handle();
-    }
-  } else if (type === "del") {
-    newList.value.splice(ind, 1);
-  } else {
-    throw new Error(`暂不支持${type}类型`);
+    if (!formRef) return handle();
+    const propsArr = Object.keys(newList.value[0]).map((key: string) => `${props.parentProp}[${ind}].${key}`);
+    formRef.validateField(propsArr, (isValid, inValidFields: CommonObj) => {
+      if (isValid) return handle();
+      const target = Object.values(inValidFields)[0][0];
+      showMessage(target.message, "error");
+    });
+    return;
   }
+  if (type === "del") return newList.value.splice(ind, 1);
+  throw new Error(`暂不支持${type}类型`);
 }
 </script>
 <style lang="scss" scoped></style>

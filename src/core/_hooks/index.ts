@@ -6,3 +6,4 @@ export { default as useSelectOpts } from "./select-opts";
 export { default as useCacheScroll } from "./cache-scroll";
 export { default as useRouteQuery } from "./route-query";
 export { default as useCountDown } from "./count-down";
+export { default as useFormAttrs } from "./form-attrs";

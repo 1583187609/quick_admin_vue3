@@ -6,8 +6,8 @@ import { DictName } from "@/dict/_types";
 import { PopoverType } from "@/core/_types";
 
 export type RulesType = keyof typeof defaultRulesTypes;
-
-export type FormItemType =
+// element-plus的表单控件类型
+export type ElFormItemType =
   | "input"
   | "select"
   | "tree-select"
@@ -21,16 +21,21 @@ export type FormItemType =
   | "autocomplete"
   | "slider"
   | "time-picker"
-  | "time-select"
+  | "time-select";
+// 子类分组
+export type FormChildrenType =
+  | "childrenFields" //默认
+  | "addDel"; //新增删除分组
+export type SystemFormItemType =
   // 其他
   | "custom"
   | "empty"
   // 内置系统组件
   | "BaseNumberRange"
   | "BasicEditor"
-  | "BaseUpload"
-  // 子类分组
-  | "addDel"; //新增删除分组
+  | "BaseUpload";
+
+export type FormItemType = ElFormItemType | SystemFormItemType | FormChildrenType;
 
 export interface RowAttrs {
   gutter?: number;

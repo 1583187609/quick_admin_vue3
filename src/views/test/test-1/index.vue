@@ -4,6 +4,8 @@
     <BaseForm
       @change="handleChange"
       v-model="modelData"
+      labelSuffix="："
+      :grid="18"
       :fields="fields"
       :fetch="PostMockCommon"
       :size="modelData.widget_size"
@@ -29,7 +31,7 @@
     >
       <!--也可写成 :fetch="handleFetch"，处理转换 请求参数 -->
       <template #zdy>
-        <BaseNumberRange v-model="modelData.zdy" />
+        <input placeholder="请输入（自定义组件示例）" v-model="modelData.zdy" />
       </template>
     </BaseForm>
     <ul class="f-1 ml-t tips-list">

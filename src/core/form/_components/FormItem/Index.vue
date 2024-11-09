@@ -1,17 +1,25 @@
 <!-- 表单控件 -->
 <template>
-  <!-- el-cascader的默认插槽中如果写了v-if之类的条件语句，会导致级联的下拉项的label不会展示，故作此处理 -->
-  <component v-model="modelVal" :is="`el-${elType}`" @blur="handleBlur" @focus="handleFocus" @change="handleChange" v-if="elType === 'cascader'">
-    <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
+  <!-- el-cascader的默认插槽中如果写了v-if之类的条件语句，会导致级联的下拉项的label不会展示，故需要分开处理 -->
+  <component
+    v-model="modelVal"
+    :is="`el-${elType}`"
+    v-bind="itemAttrs"
+    @blur="handleBlur"
+    @focus="handleFocus"
+    @change="handleChange"
+    v-if="elType === 'cascader'"
+  >
+    <template #[key] v-for="(val, key) in getSlotsMap(slots)" :key="key">
       <BaseRender :data="val" />
     </template>
   </component>
-  <component v-model="modelVal" :is="`el-${elType}`" @blur="handleBlur" @focus="handleFocus" @change="handleChange" v-else>
-    <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
+  <component v-model="modelVal" :is="`el-${elType}`" v-bind="itemAttrs" @blur="handleBlur" @focus="handleFocus" @change="handleChange" v-else>
+    <template #[key] v-for="(val, key) in getSlotsMap(slots)" :key="key">
       <BaseRender :data="val" />
     </template>
     <template v-if="elType === 'select'">
-      <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in currOptions" :key="ind">
+      <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in subOptions" :key="ind">
         <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
           <BaseRender :data="val" />
         </template>
@@ -21,7 +29,7 @@
       <component
         :is="`el-radio${$attrs.type ? `-${$attrs.type}` : ''}`"
         v-bind="deleteAttrs(opt, ['slots'])"
-        v-for="(opt, ind) in currOptions"
+        v-for="(opt, ind) in subOptions"
         :key="ind"
       >
         <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
@@ -31,7 +39,7 @@
     </template>
     <template v-else-if="elType === 'checkbox-group'">
       <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-      <el-checkbox :name="name" v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in currOptions" :key="ind">
+      <el-checkbox :name="name" v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in subOptions" :key="ind">
         <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
           <BaseRender :data="val" />
         </template>
@@ -43,20 +51,23 @@
 import { computed } from "vue";
 import { CommonSlots, OptionItem } from "@/vite-env";
 import { defaultFormItemType, deleteAttrs, getSlotsMap } from "@/core/_utils";
+import { useFormAttrs } from "@/hooks";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
     elType?: string;
     name?: string; // el-checkbox 是必须的
-    currSlots?: CommonSlots;
-    currOptions?: OptionItem[];
+    slots?: CommonSlots;
+    subOptions?: OptionItem[];
   }>(),
   {
     elType: defaultFormItemType,
   }
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
+const $attrs = useAttrs();
+const itemAttrs = useFormAttrs({ ...props, ...$attrs }, ["disabled", "readonly", "size"]);
 
 const modelVal = computed({
   get: () => props.modelValue,

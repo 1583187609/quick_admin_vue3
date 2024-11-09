@@ -30,8 +30,8 @@
                 <FieldItemCol
                   :field="field"
                   :formRef="formRef"
-                  v-bind="getLevelsAttrs(field, sItem)"
                   v-model="formData[sItem.prop][field.prop as string]"
+                  v-bind="getLevelsAttrs(field, sItem)"
                   @blur="(...args) => $emit('blur', ...args)"
                   @focus="(...args) => $emit('focus', ...args)"
                   @change="(val:any, prop:any) => $emit('change', val, prop)"
@@ -46,8 +46,8 @@
                 <FieldItemCol
                   :field="field"
                   :formRef="formRef"
-                  v-bind="getLevelsAttrs(field, sItem)"
                   v-model="formData[field.prop as string]"
+                  v-bind="getLevelsAttrs(field, sItem)"
                   @blur="(...args) => $emit('blur', ...args)"
                   @focus="(...args) => $emit('focus', ...args)"
                   @change="(val:any, prop:any) => $emit('change', val, prop)"
@@ -86,7 +86,7 @@
         @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
         @submit="(args:CommonObj)=>$emit('submit', args)"
         ref="footerBtnsRef"
-        v-if="!pureText"
+        v-if="!formAttrs.pureText"
       />
     </slot>
   </el-form>
@@ -100,7 +100,7 @@ import { handleFields } from "./_utils";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/form/_types";
-import { defaultFormAttrs, FormLevelsAttrs, getFormLevelAttrs } from "@/core/form";
+import { defaultFormAttrs, FormLevelsAttrs } from "@/core/form";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
@@ -110,6 +110,7 @@ import QuestionPopover from "@/core/QuestionPopover.vue";
 import { CaretTop } from "@element-plus/icons-vue";
 import config from "@/config";
 import _ from "lodash";
+import { useFormAttrs } from "../_hooks";
 
 const { merge } = _;
 const props = withDefaults(
@@ -117,18 +118,18 @@ const props = withDefaults(
     modelValue?: CommonObj; //表单数据
     styleType?: FormStyleType;
     sections?: SectionFormItem[];
-    pureText?: boolean; //是否纯文本展示
-    readonly?: boolean; //是否只读
-    disabled?: boolean; //是否禁用
-    size?: CommonSize; //是否禁用
-    labelWidth?: string; //label的宽度
+    // grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
+    // size?: CommonSize; //是否禁用
+    // readonly?: boolean; //是否只读
+    // disabled?: boolean; //是否禁用
+    // pureText?: boolean; //是否纯文本展示
+    // labelWidth?: string; //label的宽度
     scrollToError?: boolean; //校验失败后是否自动滚到失败位置
     foldable?: boolean; //是否允许折叠
     fetch?: UniteFetchType; //接口请求
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
     footer?: boolean; //是否显示底部按钮
-    grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
@@ -144,9 +145,9 @@ const props = withDefaults(
   {
     modelValue: () => reactive({}),
     styleType: "common",
-    size: defaultCommonSize,
     scrollToError: true,
-    grid: 24,
+    // size: defaultCommonSize,
+    // grid: 24,
     footer: true,
     omit: true,
     foldable: true,
@@ -157,7 +158,7 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "blur", "focus", "moreBtns"]);
 const $attrs = useAttrs();
-provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
+const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
 const folds = ref<boolean[]>([]);
 const formRef = ref<FormInstance>();
@@ -194,25 +195,14 @@ watch(
 //     folds.value[ind] = !folds.value[ind];
 //   }
 // }
-// function getLevelsAttrs(field, sItem) {
-//   const { grid, readonly, pureText, disabled, size, labelWidth } = props;
-//   return {
-//     grid: field?.quickAttrs?.grid ?? sItem.grid ?? grid,
-//     readonly: field?.quickAttrs?.readonly ?? sItem.readonly ?? readonly,
-//     pureText: field?.quickAttrs?.pureText ?? sItem?.pureText ?? pureText,
-//     disabled: field?.quickAttrs?.disabled ?? sItem.disabled ?? disabled,
-//     size: field?.attrs?.size ?? field.size ?? sItem.size ?? size,
-//     labelWidth: field?.labelWidth ?? sItem.labelWidth ?? labelWidth,
-//   };
-// }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? props.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? props.labelWidth } = attrs;
+  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
   const {
-    grid = sItem.grid ?? props.grid,
-    readonly = sItem.readonly ?? props.readonly,
-    pureText = sItem?.pureText ?? props.pureText,
-    disabled = sItem.disabled ?? props.disabled,
+    grid = sItem.grid ?? formAttrs.grid,
+    readonly = sItem.readonly ?? formAttrs.readonly,
+    pureText = sItem?.pureText ?? formAttrs.pureText,
+    disabled = sItem.disabled ?? formAttrs.disabled,
   } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }

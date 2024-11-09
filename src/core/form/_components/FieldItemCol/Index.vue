@@ -1,20 +1,14 @@
 <template>
-  <el-col class="field-item-col" v-bind="getElColAttrs(field.quickAttrs?.grid ?? grid, colAttrs)">
+  <el-col class="field-item-col" v-bind="elColAttrs">
     <FieldItem
       v-model="newVal"
-      v-bind="$attrs"
       :prefixProp="prefixProp"
       :field="field"
-      :grid="grid"
-      :size="size"
-      :pureText="pureText"
-      :disabled="disabled"
-      :readonly="readonly"
-      :labelWidth="labelWidth"
       :inputDebounce="inputDebounce"
       :showChildrenLabel="showChildrenLabel"
       :isChild="isChild"
       :formRef="formRef"
+      v-bind="$attrs"
     >
       <template #custom="scope">
         <slot name="custom" v-bind="scope" />
@@ -28,34 +22,44 @@ import { CommonObj, CommonSize } from "@/vite-env";
 import { Grid, FormFieldAttrs } from "@/core/form/_types";
 import { getElColAttrs } from "@/core/form/_utils";
 import FieldItem from "@/core/form/_components/FieldItem/Index.vue";
+import { defaultCommonSize } from "@/utils";
+import _ from "lodash";
+import { FormLevelsAttrs } from "../../_consts";
+import { useFormAttrs } from "@/hooks";
+
+const { merge } = _;
 
 defineOptions({
   inheritAttrs: false,
 });
 
-const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
     prefixProp?: string; //前置prop属性
     colAttrs?: CommonObj; //el-col的属性
-    grid?: Grid;
-    size?: CommonSize;
     field: FormFieldAttrs;
-    pureText?: boolean; //是否展示纯文本
-    disabled?: boolean; //是否禁用
-    readonly?: boolean; //是否只读
-    labelWidth?: string; //label宽度
+    // grid?: Grid;
+    // size?: CommonSize;
+    // pureText?: boolean; //是否展示纯文本
+    // disabled?: boolean; //是否禁用
+    // readonly?: boolean; //是否只读
+    // labelWidth?: string; //label宽度
     inputDebounce?: boolean;
     showChildrenLabel?: boolean; //子项的label是否显示
     isChild?: boolean; //是否是父级children 的子级
     formRef?: any;
   }>(),
-  {
-    grid: 24,
-  }
+  {}
 );
 const $emit = defineEmits(["update:modelValue"]);
+const $attrs = useAttrs();
+const formAttrs = useFormAttrs({ ...props, ...$attrs });
+const elColAttrs = computed(() => {
+  const { field, colAttrs } = props;
+  const grid = field.quickAttrs?.grid ?? formAttrs.grid;
+  return getElColAttrs(grid, colAttrs);
+});
 const newVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
@@ -63,6 +67,4 @@ const newVal = computed({
 
 defineExpose({});
 </script>
-<style lang="scss" scoped>
-// .field-item-col {}
-</style>
+<style lang="scss" scoped></style>

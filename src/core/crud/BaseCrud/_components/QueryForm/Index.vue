@@ -52,13 +52,7 @@
             @submit="handleSubmit"
             @reset="handleReset"
             v-bind="getGridAttrs(grid)"
-            v-if="
-              newSections.length <= rowNum
-                ? sInd === newSections.length - 1
-                : isFold
-                ? sInd === rowNum - 1
-                : sInd === newSections.length - 1
-            "
+            v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
           />
         </div>
       </div>
@@ -106,8 +100,8 @@ import { CommonObj, CommonSize } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
-import { useEvent } from "@/hooks";
-import { handleFields, getGridAttrs, getFormLevelAttrs } from "@/core/form/_utils";
+import { useEvent, useFormAttrs } from "@/hooks";
+import { handleFields, getGridAttrs } from "@/core/form/_utils";
 import { SectionFormItemAttrs } from "@/core/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/form";
 import { defaultCommonSize } from "@/core/_utils";
@@ -142,7 +136,7 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "search", "change", "reset"]);
 const $attrs = useAttrs();
-provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
+useFormAttrs({ ...props, ...$attrs });
 let isFirst = true;
 const formRef = ref<FormInstance>();
 const colNum = ref(getColNum());

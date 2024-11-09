@@ -2,18 +2,17 @@
 <template>
   <template v-for="(field, ind) in fields" :key="ind">
     <el-row :gutter="16">
-      <FieldItemCol
-        v-model="modelData[field.prop as string]"
-        :prefixProp="prefixProp"
-        :field="field"
-        :grid="field?.quickAttrs?.grid ?? grid"
+      <!-- :grid="field?.quickAttrs?.grid ?? grid"
         :readonly="field?.quickAttrs?.readonly ?? readonly"
         :pureText="field?.quickAttrs?.pureText ?? pureText"
         :disabled="field?.quickAttrs?.disabled ?? disabled"
         :size="field?.attrs?.size ?? field.size ?? size"
-        :labelWidth="field?.labelWidth ?? labelWidth"
+        :labelWidth="field?.labelWidth ?? labelWidth" -->
+      <FieldItemCol
+        v-model="modelData[field.prop as string]"
+        :prefixProp="prefixProp"
+        :field="field"
         :showChildrenLabel="showChildrenLabel"
-        v-bind="field"
         isChild
       />
     </el-row>
@@ -30,12 +29,12 @@ const props = withDefaults(
     modelValue: CommonObj;
     prefixProp?: string;
     fields?: FormFieldAttrs[];
-    grid?: Grid;
-    size?: CommonSize;
-    readonly?: boolean;
-    pureText?: boolean;
-    disabled?: boolean;
-    labelWidth?: string;
+    // grid?: Grid;
+    // size?: CommonSize;
+    // readonly?: boolean;
+    // pureText?: boolean;
+    // disabled?: boolean;
+    // labelWidth?: string;
     showChildrenLabel?: boolean; //是否显示子级的label
   }>(),
   {

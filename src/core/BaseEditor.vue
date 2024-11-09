@@ -28,7 +28,7 @@ import { useFormItem } from "element-plus";
 import { CommonObj, StrNum } from "@/vite-env";
 import { isProd, storage } from "@/core/_utils";
 import _ from "lodash";
-import "@wangeditor/editor/dist/css/style.css";
+// import "@wangeditor/editor/dist/css/style.css";
 
 export type ModeTypes = "default" | "simple";
 

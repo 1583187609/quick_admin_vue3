@@ -12,11 +12,7 @@
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
           v-model="formData[field.prop as string]"
-          :grid="grid"
-          :size="size"
           :field="field"
-          :readonly="readonly"
-          :pureText="pureText"
           :formRef="formRef"
           @change="(val:any, prop:any) => $emit('change', val, prop)"
           v-for="(field, ind) in newFields"
@@ -62,7 +58,7 @@ import { FormInstance } from "element-plus";
 import { handleFields } from "./_utils";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
-import { defaultFormAttrs, FormLevelsAttrs, getFormLevelAttrs } from "@/core/form";
+import { defaultFormAttrs } from "@/core/form";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/BaseBtn/_types";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
@@ -70,6 +66,7 @@ import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/core/_utils";
 import config from "@/config";
 import _ from "lodash";
+import { useFormAttrs } from "../_hooks";
 
 const { merge } = _;
 
@@ -81,13 +78,14 @@ const $slots = defineSlots<{
 }>();
 const props = withDefaults(
   defineProps<{
-    styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
-    size?: CommonSize;
     modelValue?: CommonObj; //表单数据
+    styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
     fields?: FormField[]; //表单字段项
-    readonly?: boolean; //是否只读
+    // grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
+    // size?: CommonSize;
+    // readonly?: boolean; //是否只读
+    // disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
-    grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     footer?: boolean; //是否显示底部按钮
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
@@ -106,9 +104,9 @@ const props = withDefaults(
   }>(),
   {
     styleType: "common",
-    size: defaultCommonSize,
     modelValue: () => reactive({}),
-    grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
+    // size: defaultCommonSize,
+    // grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
     footer: true,
     omit: true,
     autoFixedFoot: true,
@@ -118,7 +116,7 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
 const $attrs = useAttrs();
-provide(FormLevelsAttrs, getFormLevelAttrs({ ...props, ...$attrs }));
+useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);

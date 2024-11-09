@@ -15,7 +15,7 @@
       <template v-if="newField.quickAttrs?.pureText ?? pureText">
         <slot name="custom" :field="newField" v-if="newField.type === 'custom'" />
         <template v-else>
-          {{ getOptionValue(newField, newVal).value }}
+          {{ getOptionValue(newField, modelVal).value }}
         </template>
       </template>
       <template v-else>
@@ -28,79 +28,21 @@
         <slot name="custom" :field="newField" v-if="newField.type === 'custom'">
           <div class="color-danger">【自定义】{{ `${newField.label}（${newField.prop})` }}</div>
         </slot>
-        <!-- <FormItem
-          v-model="newVal"
-          :type="newField.type"
+        <FormItem
+          v-model="modelVal"
+          :elType="newField.type"
           :name="newField.prop"
-          :attrs="newField.attrs"
           :class="flexClass"
           :currSlots="currSlots"
           :currOptions="currOptions"
+          v-bind="newField.attrs"
           @blur="handleBlur"
           @focus="handleFocus"
           @change="handleChange"
           v-if="getIsEl()"
-        /> -->
-        <template v-if="getIsEl()">
-          <!-- el-cascader的默认插槽中如果写了v-if之类的条件语句，会导致级联的下拉项的label不会展示，故作此处理 -->
-          <component
-            v-model="newVal"
-            :is="`el-${newField.type}`"
-            :class="flexClass"
-            @blur="handleBlur"
-            @focus="handleFocus"
-            @change="handleChange"
-            v-bind="getElBindAttrs()"
-            v-if="newField.type === 'cascader'"
-          >
-            <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
-              <BaseRender :data="val" />
-            </template>
-          </component>
-          <component
-            v-model="newVal"
-            :is="`el-${newField.type}`"
-            :class="flexClass"
-            @blur="handleBlur"
-            @focus="handleFocus"
-            @change="handleChange"
-            v-bind="getElBindAttrs()"
-            v-else
-          >
-            <template #[key] v-for="(val, key) in getSlotsMap(currSlots)" :key="key">
-              <BaseRender :data="val" />
-            </template>
-            <template v-if="newField.type === 'select'">
-              <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in currOptions" :key="ind">
-                <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
-                  <BaseRender :data="val" />
-                </template>
-              </el-option>
-            </template>
-            <template v-else-if="newField.type === 'radio-group'">
-              <component
-                :is="`el-radio${newField?.attrs?.type ? `-${newField.attrs.type}` : ''}`"
-                v-bind="deleteAttrs(opt, ['slots'])"
-                v-for="(opt, ind) in currOptions"
-                :key="ind"
-              >
-                <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
-                  <BaseRender :data="val" />
-                </template>
-              </component>
-            </template>
-            <template v-else-if="newField.type === 'checkbox-group'">
-              <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-              <el-checkbox :name="newField.prop" v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in currOptions" :key="ind">
-                <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
-                  <BaseRender :data="val" />
-                </template>
-              </el-checkbox>
-            </template>
-          </component>
-        </template>
+        />
         <component
-          v-model="newVal"
+          v-model="modelVal"
           :is="newField.type"
           :class="flexClass"
           @blur="handleBlur"
@@ -120,7 +62,7 @@
     <!-- 当有子项表单时 -->
     <template v-else>
       <AddDelList
-        v-model="newVal"
+        v-model="modelVal"
         :fields="subFields"
         :parentProp="newField.prop"
         :grid="grid"
@@ -133,7 +75,7 @@
         v-if="newField.type === 'addDel'"
       />
       <AnyEleList
-        v-model="newVal"
+        v-model="modelVal"
         :fields="subFields"
         :prefixProp="newField.prop"
         :grid="grid"
@@ -152,7 +94,7 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getSlotsMap, getFormItemSlots } from "@/core/_utils";
+import { typeOf, getTextFromOpts, deleteAttrs, defaultFormItemType, emptyStr, getFormItemSlots } from "@/core/_utils";
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/core/form/_types";
 import { FormItemRule } from "element-plus";
@@ -198,7 +140,7 @@ let currSlots: any; // 当前表单控件的插槽
 let currPopover: any;
 let currOptions: any;
 const { getOpts } = useDict();
-const newVal = computed({
+const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
@@ -295,20 +237,6 @@ function getIsBase() {
   return code >= 65 && code <= 90;
 }
 
-// 获取elementPlus组件的属性
-function getElBindAttrs() {
-  const { type, attrs = {} } = newField.value;
-  // const { options } = attrs;
-  // const newAttrs = attrs;
-  //  if (type === "cascader") {
-  //   newAttrs.options = options;
-  // }
-  // return newAttrs;
-  // if (type === "cascader") {
-  //   console.log(newField.value, "cascader------------");
-  // }
-  return attrs;
-}
 // 获取自定义基础组件的属性
 function getBaseBindAttrs() {
   const { attrs = {} } = newField.value;
@@ -318,29 +246,17 @@ function getBaseBindAttrs() {
   return newAttrs;
 }
 
-function handleBlur(e: any = "") {
-  const val = e.target?.value ?? e;
+// 事件处理
+function handleBlur(val: any = "") {
   $emit("blur", val, newField.value.prop);
 }
-function handleFocus(e: any = "") {
-  const val = e.target?.value ?? e;
+function handleFocus(val: any = "") {
   $emit("focus", val, newField.value.prop);
 }
 function handleChange(val: any = "") {
   $emit("change", val, newField.value.prop);
 }
 
-// function handleBlur(val: any = "") {
-//   // const val = e.target?.value ?? e;
-//   $emit("blur", val, newField.value.prop);
-// }
-// function handleFocus(val: any = "") {
-//   // const val = e.target?.value ?? e;
-//   $emit("focus", val, newField.value.prop);
-// }
-// function handleChange(val: any = "") {
-//   $emit("change", val, newField.value.prop);
-// }
 /**
  * 获取 placeholder 文本
  * @param field

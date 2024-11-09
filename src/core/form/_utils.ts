@@ -1,8 +1,9 @@
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
-import { typeOf, propsJoinChar } from "@/core/_utils";
+import { typeOf, propsJoinChar, deleteAttrs, defaultCommonSize } from "@/core/_utils";
 import { CommonObj } from "@/vite-env";
 import { handleFormInitData } from "@/core/_utils";
 import _ from "lodash";
+import { FormLevelsAttrs } from "./_consts";
 
 const { merge } = _;
 /**
@@ -116,16 +117,4 @@ export function getGridAttrs(grid: Grid = 24) {
     return getGridAttrs(colNum);
   }
   return grid;
-}
-
-/**
- * 获取el-form透传到el-form-item的属性
- * @param mergeProps
- * @returns
- */
-export function getFormLevelAttrs(mergeProps: CommonObj) {
-  const { labelSuffix } = mergeProps;
-  return {
-    labelSuffix,
-  };
 }
