@@ -43,8 +43,8 @@
         :afterFail="afterFail"
         :handleRequest="handleRequest"
         :handleResponse="handleResponse"
-        @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
-        @submit="(args:CommonObj)=>$emit('submit', args)"
+        @moreBtns="(name: string, args?: CommonObj, cb?: FinallyNext) => $emit('moreBtns', name, args, cb)"
+        @submit="(args: CommonObj) => $emit('submit', args)"
         ref="footerBtnsRef"
         v-if="!pureText"
       />

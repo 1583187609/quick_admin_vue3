@@ -81,6 +81,7 @@ function handleSelected(val: LayoutType) {
 }
 </script>
 <style lang="scss" scoped>
+@use "sass:color";
 $ratio: 0.06;
 $height: $header-height * $ratio;
 $width: $asider-width * $ratio;
@@ -104,11 +105,11 @@ $nav-width: $main-menu-width * $ratio;
         background: $color-primary;
       }
       &.side {
-        background: mix($color-primary, #ffffff, 65%);
+        background: color.mix($color-primary, #ffffff, 65%);
       }
       &.main {
         border-radius: 2px;
-        background: mix($color-primary, #ffffff, 15%);
+        background: color.mix($color-primary, #ffffff, 15%);
       }
     }
     &.columns {

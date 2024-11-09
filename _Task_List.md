@@ -244,8 +244,8 @@
 ~~51、接入自动引入 vue、vue-router api 的 npm 包`unplugin-auto-import/vite`~~
 ~~39、调整 slots 的位置到 attrs.slots 中~~
 ~~35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题~~
+~~4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0~~
 
-4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0  
 16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式，将 compact 改成 mini）；  
 17、将 Echarts 的配置纳入到 config 中  
 18、将 WangEditor 的配置纳入到 config 中  

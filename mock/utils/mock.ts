@@ -77,7 +77,7 @@ export function getMockCfg(rules: CommonObj): CommonObj {
     if (t === "Null" || t === "Object") {
       records.push(Object.assign({ prop: key }, defaultRules[key], _rule));
     } else if (t === "Array") {
-      records.push(..._rule.map((it: CommonObj) => Object.assign({ prop: key }, defaultRules[key], it)));
+      records.push(..._rule?.map((it: CommonObj) => Object.assign({ prop: key }, defaultRules[key], it)));
     } else {
       throw new Error(`不支持参数类型${t}`);
     }
@@ -105,9 +105,9 @@ export function getMockCfg(rules: CommonObj): CommonObj {
         cfg[prop] = () => {
           let ids: number[] = [];
           if (name === "Region") {
-            const arrAreas = allAddress.map((pItem, pInd) => {
-              const cloneCity = pItem.city.map((cItem, cInd) => {
-                const cloneArea = cItem.area.map((aItem, aInd) => {
+            const arrAreas = allAddress?.map((pItem, pInd) => {
+              const cloneCity = pItem.city?.map((cItem, cInd) => {
+                const cloneArea = cItem.area?.map((aItem, aInd) => {
                   return aItem.id;
                 });
                 return cloneArea;

@@ -32,18 +32,20 @@ function getConfigItem(item: string | CommonObj, endPath?: string) {
 
 // const item = {
 //   name: "", //需要 CDN 加速的包名称	string
-//   alias: "", //名称的别名，例如“react-dom/client”是“react-dom”的别名	string[]
 //   var: "", //全局分配给模块的变量	string
 //   path: "", //指定 CDN 上的加载路径	string / string[]
 //   css: "", //可以指定从 CDN 地址上加载多个样式表	string / string[]
+//   alias: "", //名称的别名，例如“react-dom/client”是“react-dom”的别名	string[]
 //   prodUrl: "", //覆盖全局的 prodUrl	string / string[]
 // };
 export const externalList: any[] = [
   /*** 框架全家桶 ***/
   "vue",
+  { name: "vue-demi", var: "VueDemi", path: "https://unpkg.com/vue-demi@0.14.10" },
+  // getConfigItem({ name: "vue-demi", var: "VueDemi", path: "https://unpkg.com/vue-demi@0.14.10" }), // https://unpkg.com/vue-demi@0.14.10
   getConfigItem("vue-router"), // { name: "vue-router", var: "VueRouter", path: `https://unpkg.com/vue-router@4.4.5` },
-  // getConfigItem("pinia"),
-  // getConfigItem("vue-demi"),
+  getConfigItem({ name: "vue-demi", var: "VueDemi", path: "https://unpkg.com/vue-demi@0.14.10" }), // https://unpkg.com/vue-demi@0.14.10
+  getConfigItem("pinia"),
   // ui库
   getConfigItem("element-plus"),
   /*** 基础必备 ***/

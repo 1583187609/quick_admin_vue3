@@ -16,6 +16,7 @@ import { cdnImport, external } from "./plugins/cdn-import";
 
 export * from "./utils";
 
+const useCdnImport = false;
 // const outDirPath = path.resolve(__dirname, "../online-preview/vue");
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
@@ -29,10 +30,9 @@ export default ({ mode, command }) => {
     //   __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
     // },
     base: "./", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
-    // base: "/", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // root: "./src/pages", // 项目根目录
     plugins: [
-      ...(isVitepress ? [] : [vue(), visualizer, cdnImport]),
+      ...(isVitepress ? [] : [vue(), visualizer, useCdnImport ? cdnImport : undefined]),
       AutoImport,
       viteMockServe,
       generateComponentName,
@@ -55,6 +55,8 @@ export default ({ mode, command }) => {
     css: {
       preprocessorOptions: {
         scss: {
+          // 暂时消除警告：Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0. More info: https://sass-lang.com/d/legacy-js-api
+          api: "modern",
           // additionalData: `@import "@/assets/styles/_var.scss";`,
           additionalData: `@use "@/assets/styles/_var.scss" as *;`,
         },
@@ -107,39 +109,37 @@ export default ({ mode, command }) => {
       chunkSizeWarningLimit: 1000, // 打包最大体积警告
       rollupOptions: {
         // 以下文件不打包
-        external: isVitepress ? undefined : external,
+        external: isVitepress ? undefined : useCdnImport ? external : undefined,
         output: {
           // 分文件夹进行分包优化
-          entryFileNames: "assets/js/[name]-[hash].js",
-          chunkFileNames: "assets/js/[name]-[hash].js",
-          // assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
-          //进行分包优化
-          manualChunks(id) {
-            if (id.includes("/mock/")) return "mock";
-            if (id.includes("node_modules")) {
-              return id.split("node_modules/")[1].split("/")[0];
-            }
-          },
-          assetFileNames(info) {
-            const { name } = info;
-            const ext = path.extname(name).slice(1);
-            if (["css", "js", "vue"].includes(ext)) {
-              //wangEditor包的名字中带有/，所以需要处理下
-              const packages = Object.keys(pkg.dependencies).map(key => key.split("/")[0]);
-              // if (ext === "vue" || ext === "js") {
-              //   console.log(info, packages, "info-------------------------");
-              // }
-              const isNodeModule = packages.some(it => name.startsWith(it));
-              const subPath = isNodeModule ? "package/" : "";
-              const _name = getFileNameByPath(name);
-              return `assets/[ext]/${subPath}${_name}-[hash].[ext]`;
-            }
-            const imgExts = ["png", "jpg", "jpeg", "webp", "svg", "gif", "ico"];
-            if (imgExts.includes(ext)) return "assets/imgs/[ext]/[name]-[hash].[ext]";
-            const fontExts = ["otf", "ttf"];
-            if (fontExts.includes(ext)) return "assets/font/[name]-[hash].[ext]";
-            return "assets/[ext]/[name]-[hash].[ext]";
-          },
+          // entryFileNames: "assets/js/[name]-[hash].js",
+          // chunkFileNames: "assets/js/[name]-[hash].js",
+          // // assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
+          // //进行分包优化
+          // manualChunks(id) {
+          //   if (id.includes("/mock/")) return "mock";
+          //   if (id.includes("node_modules")) {
+          //     return id.split("node_modules/")[1].split("/")[0];
+          //   }
+          // },
+          // assetFileNames(info) {
+          //   const { name } = info;
+          //   const ext = path.extname(name).slice(1);
+          //   console.log(name, ext, "info-------------------------");
+          //   if (["css", "js", "vue"].includes(ext)) {
+          //     //wangEditor包的名字中带有/，所以需要处理下
+          //     const packages = Object.keys(pkg.dependencies).map(key => key.split("/")[0]);
+          //     const isNodeModule = packages.some(it => name.startsWith(it));
+          //     const subPath = isNodeModule ? "package/" : "";
+          //     const _name = getFileNameByPath(name);
+          //     return `assets/[ext]/${subPath}${_name}-[hash].[ext]`;
+          //   }
+          //   const imgExts = ["png", "jpg", "jpeg", "webp", "svg", "gif", "ico"];
+          //   if (imgExts.includes(ext)) return "assets/imgs/[ext]/[name]-[hash].[ext]";
+          //   const fontExts = ["otf", "ttf"];
+          //   if (fontExts.includes(ext)) return "assets/font/[name]-[hash].[ext]";
+          //   return "assets/[ext]/[name]-[hash].[ext]";
+          // },
         },
       },
     },

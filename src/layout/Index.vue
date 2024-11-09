@@ -100,6 +100,7 @@ function reloadView(hint = "刷新成功") {
 provide("reloadView", reloadView);
 </script>
 <style lang="scss" scoped>
+@use "sass:color";
 .layout {
   height: 100%;
   width: 100%;
@@ -114,8 +115,8 @@ provide("reloadView", reloadView);
     overflow: auto;
     padding-bottom: 4em;
     .item {
-      $bg-darker: mix($nav-bg-dark-heavy, #000000, 50%);
-      $bg-darkest: mix($nav-bg-dark-heavy, #000000, 0.01%);
+      $bg-darker: color.mix($nav-bg-dark-heavy, #000000, 50%);
+      $bg-darkest: color.mix($nav-bg-dark-heavy, #000000, 0.01%);
       cursor: pointer;
       padding: $gap-half $gap-qtr;
       width: $main-menu-width;

@@ -2,6 +2,7 @@
   <el-upload
     class="base-upload"
     v-model:file-list="fileList"
+    :accept="accept"
     :before-upload="beforeUpload"
     :on-progress="handleProgress"
     :on-success="handleSuccess"

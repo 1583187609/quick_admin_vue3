@@ -5,7 +5,6 @@
       :prefixProp="prefixProp"
       :field="field"
       :inputDebounce="inputDebounce"
-      :showChildrenLabel="showChildrenLabel"
       :isChild="isChild"
       :formRef="formRef"
       v-bind="$attrs"
@@ -46,7 +45,6 @@ const props = withDefaults(
     // readonly?: boolean; //是否只读
     // labelWidth?: string; //label宽度
     inputDebounce?: boolean;
-    showChildrenLabel?: boolean; //子项的label是否显示
     isChild?: boolean; //是否是父级children 的子级
     formRef?: any;
   }>(),

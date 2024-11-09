@@ -37,11 +37,11 @@ const sections: SectionFormItemAttrs[] = [
       },
     ],
   },
-  { title: "生产环境依赖", prop: "depends", fields: Object.entries(dependencies).map(([label, value]) => ({ label, value })) },
+  { title: "生产环境依赖", prop: "depends", fields: Object.entries(dependencies).map(([label, value]) => ({ prop: label, label })) },
   {
     title: "开发环境依赖",
     prop: "devDepends",
-    fields: Object.entries(devDependencies).map(([label, value]) => ({ label, value })),
+    fields: Object.entries(devDependencies).map(([label, value]) => ({ prop: label, label })),
   },
 ];
 </script>

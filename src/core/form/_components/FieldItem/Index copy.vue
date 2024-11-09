@@ -70,7 +70,6 @@
         :disabled="disabled"
         :readonly="readonly"
         :pureText="pureText"
-        :showChildrenLabel="newField.showChildrenLabel"
         :formRef="formRef"
         v-if="newField.type === 'addDel'"
       />
@@ -83,7 +82,6 @@
         :disabled="disabled"
         :readonly="readonly"
         :pureText="pureText"
-        :showChildrenLabel="newField.showChildrenLabel"
         v-else-if="newField.type === 'childrenFields'"
       />
       <template v-else>{{ throwTplError(`不存在此子类型：${newField.type}`) }}</template>
@@ -125,7 +123,6 @@ const props = withDefaults(
     readonly?: boolean; //是否只读
     labelWidth?: string; //label宽度
     inputDebounce?: boolean;
-    showChildrenLabel?: boolean; //子项的label是否显示
     isChild?: boolean; //是否是父级children 的子级
     formRef?: any;
   }>(),
@@ -146,7 +143,7 @@ const modelVal = computed({
 });
 const subFields = ref<FormFieldAttrs[]>([]);
 const newField = computed<FormFieldAttrs>(() => {
-  const { prefixProp, field, size, readonly, disabled, labelWidth, isChild, showChildrenLabel } = props;
+  const { prefixProp, field, size, readonly, disabled, labelWidth, isChild } = props;
   const { type: fType, label, quickAttrs = {}, children } = field;
   let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   // let tempField: FormFieldAttrs = commonClone(field);
@@ -213,9 +210,9 @@ const newField = computed<FormFieldAttrs>(() => {
   // }
   // delete tempField.popover; // 如果将popover一并v-bind在el-form-item上，会导致该表单字段不会渲染出来，故需要单独特殊处理
   // delete tempField.quickAttrs; // 此处不能删除
-  if (isChild && !showChildrenLabel) {
-    delete tempField.label;
-  }
+  // if (isChild && !showChildrenLabel) {
+  //   delete tempField.label;
+  // }
   delete tempField.children; //需要删除，不然会在子级表单项上 v-bind 时触发 children 警告
   // if (tempField.prop === "phone") {
   //   console.log(tempField, "tempField--------------");

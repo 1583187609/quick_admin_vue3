@@ -22,6 +22,7 @@ import { CommonObj, StrNum } from "@/vite-env";
 import { RefreshListFn } from "@/core/table/_components/Column.vue";
 import FormItem from "@/core/form/_components/FormItem/Index.vue";
 import { ElFormItemType } from "@/core/form/_components/FormItem/_types";
+import { useFormAttrs } from "@/hooks";
 
 export type InsertTabColFormType = ElFormItemType;
 
@@ -42,7 +43,8 @@ const props = withDefaults(
 );
 
 const $emit = defineEmits(["update:row"]);
-
+const $attrs = useAttrs();
+useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const newRow = computed({
   get: () => props.row,
   set: (val: any) => $emit("update:row", val),

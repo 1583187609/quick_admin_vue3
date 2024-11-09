@@ -10,10 +10,9 @@
       :size="field?.attrs?.size ?? field.size ?? size"
       :labelWidth="field?.labelWidth ?? labelWidth" -->
       <FieldItemCol
+        v-model="newList[ind][field.prop as string]"
         :prefixProp="`${parentProp}[${ind}]`"
         :field="field"
-        :showChildrenLabel="showChildrenLabel"
-        v-model="newList[ind][field.prop as string]"
         isChild
         :ref="el => initRefsList(el, ind)"
         v-for="(field, fInd) in newFields"
@@ -34,7 +33,7 @@ import { showMessage } from "@/core/_utils";
 import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
 import _ from "lodash";
 
-const { merge } = _;
+const { merge, isEqual } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
@@ -46,7 +45,6 @@ const props = withDefaults(
     // disabled?: boolean;
     // pureText?: boolean;
     // labelWidth?: string;
-    showChildrenLabel?: boolean; //是否显示子级的label
     formRef?: any;
   }>(),
   {
@@ -82,15 +80,13 @@ watch(
 );
 watch(
   () => props.modelValue,
-  newVal => {
+  (newVal, oldVal) => {
     // 用 isDel 标记是为了处理点击删除时，删除不掉的bug
     const isDel = newVal.length < Object.keys(formData).length;
     if (isDel) {
       Object.keys(formData).forEach(key => delete formData[key]); //是为了清空对象属性，然后重新赋值
-      merge(formData, newVal);
-    } else {
-      merge(formData, newVal);
     }
+    merge(formData, newVal);
   },
   { immediate: false, deep: true }
 );

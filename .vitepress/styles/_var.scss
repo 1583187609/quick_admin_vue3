@@ -1,3 +1,4 @@
+// @use "sass:color";
 // // dialog 相关
 // $dialog-top: 2vh;
 
@@ -37,12 +38,12 @@
 // $color-text-lighter: #ccc;
 
 // // 背景颜色
-// $color-bg-heavyest: mix($color-primary, #ffffff, 30%);
-// $color-bg-heavyer: mix($color-primary, #ffffff, 25%);
-// $color-bg-heavy: mix($color-primary, #ffffff, 20%);
-// $color-bg-main: mix($color-primary, #ffffff, 15%);
-// $color-bg-light: mix($color-primary, #ffffff, 10%);
-// $color-bg-lighter: mix($color-primary, #ffffff, 5%);
+// $color-bg-heavyest: color.mix($color-primary, #ffffff, 30%);
+// $color-bg-heavyer: color.mix($color-primary, #ffffff, 25%);
+// $color-bg-heavy: color.mix($color-primary, #ffffff, 20%);
+// $color-bg-main: color.mix($color-primary, #ffffff, 15%);
+// $color-bg-light: color.mix($color-primary, #ffffff, 10%);
+// $color-bg-lighter: color.mix($color-primary, #ffffff, 5%);
 // $color-bg-white: #f5f5f5;
 
 // // 边框颜色

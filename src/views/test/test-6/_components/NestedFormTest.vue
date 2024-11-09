@@ -35,7 +35,6 @@ const fields = [
     label: "嵌套（对象）",
     prop: "inner_obj",
     // required: true,
-    // showChildrenLabel: true,
     children: [
       {
         prop: "one",
@@ -62,7 +61,6 @@ const fields = [
     prop: "inner_arr",
     required: true,
     type: "addDel",
-    // showChildrenLabel: true,
     children: [
       {
         prop: "one",

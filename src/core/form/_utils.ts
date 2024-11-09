@@ -1,9 +1,8 @@
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
-import { typeOf, propsJoinChar, deleteAttrs, defaultCommonSize } from "@/core/_utils";
+import { typeOf, propsJoinChar } from "@/core/_utils";
 import { CommonObj } from "@/vite-env";
 import { handleFormInitData } from "@/core/_utils";
 import _ from "lodash";
-import { FormLevelsAttrs } from "./_consts";
 
 const { merge } = _;
 /**

@@ -61,21 +61,8 @@
     </template>
     <!-- 当有子项表单时 -->
     <template v-else>
-      <AddDelList
-        v-model="modelVal"
-        :fields="subFields"
-        :parentProp="formItemAttrs.prop"
-        :showChildrenLabel="formItemAttrs.showChildrenLabel"
-        :formRef="formRef"
-        v-if="currType === 'addDel'"
-      />
-      <AnyEleList
-        v-model="modelVal"
-        :fields="subFields"
-        :prefixProp="formItemAttrs.prop"
-        :showChildrenLabel="formItemAttrs.showChildrenLabel"
-        v-else-if="currType === 'childrenFields'"
-      />
+      <AddDelList v-model="modelVal" :fields="subFields" :parentProp="formItemAttrs.prop" :formRef="formRef" v-if="currType === 'addDel'" />
+      <AnyEleList v-model="modelVal" :fields="subFields" :prefixProp="formItemAttrs.prop" v-else-if="currType === 'childrenFields'" />
       <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
     </template>
   </el-form-item>
@@ -116,7 +103,6 @@ const props = withDefaults(
     // labelWidth?: string;
     prefixProp?: string; //前置prop属性
     inputDebounce?: boolean;
-    showChildrenLabel?: boolean; //子项的label是否显示
     isChild?: boolean; //是否是父级children 的子级
     formRef?: any;
   }>(),
@@ -144,7 +130,7 @@ const modelVal = computed({
 });
 const subFields = ref<FormFieldAttrs[]>([]);
 const formItemAttrs = computed<FormFieldAttrs>(() => {
-  const { prefixProp, field, isChild, showChildrenLabel } = props;
+  const { prefixProp, field, isChild } = props;
   // let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
   /*** 合并统一 tempField ***/
   const rulesType = field.quickAttrs?.rulesType;
@@ -202,14 +188,17 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   currChildren = children;
   currFormItemSlots = slots;
   newPureText.value = quickAttrs.pureText ?? pureText;
-  const { type } = restFormItemAttrs;
+  const { type, labelWidth } = restFormItemAttrs;
   currType.value = type;
   if (attrs) {
     const { slots, ...restAttrs } = attrs;
     currAttrs = restAttrs;
     currSlots = slots;
   }
-  // if (isChild && !showChildrenLabel) delete restFormItemAttrs.label;
+  /*** 调整显示 templateField ***/
+  if (isChild && Number(labelWidth) === 0) {
+    delete restFormItemAttrs.label;
+  }
   return restFormItemAttrs;
 });
 // 弹性伸缩类名

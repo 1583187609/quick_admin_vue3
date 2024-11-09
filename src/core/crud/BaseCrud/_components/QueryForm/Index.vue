@@ -136,7 +136,7 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "search", "change", "reset"]);
 const $attrs = useAttrs();
-useFormAttrs({ ...props, ...$attrs });
+useFormAttrs({ ...props, ...$attrs }, undefined, true);
 let isFirst = true;
 const formRef = ref<FormInstance>();
 const colNum = ref(getColNum());

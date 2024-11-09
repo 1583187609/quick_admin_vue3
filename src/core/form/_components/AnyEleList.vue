@@ -8,13 +8,7 @@
         :disabled="field?.quickAttrs?.disabled ?? disabled"
         :size="field?.attrs?.size ?? field.size ?? size"
         :labelWidth="field?.labelWidth ?? labelWidth" -->
-      <FieldItemCol
-        v-model="modelData[field.prop as string]"
-        :prefixProp="prefixProp"
-        :field="field"
-        :showChildrenLabel="showChildrenLabel"
-        isChild
-      />
+      <FieldItemCol v-model="modelData[field.prop as string]" :prefixProp="prefixProp" :field="field" isChild />
     </el-row>
   </template>
 </template>
@@ -35,7 +29,6 @@ const props = withDefaults(
     // pureText?: boolean;
     // disabled?: boolean;
     // labelWidth?: string;
-    showChildrenLabel?: boolean; //是否显示子级的label
   }>(),
   {
     fields: () => [],

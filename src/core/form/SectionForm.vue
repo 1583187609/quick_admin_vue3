@@ -20,7 +20,10 @@
               <CaretTop />
             </el-icon>
           </div>
-          <el-row class="body f-fs-fs-w" :style="{ 'max-height': folds[sInd] ? '0' : '100vh' }">
+          <el-row
+            class="body f-fs-fs-w hover-show-scroll"
+            :style="folds[sInd] ? { maxHeight: 0, overflow: 'hidden' } : { maxHeight: bodyMaxHeight, overflow: 'auto' }"
+          >
             <slot name="body" :section="sItem" :index="sInd" v-if="sItem.type === 'custom'">
               <slot :name="sItem.prop" />
             </slot>
@@ -120,9 +123,10 @@ const props = withDefaults(
     sections?: SectionFormItem[];
     // grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
     // size?: CommonSize; //是否禁用
-    // readonly?: boolean; //是否只读
-    // disabled?: boolean; //是否禁用
-    // pureText?: boolean; //是否纯文本展示
+    // 布尔值必须写，不然从$attrs传过来后，会处理成''
+    readonly?: boolean; //是否只读
+    disabled?: boolean; //是否禁用
+    pureText?: boolean; //是否纯文本展示
     // labelWidth?: string; //label的宽度
     scrollToError?: boolean; //校验失败后是否自动滚到失败位置
     foldable?: boolean; //是否允许折叠
@@ -138,6 +142,7 @@ const props = withDefaults(
     omit?: boolean; //是否剔除掉值为 undefined, null, “” 的参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
+    bodyMaxHeight?: string; //
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
     handleRequest?: (args: any) => any; // 处理请求参数
     handleResponse?: (data: any) => any; // 处理请求数据
@@ -151,6 +156,7 @@ const props = withDefaults(
     footer: true,
     omit: true,
     foldable: true,
+    bodyMaxHeight: "90vh",
     autoFixedFoot: true,
     sections: () => [],
     ...config?.SectionForm?.Index,
@@ -159,6 +165,8 @@ const props = withDefaults(
 const $emit = defineEmits(["update:modelValue", "submit", "change", "blur", "focus", "moreBtns"]);
 const $attrs = useAttrs();
 const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
+console.log(formAttrs, "formAttrs-------");
+console.log(props, $attrs, "mergeProps-----------");
 const footerBtnsRef = ref<any>(null);
 const folds = ref<boolean[]>([]);
 const formRef = ref<FormInstance>();
@@ -288,7 +296,15 @@ $g: 4px; // 2px 4px 6px small default large
     margin: $gap 0 0;
     width: 100%;
     transition: max-height $transition-time-main;
-    overflow: hidden;
+    overscroll-behavior: auto;
+    // &.fold {
+    //   max-height: 0;
+    //   overflow: hidden;
+    // }
+    // &.expand {
+    //   max-height: 90vh; // 90vh;
+    //   overflow: auto;
+    // }
   }
 }
 .auto-fixed-foot {

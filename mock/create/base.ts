@@ -1,7 +1,5 @@
 import Mock from "mockjs";
-import dayjs from "dayjs";
-import { getDictText } from "../dict";
-import { getDictMapKeys, getMockCfg } from "../utils";
+import { getMockCfg } from "../utils";
 import { CommonObj } from "@/vite-env";
 
 const { Random } = Mock;
@@ -27,12 +25,12 @@ export function createCompanyList(num = 100, idStart = 1) {
       {
         "id|+1": idStart, //id递增
         fullName(res: CommonObj) {
-          return `${Random.ctitle(3, 8)}公司`;
+          return `${Random?.ctitle(3, 8)}公司`;
         },
         //简称
         shortName(res: CommonObj) {
           const { fullName } = res.context.currentContext;
-          return Random.cword(fullName, 1, 5);
+          return Random?.cword(fullName, 1, 5);
         },
       },
     ],
