@@ -1,12 +1,9 @@
 # BaseBtn 按钮
 
-&emsp;&emsp;基础按钮，用于增删改查列表页：中间或表格操作栏的按钮。集成了样式、图标、位置、权限、路由跳转、气泡确认框（`popconfirm`）等功能。
+&emsp;&emsp;目标：仅传入`name`属性，即可享有对应按钮的全部功能（含颜色、文本、图标、权限、默认逻辑等），也可传入属性值进行覆盖，同时提供了快捷属性（`to`、`popoconfirm`）。
 ## 基础用法
 
-&emsp;&emsp;默认按钮，方便快速开发（占位，省去引入图标、保证样式风格统一等时间）。  
-&emsp;&emsp;设置`attrs`属性覆盖默认样式。  
-&emsp;&emsp;删除按钮，自带 `popconfirm`，可设置文本内容覆盖默认提示语，也可设置`false`来禁用功能。  
-&emsp;&emsp;导入按钮，自带下载模板弹出层。
+&emsp;&emsp;集成了样式（颜色+图标+位置）、权限、路由跳转、气泡确认框（`popconfirm`）等功能。
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/2_BaseBtn 按钮/1_BasicUse.vue

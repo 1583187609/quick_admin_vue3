@@ -1,6 +1,8 @@
 # BaseForm 基础表单
 
-&emsp;&emsp;基础表单。除了实现`ElementPlus`的默认功能外，还在`extraAttrs`中提供了`grid`、`example`、`popover`、`tips`、`pureText`、`rulesType`、`before`、`after`、……等功能
+&emsp;&emsp;目标：定位为基础（通用）表单，继承并扩展 `el-form `的功能，提供快捷属性，实现快速开发。  
+&emsp;&emsp;快捷属性：在 `quickAttrs `中，例：`grid`、`example`、`popover`、`tips`、`pureText`、`rulesType`、`before`、`after`、……  
+&emsp;&emsp;表单样式风格：通用表单、单元格表单、纯文本表单
 ## 基础用法
 
 &emsp;&emsp;支持的控件类型包括以下三部分：  

@@ -89,6 +89,8 @@
 
 62、BaseBtn 统一做了防抖处理
 63、dialog 和 drawer 内部都会自动计算自适应滚动高度
+64、tree-shaking优化
+65、WeakMap优化
 
 # 组件 Demo 清单
 

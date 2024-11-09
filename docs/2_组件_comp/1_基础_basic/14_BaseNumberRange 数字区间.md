@@ -1,5 +1,6 @@
 # BaseNumberRange 数字区间
 
+&emsp;&emsp;目标：数字区间组件。
 ## 基础用法
 
 

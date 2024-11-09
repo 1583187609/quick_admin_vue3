@@ -130,6 +130,10 @@
 ~~124、统一跳转错误页面、登录、登出时候的路由方法、重定向等逻辑处理~~
 ~~100、升级 ElementPlus、vue3、vite、vitepress 再完善代码~~
 ~~80、完善如果存在点击事件时，自动将 clickIconCopy 设为 true 的逻辑~~
+~~107、换用 pnpm 进行包管理，且只允许 pnpm~~
+~~105、极致优化白屏时长问题~~
+~~108、对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn~~
+~~115、删除.vitepress/inner 文件夹~~
 
 4、支持静态路由传入。思考自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
 28、完善滚动触顶触底加载 demo 示例  
@@ -145,21 +149,14 @@
 99、完善图片上传 BaseUpload 组件
 104、最好去掉 BaseCrud 中的 showPagination 属性
 106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
-107、换用 pnpm 进行包管理，且只允许 pnpm
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
-105、极致优化白屏时长问题
-106、将表单的 pureText 整合到 type='cell'中，将 type 改为 styleType
 107、BarsImg 视情况而改名。
-
-- 对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn
-- 将需要 cdn 引入的 npm 下载方式改为 dev
-
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、将 docs、demos 文件夹放入.vitepress 中
-115、删除.vitepress/inner 文件夹
+116、新增虚拟列表组件
 
 ## 待定事项
 
@@ -268,6 +265,8 @@
 109、自测 dialog 和 drawer 内部自动计算自适应滚动高度（并可以考虑将两个的共用逻辑提取成 hooks）
 57、按需导入 element-plus
 58、不要在 defineEmits 中定义本身就有的 click 事件
+59、使用 WeakMap 优化代码
+60、使用枚举替换 code 值
 
 ## 三、Bug 清单
 

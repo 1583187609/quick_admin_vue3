@@ -1,7 +1,7 @@
 # BasicPopup 全局弹出层
 
-&emsp;&emsp;提供了两个弹出层`dialog`和`drawer`。  
-&emsp;&emsp;`provide`了`openPopup`、`closePopup`方法。默认`dialog`，可在全局配置中进行配置。
+&emsp;&emsp;目标：通过打开和关闭两个方法，实现打开/关闭全局弹窗，同时让弹窗属性统一，开发时无需关心属性设置，但支持属性值覆盖。  
+&emsp;&emsp;目前只提供了两种弹出层：`dialog `和 `drawer`，默认为 `dialog`。
 ## 基础用法
 
 &emsp;&emsp;打开弹窗示例。默认是打开`Dialog`。

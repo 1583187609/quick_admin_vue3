@@ -1,5 +1,6 @@
 # BaseEmpty 空状态
 
+&emsp;&emsp;目标：统一空状态组件
 ## 基础用法
 
 

@@ -1,5 +1,5 @@
 <!-- summary
-目标：加载更多内容
+目标：定位触底分页加载、虚拟列表
 -->
 <template>
   <el-scrollbar @mousewheel.passive="handleMousewheel" class="load-more" ref="boxRef">
@@ -91,21 +91,21 @@ function handleMousewheel(e: any) {
         }, noMoreTipsDuration);
       }
     }
-  } else {
-    if (scrollTop <= topDistance) {
-      if (timeout) clearTimeout(timeout);
-      const canExe = !timeout;
-      timeout = setTimeout(function () {
-        timeout = null;
-      }, debounceDelay);
-      if (canExe) {
-        // console.log("触顶------");
-        $emit("reachTop", e);
-        isReachTop.value = true;
-        setTimeout(() => {
-          isReachTop.value = false;
-        }, noMoreTipsDuration);
-      }
+    return;
+  }
+  if (scrollTop <= topDistance) {
+    if (timeout) clearTimeout(timeout);
+    const canExe = !timeout;
+    timeout = setTimeout(function () {
+      timeout = null;
+    }, debounceDelay);
+    if (canExe) {
+      // console.log("触顶------");
+      $emit("reachTop", e);
+      isReachTop.value = true;
+      setTimeout(() => {
+        isReachTop.value = false;
+      }, noMoreTipsDuration);
     }
   }
 }

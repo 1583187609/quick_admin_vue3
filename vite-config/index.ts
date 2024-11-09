@@ -9,7 +9,7 @@ import AutoImport from "./plugins/auto-import";
 import viteMockServe from "./plugins/vite-mock-serve";
 import generateComponentName from "./plugins/generate-component-name";
 
-// import { importByCDN, external } from "./plugins/import-by-cdn";
+import { cdnImport, external } from "./plugins/cdn-import";
 // import createHtmlPlugin from "./plugins/create-html-plugin";
 // import viteCompression from "./plugins/vite-compression";
 // import imageminPlugin from "./plugins/imagemin-plugin";
@@ -32,12 +32,11 @@ export default ({ mode, command }) => {
     // base: "/", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
     // root: "./src/pages", // 项目根目录
     plugins: [
-      ...(isVitepress ? [] : [vue(), visualizer]),
+      ...(isVitepress ? [] : [vue(), visualizer, cdnImport]),
       AutoImport,
       viteMockServe,
       generateComponentName,
       // imageminPlugin,
-      // importByCDN,
       // createHtmlPlugin,
       // viteCompression,
     ],
@@ -108,7 +107,7 @@ export default ({ mode, command }) => {
       chunkSizeWarningLimit: 1000, // 打包最大体积警告
       rollupOptions: {
         // 以下文件不打包
-        // external,
+        external: isVitepress ? undefined : external,
         output: {
           // 分文件夹进行分包优化
           entryFileNames: "assets/js/[name]-[hash].js",

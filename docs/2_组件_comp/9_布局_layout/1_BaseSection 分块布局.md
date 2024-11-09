@@ -1,5 +1,6 @@
 # BaseSection 分块布局
 
+&emsp;&emsp;目标：内容分块的布局载体。并提供了折叠等功能。
 ## 基础用法
 
 &emsp;&emsp;这是`BaseSection`的基础使用示例。

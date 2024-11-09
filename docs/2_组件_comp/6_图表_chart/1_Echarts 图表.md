@@ -1,6 +1,6 @@
 # Echarts 图表
 
-&emsp;&emsp;致力于仅通过`dataset`实现图表渲染，而无需再配置其他`options`
+&emsp;&emsp;目标：仅通过传入`data`属性（等价于`echarts`的`dataset`），即可实现图表渲染，而无需关心其他配置，但支持配置覆盖。
 ## 折线图（Line）
 
 &emsp;&emsp;只需传入一个简单的二维数组即可展示图表。  

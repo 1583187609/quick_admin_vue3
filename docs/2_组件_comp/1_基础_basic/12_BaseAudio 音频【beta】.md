@@ -4,6 +4,8 @@
 本功能处于实验性阶段，谨慎使用！
 :::
 
+&emsp;&emsp;目标：处理基础逻辑，减少开发心智负担，并可暴露给自定义的播放面板直接使用。  
+&emsp;&emsp;注意：该功能待完善。
 ## 基础用法
 
 
@@ -42,4 +44,4 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`default`|-|`playing, muted, currentTime, duration, timeStr, progress, play, pause, togglePlaying, toggleMuted, formatTime`|
+|`content`|自定义内容插槽|`playing, muted, currentTime, duration, timeStr, progress, play, pause, togglePlaying, toggleMuted, formatTime`|

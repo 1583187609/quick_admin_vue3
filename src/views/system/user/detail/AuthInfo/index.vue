@@ -10,21 +10,21 @@
       <el-tag class="tag" type="success">已认证</el-tag>
       <el-tag class="tag">后台认证</el-tag>
     </template>
-    <BaseForm type="cell" pureText :fields="realNameFormFields" />
+    <BaseForm styleType="cell" pureText :fields="realNameFormFields" />
   </BaseSection>
   <BaseSection title="学历认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <BaseForm type="cell" pureText :fields="educationFormFields" />
+    <BaseForm styleType="cell" pureText :fields="educationFormFields" />
   </BaseSection>
   <BaseSection title="公司认证">
     <template #head-right>
       <el-tag type="success" class="tag">已认证</el-tag>
       <el-tag class="tag">取消认证</el-tag>
     </template>
-    <BaseForm type="cell" pureText :fields="companyFormFields" />
+    <BaseForm styleType="cell" pureText :fields="companyFormFields" />
   </BaseSection>
   <BaseSection title="公司认证记录">
     <template #head-right>

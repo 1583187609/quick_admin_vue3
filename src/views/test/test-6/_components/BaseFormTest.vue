@@ -24,7 +24,7 @@ const records = {
   },
   waitBetter: {
     title: "待完善属性",
-    list: [`type="cell"`, "label-suffix"],
+    list: [`styleType="cell"`, "label-suffix"],
   },
 };
 const size: CommonSize = "default"; // large, default, small

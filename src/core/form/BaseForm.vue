@@ -4,21 +4,10 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="type"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row
-      class="section all-hide-scroll"
-      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-      v-else
-    >
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -92,7 +81,7 @@ const $slots = defineSlots<{
 }>();
 const props = withDefaults(
   defineProps<{
-    type?: FormStyleType; // 表格样式类型：cell单元格、common常用
+    styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
     size?: CommonSize;
     modelValue?: CommonObj; //表单数据
     fields?: FormField[]; //表单字段项
@@ -116,10 +105,10 @@ const props = withDefaults(
     handleResponse?: (data: any) => any; //处理请求数据
   }>(),
   {
-    type: "common",
+    styleType: "common",
     size: defaultCommonSize,
     modelValue: () => reactive({}),
-    grid: (_props: CommonObj) => (_props.type === "cell" ? 8 : 24),
+    grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
     footer: true,
     omit: true,
     autoFixedFoot: true,

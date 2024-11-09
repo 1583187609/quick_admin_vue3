@@ -52,11 +52,11 @@
         </div>
       </div>
     </template>
-    <BaseForm type="cell" pureText :fields="baseInfoFormFields" v-model="baseInfoForm" />
+    <BaseForm styleType="cell" pureText :fields="baseInfoFormFields" v-model="baseInfoForm" />
   </BaseSection>
   <!-- 商业化信息 -->
   <BaseSection class="business-info" title="商业化信息">
-    <BaseForm v-model="businessInfoModelData" type="cell" pureText :fields="businessInfoFormFields">
+    <BaseForm v-model="businessInfoModelData" styleType="cell" pureText :fields="businessInfoFormFields">
       <template #jbye="{ form }">
         <el-button @click="openCoinListPopup" :disabled="!form.jbye" type="primary" size="small" style="min-width: 2em" text>
           {{ form.jbye || 0 }}
@@ -71,7 +71,7 @@
         {{ infoStatusMap["yes"].text }}
       </el-tag>
     </template>
-    <BaseForm v-model="detailInfoModelData" type="cell" pureText :fields="detailInfoFormFields">
+    <BaseForm v-model="detailInfoModelData" styleType="cell" pureText :fields="detailInfoFormFields">
       <template #yyjs>
         <BaseAudio />
       </template>
@@ -90,11 +90,11 @@
   </BaseSection>
   <!-- 偏好设置 -->
   <BaseSection title="偏好设置">
-    <BaseForm type="cell" pureText :fields="preferSetFormFields" />
+    <BaseForm styleType="cell" pureText :fields="preferSetFormFields" />
   </BaseSection>
   <!-- 关联账号 -->
   <BaseSection title="关联账号" class="mb-t">
-    <BaseForm type="cell" pureText :fields="relatedAccountFormFields" />
+    <BaseForm styleType="cell" pureText :fields="relatedAccountFormFields" />
   </BaseSection>
 </template>
 <script lang="ts" setup>

@@ -41,7 +41,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { CommonObj, OptionItem, StrNum } from "@/vite-env";
+import { CommonSlots, OptionItem } from "@/vite-env";
 import { defaultFormItemType, deleteAttrs, getSlotsMap } from "@/core/_utils";
 
 const props = withDefaults(
@@ -49,7 +49,7 @@ const props = withDefaults(
     modelValue?: any;
     elType?: string;
     name?: string; // el-checkbox 是必须的
-    currSlots?: CommonObj;
+    currSlots?: CommonSlots;
     currOptions?: OptionItem[];
   }>(),
   {

@@ -200,11 +200,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         middleFlexGrow: 0,
       },
     },
-    // pureText: {
-    //   attrs: {
-    //     style: { "line-height": "22px", "margin-top": "4px" },
-    //   },
-    // },
     "input-number": {
       attrs: {
         // style: { width: "100%" },

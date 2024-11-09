@@ -71,6 +71,14 @@ export interface FormFieldAttrs {
   required?: boolean; //是否必填
   rules?: FormRules[]; //校验规则
   labelWidth?: string | number; //label文字的宽度
+  /** 控件（input、select……）的属性，例：placeholder **/
+  attrs?: {
+    options?: DictName | OptionItem[]; //select、cascader等的options属性
+    placeholder?: string;
+    fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
+    slots?: CommonSlots; // 各个控件的插槽
+    [key: string]: any;
+  };
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
     grid?: Grid; // 占位栅格子的宽度，同ElementPlus 的 el-col 的属性，可以是数字：1~24
@@ -86,18 +94,10 @@ export interface FormFieldAttrs {
     middleFlexGrow?: StrNum; // 中间项的弹性伸缩值，默认1，即：flex-grow: 1,可选值为0~3，为其他值时不会生效。当出现 before 或 after 时，该属性才会生效。
   };
   children?: FormField[]; //字段子项
-  /** 控件（input、select……）的属性，例：placeholder **/
-  attrs?: {
-    options?: DictName | OptionItem[]; //select、cascader等的options属性
-    placeholder?: string;
-    fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
-    slots?: CommonSlots; // 各个控件的插槽
-    [key: string]: any;
-  };
   /** el-form-item的 插槽 **/
   slots?: {
-    label?: string | BaseRenderComponentType;
-    error?: string | BaseRenderComponentType;
+    label?: CommonSlots;
+    error?: CommonSlots;
   };
 }
 

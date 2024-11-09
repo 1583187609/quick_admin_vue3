@@ -4,7 +4,8 @@
 本功能处于实验性阶段，谨慎使用！
 :::
 
-&emsp;&emsp;步骤表单
+&emsp;&emsp;目标：定位为步骤表单。  
+&emsp;&emsp;功能：结合了分块表单（`SectionForm`）和步骤条的功能。
 
 
 ## API 

@@ -14,6 +14,10 @@
 
 仓库地址：[Github](https://github.com/1583187609/quick_admin_vue3)、[Gitee](https://gitee.com/fanlichuan/quick_admin_vue3)
 
+<span style="color:red">注：现阶段处于升级改造中，极致追求工程移植性、代码复用性、可配置性、开发体验、用户体验……</span>
+
+最新代码：[Gitee docs 分支](https://gitee.com/fanlichuan/quick_admin_vue3/tree/docs/)，含 vitepress 生成的说明文档
+
 ### React 版（完善度约 80%）
 
 在线预览：[Github 地址](https://1583187609.github.io/quick_admin/react/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee 地址](https://fanlichuan.gitee.io/quick_admin/react/preview/#/login)（暂不可用，服务维护升级）~~
@@ -32,7 +36,7 @@
 - **低代码 + 高效率**：只需专注纯业务逻辑、书写少量代码；高于行业平均效率（页面开发、接口联调、Bug 修复、迭代维护 <span style="color:red;">**各约 30% ~ 50%**</span>）。
 - **严统一**：自动计算表单 label 宽、表格列宽；极致统一按钮风格（顺序、间距、样式）、表单校验。
 
-### 创新：
+### 创新&特性：
 
 1. **简化表格列渲染**：
 
@@ -42,15 +46,15 @@
 
 2. **简化按钮书写 & 统一样式风格 & 实现逻辑功能**：
 
-   - 只需写入 add、Edit、delete、……，即可实现统一样式、位置顺序等（可覆盖）。
+   - 只需写入 add、edit、delete、……，即可实现统一样式、位置顺序等（可覆盖）。
    - 轻松弹出 popover、popconfirm 提示。
    - 简单优雅实现按钮角色权限：只需按钮配置文件中设置一次，即可全局通用。
 
 3. **轻松打开/关闭弹窗**：通过调用 openPopup、closePopup 实现。
 
-4. **轻松实现表单检验**：设置表单字段的 rulesType 属性，例：phone、password、……
+4. **轻松统一表单检验**：设置表单字段的 rulesType 属性，例：phone、password、……
 
-5. **统一字典/标签**：维护唯一字典文件，实现全局字典/标签统一。
+5. **统一管理字典/标签**：整合本地和请求到的字典数据，形成唯一维护的字典文件，通过本地存储减少网络请求次数。
 
 6. **免考虑基础逻辑**：
 
@@ -89,9 +93,18 @@
 
 ![功能图示-6 待补充](./public/produce-6.png)
 
-## 五、特点
+## 五、说明文档
 
-1. 待完善
+### 概述
+
+通过如下措施：
+1、从目标组件中获取摘要描述信息，提示信息（tip、warning、danger、detail 等）  
+2、从示例组件中获取（示例代码、实际 UI 效果）、摘要描述信息、提示信息（tip、warning、danger、detail 等）  
+3、通过 vue-docgen-api 从目标组件中获取 defineProps、defineEmits、defineExpose、defineSlots 中获取：名称、描述、ts 类型、默认值  
+4、从.ts 或.vue 文件中获取 ts 类型
+
+能够实现：
+只需在源码中写好注释，即可通过 node 命令生成说明文档，大大降低了了说明文档的维护难度。
 
 ## 六、支持
 
@@ -100,8 +113,8 @@
 ## 七、其他后记
 
 1. 以上文字说明、图片示例，未完全呈现已有功能，因时间精力有限，后续再完善此文档。
-2. Quick Admin Vue3 核心代码（<span style="color:red;">src/components</span> 和 <span style="color:red;">src/config</span>），已经过一个完整企业级项目验证，稳定运行至今并趋于<span style="color:red;">成熟</span>。
-3. 欲知已完善或待完善某些功能，可查看任务清单（[Github](https://github.com/1583187609/quick_admin_vue3/blob/dev/_Task_List.md) 或 [Gitee](https://gitee.com/fanlichuan/quick_admin_vue3/blob/master/_Task_List.md)），清单未时时更新，有滞后情况
+2. Quick Admin Vue3 核心代码（<span style="color:red;">src/core</span> 和 <span style="color:red;">src/config</span>），已经过一个完整企业级项目验证，稳定运行至今并趋于<span style="color:red;">成熟</span>。
+3. 欲知已完善或待完善某些功能，可查看任务清单（[Github](https://github.com/1583187609/quick_admin_vue3/blob/dev/_Task_List.md) 或 [Gitee](https://gitee.com/fanlichuan/quick_admin_vue3/blob/master/_Task_List.md)），清单未实时更新，有滞后情况
 
 ## 八、联系方式
 

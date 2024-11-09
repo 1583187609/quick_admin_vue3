@@ -1,5 +1,5 @@
 <template>
-  <SectionForm style="width: 500px" v-model="modelData" label-suffix="：" :sections="sections" pureText />
+  <SectionForm style="width: 500px" v-model="modelData" labelSuffix="：" :sections="sections" pureText />
 </template>
 <script lang="ts" setup>
 import pkg from "#/package.json";

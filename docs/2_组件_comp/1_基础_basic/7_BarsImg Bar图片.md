@@ -1,5 +1,6 @@
 # BarsImg Bar图片
 
+&emsp;&emsp;目标：给图片提供带 `bar `提示语的功能
 ## 基础用法
 
 
