@@ -158,6 +158,7 @@
 114、将 docs、demos 文件夹放入.vitepress 中
 116、新增虚拟列表组件
 117、处理`@wangeditor/editor/dist/css/style.css`找不到的问题
+118、qrcode 支持传入 url（即外部传入的图片）
 
 ## 待定事项
 
