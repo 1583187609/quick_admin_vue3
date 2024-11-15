@@ -88,11 +88,13 @@ export const storage = {
     storageMap[type + "Storage"].clear();
   },
   /**
-   * 删除所有存储的键名
+   * 获取所有存储的键名
    * @param {StorageType} type
    */
-  getKeys(type: StorageType = defaultStorageType) {
-    Object.keys(storageMap[type + "Storage"]);
+  getKeys(type: StorageType = defaultStorageType): string[] {
+    const storage = storageMap[type + "Storage"];
+    if (!storage) return [];
+    return Object.keys(storage);
   },
 };
 

@@ -1,64 +1,30 @@
 import { defineConfig, loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue";
 import path from "path";
-import pkg from "../package.json";
-import { getFileNameByPath } from "./utils";
+import vue from "@vitejs/plugin-vue";
 
-import visualizer from "./plugins/visualizer";
-import AutoImport from "./plugins/auto-import";
-import viteMockServe from "./plugins/vite-mock-serve";
-import generateComponentName from "./plugins/generate-component-name";
-
-import { cdnImport, external } from "./plugins/cdn-import";
-// import createHtmlPlugin from "./plugins/create-html-plugin";
-// import viteCompression from "./plugins/vite-compression";
-// import imageminPlugin from "./plugins/imagemin-plugin";
-
-export * from "./utils";
-
-const useCdnImport = false; // 使用cdn
-const closeWarn = true; //关闭警告
-// const outDirPath = path.resolve(__dirname, "../online-preview/vue");
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
-  // const env = loadEnv(mode, process.cwd()); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
-  const isVitepress = process.argv[1].includes("vitepress");
-  const isProd = mode === "production"; // 原来取值范围是：production, develop, 但配置了env文件后，所以改变了mode的值
+  const isProd = mode === "production";
   return defineConfig({
-    // define: {
-    //   __VUE_OPTIONS_API__: true, // 启用/禁用选项式 API 支持。禁用此功能将减小打包结果的体积，但如果第三方库依赖选项式 API，则可能影响兼容性
-    //   __VUE_PROD_DEVTOOLS__: !isProd, // 在生产环境中启用/禁用开发者工具支持。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
-    //   __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
-    // },
-    // logLevel: closeWarn ? "error" : undefined, // 关闭启动项目时的警告信息
-    base: "./", //表示应用程序的根目录。如果你的应用程序部署在域名的根目录下，你不需要修改 base 的值。
-    // root: "./src/pages", // 项目根目录
-    plugins: [
-      ...(isVitepress ? [] : [vue(), visualizer, useCdnImport ? cdnImport : undefined]),
-      AutoImport,
-      viteMockServe,
-      generateComponentName,
-      // imageminPlugin,
-      // createHtmlPlugin,
-      // viteCompression,
-    ],
+    base: "./",
+    plugins: [vue()],
     resolve: {
       alias: {
         // 放在根目录下时
-        // "@": path.resolve(__dirname, "src"),
-        // "#": path.resolve(__dirname, ""),
-        // mock: path.join(__dirname, "mock"),
+        "@": path.resolve(__dirname, "src"),
+        "#": path.resolve(__dirname, ""),
+        mock: path.join(__dirname, "mock"),
         // 放在根目录下的 plugins/index.ts时
-        "@": path.resolve(__dirname, "../src"),
-        "#": path.resolve(__dirname, ".."),
-        mock: path.join(__dirname, "../mock"),
+        // "@": path.resolve(__dirname, "../src"),
+        // "#": path.resolve(__dirname, ".."),
+        // mock: path.join(__dirname, "../mock"),
       },
     },
     css: {
       preprocessorOptions: {
         scss: {
           // 暂时消除警告：Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0. More info: https://sass-lang.com/d/legacy-js-api
-          api: closeWarn ? "modern" : undefined,
+          api: "modern",
           // additionalData: `@import "@/assets/styles/_var.scss";`,
           additionalData: `@use "@/assets/styles/_var.scss" as *;`,
         },
@@ -69,7 +35,7 @@ export default ({ mode, command }) => {
       },
     },
     server: {
-      open: !isVitepress,
+      // open: !isVitepress,
       // port: 5180, //启动端口
       // hmr: {
       //   host: "127.0.0.1",
@@ -111,16 +77,16 @@ export default ({ mode, command }) => {
       chunkSizeWarningLimit: 1000, // 打包最大体积警告
       rollupOptions: {
         // 以下文件不打包
-        external: isVitepress ? undefined : useCdnImport ? external : undefined,
-        onwarn(warning, rollupWarn) {
-          if (closeWarn) return; // 关闭所有警告信息
-          // // 跳过指定类型的警告
-          // if (warning.code === "UNUSED_EXTERNAL_IMPORT") return;
-          // // 抛出其他类型的警告，使用 Object.assign 拷贝 new Error(warning.message)，将使命令行打印额外的信息，如警告位置，和帮助 URL。
-          // if (warning.code === "MISSING_EXPORT") throw Object.assign(new Error(), warning);
-          // // 使用默认处理函数兜底
-          rollupWarn(warning);
-        },
+        // external: isVitepress ? undefined : useCdnImport ? external : undefined,
+        // onwarn(warning, rollupWarn) {
+        //   if (closeWarn) return; // 关闭所有警告信息
+        //   // // 跳过指定类型的警告
+        //   // if (warning.code === "UNUSED_EXTERNAL_IMPORT") return;
+        //   // // 抛出其他类型的警告，使用 Object.assign 拷贝 new Error(warning.message)，将使命令行打印额外的信息，如警告位置，和帮助 URL。
+        //   // if (warning.code === "MISSING_EXPORT") throw Object.assign(new Error(), warning);
+        //   // // 使用默认处理函数兜底
+        //   // rollupWarn(warning);
+        // },
         output: {
           // 分文件夹进行分包优化
           // entryFileNames: "assets/js/[name]-[hash].js",

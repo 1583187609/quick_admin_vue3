@@ -26,7 +26,7 @@
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
-import { reactive, shallowReactive, provide, isVNode } from "vue";
+import { reactive, shallowReactive, provide, isVNode, toRaw } from "vue";
 import { defaultPopupType, isRenderData, showMessage, sortObjArrByKey, typeOf } from "@/utils";
 import { CommonObj, SetTimeout } from "@/vite-env";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
@@ -54,6 +54,23 @@ let drawerTimer: SetTimeout = null;
 const closeDelay = popupCloseAnimationDuration; //延迟一点置为空（为了配合动画效果）
 const dialogs = reactive<DialogPopup[]>([]);
 const drawers = reactive<DrawerPopup[]>([]);
+
+/**
+ * 判断是否是弹窗对象
+ * @tips 用作排除null、事件对象
+ */
+function getIsPopupObj(popup: CommonObj) {
+  if (Object.keys(popup).length > 7) return false;
+  return (
+    "id" in popup &&
+    "name" in popup &&
+    "show" in popup &&
+    "attrs" in popup &&
+    "body" in popup &&
+    // "foot" in popup &&
+    "createAt" in popup
+  );
+}
 
 /**
  * 获取弹出层的属性
@@ -198,7 +215,8 @@ function closePopup(popup: ClosePopupType = 1): void {
     closeDrawer(popup);
     return;
   }
-  if (typeof popup === "string") {
+  const t = typeOf(popup);
+  if (t === "String") {
     const isId = popup.includes("-");
     if (popup.startsWith("dialog")) {
       const isAll = popup === "dialog";
@@ -212,23 +230,14 @@ function closePopup(popup: ClosePopupType = 1): void {
     }
     throw new Error(`暂未处理此种弹窗类型：${popup}`);
   }
-  if (typeof popup === "number") {
+  if (t === "Number") {
     const ids = getTopPopupIds(popup);
     ids.forEach((id: DrawerId | DialogId) => closePopup(id));
     return;
   }
   // 排除null、事件对象
-  if (typeof popup === "object" && popup) {
-    const isPopupObj =
-      Object.keys(popup).length <= 7 &&
-      "id" in popup &&
-      "name" in popup &&
-      "show" in popup &&
-      "attrs" in popup &&
-      "body" in popup &&
-      // "foot" in popup &&
-      "createAt" in popup;
-    if (!isPopupObj) return closePopup();
+  if (t === "Object") {
+    if (!getIsPopupObj(popup)) return closePopup();
     const isDialog = popup.name === "dialog";
     return isDialog ? closeDialog(popup) : closeDrawer(popup);
   }
@@ -238,10 +247,10 @@ function closePopup(popup: ClosePopupType = 1): void {
 /**
  * 获取弹出层栈
  */
-function getPopups(type: PopupType) {
-  if (type === "dialog") return JSON.parse(JSON.stringify(dialogs));
-  if (type === "drawer") return JSON.parse(JSON.stringify(drawers));
-  return JSON.parse(JSON.stringify({ dialogs, drawers }));
+function getPopups(type?: PopupType) {
+  if (type === "dialog") return toRaw(dialogs);
+  if (type === "drawer") return toRaw(drawers);
+  return { dialogs: toRaw(dialogs), drawers: toRaw(drawers) };
 }
 
 //provide提供给子组件使用

@@ -8,7 +8,7 @@
 import echarts from "@/core/chart/_config";
 import { ChartOption } from "@/core/chart/_types";
 import Chart from "@/core/chart/Chart.vue";
-import mapJson from "../_assets/china.json";
+import mapJson from "#/public/static/china.json";
 import { LinesChart } from "echarts/charts";
 import { GeoComponent } from "echarts/components";
 
