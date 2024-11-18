@@ -170,6 +170,6 @@ export interface PopoverSlots {
 }
 
 // popover的可能传入类型：字符串、引入的vue组件、popover属性对象、
-export type PopoverType = string | PopoverAttrs | BaseRenderComponentType;
+export type PopoverType = string | undefined | PopoverAttrs | BaseRenderComponentType;
 
 export type HorizontalAlign = "left" | "center" | "right";

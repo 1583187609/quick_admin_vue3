@@ -13,7 +13,7 @@
     <el-button :icon="RefreshLeft" @click="$emit('reset')" :disabled="loading">{{ $t("base.button.reset") }}</el-button>
     <el-button @click="$emit('fold')" text type="primary" v-if="showFoldBtn">
       <template #icon>
-        <el-icon :class="{ 'rotate-180': !isFold, 'icon-fold': true }">
+        <el-icon class="icon-fold" :class="{ 'rotate-180': !isFold }">
           <ArrowDown />
         </el-icon>
       </template>
@@ -77,5 +77,8 @@ const $emit = defineEmits(["submit", "reset", "fold"]);
   //     padding: 0 $gap-half;
   //   }
   // }
+}
+.icon-fold {
+  transition: transform $transition-time-main;
 }
 </style>

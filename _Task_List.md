@@ -161,6 +161,7 @@
 118、qrcode 支持传入 url（即外部传入的图片）
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 120、表格列宽默认宽度为：label 的字符数+1
+121、处理打包后，页面空白的问题
 
 ## 待定事项
 
@@ -194,6 +195,7 @@
 65、完善浏览器页签通信 hooks 封装（useBroadcastChannel）
 21、用上之前内江市国资委系统的皮肤  
 62、全局错误拦截，在 App.vue 中处理
+63、localStorage、sessionStorage、cookie 汇总 npm 包
 
 ## 未来功能清单
 
@@ -351,6 +353,7 @@
 74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
 76、优化 BaseNumberRange 嵌套层级
 77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
+78、用 BaseConfig 的 provide、inject 方式提供配置
 
 ## 四、Vue 极致优化清单
 

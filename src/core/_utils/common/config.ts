@@ -21,6 +21,7 @@ export const defaultPopupType = getExportData("dialog", popup?.defaultType); // 
 export const defaultHomePath = getExportData("/", homePath); // 首页路径
 export const defaultWidgetSize = getExportData("medium", widgetSize); // 控件大小
 export const defaultCommonSize = getExportData("default", form?.defaultCommonSize);
+export const defaultPagination = { currPage: 1, pageSize: 20 };
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
 export const defaultFormChildrenType = getExportData("childrenFields", form?.defaultFormChildrenType); // 当有子项时，children的布局样式类型

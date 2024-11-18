@@ -18,7 +18,7 @@
           :disabled="!sectionFoldable || sectionFolds[sInd] === undefined"
         >
           <template #icon v-if="sectionFoldable">
-            <el-icon :class="{ 'rotate-180': !sectionFolds[sInd] && !sectionFolds[sInd], 'icon-fold': true }">
+            <el-icon class="icon-fold" :class="{ 'rotate-180': !sectionFolds[sInd] && !sectionFolds[sInd] }">
               <Minus v-if="sectionFolds[sInd] === undefined" />
               <ArrowDown v-else />
             </el-icon>
@@ -95,7 +95,6 @@ import { ArrowDown, Minus } from "@element-plus/icons-vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/core/_utils";
 import { FormField, FormFieldAttrs, Grid } from "@/core/form/_types";
-import _ from "lodash";
 import { CommonObj, CommonSize } from "@/vite-env";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
@@ -105,6 +104,7 @@ import { handleFields, getGridAttrs } from "@/core/form/_utils";
 import { SectionFormItemAttrs } from "@/core/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/form";
 import { defaultCommonSize } from "@/core/_utils";
+import _ from "lodash";
 
 const { merge } = _;
 const props = withDefaults(
@@ -113,9 +113,9 @@ const props = withDefaults(
     fields: FormField[]; //表单字段项
     sections?: SectionFormItemAttrs[];
     loading?: boolean;
+    size?: CommonSize;
     disabled?: boolean;
     readonly?: boolean;
-    size?: CommonSize;
     rowNum?: number;
     extraParams?: CommonObj; //额外的参数
     inputDebounce?: boolean;
@@ -123,6 +123,7 @@ const props = withDefaults(
     compact?: boolean; //是否是紧凑的
     noFieldsHide?: boolean; //没有字段时是否不显示表单内容
     sectionFoldable?: boolean;
+    afterReset?: () => void;
   }>(),
   {
     size: defaultCommonSize,
@@ -134,7 +135,7 @@ const props = withDefaults(
     ...config?.BaseCrud?._components?.QueryForm,
   }
 );
-const $emit = defineEmits(["update:modelValue", "search", "change", "reset"]);
+const $emit = defineEmits(["update:modelValue", "search", "change"]);
 const $attrs = useAttrs();
 useFormAttrs({ ...props, ...$attrs }, undefined, true);
 let isFirst = true;
@@ -262,7 +263,7 @@ function handleSubmit() {
 //重置表单
 function handleReset() {
   formRef.value?.resetFields();
-  $emit("reset");
+  props.afterReset?.();
 }
 defineExpose({
   formRef,

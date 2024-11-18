@@ -6,9 +6,9 @@
     v-model:pageSize="newPageSize"
     :total="total"
     :pageSizes="pageSizes"
+    v-bind="defaultPaginationAttrs"
     @size-change="(val: number)=>$emit('update:sizeChange', val)"
     @current-change="(val: number)=>$emit('update:currentChange', val)"
-    v-bind="defaultPaginationAttrs"
   />
 </template>
 <script lang="ts" setup>
@@ -23,14 +23,12 @@ const props = withDefaults(
     total?: number;
     pageSizes?: number[];
   }>(),
-  Object.assign(
-    {
-      pageSize: 10,
-      currPage: 1,
-      pageSizes: () => [10, 20, 30, 50, 100],
-    },
-    config?.BaseCrud?._components?.Pagination
-  )
+  {
+    pageSize: 10,
+    currPage: 1,
+    pageSizes: () => [10, 20, 30, 50, 100],
+    ...config?.BaseCrud?._components?.Pagination,
+  }
 );
 const $emit = defineEmits(["update:currPage", "update:pageSize", "update:sizeChange", "update:currentChange"]);
 const newCurrPage = computed({

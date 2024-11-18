@@ -47,7 +47,7 @@
           <GroupBtns
             :size="size"
             :row="{ ...row, $index }"
-            :btns="getGroupBtnsByRow?.(row, $index)"
+            :btns="getGroupBtnsByRow(row, $index)"
             v-bind="operateBtnsAttrs"
             @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
             v-else-if="newCol.type === 'operate'"
@@ -103,7 +103,7 @@ import GroupBtns, { OperateBtnsAttrs } from "@/core/table/_components/GroupBtns.
 import InsertCustomTableColComps from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext, PopoverType } from "@/vite-env";
 import { defaultCommonSize } from "@/core/_utils";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
@@ -127,7 +127,7 @@ const props = withDefaults(
     compact?: boolean; //是否紧凑
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    getGroupBtnsByRow?: (row: CommonObj, rowInd: number) => BtnItem[];
+    getGroupBtnsByRow: (row: CommonObj, rowInd: number) => BtnItem[];
   }>(),
   Object.assign(
     {
@@ -137,7 +137,7 @@ const props = withDefaults(
   )
 );
 const $emit = defineEmits([operateBtnsEmitName, "update:colAttrs"]);
-let currPopover: PopoverAttrs | PopoverSlots | string | undefined;
+let currPopover: PopoverType;
 let currQuickAttrs: any;
 
 const newCol = getNewCol(props.col);

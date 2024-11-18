@@ -28,7 +28,7 @@ export default (propsAttrs?: CommonObj, handleKeys: string[] = levelFormKeys, is
    */
   const provideAttrs: CommonObj = {};
   function injectFormAttrs(keys: string[] = handleKeys, mergeProps = propsAttrs) {
-    const injectAttrs = isRoot ? undefined : inject<any>(FormLevelsAttrs);
+    const injectAttrs = isRoot ? undefined : inject(FormLevelsAttrs);
     if (!injectAttrs && !mergeProps) return {};
     const attrs: CommonObj = {};
     levelFormKeys.forEach((key: string) => {
@@ -39,6 +39,6 @@ export default (propsAttrs?: CommonObj, handleKeys: string[] = levelFormKeys, is
     return attrs;
   }
   const formAttrs = injectFormAttrs();
-  provide<any>(FormLevelsAttrs, provideAttrs);
+  provide(FormLevelsAttrs, provideAttrs);
   return formAttrs;
 };

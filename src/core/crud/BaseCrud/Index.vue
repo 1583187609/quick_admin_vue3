@@ -7,7 +7,7 @@
     <QueryForm
       v-model="modelData"
       class="f-0"
-      :class="formAttrs?.size ?? size"
+      :class="size"
       :disabled="disabled"
       :readonly="readonly"
       :fields="fields"
@@ -16,10 +16,10 @@
       :inputDebounce="inputDebounce"
       :grid="grid"
       :compact="compact"
-      :size="formAttrs?.size ?? size"
+      :size="size"
       :rowNum="rowNum"
+      :afterReset="handleAfterReset"
       v-bind="formAttrs"
-      @reset="handleReset"
       @search="handleSearch"
       @change="handleChange"
       ref="queryFormRef"
@@ -28,25 +28,18 @@
         <slot :name="field.prop" :field="field" :form="form" />
       </template>
     </QueryForm>
-    <div class="middle" :class="tableAttrs?.size ?? size" v-if="$slots.middle">
+    <div class="middle" :class="size" v-if="$slots.middle">
       <slot name="middle" />
     </div>
     <div class="f-fs-fs">
-      <ExtraBtns
-        class="f-1 mr-a"
-        :btns="newExtraBtns"
-        :disabled="disabled"
-        :size="tableAttrs?.size ?? size"
-        @click="onExtraBtns"
-        v-if="newExtraBtns.length"
-      />
+      <ExtraBtns class="f-1 mr-a" :btns="newExtraBtns" :disabled="disabled" :size="size" @click="onExtraBtns" v-if="newExtraBtns.length" />
       <SetBtns
         v-model="newCols"
         :originCols="originCols"
         class="f-0"
         :class="newExtraBtns.length ? ' ml-o' : ' ml-a'"
         :disabled="disabled"
-        :size="tableAttrs?.size ?? size"
+        :size="size"
       />
     </div>
     <slot
@@ -60,22 +53,21 @@
       v-if="$slots.content"
     />
     <QueryTable
+      v-model:cols="newCols"
       :compact="compact"
       :loading="loading"
-      :cols="newCols"
       :rows="newRows"
       :total="pageInfo.total"
       :operateBtns="operateBtns"
-      :currPage="pagination ? currPageInfo[reqMap.curr_page] : 1"
-      :pageSize="pagination ? currPageInfo[reqMap.page_size] : 20"
+      :currPage="pagination ? currPageInfo[currPageKey] : defaultPagination.currPage"
+      :pageSize="pagination ? currPageInfo[pageSizeKey] : defaultPagination.pageSize"
       :refreshList="refreshList"
       :disabled="disabled"
-      :size="tableAttrs?.size ?? size"
+      :size="size"
       :operateBtnsAttrs="operateBtnsAttrs"
       v-bind="tableAttrs"
       @operateBtns="onOperateBtns"
       @selectionChange="handleSelectionChange"
-      @update:cols="(cols: TableColAttrs[]) => newCols = cols"
       ref="queryTableRef"
       v-else
     >
@@ -87,11 +79,11 @@
       </template>
     </QueryTable>
     <Pagination
-      v-bind="pageAttrs"
-      v-model:currPage="currPageInfo[reqMap.curr_page]"
-      v-model:pageSize="currPageInfo[reqMap.page_size]"
+      v-model:currPage="currPageInfo[currPageKey]"
+      v-model:pageSize="currPageInfo[pageSizeKey]"
       :total="pageInfo.total"
-      :size="tableAttrs?.size ?? size"
+      :size="size"
+      v-bind="pageAttrs"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrChange"
       v-if="pagination && showPagination"
@@ -108,18 +100,7 @@ import QueryTable from "@/core/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/BaseBtn/_types";
 import { getBtnObj } from "@/core/BaseBtn";
-import {
-  omitAttrs,
-  printLog,
-  propsJoinChar,
-  rangeJoinChar,
-  showMessage,
-  typeOf,
-  emptyVals,
-  defaultReqMap,
-  defaultResMap,
-} from "@/core/_utils";
-import _ from "lodash";
+import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/_utils";
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
@@ -137,9 +118,10 @@ import { defaultFormAttrs, defaultGridAttrs } from "@/core/form/_config";
 import { defaultTableAttrs } from "@/core/table/_config";
 import { ExportCfg } from "./_types";
 import { TableAttrs } from "@/core/table/_types";
-import { defaultCommonSize, judgeIsInDialog } from "@/core/_utils";
+import { defaultCommonSize, defaultPagination, judgeIsInDialog } from "@/core/_utils";
 import { filterBtnsByAuth } from "@/core/crud/_utils";
 import { operateBtnsEmitName } from "@/core/table";
+import _ from "lodash";
 
 const { merge, cloneDeep } = _;
 const $slots = defineSlots<{
@@ -163,6 +145,7 @@ const props = withDefaults(
     inputDebounce?: boolean; // 输入框输入时，是否通过防抖输入，触发搜索
     grid?: Grid; // 栅格配置，同ElementPlus的el-col的属性
     rowNum?: number; // 筛选条件的(表单)展示几行
+    formAttrs?: FormAttrs; //el-form 的属性配置
     /** 中间按钮 **/
     extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
     importCfg?: TplCfgAttrs; //导入的下载模板配置
@@ -172,18 +155,18 @@ const props = withDefaults(
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
     operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
     filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
-    formAttrs?: FormAttrs; //el-form 的属性配置
-    /** 整体控制 **/
-    omit?: boolean; // 是否剔除掉undefined, ''的属性值
-    size?: CommonSize; // 整体的控件大小
-    compact?: boolean; // 表单项、表格列之间排列是否紧凑点
-    readonly?: boolean; // 是否只读
-    disabled?: boolean; // 是否禁用
     tableAttrs?: TableAttrs; // el-table 的属性配置
+    /** 分页设置 **/
     pageAttrs?: CommonObj; // 分页配置
     pagination?: false | TablePaginationAttrs; //是否分页
-    optimization?: boolean; // 默认为 false。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算
     showPagination?: boolean; // 是否显示分页
+    /** 整体控制 **/
+    omit?: boolean; // 是否剔除掉undefined, ''的属性值
+    compact?: boolean; // 表单项、表格列之间排列是否紧凑点
+    size?: CommonSize; // 整体的控件大小
+    readonly?: boolean; // 是否只读
+    disabled?: boolean; // 是否禁用
+    optimization?: boolean; // 默认为 false。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算
     /** 请求控制 **/
     log?: boolean | "req" | "res"; // 是否打印console.log(rows)
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
@@ -205,7 +188,7 @@ const props = withDefaults(
     omit: true,
     inputDebounce: true,
     showPagination: true,
-    pagination: () => ({ currPage: 1, pageSize: 20 }),
+    pagination: () => defaultPagination,
     reqMap: () => defaultReqMap,
     resMap: () => defaultResMap,
     grid: () => defaultGridAttrs,
@@ -219,18 +202,15 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
 const closePopup = inject<ClosePopupInject>("closePopup");
-const queryTableRef = ref<any>(null);
-const queryFormRef = ref<any>(null);
+const { extraParams = {}, pagination } = props;
 const baseCrudRef = ref<any>(null);
-const { extraParams = {} } = props;
-const reqMap: GetRequired<ReqMap> = props.reqMap;
-const resMap: GetRequired<ResMap> = props.resMap;
-const initPageInfo = props.pagination
-  ? {
-      [`${reqMap.curr_page}`]: props.pagination.currPage,
-      [`${reqMap.page_size}`]: props.pagination.pageSize,
-    }
-  : {};
+const queryFormRef = ref<any>(null);
+const queryTableRef = ref<any>(null);
+const reqMap = props.reqMap as GetRequired<ReqMap>;
+const resMap = props.resMap as GetRequired<ResMap>;
+const currPageKey = reqMap.curr_page as string;
+const pageSizeKey = reqMap.page_size as string;
+const initPageInfo = pagination ? { [currPageKey]: pagination.currPage, [pageSizeKey]: pagination.pageSize } : {};
 const initParams = {
   ...initPageInfo,
   ...extraParams,
@@ -286,46 +266,42 @@ watch(
   },
   { deep: true }
 );
-
+// 点击搜索
+function handleSearch(data: CommonObj) {
+  Object.assign(params, { [currPageKey]: 1 });
+  getList(params, undefined, "search");
+}
 // 重置
-function handleReset() {
+function handleAfterReset() {
   Object.assign(currPageInfo, initPageInfo);
   params = cloneDeep(initParams);
   getList(params, undefined, "reset");
 }
-// 点击搜索
-function handleSearch(data: CommonObj) {
-  Object.assign(params, { [`${reqMap.curr_page as string}`]: 1 });
-  getList(params, undefined, "search");
-}
 // 每页条数变化时
 function handleSizeChange(val: number) {
-  Object.assign(params, {
-    [`${reqMap.curr_page as string}`]: 1,
-    [`${reqMap.page_size as string}`]: val,
-  });
+  Object.assign(params, { [currPageKey]: 1, [pageSizeKey]: val });
   getList(params, undefined, "sizeChange");
 }
 // 当前页码变化时
 function handleCurrChange(val: number) {
-  Object.assign(params, { [`${reqMap.curr_page as string}`]: val });
+  Object.assign(params, { [currPageKey]: val });
   getList(params, undefined, "currChange");
 }
 /**
  * 处理change事件
  * @param changedVals change变动的表单字段
- * @param withModelData model是否有值（即初始值，是否有值）
+ * @param isInit 是否是初始化表单数据
  */
-function handleChange(changedVals: CommonObj, withModelData?: boolean) {
+function handleChange(changedVals: CommonObj, isInit?: boolean) {
   const { immediate, changeFetch } = props;
   changedVals = splitPropsParams(changedVals);
-  if (withModelData) {
+  if (isInit) {
     merge(params, changedVals);
     Object.assign(initParams, params);
   } else {
     if (!changeFetch) return;
-    // merge(params, changedVals, { [`${reqMap.curr_page}`]: 1 }); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
-    Object.assign(params, changedVals, { [`${reqMap.curr_page}`]: 1 });
+    // merge(params, changedVals, { [currPageKey]: 1 }); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
+    Object.assign(params, changedVals, { [currPageKey]: 1 });
   }
   immediate && getList(params, undefined, "change");
 }
@@ -345,7 +321,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);
       (log === true || log === "res") && printLog(newList, "res");
-      const _currPage = args[reqMap.curr_page as string];
+      const _currPage = args[currPageKey];
       if (summaryList) {
         const t = typeOf(summaryList);
         const oldList = newRows.value;
@@ -359,14 +335,8 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       } else {
         newRows.value = newList;
       }
-      Object.assign(pageInfo, {
-        total: res[resMap.total_num as string],
-        hasMore: res[resMap.has_more as string],
-      });
-      Object.assign(currPageInfo, {
-        [reqMap.curr_page]: _currPage,
-        [reqMap.page_size]: args[reqMap.page_size as string],
-      });
+      Object.assign(pageInfo, { total: res[resMap.total_num as string], hasMore: res[resMap.has_more as string] });
+      Object.assign(currPageInfo, { [currPageKey]: _currPage, [pageSizeKey]: args[pageSizeKey] });
       afterSuccess?.(res);
       $emit("rows", newRows.value, args);
       cb?.();
@@ -461,7 +431,7 @@ defineExpose({
   getQueryParams(omit = props.omit) {
     return omit ? omitAttrs(params) : params;
   },
-  getQueryFields(excludeKeys = [reqMap.curr_page, reqMap.page_size]) {
+  getQueryFields(excludeKeys = [currPageKey, pageSizeKey]) {
     const queryFields: KeyValItem[] = [];
     const rangeKeys: string[] = [];
     const propFields = queryFormRef.value.getFields() as FormFieldAttrs[];
