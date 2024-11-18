@@ -11,3 +11,4 @@ export { default as useMenuStore } from "./modules/menu";
 export { default as useRouteStore } from "./modules/route";
 export { default as useUserStore } from "./modules/user";
 export { default as useSetStore } from "./modules/set";
+export { default as useDictStore } from "./modules/dict";

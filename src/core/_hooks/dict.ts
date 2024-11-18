@@ -1,7 +1,17 @@
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage, getTextFromOptions, emptyStr } from "@/utils";
+import {
+  emptyVals,
+  setStorage,
+  getStorage,
+  typeOf,
+  storage,
+  StorageType,
+  showMessage,
+  getTextFromOptions,
+  emptyStr,
+} from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 import dayjs from "dayjs";
 import { GetMockCommonList } from "@/api-mock";

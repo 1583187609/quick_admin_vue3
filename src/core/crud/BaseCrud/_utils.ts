@@ -63,9 +63,9 @@ export function handleClickExtraBtns({
         "warning"
       );
     } else {
-      const hintTips = `确定 <b style="color:${color};">${text}${isSeledAll ? `全部</b> ` : `</b>`} 共 <b style="color:${color};">${
-        seledRows.length
-      }</b> 条记录？`;
+      const hintTips = `确定 <b style="color:${color};">${text}${
+        isSeledAll ? `全部</b> ` : `</b>`
+      } 共 <b style="color:${color};">${seledRows.length}</b> 条记录？`;
       ElMessageBox.confirm(hintTips, "温馨提示", {
         type: name === "delete" ? "error" : "warning",
         dangerouslyUseHTMLString: true,
@@ -120,7 +120,9 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
   const { attrs = {}, type = defaultFormItemType } = field;
   const { options = [] } = attrs;
   if (type === "cascader") {
-    if (typeOf(val) === "Array") return getLabelFromOptionsByAllValues(options as CommonObj[], val as StrNum[]);
+    if (typeOf(val) === "Array") {
+      return getLabelFromOptionsByAllValues(options as CommonObj[], val as StrNum[], undefined, undefined, joinChar);
+    }
     return getLabelFromOptionsByLastValue(options as CommonObj[], val as StrNum);
   }
   if (type === "select") {
@@ -130,7 +132,8 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
     }
     return getLabelFromOptionsByLastValue(options as CommonObj[], val as StrNum);
   }
-  if (["BaseNumberRange", "date-picker"].includes(type)) return (val as StrNum[])?.join(rangeJoinChar);
+  const isRange = ["BaseNumberRange"].includes(type) || (["date-picker"].includes(type) && attrs?.type.endsWith("range"));
+  if (isRange) return (val as StrNum[])?.join(rangeJoinChar);
   return val;
 }
 

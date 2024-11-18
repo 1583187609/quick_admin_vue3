@@ -201,7 +201,8 @@ export function getLabelFromOptionsByAllValues(
   options: CommonObj[] = [],
   values: StrNum[],
   propsMap?: OptionPropsMap,
-  char = ""
+  emptyChar = emptyStr,
+  joinChar = "，"
 ) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   const labels: string[] = [];
@@ -219,7 +220,7 @@ export function getLabelFromOptionsByAllValues(
     });
   }
   getLabel(options);
-  return labels.join(char);
+  return labels.join(joinChar) || emptyChar;
 }
 
 /***

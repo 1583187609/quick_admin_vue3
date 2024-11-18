@@ -135,7 +135,7 @@
 ~~108、对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn~~
 ~~115、删除.vitepress/inner 文件夹~~
 
-4、支持静态路由传入。思考自动化路由 vue-auto-routing(貌似只适用于 Vue2)  
+4、接入自动化路由（vue-auto-routing 貌似只适用于 Vue2）
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
@@ -159,6 +159,8 @@
 116、新增虚拟列表组件
 117、处理`@wangeditor/editor/dist/css/style.css`找不到的问题
 118、qrcode 支持传入 url（即外部传入的图片）
+119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
+120、表格列宽默认宽度为：label 的字符数+1
 
 ## 待定事项
 
@@ -182,7 +184,7 @@
 2、完善拖拽生成的低代码
 63、接入钉钉或飞书群通知消息
 17、vue3 封装敏感词、错别字检查的 WangEditor 组件
-18、生成 docs 文档
+~~18、生成 docs 文档~~
 19、生成 api 文件（提取成 npm 包，Quickly generate api files）
 77、上传文件加一项，上传 zip 压缩文件（选择后，解压缩并展开，可勾选部分文件进行上传）
 25、增加个性化工作台可以拖动改变布局甚至大小处理功能（拖拽组件，可拖动的工作台）

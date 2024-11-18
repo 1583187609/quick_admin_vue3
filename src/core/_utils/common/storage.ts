@@ -46,6 +46,20 @@ const storageMap: StorageMap = {
   sessionStorage,
 };
 
+/**
+ * 获取要转换的值
+ * @param {any} val 要转化的值
+ * @returns any
+ */
+function getTransferVal(val: any) {
+  if (val === null) return null;
+  if (val === "undefined") return;
+  if (val === "false") return false;
+  if (val === "true") return true;
+  if (val.startsWith("{") || val.startsWith("[")) return JSON.parse(val);
+  return val;
+}
+
 export const storage = {
   /**
    * 存数据
@@ -61,16 +75,11 @@ export const storage = {
   /**
    * 取数据
    * @param {string} key  要取数据的键名
-   * @param {StorageType} type  存储类型：local, session, cookie
+   * @param {StorageType} type 存储类型：local, session, cookie
+   * @param {function} transfer 值转换处理规则
    */
-  getItem(key: string, type: StorageType = defaultStorageType) {
-    let val = storageMap[type + "Storage"].getItem(key);
-    if (val === null) return null;
-    if (val === "undefined") return;
-    if (val === "false") return false;
-    if (val === "true") return true;
-    if (val.startsWith("{") || val.startsWith("[")) val = JSON.parse(val);
-    return val;
+  getItem(key: string, type: StorageType = defaultStorageType, transfer = getTransferVal) {
+    return transfer(storageMap[type + "Storage"].getItem(key));
   },
   /**
    * 删除指定键名对应的数据
