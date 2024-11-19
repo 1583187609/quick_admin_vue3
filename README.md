@@ -65,7 +65,7 @@
    - 新增/编辑提交后 —— 提示成功、关闭弹窗、刷新列表，通过简单的 next() 回调完成（可传参覆盖）。
    - ……
 
-7. **封装弹性布局类**：提升静态页面开发效率 <span style="color:red;">**约 30%**</span> 。[点此了解弹性布局基础类（布局神器）](http://fanlichuan.gitee.io/produce/flex-layout/index.html)
+7. **封装弹性布局类**：提升静态页面开发效率 <span style="color:red;">**约 30%**</span> 。点击了解弹性布局基础类（布局神器）：[Github 地址](https://1583187609.github.io/produce/flex-layout)（国外服务，初次加载较慢）、~~[Gitee 地址](http://fanlichuan.gitee.io/produce/flex-layout/index.html)（暂不可用，服务维护升级）~~
 
 ## 四、图例简述
 
