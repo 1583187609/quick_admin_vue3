@@ -343,7 +343,7 @@ const tempTreeOpts = [
 ];
 
 export default {
-  // 文件类型
+  // 文本类型
   TestText: {
     1: "文本1",
     2: "文本2",

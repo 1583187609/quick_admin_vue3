@@ -196,6 +196,7 @@
 21、用上之前内江市国资委系统的皮肤  
 62、全局错误拦截，在 App.vue 中处理
 63、localStorage、sessionStorage、cookie 汇总 npm 包
+64、采用多页面划分多中心模块
 
 ## 未来功能清单
 

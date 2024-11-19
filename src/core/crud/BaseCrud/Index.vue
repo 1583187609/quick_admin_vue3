@@ -139,7 +139,6 @@ const props = withDefaults(
     fields?: FormField[]; // 表单字段
     sections?: SectionFormItemAttrs[]; // 分块的表单字段
     fetch?: UniteFetchType; // 列表请求接口
-    immediate?: boolean; // 页面刚创建时是否立即发起请求获取数据
     extraParams?: CommonObj; // 额外的参数
     changeFetch?: boolean; // 是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
     inputDebounce?: boolean; // 输入框输入时，是否通过防抖输入，触发搜索
@@ -182,7 +181,6 @@ const props = withDefaults(
   {
     fields: () => [],
     cols: () => [],
-    immediate: true,
     changeFetch: true,
     size: defaultCommonSize,
     omit: true,
@@ -293,7 +291,7 @@ function handleCurrChange(val: number) {
  * @param isInit 是否是初始化表单数据
  */
 function handleChange(changedVals: CommonObj, isInit?: boolean) {
-  const { immediate, changeFetch } = props;
+  const { changeFetch } = props;
   changedVals = splitPropsParams(changedVals);
   if (isInit) {
     merge(params, changedVals);
@@ -303,7 +301,7 @@ function handleChange(changedVals: CommonObj, isInit?: boolean) {
     // merge(params, changedVals, { [currPageKey]: 1 }); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
     Object.assign(params, changedVals, { [currPageKey]: 1 });
   }
-  immediate && getList(params, undefined, "change");
+  getList(params, undefined, isInit ? "init" : "change");
 }
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {

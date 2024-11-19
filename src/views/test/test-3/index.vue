@@ -541,6 +541,9 @@ const cols: TableCol[] = [
             label: "启/禁用状态",
             width: 150,
             type: "BaseTag",
+            attrs: {
+              name: "EnableStatus",
+            },
             quickAttrs: {
               popover: {
                 title: "系统内置组件 - BaseTag",
