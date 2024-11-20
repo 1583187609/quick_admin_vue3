@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { TableColAttrs } from "@/core/table/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 import { CommonObj } from "@/vite-env";
 
 const props = withDefaults(

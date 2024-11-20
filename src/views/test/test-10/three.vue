@@ -48,10 +48,20 @@
           <el-form-item :prop="'list.' + ind + '.hour'" required :rules="[{ required: true, message: '请输入小时' }]">
             <el-input v-model="sizeForm.list[ind].hour" placeholder="请输入小时" clearable />
           </el-form-item>
-          <el-form-item class="ml-h" :prop="'list.' + ind + '.money'" required :rules="[{ required: true, message: '请输入小时' }]">
+          <el-form-item
+            class="ml-h"
+            :prop="'list.' + ind + '.money'"
+            required
+            :rules="[{ required: true, message: '请输入小时' }]"
+          >
             <el-input v-model="sizeForm.list[ind].money" placeholder="请输入金额" />
           </el-form-item>
-          <el-form-item class="ml-h" :prop="'list.' + ind + '.money'" required :rules="[{ required: true, message: '请选择类型' }]">
+          <el-form-item
+            class="ml-h"
+            :prop="'list.' + ind + '.money'"
+            required
+            :rules="[{ required: true, message: '请选择类型' }]"
+          >
             <el-select
               v-model="sizeForm.list[ind].type"
               style="min-width: 120px"
@@ -126,8 +136,8 @@ import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
 import { PostMockCommon, GetMockCommonList } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
-import BaseIcon from "@/core/BaseIcon.vue";
-import { cancelHttp } from "@/services/http";
+import BaseIcon from "@/core/components/BaseIcon.vue";
+import { cancelHttp } from "@/core/http";
 
 // import UserInfo from "@/components/UserInfo.vue";
 // console.log(h(...["add", { name: "delete", text: "删除" }]), "UserInfo.vue----------------");

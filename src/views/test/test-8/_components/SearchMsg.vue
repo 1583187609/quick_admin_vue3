@@ -27,7 +27,7 @@ import { ref, reactive, inject, watchEffect } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ClosePopupInject, CommonObj } from "@/vite-env";
 import { GetImSearchP2pChatList } from "@/api-mock";
-import LoadMore from "@/core/LoadMore.vue";
+import LoadMore from "@/core/components/LoadMore.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { ElMessage } from "element-plus";
 

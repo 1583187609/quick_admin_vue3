@@ -4,10 +4,10 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { SectionFormItem } from "@/core/form/_types";
-import SectionForm from "@/core/form/SectionForm.vue";
+import { SectionFormItem } from "@/core/components/form/_types";
+import SectionForm from "@/core/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
-import { FormField } from "@/core/form/_types";
+import { FormField } from "@/core/components/form/_types";
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

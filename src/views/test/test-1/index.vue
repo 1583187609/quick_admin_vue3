@@ -38,12 +38,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/core/form/_types";
+import { FormField } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 import { ElMessage, ElButton } from "element-plus";
-import BaseIcon from "@/core/BaseIcon.vue";
+import BaseIcon from "@/core/components/BaseIcon.vue";
 import { handleBtnNext } from "@/utils";
 import CustomPopover from "./_components/CustomPopover.vue";
 

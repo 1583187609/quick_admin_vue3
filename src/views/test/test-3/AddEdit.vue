@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/core/form/_types";
+import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 

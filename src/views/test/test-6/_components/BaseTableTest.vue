@@ -17,9 +17,9 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
-import TestView from "@/core/TestView.vue";
+import TestView from "@/core/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 
 const records = {
   hasTest: {

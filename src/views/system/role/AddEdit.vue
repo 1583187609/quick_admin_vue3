@@ -1,5 +1,11 @@
 <template>
-  <BaseForm v-model="modelData" style="width: 600px" :fields="fields" :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd" :afterSuccess="refreshList">
+  <BaseForm
+    v-model="modelData"
+    style="width: 600px"
+    :fields="fields"
+    :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
+    :afterSuccess="refreshList"
+  >
     <template #menu_auth>
       <BaseTree v-modle="modelData.menu_auth" />
     </template>
@@ -7,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { FormField } from "@/core/form/_types";
+import { FormField } from "@/core/components/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { GetAuthRoleInfo, PostAuthRoleAdd, PostAuthRoleUpdate } from "@/api-mock";
 

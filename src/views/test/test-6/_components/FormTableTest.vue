@@ -15,11 +15,11 @@
 </template>
 <script lang="ts" setup>
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
-import TestView from "@/core/TestView.vue";
-import FormTable from "@/core/table/FormTable.vue";
+import TestView from "@/core/components/TestView.vue";
+import FormTable from "@/core/components/table/FormTable.vue";
 import { handleBtnNext } from "@/utils";
-import { BtnName } from "@/core/BaseBtn/_types";
-import { FormTableColAttrs } from "@/core/table/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
+import { FormTableColAttrs } from "@/core/components/table/_types";
 
 const records = {
   hasTest: {

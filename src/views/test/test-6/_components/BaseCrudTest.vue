@@ -36,12 +36,12 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
-import TestView from "@/core/TestView.vue";
+import TestView from "@/core/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
-import { FormFieldAttrs } from "@/core/form/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 import { useSelectOpts } from "@/hooks";
 import { GetMockCommonList } from "@/api-mock";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 
 const records = {
   hasTest: {

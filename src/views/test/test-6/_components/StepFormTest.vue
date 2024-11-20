@@ -12,9 +12,9 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { CommonSize } from "@/vite-env";
-import TestView from "@/core/TestView.vue";
-import StepForm from "@/core/form/StepForm.vue";
-import { SectionFormItemAttrs } from "@/core/form/_types";
+import TestView from "@/core/components/TestView.vue";
+import StepForm from "@/core/components/form/StepForm.vue";
+import { SectionFormItemAttrs } from "@/core/components/form/_types";
 
 const records = {
   hasTest: {
