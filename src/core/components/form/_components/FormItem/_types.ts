@@ -1,0 +1,15 @@
+export type ElFormItemType =
+  | "input"
+  | "select"
+  | "tree-select"
+  | "date-picker"
+  | "radio-group"
+  | "checkbox"
+  | "checkbox-group"
+  | "input-number"
+  | "switch"
+  | "cascader"
+  | "autocomplete"
+  | "slider"
+  | "time-picker"
+  | "time-select";
