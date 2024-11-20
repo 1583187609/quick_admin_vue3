@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/BaseAudio.vue",
-  "tsPath": "/src/core/BaseAudio.vue"
+  "apiPath": "/src/core/components/BaseAudio.vue",
+  "tsPath": "/src/core/components/BaseAudio.vue"
 }

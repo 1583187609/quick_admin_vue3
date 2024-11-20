@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/BasicQrcode.vue",
-  "tsPath": "/src/core/BasicQrcode.vue"
+  "apiPath": "/src/core/components/BasicQrcode.vue",
+  "tsPath": "/src/core/components/BasicQrcode.vue"
 }

@@ -24,12 +24,12 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { toCssVal, typeOf, emptyVals, emptyStr } from "@/core/_utils";
+import { toCssVal, typeOf, emptyVals, emptyStr } from "@/core/utils";
 import { StrNum } from "@/vite-env";
 import { PopoverAttrs } from "@/core/_types";
 import { DictName } from "@/dict/_types";
 import { useDict } from "@/hooks";
-import QuestionPopover from "@/core/QuestionPopover.vue";
+import QuestionPopover from "@/core/components/QuestionPopover.vue";
 
 const { getText } = useDict();
 const props = withDefaults(

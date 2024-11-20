@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/BaseVideo.vue",
-  "tsPath": "/src/core/BaseVideo.vue"
+  "apiPath": "/src/core/components/BaseVideo.vue",
+  "tsPath": "/src/core/components/BaseVideo.vue"
 }
