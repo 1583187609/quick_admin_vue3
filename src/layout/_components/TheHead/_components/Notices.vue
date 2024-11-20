@@ -43,7 +43,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 import { Search } from "@element-plus/icons-vue";
-import BaseEmpty from "@/core/BaseEmpty.vue";
+import BaseEmpty from "@/core/components/BaseEmpty.vue";
 // const props = withDefaults(
 //   defineProps<{
 //     exampleProp?: CommonObj;

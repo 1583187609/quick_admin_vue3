@@ -69,13 +69,13 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { GetMockCommonList } from "@/api-mock";
-import Chart from "@/core/chart/Chart.vue";
-import ChartLine from "@/core/chart/ChartLine.vue";
-import ChartBar from "@/core/chart/ChartBar.vue";
-import ChartPie from "@/core/chart/ChartPie.vue";
-import ChartRadar from "@/core/chart/ChartRadar.vue";
-import ChartBars from "@/core/chart/ChartBars.vue";
-import MultiCharts from "@/core/chart/MultiCharts.vue";
+import Chart from "@/core/components/chart/Chart.vue";
+import ChartLine from "@/core/components/chart/ChartLine.vue";
+import ChartBar from "@/core/components/chart/ChartBar.vue";
+import ChartPie from "@/core/components/chart/ChartPie.vue";
+import ChartRadar from "@/core/components/chart/ChartRadar.vue";
+import ChartBars from "@/core/components/chart/ChartBars.vue";
+import MultiCharts from "@/core/components/chart/MultiCharts.vue";
 import Setting from "./_components/Setting.vue";
 import { CommonObj } from "@/vite-env";
 

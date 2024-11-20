@@ -16,9 +16,9 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { GetMockCommonList } from "@/api-mock";
-import { TableCol } from "@/core/table/_types";
-import SectionForm from "@/core/form/SectionForm.vue";
-import { SectionFormItem } from "@/core/form/_types";
+import { TableCol } from "@/core/components/table/_types";
+import SectionForm from "@/core/components/form/SectionForm.vue";
+import { SectionFormItem } from "@/core/components/form/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 
 const props = withDefaults(

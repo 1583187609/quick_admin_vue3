@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import Chart from "@/core/chart/Chart.vue";
+import Chart from "@/core/components/chart/Chart.vue";
 
 interface ChartProp {
   value: number;

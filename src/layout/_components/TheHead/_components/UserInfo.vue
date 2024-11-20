@@ -19,9 +19,9 @@
 import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
 import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/core/form/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 import { GetUserList } from "@/api-mock";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 
 const editEnable = ref(false);
 const modelData = reactive<CommonObj>(Object.assign({}, getUserInfo()));

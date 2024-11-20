@@ -1,4 +1,4 @@
-import { TagAttrs } from "@/core/BaseTag.vue";
+import { TagAttrs } from "@/core/components/BaseTag.vue";
 import { tagColorMap } from "./_config";
 import { OptionItem } from "@/vite-env";
 import dict from ".";

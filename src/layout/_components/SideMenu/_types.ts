@@ -1,5 +1,5 @@
 import { CommonObj, ShowCodes } from "@/vite-env";
-import { IconNames } from "@/core/BaseIcon.vue";
+import { IconNames } from "@/core/components/BaseIcon.vue";
 
 export type LinkType = 0 | 1 | 2; //1 内部iframe渲染； 2, 新打开一个浏览器标签页展示
 export interface ResponseMenuItem {

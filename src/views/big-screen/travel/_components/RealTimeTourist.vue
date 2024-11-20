@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import Chart from "@/core/chart/Chart.vue";
+import Chart from "@/core/components/chart/Chart.vue";
 import { PolarComponent } from "echarts/components";
 import "echarts-liquidfill";
 
