@@ -55,17 +55,12 @@ export function handleClickExtraBtns({
     const isSeledAll = seledRows.length === total; //是否选择了所有
     const isOverLimit = exportCfg?.limit ? seledRows.length > exportCfg.limit : false;
     if ((["export"] as BtnName[]).includes(name) && isOverLimit) {
-      showMessage(
-        {
-          message: `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`,
-          dangerouslyUseHTMLString: true,
-        },
-        "warning"
-      );
+      const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
+      showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
     } else {
-      const hintTips = `确定 <b style="color:${color};">${text}${
-        isSeledAll ? `全部</b> ` : `</b>`
-      } 共 <b style="color:${color};">${seledRows.length}</b> 条记录？`;
+      const style = `style="color:${color};`;
+      const len = seledRows.length;
+      const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录？`;
       ElMessageBox.confirm(hintTips, "温馨提示", {
         type: name === "delete" ? "error" : "warning",
         dangerouslyUseHTMLString: true,
@@ -86,9 +81,7 @@ export function handleClickExtraBtns({
               newCols.forEach((col: TableColAttrs) => {
                 const { prop, type, formatter } = col;
                 let val = "";
-                if (allowList.includes(type)) {
-                  val = formatter ? formatter(row) : row[prop as string] ?? "";
-                }
+                if (allowList.includes(type)) val = formatter?.(row) ?? row[prop as string] ?? "";
                 list.push(val);
               });
               exportRows.push(list);
