@@ -93,20 +93,20 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
-import { FormFieldAttrs } from "@/core/form/_types";
-import { TableCol, TableColAttrs } from "@/core/table";
+import { FormFieldAttrs } from "@/core/components/form/_types";
+import { TableCol, TableColAttrs } from "@/core/components/table";
 import InfoSteps from "@/components/InfoSteps.vue";
 import AuthInfo from "@/components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
-import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
-import { TableColumnAttrs } from "@/core/table/_types";
+import { TableColumnAttrs } from "@/core/components/table/_types";
 import { usePopup } from "@/hooks";
 
 const tempRow = {

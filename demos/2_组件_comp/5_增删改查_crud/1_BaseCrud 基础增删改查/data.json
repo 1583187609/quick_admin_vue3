@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/crud/BaseCrud/Index.vue",
-  "tsPath": "/src/core/crud/BaseCrud/_types.ts"
+  "apiPath": "/src/core/components/crud/BaseCrud/Index.vue",
+  "tsPath": "/src/core/components/crud/BaseCrud/_types.ts"
 }

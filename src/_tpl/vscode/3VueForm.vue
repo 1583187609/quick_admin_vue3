@@ -7,7 +7,7 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { FormFieldAttrs } from "@/core/form/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 import { ref, reactive, watch, computed } from "vue";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj } from "@/vite-env";

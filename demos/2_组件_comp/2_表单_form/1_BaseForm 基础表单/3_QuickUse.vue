@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/core/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
 

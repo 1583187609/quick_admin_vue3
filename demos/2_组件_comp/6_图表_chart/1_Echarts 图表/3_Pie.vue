@@ -6,7 +6,7 @@
   <ChartPie :data="data" height="200" />
 </template>
 <script lang="ts" setup>
-import ChartPie from "@/core/chart/ChartPie.vue";
+import ChartPie from "@/core/components/chart/ChartPie.vue";
 const data = [
   ["XX1", 120],
   ["XX2", 149],

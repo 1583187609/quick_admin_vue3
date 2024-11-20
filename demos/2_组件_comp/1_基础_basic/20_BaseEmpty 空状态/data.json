@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/BaseEmpty.vue",
-  "tsPath": "/src/core/BaseEmpty.vue"
+  "apiPath": "/src/core/components/BaseEmpty.vue",
+  "tsPath": "/src/core/components/BaseEmpty.vue"
 }

@@ -19,9 +19,9 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField } from "@/core/form/_types";
+import { FormField } from "@/core/components/form/_types";
 import { GetAuthRoleList } from "@/api-mock";
-import AddDelTag from "@/core/form/_components/AddDelTag.vue";
+import AddDelTag from "@/core/components/form/_components/AddDelTag.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
 
 //是否支持： 0否;1=是

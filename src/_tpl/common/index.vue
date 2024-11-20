@@ -13,11 +13,11 @@
 </template>
 <script lang="ts" setup>
 import { GetUserList, DeleteUserList } from "@/api-mock";
-import { FormField } from "@/core/form/_types";
-import { TableCol } from "@/core/table/_types";
+import { FormField } from "@/core/components/form/_types";
+import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { usePopup } from "@/hooks";
 

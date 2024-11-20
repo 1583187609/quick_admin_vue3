@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import { handleBtnNext } from "@/utils";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 
 const cols = [

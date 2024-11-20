@@ -25,20 +25,17 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
-|`type`|-|`FormStyleType`|`common`|
+|`styleType`|-|`FormStyleType`|`common`|
 |`sections`|-|`SectionFormItem[]`|`[]`|
-|`pureText`|是否纯文本展示|`boolean`|-|
 |`readonly`|是否只读|`boolean`|-|
 |`disabled`|是否禁用|`boolean`|-|
-|`size`|是否禁用|`CommonSize`|`defaultCommonSize`|
-|`labelWidth`|`label`的宽度|`string`|-|
+|`pureText`|是否纯文本展示|`boolean`|-|
 |`scrollToError`|校验失败后是否自动滚到失败位置|`boolean`|`true`|
 |`foldable`|是否允许折叠|`boolean`|`true`|
 |`fetch`|接口请求|`UniteFetchType`|-|
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`() => void`|-|
 |`footer`|是否显示底部按钮|`boolean`|`true`|
-|`grid`|同`ElementPlus`的`el-col`的属性，可为数值：`1~24`|`Grid`|`24`|
 |`submitText`|提交按钮的文字|`string`|-|
 |`resetText`|提交按钮的文字|`string`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
@@ -47,6 +44,7 @@
 |`omit`|是否剔除掉值为 `undefined, null, `“” 的参数|`boolean`|`true`|
 |`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
+|`bodyMaxHeight`|-|`string`|`90vh`|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|
 |`handleRequest`|处理请求参数|`() => void`|-|
 |`handleResponse`|处理请求数据|`() => void`|-|
@@ -85,5 +83,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/form/_types.ts
 :::  

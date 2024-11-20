@@ -5,6 +5,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import BasicQrcode from "@/core/BasicQrcode.vue";
+import BasicQrcode from "@/core/components/BasicQrcode.vue";
 </script>
 <style lang="scss" scoped></style>

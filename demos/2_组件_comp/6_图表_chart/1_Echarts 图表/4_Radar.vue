@@ -5,7 +5,7 @@
   <ChartRadar :data="data" />
 </template>
 <script lang="ts" setup>
-import ChartRadar from "@/core/chart/ChartRadar.vue";
+import ChartRadar from "@/core/components/chart/ChartRadar.vue";
 const data = [
   ["type", "攻击", "防御", "经济", "参团", "拆塔", "人头比"],
   ["张三", 10, 20, 30, 40, 50, 60],

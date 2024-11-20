@@ -7,8 +7,8 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { CommonObj } from "@/vite-env";
-import SectionForm from "@/core/form/SectionForm.vue";
-import { SectionFormItem } from "@/core/form/_types";
+import SectionForm from "@/core/components/form/SectionForm.vue";
+import { SectionFormItem } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 
 const modelData = reactive<CommonObj>({});

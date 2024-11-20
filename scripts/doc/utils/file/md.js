@@ -43,7 +43,7 @@ export function getMdFileByPath(dirPathHalf = needParam(), rowsRange = "") {
 
 /**
  * 获取Ts类型
- * @param {string} filePathHalf 要读取文件的路径。例："/src/core/form/_types.ts"
+ * @param {string} filePathHalf 要读取文件的路径。例："/src/core/components/form/_types.ts"
  */
 export function getTsTypeDeclare(filePathHalf = needParam()) {
   if (!filePathHalf) return "";

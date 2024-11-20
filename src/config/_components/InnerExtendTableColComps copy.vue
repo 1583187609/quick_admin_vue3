@@ -16,10 +16,10 @@
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
-import { deleteAttrs, showMessage } from "@/core/_utils";
-import { TableColStandardAttrs } from "@/core/table/_types";
+import { deleteAttrs, showMessage } from "@/core/utils";
+import { TableColStandardAttrs } from "@/core/components/table/_types";
 import { CommonObj, StrNum } from "@/vite-env";
-import { RefreshListFn } from "@/core/table/_components/Column.vue";
+import { RefreshListFn } from "@/core/components/table/_components/Column.vue";
 
 export type InsertTabColFormType = "switch" | "input";
 

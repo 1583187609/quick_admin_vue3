@@ -29,14 +29,14 @@
 </template>
 <script lang="ts" setup>
 import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
-import { TableCol } from "@/core/table/_types";
-import { BtnName } from "@/core/BaseBtn/_types";
+import { TableCol } from "@/core/components/table/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
-import { ExtraBtnRestArgs } from "@/core/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
-import { TableDragSortEndNext } from "@/core/table/_types";
-import { SectionFormItemAttrs } from "@/core/form/_types";
+import { TableDragSortEndNext } from "@/core/components/table/_types";
+import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { useSelectOpts, usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();

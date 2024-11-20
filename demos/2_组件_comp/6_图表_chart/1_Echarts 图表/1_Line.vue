@@ -6,7 +6,7 @@
   <ChartLine :data="data" log="折线图" />
 </template>
 <script lang="ts" setup>
-import ChartLine from "@/core/chart/ChartLine.vue";
+import ChartLine from "@/core/components/chart/ChartLine.vue";
 const data = [
   ["product", "2015", "2016", "2017"],
   ["YY1", 43.3, 85.8, 93.7],

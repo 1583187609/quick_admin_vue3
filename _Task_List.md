@@ -143,7 +143,7 @@
 64、封装 TreeCrud 组件  
 74、将 Quick 的内核抽离成 npm 包
 76、请求参数加解密  
-86、移除 `src/core/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
+86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 99、完善图片上传 BaseUpload 组件
@@ -200,6 +200,11 @@
 63、localStorage、sessionStorage、cookie 汇总 npm 包
 64、采用多页面划分多中心模块
 65、实现离线存储，预览整个网页
+
+## Docs 功能清单
+
+1、让 docs 主题色跟 admin 主题色保持一致
+2、处理左侧和顶部菜单高亮不生效的问题
 
 ## 未来功能清单
 

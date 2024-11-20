@@ -13,7 +13,7 @@
   <MultiCharts :data="data" :layout="layoutType" log="单例多图" />
 </template>
 <script lang="ts" setup>
-import MultiCharts from "@/core/chart/MultiCharts.vue";
+import MultiCharts from "@/core/components/chart/MultiCharts.vue";
 import { OptionItem } from "@/vite-env";
 
 const layoutOpts: OptionItem[] = [

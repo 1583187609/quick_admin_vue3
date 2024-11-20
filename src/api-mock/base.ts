@@ -1,4 +1,4 @@
-import http from "@/services/http";
+import http from "@/core/http";
 import { CommonObj } from "@/vite-env";
 
 /************ select 下拉项 *************/

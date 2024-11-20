@@ -16,12 +16,12 @@
   <el-input v-model="newRow[col.prop]" v-bind="col.attrs" @change="handleInputChange" v-else-if="col.type === 'input'" /> -->
 </template>
 <script lang="ts" setup>
-import { deleteAttrs, showMessage } from "@/core/_utils";
-import { TableColStandardAttrs } from "@/core/table/_types";
+import { deleteAttrs, showMessage } from "@/core/utils";
+import { TableColStandardAttrs } from "@/core/components/table/_types";
 import { CommonObj, StrNum } from "@/vite-env";
-import { RefreshListFn } from "@/core/table/_components/Column.vue";
-import FormItem from "@/core/form/_components/FormItem/Index.vue";
-import { ElFormItemType } from "@/core/form/_components/FormItem/_types";
+import { RefreshListFn } from "@/core/components/table/_components/Column.vue";
+import FormItem from "@/core/components/form/_components/FormItem/Index.vue";
+import { ElFormItemType } from "@/core/components/form/_components/FormItem/_types";
 import { useFormAttrs } from "@/hooks";
 
 export type InsertTabColFormType = ElFormItemType;

@@ -35,12 +35,12 @@
 |`fields`|表单字段|`FormField[]`|`[]`|
 |`sections`|分块的表单字段|`SectionFormItemAttrs[]`|-|
 |`fetch`|列表请求接口|`UniteFetchType`|-|
-|`immediate`|页面刚创建时是否立即发起请求获取数据|`boolean`|`true`|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|`true`|
 |`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|`true`|
 |`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`Grid`|`defaultGridAttrs`|
 |`rowNum`|筛选条件的(表单)展示几行|`number`|-|
+|`formAttrs`|`el-form `的属性配置|`FormAttrs`|`defaultFormAttrs`|
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
 |`importCfg`|导入的下载模板配置|`TplCfgAttrs`|-|
 |`exportCfg`|导出配置|`ExportCfg`|{ `limit: 10000 `}|
@@ -48,17 +48,16 @@
 |`operateBtns`|操作栏的分组按钮，在表格的操作一栏|`OperateBtnsType`|-|
 |`operateBtnsAttrs`|操作栏按钮的配置|`OperateBtnsAttrs`|-|
 |`filterByAuth`|按钮权限处理逻辑|`FilterByAuthFn`|`true`|
-|`formAttrs`|`el-form `的属性配置|`FormAttrs`|`defaultFormAttrs`|
-|`omit`|是否剔除掉`undefined, ''`的属性值|`boolean`|`true`|
-|`size`|整体的控件大小|`CommonSize`|`defaultCommonSize`|
-|`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|`_props.grid.xl < 6`|
-|`readonly`|是否只读|`boolean`|-|
-|`disabled`|是否禁用|`boolean`|-|
 |`tableAttrs`|`el-table `的属性配置|`TableAttrs`|`defaultTableAttrs`|
 |`pageAttrs`|分页配置|`CommonObj`|-|
-|`pagination`|是否分页|`false \| TablePaginationAttrs`|{ `currPage: 1, pageSize: 20 `}|
-|`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
+|`pagination`|是否分页|`false \| TablePaginationAttrs`|`defaultPagination`|
 |`showPagination`|是否显示分页|`boolean`|`true`|
+|`omit`|是否剔除掉`undefined, ''`的属性值|`boolean`|`true`|
+|`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|`_props.grid.xl < 6`|
+|`size`|整体的控件大小|`CommonSize`|`defaultCommonSize`|
+|`readonly`|是否只读|`boolean`|-|
+|`disabled`|是否禁用|`boolean`|-|
+|`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
 |`log`|是否打印`console.log(rows)`|`boolean \| "req" \| "res"`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
@@ -102,5 +101,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/crud/BaseCrud/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/crud/BaseCrud/_types.ts
 :::  

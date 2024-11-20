@@ -6,7 +6,7 @@
   <ChartBar :data="data" :option="overlayOption" />
 </template>
 <script lang="ts" setup>
-import ChartBar from "@/core/chart/ChartBar.vue";
+import ChartBar from "@/core/components/chart/ChartBar.vue";
 const overlayOption = {
   barWidth: 32,
 };

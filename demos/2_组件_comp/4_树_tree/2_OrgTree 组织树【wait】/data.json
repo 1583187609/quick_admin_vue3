@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/tree/OrgTree.vue",
-  "tsPath": "/src/core/tree/_types.ts"
+  "apiPath": "/src/core/components/tree/OrgTree.vue",
+  "tsPath": "/src/core/components/tree/_types.ts"
 }

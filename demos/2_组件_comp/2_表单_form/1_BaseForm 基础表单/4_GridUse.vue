@@ -6,7 +6,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/core/form/_components/FieldItem";
+import { FormField, FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 const fields: FormFieldAttrs[] = [
   { prop: "name", label: "姓名", required: true, quickAttrs: { grid: 8 } },
   {

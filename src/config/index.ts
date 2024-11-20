@@ -1,5 +1,5 @@
 import { BaseComponentsConfig } from "./_types";
-import { TableColAttrs } from "@/core/table/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 import { getUserInfo, storage } from "@/utils";
 
 // const isSmall = true;

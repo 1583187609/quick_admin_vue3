@@ -16,9 +16,9 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { DeleteUserList, GetMockCommonList } from "@/api-mock";
-import { BtnName } from "@/core/BaseBtn/_types";
-import { FormFieldAttrs } from "@/core/form/_types";
-import { TableColAttrs } from "@/core/table/_types";
+import { BtnName } from "@/core/components/BaseBtn/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import AddEdit from "./AddEdit.vue";

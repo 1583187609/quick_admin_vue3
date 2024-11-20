@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { FormFieldAttrs } from "@/core/form/_components/FieldItem";
+import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon, GetCascaderRegion } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/vite-env";
 

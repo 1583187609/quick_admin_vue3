@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/form/BaseForm.vue",
-  "tsPath": "/src/core/form/_types.ts"
+  "apiPath": "/src/core/components/form/BaseForm.vue",
+  "tsPath": "/src/core/components/form/_types.ts"
 }

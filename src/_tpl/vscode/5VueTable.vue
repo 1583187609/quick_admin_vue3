@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj } from "@/vite-env";
-import { TableColAttrs } from "@/core/table/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 
 const cols: TableColAttrs[] = [
   { prop: "id", label: "用户ID", fixed: "left" },

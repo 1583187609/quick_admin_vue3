@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/table/FormTable.vue",
-  "tsPath": "/src/core/table/_types.ts"
+  "apiPath": "/src/core/components/table/FormTable.vue",
+  "tsPath": "/src/core/components/table/_types.ts"
 }

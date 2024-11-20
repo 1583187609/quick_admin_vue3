@@ -7,11 +7,11 @@
   </SectionForm>
 </template>
 <script lang="ts" setup>
-import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/form/_types";
+import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
 import { ref, reactive, watch, computed } from "vue";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj } from "@/vite-env";
-import SectionForm from "@/core/form/SectionForm.vue";
+import SectionForm from "@/core/components/form/SectionForm.vue";
 
 const props = withDefaults(
   defineProps<{

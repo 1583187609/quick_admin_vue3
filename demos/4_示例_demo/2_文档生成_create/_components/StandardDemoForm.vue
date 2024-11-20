@@ -63,14 +63,14 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { handleFields } from "@/core/form/_utils";
-import FieldItemCol from "@/core/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs, FieldPropType } from "@/core/form/_components/FieldItem/_types";
+import { handleFields } from "@/core/components/form/_utils";
+import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
+import { FormField, FormFieldAttrs, FieldPropType } from "@/core/components/form/_components/FieldItem/_types";
 import _ from "lodash";
-import FooterBtns from "@/core/form/_components/FooterBtns.vue";
-import { isProd } from "@/core/_utils";
-import { BaseBtnType } from "@/core/BaseBtn/_types";
-import { defaultFormAttrs } from "@/core/form";
+import FooterBtns from "@/core/components/form/_components/FooterBtns.vue";
+import { isProd } from "@/core/components/_utils";
+import { BaseBtnType } from "@/core/components/BaseBtn/_types";
+import { defaultFormAttrs } from "@/core/components/form";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
 
 const { merge } = _;

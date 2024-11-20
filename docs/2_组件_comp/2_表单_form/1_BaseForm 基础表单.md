@@ -49,13 +49,10 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`type`|表格样式类型：`cell`单元格、`common`常用|`FormStyleType`|`common`|
-|`size`|-|`CommonSize`|`defaultCommonSize`|
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
+|`styleType`|表格样式类型：`cell`单元格、`common`常用|`FormStyleType`|`common`|
 |`fields`|表单字段项|`FormField[]`|`[]`|
-|`readonly`|是否只读|`boolean`|-|
 |`pureText`|是否纯文本展示|`boolean`|-|
-|`grid`|同`ElementPlus `的 `el-col `的属性，也可为数值：`1 ~ 24`|`Grid`|`_props.type === "cell" ? 8 : 24`|
 |`footer`|是否显示底部按钮|`boolean`|`true`|
 |`submitText`|提交按钮的文字|`string`|-|
 |`resetText`|提交按钮的文字|`string`|-|
@@ -101,5 +98,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/form/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/form/_types.ts
 :::  

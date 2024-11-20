@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, nextTick, computed } from "vue";
-import { FormField } from "@/core/form/_types";
+import { FormField } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 export type FormType = "unseal" | "add" | "handle";
@@ -145,7 +145,8 @@ function handleChange(prop: string, val: SceneType) {
 function getReplyMsg(type: SceneType) {
   const days = modelData.timeDay;
   const map: CommonObj = {
-    warning: "经用户举报，并经平台核实，您因违反平台行为规范，存在违规行为，现对您进行消息警告通知！请严格遵守《脱单计划行为规范》。",
+    warning:
+      "经用户举报，并经平台核实，您因违反平台行为规范，存在违规行为，现对您进行消息警告通知！请严格遵守《脱单计划行为规范》。",
     login: "",
     "all-interaction": `经用户举报，并经平台核实，您因违反平台行为规范，存在违规行为，现被处罚禁止互动${days}天！请严格遵守《脱单计划行为规范》，再次出现违规行为，将被永久封禁！`,
   };
