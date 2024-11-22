@@ -89,8 +89,10 @@
 
 62、BaseBtn 统一做了防抖处理
 63、dialog 和 drawer 内部都会自动计算自适应滚动高度
-64、tree-shaking优化
-65、WeakMap优化
+64、tree-shaking 优化
+65、WeakMap 优化
+66、支持同路径不同 ID 的页面缓存
+67、支持本地路由或服务端接口数据路由
 
 # 组件 Demo 清单
 

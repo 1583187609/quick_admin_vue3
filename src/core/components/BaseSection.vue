@@ -6,7 +6,7 @@
     <div class="head f-sb-c">
       <div class="title f-fs-c f-0">
         <span class="line-1">{{ title }}</span>
-        <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge"> </el-badge>
+        <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge"></el-badge>
       </div>
       <slot name="head-right" />
       <el-icon @click="fold = !fold" class="fold-btn" :class="fold ? 'rotate-180' : ''" size="1.5em" v-if="foldable">

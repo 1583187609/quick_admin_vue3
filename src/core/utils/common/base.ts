@@ -384,3 +384,15 @@ export function throwTplError(msg: string) {
 //   }
 //   return false;
 // }
+
+/**
+ * 获取完整的静态资源url
+ * @tips import.meta.url 是一个 ESM 的原生功能，会暴露当前模块的 URL。将它与原生的 URL 构造器 组合使用，在一个 JavaScript 模块中，通过相对路径我们就能得到一个被完整解析的静态资源 URL：
+ * @notice 注：无法在 SSR 中使用，因为 import.meta.url 在浏览器和 Node.js 中有不同的语义
+ * @param {string} url 路径url
+ * @returns string
+ */
+export function getWholeUrl(url = "./img.png") {
+  // return new URL(`./dir/${name}.png`, import.meta.url).href; // 支持字符串模板
+  return new URL(url, import.meta.url).href;
+}

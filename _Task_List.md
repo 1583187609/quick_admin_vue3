@@ -285,6 +285,8 @@
 61、压缩字体文件和中国地图数据文件
 62、使用 iframe 时，动态给 src 赋值，可以避免阻塞主页面的 onLoad 事件、影响页面的并行加载
 63、meta 设置进行 SEO 优化
+64、保证打包后的静态资源（图片等）路径正确，使用`getWholeUrl`方法
+65、研究自动部署：完善 `deploy.sh` 文件，参见：`https://www.vitejs.net/guide/static-deploy.html#github-pages`
 
 ## 三、Bug 清单
 
