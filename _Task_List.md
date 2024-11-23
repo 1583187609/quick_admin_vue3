@@ -199,7 +199,7 @@
 62、全局错误拦截，在 App.vue 中处理
 63、localStorage、sessionStorage、cookie 汇总 npm 包
 64、采用多页面划分多中心模块
-65、实现离线存储，预览整个网页
+65、实现离线存储，预览整个网页（.appcache、manifest）
 
 ## Docs 功能清单
 

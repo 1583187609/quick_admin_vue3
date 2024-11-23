@@ -1,0 +1,14 @@
+@use "sass:color";
+@import "../../../../../src/assets/styles/_var.scss";
+
+// $color-1: color.mix($color-primary, #fff, 30%);
+// $color-2: color.mix($color-primary, #fff, 50%);
+// $color-3: color.mix($color-primary, #fff, 70%);
+// $color-4: $color-primary;
+// $color-5: color.mix($color-primary, #000, 80%);
+
+$color-1: color.mix($color-info, #fff, 25%);
+$color-2: color.mix($color-info, #fff, 45%);
+$color-3: color.mix($color-info, #fff, 60%);
+$color-4: color.mix($color-primary, #fff, 60%);
+$color-5: color.mix($color-primary, #fff, 100%);

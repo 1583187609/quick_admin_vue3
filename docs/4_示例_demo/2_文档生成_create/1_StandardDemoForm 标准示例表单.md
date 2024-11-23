@@ -133,5 +133,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\self\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
+<<< E:\Quick-Admin\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
 :::  

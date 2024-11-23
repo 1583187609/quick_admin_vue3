@@ -9,6 +9,7 @@ import mixin from "@/core/mixin";
 import { handleError } from "@/utils";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Demo from "../render/inner/_components/Demo.vue";
+import InfoList from "../render/inner/_components/info/InfoList.vue";
 import Root from "./Root.vue";
 import { setupProdMockServer } from "../../mock/mockProdServer";
 
@@ -24,8 +25,9 @@ export default {
     setupProdMockServer();
     app.config.globalProperties.$version = "1.0.0"; // 设置当前版本号
     app.config.errorHandler = handleError;
-    // 注册全局组件
-    app.component("Demo", Demo), app.use(components); //全局注册基础组件
+    app.component("Demo", Demo); // 注册全局Demo组件
+    app.component("InfoList", InfoList); // 注册全局Panels组件
+    app.use(components); //全局注册基础组件
     app.use(I18n);
     app.mixin(mixin);
     app.use(ElementPlus, { locale: zhCn });
