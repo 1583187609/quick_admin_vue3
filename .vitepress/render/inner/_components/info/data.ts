@@ -14,6 +14,7 @@ interface TableData {
   rows: CommonObj[];
 }
 interface TopicItem {
+  classifyId: number; //所属分类id
   id: number; // 题目id
   levels: LevelItem[]; //程度说明
   question: string; // 问题
@@ -31,6 +32,6 @@ interface TopicItem {
   // };
 }
 export const list: TopicItem[] = [
-  { id: 1, levels: [], question: "前端需要注意哪些SEO？", content: "" },
-  { id: 1, levels: [], question: "HTML", content: "" },
+  { classifyId: 1, id: 1, levels: [], question: "前端需要注意哪些SEO？", content: "" },
+  { classifyId: 1, id: 1, levels: [], question: "HTML", content: "" },
 ];

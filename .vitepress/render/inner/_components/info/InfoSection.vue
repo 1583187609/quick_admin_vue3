@@ -2,7 +2,7 @@
 <template>
   <BaseSection class="info-section" foldable>
     <template #head-right>
-      <div class="items ml-a f-fs-c">
+      <div class="items f-fs-c">
         <el-popover width="fit-content" :title="opt.label" placement="top" v-for="(opt, ind) in typeOpts" :key="ind">
           <el-rate
             v-model="opt.level"
@@ -13,7 +13,7 @@
             @change="val => handleChange(val, ind)"
           />
           <template #reference>
-            <div class="item" :class="'nth-' + opt.level" :icon="Pointer">{{ opt.label }}</div>
+            <BaseIcon class="item" :class="'nth-' + opt.level" size="1.2em" :name="opt.icon" />
           </template>
         </el-popover>
       </div>
@@ -21,16 +21,17 @@
   </BaseSection>
 </template>
 <script lang="ts" setup>
+import { h } from "vue";
 import { Pointer } from "@element-plus/icons-vue";
 import cssVars from "./_var.module.scss";
 
 const deepColors = { 1: cssVars.color1, 2: cssVars.color2, 3: cssVars.color3, 4: cssVars.color4, 5: cssVars.color5 };
 const typeOpts = reactive<CommonObj[]>([
-  { value: 1, label: "新鲜程度", level: 1, icon: Pointer, words: ["老", "新"] },
-  { value: 2, label: "出现频率", level: 2, icon: Pointer, words: ["低", "高"] },
-  { value: 3, label: "重要程度", level: 3, icon: Pointer, words: ["轻", "重"] },
-  { value: 4, label: "掌握程度", level: 4, icon: Pointer, words: ["模糊", "牢固"] },
-  { value: 5, label: "回看意愿", level: 5, icon: Pointer, words: ["弱", "强"] },
+  { value: 1, label: "新鲜程度", level: 1, icon: "Bell", words: ["老", "新"] },
+  { value: 2, label: "出现频率", level: 2, icon: "DataLine", words: ["低", "高"] },
+  { value: 3, label: "重要程度", level: 3, icon: "Warning", words: ["轻", "重"] },
+  { value: 4, label: "掌握程度", level: 4, icon: "CircleCheck", words: ["模糊", "牢固"] },
+  { value: 5, label: "回看意愿", level: 5, icon: "Discount", words: ["弱", "强"] },
 ]);
 function handleChange(val: any, ind: number) {
   typeOpts[ind].level = val;
@@ -49,16 +50,17 @@ function handleChange(val: any, ind: number) {
 .items {
   .item {
     cursor: pointer;
-    width: fit-content;
-    padding: 0 0.5em;
+    width: 1.4em;
+    height: 1.4em;
     border-radius: $radius-lighter;
-    // opacity: 0.7;
     &:hover {
       opacity: 1;
       transition: all $transition-time-main;
+      background: $color-bg-light;
+      font-weight: bolder;
     }
     &:not(:last-child) {
-      margin-right: $gap;
+      margin-right: $gap-qtr;
     }
     &.nth-1 {
       color: $color-1;

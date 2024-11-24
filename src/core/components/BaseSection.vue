@@ -4,13 +4,11 @@
 <template>
   <div class="base-section">
     <div class="head f-sb-c">
-      <div class="title f-fs-c f-0">
-        <span class="line-1">{{ title }}</span>
-        <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge"></el-badge>
+      <div class="title f-fs-c f-1">
+        <BaseText maxLine="1" :text="title" :popupAttrs="{ title: '问题' }" />
+        <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge" />
       </div>
-      <!-- <div class="ml-a" v-if="$slots['head-right']"> -->
       <slot name="head-right" />
-      <!-- </div> -->
       <el-icon @click="fold = !fold" class="fold-btn" :class="fold ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
         <CaretTop />
       </el-icon>
@@ -23,7 +21,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { CaretTop } from "@element-plus/icons-vue";
-import { useSlots } from "vue";
 
 const props = withDefaults(
   defineProps<{
@@ -41,7 +38,6 @@ const props = withDefaults(
     foldable: false,
   }
 );
-// const $slots = useSlots();
 const badge = Number(props.badge);
 const fold = ref(false);
 </script>
