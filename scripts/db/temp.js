@@ -23,43 +23,6 @@ VALUES
 ('王五', '1', '34', '18483221111', 'mstx123456', '4'),
 ('李梅', '1', '24', '18483221111', 'mstx123456', '4');
 
--- 插入user表
-INSERT INTO user
-(user_name, gender, phone, password, role)
-VALUES
-('唐六', '1', '18483221111', 'mstx123456', '4'),
-('程八', '2', '18483221111', 'mstx123456', '4');
-
--- 删除user表
-DELETE FROM user WHERE
-id=5;
-
--- 删除user表
-DELETE FROM user WHERE
-id = 6
-AND user_name = '李四'
-AND age > 20;
-
--- 修改user表
-UPDATE user
-SET gender = 2
-WHERE user_name = '李四';
-
--- 查找user表
-SELECT * FROM user WHERE
-user_name = '李四'
-AND age >= 20;
-
--- 查找user表
-SELECT * FROM user WHERE
-user_name NOT IN ('李四', '张三')
-AND age != 24
-OR user_name = '王五';
-
--- 查找user表
-SELECT * FROM user WHERE
-user_name IN ('李四', '张三');
-
 -- 创建classify表
 CREATE TABLE IF NOT EXISTS classify (
 id INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '所属行业id' AUTO_INCREMENT,
@@ -88,4 +51,4 @@ operate_user_id INT UNSIGNED NOT NULL COMMENT '操作人id',
 operate_time TIMESTAMP COMMENT '操作时间'
 );
 
-`
+`;

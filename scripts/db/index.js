@@ -21,32 +21,32 @@ function getCreateTableSql(tableName = "user", simpleFields = ["id", "userName"]
     const insertSql = insertTable(tableName, insertRows, standardFields);
     sqlStr += `${N}${N}-- 插入${tableName}表${N}${insertSql}`;
   }
-  if (tableName === "user") {
-    function getFrontStr(type = "处理") {
-      return `${N}${N}-- ${type}${tableName}表${N}`;
-    }
-    // 插入表
-    sqlStr +=
-      getFrontStr("插入") +
-      insertTable(
-        tableName,
-        [
-          ["userName", "gender"],
-          ["唐六", 1],
-          ["程八", 2],
-        ],
-        standardFields
-      );
-    // 删除表
-    sqlStr += getFrontStr("删除") + deleteTable(tableName, "id=5");
-    sqlStr += getFrontStr("删除") + deleteTable(tableName, { id: 6, user_name: "李四", age: ">20" });
-    // 修改表
-    sqlStr += getFrontStr("修改") + updateTable(tableName, { gender: 2 }, { user_name: "李四" });
-    // 查找表
-    sqlStr += getFrontStr("查找") + queryTable(tableName, { user_name: "李四", age: ">=20" });
-    sqlStr += getFrontStr("查找") + queryTable(tableName, [{ "user_name|not": ["李四", "张三"], "age|not": "=24" }, { user_name: "王五" }]);
-    sqlStr += getFrontStr("查找") + queryTable(tableName, { user_name: ["李四", "张三"] });
-  }
+  // if (tableName === "user") {
+  //   function getFrontStr(type = "处理") {
+  //     return `${N}${N}-- ${type}${tableName}表${N}`;
+  //   }
+  //   // 插入表
+  //   sqlStr +=
+  //     getFrontStr("插入") +
+  //     insertTable(
+  //       tableName,
+  //       [
+  //         ["userName", "gender"],
+  //         ["唐六", 1],
+  //         ["程八", 2],
+  //       ],
+  //       standardFields
+  //     );
+  //   // 删除表
+  //   sqlStr += getFrontStr("删除") + deleteTable(tableName, "id=5");
+  //   sqlStr += getFrontStr("删除") + deleteTable(tableName, { id: 6, user_name: "李四", age: ">20" });
+  //   // 修改表
+  //   sqlStr += getFrontStr("修改") + updateTable(tableName, { gender: 2 }, { user_name: "李四" });
+  //   // 查找表
+  //   sqlStr += getFrontStr("查找") + queryTable(tableName, { user_name: "李四", age: ">=20" });
+  //   sqlStr += getFrontStr("查找") + queryTable(tableName, [{ "user_name|not": ["李四", "张三"], "age|not": "=24" }, { user_name: "王五" }]);
+  //   sqlStr += getFrontStr("查找") + queryTable(tableName, { user_name: ["李四", "张三"] });
+  // }
 
   return sqlStr;
 }
