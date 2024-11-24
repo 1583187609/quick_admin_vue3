@@ -97,7 +97,12 @@ function getSqlStr(fields = []) {
     const notNullStr = notNull ? "NOT NULL" : "";
     const primaryKey = isPrimaryKey ? "PRIMARY KEY" : "";
     const remarkStr = remark ? `COMMENT '${remark}'` : "";
-    const defValStr = defaultValue !== undefined ? `DEFAULT '${defaultValue}'` : "";
+    let defValStr = "";
+    if (defaultValue !== undefined) {
+      const isCurrDate = defaultValue === "CURRENT_TIMESTAMP";
+      if (isCurrDate) defValStr = `DEFAULT ${defaultValue}`;
+      else defValStr = `DEFAULT '${defaultValue}'`;
+    }
     const autoIncrementStr = isAutoIncrement ? "AUTO_INCREMENT" : "";
     const fillZeroStr = isFillZero ? "ZEROFILL" : "";
     const str = `${name} ${dataType} ${unsignedStr} ${decimalStr} ${notNullStr} ${primaryKey} ${remarkStr} ${defValStr} ${autoIncrementStr} ${fillZeroStr}`;

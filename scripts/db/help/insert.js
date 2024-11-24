@@ -7,6 +7,13 @@ export function getCodes(enums) {
 }
 
 /**
+ * 判断是否是sql变量
+ */
+export function getIsSqlVar(str = "") {
+  return str === "CURRENT_TIMESTAMP";
+}
+
+/**
  * 校验code是否合法
  * @param {number} val code值
  * @param {string} key 键名
@@ -44,7 +51,7 @@ export default function (name = needParam(), rows = [], standardFields = []) {
       return `(${arr
         .map((it, ind) => {
           valideCodes(it, allKeys[ind], enumCodesMap);
-          return `'${it}'`;
+          return getIsSqlVar(it) ? it : `'${it}'`;
         })
         .join(", ")})`;
     })

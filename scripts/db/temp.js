@@ -9,19 +9,19 @@ nickname TINYINT COMMENT '用户账号昵称',
 gender TINYINT(1) UNSIGNED COMMENT '性别 注：0未知 1男 2女' DEFAULT '0',
 age TINYINT(3) UNSIGNED COMMENT '年龄',
 role TINYINT(1) UNSIGNED NOT NULL COMMENT '角色类型' DEFAULT '4',
-register_time TIMESTAMP COMMENT '注册时间'
+register_time TIMESTAMP COMMENT '注册时间' DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 插入user表
 INSERT INTO user
-(user_name, gender, age, phone, password, role)
+(user_name, gender, age, phone, password, role, register_time)
 VALUES
-('李大', '1', '19', '18483221111', 'mstx123456', '4'),
-('王二', '1', '54', '18483221111', 'mstx123456', '4'),
-('张三', '1', '26', '18483221111', 'mstx123456', '4'),
-('李四', '1', '44', '18483221111', 'mstx123456', '4'),
-('王五', '1', '34', '18483221111', 'mstx123456', '4'),
-('李梅', '1', '24', '18483221111', 'mstx123456', '4');
+('李大', '1', '19', '18483221111', 'mstx123456', '4', CURRENT_TIMESTAMP),
+('王二', '1', '54', '18483221111', 'mstx123456', '4', CURRENT_TIMESTAMP),
+('张三', '1', '26', '18483221111', 'mstx123456', '4', CURRENT_TIMESTAMP),
+('李四', '1', '44', '18483221111', 'mstx123456', '4', CURRENT_TIMESTAMP),
+('王五', '1', '34', '18483221111', 'mstx123456', '4', CURRENT_TIMESTAMP),
+('李梅', '1', '24', '18483221111', 'mstx123456', '4', CURRENT_TIMESTAMP);
 
 -- 创建classify表
 CREATE TABLE IF NOT EXISTS classify (
@@ -37,7 +37,7 @@ industry_id INT UNSIGNED NOT NULL COMMENT '所属行业id',
 question VARCHAR(30) NOT NULL COMMENT '题目问题',
 content VARCHAR(10000) NOT NULL COMMENT '题目内容',
 creator_id INT UNSIGNED NOT NULL COMMENT '创建者id',
-create_time TIMESTAMP COMMENT '创建时间',
+create_time TIMESTAMP COMMENT '创建时间' DEFAULT CURRENT_TIMESTAMP,
 audit_status TINYINT(1) UNSIGNED NOT NULL COMMENT '审核状态 注：1待审核 2已通过 3已驳回',
 enable_status TINYINT(1) UNSIGNED NOT NULL COMMENT '启用状态 注：0未启用 1已启用'
 );
@@ -48,7 +48,7 @@ id INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '日志id' AUTO_INCREMENT,
 business TINYINT(1) UNSIGNED NOT NULL COMMENT '业务类型',
 operate_type TINYINT(1) UNSIGNED NOT NULL COMMENT '操作类型',
 operate_user_id INT UNSIGNED NOT NULL COMMENT '操作人id',
-operate_time TIMESTAMP COMMENT '操作时间'
+operate_time TIMESTAMP COMMENT '操作时间' DEFAULT CURRENT_TIMESTAMP
 );
 
-`;
+`
