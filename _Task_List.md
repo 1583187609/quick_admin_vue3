@@ -164,6 +164,7 @@
 121、处理打包后，页面空白的问题
 122、查询条件支持弹性布局
 123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
+124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 
 ## 待定事项
 
@@ -287,6 +288,7 @@
 63、meta 设置进行 SEO 优化
 64、保证打包后的静态资源（图片等）路径正确，使用`getWholeUrl`方法
 65、研究自动部署：完善 `deploy.sh` 文件，参见：`https://www.vitejs.net/guide/static-deploy.html#github-pages`
+66、使用`vue-draggle-plus`替换 sortable.js
 
 ## 三、Bug 清单
 

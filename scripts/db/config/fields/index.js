@@ -2,6 +2,7 @@ import baseFields from "./base.js";
 import userFields from "./user.js";
 import contentFields from "./content.js";
 import dateFields from "./date.js";
+import numberFields from "./date.js";
 
 /**
  * @param {Field} field
@@ -11,4 +12,5 @@ export default {
   ...dateFields,
   ...userFields,
   ...contentFields,
+  ...numberFields,
 };

@@ -56,9 +56,49 @@ function getCreateTableSql(tableName = "user", simpleFields = ["id", "userName"]
  * @advice 数据库建议名称 Interview Surprise（面试突袭）
  */
 const tables = {
+  // 字典表
+  dictionary: {
+    fields: [
+      "id:字典id",
+      // "shortText:name:字典名称(英文名称)",
+      { type: "enum", name: "module", remark: "所属模块", enums: { 0: "模块0", 1: "模块1" } },
+      "mediemText:data:字典数据", // JSON字符串
+      "createTime",
+      "id:createUser:创建人",
+      "updateTime",
+      "id:updateUser:最后修改人",
+      "enableStatus",
+    ],
+  },
+  // 配置表
+  config: {
+    fields: [
+      "id:配置id",
+      // "shortText:name:配置名称(英文名称)",
+      { type: "enum", name: "module", remark: "所属模块", enums: { 0: "模块0", 1: "模块1" } },
+      "shortText:value:值", // 这项配置的值（一般对应着：0未启用 1已启用，或其他标识类英文字符）
+      "createTime",
+      "id:createUser:创建人",
+      "updateTime",
+      "id:updateUser:最后修改人",
+      "enableStatus", // 这项配置是否启用
+    ],
+  },
   // 用户表
   user: {
-    fields: ["id:用户id", "phone", "password", "userName", "nickname", "gender", "age", "role", "dateTime:registerTime:注册时间"],
+    fields: [
+      "id:用户id",
+      "phone",
+      "password",
+      "userName",
+      "nickname",
+      "gender",
+      "age",
+      "role",
+      "createTime:注册时间",
+      "commonTime:destroyTime:注销时间",
+      "accountStatus:账号状态",
+    ],
     rows: [
       ["userName", "gender", "age"],
       ["李大", 1, 19],
@@ -69,17 +109,18 @@ const tables = {
       ["李梅", 1, 24],
     ],
   },
-  // // 用户行为表
-  // userBehavior: {
-  //   //
-  // },
-  // // 用户交际关系表
-  // relationship: {
-  //   //
-  // },
-  // 分类表
-  classify: {
-    fields: ["id:所属行业id", "id:pId:父级id", { type: "shortText", name: "name", remark: "分类名称", length: 10 }],
+  // 行业分类表
+  industry: {
+    fields: [
+      "id",
+      "id:pId:父级id",
+      { type: "shortText", name: "name", remark: "分类名称", length: 10 },
+      "createTime",
+      "id:createUser:创建人",
+      "updateTime",
+      "id:updateUser:最后修改人",
+      "enableStatus",
+    ],
   },
   // 题目表
   topic: {
@@ -99,18 +140,62 @@ const tables = {
         notNull: true,
       },
       "id:creatorId:创建者id",
-      "dateTime:createTime:创建时间",
-      { type: "enum", name: "auditStatus", remark: "审核状态", enums: auditStatus },
-      { type: "enum", name: "enableStatus", remark: "启用状态", enums: enableStatus },
+      "createTime:创建时间",
+      "auditStatus",
+      "enableStatus",
     ],
   },
-  // 题目使用情况表
-  // topicUse: {
-  //   fields: ["id:topicId:题目id", "id:userId:用户id"],
+  // 交易表
+  deal: {
+    fields: [
+      "id:交易id",
+      "id:userId:用户id",
+      "id:goodsId:购买的商品id",
+      "id:setMealsId:套餐id",
+      { type: "enum", name: "dealType", remark: "交易类型", enums: { 1: "收入", 2: "支出" } },
+      { type: "enum", name: "monetaryType", remark: "货币类型", enums: { 1: "人民币", 2: "金币" } },
+      "price", // 有了套餐id，可以无需存储价格（但考虑性能，还是存一个）
+      "amount",
+      "price:totalPrice:总价", // 总价 = 价格(price) * 数量(amount)。有了套餐id，可以无需存储总价格（但考虑性能，还是存一个）
+      "createTime:创建交易时间",
+    ],
+  },
+  // 套餐表
+  setMeals: {
+    fields: [
+      "id:套餐id",
+      "shortText:content:套餐内容",
+      "price",
+      "amount:limitSellAmount:套餐限售数量",
+      "commonTime:endTime:套餐到期时间",
+      "createTime",
+      "id:createUser:创建人",
+      "updateTime",
+      "id:updateUser:最后修改人",
+      "enableStatus",
+    ],
+  },
+  // // 地区表（省市区级联）
+  // region: {
+  //   fields: [
+  //     "id",
+  //     "id:pId:父级id",
+  //     { type: "shortText", name: "name", remark: "名称", length: 10 },
+  //     "createTime",
+  //     "id:createUser:创建人",
+  //     "updateTime",
+  //     "id:updateUser:最后修改人",
+  //   ],
   // },
   // 日志表
   log: {
-    fields: ["id:日志id", "enum:business:业务类型", "enum:operateType:操作类型", "id:operateUserId:操作人id", "dateTime:operateTime:操作时间"],
+    fields: [
+      "id:日志id",
+      "enum:business:业务类型",
+      "enum:operateType:操作类型",
+      "id:operateUserId:操作人id",
+      "createTime:operateTime:操作时间",
+    ],
   },
 };
 

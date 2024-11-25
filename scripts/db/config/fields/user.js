@@ -1,3 +1,5 @@
+import { enableStatus } from "./enums";
+
 // 用户相关字段
 export default {
   // 角色类型
@@ -18,8 +20,9 @@ export default {
   },
   // 用户昵称
   nickname: {
-    type: "tinyint",
-    remark: "用户账号昵称",
+    type: "varchar",
+    length: 16,
+    remark: "用户昵称",
   },
   // 性别
   gender: {
@@ -58,5 +61,15 @@ export default {
     notNull: true,
     remark: "密码：6~16位字母+数字组合",
     defaultValue: "mstx123456",
+  },
+  // 账号状态（枚举类型）
+  accountStatus: {
+    type: "tinyint",
+    length: 1,
+    notNull: true,
+    remark: "账号状态",
+    defaultValue: 1,
+    isUnsigned: true,
+    enum: { ...enableStatus, 2: "已注销" },
   },
 };
