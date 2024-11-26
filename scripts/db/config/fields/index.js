@@ -1,8 +1,8 @@
 import baseFields from "./base.js";
 import userFields from "./user.js";
+import enumsFields from "./enums.js";
 import dateFields from "./date.js";
-import enumsFields from "./date.js";
-import numberFields from "./date.js";
+import numberFields from "./number.js";
 import stringFields from "./string.js";
 
 /**
@@ -10,9 +10,9 @@ import stringFields from "./string.js";
  */
 export default {
   ...baseFields,
+  ...userFields,
   ...enumsFields,
   ...dateFields,
-  ...userFields,
   ...numberFields,
   ...stringFields,
 };

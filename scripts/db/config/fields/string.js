@@ -7,7 +7,7 @@ export default {
     length: 100,
   },
   // 中等长度文本
-  mediemText: {
+  mediumText: {
     type: "varchar",
     length: 1000,
   },
@@ -67,6 +67,7 @@ export default {
   ids: {
     type: "varchar",
     length: 100000,
-    remark: "id集合${英文逗号隔开}",
+    remark: "id集合",
+    joinChar: ",",
   },
 };

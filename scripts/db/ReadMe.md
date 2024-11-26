@@ -4,7 +4,7 @@
 
 ### 功能清单
 
-1、` remark: "id集合${英文逗号隔开}",` 处理${}的内容
+1、` remark: "id集合{英文逗号隔开}",` 处理${}的内容
 2、`question:customQuestion:notNull`，将布尔类型融入快捷输入中
 
 ### api
@@ -49,7 +49,7 @@
 // 树名称：industry（行业）、
 // post /tree/add  {name: '树的名称', label: '', value: ''} // 单个新增树（根节点）  {pId: '父级id', label: '', value: ''} // 单个新增树（子节点）
 // post /tree/add/batch  {name: '树的名称', data: []} // 批量新增树（根节点） {pId: '父级id', data: []} // 批量新增树（子节点）
-// delet /tree/delete/:id // 删除树
+// delete /tree/delete/:id // 删除树
 // put   /tree/update/:id  {label: '', value: ''} // 修改树
 // get   /tree/list {name: '树的名称'} // 获取树列表
 // get   /tree/detail {name: '树的名称'} // 获取树的数据
@@ -77,3 +77,36 @@
 ```
 
 ## 前端
+
+### 功能设计
+
+```js
+// tabs 栏目
+const tabs = [
+  {
+    label: "首页",
+    value: "home",
+  },
+  {
+    label: "动态",
+    value: "home",
+  },
+  {
+    label: "发现",
+    value: "found",
+    children: [
+      { label: "综合", value: "1" },
+      { label: "题目", value: "2" },
+      { label: "文章", value: "3" },
+    ],
+  },
+  {
+    label: "资料",
+    value: "info",
+  },
+  {
+    label: "我的",
+    value: "mine",
+  },
+];
+```

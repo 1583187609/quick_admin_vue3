@@ -1,9 +1,13 @@
-const sqlStr = `SELECT
-user.id, user.user_name, user.nickname, user.age,
-order.price, order.amount,
-log.*
-FROM user
-INNER JOIN order ON user.id = order.user_id
-LEFT JOIN log ON user.id = log.user_id
-WHERE user.age > 20
-AND order.price >= 20;`
+const sqlStr = `CREATE TABLE IF NOT EXISTS topic (
+id INT UNSIGNED NOT NULL PRIMARY KEY COMMENT '题目id' AUTO_INCREMENT,
+industry_id INT UNSIGNED NOT NULL COMMENT '所属行业id',
+question VARCHAR(255) NOT NULL COMMENT '题目问题',
+content VARCHAR(10000) NOT NULL COMMENT '题目内容',
+creator_id INT UNSIGNED NOT NULL COMMENT '创建人',
+create_time TIMESTAMP COMMENT '创建时间' DEFAULT CURRENT_TIMESTAMP,
+updator_id INT UNSIGNED COMMENT '最后修改人',
+update_time TIMESTAMP COMMENT '修改时间',
+score TINYINT(3) UNSIGNED COMMENT '分数',
+audit_status TINYINT(1) UNSIGNED NOT NULL COMMENT '审核状态' DEFAULT 0,
+status TINYINT(1) UNSIGNED NOT NULL COMMENT '启用状态' DEFAULT 1
+);`

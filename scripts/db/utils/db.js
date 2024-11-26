@@ -35,8 +35,7 @@ export function getWhereStr(where = true, nChar = N) {
          * 示例： '%张%'（包含张）、'abc%'（以abc开头）、'_o%'（第二个字符是o）
          * @param REGEXT 正式表达式。例：'^a[0-9]+'（以a开头且后面跟着一个或多个数字的记录）
          */
-        const isSqlVar = ["LIKE", "REGEXP"].includes(mod);
-        if (isSqlVar) {
+        if (getIsSqlVar(mod)) {
           compareChar = mod;
           val = `'${val}'`;
         } else {
@@ -72,4 +71,13 @@ export function getWhereStr(where = true, nChar = N) {
  */
 export function getFieldsStr(fields = ["*"], tableName) {
   return fields.join(", ");
+}
+
+/**
+ * 判断是否是mysql的变量名称
+ * @param {any} str 要检测的字符串
+ */
+export function getIsSqlVar(str) {
+  if (typeof str !== "string") return false;
+  return ["CURRENT_TIMESTAMP", "LIKE", "REGEXP"].includes(str.toUpperCase());
 }

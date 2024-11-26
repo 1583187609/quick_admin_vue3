@@ -1,5 +1,5 @@
 import { fieldsMap } from "../config/index.js";
-import { N, needParam, toSnakeCase, typeOf } from "../utils/index.js";
+import { N, getIsSqlVar, needParam, toSnakeCase, typeOf } from "../utils/index.js";
 
 /**
  * 获取枚举对象文本
@@ -19,6 +19,7 @@ function getEnumsText(enums = {}) {
  * @param {boolean} hasPrimaryKey 是否存在主键
  * @returns
  */
+const allowBoolKeys = ["notNull"]; // 允许简写的布尔值键名
 export function toStandardFieldObj(data = needParam(), hasPrimaryKey = false) {
   const t = typeOf(data);
   let field = {};
@@ -27,10 +28,15 @@ export function toStandardFieldObj(data = needParam(), hasPrimaryKey = false) {
     tplType = data.type;
     return { ...fieldsMap[tplType], ...data };
   } else if (t === "String") {
-    const list = data.split(/:|：/g);
+    const trueKeys = [];
+    const list = data.split(/:|：/g).filter(it => {
+      const isIn = allowBoolKeys.includes(it);
+      if (isIn) trueKeys.push(it);
+      return !isIn;
+    });
     if (list.length === 1) {
-      tplType = data;
-      field = { ...fieldsMap[tplType], type: data };
+      tplType = list[0];
+      field = { ...fieldsMap[tplType], type: list[0] };
     } else if (list.length === 2) {
       const [type, remark] = list;
       tplType = type;
@@ -42,6 +48,9 @@ export function toStandardFieldObj(data = needParam(), hasPrimaryKey = false) {
     } else {
       throw new Error(`暂不支持解析超过3段的文本：${data}`);
     }
+    trueKeys?.forEach(key => {
+      field[key] = true;
+    });
   } else {
     throw new Error(`暂未处理此类型：${t}`);
   }
@@ -70,7 +79,8 @@ export function getTableStandardFields(fields = needParam()) {
     if (rest.isPrimaryKey) hasPrimaryKey = true;
     // toSnakeCase：将名称转换为下划线命名方式
     const field = { name: toSnakeCase(name), ...fieldsMap[type], ...rest };
-    const { enums, remark = "" } = field;
+    const { enums, remark = "", joinChar } = field;
+    if (joinChar) field.remark += `（用"${joinChar}"分隔开）`;
     if (enums && !remark.includes("注")) {
       field.remark += ` 注：${getEnumsText(enums)}`;
       // delete field.enums; // 不要删除，留着校验传入的值是否合法
@@ -86,9 +96,9 @@ export function getTableStandardFields(fields = needParam()) {
  */
 function getSqlStr(fields = []) {
   const strs = fields.map(item => {
-    const { name, type, length, decimal, notNull, isPrimaryKey, remark, defaultValue, isAutoIncrement, isUnsigned, isFillZero } =
-      item;
-    let dataType = type.toUpperCase();
+    const { name, type, length, decimal, notNull, isPrimaryKey, remark, defaultValue, isAutoIncrement, isUnsigned, isFillZero } = item;
+    const originDataType = type.toUpperCase();
+    let dataType = originDataType;
     if (length !== undefined) dataType += `(${length})`;
     const unsignedStr = isUnsigned ? "UNSIGNED" : "";
     let decimalStr = "";
@@ -101,8 +111,8 @@ function getSqlStr(fields = []) {
     const remarkStr = remark ? `COMMENT '${remark}'` : "";
     let defValStr = "";
     if (defaultValue !== undefined) {
-      const isCurrDate = defaultValue === "CURRENT_TIMESTAMP";
-      if (isCurrDate) defValStr = `DEFAULT ${defaultValue}`;
+      const isNum = originDataType.includes("INT") || ["FLOAT", "DOUBLE"].includes(originDataType);
+      if (getIsSqlVar(defaultValue) || isNum) defValStr = `DEFAULT ${defaultValue}`;
       else defValStr = `DEFAULT '${defaultValue}'`;
     }
     const autoIncrementStr = isAutoIncrement ? "AUTO_INCREMENT" : "";

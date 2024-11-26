@@ -395,6 +395,7 @@
 30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
 15、测试 3 页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
+38、完善 isOptimization 优化内容的撰写
 
 ### 动画优化相关
 
@@ -425,33 +426,9 @@ const emit = defineEmits<{
 ## 八、工程推广相关
 
 ~~1. 正式推广之前，将工程改个名字（Quick Admin Vue3、Quick Admin React18）~~  
- 2. 配置 jkenjs  
- 3. 完善 isOptimization 优化内容的撰写
-
-## 之前业务中发现 & 遗留的
-
-4、src\views\activity\singleton_components\TypeConfig.vue 组件问题处理(多次切换时的多选项累加、重置多选项出现预期之外的错误)  
-5、活动配置 - 单身圈列表，提交并回显后，切换一下，数据被置空了  
-7、开启多个浏览器窗口时，会出现 token 过期的 bug  
-29、实名白名单配置、BaseForm 自测页面 addDel 多次新增、删除引起的问题  
-3、基础配置 - 实名白名单配置：输入框输入内容有值跟无值时，输入框的宽度不固定  
-44、用户治理-举报记录-新增/编辑 弹窗初次回显数据时，不应该触发 onChange 事件，onChange 中 console.log 打印时，不应该打印多次  
-2、鼠标放在操作的更多按钮上时，会出现蓝色边框，点击更多中的按钮，再将鼠标放到更多按钮上时，原来的蓝色边框会消失。  
-21、自定义复杂表单及其嵌套表单项的校验  
-22、SectionForm 复杂情况考虑 & 功能自测  
-25、SectionForm 的表单校验规则未生效处理（当 section 中加入了 prop 属性后）  
-26、SectionForm 嵌套 children required 校验会通篇变红。  
-37、处理域名不对，会一直循环请求，导致报错【网络错误】的问题  
-40、用户日志-上传记录-完善 VideoBox.vue 组件  
-41、merge 与 Object.assign ，能使用 Object.assign 就使用 Object.assign 进行性能优化（仍需进一步完善优化）  
-18、src\views\audit\company-apply\RejectApply.vue 监听的 change 事件，会触发执行两次  
-42、useEvent hooks 增加防抖可选参数
+2. 配置 jkenjs  
+3. 自制脚手架，需要用到的库：commander.js、download-git-repo、inquirer、ora、chalk
 
 ## 一些参照链接地址
 
 ~~1、配置 husky：https://juejin.cn/post/7261862616095146042~~
-
-## 调整后的问题待处理清单
-
-~~1、 处理 BaseCrud 操作栏按钮显示不全的问题，复现页面：`/test/3`~~
-~~2、处理 getSpecialColMap 中的 index 根据 currPage、pageSize 的问题~~

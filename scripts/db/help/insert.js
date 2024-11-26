@@ -1,16 +1,9 @@
-import { N, needParam, toSnakeCase } from "../utils/index.js";
+import { N, getIsSqlVar, needParam, toSnakeCase } from "../utils/index.js";
 
 //获取字典码值
 export function getCodes(enums) {
   if (!enums) return;
   return Object.keys(enums).map(it => Number(it));
-}
-
-/**
- * 判断是否是sql变量
- */
-export function getIsSqlVar(str = "") {
-  return str === "CURRENT_TIMESTAMP";
 }
 
 /**
@@ -30,7 +23,7 @@ function valideCodes(val = 0, key = "", map = {}) {
  * 插入表格数据
  * @param {string} name 表名称
  */
-// 使用示例：insertTable(
+// 使用示例：addTable(
 //   'user',
 //   [
 //     ["userName", "gender"],

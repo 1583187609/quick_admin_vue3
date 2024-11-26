@@ -1,8 +1,8 @@
 import path from "path";
-import { createTable, insertTable, deleteTable, updateTable, queryTable } from "./help/index.js";
+import { createTable, addTable, deleteTable, updateTable, queryTable } from "./help/index.js";
 import { N, upperFirst, writeFileSync } from "./utils/index.js";
 import { getTableStandardFields } from "./help/create.js";
-import { auditStatus, enableStatus } from "./config/fields/enums.js";
+import { auditStatus, enableStatus, getLevelEnums } from "./config/fields/enums.js";
 
 // 写入文件
 function write(str = "", name = "") {
@@ -18,7 +18,7 @@ function getCreateTableSql(tableName = "user", simpleFields = ["id", "userName"]
   const createSql = createTable(tableName, standardFields);
   sqlStr = `-- 创建${tableName}表${N}${createSql}`;
   if (insertRows?.length) {
-    const insertSql = insertTable(tableName, insertRows, standardFields);
+    const insertSql = addTable(tableName, insertRows, standardFields);
     sqlStr += `${N}${N}-- 插入${tableName}表${N}${insertSql}`;
   }
   // if (tableName === "user") {
@@ -28,7 +28,7 @@ function getCreateTableSql(tableName = "user", simpleFields = ["id", "userName"]
   //   /*** 插入表 ***/
   //   sqlStr +=
   //     getFrontStr("插入") +
-  //     insertTable(
+  //     addTable(
   //       tableName,
   //       [
   //         ["userName", "gender"],
@@ -70,7 +70,7 @@ const tables = {
       "id:字典id",
       // "shortText:name:字典名称(英文名称)",
       { type: "enum", name: "module", remark: "所属模块", enums: { 0: "模块0", 1: "模块1" } },
-      "mediemText:data:字典数据", // JSON字符串
+      "mediumText:data:字典数据", // JSON字符串
       "createTime",
       "creatorId",
       "updateTime",
@@ -137,16 +137,8 @@ const tables = {
     fields: [
       "id:题目id",
       "id:industryId:所属行业id",
-      {
-        type: "question",
-        notNull: true,
-      },
-      {
-        type: "longText",
-        name: "content",
-        remark: "题目内容",
-        notNull: true,
-      },
+      "question:notNull",
+      "longText:content:题目内容:notNull",
       "creatorId",
       "createTime",
       "updatorId",
@@ -253,13 +245,7 @@ const tables = {
   // },
   // 日志表
   log: {
-    fields: [
-      "id:日志id",
-      "enum:business:业务类型",
-      "enum:operateType:操作类型",
-      "creatorId:operatorId:操作人id",
-      "createTime:operateTime:操作时间",
-    ],
+    fields: ["id:日志id", "enum:business:业务类型", "enum:operateType:操作类型", "creatorId:operatorId:操作人id", "createTime:operateTime:操作时间"],
   },
 };
 
@@ -274,33 +260,8 @@ export function createTables() {
   });
   write(sqlStr);
 }
-createTables();
+// createTables();
 
-// tabs 栏目
-const tabs = [
-  {
-    label: "首页",
-    value: "home",
-  },
-  {
-    label: "动态",
-    value: "home",
-  },
-  {
-    label: "发现",
-    value: "found",
-    children: [
-      { label: "综合", value: "1" },
-      { label: "题目", value: "2" },
-      { label: "文章", value: "3" },
-    ],
-  },
-  {
-    label: "资料",
-    value: "info",
-  },
-  {
-    label: "我的",
-    value: "mine",
-  },
-];
+const name = "topic";
+const createSql = createTable(name, getTableStandardFields(tables[name].fields));
+write(createSql);
