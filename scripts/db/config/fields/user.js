@@ -2,16 +2,6 @@ import { enableStatus } from "./enums.js";
 
 // 用户相关字段
 export default {
-  // 角色类型
-  role: {
-    type: "tinyint",
-    remark: "角色类型",
-    length: 1,
-    notNull: true,
-    defaultValue: 4,
-    isUnsigned: true,
-    enum: { 0: "超级管理员", 1: "普通管理员", 2: "超级VIP用户", 3: "普通VIP用户", 4: "普通用户" },
-  },
   // 用户真实姓名
   userName: {
     type: "varchar",

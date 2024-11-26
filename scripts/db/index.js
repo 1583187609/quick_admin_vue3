@@ -102,9 +102,11 @@ const tables = {
       "nickname",
       "gender",
       "age",
-      "role",
+      "role", // 角色（管理员、会员、普通用户等）
+      "amount:coin:金币余额",
+      "commonTime:memberTime:会员到期时间",
       "createTime:注册时间",
-      "commonTime:destroyTime:注销时间",
+      // "commonTime:destroyTime:注销时间",
       "accountStatus:账号状态",
     ],
     rows: [
@@ -231,6 +233,7 @@ const tables = {
       { type: "enum", name: "frequency", remark: "出现频率", enums: getLevelEnums(["低", "高"]) },
       { type: "enum", name: "important", remark: "重要程度", enums: getLevelEnums(["轻", "重"]) },
       { type: "enum", name: "memory", remark: "记忆程度", enums: getLevelEnums(["模糊", "牢固"]) },
+      { type: "enum", name: "score", remark: "得分情况", enums: getLevelEnums(["低", "高"]) },
       { type: "enum", name: "intention", remark: "回看意愿", enums: getLevelEnums(["弱", "强"]) },
     ],
   },

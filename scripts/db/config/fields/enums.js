@@ -14,7 +14,7 @@ export const auditStatus = {
 export const enableStatus = { 0: "未启用（已禁用）", 1: "已启用（正常）" };
 
 // 是否状态
-export const yesStatus = { 0: "否", 1: "是" };
+export const booleanStatus = { 0: "否", 1: "是" };
 
 // 程度枚举
 export function getLevelEnums(words = ["差", "好"]) {
@@ -45,6 +45,26 @@ export default {
     // enum: {},
   },
   /*** 常用类型 ***/
+  // 角色类型
+  role: {
+    type: "tinyint",
+    remark: "角色类型",
+    length: 1,
+    notNull: true,
+    defaultValue: 4,
+    isUnsigned: true,
+    enum: { 0: "超级管理员", 1: "普通管理员", 2: "超级VIP用户", 3: "普通VIP用户", 4: "普通用户" },
+  },
+  // 布尔状态：0否 1是
+  boolStatus: {
+    type: "tinyint",
+    length: 1,
+    // notNull: true,
+    // remark: "是否状态",
+    // defaultValue: 0,
+    isUnsigned: true,
+    enum: booleanStatus,
+  },
   // 启用状态（枚举类型）
   enableStatus: {
     type: "tinyint",

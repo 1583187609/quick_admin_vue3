@@ -2,6 +2,11 @@
 
 ## 后端
 
+### 功能清单
+
+1、` remark: "id集合${英文逗号隔开}",` 处理${}的内容
+2、`question:customQuestion:notNull`，将布尔类型融入快捷输入中
+
 ### api
 
 ```js 共计45个接口
