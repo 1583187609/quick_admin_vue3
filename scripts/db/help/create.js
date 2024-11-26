@@ -19,7 +19,7 @@ function getEnumsText(enums = {}) {
  * @param {boolean} hasPrimaryKey 是否存在主键
  * @returns
  */
-function toFieldObj(data = needParam(), hasPrimaryKey = false) {
+export function toStandardFieldObj(data = needParam(), hasPrimaryKey = false) {
   const t = typeOf(data);
   let field = {};
   let tplType = ""; // 模板字段类型
@@ -45,9 +45,10 @@ function toFieldObj(data = needParam(), hasPrimaryKey = false) {
   } else {
     throw new Error(`暂未处理此类型：${t}`);
   }
-  if (tplType && !fieldsMap[tplType]) throw new Error(`未检测到模板字段：${type}`);
+  if (tplType && !fieldsMap[tplType]) throw new Error(`未检测到模板字段类型：${tplType}`);
   // 兜底处理
-  const { isPrimaryKey } = field;
+  const { type, name, isPrimaryKey, enums } = field;
+  if (type === "enum" && !enums) throw new Error(`缺少枚举数据：${name}`);
   if (isPrimaryKey) {
     field.notNull = true;
     if (hasPrimaryKey) {
@@ -58,14 +59,14 @@ function toFieldObj(data = needParam(), hasPrimaryKey = false) {
 }
 /**
  * 获取创建表的字段数组（标准的）
- * @param {object[]} fields 字段数组
+ * @param {(string|object)[]} fields 字段数组
  * @example fields 示例：["id", "id:用户id", "id:other_id:其他id", { type: "id", remark: "对象id", notNull: false }]
- * @returns
+ * @returns {object[]}
  */
 export function getTableStandardFields(fields = needParam()) {
   let hasPrimaryKey = false;
   return fields.map(item => {
-    const { type, name = type, ...rest } = toFieldObj(item, hasPrimaryKey);
+    const { type, name = type, ...rest } = toStandardFieldObj(item, hasPrimaryKey);
     if (rest.isPrimaryKey) hasPrimaryKey = true;
     // toSnakeCase：将名称转换为下划线命名方式
     const field = { name: toSnakeCase(name), ...fieldsMap[type], ...rest };
@@ -85,7 +86,8 @@ export function getTableStandardFields(fields = needParam()) {
  */
 function getSqlStr(fields = []) {
   const strs = fields.map(item => {
-    const { name, type, length, decimal, notNull, isPrimaryKey, remark, defaultValue, isAutoIncrement, isUnsigned, isFillZero } = item;
+    const { name, type, length, decimal, notNull, isPrimaryKey, remark, defaultValue, isAutoIncrement, isUnsigned, isFillZero } =
+      item;
     let dataType = type.toUpperCase();
     if (length !== undefined) dataType += `(${length})`;
     const unsignedStr = isUnsigned ? "UNSIGNED" : "";
@@ -116,6 +118,8 @@ function getSqlStr(fields = []) {
  * @param {string} name 表名称
  * @param {object[]} standardFields 标准的表字段
  */
+// 使用示例：
+// createTable(getTableStandardFields(["id:用户id","phone","password","userName","nickname","gender","age","role","createTime:注册时间","commonTime:destroyTime:注销时间","accountStatus:账号状态"]));
 export default function (name = needParam(), standardFields = []) {
   let sql = `CREATE TABLE IF NOT EXISTS ${name} (${N}${getSqlStr(standardFields)}${N});`;
   // sql += `ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='${name}表'`;

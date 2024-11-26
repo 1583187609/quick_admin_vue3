@@ -56,12 +56,12 @@
 // get /set-meals/list {id: '套餐id', endTimeRange: '套餐截止时间范围', content: '套餐内容模糊搜索'} // 套餐列表
 // get /set-meals/detail/:id  // 套餐详情
 
-/*** 交易相关 ***/
-// post /deal/add {userId: '用户id', goodsId: '商品id', setMealsId: '套餐id', dealType: '交易类型', monetaryType: '货币类型', amount: '交易数量'}  // 新增交易
-// delete /deal/delete/:id  // 删除交易
-// put /deal/update/:id {goodsId: '商品id', setMealsId: '套餐id', dealType:'交易类型', amount: '交易数量'} // 修改交易
-// get /deal/list {id: '交易id', dealType: '交易类型', amountRange: '交易数量区间', priceRange: '交易价格区间'} // 交易列表
-// get /deal/detail/:id  // 交易详情
+/*** 订单相关 ***/
+// post /order/add {userId: '用户id', goodsId: '商品id', setMealsId: '套餐id', orderType: '订单类型', monetaryType: '货币类型', amount: '订单数量'}  // 新增订单
+// delete /order/delete/:id  // 删除订单
+// put /order/update/:id {goodsId: '商品id', setMealsId: '套餐id', orderType:'订单类型', amount: '订单数量'} // 修改订单
+// get /order/list {id: '订单id', orderType: '订单类型', amountRange: '订单数量区间', priceRange: '订单价格区间'} // 订单列表
+// get /order/detail/:id  // 订单详情
 
 /*** 反馈相关 ***/
 // post /feedback/add {userId: '用户id', type: '反馈类型', content: '反馈内容'}  // 提交（新增）反馈信息

@@ -1,5 +1,7 @@
 export * from "../config/index.js";
 
+export const modChar = "|"; // 修饰符分隔符
+
 // 暂时先不使用，所以先注释
 export const isBrowser = !!globalThis.window; //是否是浏览器
 export const T = isBrowser ? "&nbsp;&nbsp;" : "  "; //一个制表符的间距，可选："  ", "&nbsp;&nbsp;"

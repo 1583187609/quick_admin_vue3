@@ -1,4 +1,4 @@
-import { enableStatus } from "./enums";
+import { enableStatus } from "./enums.js";
 
 // 用户相关字段
 export default {
@@ -32,35 +32,6 @@ export default {
     defaultValue: 0,
     isUnsigned: true,
     enums: { 0: "未知", 1: "男", 2: "女" },
-  },
-  // 年龄
-  age: {
-    type: "tinyint",
-    length: 3,
-    remark: "年龄",
-    isUnsigned: true,
-  },
-  // 身份证
-  identity: {
-    type: "char",
-    length: 18,
-    remark: "身份证",
-  },
-  // 电话号码
-  phone: {
-    type: "char",
-    length: 11,
-    notNull: true,
-    remark: "电话号码（账号）",
-    defaultValue: "18483221111",
-  },
-  // 密码
-  password: {
-    type: "varchar",
-    length: 16,
-    notNull: true,
-    remark: "密码：6~16位字母+数字组合",
-    defaultValue: "mstx123456",
   },
   // 账号状态（枚举类型）
   accountStatus: {

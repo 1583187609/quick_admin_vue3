@@ -30,6 +30,15 @@ function valideCodes(val = 0, key = "", map = {}) {
  * 插入表格数据
  * @param {string} name 表名称
  */
+// 使用示例：insertTable(
+//   'user',
+//   [
+//     ["userName", "gender"],
+//     ["唐六", 1],
+//     ["程八", 2],
+//   ],
+//   standardFields
+// )
 export default function (name = needParam(), rows = [], standardFields = []) {
   const [keys = [], ...vals] = rows;
   const defKeys = [];

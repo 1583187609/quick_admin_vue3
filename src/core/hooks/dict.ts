@@ -11,6 +11,7 @@ import {
   showMessage,
   getTextFromOptions,
   emptyStr,
+  needParam,
 } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/vite-env";
 import dayjs from "dayjs";
@@ -161,25 +162,30 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
 
   /**
    * 获取字典文本内容
-   * @param {string} name  字典名称
+   * @param {string|object} name  字典名称(object是提供给特殊的自定义对象使用的)
    * @param {string} code  字典中的code值
-   * @param {select|cascader|tree} type  下拉项的类型
-   * @param {string} char  为空时的占位符号
+   * @param {object} propsMap  属性名label、value等的映射
+   * @param {string} emptyChar  为空时的占位符号
    */
-  function getText(name: DictName, code?: StrNum | StrNum[], propsMap?: CommonObj, char = emptyStr): string {
-    if (emptyVals.includes(code as any)) return char;
-    const currMap = getMap(name);
-    if (!currMap) return char; // throw new Error(`未找到${name}的映射`);
-    if (typeOf(code) === "Array") return getTextFromOptions(currMap, code as StrNum[], propsMap, char);
+  function getText(
+    name: DictName | CommonObj = needParam(),
+    code: StrNum | StrNum[] = needParam(),
+    propsMap?: CommonObj,
+    emptyChar = emptyStr
+  ): string {
+    // if (emptyVals.includes(code as any)) return emptyChar;
+    const currMap = typeof name === "string" ? getMap(name) : name;
+    if (!currMap) return emptyChar; // throw new Error(`未找到${name}的映射`);
+    if (typeOf(code) === "Array") return getTextFromOptions(currMap, code as StrNum[], propsMap, emptyChar);
     const val = currMap[code as StrNum];
     const t = typeOf(currMap);
     // 说明是select
     if (t === "Object") {
       const textStr = typeof val === "string" ? val : val?.text;
-      return emptyVals.includes(textStr) ? char : textStr;
+      return emptyVals.includes(textStr) ? emptyChar : textStr;
     }
     // 说明是select、cascader、tree
-    if (t === "Array") return getTextFromOptions(currMap, code as StrNum, propsMap, char);
+    if (t === "Array") return getTextFromOptions(currMap, code as StrNum, propsMap, emptyChar);
     throw new Error(`暂未处理类型：${t}`);
   }
 

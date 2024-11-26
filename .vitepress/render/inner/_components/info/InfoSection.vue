@@ -30,8 +30,9 @@ const typeOpts = reactive<CommonObj[]>([
   { value: 1, label: "新鲜程度", level: 1, icon: "Bell", words: ["老", "新"] },
   { value: 2, label: "出现频率", level: 2, icon: "DataLine", words: ["低", "高"] },
   { value: 3, label: "重要程度", level: 3, icon: "Warning", words: ["轻", "重"] },
-  { value: 4, label: "掌握程度", level: 4, icon: "CircleCheck", words: ["模糊", "牢固"] },
+  { value: 4, label: "记忆程度", level: 4, icon: "CircleCheck", words: ["模糊", "牢固"] },
   { value: 5, label: "回看意愿", level: 5, icon: "Discount", words: ["弱", "强"] },
+  { value: 6, label: "得分情况", level: 5, icon: "Discount", words: ["低", "高"] },
 ]);
 function handleChange(val: any, ind: number) {
   typeOpts[ind].level = val;

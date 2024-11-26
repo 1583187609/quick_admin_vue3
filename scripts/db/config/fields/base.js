@@ -12,35 +12,10 @@
 //   isUnsigned: undefined,
 //   isFillZero: undefined,
 //   enum: undefined,
-
-import { enableStatus, auditStatus } from "./enums";
-
 // };
 export default {
   /*** 通用类型 ***/
-  // number: {
-  //   type: "tinyint",
-  //   length: 3,
-  //   // decimal: undefined,
-  //   // notNull: true,
-  //   // isPrimaryKey: true,
-  //   // remark: "",
-  //   // defaultValue: undefined,
-  //   // isAutoIncrement: true,
-  //   isUnsigned: true,
-  //   // isFillZero: false,
-  //   // enum: undefined,
-  // },
-  // 通用枚举类型
-  enum: {
-    type: "tinyint",
-    length: 1,
-    notNull: true,
-    // remark: "", // 枚举
-    // defaultValue: undefined,
-    isUnsigned: true,
-    // enum: {},
-  },
+  //
   /*** 常用类型 ***/
   // 自增id，主建
   id: {
@@ -56,25 +31,17 @@ export default {
     isFillZero: false,
     enum: undefined,
   },
-  // 启用状态（枚举类型）
-  enableStatus: {
-    type: "tinyint",
-    name: "status",
-    length: 1,
+  // 创建人
+  creatorId: {
+    type: "int",
     notNull: true,
-    remark: "启用状态",
-    defaultValue: 1,
+    remark: "创建人",
     isUnsigned: true,
-    enum: enableStatus,
   },
-  // 审核状态（枚举类型）
-  auditStatus: {
-    type: "tinyint",
-    length: 1,
-    notNull: true,
-    remark: "审核状态",
-    defaultValue: 0,
+  // 最后修改人
+  updatorId: {
+    type: "int",
+    remark: "最后修改人",
     isUnsigned: true,
-    enum: auditStatus,
   },
 };
