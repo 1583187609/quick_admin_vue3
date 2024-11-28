@@ -1,4 +1,4 @@
-<!-- 表单项模板列表 -->
+<!-- 表字段列表 -->
 <template>
   <BaseCrud
     :cols="cols"
@@ -23,33 +23,104 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
-  { prop: "tpl", label: "模板类型", type: "select" },
-  { prop: "classify", label: "所属分类", type: "select", attrs: { options: [] } },
-  { prop: "status", label: "启用状态", type: "select", attrs: { options: "EnableStatus" } },
+  { prop: "name", label: "字段名" },
+  {
+    prop: "type",
+    label: "值类型",
+    type: "select",
+    attrs: {
+      filterable: true,
+      options: [],
+    },
+  },
+  {
+    prop: "classify",
+    label: "所属分类",
+    attrs: {
+      filterable: true,
+      options: [],
+    },
+  },
   { prop: "remark", label: "备注" },
-  { prop: "create_time", label: "创建时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
   {
-    type: "id",
+    type: "index",
   },
   {
-    type: "sort",
+    prop: "name",
+    label: "字段名",
+    fixed: "left",
   },
   {
-    prop: "tpl",
-    label: "模板类型",
+    prop: "type",
+    label: "值类型",
+  },
+  {
+    prop: "length",
+    label: "长度",
+  },
+  {
+    prop: "decimal",
+    label: "小数位数",
+  },
+  {
+    prop: "isPrimaryKey",
+    label: "是否主键",
+    type: "BaseTag",
+    attrs: {
+      name: "YesNoStatus",
+    },
+  },
+  {
+    prop: "notNull",
+    label: "是否必填",
+    type: "BaseTag",
+    attrs: {
+      name: "YesNoStatus",
+    },
+  },
+  {
+    prop: "isAutoIncrement",
+    label: "是否自增",
+    type: "BaseTag",
+    attrs: {
+      name: "YesNoStatus",
+    },
+  },
+  {
+    prop: "isUnsigned",
+    label: "无符号",
+    type: "BaseTag",
+    attrs: {
+      name: "YesNoStatus",
+    },
+  },
+  {
+    prop: "isFillZero",
+    label: "填充零",
+    type: "BaseTag",
+    attrs: {
+      name: "YesNoStatus",
+    },
+  },
+  {
+    prop: "defaultValue",
+    label: "默认值",
+  },
+  {
+    prop: "enums",
+    label: "枚举类型",
+  },
+  {
+    prop: "joinChar",
+    label: "拼接符号",
   },
   {
     prop: "classify",
     label: "所属分类",
   },
-  {
-    type: "enableStatus",
-  },
-  { type: "create" },
-  { type: "update" },
-  { type: "remark" },
+  { type: "remark", fixed: "right" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

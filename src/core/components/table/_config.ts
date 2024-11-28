@@ -74,6 +74,8 @@ export const specialColMap: CommonObj = getExportData(
     id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },
     // 电话号码
     phone: { prop: "phone", label: "电话号码", minWidth: 100 },
+    // 启用状态
+    enableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "EnableStatus" } },
     //备注列
     remark: { prop: "remark", label: "备注", minWidth: 140 },
     //创建列

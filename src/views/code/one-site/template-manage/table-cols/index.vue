@@ -23,47 +23,38 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
-  { prop: "yhid", label: "用户ID" },
+  { prop: "id", label: "模板ID" },
   {
-    prop: "ffzt",
-    label: "发放状态",
+    prop: "tpl",
+    label: "模板名称",
     type: "select",
     attrs: {
-      options: "YesNoStatus",
+      filter: true,
     },
   },
-  { prop: "czr", label: "操作人" },
-  { prop: "bz", label: "备注" },
-  { prop: "ffsj", label: "发放时间", type: "date-picker" },
+  {
+    prop: "classify",
+    label: "所属分类",
+    type: "select",
+    attrs: {},
+  },
+  { prop: "status", label: "启用状态" },
+  { prop: "create_time", label: "创建时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
+  { type: "id" },
   {
-    prop: "ffcgyhid",
-    label: "发放成功用户ID",
-    minWidth: 210,
+    prop: "tpl",
+    label: "模板名称",
   },
   {
-    prop: "ffsbyhid",
-    label: "发放失败用户ID",
-    minWidth: 210,
+    prop: "classify",
+    label: "所属分类",
   },
-  {
-    prop: "ffje",
-    label: "发放金额",
-    minWidth: 90,
-  },
-  {
-    prop: "ffzt",
-    label: "发放状态",
-    type: "BaseTag",
-    attrs: {
-      name: "SendStatus",
-    },
-  },
-  { prop: "ffsj", label: "发放时间" },
-  { prop: "imtz", label: "IM通知", minWidth: 190 },
-  { prop: "bz", label: "备注", minWidth: 140 },
-  { prop: "updated", label: "操作人", type: "update" },
+  { type: "enableStatus" },
+  { type: "create" },
+  { type: "update" },
+  { type: "remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

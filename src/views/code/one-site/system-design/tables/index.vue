@@ -5,17 +5,21 @@
     :fields="fields"
     :fetch="GetUserList"
     :extraBtns="['add']"
-    :operateBtns="['edit', 'delete']"
+    :operateBtns="['edit', { name: 'view', to: ({id}:CommonObj) => `/code/one-site/system-design/tables/detail?id=${id}` }, 'delete']"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
   >
+    <template #table_name="{ row }">
+      <div>{{ row.cn_name || emptyStr }}</div>
+      <div>{{ row.name || emptyStr }}</div>
+    </template>
   </BaseCrud>
 </template>
 <script lang="ts" setup>
 import { GetUserList, DeleteUserList } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
-import { handleBtnNext } from "@/utils";
+import { emptyStr, handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
@@ -23,47 +27,32 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
-  { prop: "yhid", label: "用户ID" },
+  { prop: "表", label: "表ID" },
+  { prop: "表名称", label: "表名称" },
   {
-    prop: "ffzt",
-    label: "发放状态",
+    prop: "status",
+    label: "启用状态",
     type: "select",
     attrs: {
-      options: "YesNoStatus",
+      options: "EnableStatus",
     },
   },
-  { prop: "czr", label: "操作人" },
-  { prop: "bz", label: "备注" },
-  { prop: "ffsj", label: "发放时间", type: "date-picker" },
+  { prop: "create_time", label: "创建时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
   {
-    prop: "ffcgyhid",
-    label: "发放成功用户ID",
-    minWidth: 210,
+    type: "id",
   },
   {
-    prop: "ffsbyhid",
-    label: "发放失败用户ID",
-    minWidth: 210,
-  },
-  {
-    prop: "ffje",
-    label: "发放金额",
+    prop: "table_name",
+    label: "表名称",
     minWidth: 90,
+    type: "custom",
   },
-  {
-    prop: "ffzt",
-    label: "发放状态",
-    type: "BaseTag",
-    attrs: {
-      name: "SendStatus",
-    },
-  },
-  { prop: "ffsj", label: "发放时间" },
-  { prop: "imtz", label: "IM通知", minWidth: 190 },
-  { prop: "bz", label: "备注", minWidth: 140 },
-  { prop: "updated", label: "操作人", type: "update" },
+  { prop: "status", label: "启用状态", type: "BaseTag" },
+  { type: "create" },
+  { type: "update" },
+  { type: "remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

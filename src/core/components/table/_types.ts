@@ -59,6 +59,7 @@ export type TableColType =
   | "sort"
   | "index"
   | "selection"
+  | "enableStatus"
   | "operate"
   | "remark"
   | "custom"

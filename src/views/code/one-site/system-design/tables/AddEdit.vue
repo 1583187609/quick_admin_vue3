@@ -21,38 +21,47 @@ const props = withDefaults(
   }>(),
   {}
 );
-const modelData = reactive<CommonObj>(Object.assign({}, props.data));
+const modelData = reactive<CommonObj>({ status: 1, ...props.data });
 const fields: FormField[] = [
   {
-    prop: "ffdx",
-    label: "发放对象",
+    prop: "cn_name",
+    label: "表名称",
     required: true,
-    attrs: {
-      type: "textarea",
-    },
     quickAttrs: {
-      tips: "多个用户用，分隔",
+      grid: 12,
     },
   },
   {
-    prop: "ffje",
-    label: "发放金额",
+    prop: "name",
+    label: "英文名",
     required: true,
-    type: "input-number",
-  },
-  {
-    prop: "imtz",
-    label: "IM通知",
-    attrs: {
-      type: "textarea",
+    quickAttrs: {
+      grid: 12,
     },
   },
   {
-    prop: "bz",
+    prop: "tpl",
+    label: "表模板",
+    type: "select",
+    attrs: {
+      disabled: true,
+      filterable: true,
+      options: Array(4)
+        .fill("")
+        .map((it, i) => ({ label: `模板${i + 1}`, value: i })),
+    },
+  },
+  {
+    prop: "status",
+    label: "启用状态",
+    type: "switch",
+  },
+  {
+    prop: "remark",
     label: "备注",
-    required: true,
     attrs: {
       type: "textarea",
+      maxlength: 50,
     },
   },
 ];

@@ -76,6 +76,7 @@
               {{ renderValue(row?.[newCol.prop as string]) }}
             </template>
           </template>
+          <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'enableStatus'" />
           <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
           <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
           <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
