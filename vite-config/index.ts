@@ -120,6 +120,19 @@ export default ({ mode, command }) => {
       //     },
       //   },
       // },
+      proxy: {
+        "/api": {
+          target: "http://localhost:7003", //http://127.0.0.1:5500
+          changeOrigin: true, //是否跨域
+          ws: true, //是否代理 websockets
+          secure: false, //是否https接口
+          rewrite: (path: string) => path.replace(/^\/api/, ""),
+          bypass(req, res, options: any) {
+            const proxyURL = options.target + options.rewrite(req.url);
+            res.setHeader("x-req-proxyURL", proxyURL); // 设置响应头可以在浏览器中看到实际请求地址
+          },
+        },
+      },
       // cors: true, // 为开发服务器配置 CORS。默认启用并允许任何源，传递一个 选项对象 来调整行为或设为 false 表示禁用。
       // force: true, // 设置为 true 强制使依赖预构建。
       // watch: {
