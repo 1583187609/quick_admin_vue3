@@ -369,3 +369,112 @@ export const defaultRulesTypes: CommonObj = getExportData(
   },
   formCfg?.defaultRulesTypes
 );
+
+// 表单项字段模板
+export const defaultFormItemTpls: CommonObj = getExportData({
+  //电话号码
+  phone: {
+    // prop: "phone", // 省略不写，则和键名保持一致
+    label: "电话号码",
+    rules: [
+      {
+        pattern: regexp.phone,
+        message: "请输入正确的11位电话号码",
+        trigger: "change",
+      },
+    ],
+    attrs: {
+      maxlength: 11,
+    },
+  },
+  //密码
+  password: {
+    label: "密码",
+    rules: [
+      {
+        min: 6,
+        message: "密码长度不能小于6位",
+        trigger: "change",
+      },
+      {
+        pattern: regexp.password,
+        message: "请输入正确的6~16位字母 + 数字组合密码",
+        trigger: "change",
+      },
+    ],
+    attrs: {
+      type: "password",
+      maxlength: 16,
+      showPassword: true,
+    },
+  },
+  //15~18位身份证号
+  identity: {
+    label: "身份证号",
+    rules: [
+      {
+        min: 15,
+        message: "身份证号长度不能小于15位",
+        trigger: "change",
+      },
+      {
+        pattern: regexp.identity,
+        message: "请输入正确的15~18位身份证号",
+        trigger: "change",
+      },
+    ],
+    attrs: {
+      maxlength: 18,
+    },
+  },
+  //邮箱
+  email: {
+    label: "邮箱",
+    rules: [
+      {
+        pattern: regexp.email,
+        message: "请输入正确的邮箱地址",
+        trigger: "change",
+      },
+    ],
+  },
+  // 人民币：最小值为0，保留两位小数
+  rmb: {
+    label: "价格",
+    type: "input-number",
+    attrs: {
+      min: 0,
+      max: 99999,
+      precision: 2,
+      step: 0.1,
+      controlsPosition: "right",
+      slots: {
+        suffix: "￥", // 单位：元、￥
+      },
+    },
+  },
+  //年龄
+  age: {
+    label: "年龄",
+    type: "input-number",
+    attrs: {
+      min: 0,
+      max: 150,
+      slots: {
+        suffix: "岁",
+      },
+    },
+  },
+  // 数量
+  amount: {
+    label: "数量",
+    type: "input-number",
+    attrs: {
+      min: 0,
+      max: 100,
+      slots: {
+        suffix: "个",
+      },
+    },
+  },
+});
