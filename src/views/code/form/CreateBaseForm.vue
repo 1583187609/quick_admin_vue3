@@ -1,14 +1,11 @@
 <!-- 组件 - 创建基础表单 -->
 <template>
   <div class="f-sb-fs" style="height: 200px">
-    <SectionForm class="create-base-form f-3" v-model="modelData" :sections="sections" debug> </SectionForm>
-    <!-- <BaseSection class="create-base-form f-3" title="第一部分">
-      <el-form>
-        <template v-for="(field, ind) in getFields()" :key="ind">
-          <FieldItemCol :field="field" v-model="fieldsArr[ind]" />
-        </template>
-      </el-form>
-    </BaseSection> -->
+    <SectionForm class="create-base-form f-3" v-model="modelData" :sections="sections">
+      <template #head-right>
+        <BaseBtn name="delete" link icon="" />
+      </template>
+    </SectionForm>
     <div class="ml-t f-1 f-fs-s-c">
       <h1 class="title f-0">预览</h1>
       <BaseForm class="f-1 ml-o" :fields="fields" disabled></BaseForm>
@@ -17,9 +14,10 @@
       <el-input
         class="f-0"
         type="textarea"
+        @click="showMessage('只读，不可编辑', 'warning')"
         @change="handleChange"
         :modelValue="fieldsStr"
-        :rows="4"
+        :rows="20"
         placeholder="表单字段项，JSON"
         readonly
         clearable
@@ -34,7 +32,7 @@ import { CommonObj, OptionItem } from "@/vite-env";
 import { exampleMap } from "./_config";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import Config from "./_components/Config.vue";
-import { omitAttrs, typeOf } from "@/utils";
+import { omitAttrs, showMessage, typeOf } from "@/utils";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -104,6 +102,30 @@ function getFields(isChildren = false): FormFieldAttrs[] {
   const showOpts = ["select", "cascader", "checkbox-group"].includes(modelData.type);
   return [
     {
+      prop: "tpl",
+      label: "模板类型",
+      type: "select",
+      attrs: {
+        options: validOpts,
+      },
+      quickAttrs: {
+        grid: 6,
+        popover: "内置的几种常用规则类型，含表单校验规则、属性等",
+      },
+    },
+    {
+      prop: "type",
+      label: "控件类型",
+      type: "select",
+      attrs: {
+        options: widgetTypeOpts,
+      },
+      quickAttrs: {
+        grid: 6,
+        popover: "表单控件类型",
+      },
+    },
+    {
       prop: "label",
       label: "标签名",
       required: false,
@@ -117,18 +139,6 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       required: false,
       quickAttrs: {
         grid: 6,
-      },
-    },
-    {
-      prop: "type",
-      label: "控件类型",
-      type: "select",
-      attrs: {
-        options: widgetTypeOpts,
-      },
-      quickAttrs: {
-        grid: 6,
-        popover: "表单控件类型",
       },
     },
     {
@@ -152,22 +162,10 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     },
     {
       prop: "example",
-      label: "例如文案",
+      label: "示例文案",
       quickAttrs: {
         grid: 6,
         popover: "placeholder中的文字，会直接拼在placeholder文字后面",
-      },
-    },
-    {
-      prop: "tpl",
-      label: "模板类型",
-      type: "select",
-      attrs: {
-        options: validOpts,
-      },
-      quickAttrs: {
-        grid: 6,
-        popover: "内置的几种常用规则类型，含表单校验规则、属性等",
       },
     },
     {
@@ -187,7 +185,7 @@ function getFields(isChildren = false): FormFieldAttrs[] {
     {
       prop: "pureText",
       label: "是否纯文本",
-      type: "select",
+      type: "radio-group",
       attrs: {
         options: yesNoOpts,
       },
