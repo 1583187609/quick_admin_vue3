@@ -13,8 +13,8 @@ export function getAvatarRowData(row: CommonObj): CommonObj {
     nickname,
     uploadNum: cnt,
     rejectNum: noPassCnt,
-    createdAt: row.createdAt,
-    updatedAt: row.updatedAt,
+    create_time: row.create_time,
+    update_time: row.update_time,
     src: avatar,
     avatarData: row.avatarData,
   };

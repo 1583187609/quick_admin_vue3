@@ -13,8 +13,8 @@
       <div class="title f-sb-b f-0">
         <b class="b">{{ getText("AboutInfo", row.type) }}</b>
         <span class="time-ago">
-          <!-- {{ getTimeAgo(row.createdAt) || "-" }} -->
-          {{ getTimeAgo(row.updatedAt ? row.updatedAt : row.createdAt) || "-" }}
+          <!-- {{ getTimeAgo(row.create_time) || "-" }} -->
+          {{ getTimeAgo(row.update_time ? row.update_time : row.create_time) || "-" }}
         </span>
       </div>
       <div class="desc all-hide-scroll f-1" ref="descRef">
@@ -25,14 +25,7 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn
-        :name="btn"
-        size="small"
-        round
-        @click="() => $emit('operateBtns', btn)"
-        v-for="(btn, ind) in operateBtns"
-        :key="ind"
-      />
+      <BaseBtn :name="btn" size="small" round @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
     </div>
   </div>
 </template>

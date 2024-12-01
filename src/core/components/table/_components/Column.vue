@@ -57,7 +57,7 @@
             <Sort />
           </el-icon>
           <!-- id和备注列 -->
-          <template v-else-if="['id', 'remark'].includes(newCol.type)">
+          <template v-else-if="['id', 'remark', 'phone'].includes(newCol.type)">
             {{ renderValue(row?.[newCol.prop as string]) }}
           </template>
           <!-- 自定义列 -->

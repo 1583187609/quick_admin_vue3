@@ -1,9 +1,9 @@
-<!-- 题目列表 -->
+<!-- 行业列表 -->
 <template>
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="GetTopicList"
+    :fetch="GetIndustryList"
     :extraBtns="['add']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
@@ -12,7 +12,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetTopicList, DeleteTopicDelete } from "@/views/easy-note/apis";
+import { GetIndustryList, DeleteIndustryDelete } from "@/views/easy-note/apis";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
@@ -22,51 +22,31 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
-  { prop: "id", label: "题目ID" },
+  { prop: "id", label: "ID" },
   {
-    prop: "question",
-    label: "问题",
+    prop: "name",
+    label: "行业名称",
+    attrs: {
+      maxlength: 10,
+    },
   },
-  {
-    prop: "content",
-    label: "内容",
-  },
-  { prop: "score", label: "评分", type: "input-number", attrs: { min: 0, max: 100 } },
-  { prop: "status", label: "状态", type: "select", attrs: { options: "EnableStatus" } },
-  { prop: "industry_id", label: "所属行业", type: "select" },
-];
-const cols: TableCol[] = [
-  {
-    type: "id",
-  },
-  {
-    prop: "question",
-    label: "问题",
-    minWidth: 200,
-  },
-  {
-    prop: "content",
-    label: "内容",
-    type: "BaseText",
-    minWidth: 400,
-  },
-  { prop: "score", label: "得分" },
+  { prop: "create_time", label: "创建时间", type: "date-picker" },
   {
     prop: "status",
-    label: "启用状态",
-    type: "BaseTag",
+    label: "是否启用",
+    type: "select",
     attrs: {
-      name: "EnableStatus",
+      options: "EnableStatus",
     },
   },
+];
+const cols: TableCol[] = [
+  { prop: "id", label: "ID" },
   {
-    prop: "audit_status",
-    label: "审核状态",
-    type: "BaseTag",
-    attrs: {
-      name: "AuditStatus",
-    },
+    prop: "name",
+    label: "行业名称",
   },
+  { type: "enableStatus" },
   { type: "create" },
   { type: "update" },
 ];
@@ -83,7 +63,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => DeleteTopicDelete({ id }).then(() => next()),
+      delete: () => DeleteIndustryDelete({ id }).then(() => next()),
     },
     name
   );

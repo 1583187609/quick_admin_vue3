@@ -72,7 +72,7 @@ function handleClear() {
 //处理触底事件
 function handleReachBottom() {
   const { list } = msgsInfo;
-  msgsInfo.params.prevCreatedAt = list.slice(-1)?.[0]?.createdAt + 1;
+  msgsInfo.params.prevCreatedAt = list.slice(-1)?.[0]?.create_time + 1;
   getMsgsList(searchVal.value);
 }
 //获取查询到的消息列表

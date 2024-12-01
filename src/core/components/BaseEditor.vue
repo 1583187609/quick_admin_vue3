@@ -71,7 +71,7 @@ const defaultEditorCfg = {
     uploadImage: {
       fieldName: "file",
       server: `${isProd ? "" : "/proxy"}/api/admin/upload/image`,
-      headers: { "X-Token": storage.getItem("token") },
+      headers: { token: storage.getItem("token") },
       maxFileSize: 1024 * 1024 * 10, //10M
       // 自定义插入图片
       customInsert(res: any, insertFn: any) {

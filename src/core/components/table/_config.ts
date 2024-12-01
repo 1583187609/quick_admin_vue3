@@ -73,20 +73,20 @@ export const specialColMap: CommonObj = getExportData(
     //id：唯一标识id
     id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },
     // 电话号码
-    phone: { prop: "phone", label: "电话号码", minWidth: 100 },
-    // 启用状态
-    enableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "EnableStatus" } },
+    phone: { prop: "phone", label: "电话号码", minWidth: 110 },
     //备注列
     remark: { prop: "remark", label: "备注", minWidth: 140 },
+    // 启用状态
+    enableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "EnableStatus" } },
     //创建列
     create: {
-      prop: ["createdName", "createdAt"],
+      prop: ["creator_name", "create_time"],
       label: "创建时间",
       minWidth: 160,
     },
     //修改列
     update: {
-      prop: ["updatedName", "updatedAt"],
+      prop: ["updator_name", "update_time"],
       label: "修改时间",
       minWidth: 160,
     },

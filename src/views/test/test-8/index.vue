@@ -104,7 +104,7 @@
           >
             <template v-for="(row, ind) in chatInfo.list" :key="ind">
               <div class="tips time" v-if="isShowDateStr(row, ind)">
-                {{ getDateStr(row.createdAt) }}
+                {{ getDateStr(row.create_time) }}
               </div>
               <MsgItem
                 :data="row"
@@ -229,7 +229,7 @@ watch(
 );
 //是否显示日期
 function isShowDateStr(row: CommonObj, ind: number, gap = 3 * 60 * 1000) {
-  return ind === 0 || chatInfo.list[ind - 1].createdAt < row.createdAt - gap;
+  return ind === 0 || chatInfo.list[ind - 1].create_time < row.create_time - gap;
 }
 //发送消息的时间
 function getDateStr(time: number) {
@@ -358,11 +358,7 @@ function getChatList(fromUserId: number, toUserId: number, direction: ChatListQu
  * 是否要自动打开消息搜索弹窗
  * @return 返回类型 null | { fromUser: CommonObj; toUser: CommonObj }
  */
-async function isOpenSearchMsgPopup(
-  fromUserId: StrNum,
-  toUserId: StrNum,
-  keyWord: string
-): null | { fromUser: CommonObj; toUser: CommonObj } {
+async function isOpenSearchMsgPopup(fromUserId: StrNum, toUserId: StrNum, keyWord: string): null | { fromUser: CommonObj; toUser: CommonObj } {
   if (keyWord) {
     return await GetImSearchP2pChatList({
       fromUserId,
@@ -408,7 +404,7 @@ function handleReachBottom(type: "from" | "to") {
 function handleChatReach(direction: ChatListQueryDirection) {
   const last = direction === "prev" ? chatInfo.list[0] : chatInfo.list.slice(-1)[0];
   if (!last) return;
-  chatInfo.params.prevCreatedAt = last.createdAt + (direction === "prev" ? -1 : 1);
+  chatInfo.params.prevCreatedAt = last.create_time + (direction === "prev" ? -1 : 1);
   getChatList(fromUserInfo.activeId, toUserInfo.activeId, direction);
 }
 //打开聊天记录搜索对话框
@@ -425,7 +421,7 @@ function handleSearchSelectItem(row: CommonObj, searchVal: string, next: () => v
   chatInfo.list = [];
   chatInfo.prevHasMore = true;
   chatInfo.nextHasMore = true;
-  chatInfo.params.prevCreatedAt = row.createdAt + 1;
+  chatInfo.params.prevCreatedAt = row.create_time + 1;
   getChatList(fromUserInfo.activeId, toUserInfo.activeId);
   next();
 }

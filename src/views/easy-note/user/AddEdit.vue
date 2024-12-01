@@ -4,15 +4,15 @@
     style="width: 600px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PutTopicUpdate : PostTopicAdd"
-    :afterSuccess="refreshList"
+    :fetch="data ? PutUserUpdate : PostUserAdd"
+    :afterSuccess="() => refreshList()"
     :extraParams="data ? { id: data.id } : undefined"
   >
   </BaseForm>
 </template>
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
-import { PostTopicAdd, PutTopicUpdate } from "@/views/easy-note/apis";
+import { PostUserAdd, PutUserUpdate } from "@/views/easy-note/apis";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
@@ -29,6 +29,13 @@ const fields: FormField[] = [
     required: true,
     attrs: {
       maxlength: 6,
+    },
+  },
+  {
+    prop: "nickname",
+    label: "用户昵称",
+    attrs: {
+      maxlength: 16,
     },
   },
   {
@@ -69,7 +76,6 @@ const fields: FormField[] = [
   {
     prop: "status",
     label: "启用状态",
-    type: "switch",
     quickAttrs: {
       grid: 12,
     },

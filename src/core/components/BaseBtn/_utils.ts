@@ -18,20 +18,14 @@ const { merge, upperFirst } = _;
  */
 function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem): PopconfirmAttrs {
   const { text, attrs = {} } = btnObj;
+  const { type } = attrs;
+  const btnAttrs = { iconColor: cssVars["color" + upperFirst(type)], confirmButtonType: type };
   const title = `确认${text}吗？`;
   const t = typeOf(popconfirm);
-  if (t === "String") return { title: popconfirm as string };
-  if (t === "Object") return merge({ title }, popconfirm);
-  if (popconfirm === true) {
-    const { type } = attrs;
-    return {
-      title,
-      iconColor: cssVars["color" + upperFirst(type)],
-      confirmButtonType: type,
-    };
-  }
-  console.error(`暂未处理此种情况：${t}`, popconfirm);
-  return { title: "~error~", icon: CircleCloseFilled, iconColor: "#f56c6c" };
+  if (t === "String") return { title: popconfirm as string, ...btnAttrs };
+  if (t === "Object") return { title, ...btnAttrs, ...popconfirm };
+  if (popconfirm === true) return { title, ...btnAttrs };
+  throw new Error(`暂未处理此种情况：${t}`, popconfirm);
 }
 
 /**

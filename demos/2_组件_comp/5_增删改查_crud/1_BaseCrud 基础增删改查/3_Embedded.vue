@@ -333,15 +333,15 @@ const cols: TableCol[] = [
   // : [
   {
     type: "update",
-    prop: "updatedAt",
+    prop: "update_time",
     label: "修改时间 [update]",
     quickAttrs: {
-      popover: `设置 {type: "update", prop: "updatedAt"}，只会显示 updatedAt 属性的值`,
+      popover: `设置 {type: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
     },
   } as TableColAttrs,
   // ]),
   // {
-  //   prop: ["creator", "createdAt"],
+  //   prop: ["creator", "create_time"],
   //   label: "创建时间（内置、双prop）",
   //   type: "create",
   // },

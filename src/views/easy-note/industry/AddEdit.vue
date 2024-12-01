@@ -1,10 +1,10 @@
-<!-- 新增/编辑题目 -->
+<!-- 新增/编辑行业 -->
 <template>
   <BaseForm
-    style="width: 1000px"
+    style="width: 300px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PutTopicUpdate : PostTopicAdd"
+    :fetch="data ? PutIndustryUpdate : PostIndustryAdd"
     :afterSuccess="() => refreshList()"
     :extraParams="data ? { id: data.id } : undefined"
   >
@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
-import { PostTopicAdd, PutTopicUpdate } from "@/views/easy-note/apis";
+import { PostIndustryAdd, PutIndustryUpdate } from "@/views/easy-note/apis";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
 const props = withDefaults(
   defineProps<{
@@ -24,23 +24,12 @@ const props = withDefaults(
 const modelData = reactive<CommonObj>(Object.assign({ status: 1 }, props.data));
 const fields: FormField[] = [
   {
-    prop: "question",
-    label: "问题",
+    prop: "name",
+    label: "行业名称",
     required: true,
     attrs: {
-      maxlength: 50,
-    },
-  },
-  {
-    prop: "content",
-    label: "内容",
-    required: true,
-    // type: "BaseEditor",
-    rules: [{ min: 10, message: "不能少于10个字符" }],
-    attrs: {
-      type: "textarea",
-      rows: 30,
-      maxlength: 3000,
+      maxlength: 10,
+      autofocus: true,
     },
   },
   {

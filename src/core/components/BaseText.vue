@@ -23,7 +23,7 @@ const props = withDefaults(
     popupAttrs?: any;
   }>(),
   {
-    maxLine: 5,
+    maxLine: 2,
     popupAttrs: () => ({ title: "详情", width: "500px" }),
   }
 );

@@ -108,7 +108,7 @@ function handleSubmit() {
         .then((res: any) => {
           log && printLog(res, "res");
           if (handleResponse) res = handleResponse(res);
-          afterSuccess(submitText + "成功！");
+          afterSuccess(res, defaultAfterSuccess);
         })
         .catch((err: any) => {
           afterFail?.(err);

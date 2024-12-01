@@ -52,6 +52,7 @@ export default ({ mode, command }) => {
     ],
     resolve: {
       // extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
+      extensions: [".mjs", ".js", ".mts", ".ts", ".jsx", ".tsx", ".json", ".svg"],
       alias: {
         // 放在根目录下时
         // "@": path.resolve(__dirname, "src"),

@@ -4,7 +4,7 @@
 
 import qs from "qs";
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
-import { typeOf, isDev } from "@/utils";
+import { typeOf, isDev, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
 import { GetRequired } from "@/vite-env";
 let source: CancelTokenSource = axios.CancelToken.source();
@@ -15,6 +15,7 @@ export interface CustomRequestConfig {
   loadEnable?: boolean; // 是否启用loading
   toastEnable?: boolean; // 当返回状态码不为成功时，是否进行弹窗提示
   reconnectMax?: number; // 请求失败后的最大尝试重新请求次数
+  intercept?: boolean; // 是否拦截{code, msg, data}这层数据
   resDataMap?: {
     code: any;
     data: any;
@@ -35,25 +36,43 @@ const defaultCustomCfg = {
 };
 
 const statusMap: Record<number, string> = {
-  400: "请求失败！请您稍后重试",
-  401: "登录失效！请您重新登录",
-  403: "当前账号无权限访问！",
-  404: "你所访问的资源不存在！",
-  405: "请求方式错误！请您稍后重试",
-  408: "请求超时！请您稍后重试",
-  500: "服务异常！",
-  502: "网关错误！",
-  503: "服务不可用！",
-  504: "网关超时！",
+  400: "请求失败，请重试",
+  401: "token已过期",
+  403: "操作无权限",
+  404: "资源不存在",
+  405: "请求方式错误，请重试",
+  408: "请求超时，请重试",
+  500: "服务异常",
+  502: "网关错误",
+  503: "服务不可用",
+  504: "网关超时",
 };
 
-const service: AxiosInstance = axios.create();
+const service: AxiosInstance = axios.create({
+  withCredentials: true,
+  // `paramsSerializer` 是一个负责 `params` 序列化的函数
+  // (e.g. https://www.npmjs.com/package/qs, http://api.jquery.com/jquery.param/)
+  // baseURL: 'https://some-domain.com/api/',
+  // paramsSerializer: function (params) {
+  //   return qs.stringify(params, { arrayFormat: "repeat" });
+  // },
+  paramsSerializer: function (params) {
+    return qs.stringify(params, { indices: false });
+  },
+  // paramsSerializer: {
+  //   indexes: null,
+  // },
+});
 
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const { loadEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
     loadEnable && showLoading();
     // config.headers["Content-Type"] = "application/json;charset=utf-8";
+    const token = storage.getItem("token");
+    config.headers.token = token;
+    config.headers["x-csrf-token"] = storage.getItem("csrfToken", "cookie");
+    // config.headers.Cookie = `csrfToken=${token}`;
     return config;
   },
   (err: AxiosError) => {
@@ -64,33 +83,24 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (res: AxiosResponse) => {
-    const { data: resData, status, config } = res;
-    const { loadEnable, toastEnable, resDataMap } = config.customConfig as GetRequired<CustomRequestConfig>;
-    // const { code, data, msg } = resData;
-    const { code, data, msg, successCode = 0 } = getResData(resData, resDataMap);
+    const { data: resData, config } = res;
+    const { loadEnable, toastEnable, intercept = true, resDataMap } = config.customConfig as GetRequired<CustomRequestConfig>;
     loadEnable && hideLoading();
-    if (status !== 200) return Promise.reject(showToast(statusMap[status] || "请求失败"));
+    if (!intercept) return resData;
+    const { code, data, msg, successCode = 0 } = getResData(resData, resDataMap);
     if (code === successCode) return data;
-    let newMsg = msg ?? "网络错误";
-    toastEnable && showToast(newMsg);
-    if (!msg) newMsg += "(接口异常)";
-    console.error("请求错误：", { data, msg: msg ?? newMsg, url: config.url });
+    const newMsg = msg || "请求错误";
+    toastEnable ? showToast(newMsg) : console.error(newMsg);
     return Promise.reject(msg);
   },
   (err: AxiosError) => {
     if (axios.isCancel(err)) return Promise.reject(err);
-    const { message, config } = err;
-    const { loadEnable, toastEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
+    const { status, config } = err;
+    const { loadEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
     loadEnable && hideLoading();
-    if (message === "Network Error") {
-      showToast(isDev ? "Mock服务端错误！" : "网络错误", "error");
-    } else if (message === "Request failed with status code 404") {
-      console.error("接口不存在：" + config?.url);
-      showToast("接口不存在", "error");
-    } else {
-      console.error("响应错误：", err);
-      showToast("网络错误", "error");
-    }
+    const errMsg = statusMap[status] || "请求失败";
+    console.error(`${errMsg}：${config.url}`, err);
+    showToast(errMsg);
     return Promise.reject(err);
   }
 );

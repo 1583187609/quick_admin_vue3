@@ -23,7 +23,7 @@
           驳回：<b :class="{ 'color-danger': row.rejectNum }">{{ row.rejectNum ?? "-" }}</b>
         </div>
         <div class="time-age row">
-          {{ getTimeAgo(row.avatarData?.updatedAt) || "-" }}
+          {{ getTimeAgo(row.avatarData?.update_time) || "-" }}
         </div>
       </div>
     </div>
@@ -65,8 +65,8 @@ const props = withDefaults(
       nickname: "",
       uploadNum: 0,
       rejectNum: 0,
-      createdAt: 0,
-      updatedAt: 0,
+      create_time: 0,
+      update_time: 0,
       avatarData: () => {},
     }),
     operateBtns: () => [],
