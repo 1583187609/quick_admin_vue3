@@ -94,12 +94,10 @@ const fields = ref<FormField[]>([
     },
   },
   {
+    tpl: "phone",
     prop: "phone",
     label: "电话",
     required: true,
-    quickAttrs: {
-      rulesType: "phone",
-    },
   },
 ]);
 getDetail(id);

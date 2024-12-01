@@ -21,59 +21,60 @@ const config = {
     // defaultDateRangeShortcuts: [],
     // defaultFieldAttrs: {},
     // defaultPopoverAttrs: {},
-    // defaultRulesTypes: {},
+    // defaultFormItemTpls: {},
   },
   table: {
     // defaultGroupBtnsMaxNum: 3,
     customSpecialCol: {
       //创建列
-      create: {
-        prop: ["create_user", "create_time"],
-        label: "创建时间",
-        minWidth: 170,
-      },
-      //修改列
-      update: {
-        prop: ["update_user", "update_time"],
-        label: "修改时间",
-        minWidth: 170,
-      },
-      //switch开关
-      switch: {
-        prop: "status",
-        label: "启用状态",
-        minWidth: 90,
-        attrs: {
-          activeValue: 0,
-          inactiveValue: 1,
-          activeText: "启用",
-          inactiveText: "禁用",
-          inlinePrompt: true,
-          // onChange() {
-          //   ElMessage.warning("暂未处理【启用/禁用】事件");
-          // },
-        },
-      },
-      //是否启用 状态
-      BaseTag: {
-        prop: "status",
-        label: "状态",
-        minWidth: 100,
-        attrs: { name: "EnableStatus" },
-      },
-      //图片
-      BaseImg: {
-        prop: "imgUrl",
-        label: "图片",
-        minWidth: 146,
-        attrs: { size: "120" },
-      },
+      // create: {
+      //   prop: ["create_user", "create_time"],
+      //   label: "创建时间",
+      //   minWidth: 170,
+      // },
+      // //修改列
+      // update: {
+      //   prop: ["update_user", "update_time"],
+      //   label: "修改时间",
+      //   minWidth: 170,
+      // },
+      // //switch开关
+      // switch: {
+      //   prop: "status",
+      //   label: "启用状态",
+      //   minWidth: 90,
+      //   attrs: {
+      //     activeValue: 0,
+      //     inactiveValue: 1,
+      //     activeText: "启用",
+      //     inactiveText: "禁用",
+      //     inlinePrompt: true,
+      //     // onChange() {
+      //     //   ElMessage.warning("暂未处理【启用/禁用】事件");
+      //     // },
+      //   },
+      // },
+      // //是否启用 状态
+      // BaseTag: {
+      //   prop: "status",
+      //   label: "状态",
+      //   minWidth: 100,
+      //   attrs: { name: "EnableStatus" },
+      // },
+      // //图片
+      // BaseImg: {
+      //   prop: "imgUrl",
+      //   label: "图片",
+      //   minWidth: 146,
+      //   attrs: { size: "120" },
+      // },
       //文本复制
       // BaseCopy: {},
       //用户信息
       UserInfo: {
         prop: "userData",
         label: "用户信息",
+        type: "UserInfo",
         // minWidth: 280, // 450/280
         fixed: "left",
         getInferredAttrs(col: TableColAttrs) {

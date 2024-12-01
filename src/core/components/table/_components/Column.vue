@@ -43,54 +43,37 @@
             <BaseRender :data="newCol.formatter(row, column, row[newCol.prop as string], $index)" v-if="newCol.formatter" />
             <template v-else>{{ renderValue(row[newCol.prop as string]) }}</template>
           </slot>
-          <!-- 操作栏按钮列 -->
-          <GroupBtns
-            :size="size"
-            :row="{ ...row, $index }"
-            :btns="getGroupBtnsByRow(row, $index)"
-            v-bind="operateBtnsAttrs"
-            @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
-            v-else-if="newCol.type === 'operate'"
-          />
-          <!-- 拖动排序列 -->
-          <el-icon size="1.2em" v-else-if="newCol.type === 'sort'">
-            <Sort />
-          </el-icon>
-          <!-- id和备注列 -->
-          <template v-else-if="['id', 'remark', 'phone'].includes(newCol.type)">
-            {{ renderValue(row?.[newCol.prop as string]) }}
+          <template v-else>
+            <!-- 拖动排序列 -->
+            <el-icon size="1.2em" v-if="newCol.type === 'sort'"><Sort /></el-icon>
+            <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
+            <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
+            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{ renderValue(row[newCol.prop as string]) }}</BaseText>
+            <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
+            <!-- 自定义列 -->
+            <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'" />
+            <!-- 创建和修改列 -->
+            <OperatorTime :prop="newCol.prop" :data="row" v-else-if="newCol.type === 'OperatorTime'" />
+            <!-- 操作栏按钮列 -->
+            <GroupBtns
+              :size="size"
+              :row="{ ...row, $index }"
+              :btns="getGroupBtnsByRow(row, $index)"
+              v-bind="operateBtnsAttrs"
+              @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
+              v-else-if="newCol.type === 'operate'"
+            />
+            <!-- 内嵌表单控件列 -->
+            <InnerExtendTableColComps
+              :col="newCol"
+              :row="{ ...row, $index }"
+              :quickAttrs="currQuickAttrs"
+              :refreshList="refreshList"
+              v-else-if="!isOptimization && formItemTypes.includes(newCol.type)"
+            />
+            <!-- 内嵌自定义表单列 -->
+            <InsertCustomTableColComps :col="newCol" :row="{ ...row, $index }" v-else />
           </template>
-          <!-- 自定义列 -->
-          <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'" />
-          <!-- 创建和修改列（后面再考虑优化） -->
-          <template v-else-if="['create', 'update'].includes(newCol.type)">
-            <template v-if="newCol.prop?.includes(propsJoinChar)">
-              <div>
-                <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 0) " />
-              </div>
-              <div>
-                <BaseRender :data="getCreateOrUpdateText(row, newCol.prop as string, 1) " />
-              </div>
-            </template>
-            <template v-else>
-              {{ renderValue(row?.[newCol.prop as string]) }}
-            </template>
-          </template>
-          <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'enableStatus'" />
-          <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
-          <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
-          <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
-            {{ renderValue(row[newCol.prop as string]) }}
-          </BaseText>
-          <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
-          <InnerExtendTableColComps
-            :col="newCol"
-            :row="{ ...row, $index }"
-            :quickAttrs="currQuickAttrs"
-            :refreshList="refreshList"
-            v-else-if="!isOptimization && formItemTypes.includes(newCol.type)"
-          />
-          <InsertCustomTableColComps :col="newCol" :row="{ ...row, $index }" v-else />
         </template>
       </el-table-column>
     </template>
@@ -108,6 +91,7 @@ import { CommonObj, FinallyNext, PopoverType } from "@/vite-env";
 import { defaultCommonSize } from "@/core/utils";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
+import OperatorTime from "./OperatorTime.vue";
 import { isOptimization } from "@/core/utils";
 import { Sort } from "@element-plus/icons-vue";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
@@ -169,6 +153,7 @@ function getShowMark(scope: CommonObj, markWidth = 20) {
   // }
   // $emit("update:colAttrs", obj);
   return true;
+  // return false;
 }
 // 该列是否标记为未联调
 function getIsNoHandle(scope: CommonObj) {
@@ -190,12 +175,6 @@ function getIsNoHandle(scope: CommonObj) {
     return false;
   }
   return row?.[prop as string] === undefined;
-}
-// 获取创建列或更新列的文本内容
-function getCreateOrUpdateText(row: CommonObj, prop: string, ind: number = 0) {
-  const keys = prop.split(propsJoinChar);
-  const val = row?.[keys?.[ind]];
-  return renderValue(val);
 }
 </script>
 <style lang="scss" scoped></style>

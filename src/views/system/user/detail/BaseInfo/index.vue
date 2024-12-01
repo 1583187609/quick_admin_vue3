@@ -3,9 +3,7 @@
   <!-- 图片审核 -->
   <BaseSection class="imgs" title="图片审核" bodyClass="f-fs-s p-o">
     <template #head-right>
-      <el-button @click="openPopup('处理用户', '这是处理用户弹窗中的内容', 'confirm')" type="primary" style="margin-left: auto"
-        >处理用户</el-button
-      >
+      <el-button @click="openPopup('处理用户', '这是处理用户弹窗中的内容', 'confirm')" type="primary" style="margin-left: auto">处理用户</el-button>
       <el-popconfirm title="确定注销当前用户吗？" width="220" @confirm="showMessage('注销成功')">
         <template #reference>
           <el-button type="info">注销用户</el-button>
@@ -20,12 +18,7 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button
-          type="success"
-          style="width: 5em"
-          size="small"
-          @click="openPopup(null, '是否要重新比对人脸？', 'dialog', 'confirm')"
-        >
+        <el-button type="success" style="width: 5em" size="small" @click="openPopup(null, '是否要重新比对人脸？', 'dialog', 'confirm')">
           比对人脸
         </el-button>
       </div>
@@ -48,12 +41,8 @@
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
         </div>
         <div class="comment mr-a f-fs-c">
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive">
-            正面评价({{ 3 }})
-          </el-button>
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative">
-            负面评价({{ 3 }})
-          </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive"> 正面评价({{ 3 }}) </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative"> 负面评价({{ 3 }}) </el-button>
         </div>
         <div class="attitude f-fs-c">
           <el-button type="warning" size="small" text @click="openReportListPopup(1)" class="item">举报({{ 3 }})</el-button>
@@ -178,12 +167,11 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     },
   },
   {
+    tpl: "age",
     prop: "nl",
     label: "年龄",
     type: "input-number",
-    quickAttrs: {
-      rulesType: "age",
-    },
+    quickAttrs: {},
   },
   {
     prop: "sr",
@@ -233,11 +221,10 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     label: "微信号",
   },
   {
+    tpl: "phone",
     prop: "sr",
     label: "手机号",
-    quickAttrs: {
-      rulesType: "phone",
-    },
+    quickAttrs: {},
   },
   {
     prop: "sjh",
@@ -422,12 +409,12 @@ const preferSetFormFields: FormFieldAttrs[] = [
     },
   },
   {
+    tpl: "age",
     prop: "nlfw",
     label: "年龄范围",
     type: "BaseNumberRange",
     quickAttrs: {
       grid: 6,
-      rulesType: "age",
     },
   },
   {

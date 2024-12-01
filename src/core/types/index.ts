@@ -41,6 +41,7 @@ export interface OptionItem {
   disabled?: boolean;
   children?: OptionItem[];
   slots?: BaseRenderData; // {default: ''} 或 [], 或 h(), 或引入的组件
+  [key: string]: any;
 }
 
 // el-tab-pane 的 props 属性
@@ -114,8 +115,6 @@ export type OmitUser = GetOmit<User, "age">;
 // export type CommonButtonSize = "large" | "default" | "small";
 // export type CommonFormSize = "large" | "default" | "small";
 // export type CommonTableSize = "large" | "default" | "small";
-
-// export type RulesType = keyof typeof defaultRulesTypes;
 
 // export enum OrderDropKeyEnum {
 //   OrderType = '订单类型'

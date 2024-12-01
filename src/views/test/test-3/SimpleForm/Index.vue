@@ -31,12 +31,11 @@ const props = withDefaults(
 const fields: FormField[] = [
   { prop: "tx", label: "头像", type: "BaseUpload" },
   {
+    tpl: "phone",
     prop: "dhhm",
     label: "电话号码",
     required: true,
-    quickAttrs: {
-      rulesType: "phone",
-    },
+    quickAttrs: {},
   },
   {
     prop: "xm",

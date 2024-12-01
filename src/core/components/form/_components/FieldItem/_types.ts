@@ -1,11 +1,11 @@
 import { FormRules } from "element-plus";
 import { BaseRenderComponentType, BaseRenderData } from "@/core/BaseRender.vue";
 import { BaseDataType, CommonSize, OptionItem, StrNum, CommonSlots } from "@/vite-env";
-import { defaultRulesTypes } from "./_config";
+import { defaultFormItemTpls } from "./_config";
 import { DictName } from "@/dict/_types";
 import { PopoverType } from "@/core/_types";
 
-export type RulesType = keyof typeof defaultRulesTypes;
+export type RulesType = keyof typeof defaultFormItemTpls;
 // element-plus的表单控件类型
 export type ElFormItemType =
   | "input"
@@ -63,8 +63,9 @@ export type GridAttrs = {
 export type ElColAttrs = GridAttrs & ColOtherAttrs;
 
 export type Grid = number | string | ElColAttrs;
-
+export type FormItemTplTypes = "phone" | "password" | "identity" | "email" | "price" | "age" | "amount" | "remark";
 export interface FormFieldAttrs {
+  tpl?: FormItemTplTypes; // 模板规则
   key?: any; //v-for的key，如果不写，则是默认的index作为key
   type?: FormItemType; //控件类型，例：input
   /** 下面是 el-form-item 的属性 **/
@@ -93,7 +94,6 @@ export interface FormFieldAttrs {
     pureText?: boolean; // 是否纯文本展示
     disabled?: boolean; // 是否禁用
     readonly?: boolean; // 是否只读
-    rulesType?: RulesType; // 规则类型
     before?: BaseRenderData; // 字段前面拼接的内容，可以是文本、组件等
     after?: BaseRenderData; // 字段后面拼接的内容，可以是文本、组件等
     middleFlexGrow?: StrNum; // 中间项的弹性伸缩值，默认1，即：flex-grow: 1,可选值为0~3，为其他值时不会生效。当出现 before 或 after 时，该属性才会生效。

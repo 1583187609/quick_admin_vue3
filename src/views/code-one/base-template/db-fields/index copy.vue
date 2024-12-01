@@ -41,26 +41,6 @@ function getMaxLengthRange(bytes = 1, signed = false) {
   // return signed ? `-${num}~${num - 1}` : `0~${num - 1}`;
   return signed ? `±${num}` : `${num - 1}`;
 }
-const tplTypeOpts = [
-  {
-    label: "ID",
-    value: "id",
-    children: [
-      { label: "id", value: "id", slots: [BaseOption, { left: "通用id", right: "id" }] },
-      { label: "creatorId", value: "creatorId", slots: [BaseOption, { left: "创建人id", right: "creatorId" }] },
-      { label: "updatorId", value: "updatorId", slots: [BaseOption, { left: "更新人id", right: "updatorId" }] },
-    ],
-  },
-  {
-    label: "用户",
-    value: "user",
-    children: [
-      { label: "姓名", value: "name", slots: [BaseOption, { left: "姓名", right: "name" }] },
-      { label: "性别", value: "gender", slots: [BaseOption, { left: "性别", right: "gender" }] },
-      { label: "年龄", value: "age", slots: [BaseOption, { left: "年龄", right: "age" }] },
-    ],
-  },
-];
 const dataTypeOpts = (signed = true) => {
   return [
     {
@@ -124,12 +104,10 @@ const fields: FormField[] = computed(() => {
   const isNum = true;
   return [
     {
-      prop: "tpl",
-      label: "模板类型",
-      type: "select",
+      prop: "name",
+      label: "字段名称",
       attrs: {
-        filterable: true,
-        options: tplTypeOpts,
+        maxlength: 16,
       },
     },
     {
@@ -142,42 +120,120 @@ const fields: FormField[] = computed(() => {
       },
     },
     {
-      prop: "creator_name",
-      label: "创建人",
-    },
-    {
-      prop: "creator_id",
-      label: "创建人ID",
-    },
-    {
       prop: "remark",
       label: "备注",
+      attrs: {
+        maxlength: 6,
+      },
+      quickAttrs: {
+        popover: "将作为表单label，表格列的label展示，请注意长度（最好为4字符以内）",
+      },
     },
     {
-      prop: "create_time",
-      label: "创建时间",
-      type: "date-picker",
+      prop: "isUnsigned",
+      label: "是否无符号",
+      type: "select",
+      attrs: {
+        options: "YesNoStatus",
+      },
+      quickAttrs: {
+        popover: "若为是，则为自然数（0和正整数）",
+      },
+    },
+    {
+      prop: "length",
+      label: "长度",
+      attrs: { maxlength: 6 },
+      quickAttrs: {
+        popover: isNum
+          ? "为数字类型时：指显示位宽（占用空间是固定的，与设置的 n 无关）"
+          : "为char类型时，char(n)为定长字符串，会占用n字符空间；varchar(n)为可变字符串，n最大存储字符数；",
+      },
+    },
+    { prop: "defaultValue", label: "默认值" },
+    { prop: "decimal", label: "小数位数", type: "input-number" },
+    {
+      prop: "notNull",
+      label: "是否非空",
+      type: "select",
+      attrs: {
+        options: "YesNoStatus",
+      },
+      quickAttrs: {
+        popover: "即：是否必填",
+      },
+    },
+    {
+      prop: "isPrimaryKey",
+      label: "是否主键",
+      type: "select",
+      attrs: {
+        options: "YesNoStatus",
+      },
+    },
+    {
+      prop: "isAutoIncrement",
+      label: "是否自增",
+      type: "select",
+      attrs: {
+        options: "YesNoStatus",
+      },
+    },
+    {
+      prop: "isFillZero",
+      label: "是否填充零",
+      type: "select",
+      attrs: {
+        options: "YesNoStatus",
+      },
+      quickAttrs: {
+        popover: "当不满足长度位数时，是否用0填充占位",
+      },
+    },
+    {
+      prop: "joinChar",
+      label: "连接符",
+      type: "select",
+      attrs: {
+        options: [
+          { label: "英文逗号", value: "," },
+          { label: "中文逗号", value: "，" },
+        ],
+      },
+      quickAttrs: {
+        popover: "多个值的数组转为字符串时的连接符号。例：ids为[1,2,3]，连接符为','，会转成1,2,3",
+      },
     },
   ];
 });
 const cols: TableCol[] = [
-  { type: "sort" },
-  { tpl: "id" },
-  { prop: "tpl", label: "模板类型" },
-  { prop: "name", label: "字段名称" },
-  { prop: "type", label: "数据类型" },
-  { prop: "length", label: "长度" },
-  { prop: "decimal", label: "小数位数" },
-  { prop: "notNull", label: "是否非空" },
-  { prop: "isPrimaryKey", label: "是否主键" },
-  { prop: "defaultValue", label: "默认值" },
-  { prop: "isAutoIncrement", label: "是否自增" },
-  { prop: "isUnsigned", label: "无符号" },
-  { prop: "isFillZero", label: "填充零" },
-  { prop: "joinChar", label: "连接符" },
-  { tpl: "remark" },
-  { tpl: "create" },
-  { tpl: "update" },
+  {
+    prop: "ffcgyhid",
+    label: "发放成功用户ID",
+    minWidth: 210,
+  },
+  {
+    prop: "ffsbyhid",
+    label: "发放失败用户ID",
+    minWidth: 210,
+  },
+  {
+    prop: "ffje",
+    label: "发放金额",
+    minWidth: 90,
+  },
+  {
+    prop: "ffzt",
+    label: "发放状态",
+    type: "BaseTag",
+    attrs: {
+      name: "SendStatus",
+    },
+  },
+  { prop: "ffsj", label: "发放时间" },
+  { prop: "imtz", label: "IM通知", minWidth: 190 },
+  { prop: "bz", label: "备注", minWidth: 140 },
+  { prop: "updated", label: "操作人", type: "update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
@@ -199,7 +255,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) }]);
+  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next }]);
 }
 </script>
 <style lang="scss" scoped></style>

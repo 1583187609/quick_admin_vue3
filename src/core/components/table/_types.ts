@@ -54,22 +54,19 @@ export interface TablePaginationAttrs {
  */
 export type SummaryListType = boolean | ((currPage: number, oldList: CommonObj[], newList: CommonObj[]) => CommonObj[]);
 
+export type TableColTplTypes = "id" | "remark";
+
 export type TableColType =
-  | "id"
+  | "selection"
   | "sort"
   | "index"
-  | "selection"
-  | "enableStatus"
-  | "operate"
-  | "remark"
-  | "custom"
-  | "create"
-  | "update"
-  | "switch"
   | "BaseTag"
   | "BaseImg"
   | "BaseText"
   | "BaseCopy"
+  | "OperatorTime" // "create" "update"
+  | "custom"
+  | "operate"
   | InsertTabColFormType
   | InsertTableColCompsType;
 
@@ -79,6 +76,7 @@ export type TableColType =
 
 // 基础表格
 export interface TableColAttrs {
+  tpl?: TableColTplTypes; // 模板类型
   type?: TableColType; // 列类型
   prop?: string | [string, string];
   label?: string;

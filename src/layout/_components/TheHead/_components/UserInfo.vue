@@ -76,37 +76,31 @@ const fields = computed<FormFieldAttrs[]>(() => {
       },
     },
     {
-      prop: "phone",
-      label: "电话号码",
+      tpl: "phone",
+      // prop: "phone",
+      // label: "电话号码",
       attrs: {
         disabled: !editEnable.value,
-      },
-      quickAttrs: {
-        rulesType: "phone",
       },
     },
     ...(editEnable.value
       ? [
           {
-            prop: "password",
-            label: "新密码",
-            attrs: {
-              type: "password",
-            },
-            quickAttrs: {
-              rulesType: "password",
-            },
+            tpl: "password",
+            // prop: "password",
+            // label: "新密码",
+            // attrs: {
+            //   type: "password",
+            // },
           },
           {
+            tpl: "password",
             prop: "rePassword",
             label: "确认密码",
             rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
-            attrs: {
-              type: "password",
-            },
-            quickAttrs: {
-              rulesType: "password",
-            },
+            // attrs: {
+            //   type: "password",
+            // },
           },
         ]
       : []),

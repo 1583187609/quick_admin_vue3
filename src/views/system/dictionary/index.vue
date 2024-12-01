@@ -24,23 +24,7 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
-const cols: TableCol[] = [
-  {
-    prop: "zdlx",
-    label: "字典类型",
-    minWidth: 210,
-  },
-  {
-    type: "remark",
-    // prop: "produce",
-  },
-  {
-    type: "create",
-  },
-  {
-    type: "update",
-  },
-];
+const cols: TableCol[] = [{ prop: "zdlx", label: "字典类型", minWidth: 210 }, { tpl: "remark" }, { tpl: "create" }, { tpl: "update" }];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {

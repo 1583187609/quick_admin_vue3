@@ -51,26 +51,27 @@ const fields: FormField[] = [
     },
   },
   {
-    prop: "age",
-    label: "年龄",
-    quickAttrs: { grid: 12, rulesType: "age" },
+    tpl: "age",
+    // prop: "age",
+    // label: "年龄",
+    quickAttrs: { grid: 12 },
   },
   {
-    prop: "phone",
-    label: "电话号码",
+    tpl: "phone",
+    // prop: "phone",
+    // label: "电话号码",
     required: true,
     quickAttrs: {
       grid: 12,
-      rulesType: "phone",
     },
   },
   {
-    prop: "password",
-    label: "密码",
+    tpl: "password",
+    // prop: "password",
+    // label: "密码",
     required: true,
     quickAttrs: {
       grid: 12,
-      rulesType: "password",
     },
   },
   {

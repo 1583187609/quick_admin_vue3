@@ -11,7 +11,7 @@ import {
   emptyStr,
 } from "@/core/utils";
 import { TableCol, TableColAttrs } from "@/core/components/table/_types";
-import { defaultColumnAttrs, specialColKeys, specialColMap } from "@/core/components/table";
+import { defaultColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/GroupBtns.vue";
 import { getTempGroupBtnsOfRow } from "@/core/components/crud/BaseCrud";
@@ -89,13 +89,7 @@ export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: 
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getGroupBtnsOfRow(
-  row: CommonObj,
-  rowInd: number,
-  props: CommonObj,
-  operateCol?: TableColAttrs,
-  cb?: (width: StrNum) => void
-) {
+export function getGroupBtnsOfRow(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
   const { operateBtns = [], rows, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);
@@ -143,52 +137,48 @@ export function flatPropsValue(row: CommonObj, prop: string) {
  * @returns
  */
 function getSysInferredAttrs(col: TableColAttrs) {
-  const { type, prop, label, formatter } = col;
+  const { width, minWidth, type, prop, label, formatter } = col;
   if (typeof label !== "string") return;
   const colAttrs: TableColAttrs = {};
   // 是否需要处理多级 props
-  const isHandleMultiProps = !isOptimization && prop?.includes(".") && !formatter;
-  if (isHandleMultiProps) {
-    colAttrs.formatter = (row: CommonObj) => flatPropsValue(row, prop as string);
-  }
-  if (label?.includes("时间")) {
-    colAttrs.minWidth = 164;
-    if (type !== "custom") {
-      colAttrs.formatter = (row: CommonObj) => {
-        const val = isHandleMultiProps ? flatPropsValue(row, prop as string) : row[prop as string];
-        return renderValue(emptyTime === val ? undefined : val);
-      };
+  const isMultiProps = !isOptimization && prop?.includes(".") && !formatter;
+  if (isMultiProps) colAttrs.formatter = (row: CommonObj) => flatPropsValue(row, prop as string);
+  // 如果未设置宽度，则进行推断处理宽度
+  const noWidth = !width && !minWidth;
+  if (noWidth) {
+    if (label?.includes("时间")) {
+      colAttrs.minWidth = 164;
+      if (type !== "custom") {
+        colAttrs.formatter = (row: CommonObj) => {
+          const val = isMultiProps ? flatPropsValue(row, prop as string) : row[prop as string];
+          return renderValue(emptyTime === val ? undefined : val);
+        };
+      }
+    }
+    if (!isOptimization) {
+      if (label?.includes("备注")) Object.assign(colAttrs, defaultTableColTpls.remark);
+      // label?.includes("id") && Object.assign(colAttrs, defaultTableColTpls.id);
     }
   }
-  if (!isOptimization && !type) {
-    label?.includes("备注") && Object.assign(colAttrs, specialColMap.remark);
-    // label?.includes("id") && Object.assign(colAttrs, specialColMap.id);
-  }
+  // 如果仍未设置宽度，则以label字符长度+1为宽度
+  // if (!colAttrs.width && !colAttrs.minWidth) {
+  //   colAttrs.minWidth = label.length + 1 + "em";
+  // }
   return colAttrs;
 }
 
 // 获取col和level
 export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = defaultCommonSize): CommonObj {
   let newLev = lev;
-  const { children, type, prop, label, visible = true, exportable = true, formatter } = col;
-  const { getInferredAttrs, ...specialColAttrs } = specialColMap[type as string] ?? {};
-  // 如果是index、sort、selection、operate特殊列
-  if (type && specialColKeys.includes(type as SpecialTableColType)) {
-    const newCol = merge({ visible, exportable }, defaultColumnAttrs, specialColAttrs, getInferredAttrs?.(col), col);
-    return { col: newCol, level: 1 };
-  }
-  const sysInferredAttrs = getSysInferredAttrs(col);
-  const newCol = merge(
-    { visible, exportable },
-    defaultColumnAttrs,
-    specialColAttrs,
-    sysInferredAttrs,
-    getInferredAttrs?.(col),
-    col
-  );
-  if (typeOf(newCol.prop) === "Array") {
-    newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
-  }
+  const { getInferredAttrs, ...restCol } = col as any;
+  const { children, type, visible = true, exportable = true } = restCol;
+  // 如果是index、sort、selection、operate几个特殊列
+  const isSpecialCol = type && specialColKeys.includes(type as SpecialTableColType);
+  const sysInferredAttrs = isSpecialCol ? undefined : getSysInferredAttrs(restCol);
+  const newCol = merge({ visible, exportable }, defaultColumnAttrs, sysInferredAttrs, getInferredAttrs?.(restCol), restCol);
+  // newCol.width ?? newCol.minWidth ?? (newCol.minWidth = `${newCol.label.length + 1}em`);
+  if (isSpecialCol) return { col: newCol, level: 1 };
+  if (typeOf(newCol.prop) === "Array") newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
   //如果是大/小型的紧凑型，那么所有的宽度均要增加/减少20px
   // const numMap = {
   //   small: -20,
@@ -215,9 +205,9 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
 }
 
 /**
- * 获取处理之后的列
- * @param props 传入的属性
- * @returns
+ * 将列处理成标准数据结构的列
+ * @param {object} props 传入的属性
+ * @returns {object[]} 返回标准数据结构的列
  */
 export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: TableColAttrs[]) => void) {
   let hasOperateCol = false;
@@ -229,7 +219,7 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
     const { type } = newCol;
     if (type === "operate") {
       hasOperateCol = true;
-      newCol = { ...specialColMap.operate, ...newCol };
+      newCol = { ...defaultTableColTpls.operate, ...newCol };
     } else if (type === "index") {
       if (currPage && pageSize && newCol.index === undefined) {
         newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
@@ -238,7 +228,7 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
     if (level > maxLevel) maxLevel = level;
     return newCol;
   });
-  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(specialColMap.operate, 1, size).col);
+  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.operate, 1, size).col);
   cb?.(maxLevel, newCols);
   return newCols.filter(col => !!col && col.visible); // 过滤掉非对象的列;
 }

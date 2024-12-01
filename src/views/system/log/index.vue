@@ -36,8 +36,8 @@ const cols: TableCol[] = [
     label: "所属系统",
     minWidth: 90,
   },
-  { prop: "bz", label: "备注", minWidth: 140 },
-  { prop: "updated", label: "操作人", type: "update" },
+  { tpl: "remark" },
+  { tpl: "update" },
 ];
 </script>
 <style lang="scss" scoped></style>

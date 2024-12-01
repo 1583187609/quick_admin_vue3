@@ -27,18 +27,10 @@ meta:
         </template>
       </BaseForm>
       <div class="foot f-sb-c">
-        <el-button
-          @click="openPopup({ title: '免费注册', direction: 'ltr' }, Register, 'drawer')"
-          class="btn"
-          type="info"
-          size="small"
-          link
-        >
+        <el-button @click="openPopup({ title: '免费注册', direction: 'ltr' }, Register, 'drawer')" class="btn" type="info" size="small" link>
           免费注册
         </el-button>
-        <el-button @click="openPopup('找回密码', FindPassword, 'drawer')" class="btn" type="info" size="small" link>
-          找回密码
-        </el-button>
+        <el-button @click="openPopup('找回密码', FindPassword, 'drawer')" class="btn" type="info" size="small" link> 找回密码 </el-button>
       </div>
     </div>
   </div>
@@ -70,7 +62,8 @@ const modelData = reactive<CommonObj>({
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
-      prop: "phone",
+      tpl: /^\d/.test(modelData.phone) ? "phone" : undefined,
+      // prop: "phone",
       label: "账号",
       required: true,
       type: "autocomplete",
@@ -80,11 +73,9 @@ const fields = computed<FormFieldAttrs[]>(() => {
         onSelect: handleSelect,
         fetchSuggestions: handleFetchSuggestions,
       },
-      quickAttrs: {
-        rulesType: /^\d/.test(modelData.phone) ? "phone" : undefined,
-      },
     },
     {
+      tpl: "password",
       prop: "psd",
       label: "密码",
       required: true,
@@ -92,9 +83,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         type: "password",
         autocomplete: "off",
       },
-      quickAttrs: {
-        rulesType: "password",
-      },
+      quickAttrs: {},
     },
     {
       prop: "captcha",

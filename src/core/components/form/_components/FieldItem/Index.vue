@@ -61,19 +61,8 @@
     </template>
     <!-- 当有子项表单时 -->
     <template v-else>
-      <AddDelList
-        v-model="modelVal"
-        :fields="subFields"
-        :parentProp="formItemAttrs.prop"
-        :formRef="formRef"
-        v-if="currType === 'addDel'"
-      />
-      <AnyEleList
-        v-model="modelVal"
-        :fields="subFields"
-        :prefixProp="formItemAttrs.prop"
-        v-else-if="currType === 'childrenFields'"
-      />
+      <AddDelList v-model="modelVal" :fields="subFields" :parentProp="formItemAttrs.prop" :formRef="formRef" v-if="currType === 'addDel'" />
+      <AnyEleList v-model="modelVal" :fields="subFields" :prefixProp="formItemAttrs.prop" v-else-if="currType === 'childrenFields'" />
       <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
     </template>
   </el-form-item>
@@ -86,10 +75,10 @@ import { typeOf, getTextFromOpts, defaultFormItemType, defaultFormChildrenType, 
 import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
-import { defaultFieldAttrs, defaultRulesTypes } from ".";
+import { defaultFieldAttrs, defaultFormItemTpls } from ".";
 import { rangeJoinChar, emptyVals, throwTplError } from "@/core/utils";
 import { useDict, useFormAttrs } from "@/hooks";
-import { FormItemType } from "./_types";
+import { FormItemTplTypes, FormItemType } from "./_types";
 import { defaultCommonSize } from "@/core/utils";
 import { DictName } from "@/dict/_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
@@ -141,15 +130,17 @@ const modelVal = computed({
 });
 const subFields = ref<FormFieldAttrs[]>([]);
 const formItemAttrs = computed<FormFieldAttrs>(() => {
-  const { prefixProp, field, isChild } = props;
-  // let tempField: FormFieldAttrs = JSON.parse(JSON.stringify(field));
+  const { prefixProp, field: originField, isChild } = props;
   /*** 合并统一 tempField ***/
-  const rulesType = field.quickAttrs?.rulesType;
-  const validField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : undefined;
-  const vType = validField?.type;
-  const endType = field.type ?? vType ?? (field.children?.length ? defaultFormChildrenType : defaultFormItemType);
+  let { tpl, ...field } = originField;
+  if (tpl) {
+    const { rules: tplRules = [], ...restTplField } = defaultFormItemTpls[tpl];
+    const { rules = [], ...restField } = field;
+    field = merge({ prop: tpl, rules: mergeRules([...tplRules, ...rules]) }, restTplField, restField);
+  }
+  const endType = field.type ?? (field.children?.length ? defaultFormChildrenType : defaultFormItemType);
   const defField = defaultFieldAttrs[endType];
-  const tempField: FormFieldAttrs = merge({ type: endType }, defField, validField, field);
+  const tempField: FormFieldAttrs = merge({ type: endType }, defField, field);
   if (defField?.attrs?.getInferredAttrs) {
     merge(tempField.attrs, defField.attrs.getInferredAttrs(tempField), field.attrs);
     delete tempField.attrs!.getInferredAttrs;
@@ -210,8 +201,18 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   if (isChild && Number(labelWidth) === 0) {
     delete restFormItemAttrs.label;
   }
+  delete restFormItemAttrs.tpl;
   return restFormItemAttrs;
 });
+/**
+ * 获取表单校验的rules
+ * @param {object[]} rules 不能取 合并之后的tempField上的rules
+ */
+function getRules(field: FormFieldAttrs) {
+  const { label = "", rules = [], required } = field;
+  if (!required || rules.find(it => it.required)) return rules;
+  return [{ required, message: label + "必填", trigger: "change" }, ...rules];
+}
 // 弹性伸缩类名
 const flexClass = computed(() => {
   const { before, after, middleFlexGrow = 1 } = formItemAttrs.value.quickAttrs ?? {};
@@ -285,21 +286,6 @@ function mergeRules(rules: FormItemRule[] = []) {
 //     { min: 20, message: "最小20" },
 //   ])
 // );
-/**
- * 获取表单校验的rules
- * @params rules 不能取 合并之后的tempField上的rules
- */
-function getRules(field: FormFieldAttrs) {
-  const { label = "", rules = [], required, quickAttrs } = field;
-  const rulesType = quickAttrs?.rulesType;
-  const defField: CommonObj = rulesType ? defaultRulesTypes[rulesType] : undefined;
-  const newRules: FormItemRule[] = [
-    ...(defField?.rules ?? []),
-    ...(required ? [{ required, message: label + "必填", trigger: "change" }] : []),
-    ...rules,
-  ];
-  return mergeRules(newRules);
-}
 //获取表单键值对的值
 function getOptionValue(field: FormFieldAttrs, val: any) {
   const { type = defaultFormItemType, label, attrs = {}, quickAttrs = {} } = field;

@@ -105,21 +105,21 @@ const fields = ref<FormField[]>([
   },
 
   {
-    prop: "phone",
-    label: "电话",
+    tpl: "phone",
+    // prop: "phone",
+    // label: "电话",
     required: true,
     quickAttrs: {
       grid: 12,
-      rulesType: "phone",
     },
   },
   {
+    tpl: "password",
     prop: "psd",
     label: "密码",
     required: true,
     quickAttrs: {
       grid: 12,
-      rulesType: "password",
     },
   },
   {

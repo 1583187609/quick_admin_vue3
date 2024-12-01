@@ -51,20 +51,19 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
+      tpl: "age",
       prop: "nl",
       label: "年龄",
       type: "input-number",
       quickAttrs: {
         grid: 12,
-        rulesType: "age",
       },
     },
     {
+      tpl: "phone",
       prop: "dhhm",
       label: "电话号码",
-      quickAttrs: {
-        rulesType: "phone",
-      },
+      quickAttrs: {},
     },
     {
       prop: "sfqy",

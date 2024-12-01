@@ -32,11 +32,12 @@ export const defaultPaginationAttrs: TablePaginationAttrs = {
 export const specialColKeys: SpecialTableColType[] = ["index", "sort", "selection", "operate"];
 
 /**
- * 表格特殊列
+ * 基础的表格列模板
  */
 
-export const specialColMap: CommonObj = getExportData(
+export const baseTableColTpls: CommonObj = getExportData(
   {
+    /*** 系统内置基础列 ***/
     //序号列
     index: {
       prop: "$index",
@@ -70,37 +71,26 @@ export const specialColMap: CommonObj = getExportData(
       // minWidth: 250,
       fixed: "right",
     },
-    //id：唯一标识id
-    id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },
-    // 电话号码
-    phone: { prop: "phone", label: "电话号码", minWidth: 110 },
-    //备注列
-    remark: { prop: "remark", label: "备注", minWidth: 140 },
-    // 启用状态
-    enableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "EnableStatus" } },
-    //创建列
-    create: {
-      prop: ["creator_name", "create_time"],
-      label: "创建时间",
-      minWidth: 160,
-    },
-    //修改列
-    update: {
-      prop: ["updator_name", "update_time"],
-      label: "修改时间",
-      minWidth: 160,
+    /*** 系统内置组件列 ***/
+    // 操作人/操作时间
+    OperatorTime: {
+      prop: "operator_time",
+      label: "操作人/时间", // 含创建/更新两种类型（或更多其他类型）
+      type: "OperatorTime",
     },
     //是否启用状态
     BaseTag: {
       prop: "status",
       label: "状态",
       minWidth: 90,
+      type: "BaseTag",
       attrs: { name: "EnableStatus" },
     },
     //图片
     BaseImg: {
       prop: "imgUrl",
       label: "图片",
+      type: "BaseImg",
       minWidth: 136,
       attrs: {
         size: "120",
@@ -111,17 +101,21 @@ export const specialColMap: CommonObj = getExportData(
     BaseText: {
       prop: "content",
       label: "内容",
+      type: "BaseText",
       minWidth: 250,
     },
     // 文本复制
     BaseCopy: {
       minWidth: 190,
+      type: "BaseCopy",
     },
+    /*** 表单控件列 ***/
     //switch开关
     switch: {
       prop: "status",
       label: "启用状态",
       minWidth: 80,
+      type: "switch",
       attrs: {
         activeValue: 1,
         inactiveValue: 0,
@@ -137,6 +131,7 @@ export const specialColMap: CommonObj = getExportData(
     input: {
       prop: "value",
       label: "编辑内容",
+      type: "input",
       minWidth: 200,
       attrs: defaultFieldAttrs?.input?.attrs,
       getInferredAttrs(col: TableColAttrs) {
@@ -147,11 +142,13 @@ export const specialColMap: CommonObj = getExportData(
         };
       },
     },
+    /*** 外部组件列 ***/
     //用户信息
     // UserInfo: {
     //   prop: "userData",
     //   label: "用户信息",
     //   fixed: "left",
+    //   type: "UserInfo",
     //   getInferredAttrs(col: TableColAttrs) {
     //     return {
     //       width: col?.attrs?.simple ? 222 : 440,
@@ -162,3 +159,44 @@ export const specialColMap: CommonObj = getExportData(
   config?.table?.customSpecialCol,
   "merge"
 );
+
+/**
+ * 表格列模板
+ */
+export const defaultTableColTpls: CommonObj = {
+  ...baseTableColTpls,
+  /*** 扩展模板列 ***/
+  //id列：唯一标识id（不可复制id）
+  id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },
+  // 电话号码
+  phone: { prop: "phone", label: "电话号码", minWidth: 110 },
+  // 启用状态
+  enableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "EnableStatus" } },
+  // 是否状态列
+  yesNoStatus: { label: "是否状态", minWidth: 80, type: "BaseTag", attrs: { name: "YesNoStatus" } },
+  // // 时分秒列
+  // time: { minWidth: 80 },
+  // // 年月日时分秒列
+  // dateTime: { minWidth: 160 },
+  //创建人/创建列
+  create: {
+    prop: ["creator_name", "create_time"],
+    label: "创建时间",
+    minWidth: 160,
+    type: "OperatorTime",
+  },
+  //修改人/修改时间列
+  update: {
+    prop: ["updator_name", "update_time"],
+    label: "修改时间",
+    minWidth: 160,
+    type: "OperatorTime",
+  },
+  // 备注列
+  remark: {
+    // prop: "remark", // 省略不写时，prop 跟模板名称保持一致
+    label: "备注信息",
+    minWidth: 140,
+    type: "BaseText",
+  },
+};

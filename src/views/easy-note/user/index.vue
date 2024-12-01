@@ -47,9 +47,7 @@ const fields: FormField[] = [
   { prop: "create_time", label: "注册时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
-  {
-    type: "id",
-  },
+  { tpl: "id" },
   {
     prop: "user_name",
     label: "姓名",
@@ -72,9 +70,7 @@ const cols: TableCol[] = [
     label: "用户昵称",
     minWidth: 120,
   },
-  {
-    type: "phone",
-  },
+  { tpl: "phone" },
   {
     prop: "status",
     label: "账号状态",

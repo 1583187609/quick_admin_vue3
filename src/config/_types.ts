@@ -30,9 +30,9 @@ export interface BaseComponentsConfig {
     defaultDateRangeShortcuts?: { text: string; value: Date | (() => Date) }[];
     defaultFieldAttrs?: CommonObj;
     defaultPopoverAttrs?: CommonObj;
-    defaultRulesTypes?: CommonObj;
+    defaultFormItemTpls?: CommonObj;
     defaultCommonSize?: CommonSize;
-    // specialColMap?:
+    // defaultTableColTpls?:
     //   | CommonObj
     //   | ((currPage: StrNum, pageSize: StrNum) => CommonObj);
   };

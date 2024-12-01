@@ -1,4 +1,4 @@
-<!-- 页面-简介 -->
+<!-- 下拉项item -->
 <template>
   <div class="custom-option f-sb-c">
     <div class="f-1 line-one">{{ fullName || "-" }}</div>

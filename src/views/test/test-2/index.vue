@@ -61,31 +61,31 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
+          tpl: "age",
           prop: "nl",
           label: "年龄",
           type: "input-number",
           labelWidth: "4em",
           quickAttrs: {
             grid: 5,
-            rulesType: "age",
           },
         },
         {
+          tpl: "price",
           prop: "jg",
           label: "价格",
           labelWidth: "4em",
           quickAttrs: {
             grid: 5,
-            rulesType: "rmb",
           },
         },
         {
+          tpl: "phone",
           prop: "dhhm",
           label: "电话",
           labelWidth: "4em",
           quickAttrs: {
             grid: 9,
-            rulesType: "phone",
           },
         },
         {
@@ -127,11 +127,11 @@ const sections = computed<SectionFormItem[]>(() => {
       disabled: true,
       fields: [
         {
+          tpl: "identity",
           prop: "sfzh",
           label: "身份证号",
           quickAttrs: {
             grid: 12,
-            rulesType: "identity",
           },
         },
         {

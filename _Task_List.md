@@ -100,9 +100,9 @@
 ~~80、日期区间组件，增加 `defaultTime` 属性~~  
 ~~93、el-dialog 关闭时销毁功能优化~~
 ~~86、关于系统信息完善；并考虑移除`BaseKeyVal`组件~~
-~~83、rulesType 增加 rmb 类型（自测）。~~
+~~83、tpl 增加 price 类型（自测）。~~
 ~~57、给 BaseCrud 导入/导出按钮添加 customRules 自定义规则功能并自测，换用 handleClickType（可选值：'common' | 'custom'）~~  
-~~85、验证 FieldItem 的 rulesType 为 rmb 时是否正常~~
+~~85、验证 FieldItem 的 tpl 为 price 时是否正常~~
 ~~98、完善批量按钮栏中：导入按钮的 导入组件的配置及展示~~
 ~~102、用 map 映射优化 api 代理~~
 ~~103、将表格的 columns 的 prop 支持.多级属性访问，并验证~~
@@ -167,6 +167,8 @@
 124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 125、替换表格的 `refreshList` 方法
 126、尽可能多地提取表单项、表格列的模板
+127、将公司下拉项组件合并到 BaseOption 中
+128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
 
 ## 待定事项
 
@@ -367,7 +369,7 @@
 67、处理 AddDelList 中，初始为一行，然后新增了 n 项后，然后点击重置按钮，并没有回到最初一行的状态的 bug  
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
 73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
-74、处理 rulesType 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
+74、处理 tpl 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
 76、优化 BaseNumberRange 嵌套层级
 77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
 78、用 BaseConfig 的 provide、inject 方式提供配置

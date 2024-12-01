@@ -153,8 +153,8 @@ function getFields(isChildren = false): FormFieldAttrs[] {
       },
     },
     {
-      prop: "rulesType",
-      label: "规则类型",
+      prop: "tpl",
+      label: "模板类型",
       type: "select",
       attrs: {
         options: validOpts,

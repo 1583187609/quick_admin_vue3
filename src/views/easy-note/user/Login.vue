@@ -30,8 +30,8 @@ const modelData = reactive<CommonObj>({
 const timestamp = ref(Date.now());
 const imgUrl = computed(() => `${easyNoteDomain}/easy-note/tool/captcha?width=100&height=30&background=none&key=${timestamp.value}`);
 const fields: FormField[] = [
-  { prop: "phone", label: "账号", required: true, quickAttrs: { rulesType: "phone" } },
-  { prop: "password", label: "密码", required: true, quickAttrs: { rulesType: "password" } },
+  { tpl: "phone", prop: "phone", label: "账号", required: true },
+  { tpl: "password", prop: "password", label: "密码", required: true },
   {
     prop: "captcha",
     label: "验证码",

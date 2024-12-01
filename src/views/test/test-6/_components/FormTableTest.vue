@@ -69,7 +69,7 @@ const cols: FormTableColAttrs[] = [
       },
     },
   },
-  { prop: "nl", label: "年龄", width: 200, field: { required: true, quickAttrs: { rulesType: "age" } } },
+  { prop: "nl", label: "年龄", width: 200, field: { required: true, tpl: "age" } },
   // { prop: "xx", label: "学校" },
   { prop: "zt", label: "状态", width: 70, field: { type: "switch" } },
   {
@@ -83,7 +83,7 @@ const cols: FormTableColAttrs[] = [
       },
     },
   },
-  { prop: "dh", label: "电话", width: 200, field: { quickAttrs: { rulesType: "phone" } } },
+  { prop: "dh", label: "电话", width: 200, field: { tpl: "phone" } },
   { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
 ];
 

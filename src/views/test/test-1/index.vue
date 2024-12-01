@@ -314,16 +314,17 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
+      tpl: "identity",
       prop: "sfzh",
       label: "身份证号",
       quickAttrs: {
         tips: "popover设置弹出层提示；设置valid，内置身份证、密码等校验；添加example属性，拼接在placeholder后面，作为输入示例",
         popover: "这是popover提示",
-        rulesType: "identity",
         example: "这是拼接在placeholder后面的输入示例",
       },
     },
     {
+      tpl: "phone",
       prop: "dhhm",
       label: "电话号码",
       attrs: {
@@ -333,11 +334,11 @@ const fields = computed<FormField[]>(() => {
         },
       },
       quickAttrs: {
-        rulesType: "phone",
         tips: "prefix插槽插入图标（传入文本）；内置电话号码校验；自定义placeholder",
       },
     },
     {
+      tpl: "password",
       prop: "mm",
       label: "密码",
       attrs: {
@@ -349,7 +350,6 @@ const fields = computed<FormField[]>(() => {
         },
       },
       quickAttrs: {
-        rulesType: "password",
         tips: "prefix插槽插入图标（传入组件）；内置密码校验；",
       },
     },
@@ -384,12 +384,12 @@ const fields = computed<FormField[]>(() => {
       attrs: {},
     },
     {
+      tpl: "age",
       prop: "nl",
       label: "年龄",
       rules: [{ validator: checkAge, trigger: "blur" }],
       quickAttrs: {
         tips: "rulesType（限制最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
-        rulesType: "age",
       },
     },
     {

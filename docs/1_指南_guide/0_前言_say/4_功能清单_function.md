@@ -124,14 +124,14 @@ title 属性覆盖：opeonDialog({draggable: false}, string)、
 
 基础用法：常规渲染、
 进阶用法：条件渲染、三元运算符渲染
-快捷属性：grid（传数值、对象）、tips、example、popover、pureText、disabled、readonly、rulesType、before、after
+快捷属性：grid（传数值、对象）、tips、example、popover、pureText、disabled、readonly、before、after
 样式风格：common 和 cell；纯文本展示；插槽 header；
 
 ### SectionForm：
 
 基础用法：
 多级嵌套属性处理：
-快捷属性：grid（传数值、对象）、tips、example、popover、pureText、disabled、readonly、rulesType、before、after
+快捷属性：grid（传数值、对象）、tips、example、popover、pureText、disabled、readonly、before、after
 样式风格：common 和 cell；纯文本展示；插槽 header；
 
 ### BaseTable：

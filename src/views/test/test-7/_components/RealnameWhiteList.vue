@@ -22,13 +22,12 @@ const fields = ref<FormField[]>([
         required: true,
       },
       {
+        tpl: "identity",
         prop: "sfzh",
         label: "身份证号",
         labelWidth: "auto",
         required: true,
-        quickAttrs: {
-          rulesType: "identity",
-        },
+        quickAttrs: {},
       },
     ],
   },

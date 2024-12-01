@@ -36,9 +36,7 @@ const fields: FormField[] = [
   { prop: "industry_id", label: "所属行业", type: "select" },
 ];
 const cols: TableCol[] = [
-  {
-    type: "id",
-  },
+  { tpl: "id" },
   {
     prop: "question",
     label: "问题",
@@ -67,8 +65,8 @@ const cols: TableCol[] = [
       name: "AuditStatus",
     },
   },
-  { type: "create" },
-  { type: "update" },
+  { tpl: "create" },
+  { tpl: "update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

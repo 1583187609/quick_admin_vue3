@@ -324,7 +324,7 @@ const sections: SectionFormItemAttrs[] = [
   { title: "其他", fields: fields.slice(19) },
 ];
 const cols: TableCol[] = [
-  { type: "selection" },
+  { tpl: "selection" },
   {
     prop: "insertCols",
     label: "外部插入列",
@@ -335,7 +335,7 @@ const cols: TableCol[] = [
       {
         // prop: "userData", // 默认值为userData
         label: "用户信息",
-        type: "UserInfo",
+        tpl: "UserInfo",
         quickAttrs: {
           popover: {
             title: "业务内嵌组件 - UserInfo",
@@ -346,7 +346,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
                   },
-                  { name: "设置", desc: `{type: "UserInfo"}` },
+                  { name: "设置", desc: `{tpl: "UserInfo"}` },
                 ],
               }),
             },
@@ -395,7 +395,7 @@ const cols: TableCol[] = [
       {
         prop: "avatar",
         label: "头像",
-        type: "BaseImg",
+        tpl: "BaseImg",
         minWidth: 160,
         quickAttrs: {
           // popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
@@ -412,7 +412,7 @@ const cols: TableCol[] = [
                       "设置{minWidth: 160} 覆盖默认宽度",
                     ],
                   },
-                  { name: "设置", desc: `{type: "BaseImg"}` },
+                  { name: "设置", desc: `{tpl: "BaseImg"}` },
                 ],
               }),
             },
@@ -422,7 +422,7 @@ const cols: TableCol[] = [
       {
         prop: "produce",
         label: "自我介绍",
-        type: "BaseText",
+        tpl: "BaseText",
         attrs: {
           maxLine: 3,
         },
@@ -440,7 +440,7 @@ const cols: TableCol[] = [
                       "可通过attrs传入BaseText的props属性",
                     ],
                   },
-                  { name: "设置", desc: `{type: "BaseText"}` },
+                  { name: "设置", desc: `{tpl: "BaseText"}` },
                 ],
               }),
             },
@@ -450,7 +450,7 @@ const cols: TableCol[] = [
       {
         prop: "avatar",
         label: "头像路径",
-        type: "BaseCopy",
+        tpl: "BaseCopy",
         quickAttrs: {
           popover: {
             title: "系统内置组件 - BaseCopy",
@@ -461,7 +461,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
-                  { name: "设置", desc: `{type: "BaseCopy"}` },
+                  { name: "设置", desc: `{tpl: "BaseCopy"}` },
                 ],
               }),
             },
@@ -471,7 +471,7 @@ const cols: TableCol[] = [
       {
         prop: "userCode",
         label: "userCode",
-        type: "BaseCopy",
+        tpl: "BaseCopy",
         attrs: {
           // to: (row: CommonObj) => `/system/user/detail?id=${row.userCode}`,
           // 暂时没有实现，检测到绑定了onClick事件后，就将clickIconCopy设为true
@@ -491,7 +491,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
-                  { name: "设置", desc: `{type: "BaseCopy"}` },
+                  { name: "设置", desc: `{tpl: "BaseCopy"}` },
                 ],
               }),
             },
@@ -540,7 +540,7 @@ const cols: TableCol[] = [
             prop: "status",
             label: "启/禁用状态",
             width: 150,
-            type: "BaseTag",
+            tpl: "BaseTag",
             attrs: {
               name: "EnableStatus",
             },
@@ -554,7 +554,7 @@ const cols: TableCol[] = [
                         name: "描述",
                         desc: ["任意项目的常用组件，采用内置至系统的方式。", "非simple可见"],
                       },
-                      { name: "设置", desc: `{type: "BaseTag"}` },
+                      { name: "设置", desc: `{tpl: "BaseTag"}` },
                     ],
                   }),
                 },
@@ -565,7 +565,7 @@ const cols: TableCol[] = [
         prop: "status",
         label: "请求状态",
         width: 150,
-        type: "BaseTag",
+        tpl: "BaseTag",
         attrs: {
           name: "TestFetchLazy",
         },
@@ -579,7 +579,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["测试请求到的下拉项的解析情况"],
                   },
-                  { name: "设置", desc: `{type: "BaseTag"}` },
+                  { name: "设置", desc: `{tpl: "BaseTag"}` },
                 ],
               }),
             },
@@ -595,12 +595,12 @@ const cols: TableCol[] = [
       {
         prop: "status",
         label: "启/禁用",
-        type: "switch",
+        tpl: "switch",
         minWidth: 100,
         attrs: {},
         quickAttrs: {
           handleChange: (val: any, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate().then((res: any) => next()),
-          popover: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
+          popover: `设置{tpl: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
         },
       },
       {
@@ -653,45 +653,45 @@ const cols: TableCol[] = [
       // ...(isSimple
       //   ? [
       {
-        type: "create",
+        tpl: "create",
         label: "创建时间",
         quickAttrs: {
-          popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
+          popover: `只设置 {tpl: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
         },
       } as TableColAttrs,
       //   ]
       // : [
       {
-        type: "update",
+        tpl: "update",
         prop: "update_time",
         label: "修改时间",
         quickAttrs: {
-          popover: `设置 {type: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
+          popover: `设置 {tpl: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
         },
       } as TableColAttrs,
     ],
   },
-
   // ]),
   // {
   //   prop: ["creator", "create_time"],
   //   label: "创建时间（内置、双prop）",
-  //   type: "create",
+  //   tpl: "create",
   // },
-  // 设置type为remark，默认 prop 为 remark，并自带宽度等其他设置
+  // 设置tpl模板可以省略其他模板配置内的参数不写
   {
-    type: "remark",
-    label: "备注",
+    tpl: "remark",
+    // tpl: "remark",
+    // label: "备注",
     quickAttrs: {
-      popover: `设置{type: "remark"}，内置列宽度、label文案`,
+      popover: `设置{tpl: "remark"}，内置列宽度、label文案`,
     },
   },
-  // 未设置type时，因label中含有备注字样，就被推断为type为remark类型，故也可以获得跟上面写法一样的配置
+  // 未设置tpl时，因label中含有备注字样，就被推断为type为remark类型，故也可以获得跟上面写法一样的配置
   // {
   //   prop: "remark",
   //   label: "备注",
   //   quickAttrs: {
-  //     popover: `设置{type: "remark"}，内置列宽度、label文案`,
+  //     popover: `设置{tpl: "remark"}，内置列宽度、label文案`,
   //   },
   // },
   {

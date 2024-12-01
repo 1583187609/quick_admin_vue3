@@ -89,9 +89,6 @@ const fields = computed<FormField[]>(() => {
           prefix: h(BaseIcon, { name: "User", size: "24" }),
         },
       },
-      quickAttrs: {
-        // rulesType: "phone",
-      },
     },
     type.value !== "login" && {
       prop: "yzm",
@@ -108,19 +105,18 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "password",
-      label: "密码",
+      tpl: "password",
+      // prop: "password",
+      // label: "密码",
       required: true,
       attrs: {
         slots: {
           prefix: h(BaseIcon, { name: "Lock", size: "24" }),
         },
       },
-      quickAttrs: {
-        rulesType: "password",
-      },
     },
     type.value === "register" && {
+      tpl: "password",
       prop: "confirmPsd",
       label: "确认密码",
       required: true,
@@ -131,15 +127,12 @@ const fields = computed<FormField[]>(() => {
           prefix: h(BaseIcon, { name: "Unlock", size: "24" }),
         },
       },
-      quickAttrs: {
-        rulesType: "password",
-      },
     },
     type.value === "login" && {
       prop: "remember",
       label: "记住我",
       type: "checkbox",
-      class: "rember",
+      class: "remember",
       attrs: {
         size: "large",
         // border: true,
@@ -272,8 +265,8 @@ $transition-time: 0.5s;
     font-size: 16px;
     transition: $transition-time;
     border-radius: 44% 56% 65% 35%/57% 58% 42% 43%;
-    box-shadow: inset 10px 10px 10px rgba(190, 1, 254, 0.05), 15px 25px 10px rgba(190, 1, 254, 0.1),
-      15px 20px 20px rgba(190, 1, 254, 0.1), inset -10px -10px 15px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 10px 10px 10px rgba(190, 1, 254, 0.05), 15px 25px 10px rgba(190, 1, 254, 0.1), 15px 20px 20px rgba(190, 1, 254, 0.1),
+      inset -10px -10px 15px rgba(255, 255, 255, 0.5);
     &:hover {
       border-radius: 50%;
       font-size: 18px;
@@ -297,8 +290,8 @@ $transition-time: 0.5s;
     height: 110px * $ratio;
     background: #01b4ff;
     border-radius: 49% 51% 52% 48%/63% 59% 41% 37%;
-    box-shadow: inset 10px 10px 10px rgba(1, 180, 255, 0.05), 15px 25px 10px rgba(1, 180, 255, 0.1),
-      15px 20px 20px rgba(1, 180, 255, 0.1), inset -10px -10px 15px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 10px 10px 10px rgba(1, 180, 255, 0.05), 15px 25px 10px rgba(1, 180, 255, 0.1), 15px 20px 20px rgba(1, 180, 255, 0.1),
+      inset -10px -10px 15px rgba(255, 255, 255, 0.5);
     &::before {
       top: 16px * $ratio;
       left: 28px * $ratio;
@@ -315,11 +308,11 @@ $transition-time: 0.5s;
   :deep(.el-form-item__label) {
     padding: 0;
   }
-  :deep(.el-form-item:not(.rember)) {
+  :deep(.el-form-item:not(.remember)) {
     position: relative;
     border-radius: 30px * $ratio;
-    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1),
-      15px 15px 10px rgba(0, 0, 0, 0.5), 15px 10px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1), 15px 15px 10px rgba(0, 0, 0, 0.5),
+      15px 10px 15px rgba(0, 0, 0, 0.25);
     background: #eff0f4;
     margin-bottom: 36px * $ratio;
     &::before {
@@ -366,8 +359,8 @@ $transition-time: 0.5s;
     font-size: 18px;
     border-radius: 27px * $ratio;
     transition: $transition-time;
-    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1),
-      15px 15px 10px rgba(0, 0, 0, 0.5), 15px 10px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1), 15px 15px 10px rgba(0, 0, 0, 0.5),
+      15px 10px 15px rgba(0, 0, 0, 0.25);
     &::before {
       content: "";
       position: absolute;
@@ -384,8 +377,8 @@ $transition-time: 0.5s;
       margin: 0;
     }
     &:first-child {
-      box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 0.25),
-        15px 15px 10px rgba(0, 0, 0, 0.5), 15px 10px 15px rgba(0, 0, 0, 0.25);
+      box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 0.25), 15px 15px 10px rgba(0, 0, 0, 0.5),
+        15px 10px 15px rgba(0, 0, 0, 0.25);
     }
   }
   :deep(.el-form-item__label) {

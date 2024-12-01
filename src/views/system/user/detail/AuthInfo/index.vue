@@ -55,11 +55,10 @@ const props = withDefaults(
 const realNameFormFields: FormField[] = [
   { prop: "zsxm", label: "真实姓名" },
   {
+    tpl: "identity",
     prop: "sfzh",
     label: "身份证号/通信证号",
-    quickAttrs: {
-      rulesType: "identity",
-    },
+    quickAttrs: {},
   },
   { prop: "hjcs", label: "户籍城市", type: "cascader" },
 ];

@@ -890,7 +890,7 @@ export default [
         children: [
           {
             id: "45-10-1-1",
-            label: "表字段",
+            label: "数据库字段",
             icon: `${menuIcons["10-1-2"]}`,
             path: "/code-one/base-template/db-fields",
             type: 1,

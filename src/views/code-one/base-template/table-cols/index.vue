@@ -36,25 +36,18 @@ const fields: FormField[] = [
     prop: "classify",
     label: "所属分类",
     type: "select",
-    attrs: {},
   },
   { prop: "status", label: "启用状态" },
   { prop: "create_time", label: "创建时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
-  { type: "id" },
-  {
-    prop: "tpl",
-    label: "模板名称",
-  },
-  {
-    prop: "classify",
-    label: "所属分类",
-  },
-  { type: "enableStatus" },
-  { type: "create" },
-  { type: "update" },
-  { type: "remark" },
+  { tpl: "id" },
+  { prop: "tpl", label: "模板名称" },
+  { prop: "classify", label: "所属分类" },
+  { tpl: "enableStatus" },
+  { tpl: "create" },
+  { tpl: "update" },
+  { tpl: "remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

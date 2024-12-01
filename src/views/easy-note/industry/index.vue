@@ -41,14 +41,14 @@ const fields: FormField[] = [
   },
 ];
 const cols: TableCol[] = [
-  { prop: "id", label: "ID" },
+  { tpl: "id" },
   {
     prop: "name",
     label: "行业名称",
   },
-  { type: "enableStatus" },
-  { type: "create" },
-  { type: "update" },
+  { tpl: "enableStatus" },
+  { tpl: "create" },
+  { tpl: "update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

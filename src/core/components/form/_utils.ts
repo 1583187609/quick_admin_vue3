@@ -2,6 +2,7 @@ import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { typeOf, propsJoinChar } from "@/core/utils";
 import { CommonObj } from "@/vite-env";
 import { handleFormInitData } from "@/core/utils";
+import { defaultFormItemTpls } from "./_components/FieldItem";
 import _ from "lodash";
 
 const { merge } = _;
@@ -36,9 +37,11 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
     data: {},
     fields: [],
   };
-  fields.forEach((field: FormField, ind: number) => {
-    if (typeOf(field) !== "Object") return null;
-    const { type, prop, children } = field as FormFieldAttrs;
+  fields.forEach((originField: FormField, ind: number) => {
+    if (typeOf(originField) !== "Object") return null;
+    let { tpl, ...field } = originField as FormFieldAttrs;
+    if (tpl) field = merge({}, defaultFormItemTpls[tpl], field);
+    const { type, prop = tpl, children } = field;
     const propType = typeOf(prop);
     handleFormInitData(field as FormFieldAttrs, modelValue);
     if (propType === "String") {
@@ -65,15 +68,16 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
       (field as FormFieldAttrs).prop = newProp;
       val !== undefined && $emit?.("change", val, newProp);
     } else if (propType === "Undefined") {
-      if (!children?.length) throw new Error("不能同时没有prop和children属性");
+      if (!children?.length) throw new Error("不能同时没有设置prop和children属性");
       const defVal: CommonObj = {};
-      const joinProp = children
-        .map((item: any) => {
-          const { prop } = item;
-          defVal[prop] = modelValue?.[prop];
-          return prop;
-        })
-        .join(propsJoinChar);
+      const joinProp =
+        children
+          ?.map((item: any) => {
+            const { prop } = item;
+            defVal[prop] = modelValue?.[prop];
+            return prop;
+          })
+          .join(propsJoinChar) ?? "";
       const val = defVal;
       (field as FormFieldAttrs).prop = joinProp;
       resObj.data[joinProp as string] = val;

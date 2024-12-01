@@ -47,6 +47,7 @@ export interface PopoverAttrs {
   width?: StrNum;
 }
 export interface FormFieldAttrs {
+  //  tpl?: any; // 模板规则类型
   key?: any; //v-for的key，如果不写，则是默认的index作为key
   type?: FormItemType; //控件类型，例：input
   /**
@@ -58,7 +59,6 @@ export interface FormFieldAttrs {
   //   popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
   //   tips?: string; //注意提示语，位于字段的下方
   //   pureText?: boolean; //是否纯文本展示
-  //   rulesType?: RulesType; //规则类型
   //   before?: any; //字段前面拼接的内容，可以是文本、组件等
   //   after?: any; //字段后面拼接的内容，可以是文本、组件等
   // };

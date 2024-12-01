@@ -37,7 +37,7 @@ const cols: TableCol[] = [
     label: "角色类型",
     minWidth: 90,
   },
-  { type: "remark" },
+  { tpl: "remark" },
 ];
 </script>
 <style lang="scss" scoped></style>

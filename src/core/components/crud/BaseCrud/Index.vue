@@ -32,14 +32,7 @@
       <slot name="middle" />
     </div>
     <div class="f-fs-fs">
-      <ExtraBtns
-        class="f-1 mr-a"
-        :btns="newExtraBtns"
-        :disabled="disabled"
-        :size="size"
-        @click="onExtraBtns"
-        v-if="newExtraBtns.length"
-      />
+      <ExtraBtns class="f-1 mr-a" :btns="newExtraBtns" :disabled="disabled" :size="size" @click="onExtraBtns" v-if="newExtraBtns.length" />
       <SetBtns
         v-model="newCols"
         :originCols="originCols"
@@ -107,17 +100,7 @@ import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.v
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import {
-  omitAttrs,
-  printLog,
-  propsJoinChar,
-  rangeJoinChar,
-  showMessage,
-  typeOf,
-  emptyVals,
-  defaultReqMap,
-  defaultResMap,
-} from "@/core/utils";
+import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
@@ -132,7 +115,7 @@ import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_
 import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "@/core/components/crud/BaseCrud/_types";
 import { TplCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
-import { defaultTableAttrs } from "@/core/components/table/_config";
+import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
 import { ExportCfg } from "./_types";
 import { TableAttrs } from "@/core/components/table/_types";
 import { defaultCommonSize, defaultPagination, judgeIsInDialog } from "@/core/utils";
@@ -259,12 +242,15 @@ const newExtraBtns = computed<BtnItem[]>(() => {
 });
 
 function filterCycle(cols: TableCol[] = []) {
-  return cols.filter(item => {
-    if (!item) return false;
-    const { children } = item as TableColAttrs;
-    if (children?.length) (item as TableColAttrs).children = filterCycle(children);
-    return true;
-  });
+  return cols
+    .filter(it => !!it)
+    .map(originCol => {
+      let { tpl, ...col } = originCol;
+      if (tpl) col = merge({ prop: tpl }, defaultTableColTpls[tpl], col);
+      const { children } = col as TableColAttrs;
+      if (children?.length) (col as TableColAttrs).children = filterCycle(children);
+      return col;
+    });
 }
 
 // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失
@@ -366,7 +352,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 
 // 点击额外的按钮
 function onExtraBtns(btnObj: BtnItem) {
-  const { exportCfg, importCfg, tableAttrs, cols } = props;
+  const { exportCfg, importCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
   const { text } = btnObj;
   handleClickExtraBtns({

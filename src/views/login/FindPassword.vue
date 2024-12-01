@@ -13,12 +13,10 @@ import { CommonObj } from "@/vite-env";
 const modelData = reactive<CommonObj>({});
 const fields = [
   {
-    prop: "pheon",
+    tpl: "phone",
+    // prop: "pheon",
     label: "电话",
     required: true,
-    quickAttrs: {
-      rulesType: "phone",
-    },
   },
   {
     prop: "captcha",

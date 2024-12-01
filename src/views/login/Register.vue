@@ -9,31 +9,25 @@ import { reactive } from "vue";
 const modelData = reactive<CommonObj>({});
 const fields = [
   {
+    tpl: "phone",
     prop: "pheon",
     label: "电话",
     required: true,
-    quickAttrs: {
-      rulesType: "phone",
-    },
   },
   {
+    tpl: "password",
     prop: "psd",
     label: "密码",
     required: true,
     attrs: { type: "password" },
-    quickAttrs: {
-      rulesType: "password",
-    },
   },
   {
+    tpl: "password",
     prop: "confirm_psd",
     label: "确认密码",
     required: true,
     rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
     attrs: { type: "password" },
-    quickAttrs: {
-      rulesType: "password",
-    },
   },
 ];
 //校验两次输入的密码是否一致

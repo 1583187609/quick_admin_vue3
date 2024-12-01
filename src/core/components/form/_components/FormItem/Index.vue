@@ -14,24 +14,31 @@
       <BaseRender :data="val" />
     </template>
   </component>
-  <component
-    v-model="modelVal"
-    :is="`el-${elType}`"
-    v-bind="itemAttrs"
-    @blur="handleBlur"
-    @focus="handleFocus"
-    @change="handleChange"
-    v-else
-  >
+  <component v-model="modelVal" :is="`el-${elType}`" v-bind="itemAttrs" @blur="handleBlur" @focus="handleFocus" @change="handleChange" v-else>
     <template #[key] v-for="(val, key) in getSlotsMap(slots)" :key="key">
       <BaseRender :data="val" />
     </template>
     <template v-if="elType === 'select'">
-      <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in subOptions" :key="ind">
-        <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
-          <BaseRender :data="val" />
-        </template>
-      </el-option>
+      <!-- 分组下拉项 -->
+      <template v-if="subOptions?.find(it => !!it.children)">
+        <el-option-group v-for="(gItem, gInd) in subOptions" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
+          <!-- <template #[key] v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
+          <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
+            <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
+              <BaseRender :data="val" />
+            </template>
+          </el-option>
+          <!-- </template> -->
+        </el-option-group>
+      </template>
+      <!-- 不分组下拉项 -->
+      <template v-else>
+        <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in subOptions" :key="ind">
+          <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
+            <BaseRender :data="val" />
+          </template>
+        </el-option>
+      </template>
     </template>
     <template v-else-if="elType === 'radio-group'">
       <component
