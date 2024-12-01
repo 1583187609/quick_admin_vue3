@@ -23,38 +23,18 @@ const props = withDefaults(
 );
 const modelData = reactive<CommonObj>(Object.assign({}, props.data));
 const fields: FormField[] = [
+  { prop: "name", label: "校验名称", required: true },
   {
-    prop: "ffdx",
-    label: "发放对象",
+    prop: "rules",
+    label: "校验规则",
     required: true,
     attrs: {
       type: "textarea",
-    },
-    quickAttrs: {
-      tips: "多个用户用，分隔",
+      rows: 5,
     },
   },
-  {
-    prop: "ffje",
-    label: "发放金额",
-    required: true,
-    type: "input-number",
-  },
-  {
-    prop: "imtz",
-    label: "IM通知",
-    attrs: {
-      type: "textarea",
-    },
-  },
-  {
-    prop: "bz",
-    label: "备注",
-    required: true,
-    attrs: {
-      type: "textarea",
-    },
-  },
+  { tpl: "enableSwitch" },
+  { tpl: "remark" },
 ];
 </script>
 <style lang="scss" scoped></style>

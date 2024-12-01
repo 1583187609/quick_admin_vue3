@@ -20,50 +20,55 @@ import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/vite-env";
 import { usePopup } from "@/hooks";
+import btnsMap from "@/core/components/BaseBtn/_config";
+import BaseOption from "@/core/components/BaseOption.vue";
 
 const { openPopup } = usePopup();
+const btnTypeOpts = Object.keys(btnsMap).map(it => {
+  const label = btnsMap[it].text;
+  return { label, value: it, slots: [BaseOption, { left: label, right: it }] };
+});
 const fields: FormField[] = [
-  { prop: "yhid", label: "用户ID" },
   {
-    prop: "ffzt",
-    label: "发放状态",
+    prop: "type",
+    label: "按钮类型",
     type: "select",
     attrs: {
-      options: "YesNoStatus",
+      filterable: true,
+      options: btnTypeOpts,
     },
   },
-  { prop: "czr", label: "操作人" },
-  { prop: "bz", label: "备注" },
-  { prop: "ffsj", label: "发放时间", type: "date-picker" },
+  { tpl: "enableStatus" },
 ];
 const cols: TableCol[] = [
+  { tpl: "sort" },
+  { tpl: "index" },
   {
-    prop: "ffcgyhid",
-    label: "发放成功用户ID",
+    prop: "name",
+    label: "按钮名称",
     minWidth: 210,
   },
   {
-    prop: "ffsbyhid",
-    label: "发放失败用户ID",
+    prop: "color",
+    label: "按钮颜色",
     minWidth: 210,
   },
   {
-    prop: "ffje",
-    label: "发放金额",
+    prop: "auth",
+    label: "权限",
     minWidth: 90,
   },
   {
-    prop: "ffzt",
-    label: "发放状态",
-    type: "BaseTag",
+    prop: "popconfirm",
+    label: "提示确认",
+    tpl: "BaseTag",
     attrs: {
       name: "SendStatus",
     },
   },
-  { prop: "ffsj", label: "发放时间" },
-  { prop: "imtz", label: "IM通知", minWidth: 190 },
-  { prop: "bz", label: "备注", minWidth: 140 },
-  { prop: "updated", label: "操作人", type: "update" },
+  { prop: "icon", label: "图标" },
+  { prop: "to", label: "跳转地址" },
+  { tpl: "remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
@@ -85,7 +90,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next }]);
+  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next, btnTypeOpts }]);
 }
 </script>
 <style lang="scss" scoped></style>

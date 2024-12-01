@@ -1,6 +1,6 @@
-<!-- 页面-简介 -->
+<!-- 组件详情页 -->
 <template>
-  <div class="example-vue">详情页</div>
+  <div class="example-vue">组件详情页</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

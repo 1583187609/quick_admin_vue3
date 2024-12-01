@@ -273,6 +273,20 @@ export const defaultFieldAttrs: CommonObj = getExportData(
 
 // 表单项字段模板
 export const defaultFormItemTpls: CommonObj = getExportData({
+  // id
+  id: {
+    prop: "id",
+    label: "ID",
+    attrs: {
+      maxlength: 10,
+    },
+  },
+  // 创建时间
+  createTime: {
+    prop: "create_time",
+    label: "创建时间",
+    type: "date-picker",
+  },
   //电话号码
   phone: {
     // prop: "phone", // 省略不写，则和键名保持一致
@@ -389,10 +403,19 @@ export const defaultFormItemTpls: CommonObj = getExportData({
       maxlength: 50,
     },
   },
+  // 是否下拉项
+  yesNoStatus: {
+    prop: "is",
+    label: "是否",
+    type: "select",
+    attrs: {
+      options: "YesNoStatus",
+    },
+  },
   // 是否开关
   yesNoSwitch: {
-    // prop: "",
-    // label: "",
+    prop: "is",
+    label: "是否",
     type: "switch",
     attrs: {
       // activeValue: 1,
@@ -400,6 +423,25 @@ export const defaultFormItemTpls: CommonObj = getExportData({
       activeText: "是",
       inactiveText: "否",
       // inlinePrompt: true,
+    },
+  },
+  // 是否禁用下拉项
+  enableStatus: {
+    prop: "status",
+    label: "启用状态",
+    type: "select",
+    attrs: {
+      options: "EnableStatus",
+    },
+  },
+  // 是否禁用下拉项
+  enableSwitch: {
+    prop: "status",
+    label: "启用状态",
+    type: "switch",
+    attrs: {
+      activeText: "启用",
+      inactiveText: "禁用",
     },
   },
 });

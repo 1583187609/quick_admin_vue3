@@ -14,46 +14,107 @@
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import cssVars from "@/assets/styles/_var.module.scss";
+
+const authTreeData = [
+  {
+    label: "Level one 1",
+    children: [
+      {
+        label: "Level two 1-1",
+        children: [
+          {
+            label: "Level three 1-1-1",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Level one 2",
+    children: [
+      {
+        label: "Level two 2-1",
+        children: [
+          {
+            label: "Level three 2-1-1",
+          },
+        ],
+      },
+      {
+        label: "Level two 2-2",
+        children: [
+          {
+            label: "Level three 2-2-1",
+          },
+        ],
+      },
+    ],
+  },
+];
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
     refreshList?: FinallyNext;
+    btnTypeOpts?: OptionItem[];
   }>(),
   {}
 );
-const modelData = reactive<CommonObj>(Object.assign({}, props.data));
+const modelData = reactive<CommonObj>(Object.assign({ color: cssVars.colorPrimary }, props.data));
 const fields: FormField[] = [
   {
-    prop: "ffdx",
-    label: "发放对象",
+    prop: "name",
+    label: "按钮名称",
     required: true,
-    attrs: {
-      type: "textarea",
-    },
-    quickAttrs: {
-      tips: "多个用户用，分隔",
-    },
+    attrs: { maxlength: 10 },
+    quickAttrs: { grid: 12 },
   },
   {
-    prop: "ffje",
-    label: "发放金额",
+    prop: "text",
+    label: "按钮文字",
     required: true,
+    attrs: { maxlength: 4 },
+    quickAttrs: { grid: 12 },
+  },
+  {
+    prop: "color",
+    label: "按钮颜色",
+    required: true,
+    type: "color-picker",
+    quickAttrs: { grid: 12 },
+  },
+  {
+    prop: "icon",
+    label: "图标",
+    required: true,
+    type: "select",
+    quickAttrs: { grid: 12 },
+  },
+  {
+    tpl: "yesNoSwitch",
+    label: "是否提示确认",
+    quickAttrs: { grid: 12 },
+  },
+  {
+    prop: "order",
+    label: "排序",
     type: "input-number",
+    quickAttrs: { grid: 12 },
   },
   {
-    prop: "imtz",
-    label: "IM通知",
+    prop: "auth",
+    label: "权限",
+    type: "tree",
     attrs: {
-      type: "textarea",
+      data: authTreeData,
     },
   },
   {
-    prop: "bz",
-    label: "备注",
-    required: true,
-    attrs: {
-      type: "textarea",
-    },
+    prop: "to",
+    label: "路径跳转",
+  },
+  {
+    tpl: "remark",
   },
 ];
 </script>

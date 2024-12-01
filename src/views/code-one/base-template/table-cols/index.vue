@@ -23,7 +23,7 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
-  { prop: "id", label: "模板ID" },
+  { tpl: "id", label: "模板id" },
   {
     prop: "tpl",
     label: "模板名称",
@@ -37,8 +37,8 @@ const fields: FormField[] = [
     label: "所属分类",
     type: "select",
   },
-  { prop: "status", label: "启用状态" },
-  { prop: "create_time", label: "创建时间", type: "date-picker" },
+  { tpl: "enableStatus" },
+  { tpl: "createTime" },
 ];
 const cols: TableCol[] = [
   { tpl: "id" },

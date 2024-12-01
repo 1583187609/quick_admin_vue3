@@ -22,48 +22,22 @@ import { CommonObj, FinallyNext } from "@/vite-env";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
-const fields: FormField[] = [
-  { prop: "yhid", label: "用户ID" },
-  {
-    prop: "ffzt",
-    label: "发放状态",
-    type: "select",
-    attrs: {
-      options: "YesNoStatus",
-    },
-  },
-  { prop: "czr", label: "操作人" },
-  { prop: "bz", label: "备注" },
-  { prop: "ffsj", label: "发放时间", type: "date-picker" },
-];
+const fields: FormField[] = [{ prop: "id", label: "模板ID" }, { prop: "name", label: "模板名称" }, { tpl: "enableStatus" }, { tpl: "createTime" }];
 const cols: TableCol[] = [
+  { tpl: "sort" },
+  { tpl: "id" },
   {
-    prop: "ffcgyhid",
-    label: "发放成功用户ID",
-    minWidth: 210,
+    prop: "name",
+    label: "组件名称",
   },
   {
-    prop: "ffsbyhid",
-    label: "发放失败用户ID",
-    minWidth: 210,
+    prop: "preview",
+    label: "组件预览",
   },
-  {
-    prop: "ffje",
-    label: "发放金额",
-    minWidth: 90,
-  },
-  {
-    prop: "ffzt",
-    label: "发放状态",
-    type: "BaseTag",
-    attrs: {
-      name: "SendStatus",
-    },
-  },
-  { prop: "ffsj", label: "发放时间" },
-  { prop: "imtz", label: "IM通知", minWidth: 190 },
-  { prop: "bz", label: "备注", minWidth: 140 },
-  { prop: "updated", label: "操作人", type: "update" },
+  { tpl: "enableStatus" },
+  { tpl: "remark" },
+  { tpl: "create" },
+  { tpl: "update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

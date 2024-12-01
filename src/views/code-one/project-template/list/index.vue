@@ -23,47 +23,36 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
-  { prop: "yhid", label: "用户ID" },
+  { prop: "id", label: "模板id" },
   {
-    prop: "ffzt",
-    label: "发放状态",
+    prop: "type",
+    label: "模板类型",
     type: "select",
-    attrs: {
-      options: "YesNoStatus",
-    },
   },
-  { prop: "czr", label: "操作人" },
-  { prop: "bz", label: "备注" },
-  { prop: "ffsj", label: "发放时间", type: "date-picker" },
+  { tpl: "enableStatus" },
+  { prop: "remark", label: "备注" },
+  { tpl: "createTime" },
 ];
 const cols: TableCol[] = [
+  { tpl: "sort" },
+  { tpl: "id" },
   {
-    prop: "ffcgyhid",
-    label: "发放成功用户ID",
+    prop: "name",
+    label: "工程名称",
     minWidth: 210,
   },
   {
-    prop: "ffsbyhid",
-    label: "发放失败用户ID",
-    minWidth: 210,
-  },
-  {
-    prop: "ffje",
-    label: "发放金额",
-    minWidth: 90,
-  },
-  {
-    prop: "ffzt",
-    label: "发放状态",
-    type: "BaseTag",
+    prop: "url",
+    label: "工程地址",
+    type: "BaseCopy",
     attrs: {
-      name: "SendStatus",
+      to: "/",
     },
   },
-  { prop: "ffsj", label: "发放时间" },
-  { prop: "imtz", label: "IM通知", minWidth: 190 },
-  { prop: "bz", label: "备注", minWidth: 140 },
-  { prop: "updated", label: "操作人", type: "update" },
+  { tpl: "enableStatus" },
+  { tpl: "remark" },
+  { tpl: "create" },
+  { tpl: "update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

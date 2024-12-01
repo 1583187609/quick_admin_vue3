@@ -229,15 +229,15 @@ export default {
       icon: "Link",
     },
   },
-  //当按钮的name不对时，默认展示这个空按钮，用于给开发者提示
-  empty: {
-    name: "empty",
-    text: "~empty~",
-    // auth: [],
-    // to: undefined,
-    order: 100,
-    attrs: {
-      type: "danger",
-    },
-  },
+  // //当按钮的name不对时，默认展示这个空按钮，用于给开发者提示
+  // empty: {
+  //   name: "empty",
+  //   text: "~empty~",
+  //   // auth: [],
+  //   // to: undefined,
+  //   order: 100,
+  //   attrs: {
+  //     type: "danger",
+  //   },
+  // },
 } as CommonObj;
