@@ -144,10 +144,10 @@
 74、将 Quick 的内核抽离成 npm 包
 76、请求参数加解密  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
-90、请求下拉项（自定义下拉项文案等）采用 rulesName 方式提供
+90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 99、完善图片上传 BaseUpload 组件
-104、最好去掉 BaseCrud 中的 showPagination 属性
+104、最好去掉 BaseCrud 中的 showPagination 属性（需要权衡下）
 106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
@@ -173,6 +173,10 @@
 130、并对不存在的模板（表单项模板、表格列模板）做抛出异常处理
 131、当 type 和 tpl 一致时，作等价处理
 132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理
+136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
+134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072
+135、完善 importFileFromPaths 方法
+69、将@vite-dev 的 ts 全部改为 core 中的引入方式，例：`@core/_types`
 
 ## 待定事项
 
@@ -298,6 +302,8 @@
 64、保证打包后的静态资源（图片等）路径正确，使用`getWholeUrl`方法
 65、研究自动部署：完善 `deploy.sh` 文件，参见：`https://www.vitejs.net/guide/static-deploy.html#github-pages`
 66、使用`vue-draggle-plus`替换 sortable.js
+67、测试验证所有文件都通过 index 文件统一导出带来的性能影响
+68、在 http 请求封装中全局捕获异常并统一处理：使得实际开发中不用 try catch
 
 ## 三、Bug 清单
 

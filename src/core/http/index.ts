@@ -3,7 +3,14 @@
  */
 
 import qs from "qs";
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenSource,
+} from "axios";
 import { typeOf, isDev, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
 import { GetRequired } from "@/vite-env";
@@ -128,14 +135,14 @@ function fetch<T = any>(
 ): Promise<T> {
   method = method.toLowerCase();
   const cfg: NewAxiosRequestConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
-  if (["get"].includes(method)) {
+  if (method === "get") {
     cfg.params = data;
   } else if (["post", "put", "patch", "delete"].includes(method)) {
     const isObj = typeOf(data) === "Object";
     const { isStringify } = customCfg;
     cfg.data = isObj && isStringify ? qs.stringify(data) : data;
   } else {
-    throw new Error(`不存在此请求方法：${method}`);
+    throw new Error(`暂不支持此请求方法：${method}`);
   }
   return service(cfg);
 }
@@ -170,9 +177,25 @@ function http<T = any>(
       return Promise.reject(err);
     } else {
       console.warn(`接口请求失败，尝试第${reconnectMax - max + 1}次重新请求`);
-      http(method, url, data, customCfg, othersCfg, max - 1);
+      return http(method, url, data, customCfg, othersCfg, max - 1);
     }
   });
+
+  // try {
+  //   return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg);
+  // } catch (err) {
+  //   if (axios.isCancel(err) || max <= 1) {
+  //     return Promise.reject(err);
+  //   } else {
+  //     const isRetry = true;
+  //     if (isRetry) {
+  //       console.warn(`接口请求失败，尝试第${reconnectMax - max + 1}次重新请求`);
+  //       return http(method, url, data, customCfg, othersCfg, max - 1);
+  //     }
+  //     console.error("请求错误捕获：", err);
+  //     throw new Error("请求错误捕获");
+  //   }
+  // }
 }
 
 export default http;

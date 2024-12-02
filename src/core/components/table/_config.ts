@@ -32,10 +32,11 @@ export const defaultPaginationAttrs: TablePaginationAttrs = {
 export const specialColKeys: SpecialTableColType[] = ["index", "sort", "selection", "operate"];
 
 /**
- * 基础的表格列模板
+ * 基础的表格列类型（同时也是模板）
+ * @notice 特点：模板名称（tpl的值）跟类型名称（type的值）一致
  */
 
-export const baseTableColTpls: CommonObj = getExportData(
+export const baseTableColTypes: CommonObj = getExportData(
   {
     /*** 系统内置基础列 ***/
     //序号列
@@ -143,7 +144,7 @@ export const baseTableColTpls: CommonObj = getExportData(
       },
     },
     /*** 外部组件列 ***/
-    //用户信息
+    // 例：用户信息
     // UserInfo: {
     //   prop: "userData",
     //   label: "用户信息",
@@ -164,7 +165,7 @@ export const baseTableColTpls: CommonObj = getExportData(
  * 表格列模板
  */
 export const defaultTableColTpls: CommonObj = {
-  ...baseTableColTpls,
+  ...baseTableColTypes, // 基础表格列类型
   /*** 扩展模板列 ***/
   //id列：唯一标识id（不可复制id）
   id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },

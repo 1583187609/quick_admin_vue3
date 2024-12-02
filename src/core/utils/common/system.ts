@@ -309,3 +309,19 @@ export const getInputLimitNum = (value: any, min?: number, max?: number, fixNum?
   if (fixNum !== undefined) val = val.toFixed(2);
   return val;
 };
+
+/**
+ * 尝试导入多个文件路径的文件
+ * @param filePaths 多个文件的路径
+ * @returns
+ */
+// export function importFileFromPaths(paths: string[] = []) {
+//   const preFix = "../../../";
+//   return new Promise((resolve, reject) => {
+//     import(paths[0])
+//       .then(res => resolve(res))
+//       .catch(err => {
+//         import(paths[1]).then(res => resolve(res)).catch(err => reject(err));
+//       });
+//   });
+// }

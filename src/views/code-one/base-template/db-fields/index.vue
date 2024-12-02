@@ -69,7 +69,11 @@ const dataTypeOpts = (signed = true) => {
       children: [
         { label: "tinyint", value: "tinyint", slots: [BaseOption, { left: "tinyint", right: getMaxLengthRange(1, signed) }] },
         { label: "smallint", value: "smallint", slots: [BaseOption, { left: "smallint", right: getMaxLengthRange(2, signed) }] },
-        { label: "mediumint", value: "mediumint", slots: [BaseOption, { left: "mediumint", right: getMaxLengthRange(3, signed) }] },
+        {
+          label: "mediumint",
+          value: "mediumint",
+          slots: [BaseOption, { left: "mediumint", right: getMaxLengthRange(3, signed) }],
+        },
         { label: "int", value: "int", slots: [BaseOption, { left: "int", right: getMaxLengthRange(4, signed) }] },
         { label: "integer", value: "integer", slots: [BaseOption, { left: "integer", right: getMaxLengthRange(5, signed) }] },
         { label: "bigint", value: "bigint", slots: [BaseOption, { left: "bigint", right: getMaxLengthRange(6, signed) }] },
@@ -199,7 +203,10 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) }]);
+  openPopup(`${row ? "编辑" : "新增"}`, [
+    AddEdit,
+    { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) },
+  ]);
 }
 </script>
 <style lang="scss" scoped></style>
