@@ -1,5 +1,11 @@
 <template>
-  <BaseForm v-model="modelData" style="width: 600px" :fields="fields" :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd" :afterSuccess="refreshList">
+  <BaseForm
+    v-model="modelData"
+    style="width: 600px"
+    :fields="fields"
+    :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
+    :afterSuccess="() => refreshList()"
+  >
     <template #menu_auth>
       <BaseTree v-modle="modelData.menu_auth" />
     </template>

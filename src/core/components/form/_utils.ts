@@ -46,7 +46,11 @@ export function handleFields(
   fields.forEach((originField: FormField, ind: number) => {
     if (typeOf(originField) !== "Object") return null;
     let { tpl, ...field } = originField as FormFieldAttrs;
-    if (tpl) field = merge({}, defaultFormItemTplsMap[tplType][tpl], field);
+    if (tpl) {
+      const tplData = defaultFormItemTplsMap[tplType][tpl];
+      if (!tplData) throw new Error(`不存在该模板：${tpl}`);
+      field = merge({}, tplData, field);
+    }
     const { type, prop = tpl, children } = field;
     const propType = typeOf(prop);
     handleFormInitData(field as FormFieldAttrs, modelValue);

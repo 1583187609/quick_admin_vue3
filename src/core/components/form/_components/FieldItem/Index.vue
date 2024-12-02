@@ -137,7 +137,9 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   /*** 合并统一 tempField ***/
   let { tpl, ...field } = originField;
   if (tpl) {
-    const { rules: tplRules = [], ...restTplField } = formItemTpls[tpl];
+    const tplData = formItemTpls[tpl];
+    if (!tplData) throw new Error(`不存在该模板：${tpl}`);
+    const { rules: tplRules = [], ...restTplField } = tplData;
     const { rules = [], ...restField } = field;
     field = merge({ prop: tpl, rules: mergeRules([...tplRules, ...rules]) }, restTplField, restField);
   }

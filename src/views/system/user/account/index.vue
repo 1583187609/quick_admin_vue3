@@ -69,9 +69,9 @@ const fields = ref<FormField[]>([
   },
 ]);
 const cols: TableCol[] = [
-  { tpl: "selection" },
-  { tpl: "sort" },
-  { tpl: "index" },
+  { tpl: "T_Selection" },
+  { tpl: "T_Sort" },
+  { tpl: "T_Index" },
   { tpl: "T_Id", label: "用户ID" },
   { prop: "name", label: "用户姓名", width: 90 },
   { prop: "gender_text", label: "性别", width: 90 },

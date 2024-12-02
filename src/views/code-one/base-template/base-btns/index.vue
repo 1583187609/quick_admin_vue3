@@ -41,8 +41,8 @@ const fields: FormField[] = [
   { tpl: "T_EnableStatus" },
 ];
 const cols: TableCol[] = [
-  { tpl: "sort" },
-  { tpl: "index" },
+  { tpl: "T_Sort" },
+  { tpl: "T_Index" },
   {
     prop: "name",
     label: "按钮名称",
@@ -61,7 +61,7 @@ const cols: TableCol[] = [
   {
     prop: "popconfirm",
     label: "提示确认",
-    tpl: "BaseTag",
+    tpl: "T_BaseTag",
     attrs: {
       name: "SendStatus",
     },

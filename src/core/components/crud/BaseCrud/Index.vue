@@ -248,7 +248,11 @@ function filterCycle(cols: TableCol[] = []) {
       let { tpl, ...col } = originCol;
       const { type } = col;
       if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-      if (tpl) col = merge({ prop: tpl }, defaultTableColTpls[tpl], col);
+      if (tpl) {
+        const tplData = defaultTableColTpls[tpl];
+        if (!tplData) throw new Error(`不存在该模板：${tpl}`);
+        col = merge({ prop: tpl }, tplData, col);
+      }
       const { children } = col as TableColAttrs;
       if (children?.length) (col as TableColAttrs).children = filterCycle(children);
       return col;

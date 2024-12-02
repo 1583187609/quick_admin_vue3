@@ -1,5 +1,20 @@
 <!-- 页面-简介 -->
 <template>
+  <FieldItem
+    v-model="modelData[field!.prop as string]"
+    class="form-item"
+    :class="currSize"
+    :size="currSize"
+    :field="field"
+    :disabled="field?.quickAttrs?.disabled ?? disabled"
+    :readonly="field?.quickAttrs?.readonly ?? readonly"
+    :inputDebounce="inputDebounce"
+    v-if="layoutType === 'flex'"
+  >
+    <template #custom="{ field: currField }">
+      <slot name="custom" :field="currField" />
+    </template>
+  </FieldItem>
   <FieldItemCol
     v-model="modelData[field!.prop as string]"
     class="form-item"
@@ -13,6 +28,7 @@
     @blur="(val:any, prop:any) => $emit('blur', val, prop)"
     @focus="(val:any, prop:any) => $emit('focus', val, prop)"
     @change="(val:any, prop:any) => $emit('change', val, prop)"
+    v-else
   >
     <template #custom="{ field: currField }">
       <slot name="custom" :field="currField" />
@@ -22,9 +38,11 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { FormFieldAttrs } from "@/core/components/form/_types";
+import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { CommonObj, CommonSize } from "@/core/_types";
 import { defaultCommonSize } from "@/core/utils";
+import { QueryFormItemLayoutType } from "../Index.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -34,6 +52,7 @@ const props = withDefaults(
     disabled?: boolean;
     readonly?: boolean;
     inputDebounce?: boolean;
+    layoutType?: QueryFormItemLayoutType;
   }>(),
   {
     modelValue: () => ({}),
@@ -48,6 +67,9 @@ const modelData = computed<CommonObj>({
 });
 </script>
 <style lang="scss">
+.form-item {
+  margin-bottom: $gap-half;
+}
 .query-field-item {
   .form-item {
     margin-bottom: 0px;

@@ -27,19 +27,19 @@ const config = {
     // defaultGroupBtnsMaxNum: 3,
     customSpecialCol: {
       //创建列
-      // create: {
+      // T_Create: {
       //   prop: ["create_user", "create_time"],
       //   label: "创建时间",
       //   minWidth: 170,
       // },
       // //修改列
-      // update: {
+      // T_Update: {
       //   prop: ["update_user", "update_time"],
       //   label: "修改时间",
       //   minWidth: 170,
       // },
       // //switch开关
-      // switch: {
+      // T_Switch: {
       //   prop: "status",
       //   label: "启用状态",
       //   minWidth: 90,
@@ -55,23 +55,23 @@ const config = {
       //   },
       // },
       // //是否启用 状态
-      // BaseTag: {
+      // T_BaseTag: {
       //   prop: "status",
       //   label: "状态",
       //   minWidth: 100,
       //   attrs: { name: "D_EnableStatus" },
       // },
       // //图片
-      // BaseImg: {
+      // T_BaseImg: {
       //   prop: "imgUrl",
       //   label: "图片",
       //   minWidth: 146,
       //   attrs: { size: "120" },
       // },
       //文本复制
-      // BaseCopy: {},
+      // T_BaseCopy: {},
       //用户信息
-      UserInfo: {
+      T_UserInfo: {
         prop: "userData",
         label: "用户信息",
         type: "UserInfo",

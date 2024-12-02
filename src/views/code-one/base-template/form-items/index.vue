@@ -31,7 +31,7 @@ const fields: FormField[] = [
 ];
 const cols: TableCol[] = [
   { tpl: "T_Id" },
-  { tpl: "sort" },
+  { tpl: "T_Sort" },
   { prop: "tpl", label: "模板类型" },
   { prop: "classify", label: "所属分类" },
   { tpl: "T_EnableStatus" },

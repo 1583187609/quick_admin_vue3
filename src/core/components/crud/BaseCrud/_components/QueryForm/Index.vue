@@ -28,12 +28,7 @@
         <div class="sec-fields f-fs-fs-w f-1">
           <QueryFields
             v-model="formData"
-            :field="field"
-            :size="size"
-            :grid="getGridAttrs(sItem.grid ?? field?.quickAttrs?.grid ?? grid)"
-            :disabled="disabled"
-            :readonly="readonly"
-            :inputDebounce="inputDebounce"
+            v-bind="getQueryFieldsAttrs(field, sItem)"
             @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
             v-for="(field, ind) in sItem.fields!.slice(0, sectionFolds[sInd] ? getSectionFoldSliceInd(sInd) : getSliceInd(sInd))"
             :key="ind"
@@ -60,12 +55,7 @@
     <div class="f-fs-fs-w wrap-box all-hide-scroll" :style="{ maxHeight: getMaxHeight() }" v-else>
       <QueryFields
         v-model="formData"
-        :field="field"
-        :size="size"
-        :grid="getGridAttrs(field?.quickAttrs?.grid ?? grid)"
-        :disabled="disabled"
-        :readonly="readonly"
-        :inputDebounce="inputDebounce"
+        v-bind="getQueryFieldsAttrs(field)"
         @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
         v-for="(field, ind) in newFields.slice(0, getSliceInd())"
         :key="ind"
@@ -106,6 +96,8 @@ import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
 import { defaultCommonSize } from "@/core/utils";
 import _ from "lodash";
 
+export type QueryFormItemLayoutType = "flex" | "grid"; // 表单项的布局方式：弹性布局、grid布局
+
 const { merge } = _;
 const props = withDefaults(
   defineProps<{
@@ -123,9 +115,11 @@ const props = withDefaults(
     compact?: boolean; //是否是紧凑的
     noFieldsHide?: boolean; //没有字段时是否不显示表单内容
     sectionFoldable?: boolean;
+    layoutType?: QueryFormItemLayoutType; // 表单项的布局方式：弹性布局、grid布局
     afterReset?: () => void;
   }>(),
   {
+    layoutType: "grid",
     size: defaultCommonSize,
     rowNum: 2,
     fields: () => [],
@@ -234,6 +228,19 @@ function getMaxHeight() {
   if (!isFold.value) return "35vh";
   const rows = colNum.value > 1 ? rowNum : rowNum + 1;
   return rows * h + "px";
+}
+// 获取QueryFields组件的属性
+function getQueryFieldsAttrs(field, sItem?) {
+  const { size, disabled, readonly, inputDebounce, layoutType, grid } = props;
+  const obj: CommonObj = { field, size, disabled, readonly, layoutType, inputDebounce };
+  if (layoutType === "grid") {
+    obj.grid = getGridAttrs(sItem?.grid ?? field?.quickAttrs?.grid ?? grid);
+  } else if (layoutType === "flex") {
+    Object.assign(obj, { class: "f-1", style: { maxWidth: "350px", min: "300px" } }); // `${100 / 5}%`
+  } else {
+    throw new Error(`暂不支持此类型：${layoutType}`);
+  }
+  return obj;
 }
 //设置屏幕宽度类型
 function getColNum() {

@@ -21,12 +21,8 @@ import { CommonObj, CommonSize } from "@/core/_types";
 import { Grid, FormFieldAttrs } from "@/core/components/form/_types";
 import { getElColAttrs } from "@/core/components/form/_utils";
 import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
-import { defaultCommonSize } from "@/utils";
-import _ from "lodash";
-import { FormLevelsAttrs } from "../../_consts";
 import { useFormAttrs } from "@/hooks";
-
-const { merge } = _;
+import _ from "lodash";
 
 defineOptions({
   inheritAttrs: false,

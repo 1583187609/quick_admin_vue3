@@ -24,7 +24,7 @@ import { usePopup } from "@/hooks";
 const { openPopup } = usePopup();
 const fields: FormField[] = [{ prop: "type", label: "校验类型" }, { tpl: "T_EnableStatus" }, { tpl: "T_CreateTime" }];
 const cols: TableCol[] = [
-  { tpl: "sort" },
+  { tpl: "T_Sort" },
   { tpl: "T_Id" },
   { prop: "name", label: "校验名称" },
   { prop: "rules", label: "校验规则" },

@@ -324,7 +324,7 @@ const sections: SectionFormItemAttrs[] = [
   { title: "其他", fields: fields.slice(19) },
 ];
 const cols: TableCol[] = [
-  { tpl: "selection" },
+  { tpl: "T_Selection" },
   {
     prop: "insertCols",
     label: "外部插入列",
@@ -335,7 +335,7 @@ const cols: TableCol[] = [
       {
         // prop: "userData", // 默认值为userData
         label: "用户信息",
-        tpl: "UserInfo",
+        tpl: "T_UserInfo",
         quickAttrs: {
           popover: {
             title: "业务内嵌组件 - UserInfo",
@@ -346,7 +346,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
                   },
-                  { name: "设置", desc: `{tpl: "UserInfo"}` },
+                  { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
               }),
             },
@@ -395,7 +395,7 @@ const cols: TableCol[] = [
       {
         prop: "avatar",
         label: "头像",
-        tpl: "BaseImg",
+        tpl: "T_BaseImg",
         minWidth: 160,
         quickAttrs: {
           // popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
@@ -412,7 +412,7 @@ const cols: TableCol[] = [
                       "设置{minWidth: 160} 覆盖默认宽度",
                     ],
                   },
-                  { name: "设置", desc: `{tpl: "BaseImg"}` },
+                  { name: "设置", desc: `{tpl: "T_BaseImg"}` },
                 ],
               }),
             },
@@ -422,7 +422,7 @@ const cols: TableCol[] = [
       {
         prop: "produce",
         label: "自我介绍",
-        tpl: "BaseText",
+        tpl: "T_BaseText",
         attrs: {
           maxLine: 3,
         },
@@ -440,7 +440,7 @@ const cols: TableCol[] = [
                       "可通过attrs传入BaseText的props属性",
                     ],
                   },
-                  { name: "设置", desc: `{tpl: "BaseText"}` },
+                  { name: "设置", desc: `{tpl: "T_BaseText"}` },
                 ],
               }),
             },
@@ -450,7 +450,7 @@ const cols: TableCol[] = [
       {
         prop: "avatar",
         label: "头像路径",
-        tpl: "BaseCopy",
+        tpl: "T_BaseCopy",
         quickAttrs: {
           popover: {
             title: "系统内置组件 - BaseCopy",
@@ -461,7 +461,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
-                  { name: "设置", desc: `{tpl: "BaseCopy"}` },
+                  { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
               }),
             },
@@ -471,7 +471,7 @@ const cols: TableCol[] = [
       {
         prop: "userCode",
         label: "userCode",
-        tpl: "BaseCopy",
+        tpl: "T_BaseCopy",
         attrs: {
           // to: (row: CommonObj) => `/system/user/detail?id=${row.userCode}`,
           // 暂时没有实现，检测到绑定了onClick事件后，就将clickIconCopy设为true
@@ -491,7 +491,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
-                  { name: "设置", desc: `{tpl: "BaseCopy"}` },
+                  { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
               }),
             },
@@ -540,7 +540,7 @@ const cols: TableCol[] = [
             prop: "status",
             label: "启/禁用状态",
             width: 150,
-            tpl: "BaseTag",
+            tpl: "T_BaseTag",
             attrs: {
               name: "D_EnableStatus",
             },
@@ -554,7 +554,7 @@ const cols: TableCol[] = [
                         name: "描述",
                         desc: ["任意项目的常用组件，采用内置至系统的方式。", "非simple可见"],
                       },
-                      { name: "设置", desc: `{tpl: "BaseTag"}` },
+                      { name: "设置", desc: `{tpl: "T_BaseTag"}` },
                     ],
                   }),
                 },
@@ -565,7 +565,7 @@ const cols: TableCol[] = [
         prop: "status",
         label: "请求状态",
         width: 150,
-        tpl: "BaseTag",
+        tpl: "T_BaseTag",
         attrs: {
           name: "TestFetchLazy",
         },
@@ -579,7 +579,7 @@ const cols: TableCol[] = [
                     name: "描述",
                     desc: ["测试请求到的下拉项的解析情况"],
                   },
-                  { name: "设置", desc: `{tpl: "BaseTag"}` },
+                  { name: "设置", desc: `{tpl: "T_BaseTag"}` },
                 ],
               }),
             },
@@ -595,12 +595,12 @@ const cols: TableCol[] = [
       {
         prop: "status",
         label: "启/禁用",
-        tpl: "switch",
+        tpl: "T_Switch",
         minWidth: 100,
         attrs: {},
         quickAttrs: {
           handleChange: (val: any, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate().then((res: any) => next()),
-          popover: `设置{tpl: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
+          popover: `设置{tpl: "T_Switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
         },
       },
       {
