@@ -14,7 +14,7 @@
         <BaseCopy class="row" :text="row.userId" />
         <div class="f-fs-c row">
           <span class="mr-h">{{ row.age ?? "-" }}岁</span>
-          <BaseTag name="Gender" :value="row.gender" pure-text />
+          <BaseTag name="D_Gender" :value="row.gender" pure-text />
         </div>
         <div class="row">
           上传：<b :class="{ 'color-success': row.uploadNum }">{{ row.uploadNum ?? "-" }}</b>
@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { getTimeAgo } from "@/core/utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { OperateBtnsType } from "@/core/components/table/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
 import BarsImg from "@/core/img/BarsImg.vue";

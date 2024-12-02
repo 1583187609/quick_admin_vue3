@@ -26,7 +26,7 @@
           {{ data?.[userDataKey]?.nickname || emptyStr }}
         </b>
         <BaseTag
-          name="AccountStatus"
+          name="D_AccountStatus"
           class="f-0 ml-h"
           :value="data[userDataKey].accountStatus"
           v-if="data[userDataKey].accountStatus !== 0"
@@ -51,7 +51,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { getCountDownTimeStr } from "@/utils";
 
 const props = withDefaults(

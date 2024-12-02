@@ -18,7 +18,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -69,7 +69,7 @@ const cols: TableCol[] = [
     label: "是否主键",
     type: "BaseTag",
     attrs: {
-      name: "YesNoStatus",
+      name: "D_YesNoStatus",
     },
   },
   {
@@ -77,7 +77,7 @@ const cols: TableCol[] = [
     label: "是否必填",
     type: "BaseTag",
     attrs: {
-      name: "YesNoStatus",
+      name: "D_YesNoStatus",
     },
   },
   {
@@ -85,7 +85,7 @@ const cols: TableCol[] = [
     label: "是否自增",
     type: "BaseTag",
     attrs: {
-      name: "YesNoStatus",
+      name: "D_YesNoStatus",
     },
   },
   {
@@ -93,7 +93,7 @@ const cols: TableCol[] = [
     label: "无符号",
     type: "BaseTag",
     attrs: {
-      name: "YesNoStatus",
+      name: "D_YesNoStatus",
     },
   },
   {
@@ -101,7 +101,7 @@ const cols: TableCol[] = [
     label: "填充零",
     type: "BaseTag",
     attrs: {
-      name: "YesNoStatus",
+      name: "D_YesNoStatus",
     },
   },
   {

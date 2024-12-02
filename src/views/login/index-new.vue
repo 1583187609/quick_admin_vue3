@@ -42,7 +42,7 @@
 import { ref, reactive, computed } from "vue";
 import { PostUserLogin } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import CaptchaBtn from "./_components/CaptchaBtn.vue";
 import { ElMessage } from "element-plus";
 import BaseIcon from "@/core/components/BaseIcon.vue";
@@ -105,7 +105,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      tpl: "password",
+      tpl: "T_Password",
       // prop: "password",
       // label: "密码",
       required: true,
@@ -116,7 +116,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     type.value === "register" && {
-      tpl: "password",
+      tpl: "T_Password",
       prop: "confirmPsd",
       label: "确认密码",
       required: true,

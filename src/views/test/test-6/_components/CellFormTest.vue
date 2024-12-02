@@ -2,27 +2,10 @@
 <template>
   <TestView :records="records">
     <div>
-      <BaseForm
-        class="f-2 m-o"
-        v-model="modelData"
-        styleType="cell"
-        :fields="fields"
-        grid="12"
-        label-suffix="："
-        :size="size"
-        :pureText="pureText"
-      >
+      <BaseForm class="f-2 m-o" v-model="modelData" styleType="cell" :fields="fields" grid="12" label-suffix="：" :size="size" :pureText="pureText">
         <template #zdy>这是自定义的表单字段</template>
       </BaseForm>
-      <SectionForm
-        class="f-2 m-o"
-        styleType="cell"
-        :sections="sections"
-        grid="12"
-        label-suffix="："
-        :size="size"
-        :pureText="pureText"
-      >
+      <SectionForm class="f-2 m-o" styleType="cell" :sections="sections" grid="12" label-suffix="：" :size="size" :pureText="pureText">
         <template #zdy>这是自定义的表单字段</template>
       </SectionForm>
     </div>
@@ -30,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/core/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import TestView from "@/core/components/TestView.vue";
 
@@ -67,7 +50,7 @@ const fields = [
     label: "性别",
     type: "select",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
     },
   },
   { prop: "nl", label: "年龄" },
@@ -126,7 +109,7 @@ const sections = [
         size: "default",
         type: "select",
         attrs: {
-          options: "Gender",
+          options: "D_Gender",
         },
       },
       { prop: "nl", label: "年龄" },

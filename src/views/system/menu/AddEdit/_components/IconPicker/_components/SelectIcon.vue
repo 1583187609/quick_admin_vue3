@@ -23,7 +23,7 @@
 import { ref, computed } from "vue";
 import * as Icons from "@element-plus/icons-vue";
 import { ElementPlus, Search } from "@element-plus/icons-vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 export type TabNames = "All" | "Line" | "Bold" | "Filled";
 

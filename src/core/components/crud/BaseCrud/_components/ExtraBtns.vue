@@ -9,7 +9,7 @@ import { sortObjArrByKey } from "@/core/utils";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import config from "@/config";
-import { CommonSize } from "@/vite-env";
+import { CommonSize } from "@/core/_types";
 import { defaultCommonSize } from "@/core/utils";
 
 const props = withDefaults(

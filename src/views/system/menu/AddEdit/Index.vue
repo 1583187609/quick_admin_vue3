@@ -20,7 +20,7 @@ import { ref, reactive, watch, computed } from "vue";
 import IconPicker from "./_components/IconPicker/Index.vue";
 import { GetAuthMenuInfo, PostAuthMenuAdd, PostAuthMenuUpdate } from "@/api-mock";
 import MenuTree from "./_components/MenuTree.vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { defaultIconName } from "@/utils";
 import { useDict } from "@/hooks";
 
@@ -57,7 +57,7 @@ const fields = computed(() => {
       required: true,
       type: "radio-group",
       attrs: {
-        options: "MenuType",
+        options: "D_MenuType",
         type: "button",
       },
       quickAttrs: {
@@ -74,7 +74,7 @@ const fields = computed(() => {
     },
     {
       prop: "name",
-      label: getText("MenuType", menuType) + "名称",
+      label: getText("D_MenuType", menuType) + "名称",
       required: true,
       attrs: {
         maxlength: 10,
@@ -135,7 +135,7 @@ const fields = computed(() => {
             type: "radio-group",
             required: true,
             attrs: {
-              options: "YesNoStatus",
+              options: "D_YesNoStatus",
             },
             quickAttrs: {
               grid: 12,
@@ -148,7 +148,7 @@ const fields = computed(() => {
             type: "radio-group",
             required: true,
             attrs: {
-              options: "YesNoStatus",
+              options: "D_YesNoStatus",
             },
             quickAttrs: {
               grid: 12,
@@ -161,7 +161,7 @@ const fields = computed(() => {
             required: true,
             type: "radio-group",
             attrs: {
-              options: "YesNoStatus",
+              options: "D_YesNoStatus",
             },
             quickAttrs: {
               grid: 12,
@@ -173,7 +173,7 @@ const fields = computed(() => {
             required: true,
             type: "radio-group",
             attrs: {
-              options: "YesNoStatus",
+              options: "D_YesNoStatus",
             },
             quickAttrs: {
               grid: 12,
@@ -187,7 +187,7 @@ const fields = computed(() => {
       required: true,
       type: "radio-group",
       attrs: {
-        options: "EnableStatus",
+        options: "D_EnableStatus",
       },
       quickAttrs: {
         grid: 12,

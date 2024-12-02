@@ -10,24 +10,24 @@ import { PostMockCommon } from "@/api-mock";
 
 const fields: FormFieldAttrs[] = [
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "your_phone",
     label: "你的电话",
     required: true,
     quickAttrs: { popover: "设置popover，增加字段说明弹出层" },
   },
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "mother_phone",
     label: "母亲电话",
     attrs: { showWordLimit: false },
     quickAttrs: { popover: "在attrs中设置{showWordLimit: false}，覆盖默认配置" },
   },
-  { tpl: "password", prop: "psd", label: "密码", quickAttrs: { example: "zhangSan123456" } },
-  { tpl: "age", prop: "age", label: "年龄" },
+  { tpl: "T_Password", prop: "psd", label: "密码", quickAttrs: { example: "zhangSan123456" } },
+  { tpl: "T_Age", prop: "age", label: "年龄" },
   { prop: "salary", label: "时薪", quickAttrs: { before: "每", after: "元" } },
   {
-    tpl: "identity",
+    tpl: "T_Identity",
     prop: "identity",
     label: "身份证号",
     attrs: { placeholder: "请输入标准的16-18位身份证号码" },

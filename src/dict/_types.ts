@@ -1,6 +1,6 @@
 import { TagAttrs } from "@/core/components/BaseTag.vue";
 import { tagColorMap } from "./_config";
-import { OptionItem } from "@/vite-env";
+import { OptionItem } from "@/core/_types";
 import dict from ".";
 
 export type DictName = keyof typeof dict;

@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const modelData = reactive<CommonObj>({
   list: [{ yyid: "123456" }],
 });

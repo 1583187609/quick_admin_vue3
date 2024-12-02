@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -24,36 +24,21 @@ const props = withDefaults(
 const modelData = reactive<CommonObj>(Object.assign({}, props.data));
 const fields: FormField[] = [
   {
-    prop: "ffdx",
-    label: "发放对象",
+    prop: "name",
+    label: "模板名称",
     required: true,
-    attrs: {
-      type: "textarea",
-    },
-    quickAttrs: {
-      tips: "多个用户用，分隔",
-    },
   },
   {
-    prop: "ffje",
-    label: "发放金额",
+    prop: "classify",
+    label: "所属分类",
     required: true,
-    type: "input-number",
+    type: "select",
   },
   {
-    prop: "imtz",
-    label: "IM通知",
-    attrs: {
-      type: "textarea",
-    },
+    tpl: "T_EnableStatus",
   },
   {
-    prop: "bz",
-    label: "备注",
-    required: true,
-    attrs: {
-      type: "textarea",
-    },
+    tpl: "T_Remark",
   },
 ];
 </script>

@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { handleBtnNext } from "@/utils";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 
 const cols = [
   { prop: "xm", label: "用户信息", type: "UserInfo" },
@@ -20,7 +20,7 @@ const cols = [
     width: 100,
     type: "BaseTag",
     attrs: {
-      name: "Gender",
+      name: "D_Gender",
     },
   },
   { prop: "nl", label: "年龄", width: 100, type: "input-number" },

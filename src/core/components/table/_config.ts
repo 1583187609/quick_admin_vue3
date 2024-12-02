@@ -40,7 +40,7 @@ export const baseTableColTypes: CommonObj = getExportData(
   {
     /*** 系统内置基础列 ***/
     //序号列
-    index: {
+    T_Index: {
       prop: "$index",
       label: "序号",
       type: "index",
@@ -49,7 +49,7 @@ export const baseTableColTypes: CommonObj = getExportData(
       // index: (ind: number) => ind + 1 + (currPage - 1) * pageSize,
     },
     //排序列
-    sort: {
+    T_Sort: {
       prop: "$sort",
       label: "排序",
       type: "sort",
@@ -57,7 +57,7 @@ export const baseTableColTypes: CommonObj = getExportData(
       fixed: "left",
     },
     //多选列
-    selection: {
+    T_Selection: {
       prop: "$selection",
       label: "选择",
       type: "selection",
@@ -65,7 +65,7 @@ export const baseTableColTypes: CommonObj = getExportData(
       fixed: "left",
     },
     //操作列
-    operate: {
+    T_Operate: {
       prop: "$operate",
       label: "操作",
       type: "operate",
@@ -74,21 +74,21 @@ export const baseTableColTypes: CommonObj = getExportData(
     },
     /*** 系统内置组件列 ***/
     // 操作人/操作时间
-    OperatorTime: {
+    T_OperatorTime: {
       prop: "operator_time",
       label: "操作人/时间", // 含创建/更新两种类型（或更多其他类型）
       type: "OperatorTime",
     },
     //是否启用状态
-    BaseTag: {
+    T_BaseTag: {
       prop: "status",
       label: "状态",
       minWidth: 90,
       type: "BaseTag",
-      attrs: { name: "EnableStatus" },
+      attrs: { name: "D_EnableStatus" },
     },
     //图片
-    BaseImg: {
+    T_BaseImg: {
       prop: "imgUrl",
       label: "图片",
       type: "BaseImg",
@@ -99,20 +99,20 @@ export const baseTableColTypes: CommonObj = getExportData(
       },
     },
     //文本省略显示，点击查看更多
-    BaseText: {
+    T_BaseText: {
       prop: "content",
       label: "内容",
       type: "BaseText",
       minWidth: 250,
     },
     // 文本复制
-    BaseCopy: {
+    T_BaseCopy: {
       minWidth: 190,
       type: "BaseCopy",
     },
     /*** 表单控件列 ***/
     //switch开关
-    switch: {
+    T_Switch: {
       prop: "status",
       label: "启用状态",
       minWidth: 80,
@@ -129,7 +129,7 @@ export const baseTableColTypes: CommonObj = getExportData(
       },
     },
     // input输入框
-    input: {
+    T_Input: {
       prop: "value",
       label: "编辑内容",
       type: "input",
@@ -145,7 +145,7 @@ export const baseTableColTypes: CommonObj = getExportData(
     },
     /*** 外部组件列 ***/
     // 例：用户信息
-    // UserInfo: {
+    // T_UserInfo: {
     //   prop: "userData",
     //   label: "用户信息",
     //   fixed: "left",
@@ -168,33 +168,33 @@ export const defaultTableColTpls: CommonObj = {
   ...baseTableColTypes, // 基础表格列类型
   /*** 扩展模板列 ***/
   //id列：唯一标识id（不可复制id）
-  id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },
+  T_Id: { prop: "id", label: "ID", minWidth: 70, type: "BaseCopy", fixed: "left" },
   // 电话号码
-  phone: { prop: "phone", label: "电话号码", minWidth: 110 },
+  T_Phone: { prop: "phone", label: "电话号码", minWidth: 110 },
   // 启用状态
-  enableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "EnableStatus" } },
+  T_EnableStatus: { prop: "status", label: "启用状态", minWidth: 80, type: "BaseTag", attrs: { name: "D_EnableStatus" } },
   // 是否状态列
-  yesNoStatus: { label: "是否状态", minWidth: 80, type: "BaseTag", attrs: { name: "YesNoStatus" } },
+  T_YesNoStatus: { label: "是否状态", minWidth: 80, type: "BaseTag", attrs: { name: "D_YesNoStatus" } },
   // // 时分秒列
   // time: { minWidth: 80 },
   // // 年月日时分秒列
   // dateTime: { minWidth: 160 },
   //创建人/创建列
-  create: {
+  T_Create: {
     prop: ["creator_name", "create_time"],
     label: "创建时间",
     minWidth: 160,
     type: "OperatorTime",
   },
   //修改人/修改时间列
-  update: {
+  T_Update: {
     prop: ["updator_name", "update_time"],
     label: "修改时间",
     minWidth: 160,
     type: "OperatorTime",
   },
   // 备注列
-  remark: {
+  T_Remark: {
     // prop: "remark", // 省略不写时，prop 跟模板名称保持一致
     label: "备注信息",
     minWidth: 140,

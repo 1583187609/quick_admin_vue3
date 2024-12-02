@@ -18,26 +18,26 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [
   { prop: "tpl", label: "模板类型", type: "select" },
   { prop: "classify", label: "所属分类", type: "select", attrs: { options: [] } },
-  { prop: "status", label: "启用状态", type: "select", attrs: { options: "EnableStatus" } },
+  { prop: "status", label: "启用状态", type: "select", attrs: { options: "D_EnableStatus" } },
   { prop: "remark", label: "备注" },
   { prop: "create_time", label: "创建时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
-  { tpl: "id" },
+  { tpl: "T_Id" },
   { tpl: "sort" },
   { prop: "tpl", label: "模板类型" },
   { prop: "classify", label: "所属分类" },
-  { tpl: "enableStatus" },
-  { tpl: "create" },
-  { tpl: "update" },
-  { tpl: "remark" },
+  { tpl: "T_EnableStatus" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
+  { tpl: "T_Remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

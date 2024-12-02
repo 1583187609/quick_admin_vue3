@@ -1,4 +1,4 @@
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { WarningFilled } from "@element-plus/icons-vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 

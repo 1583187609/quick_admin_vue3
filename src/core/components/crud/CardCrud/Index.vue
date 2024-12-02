@@ -59,7 +59,7 @@ import PhotoItem from "./_components/PhotoItem.vue";
 import { getAvatarRowData } from "./_utils";
 import { showMessage } from "@/core/utils";
 import { FilterByAuthFn } from "@/core/components/crud/BaseCrud/_types";
-import { ClosePopupInject, CommonObj } from "@/vite-env";
+import { ClosePopupInject, CommonObj } from "@/core/_types";
 import { ClosePopupType } from "@/core/components/BasicPopup/_types";
 import { getGroupBtnsOfRowSimple, operateBtnsEmitName } from "@/core/components/table";
 

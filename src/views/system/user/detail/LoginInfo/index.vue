@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { TableColAttrs } from "@/core/components/table/_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const props = withDefaults(
   defineProps<{

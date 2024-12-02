@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, NextHintCb, StrNum } from "@/vite-env";
+import { CommonObj, NextHintCb, StrNum } from "@/core/_types";
 import CustomMsg from "./CustomMsg.vue";
 import AudioMsg from "./AudioMsg.vue";
 import VideoMsg from "./VideoMsg.vue";

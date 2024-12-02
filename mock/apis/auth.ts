@@ -15,7 +15,7 @@ import roleRows from "../data/roles";
 import { getDictText, getCascadeText } from "../dict";
 import dayjs from "dayjs";
 import Mock from "mockjs";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const { merge } = _;
 const { Random } = Mock;
@@ -62,7 +62,7 @@ export default toViteMockApi({
         id: allRoles.slice(-1)[0].id + 1,
         role_type,
         role_type_text,
-        status_text: getDictText("Gender", status),
+        status_text: getDictText("D_Gender", status),
         create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
       });
       allRoles.push(data);
@@ -81,7 +81,7 @@ export default toViteMockApi({
       data = merge(roleInfo, reqObj, {
         role_type,
         role_type_text,
-        status_text: getDictText("Gender", status),
+        status_text: getDictText("D_Gender", status),
         update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
       });
     } else {
@@ -200,8 +200,8 @@ export default toViteMockApi({
     // } else {
     //   data = merge(getConstructorObj(allNavsTree?.[0]), reqObj, {
     //     id: allNavsTree.slice(-1)[0].id + 1,
-    //     type_text: getDictText("RoleType", type),
-    //     gender_text: getDictText("Gender", gender),
+    //     type_text: getDictText("D_RoleType", type),
+    //     gender_text: getDictText("D_Gender", gender),
     //     address_text: getCascadeText("Region", address),
     //     create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
     //   });

@@ -1,5 +1,5 @@
 import http from "@/core/http";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 /************ 通用接口 *************/
 // 通用的获取列表（分页数组）接口

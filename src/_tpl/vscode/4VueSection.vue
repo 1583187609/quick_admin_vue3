@@ -10,7 +10,7 @@
 import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
 import { ref, reactive, watch, computed } from "vue";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 
 const props = withDefaults(

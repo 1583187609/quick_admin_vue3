@@ -4,7 +4,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { FormField } from "@/core/components/form/_types";
 const userOpts: OptionItem[] = [
   { label: "喜欢我的", value: 1 },

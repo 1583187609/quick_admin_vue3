@@ -37,20 +37,8 @@
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip
-          v-bind="tooltipAttrs"
-          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
-          v-if="screenfull.isEnabled"
-        >
-          <el-button
-            id="fullscreen"
-            @click="toggleFullscreen"
-            :icon="isFull ? Aim : FullScreen"
-            type="primary"
-            class="item"
-            plain
-            circle
-          ></el-button>
+        <el-tooltip v-bind="tooltipAttrs" :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)" v-if="screenfull.isEnabled">
+          <el-button id="fullscreen" @click="toggleFullscreen" :icon="isFull ? Aim : FullScreen" type="primary" class="item" plain circle></el-button>
         </el-tooltip>
       </div>
       <!-- 用户信息 -->
@@ -133,7 +121,7 @@ import logoImg from "@/assets/images/logo.png";
 import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
 import { useI18n } from "vue-i18n";
-import { OpenPopupInject } from "@/vite-env";
+import { OpenPopupInject } from "@/core/_types";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import "driver.js/dist/driver.css";
 // import { useDict } from "@/hooks";

@@ -35,7 +35,7 @@ import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
 import { showMessage } from "@/core/utils";
 import config from "@/config";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { getFileTips, getErrorTips } from "./_utils";
 import { ImgFitType } from "@/core/img/BaseImg.vue";
 import { Plus } from "@element-plus/icons-vue";

@@ -6,7 +6,7 @@ import { regexp, showMessage } from "@/core/utils";
 import _ from "lodash";
 import config from "@/config";
 import type { ConfigMergeStrategy } from "@/config/_types";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "@/utils";
 
@@ -269,11 +269,7 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(
-  sysData: any,
-  customData?: any,
-  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
-) {
+export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean", "undefined"].includes(typeof sysData); //如果是基础数据类型

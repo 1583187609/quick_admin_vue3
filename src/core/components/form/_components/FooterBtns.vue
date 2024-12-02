@@ -27,7 +27,7 @@ import { RefreshLeft } from "@element-plus/icons-vue";
 import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils";
-import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
+import { CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { ClosePopupInject, ClosePopupType } from "@/core/components/BasicPopup/_types";
 import { Loading, Promotion } from "@element-plus/icons-vue";
 

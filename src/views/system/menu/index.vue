@@ -22,7 +22,7 @@ import { BtnName } from "@/core/components/BaseBtn/_types";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
 import { emptyStr, handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
@@ -37,7 +37,7 @@ const fields = ref<FormField[]>([
     label: "是否外链",
     type: "select",
     attrs: {
-      options: "YesNoStatus",
+      options: "D_YesNoStatus",
     },
   },
   {
@@ -45,7 +45,7 @@ const fields = ref<FormField[]>([
     label: "状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {
@@ -53,7 +53,7 @@ const fields = ref<FormField[]>([
     label: "是否缓存",
     type: "select",
     attrs: {
-      options: "YesNoStatus",
+      options: "D_YesNoStatus",
     },
   },
   {

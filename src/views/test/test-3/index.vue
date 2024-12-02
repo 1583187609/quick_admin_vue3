@@ -136,7 +136,7 @@ import InfoSteps from "@/components/InfoSteps.vue";
 import AuthInfo from "@/components/AuthInfo.vue";
 import { usePopup, useSelectOpts } from "@/hooks";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { useRoute, useRouter } from "vue-router";
 import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
@@ -187,7 +187,7 @@ const fields: FormFieldAttrs[] = [
     label: "启用状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {
@@ -203,7 +203,7 @@ const fields: FormFieldAttrs[] = [
     label: "多标签",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
       multiple: true,
     },
   },
@@ -542,7 +542,7 @@ const cols: TableCol[] = [
             width: 150,
             tpl: "BaseTag",
             attrs: {
-              name: "EnableStatus",
+              name: "D_EnableStatus",
             },
             quickAttrs: {
               popover: {
@@ -618,7 +618,7 @@ const cols: TableCol[] = [
         type: "select",
         width: 100,
         attrs: {
-          // options: "Gender",
+          // options: "D_Gender",
           options: [
             { label: "男", value: 1 },
             { label: "女", value: 2 },
@@ -653,20 +653,20 @@ const cols: TableCol[] = [
       // ...(isSimple
       //   ? [
       {
-        tpl: "create",
+        tpl: "T_Create",
         label: "创建时间",
         quickAttrs: {
-          popover: `只设置 {tpl: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
+          popover: `只设置 {tpl: "T_Create"}，便会默认区创建时间、创建人两个字段的 prop `,
         },
       } as TableColAttrs,
       //   ]
       // : [
       {
-        tpl: "update",
+        tpl: "T_Update",
         prop: "update_time",
         label: "修改时间",
         quickAttrs: {
-          popover: `设置 {tpl: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
+          popover: `设置 {tpl: "T_Update", prop: "update_time"}，只会显示 update_time 属性的值`,
         },
       } as TableColAttrs,
     ],
@@ -675,15 +675,15 @@ const cols: TableCol[] = [
   // {
   //   prop: ["creator", "create_time"],
   //   label: "创建时间（内置、双prop）",
-  //   tpl: "create",
+  //   tpl: "T_Create",
   // },
   // 设置tpl模板可以省略其他模板配置内的参数不写
   {
-    tpl: "remark",
-    // tpl: "remark",
+    tpl: "T_Remark",
+    // tpl: "T_Remark",
     // label: "备注",
     quickAttrs: {
-      popover: `设置{tpl: "remark"}，内置列宽度、label文案`,
+      popover: `设置{tpl: "T_Remark"}，内置列宽度、label文案`,
     },
   },
   // 未设置tpl时，因label中含有备注字样，就被推断为type为remark类型，故也可以获得跟上面写法一样的配置
@@ -691,7 +691,7 @@ const cols: TableCol[] = [
   //   prop: "remark",
   //   label: "备注",
   //   quickAttrs: {
-  //     popover: `设置{tpl: "remark"}，内置列宽度、label文案`,
+  //     popover: `设置{tpl: "T_Remark"}，内置列宽度、label文案`,
   //   },
   // },
   {

@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { ref, watch, reactive, computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 export type RouteTagType = "home" | "first" | "other" | "last";
 export type MenuItemType =
   | "closeIndex"

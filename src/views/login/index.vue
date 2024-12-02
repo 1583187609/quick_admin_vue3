@@ -42,7 +42,7 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { storage } from "@/utils";
 import { useUserStore } from "@/store";
 import { usePopup } from "@/hooks";
@@ -75,7 +75,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
       },
     },
     {
-      tpl: "password",
+      tpl: "T_Password",
       prop: "psd",
       label: "密码",
       required: true,

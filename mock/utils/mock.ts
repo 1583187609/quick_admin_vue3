@@ -1,7 +1,7 @@
 import allAddress from "../data/address";
 import { getCascadeText, getDictCodes, getDictText } from "../dict";
 import { createPhone } from "../create";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import { typeOf } from "./base";
 import dayjs from "dayjs";
 import Mock from "mockjs";
@@ -43,11 +43,11 @@ function getRandomEarlyDate(minDiff = 60 * 60 * 0.1, maxDiff = 60 * 60 * 24 * 36
 //默认值，也作为示例值
 const defaultRules: CommonObj = {
   id: { min: 1 }, //id递增，min是起始地址值
-  enum: { name: "EnableStatus", withText: true, prop: "status" }, //枚举值
+  enum: { name: "D_EnableStatus", withText: true, prop: "status" }, //枚举值
   // // 若为数组，则会生成两个
   // enum: [
-  //   { name: "EnableStatus", prop: "status" },
-  //   { name: "Gender", prop: "gender" },
+  //   { name: "D_EnableStatus", prop: "status" },
+  //   { name: "D_Gender", prop: "gender" },
   // ],
   phone: { pre: "135" }, //电话号码
   cascader: { name: "Region", withText: true, level: 3, prop: "address" }, //级联：(level: 3表示返回共3级)

@@ -6,7 +6,7 @@
 import Chart from "./Chart.vue";
 import { axisCfg } from "./_config";
 import { calCssVal, needParam, typeOf } from "@/core/utils";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 
 // const tempSimpleData = [
 //   {

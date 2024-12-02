@@ -26,7 +26,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
 import TestView from "@/core/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
 import { FormFieldAttrs } from "@/core/components/form/_types";
@@ -65,7 +65,7 @@ const fields: FormFieldAttrs[] = [
     label: "启用状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {
@@ -81,7 +81,7 @@ const fields: FormFieldAttrs[] = [
     label: "多标签",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
       multiple: true,
     },
   },

@@ -14,7 +14,7 @@
   </TestView>
 </template>
 <script lang="ts" setup>
-import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
 import TestView from "@/core/components/TestView.vue";
 import FormTable from "@/core/components/table/FormTable.vue";
 import { handleBtnNext } from "@/utils";
@@ -53,7 +53,7 @@ const cols: FormTableColAttrs[] = [
     field: {
       type: "select",
       attrs: {
-        options: "RoleType",
+        options: "D_RoleType",
       },
     },
   },
@@ -65,11 +65,11 @@ const cols: FormTableColAttrs[] = [
       type: "radio-group",
       required: true,
       attrs: {
-        options: "Gender",
+        options: "D_Gender",
       },
     },
   },
-  { prop: "nl", label: "年龄", width: 200, field: { required: true, tpl: "age" } },
+  { prop: "nl", label: "年龄", width: 200, field: { required: true, tpl: "T_Age" } },
   // { prop: "xx", label: "学校" },
   { prop: "zt", label: "状态", width: 70, field: { type: "switch" } },
   {
@@ -83,7 +83,7 @@ const cols: FormTableColAttrs[] = [
       },
     },
   },
-  { prop: "dh", label: "电话", width: 200, field: { tpl: "phone" } },
+  { prop: "dh", label: "电话", width: 200, field: { tpl: "T_Phone" } },
   { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
 ];
 

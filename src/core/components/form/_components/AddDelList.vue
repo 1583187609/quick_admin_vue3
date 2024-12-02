@@ -1,11 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <el-form-item
-    style="width: 100%"
-    :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }"
-    v-for="(item, ind) in newList"
-    :key="ind"
-  >
+  <el-form-item style="width: 100%" :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }" v-for="(item, ind) in newList" :key="ind">
     <!-- <el-space> -->
     <el-row>
       <!-- :grid="field?.quickAttrs?.grid ?? grid"
@@ -33,7 +28,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import AddDelBtn, { AddDelBtnType } from "@/core/components/form/_components/AddDelBtn.vue";
 import { handleFields, getAddDelItem } from "@/core/components/form/_utils";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import { showMessage } from "@/core/utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import _ from "lodash";

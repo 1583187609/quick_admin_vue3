@@ -1,7 +1,7 @@
 import _ from "lodash";
 import dictMap from "../dict";
 import { getDictText } from "../dict";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
 
@@ -228,9 +228,9 @@ export function getNavsTree(navs?: CommonObj[]): CommonObj[] | undefined {
       order: 1,
       perms: "menu:list:auth",
       status,
-      status_text: getDictText("EnableStatus", status),
+      status_text: getDictText("D_EnableStatus", status),
       type,
-      type_text: getDictText("MenuType", type),
+      type_text: getDictText("D_MenuType", type),
       is_link: type === 2 ? 1 : 0,
       is_cache,
       ...rest,

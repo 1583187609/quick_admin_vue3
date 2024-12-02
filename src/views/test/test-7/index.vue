@@ -15,7 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, TabItem } from "@/vite-env";
+import { CommonObj, TabItem } from "@/core/_types";
 import { TabsPaneContext } from "element-plus";
 import RewardsTask from "./_components/RewardsTask.vue";
 import RealnameWhiteList from "./_components/RealnameWhiteList.vue";

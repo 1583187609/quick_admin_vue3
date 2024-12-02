@@ -43,7 +43,7 @@
 import { reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     type?: CommonObj;
@@ -55,7 +55,7 @@ const props = withDefaults(
 const realNameFormFields: FormField[] = [
   { prop: "zsxm", label: "真实姓名" },
   {
-    tpl: "identity",
+    tpl: "T_Identity",
     prop: "sfzh",
     label: "身份证号/通信证号",
     quickAttrs: {},

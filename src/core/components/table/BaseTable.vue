@@ -29,7 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
 import Column, { RowBtnInfo } from "@/core/components/table/_components/Column.vue";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { defaultTableAttrs, operateBtnsEmitName, getHandleCols } from "@/core/components/table";

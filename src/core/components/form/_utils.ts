@@ -1,8 +1,8 @@
-import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
+import { FormField, FormFieldAttrs, FormTplType, Grid } from "@/core/components/form/_types";
 import { typeOf, propsJoinChar } from "@/core/utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { handleFormInitData } from "@/core/utils";
-import { defaultFormItemTpls } from "./_components/FieldItem";
+import { defaultFormItemTplsMap } from "./_components/FieldItem";
 import _ from "lodash";
 
 const { merge } = _;
@@ -32,7 +32,13 @@ interface ResObj {
   data: CommonObj;
   fields: FormFieldAttrs[];
 }
-export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: CommonObj, inheritAttrs?: CommonObj): ResObj {
+export function handleFields(
+  fields: FormField[] = [],
+  $emit: any,
+  modelValue?: CommonObj,
+  inheritAttrs?: CommonObj,
+  tplType: FormTplType = "common"
+): ResObj {
   const resObj: ResObj = {
     data: {},
     fields: [],
@@ -40,7 +46,7 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
   fields.forEach((originField: FormField, ind: number) => {
     if (typeOf(originField) !== "Object") return null;
     let { tpl, ...field } = originField as FormFieldAttrs;
-    if (tpl) field = merge({}, defaultFormItemTpls[tpl], field);
+    if (tpl) field = merge({}, defaultFormItemTplsMap[tplType][tpl], field);
     const { type, prop = tpl, children } = field;
     const propType = typeOf(prop);
     handleFormInitData(field as FormFieldAttrs, modelValue);
@@ -52,7 +58,7 @@ export function handleFields(fields: FormField[] = [], $emit: any, modelValue?: 
       } else if (type === "addDel") {
         resObj.data[prop as string] = defVal?.length ? defVal : [getAddDelItem(children)];
       } else {
-        const val = children?.length ? handleFields(children, $emit, defVal).data : defVal;
+        const val = children?.length ? handleFields(children, $emit, defVal, undefined, tplType).data : defVal;
         resObj.data[prop as string] = val;
         val !== undefined && $emit?.("change", val, prop);
       }

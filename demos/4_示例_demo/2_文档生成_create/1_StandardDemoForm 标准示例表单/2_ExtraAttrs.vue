@@ -10,7 +10,7 @@ import { PostMockCommon } from "@/api-mock";
 
 const fields: FormFieldAttrs[] = [
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "cellphone",
     label: "电话",
     required: true,
@@ -20,7 +20,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    tpl: "password",
+    tpl: "T_Password",
     prop: "psd",
     label: "密码",
     quickAttrs: {
@@ -30,7 +30,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    tpl: "age",
+    tpl: "T_Age",
     prop: "age",
     label: "年龄",
     quickAttrs: {

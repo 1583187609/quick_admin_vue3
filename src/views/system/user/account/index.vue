@@ -29,7 +29,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
 
@@ -48,7 +48,7 @@ const fields = ref<FormField[]>([
     label: "性别",
     type: "select",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
     },
   },
   {
@@ -56,7 +56,7 @@ const fields = ref<FormField[]>([
     label: "用户类型",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
     },
   },
   {
@@ -64,7 +64,7 @@ const fields = ref<FormField[]>([
     label: "账号状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
 ]);
@@ -72,7 +72,7 @@ const cols: TableCol[] = [
   { tpl: "selection" },
   { tpl: "sort" },
   { tpl: "index" },
-  { tpl: "id", label: "用户ID" },
+  { tpl: "T_Id", label: "用户ID" },
   { prop: "name", label: "用户姓名", width: 90 },
   { prop: "gender_text", label: "性别", width: 90 },
   { prop: "age", label: "年龄", width: 90, sortable: true },

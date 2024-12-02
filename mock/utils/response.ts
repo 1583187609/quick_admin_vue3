@@ -1,4 +1,4 @@
-import { StrNum } from "@/vite-env";
+import { StrNum } from "@/core/_types";
 import dayjs from "dayjs";
 import Mock from "mockjs";
 

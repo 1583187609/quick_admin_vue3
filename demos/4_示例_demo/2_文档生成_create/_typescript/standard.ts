@@ -1,10 +1,10 @@
 import { FormRules } from "element-plus";
-import { BaseDataType, CommonObj, OptionItem, StrNum, CommonSlots } from "@/vite-env";
+import { BaseDataType, CommonObj, OptionItem, StrNum, CommonSlots } from "@/core/_types";
 import { defaultRulesTypes } from "./_config";
 import { DictName } from "@/dict/_types";
 import { PopoverSlots } from "@/core/components/_types";
 
-export type RulesType = keyof typeof defaultRulesTypes;
+export type FormItemTplType = keyof typeof defaultRulesTypes;
 
 export type FormItemType =
   | "input"

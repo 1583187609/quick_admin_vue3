@@ -32,11 +32,11 @@ const fields: FormField[] = [
     label: "内容",
   },
   { prop: "score", label: "评分", type: "input-number", attrs: { min: 0, max: 100 } },
-  { prop: "status", label: "状态", type: "select", attrs: { options: "EnableStatus" } },
+  { prop: "status", label: "状态", type: "select", attrs: { options: "D_EnableStatus" } },
   { prop: "industry_id", label: "所属行业", type: "select" },
 ];
 const cols: TableCol[] = [
-  { tpl: "id" },
+  { tpl: "T_Id" },
   {
     prop: "question",
     label: "问题",
@@ -54,7 +54,7 @@ const cols: TableCol[] = [
     label: "启用状态",
     type: "BaseTag",
     attrs: {
-      name: "EnableStatus",
+      name: "D_EnableStatus",
     },
   },
   {
@@ -65,8 +65,8 @@ const cols: TableCol[] = [
       name: "AuditStatus",
     },
   },
-  { tpl: "create" },
-  { tpl: "update" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

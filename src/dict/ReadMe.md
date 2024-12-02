@@ -19,7 +19,7 @@
 ```js
 export default {
   // 性别
-  Gender: {
+  D_Gender: {
     unknown: {
       label: "未知",
       value: 0,
@@ -59,7 +59,7 @@ export default {
 ```js
 export default {
   // 性别
-  Gender: {
+  D_Gender: {
     0: {
       text: "未知",
       // attrs:{} , //其他自定义属性，比如根据字典映射，有时候有标签展示的需求，对应的标签颜色风格，可在此处定义

@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -28,7 +28,7 @@ const fields: FormField[] = [
     label: "组件名称",
   },
   {
-    tpl: "enableSwitch",
+    tpl: "T_EnableStatus",
   },
   {
     prop: "preview",
@@ -36,7 +36,7 @@ const fields: FormField[] = [
     type: "BaseUpload",
   },
   {
-    tpl: "remark",
+    tpl: "T_Remark",
   },
 ];
 </script>

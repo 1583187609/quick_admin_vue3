@@ -15,7 +15,7 @@
 import { ref, reactive } from "vue";
 import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon, GetCascaderRegion } from "@/api-mock";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 
 const modelData = reactive<CommonObj>({
   age: 12,

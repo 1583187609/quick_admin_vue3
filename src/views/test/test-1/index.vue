@@ -40,7 +40,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { ElMessage, ElButton } from "element-plus";
 import BaseIcon from "@/core/components/BaseIcon.vue";
@@ -314,7 +314,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      tpl: "identity",
+      tpl: "T_Identity",
       prop: "sfzh",
       label: "身份证号",
       quickAttrs: {
@@ -324,7 +324,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      tpl: "phone",
+      tpl: "T_Phone",
       prop: "dhhm",
       label: "电话号码",
       attrs: {
@@ -338,7 +338,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      tpl: "password",
+      tpl: "T_Password",
       prop: "mm",
       label: "密码",
       attrs: {
@@ -384,7 +384,7 @@ const fields = computed<FormField[]>(() => {
       attrs: {},
     },
     {
-      tpl: "age",
+      tpl: "T_Age",
       prop: "nl",
       label: "年龄",
       rules: [{ validator: checkAge, trigger: "blur" }],

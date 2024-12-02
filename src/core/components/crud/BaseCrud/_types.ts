@@ -1,20 +1,11 @@
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { TplCfgAttrs } from "./_components/CommonImport.vue";
 
 export type FilterAuthItem = number | { code: number; disabled: boolean }; //disabled: 默认false
 export type FilterByAuthFn = (auth: number[]) => boolean;
-export type TriggerGetListType =
-  | "init"
-  | "extraParams"
-  | "reset"
-  | "search"
-  | "sizeChange"
-  | "currChange"
-  | "change"
-  | "expose"
-  | "refresh";
+export type TriggerGetListType = "init" | "extraParams" | "reset" | "search" | "sizeChange" | "currChange" | "change" | "expose" | "refresh";
 
 /**
  * 处理点击额外按钮

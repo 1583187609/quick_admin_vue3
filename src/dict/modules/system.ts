@@ -1,6 +1,6 @@
 export default {
   // 菜单类型
-  MenuType: {
+  D_MenuType: {
     0: {
       text: "目录",
       attrs: {
@@ -27,7 +27,7 @@ export default {
     // },
   },
   // 角色类型
-  RoleType: {
+  D_RoleType: {
     0: {
       text: "超级管理员",
       attrs: {

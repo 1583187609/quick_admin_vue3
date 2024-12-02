@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { ref, reactive, watch, computed } from "vue";
 export type AboutType = "me" | "you";
 const props = withDefaults(

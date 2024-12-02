@@ -5,7 +5,7 @@
 import { getExportData } from "@/core/utils";
 import { ReqMap, ResMap } from "@/core/components/crud/BaseCrud/_types";
 import config from "@/config";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const { table, form, homePath, widgetSize, popup } = config;
 

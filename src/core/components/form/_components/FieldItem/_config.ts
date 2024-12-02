@@ -1,5 +1,5 @@
-import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/core/components/form/_types";
+import { CommonObj } from "@/core/_types";
+import { FormFieldAttrs, FormTplType } from "@/core/components/form/_types";
 import { getExportData, rangeJoinChar, regexp } from "@/core/utils";
 import config from "@/config";
 
@@ -271,177 +271,169 @@ export const defaultFieldAttrs: CommonObj = getExportData(
   formCfg?.defaultFieldAttrs
 );
 
-// 表单项字段模板
-export const defaultFormItemTpls: CommonObj = getExportData({
+// 基础通用的表单项模板（在查询表单、新增/编辑表单中均通用）
+const baseFormItemTpls: CommonObj = getExportData({
   // id
-  id: {
+  T_Id: {
     prop: "id",
     label: "ID",
     attrs: {
       maxlength: 10,
     },
   },
-  // 创建时间
-  createTime: {
-    prop: "create_time",
-    label: "创建时间",
-    type: "date-picker",
-  },
-  //电话号码
-  phone: {
-    // prop: "phone", // 省略不写，则和键名保持一致
-    label: "电话",
-    rules: [
-      {
-        pattern: regexp.phone,
-        message: "请输入正确的11位电话号码",
-        trigger: "change",
-      },
-    ],
-    attrs: {
-      maxlength: 11,
-    },
-  },
-  //密码
-  password: {
-    label: "密码",
-    rules: [
-      {
-        min: 6,
-        message: "密码长度不能小于6位",
-        trigger: "change",
-      },
-      {
-        pattern: regexp.password,
-        message: "请输入正确的6~16位字母 + 数字组合密码",
-        trigger: "change",
-      },
-    ],
-    attrs: {
-      type: "password",
-      maxlength: 16,
-      showPassword: true,
-    },
-  },
-  //15~18位身份证号
-  identity: {
-    label: "身份证号",
-    rules: [
-      {
-        min: 15,
-        message: "身份证号长度不能小于15位",
-        trigger: "change",
-      },
-      {
-        pattern: regexp.identity,
-        message: "请输入正确的15~18位身份证号",
-        trigger: "change",
-      },
-    ],
-    attrs: {
-      maxlength: 18,
-    },
-  },
-  //邮箱
-  email: {
-    label: "邮箱",
-    rules: [
-      {
-        pattern: regexp.email,
-        message: "请输入正确的邮箱地址",
-        trigger: "change",
-      },
-    ],
-  },
-  // 人民币：最小值为0，保留两位小数
-  price: {
-    prop: "price",
-    label: "价格",
-    type: "input-number",
-    attrs: {
-      min: 0,
-      max: 99999,
-      precision: 2,
-      step: 0.1,
-      controlsPosition: "right",
-      slots: {
-        suffix: "￥", // 单位：元、￥
-      },
-    },
-  },
-  //年龄
-  age: {
-    label: "年龄",
-    type: "input-number",
-    attrs: {
-      min: 0,
-      max: 150,
-      slots: {
-        suffix: "岁",
-      },
-    },
-  },
-  // 数量
-  amount: {
-    label: "数量",
-    type: "input-number",
-    attrs: {
-      min: 0,
-      max: 100,
-      slots: {
-        suffix: "个",
-      },
-    },
-  },
-  // 备注
-  remark: {
-    // prop: "remark", // 省略不写，则和键名保持一致
-    label: "备注",
-    type: "input",
-    attrs: {
-      type: "textarea",
-      maxlength: 50,
-    },
-  },
-  // 是否下拉项
-  yesNoStatus: {
-    prop: "is",
-    label: "是否",
-    type: "select",
-    attrs: {
-      options: "YesNoStatus",
-    },
-  },
-  // 是否开关
-  yesNoSwitch: {
-    prop: "is",
-    label: "是否",
-    type: "switch",
-    attrs: {
-      // activeValue: 1,
-      // inactiveValue: 0,
-      activeText: "是",
-      inactiveText: "否",
-      // inlinePrompt: true,
-    },
-  },
-  // 是否禁用下拉项
-  enableStatus: {
-    prop: "status",
-    label: "启用状态",
-    type: "select",
-    attrs: {
-      options: "EnableStatus",
-    },
-  },
-  // 是否禁用下拉项
-  enableSwitch: {
-    prop: "status",
-    label: "启用状态",
-    type: "switch",
-    attrs: {
-      activeText: "启用",
-      inactiveText: "禁用",
-    },
-  },
 });
+
+/**
+ * 获取表单的表单项模板
+ * @param type 表单模板类型，可选值：common, query
+ * @returns
+ */
+function getFormItemTpls(type: FormTplType = "common") {
+  const isQuery = type === "query";
+  return {
+    /***** 文本类 *****/
+    // id
+    T_Id: {
+      prop: "id",
+      label: "ID",
+      attrs: {
+        maxlength: 10,
+      },
+    },
+    // 备注
+    T_Remark: {
+      // prop: "remark", // 省略不写，则和键名保持一致
+      label: "备注",
+      type: "input",
+      attrs: {
+        type: isQuery ? undefined : "textarea",
+        maxlength: 50,
+      },
+    },
+    /***** 日期时间类 *****/
+    // 创建时间
+    T_CreateTime: {
+      prop: "create_time",
+      label: "创建时间",
+      type: "date-picker",
+      attrs: {
+        type: isQuery ? "datetime" : undefined,
+      },
+    },
+    /***** 表单校验类 *****/
+    //电话号码
+    T_Phone: {
+      // prop: "phone", // 省略不写，则和键名保持一致
+      label: "电话",
+      rules: isQuery ? undefined : [{ pattern: regexp.phone, message: "请输入正确的11位电话号码", trigger: "change" }],
+      attrs: {
+        maxlength: 11,
+      },
+    },
+    //密码
+    T_Password: {
+      label: "密码",
+      ...(isQuery
+        ? { attrs: { maxlength: 16 } }
+        : {
+            rules: [
+              { min: 6, message: "密码长度不能小于6位", trigger: "change" },
+              { pattern: regexp.password, message: "请输入正确的6~16位字母 + 数字组合密码", trigger: "change" },
+            ],
+            attrs: {
+              type: "password",
+              maxlength: 16,
+              showPassword: true,
+            },
+          }),
+    },
+    //15~18位身份证号
+    T_Identity: {
+      label: "身份证号",
+      rules: isQuery
+        ? undefined
+        : [
+            { min: 15, message: "身份证号长度不能小于15位", trigger: "change" },
+            { pattern: regexp.identity, message: "请输入正确的15~18位身份证号", trigger: "change" },
+          ],
+      attrs: {
+        maxlength: 18,
+      },
+    },
+    //邮箱
+    T_Email: {
+      label: "邮箱",
+      rules: isQuery ? undefined : [{ pattern: regexp.email, message: "请输入正确的邮箱地址", trigger: "change" }],
+    },
+    /***** 数值类 *****/
+    //年龄
+    T_Age: {
+      label: "年龄",
+      ...(isQuery
+        ? { type: "BaseNumberRange", attrs: { min: 0, max: 150 } }
+        : {
+            type: "input-number",
+            attrs: { min: 0, max: 150, slots: { suffix: "岁" } },
+          }),
+    },
+    // 数量
+    T_Amount: {
+      label: "数量",
+      ...(isQuery
+        ? { type: "BaseNumberRange", attrs: { min: 0, max: 100 } }
+        : { type: "input-number", attrs: { min: 0, max: 100, slots: { suffix: "个" } } }),
+    },
+    // 人民币：最小值为0，保留两位小数
+    T_Price: {
+      prop: "price",
+      label: "价格",
+      ...(isQuery
+        ? { type: "BaseNumberRange", attrs: { min: 0, max: 99999, precision: 2 } }
+        : {
+            type: "input-number",
+            attrs: {
+              min: 0,
+              max: 99999,
+              precision: 2,
+              step: 0.1,
+              controlsPosition: "right",
+              slots: {
+                suffix: "￥", // 单位：元、￥
+              },
+            },
+          }),
+    },
+    /***** 开关类 *****/
+    // 是否开关
+    T_YesNoStatus: {
+      prop: "is",
+      label: "是否",
+      ...(isQuery
+        ? { type: "select", attrs: { options: "D_YesNoStatus" } }
+        : {
+            type: "switch",
+            attrs: { activeText: "是", inactiveText: "否" },
+          }),
+    },
+    // 是否禁用下拉项
+    T_EnableStatus: {
+      prop: "status",
+      label: "启用状态",
+      ...(isQuery
+        ? {
+            type: "select",
+            attrs: { options: "D_EnableStatus" },
+          }
+        : {
+            type: "switch",
+            attrs: { activeText: "启用", inactiveText: "禁用" },
+          }),
+    },
+  };
+}
+
+// 表单模板类型映射
+export const defaultFormItemTplsMap = {
+  common: getFormItemTpls("common"), // 常规表单（新增/编辑表单、分块表单）表单项字段模板
+  query: getFormItemTpls("query"), // 查询表单的表单项模板
+};

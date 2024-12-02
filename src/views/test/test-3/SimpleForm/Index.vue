@@ -13,7 +13,7 @@
   ></BaseForm>
 </template>
 <script lang="ts" setup>
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { PostMockCommon } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
@@ -31,7 +31,7 @@ const props = withDefaults(
 const fields: FormField[] = [
   { prop: "tx", label: "头像", type: "BaseUpload" },
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "dhhm",
     label: "电话号码",
     required: true,

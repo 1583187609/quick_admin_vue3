@@ -22,7 +22,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { ArrowRight } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 import { useMenuStore, useSetStore } from "@/store";

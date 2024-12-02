@@ -2,7 +2,7 @@
 /********************** 开发调试相关的系统级方法 **********************/
 /********************************************************************/
 
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { isDev } from "@/utils";
 import { showMessage } from "../platform";
 // import { ElNotification } from "element-plus";

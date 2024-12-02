@@ -8,11 +8,11 @@
         <b @click="toUserDetail" class="nickname line-1">{{ data.nickname || "-" }}</b>
         <div class="f-fs-c">
           <div class="f-0 mr-o">ID：<BaseCopy :text="data.id" line="1" /></div>
-          <BaseTag class="f-0 gender" name="Gender" :value="data.gender" size="small" pureText />
+          <BaseTag class="f-0 gender" name="D_Gender" :value="data.gender" size="small" pureText />
         </div>
         <div class="f-sb-c">
-          <BaseTag class="f-0" name="AccountStatus" :value="data.accountStatus" size="small" />
-          <BaseTag class="f-0" name="AuthCase" :value="getAuthStatus(data)" size="small" />
+          <BaseTag class="f-0" name="D_AccountStatus" :value="data.accountStatus" size="small" />
+          <BaseTag class="f-0" name="D_AuthCase" :value="getAuthStatus(data)" size="small" />
         </div>
       </div>
     </template>
@@ -20,27 +20,27 @@
       <div class="avatar-box f-0 mr-8">
         <el-popover :show-after="200" :hide-after="0" trigger="hover" v-if="data.companyStatus === 0">
           <template #reference>
-            <BaseTag class="company" name="AuthCase" value="3">公司</BaseTag>
+            <BaseTag class="company" name="D_AuthCase" value="3">公司</BaseTag>
           </template>
           <div>{{ data.companyName }}</div>
         </el-popover>
         <BaseAvatar class="avatar" :src="data.avatar" :gender="data.gender" />
         <el-popover :show-after="200" :hide-after="0" trigger="hover" v-if="data.schoolStatus === 0">
           <template #reference>
-            <BaseTag class="education" name="AuthCase" value="2">学历</BaseTag>
+            <BaseTag class="education" name="D_AuthCase" value="2">学历</BaseTag>
           </template>
           <div>
-            {{ getText("EducationType", data.schoolCertificateLevel) || "-" }}
+            {{ getText("D_EducationType", data.schoolCertificateLevel) || "-" }}
           </div>
         </el-popover>
       </div>
       <div class="f-1 f-sb-s-c">
         <div class="f-sb-c">
           <b @click="toUserDetail" class="nickname line-1">{{ data.nickname || "-" }}</b>
-          <BaseTag class="f-0 gender" name="Gender" :value="data.gender" size="small" pureText />
+          <BaseTag class="f-0 gender" name="D_Gender" :value="data.gender" size="small" pureText />
           <span class="f-0 age">{{ data.age || "0" }}岁</span>
-          <BaseTag class="f-0 ml-h mr-a" name="MatrimonyStatus" :value="data.singleType" size="small" pureText />
-          <BaseTag class="f-0" name="AccountStatus" :value="data.accountStatus" size="small" />
+          <BaseTag class="f-0 ml-h mr-a" name="D_MatrimonyStatus" :value="data.singleType" size="small" pureText />
+          <BaseTag class="f-0" name="D_AccountStatus" :value="data.accountStatus" size="small" />
           <!-- v-if="data.accountStatus !== 0" -->
         </div>
         <div class="f-sb-c">
@@ -49,7 +49,7 @@
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            学历：<b>{{ getText("EducationType", data.schoolCertificateLevel) || "-" }}</b>
+            学历：<b>{{ getText("D_EducationType", data.schoolCertificateLevel) || "-" }}</b>
           </div>
           <div class="item f-0">
             学校：<b>{{ data.schoolName || "-" }}</b>
@@ -76,7 +76,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { useRouter } from "vue-router";
 import { useDict } from "@/hooks";
 

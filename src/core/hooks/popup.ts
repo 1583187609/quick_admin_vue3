@@ -1,5 +1,5 @@
 import { inject } from "vue";
-import { ClosePopupInject, OpenPopupInject } from "@/vite-env";
+import { ClosePopupInject, OpenPopupInject } from "@/core/_types";
 
 // 全局公用弹窗
 export default () => {

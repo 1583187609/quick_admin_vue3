@@ -13,7 +13,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ClickOutside, useFormItem } from "element-plus";
-import { OptionItem } from "@/vite-env";
+import { OptionItem } from "@/core/_types";
 const { formItem } = useFormItem();
 const props = withDefaults(
   defineProps<{

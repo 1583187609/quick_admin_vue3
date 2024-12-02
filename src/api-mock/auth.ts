@@ -1,5 +1,5 @@
 import http from "@/core/http";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 /************ 角色相关 *************/
 //权限 - 获取角色列表
 export const GetAuthRoleList = (data?: CommonObj) => http("get", "/auth/role/list", data);

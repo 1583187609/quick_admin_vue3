@@ -2,7 +2,7 @@
  ***** 平台内部方法(仅限脱单计划平台使用的方法) *****
  ********************************************************/
 
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { typeOf, emptyTime, storage, isProd, emptyStr } from "@/utils";
 import dayjs from "dayjs";
 

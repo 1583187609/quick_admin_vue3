@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/core/_types";
 export type InputType = 0 | 1 | 2; //输入方式
 const options: OptionItem[] = [
   { label: "JSON", value: 0 },

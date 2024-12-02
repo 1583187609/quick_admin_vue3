@@ -7,7 +7,7 @@ import dictMap, { getDictText } from "../dict";
 import allAddress from "../data/address";
 import allSchool from "../data/school";
 import allCompany from "../data/company";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const delAttrs: string[] = ["psd"];
 

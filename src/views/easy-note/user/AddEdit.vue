@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostUserAdd, PutUserUpdate } from "@/views/easy-note/apis";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -44,20 +44,20 @@ const fields: FormField[] = [
     required: true,
     type: "radio-group",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
     },
     quickAttrs: {
       grid: 12,
     },
   },
   {
-    tpl: "age",
+    tpl: "T_Age",
     // prop: "age",
     // label: "年龄",
     quickAttrs: { grid: 12 },
   },
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     // prop: "phone",
     // label: "电话号码",
     required: true,
@@ -66,7 +66,7 @@ const fields: FormField[] = [
     },
   },
   {
-    tpl: "password",
+    tpl: "T_Password",
     // prop: "password",
     // label: "密码",
     required: true,
@@ -85,7 +85,7 @@ const fields: FormField[] = [
     prop: "account_status",
     label: "账号状态",
     type: "select",
-    attrs: { options: "AccountStatus" },
+    attrs: { options: "D_AccountStatus" },
     quickAttrs: {
       grid: 12,
     },

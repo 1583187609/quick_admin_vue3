@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { useAttrs, computed } from "vue";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import { Grid, FormFieldAttrs } from "@/core/components/form/_types";
 import { getElColAttrs } from "@/core/components/form/_utils";
 import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";

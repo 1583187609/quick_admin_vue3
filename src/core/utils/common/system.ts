@@ -4,7 +4,7 @@
 
 import { emptyStr, needParam, typeOf } from "@/core/utils";
 import { FormFieldAttrs } from "@/core/components/form/_types";
-import { CommonObj, GetRequired, OptionItem, StrNum } from "@/vite-env";
+import { CommonObj, GetRequired, OptionItem, StrNum } from "@/core/_types";
 import { emptyVals, emptyTime } from "@/utils";
 import dayjs from "dayjs";
 import * as xlsx from "xlsx";
@@ -47,12 +47,7 @@ export function importExcel(
  * @param {Function} callback 回调函数
  * @link 参考链接 https://www.jianshu.com/p/f9ba3dd3cd4f
  */
-export function exportExcel(
-  data: string[][] = [],
-  fileName = dayjs().format("YYYYMMDD"),
-  sheetName = "表1",
-  callback?: () => void
-) {
+export function exportExcel(data: string[][] = [], fileName = dayjs().format("YYYYMMDD"), sheetName = "表1", callback?: () => void) {
   const wb = xlsx.utils.book_new(); // 创建workbook
   // 创建sheet
   // const ws = xlsx.utils.aoa_to_sheet(data);
@@ -165,12 +160,7 @@ export const getImgUrl = (path: string): string => {
  * @param {OptionPropsMap} propsMap props映射
  * @param {string} emptyChar 空字符串
  */
-export function getLabelFromOptionsByLastValue(
-  options: CommonObj[],
-  val: StrNum,
-  propsMap?: OptionPropsMap,
-  emptyChar = emptyStr
-) {
+export function getLabelFromOptionsByLastValue(options: CommonObj[], val: StrNum, propsMap?: OptionPropsMap, emptyChar = emptyStr) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   let target: CommonObj | undefined;
   function getLabel(opts: CommonObj[]): boolean {

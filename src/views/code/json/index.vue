@@ -4,7 +4,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { showMessage } from "@/utils";
 const props = withDefaults(

@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

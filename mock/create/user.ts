@@ -7,7 +7,7 @@ import allAddress from "../data/address";
 import allSchool from "../data/school";
 import allCompany from "../data/company";
 import allJob from "../data/job";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const { Random } = Mock;
 
@@ -36,10 +36,10 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
       {
         "id|+1": idStart, //id递增
         userCode: Mock.Random.natural(10000000, 99999999), // 学号
-        "type|1": type === undefined ? getDictCodes("RoleType") : [type],
+        "type|1": type === undefined ? getDictCodes("D_RoleType") : [type],
         type_text: (res: CommonObj) => {
           const { type } = res.context.currentContext;
-          return getDictText("RoleType", type);
+          return getDictText("D_RoleType", type);
         },
         phone: () => createPhone(phonePre), //电话号码
         account(res: CommonObj) {
@@ -50,14 +50,14 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
           const { type_text } = res.context.currentContext;
           return Random.cword("别样的感动", 1, 5);
         },
-        "gender|1": gender ? [gender] : getDictCodes("Gender"),
+        "gender|1": gender ? [gender] : getDictCodes("D_Gender"),
         gender_text(res: CommonObj) {
           const { gender } = res.context.currentContext;
-          return getDictText("Gender", gender);
+          return getDictText("D_Gender", gender);
         },
         psd: `${roleNameMap[type]}12345`,
         name: () => Random.cname(), //姓名
-        "roles|1": getDictCodes("RoleType"), // 角色类型
+        "roles|1": getDictCodes("D_RoleType"), // 角色类型
         avatar(res: CommonObj) {
           const { gender } = res.context.currentContext;
           return getAvatarUrl(gender);
@@ -94,10 +94,10 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
           return dayjs().diff(birthday, "year");
         },
         // 账号启用禁用状态
-        "status|1": getDictCodes("EnableStatus"),
+        "status|1": getDictCodes("D_EnableStatus"),
         status_text(res: CommonObj) {
           const { status } = res.context.currentContext;
-          return getDictText("EnableStatus", status);
+          return getDictText("D_EnableStatus", status);
         },
         // 介绍
         produce() {
@@ -136,11 +136,11 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
             avatar, // 头像
             gender, // 性别
             nickname, // 用户昵称
-            "accountStatus|1": getDictCodes("AccountStatus"), // 账号状态
+            "accountStatus|1": getDictCodes("D_AccountStatus"), // 账号状态
             "companyStatus|1": [0, 1], // 公司认证
             "schoolStatus|1": [0, 1], // 学历认证
-            "schoolCertificateLevel|1": getDictCodes("EducationType"), // 学历
-            "singleType|1": getDictCodes("MatrimonyStatus"), // 单身状态
+            "schoolCertificateLevel|1": getDictCodes("D_EducationType"), // 学历
+            "singleType|1": getDictCodes("D_MatrimonyStatus"), // 单身状态
             "schoolName|1": allSchoolNames, // 学校
             "companyName|1": allCompanyName, // 公司
             "jobName|1": allJobName, // 职业
@@ -167,7 +167,7 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
  * @param defObj [object] 模板默认值
  */
 export function createRoleList() {
-  const codes = getDictCodes("RoleType");
+  const codes = getDictCodes("D_RoleType");
   const num = codes.length;
   const mockData = Mock.mock({
     [`list|${num}`]: [
@@ -179,9 +179,9 @@ export function createRoleList() {
         }, //角色类型
         role_text: (res: CommonObj) => {
           const { role } = res.context.currentContext;
-          return getDictText("RoleType", role);
+          return getDictText("D_RoleType", role);
         },
-        "status|1": getDictCodes("EnableStatus"), //启用状态
+        "status|1": getDictCodes("D_EnableStatus"), //启用状态
         //备注
         remark() {
           return Random.ctitle(3, 20);

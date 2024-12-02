@@ -8,7 +8,7 @@ import { ElMessage } from "element-plus";
 import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf, defaultPopoverAttrs, noAuthPaths } from "@/core/utils";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
-import { CommonObj, TostMessageType } from "@/vite-env";
+import { CommonObj, TostMessageType } from "@/core/_types";
 import { PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { HArgs, RenderVue } from "@/core/BaseRender.vue";
 
@@ -205,17 +205,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;

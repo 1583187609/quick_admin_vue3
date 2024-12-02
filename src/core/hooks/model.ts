@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const cacheMap = new WeakMap();
 export default (props: CommonObj, $emit: any, propName = "modelValue") => {

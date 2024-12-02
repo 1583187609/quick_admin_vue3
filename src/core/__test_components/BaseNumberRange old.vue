@@ -1,33 +1,19 @@
 <template>
   <el-form-item class="base-number-range">
     <el-form-item class="f-1 hide-err-text" :prop="minProp" :rules="[{ validator: validate, trigger: 'blur' }]">
-      <el-input
-        v-model.number="minVal"
-        @change="handleChange"
-        @clear="handleClear('min')"
-        :placeholder="minPlaceholder"
-        clearable
-        v-bind="attrs"
-      />
+      <el-input v-model.number="minVal" @change="handleChange" @clear="handleClear('min')" :placeholder="minPlaceholder" clearable v-bind="attrs" />
     </el-form-item>
     <div class="f-c-c f-0 separator" :class="size">
       {{ rangeSeparator }}
     </div>
     <el-form-item class="f-1 hide-err-text" :prop="maxProp" :rules="[{ validator: validate, trigger: 'blur' }]">
-      <el-input
-        v-model.number="maxVal"
-        @change="handleChange"
-        @clear="handleClear('max')"
-        :placeholder="maxPlaceholder"
-        clearable
-        v-bind="attrs"
-      />
+      <el-input v-model.number="maxVal" @change="handleChange" @clear="handleClear('max')" :placeholder="maxPlaceholder" clearable v-bind="attrs" />
     </el-form-item>
   </el-form-item>
 </template>
 <script lang="ts" setup>
 import { type FormItemRule } from "element-plus";
-import { CommonObj, StrNum, CommonSize } from "@/vite-env";
+import { CommonObj, StrNum, CommonSize } from "@/core/_types";
 import { propsJoinChar, rangeJoinChar, showMessage } from "@/core/utils";
 
 type InputType = "min" | "max";

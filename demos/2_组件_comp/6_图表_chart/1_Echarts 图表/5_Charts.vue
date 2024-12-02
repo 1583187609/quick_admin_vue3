@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import MultiCharts from "@/core/components/chart/MultiCharts.vue";
-import { OptionItem } from "@/vite-env";
+import { OptionItem } from "@/core/_types";
 
 const layoutOpts: OptionItem[] = [
   { label: "4x3", value: "4x3" },

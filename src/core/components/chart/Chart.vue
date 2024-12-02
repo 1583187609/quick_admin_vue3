@@ -11,7 +11,7 @@ import { ref, nextTick, watch, onMounted } from "vue";
 import echarts, { colors } from "./_config";
 import { printLog, toCssVal } from "@/core/utils";
 import type { EchartTheme } from "./_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 let echartInstance: any = null;
 const chartRef = ref<HTMLElement | null>(null);

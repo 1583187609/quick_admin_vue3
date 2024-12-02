@@ -18,7 +18,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -29,9 +29,9 @@ const fields: FormField[] = [
     label: "模板类型",
     type: "select",
   },
-  { tpl: "enableStatus" },
+  { tpl: "T_EnableStatus" },
   { prop: "remark", label: "备注" },
-  { tpl: "createTime" },
+  { tpl: "T_CreateTime" },
 ];
 const cols: TableCol[] = [
   {
@@ -44,8 +44,8 @@ const cols: TableCol[] = [
     label: "查看地址",
     required: true,
   },
-  { tpl: "enableSwitch" },
-  { tpl: "remark" },
+  { tpl: "T_EnableStatus" },
+  { tpl: "T_Remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

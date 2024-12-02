@@ -3,7 +3,7 @@ import { CircleCloseFilled } from "@element-plus/icons-vue";
 import { getUserInfo, typeOf } from "@/core/utils";
 import { btnsMap } from "@/core/components/BaseBtn";
 import cssVars from "@/assets/styles/_var.module.scss";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { BaseBtnType, BtnItem, EndBtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/core/components/crud/BaseCrud/_types";
 import { PopconfirmAttrs, PopconfirmType } from "../_types";

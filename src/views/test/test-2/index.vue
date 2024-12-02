@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { SectionFormItem } from "@/core/components/form/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { PostMockCommon } from "@/api-mock";
 import AddDelBtn from "@/core/components/form/_components/AddDelBtn.vue";
 
@@ -54,14 +54,14 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "性别",
           type: "select",
           attrs: {
-            options: "Gender",
+            options: "D_Gender",
           },
           quickAttrs: {
             grid: 5,
           },
         },
         {
-          tpl: "age",
+          tpl: "T_Age",
           prop: "nl",
           label: "年龄",
           type: "input-number",
@@ -71,7 +71,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
-          tpl: "price",
+          tpl: "T_Price",
           prop: "jg",
           label: "价格",
           labelWidth: "4em",
@@ -80,7 +80,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
-          tpl: "phone",
+          tpl: "T_Phone",
           prop: "dhhm",
           label: "电话",
           labelWidth: "4em",
@@ -127,7 +127,7 @@ const sections = computed<SectionFormItem[]>(() => {
       disabled: true,
       fields: [
         {
-          tpl: "identity",
+          tpl: "T_Identity",
           prop: "sfzh",
           label: "身份证号",
           quickAttrs: {

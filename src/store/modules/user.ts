@@ -2,7 +2,7 @@ import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { PostUserLogin, PostUserLogout } from "@/api-mock";
 import { storage, defaultHomePath, defaultIconName, defaultLoginExpired } from "@/utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
 import { useMenuStore } from "@/store";

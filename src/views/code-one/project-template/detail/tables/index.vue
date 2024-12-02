@@ -22,7 +22,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { emptyStr, handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -34,7 +34,7 @@ const fields: FormField[] = [
     label: "启用状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   { prop: "create_time", label: "创建时间", type: "date-picker" },

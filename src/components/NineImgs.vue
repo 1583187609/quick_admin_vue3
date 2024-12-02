@@ -1,21 +1,13 @@
 <!-- 九宫格图片集 -->
 <template>
   <div class="nine-imgs f-c-c-w">
-    <BaseImg
-      :src="url"
-      class="img"
-      size="58"
-      :initial-index="ind"
-      :preview-src-list="urls"
-      v-for="(url, ind) in urls"
-      :key="ind"
-    />
+    <BaseImg :src="url" class="img" size="58" :initial-index="ind" :preview-src-list="urls" v-for="(url, ind) in urls" :key="ind" />
     <div class="img f-empty" v-for="(item, ind) in 3 - (urls.length % 3)" :key="ind"></div>
     <template v-if="!urls.length">-</template>
   </div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { ref, reactive, watch, computed } from "vue";
 
 const props = withDefaults(

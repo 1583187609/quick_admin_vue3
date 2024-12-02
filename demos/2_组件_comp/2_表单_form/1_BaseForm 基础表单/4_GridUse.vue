@@ -14,7 +14,7 @@ const fields: FormFieldAttrs[] = [
     label: "性别",
     type: "select",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
     },
     quickAttrs: { grid: 8 },
   },

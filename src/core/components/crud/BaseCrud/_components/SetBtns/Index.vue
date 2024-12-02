@@ -10,7 +10,7 @@
 import { inject, computed, defineAsyncComponent } from "vue";
 import { Setting, Printer } from "@element-plus/icons-vue";
 import config from "@/config";
-import { ClosePopupInject, CommonObj, CommonSize, OpenPopupInject } from "@/vite-env";
+import { ClosePopupInject, CommonObj, CommonSize, OpenPopupInject } from "@/core/_types";
 import { SpecialTableColType, TableColAttrs } from "@/core/components/table/_types";
 import { defaultCommonSize, defaultTooltipAttrs } from "@/utils";
 import { specialColKeys } from "@/core/components/table";

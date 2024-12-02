@@ -39,15 +39,15 @@ const fields: FormField[] = [
     label: "性别",
     type: "select",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
     },
   },
   { prop: "age", label: "年龄", type: "BaseNumberRange" },
-  { prop: "role", label: "角色类型", type: "select", attrs: { options: "RoleType" } },
+  { prop: "role", label: "角色类型", type: "select", attrs: { options: "D_RoleType" } },
   { prop: "create_time", label: "注册时间", type: "date-picker" },
 ];
 const cols: TableCol[] = [
-  { tpl: "id" },
+  { tpl: "T_Id" },
   {
     prop: "user_name",
     label: "姓名",
@@ -58,7 +58,7 @@ const cols: TableCol[] = [
     label: "性别",
     type: "BaseTag",
     attrs: {
-      name: "Gender",
+      name: "D_Gender",
     },
   },
   {
@@ -70,17 +70,17 @@ const cols: TableCol[] = [
     label: "用户昵称",
     minWidth: 120,
   },
-  { tpl: "phone" },
+  { tpl: "T_Phone" },
   {
     prop: "status",
     label: "账号状态",
     type: "BaseTag",
     attrs: {
-      name: "EnableStatus",
+      name: "D_EnableStatus",
     },
   },
   { prop: "create_time", label: "注册时间" },
-  { prop: "role", label: "角色类型", type: "BaseTag", attrs: { name: "RoleType" } },
+  { prop: "role", label: "角色类型", type: "BaseTag", attrs: { name: "D_RoleType" } },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

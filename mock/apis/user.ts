@@ -5,7 +5,7 @@ import allNavs from "../data/navs";
 import roleRows from "../data/roles";
 import { getDictText, getCascadeText, getDictCodes } from "../dict";
 import allAddress from "../data/address";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import dayjs from "dayjs";
 import _ from "lodash";
 import { TableColAttrs } from "@/core/components/table/_types";
@@ -223,8 +223,8 @@ export default toViteMockApi({
     } else {
       data = merge(getConstructorObj(allUsers?.[0]), reqObj, {
         id: allUsers.slice(-1)[0].id + 1,
-        type_text: getDictText("RoleType", type),
-        gender_text: getDictText("Gender", gender),
+        type_text: getDictText("D_RoleType", type),
+        gender_text: getDictText("D_Gender", gender),
         address_text: getCascadeText("Region", address),
         create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
       });
@@ -244,8 +244,8 @@ export default toViteMockApi({
     const user = allUsers.find((it: CommonObj) => it.id === id || it.phone === phone);
     if (user) {
       data = merge(user, reqObj, {
-        type_text: getDictText("RoleType", type),
-        gender_text: getDictText("Gender", gender),
+        type_text: getDictText("D_RoleType", type),
+        gender_text: getDictText("D_Gender", gender),
         address_text: getCascadeText("Region", address),
         update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
       });
@@ -259,7 +259,7 @@ export default toViteMockApi({
    * 获取用户登录的账号(一类角色各选取一个账号)
    */
   "GET /user/login/accounts": (req: CommonObj) => {
-    const roles = getDictCodes("RoleType");
+    const roles = getDictCodes("D_RoleType");
     const accounts: CommonObj[] = [];
     let ind = 0;
     _allUsers.find((item: CommonObj) => {

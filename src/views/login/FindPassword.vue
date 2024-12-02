@@ -8,12 +8,12 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import Captcha from "./_components/Captcha.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const modelData = reactive<CommonObj>({});
 const fields = [
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     // prop: "pheon",
     label: "电话",
     required: true,

@@ -87,7 +87,7 @@ import GroupBtns, { OperateBtnsAttrs } from "@/core/components/table/_components
 import InsertCustomTableColComps from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
-import { CommonObj, FinallyNext, PopoverType } from "@/vite-env";
+import { CommonObj, FinallyNext, PopoverType } from "@/core/_types";
 import { defaultCommonSize } from "@/core/utils";
 import { CommonSize, PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { operateBtnsEmitName } from "..";

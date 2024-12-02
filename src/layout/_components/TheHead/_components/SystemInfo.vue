@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import pkg from "#/package.json";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { reactive } from "vue";
 import SectionForm from "@/core/components/form/SectionForm.vue";
@@ -14,8 +14,7 @@ const { version, dependencies, devDependencies } = pkg;
 
 const modelData = reactive<CommonObj>({
   name: VITE_APP_NAME,
-  description:
-    "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
+  description: "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
   version: `${env} - ${version}`,
   depends: dependencies,
   devDepends: devDependencies,

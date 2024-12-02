@@ -18,7 +18,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 import btnsMap from "@/core/components/BaseBtn/_config";
 import BaseOption from "@/core/components/BaseOption.vue";
@@ -38,7 +38,7 @@ const fields: FormField[] = [
       options: btnTypeOpts,
     },
   },
-  { tpl: "enableStatus" },
+  { tpl: "T_EnableStatus" },
 ];
 const cols: TableCol[] = [
   { tpl: "sort" },
@@ -68,7 +68,7 @@ const cols: TableCol[] = [
   },
   { prop: "icon", label: "图标" },
   { prop: "to", label: "跳转地址" },
-  { tpl: "remark" },
+  { tpl: "T_Remark" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

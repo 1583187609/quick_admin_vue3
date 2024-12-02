@@ -7,7 +7,7 @@ import { reactive, computed } from "vue";
 import Chart from "@/core/components/chart/Chart.vue";
 import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import echarts, { gradColors, titleCfg } from "./_config";
 
 const { merge } = _;

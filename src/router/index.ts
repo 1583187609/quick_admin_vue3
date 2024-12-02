@@ -5,7 +5,7 @@ import routes from "./routes";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { ElMessage } from "element-plus";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 NProgress.configure({
   easing: "ease", // 动画方式

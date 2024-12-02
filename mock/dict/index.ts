@@ -1,14 +1,14 @@
 import allAddress from "../data/address";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import baseDict from "./modules/base";
 import otherDict from "./modules/other";
 
 // export type DictNames =
-//   | "EnableStatus"
-//   | "YesNoStatus"
-//   | "Gender"
-//   | "RoleType"
-//   | "MenuType";
+//   | "D_EnableStatus"
+//   | "D_YesNoStatus"
+//   | "D_Gender"
+//   | "D_RoleType"
+//   | "D_MenuType";
 // const dictMap: { [key in DictNames]: CommonObj } = {
 export type DictNames = keyof typeof dictMap;
 const dictMap: CommonObj = {

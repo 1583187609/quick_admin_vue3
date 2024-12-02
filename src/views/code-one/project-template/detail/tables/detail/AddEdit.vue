@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 // import SectionForm from "@/core/components/form/SectionForm.vue";
 const props = withDefaults(
   defineProps<{

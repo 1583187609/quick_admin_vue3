@@ -1,4 +1,4 @@
-import { BaseDataType, CommonObj, CommonSize } from "@/vite-env";
+import { BaseDataType, CommonObj, CommonSize } from "@/core/_types";
 import { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode, RendererElement } from "vue";

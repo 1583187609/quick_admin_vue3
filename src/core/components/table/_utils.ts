@@ -1,4 +1,4 @@
-import { CommonObj, CommonSize, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, StrNum } from "@/core/_types";
 import {
   typeOf,
   propsJoinChar,
@@ -156,8 +156,8 @@ function getSysInferredAttrs(col: TableColAttrs) {
       }
     }
     if (!isOptimization) {
-      if (label?.includes("备注")) Object.assign(colAttrs, defaultTableColTpls.remark);
-      // label?.includes("id") && Object.assign(colAttrs, defaultTableColTpls.id);
+      if (label?.includes("备注")) Object.assign(colAttrs, defaultTableColTpls.T_Remark);
+      // label?.includes("id") && Object.assign(colAttrs, defaultTableColTpls.T_Id);
     }
   }
   // 如果仍未设置宽度，则以label字符长度+1为宽度
@@ -219,7 +219,7 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
     const { type } = newCol;
     if (type === "operate") {
       hasOperateCol = true;
-      newCol = { ...defaultTableColTpls.operate, ...newCol };
+      newCol = { ...defaultTableColTpls.T_Operate, ...newCol };
     } else if (type === "index") {
       if (currPage && pageSize && newCol.index === undefined) {
         newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
@@ -228,7 +228,7 @@ export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: Tabl
     if (level > maxLevel) maxLevel = level;
     return newCol;
   });
-  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.operate, 1, size).col);
+  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
   cb?.(maxLevel, newCols);
   return newCols.filter(col => !!col && col.visible); // 过滤掉非对象的列;
 }

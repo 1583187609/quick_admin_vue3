@@ -8,7 +8,7 @@ import Chart from "@/core/components/chart/Chart.vue";
 import echarts, { axisCfg, gradColors } from "./_config";
 import type { EchartTheme, ChartData } from "./_types";
 import _ from "lodash";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const { merge } = _;
 const defaultOption = {

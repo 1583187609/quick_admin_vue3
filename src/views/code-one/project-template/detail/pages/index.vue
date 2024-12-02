@@ -18,7 +18,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -29,7 +29,7 @@ const fields: FormField[] = [
     label: "发放状态",
     type: "select",
     attrs: {
-      options: "YesNoStatus",
+      options: "D_YesNoStatus",
     },
   },
   { prop: "czr", label: "操作人" },

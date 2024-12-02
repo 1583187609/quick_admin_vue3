@@ -3,26 +3,26 @@
 </template>
 <script lang="ts" setup>
 import { PostUserRegister } from "@/api-mock";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { reactive } from "vue";
 
 const modelData = reactive<CommonObj>({});
 const fields = [
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "pheon",
     label: "电话",
     required: true,
   },
   {
-    tpl: "password",
+    tpl: "T_Password",
     prop: "psd",
     label: "密码",
     required: true,
     attrs: { type: "password" },
   },
   {
-    tpl: "password",
+    tpl: "T_Password",
     prop: "confirm_psd",
     label: "确认密码",
     required: true,

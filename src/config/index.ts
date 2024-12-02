@@ -21,7 +21,7 @@ const config = {
     // defaultDateRangeShortcuts: [],
     // defaultFieldAttrs: {},
     // defaultPopoverAttrs: {},
-    // defaultFormItemTpls: {},
+    // defaultFormItemTplsMap: {},
   },
   table: {
     // defaultGroupBtnsMaxNum: 3,
@@ -59,7 +59,7 @@ const config = {
       //   prop: "status",
       //   label: "状态",
       //   minWidth: 100,
-      //   attrs: { name: "EnableStatus" },
+      //   attrs: { name: "D_EnableStatus" },
       // },
       // //图片
       // BaseImg: {

@@ -1,4 +1,4 @@
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { typeOf } from "@/core/utils";
 
 //整理Avatar审核的要传入组件的数据

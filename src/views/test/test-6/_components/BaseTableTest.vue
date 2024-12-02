@@ -16,7 +16,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, StrNum } from "@/core/_types";
 import TestView from "@/core/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
 import { BtnName } from "@/core/components/BaseBtn/_types";

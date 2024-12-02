@@ -6,7 +6,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 
 const cols: TableColAttrs[] = [

@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import { Grid, FormFieldAttrs } from "./FieldItem/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 

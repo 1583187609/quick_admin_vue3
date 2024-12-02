@@ -10,7 +10,7 @@
 import FormTable from "@/core/components/table/FormTable.vue";
 import { handleBtnNext } from "@/utils";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 
 const cols = [
   { prop: "id", label: "用户ID", width: 100, fixed: "left" },

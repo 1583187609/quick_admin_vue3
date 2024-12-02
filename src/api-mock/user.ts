@@ -1,5 +1,5 @@
 import http from "@/core/http";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 //获取验证码
 export const GetUserCaptcha = (data?: CommonObj) => http("get", "/user/captcha", data);

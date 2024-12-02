@@ -19,7 +19,7 @@ import { GetMockCommonList } from "@/api-mock";
 import { TableCol } from "@/core/components/table/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/core/components/form/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 
 const props = withDefaults(
   defineProps<{

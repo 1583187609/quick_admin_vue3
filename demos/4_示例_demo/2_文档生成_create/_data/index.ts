@@ -61,7 +61,7 @@ import FooterBtns from "@/core/components/form/_components/FooterBtns.vue";
 import { isProd } from "@/core/components/_utils";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { defaultFormAttrs } from "@/core/components/form";
-import { CommonObj, FinallyNext, UniteFetchType } from "@/vite-env";
+import { CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 
 /** props Props
  * 描述信息（props）

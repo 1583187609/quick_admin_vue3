@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { StrNum } from "@/vite-env";
+import { StrNum } from "@/core/_types";
 const modelVals1 = reactive<[StrNum?, StrNum?]>([]);
 const modelVals2 = reactive<[StrNum?, StrNum?]>([1, 2]);
 const modelVals3 = reactive<[StrNum?, StrNum?]>([-10, 1001]);

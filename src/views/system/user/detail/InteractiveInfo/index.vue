@@ -92,7 +92,7 @@
 <script lang="ts" setup>
 import AttitudeList from "./_components/AttitudeList.vue";
 import FriendsList from "./_components/FriendsList.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();

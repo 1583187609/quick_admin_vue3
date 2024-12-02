@@ -36,19 +36,19 @@ const fields: FormField[] = [
     label: "是否启用",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
 ];
 const cols: TableCol[] = [
-  { tpl: "id" },
+  { tpl: "T_Id" },
   {
     prop: "name",
     label: "行业名称",
   },
-  { tpl: "enableStatus" },
-  { tpl: "create" },
-  { tpl: "update" },
+  { tpl: "T_EnableStatus" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(

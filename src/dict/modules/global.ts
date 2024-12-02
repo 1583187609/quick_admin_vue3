@@ -1,5 +1,5 @@
 import { GetCascaderRegion } from "@/api-mock";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { lazyFetch } from "..";
 
 export default {

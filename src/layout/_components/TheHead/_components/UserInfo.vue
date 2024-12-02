@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { GetUserList } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
@@ -63,7 +63,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
       type: "radio-group",
       attrs: {
         type: "button",
-        options: "Gender",
+        options: "D_Gender",
         disabled: true,
       },
     },
@@ -76,7 +76,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
       },
     },
     {
-      tpl: "phone",
+      tpl: "T_Phone",
       // prop: "phone",
       // label: "电话号码",
       attrs: {
@@ -86,7 +86,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
     ...(editEnable.value
       ? [
           {
-            tpl: "password",
+            tpl: "T_Password",
             // prop: "password",
             // label: "新密码",
             // attrs: {
@@ -94,7 +94,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
             // },
           },
           {
-            tpl: "password",
+            tpl: "T_Password",
             prop: "rePassword",
             label: "确认密码",
             rules: [{ validator: checkConfirmPsd, trigger: "blur" }],

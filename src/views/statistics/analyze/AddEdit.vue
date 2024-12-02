@@ -20,7 +20,7 @@ import { FormField } from "@/core/components/form/_types";
 import { PostMockCommon, GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/core/components/upload/UploadAvatar.vue";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { StrNum, FinallyNext, CommonObj } from "@/vite-env";
+import { StrNum, FinallyNext, CommonObj } from "@/core/_types";
 
 const props = withDefaults(
   defineProps<{
@@ -51,7 +51,7 @@ const fields = ref<FormField[]>([
     label: "性别",
     type: "radio-group",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
       type: "button",
     },
   },
@@ -70,7 +70,7 @@ const fields = ref<FormField[]>([
     type: "select",
     required: false,
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
     },
   },
   {
@@ -79,7 +79,7 @@ const fields = ref<FormField[]>([
     type: "radio-group",
     required: false,
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
       type: "button",
     },
   },
@@ -94,7 +94,7 @@ const fields = ref<FormField[]>([
     },
   },
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "phone",
     label: "电话",
     required: true,

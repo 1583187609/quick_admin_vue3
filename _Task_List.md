@@ -134,6 +134,10 @@
 ~~105、极致优化白屏时长问题~~
 ~~108、对`vue3、vue-router、pinia、axios、dayjs、driver.js、echarts、echarts-liquidfill、@wangeditor/editor-for-vue、lodash、nprogress、sortablejs、vuedraggable、xlsx、element-plus、vite-plugin-mock、vue-i18n`使用 cdn~~
 ~~115、删除.vitepress/inner 文件夹~~
+~~69、将@/vite-env 的 ts 全部改为 core 中的引入方式，例：`@core/_types`~~
+~~131、当 type 和 tpl 一致时，作等价处理~~
+~~126、尽可能多地提取表单项、表格列的模板~~
+~~129、提供一个方法，当使用同样的模板名称时，对搜索表单和新增编辑表单做差异化显示处理~~
 
 4、接入自动化路由（vue-auto-routing 貌似只适用于 Vue2）
 28、完善滚动触顶触底加载 demo 示例  
@@ -166,17 +170,13 @@
 123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
 124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 125、替换表格的 `refreshList` 方法
-126、尽可能多地提取表单项、表格列的模板
 127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
-129、提供一个方法，当使用同样的模板名称时，对搜索表单和新增编辑表单做差异化显示处理
 130、并对不存在的模板（表单项模板、表格列模板）做抛出异常处理
-131、当 type 和 tpl 一致时，作等价处理
-132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理
+132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（待定）
 136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
 134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072
 135、完善 importFileFromPaths 方法
-69、将@vite-dev 的 ts 全部改为 core 中的引入方式，例：`@core/_types`
 
 ## 待定事项
 

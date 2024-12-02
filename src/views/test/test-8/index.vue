@@ -133,7 +133,7 @@ import { FormField } from "@/core/components/form/_types";
 import UserItem from "./_components/UserItem.vue";
 import MsgItem from "./_components/MsgItem/Index.vue";
 import { usePopup, useSelectOpts } from "@/hooks";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import LoadMore from "@/core/components/LoadMore.vue";
 import SearchMsg from "./_components/SearchMsg.vue";
 import dayjs from "dayjs";

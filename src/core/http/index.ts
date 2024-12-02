@@ -3,17 +3,10 @@
  */
 
 import qs from "qs";
-import axios, {
-  AxiosInstance,
-  AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-  AxiosResponse,
-  CancelTokenSource,
-} from "axios";
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
 import { typeOf, isDev, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
-import { GetRequired } from "@/vite-env";
+import { GetRequired } from "@/core/_types";
 let source: CancelTokenSource = axios.CancelToken.source();
 
 // 可选的自定义请求配置

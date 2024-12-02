@@ -25,7 +25,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { StrNum, SetTimeout } from "@/vite-env";
+import { StrNum, SetTimeout } from "@/core/_types";
 import { toCssVal } from "@/core/utils";
 import { Loading } from "@element-plus/icons-vue";
 

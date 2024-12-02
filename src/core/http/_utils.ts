@@ -1,5 +1,5 @@
 import { ElLoading, ElMessage } from "element-plus";
-import { CommonObj, SetTimeout } from "@/vite-env";
+import { CommonObj, SetTimeout } from "@/core/_types";
 export interface Response<T = any> {
   code: number;
   msg: string;

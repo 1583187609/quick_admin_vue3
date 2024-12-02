@@ -52,13 +52,7 @@
             @submit="handleSubmit"
             @reset="handleReset"
             v-bind="getGridAttrs(grid)"
-            v-if="
-              newSections.length <= rowNum
-                ? sInd === newSections.length - 1
-                : isFold
-                ? sInd === rowNum - 1
-                : sInd === newSections.length - 1
-            "
+            v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
           />
         </div>
       </div>
@@ -101,7 +95,7 @@ import { ArrowDown, Minus } from "@element-plus/icons-vue";
 import { FormInstance } from "element-plus";
 import { getScreenSizeType, showMessage } from "@/core/utils";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
@@ -200,7 +194,7 @@ watch(
   (newVal: FormField[]) => {
     if (props.sections?.length) return;
     const { modelValue, grid } = props;
-    const result = handleFields(newVal, undefined, modelValue, { quickAttrs: { grid: getGridAttrs(grid) } });
+    const result = handleFields(newVal, undefined, modelValue, { quickAttrs: { grid: getGridAttrs(grid) } }, "query");
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -217,7 +211,7 @@ watch(
     newSections.value =
       newVal?.map((item: SectionFormItemAttrs) => {
         const { label, fields: secFields } = item;
-        const result = handleFields(secFields, undefined, modelValue);
+        const result = handleFields(secFields, undefined, modelValue, undefined, "query");
         const { data, fields } = result;
         item.fields = fields;
         merge(formData.value, data);

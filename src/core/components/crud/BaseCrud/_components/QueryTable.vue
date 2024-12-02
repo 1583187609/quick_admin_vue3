@@ -42,7 +42,7 @@ import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_comp
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { handleTableSummary } from "@/core/utils";
 import { useCacheScroll } from "@/hooks";
-import { CommonObj, CommonSize, FinallyNext } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
 import Column, { RefreshListFn, RowBtnInfo } from "@/core/components/table/_components/Column.vue";
 import { defaultTableAttrs, getHandleCols, operateBtnsEmitName } from "@/core/components/table";
 import { TableColAttrs } from "@/core/components/table/_types";

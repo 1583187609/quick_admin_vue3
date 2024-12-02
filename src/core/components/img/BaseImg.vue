@@ -39,7 +39,7 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { defaultCommonSize, toCssVal } from "@/core/utils";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import emptyImg from "@/assets/images/default/img.png";
 import { Loading, Picture } from "@element-plus/icons-vue";
 

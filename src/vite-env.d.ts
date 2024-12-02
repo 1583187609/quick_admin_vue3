@@ -1,6 +1,5 @@
 /// <reference types="vite/client" />
 
-export * from "@/core/_types";
 interface ImportMetaEnv {
   readonly VITE_APP_NAME: string;
 }

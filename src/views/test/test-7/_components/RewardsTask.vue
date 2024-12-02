@@ -16,7 +16,7 @@ import { reactive } from "vue";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/core/components/form/_types";
 import { FormField } from "@/core/components/form/_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const modelData = reactive<CommonObj>({
   //kpi-1
@@ -52,7 +52,7 @@ const childrenFields: FormField[] = [
     // required: true,
     type: "select",
     attrs: {
-      options: "TaskRewards",
+      options: "D_TaskRewards",
     },
   },
   {
@@ -70,7 +70,7 @@ const childrenFields: FormField[] = [
     type: "radio-group",
     required: true,
     attrs: {
-      options: "GetRewardWay",
+      options: "D_GetRewardWay",
     },
   },
 ];

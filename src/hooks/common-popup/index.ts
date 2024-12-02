@@ -1,4 +1,4 @@
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { defineAsyncComponent } from "vue";
 import { ElMessage } from "element-plus";
 import { usePopup } from "@/core/hooks";

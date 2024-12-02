@@ -11,7 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { CommonSize } from "@/vite-env";
+import { CommonSize } from "@/core/_types";
 import TestView from "@/core/components/TestView.vue";
 import StepForm from "@/core/components/form/StepForm.vue";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";

@@ -15,7 +15,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/core/_types";
 
 const cflxOpts: OptionItem[] = [
   { label: "警告", value: 1 },
@@ -45,11 +45,11 @@ const fields = computed<FormField[]>(() => {
       required: true,
       type: "select",
       attrs: {
-        options: "Gender",
+        options: "D_Gender",
       },
     },
-    { prop: "nl", label: "年龄", tpl: "age" },
-    { prop: "dhhm", label: "电话号码", tpl: "phone" },
+    { prop: "nl", label: "年龄", tpl: "T_Age" },
+    { prop: "dhhm", label: "电话号码", tpl: "T_Phone" },
     {
       prop: "sfqy",
       label: "是否启用",

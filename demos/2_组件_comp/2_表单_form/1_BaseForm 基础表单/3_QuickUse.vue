@@ -12,7 +12,7 @@
 import { reactive, computed } from "vue";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 
 const typeOpts: OptionItem[] = [
   { label: "简短", value: 0 },
@@ -42,7 +42,7 @@ const fields = computed<FormField[]>(() => {
       label: "性别",
       type: "select",
       attrs: {
-        options: "Gender",
+        options: "D_Gender",
       },
     },
     type !== 0 && { prop: "age", label: "年龄", type: "input-number" },

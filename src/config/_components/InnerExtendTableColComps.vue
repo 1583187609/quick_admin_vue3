@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { deleteAttrs, showMessage } from "@/core/utils";
 import { TableColStandardAttrs } from "@/core/components/table/_types";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import { RefreshListFn } from "@/core/components/table/_components/Column.vue";
 import FormItem from "@/core/components/form/_components/FormItem/Index.vue";
 import { ElFormItemType } from "@/core/components/form/_components/FormItem/_types";

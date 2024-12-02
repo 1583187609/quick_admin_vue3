@@ -1,6 +1,6 @@
 import { PopupType } from "@/core/components/BasicPopup/_types";
 import { FormItemType } from "@/core/components/form/_types";
-import { CommonObj, CommonSize, StrNum } from "@/vite-env";
+import { CommonObj, CommonSize, StrNum } from "@/core/_types";
 
 //配置合并的策略
 export type ConfigMergeStrategy = false | "merge" | "assign" | "alert" | "auto";
@@ -30,7 +30,7 @@ export interface BaseComponentsConfig {
     defaultDateRangeShortcuts?: { text: string; value: Date | (() => Date) }[];
     defaultFieldAttrs?: CommonObj;
     defaultPopoverAttrs?: CommonObj;
-    defaultFormItemTpls?: CommonObj;
+    defaultFormItemTplsMap?: CommonObj;
     defaultCommonSize?: CommonSize;
     // defaultTableColTpls?:
     //   | CommonObj

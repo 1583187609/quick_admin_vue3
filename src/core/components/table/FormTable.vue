@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, useAttrs } from "vue";
 import { FormInstance } from "element-plus";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { FormTableColAttrs } from "@/core/components/table/_types";
 import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
 

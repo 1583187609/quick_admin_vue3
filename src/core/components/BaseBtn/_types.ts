@@ -1,4 +1,4 @@
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import { btnsMap } from "@/core/components/BaseBtn";
 import { PopconfirmAttrs } from "../_types";
 

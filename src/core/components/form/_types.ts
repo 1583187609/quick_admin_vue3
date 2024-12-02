@@ -1,5 +1,5 @@
 import { FormField, Grid } from "@/core/components/form/_components/FieldItem/_types";
-import { BaseDataType, CommonSize, StrNum } from "@/vite-env";
+import { BaseDataType, CommonSize, StrNum } from "@/core/_types";
 import { PopoverAttrs } from "../_types";
 
 export * from "@/core/components/form/_components/FieldItem/_types";

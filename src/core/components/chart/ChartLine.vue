@@ -7,7 +7,7 @@ import { computed } from "vue";
 import Chart from "@/core/components/chart/Chart.vue";
 import echarts, { axisCfg, gradColors, titleCfg } from "./_config";
 import type { ChartData, EchartTheme } from "./_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import _ from "lodash";
 
 const { merge } = _;

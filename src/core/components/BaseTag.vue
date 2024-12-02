@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { DictName } from "@/dict/_types";
-import { ClassType, CommonObj, StrNum, StyleType } from "@/vite-env";
+import { ClassType, CommonObj, StrNum, StyleType } from "@/core/_types";
 import { emptyStr, emptyVals } from "@/core/utils";
 import type { TagProps } from "element-plus";
 import { useDict } from "@/hooks";
@@ -45,7 +45,7 @@ const props = withDefaults(
     empty?: any;
   }>(),
   {
-    name: "EnableStatus",
+    name: "D_EnableStatus",
     empty: emptyStr,
   }
 );

@@ -6,7 +6,7 @@
 import { reactive } from "vue";
 import { SectionFormItem } from "@/core/components/form/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { FormField } from "@/core/components/form/_types";
 const props = withDefaults(
   defineProps<{

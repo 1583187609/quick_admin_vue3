@@ -64,7 +64,7 @@ import PageTagItem from "./PageTagItem.vue";
 import { PageTagItemType, MenuItemType } from "./DropMenu.vue";
 import DropMenu from "./DropMenu.vue";
 import { storage, copyText, showMessage } from "@/utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { useEvent } from "@/hooks";
 import { defaultHomePath } from "@/utils";
 import { useKeepAliveStore, useSetStore } from "@/store";

@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 const modelData = reactive<CommonObj>({
   list: [{ xm: "张三", sfzh: "51162119900319075X" }],
 });
@@ -22,7 +22,7 @@ const fields = ref<FormField[]>([
         required: true,
       },
       {
-        tpl: "identity",
+        tpl: "T_Identity",
         prop: "sfzh",
         label: "身份证号",
         labelWidth: "auto",

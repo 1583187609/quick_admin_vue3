@@ -20,7 +20,7 @@ import { BtnName } from "@/core/components/BaseBtn/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import AddEdit from "./AddEdit.vue";
 import { usePopup } from "@/hooks";
 
@@ -38,7 +38,7 @@ const fields: FormFieldAttrs[] = [
     label: "状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
 ];

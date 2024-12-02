@@ -33,7 +33,7 @@ import { computed, useAttrs } from "vue";
 import { defaultCommonSize, toCssVal } from "@/core/utils";
 import { TagType } from "@/core/components/BaseTag.vue";
 import { getBarObj } from "@/core/components/crud/CardCrud/_utils";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 
 export interface BarAttrs {
   text: string;

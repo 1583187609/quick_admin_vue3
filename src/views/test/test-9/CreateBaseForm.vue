@@ -31,7 +31,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { exampleMap } from "./_config";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import Config from "./_components/Config.vue";

@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostTopicAdd, PutTopicUpdate } from "@/views/easy-note/apis";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

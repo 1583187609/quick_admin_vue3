@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, inject, onMounted, computed } from "vue";
-import { OpenPopupInject, StrNum } from "@/vite-env";
+import { OpenPopupInject, StrNum } from "@/core/_types";
 import { getIsOver } from "@/core/utils";
 
 const openPopup = inject<OpenPopupInject>("openPopup");

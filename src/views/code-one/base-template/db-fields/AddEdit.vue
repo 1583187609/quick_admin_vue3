@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -52,14 +52,14 @@ const fields: FormField[] = [
   },
   { prop: "length", label: "长度", type: "input-number", attrs: { min: 0, max: 100000 }, quickAttrs: { grid: 12 } },
   { prop: "decimal", label: "小数位数", type: "input-number", attrs: { min: 0, max: 6 }, quickAttrs: { grid: 12 } },
-  { tpl: "yesNoSwitch", prop: "notNull", label: "是否非空", quickAttrs: { grid: 12 } },
-  { tpl: "yesNoSwitch", prop: "isPrimaryKey", label: "是否主键", quickAttrs: { grid: 12 } },
-  { tpl: "yesNoSwitch", prop: "isAutoIncrement", label: "是否自增", quickAttrs: { grid: 12 } },
+  { tpl: "T_YesNoStatus", prop: "notNull", label: "是否非空", quickAttrs: { grid: 12 } },
+  { tpl: "T_YesNoStatus", prop: "isPrimaryKey", label: "是否主键", quickAttrs: { grid: 12 } },
+  { tpl: "T_YesNoStatus", prop: "isAutoIncrement", label: "是否自增", quickAttrs: { grid: 12 } },
   { prop: "isUnsigned", label: "无符号", type: "switch", attrs: { activeText: "有", inactiveText: "无" }, quickAttrs: { grid: 12 } },
   { prop: "isFillZero", label: "填充零", type: "switch", attrs: { activeText: "填充", inactiveText: "不填" }, quickAttrs: { grid: 12 } },
   { prop: "joinChar", label: "连接符", type: "select", quickAttrs: { grid: 12 } },
   { prop: "defaultValue", label: "默认值" },
-  { tpl: "remark", required: true },
+  { tpl: "T_Remark", required: true },
 ];
 </script>
 <style lang="scss" scoped></style>

@@ -19,12 +19,12 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
-const cols: TableCol[] = [{ prop: "zdlx", label: "字典类型", minWidth: 210 }, { tpl: "remark" }, { tpl: "create" }, { tpl: "update" }];
+const cols: TableCol[] = [{ prop: "zdlx", label: "字典类型", minWidth: 210 }, { tpl: "T_Remark" }, { tpl: "T_Create" }, { tpl: "T_Update" }];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {

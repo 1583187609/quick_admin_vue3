@@ -19,7 +19,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { FormField } from "@/core/components/form/_types";
 import { GetMockCommonList } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";

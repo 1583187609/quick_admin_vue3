@@ -64,7 +64,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { CommonSlots, OptionItem } from "@/vite-env";
+import { CommonSlots, OptionItem } from "@/core/_types";
 import { defaultFormItemType, deleteAttrs, getSlotsMap } from "@/core/utils";
 import { useFormAttrs } from "@/hooks";
 

@@ -38,7 +38,7 @@
 import { ref } from "vue";
 import BaseTable from "@/core/components/table/BaseTable.vue";
 import { SpecialTableColType, TableColAttrs } from "@/core/components/table/_types";
-import { CommonObj, CommonSize } from "@/vite-env";
+import { CommonObj, CommonSize } from "@/core/_types";
 import config from "@/config";
 import { showMessage } from "@/core/utils";
 import { specialColKeys } from "@/core/components/table";

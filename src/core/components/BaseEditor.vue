@@ -25,7 +25,7 @@ import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
 import { showMessage, toCssVal } from "@/core/utils";
 import { useFormItem } from "element-plus";
-import { CommonObj, StrNum } from "@/vite-env";
+import { CommonObj, StrNum } from "@/core/_types";
 import { isProd, storage } from "@/core/utils";
 import _ from "lodash";
 // import "@wangeditor/editor/dist/css/style.css";

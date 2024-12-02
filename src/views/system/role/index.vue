@@ -18,7 +18,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
 
@@ -29,7 +29,7 @@ const fields = ref<FormField[]>([
     label: "角色类型",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
     },
   },
   {
@@ -37,7 +37,7 @@ const fields = ref<FormField[]>([
     label: "状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {

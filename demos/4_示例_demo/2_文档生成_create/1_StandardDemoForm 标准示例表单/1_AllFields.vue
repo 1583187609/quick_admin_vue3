@@ -13,10 +13,10 @@ import { ref, reactive } from "vue";
 import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { useDict } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const { getOpts } = useDict();
-const genderOpts = getOpts("Gender");
+const genderOpts = getOpts("D_Gender");
 const regionOpts = getOpts("Region");
 
 const modelData = reactive<CommonObj>({

@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import setDragImg from "@/assets/images/sys/menu-drag.png";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { showMessage } from "@/utils";
 const props = withDefaults(
   defineProps<{

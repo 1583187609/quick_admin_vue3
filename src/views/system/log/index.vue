@@ -14,7 +14,7 @@ const fields: FormField[] = [
     label: "操作业务",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   { prop: "bz", label: "备注" },
@@ -36,8 +36,8 @@ const cols: TableCol[] = [
     label: "所属系统",
     minWidth: 90,
   },
-  { tpl: "remark" },
-  { tpl: "update" },
+  { tpl: "T_Remark" },
+  { tpl: "T_Update" },
 ];
 </script>
 <style lang="scss" scoped></style>

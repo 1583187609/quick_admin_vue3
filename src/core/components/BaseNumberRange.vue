@@ -25,11 +25,7 @@
       @change="handleEvent('change', $event, 1)"
       @blur="handleBlur(1)"
     />
-    <el-icon
-      class="el-icon el-input__icon el-range__close-icon"
-      :class="{ hidden: !modelVals?.length }"
-      @click="handleEvent('clear')"
-    >
+    <el-icon class="el-icon el-input__icon el-range__close-icon" :class="{ hidden: !modelVals?.length }" @click="handleEvent('clear')">
       <CircleClose />
     </el-icon>
   </div>
@@ -39,7 +35,7 @@ import { computed, reactive } from "vue";
 import { useFormItem } from "element-plus";
 import { CircleClose } from "@element-plus/icons-vue";
 import { emptyVals, defaultCommonSize, rangeJoinChar, showMessage } from "@/core/utils";
-import { StrNum, CommonSize } from "@/vite-env";
+import { StrNum, CommonSize } from "@/core/_types";
 
 type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]
 
@@ -50,7 +46,7 @@ const props = withDefaults(
     min?: number;
     max?: number;
     size?: CommonSize;
-    fixedNum?: number; // 保留n位小数
+    precision?: number; // 精度（保留n位小数位数）
     minPlaceholder?: string;
     maxPlaceholder?: string;
     // 属性名跟date-picker的保持一致
@@ -61,7 +57,7 @@ const props = withDefaults(
     modelValue: () => [],
     // min: -100,
     // max: 100,
-    fixedNum: 0,
+    precision: 0,
     minPlaceholder: "最小值",
     maxPlaceholder: "最大值",
     size: defaultCommonSize,
@@ -71,12 +67,12 @@ const props = withDefaults(
 const $emit = defineEmits(["update:modelValue", "change", "input", "clear", "blur"]);
 const modelVals = reactive<ValsArr>(props.modelValue?.map((it, i) => getLimitNum(it, i, false)));
 const maxLength = computed(() => {
-  const { min, max, maxlength, fixedNum } = props;
+  const { min, max, maxlength, precision } = props;
   if (maxlength !== undefined) return maxlength;
   if (min === undefined || max === undefined) return undefined;
   const numLen = Math.max(String(min || 0).length, String(max || 0).length);
-  if (!fixedNum) return numLen;
-  return numLen + fixedNum + 1;
+  if (!precision) return numLen;
+  return numLen + precision + 1;
 });
 
 // 获取限制最大最小值之后的值
@@ -116,12 +112,12 @@ function handleEvent(type: "input" | "change" | "clear", e, ind: number) {
   if (type === "change") val = getLimitNum(modelVals[ind]);
   modelVals[ind] = val;
   if (type === "change") {
-    const { fixedNum } = props;
+    const { precision } = props;
     const isOver = isMinOverMax(modelVals);
     if (isOver) modelVals[ind === 0 ? 1 : 0] = "";
-    if (!fixedNum) return;
+    if (!precision) return;
     modelVals.forEach((v?: StrNum, i: number) => {
-      if (!emptyVals.includes(v)) modelVals[i] = Number(v).toFixed(fixedNum);
+      if (!emptyVals.includes(v)) modelVals[i] = Number(v).toFixed(precision);
     });
   }
   formItem?.validate(type);

@@ -77,7 +77,7 @@ import ChartRadar from "@/core/components/chart/ChartRadar.vue";
 import ChartBars from "@/core/components/chart/ChartBars.vue";
 import MultiCharts from "@/core/components/chart/MultiCharts.vue";
 import Setting from "./_components/Setting.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const customOption = {
   xAxis: {

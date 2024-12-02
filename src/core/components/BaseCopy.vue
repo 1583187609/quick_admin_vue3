@@ -4,12 +4,8 @@
 <template>
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !isClickIconCopy }">
-      <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!to">
-        <span
-          @click="handleClick"
-          class="f-1"
-          :class="{ [`line-${line}`]: true, link: !!to, click: textStr && !!$attrs.onClick }"
-        >
+      <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!textStr || !to">
+        <span @click="handleClick" class="f-1" :class="{ [`line-${line}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }">
           <slot>{{ textStr || emptyStr }}</slot>
         </span>
       </el-tooltip>
@@ -25,7 +21,7 @@
 </template>
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-import { CommonObj, RouteTo, StrNum } from "@/vite-env";
+import { CommonObj, RouteTo, StrNum } from "@/core/_types";
 import { showMessage, defaultTooltipAttrs, typeOf, emptyStr } from "@/utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
 import { useAttrs } from "vue";
@@ -65,7 +61,7 @@ const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.chil
 // 跳转页面或触发点击事件
 function handleClick(e) {
   const { to, data } = props;
-  if (!to) return;
+  if (!textStr.value || !to) return;
   e.stopPropagation();
   if (typeOf(to) === "Function") return router.push((to as Function)(data));
   return router.push(to as RouteTo);

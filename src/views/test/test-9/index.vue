@@ -11,7 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import CreateBaseForm from "./CreateBaseForm.vue";
 import CreateSectionForm from "./CreateSectionForm.vue";
 export type TabName = "base-form" | "section-form";

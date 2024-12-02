@@ -99,7 +99,7 @@ import InfoSteps from "@/components/InfoSteps.vue";
 import AuthInfo from "@/components/AuthInfo.vue";
 import { useSelectOpts } from "@/hooks";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
@@ -148,7 +148,7 @@ const fields: FormFieldAttrs[] = [
     label: "启用状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {
@@ -164,7 +164,7 @@ const fields: FormFieldAttrs[] = [
     label: "多标签",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
       multiple: true,
     },
   },

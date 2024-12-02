@@ -9,7 +9,7 @@ import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon } from "@/api-mock";
 const fields: FormFieldAttrs[] = [
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "cellphone",
     label: "电话",
     required: true,
@@ -19,7 +19,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    tpl: "password",
+    tpl: "T_Password",
     prop: "psd",
     label: "密码",
     quickAttrs: {
@@ -29,7 +29,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    tpl: "age",
+    tpl: "T_Age",
     quickAttrs: {
       popover: "设置popover属性，获得popover弹出层能力",
       tips: "设置模板（tpl属性），可以免写其他属性信息",

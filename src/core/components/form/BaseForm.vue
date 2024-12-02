@@ -4,21 +4,10 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="styleType"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row
-      class="section all-hide-scroll"
-      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-      v-else
-    >
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -72,7 +61,7 @@ import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
 import FooterBtns from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
-import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/vite-env";
+import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";

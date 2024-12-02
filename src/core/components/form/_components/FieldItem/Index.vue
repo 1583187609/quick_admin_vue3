@@ -72,13 +72,13 @@
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
 import { typeOf, getTextFromOpts, defaultFormItemType, defaultFormChildrenType, emptyStr, getFormItemSlots } from "@/core/utils";
-import { CommonObj, OptionItem, CommonSize } from "@/vite-env";
+import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
-import { defaultFieldAttrs, defaultFormItemTpls } from ".";
+import { defaultFieldAttrs, defaultFormItemTplsMap } from ".";
 import { rangeJoinChar, emptyVals, throwTplError } from "@/core/utils";
 import { useDict, useFormAttrs } from "@/hooks";
-import { FormItemTplTypes, FormItemType } from "./_types";
+import { FormItemTplTypes, FormItemType, FormTplType } from "./_types";
 import { defaultCommonSize } from "@/core/utils";
 import { DictName } from "@/dict/_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
@@ -105,8 +105,10 @@ const props = withDefaults(
     inputDebounce?: boolean;
     isChild?: boolean; //是否是父级children 的子级
     formRef?: any;
+    tplType?: FormTplType;
   }>(),
   {
+    tplType: "common",
     // grid: 24,
     // size: defaultCommonSize,
   }
@@ -129,12 +131,13 @@ const modelVal = computed({
   set: (val: any) => $emit("update:modelValue", val),
 });
 const subFields = ref<FormFieldAttrs[]>([]);
+const formItemTpls = defaultFormItemTplsMap[props.tplType];
 const formItemAttrs = computed<FormFieldAttrs>(() => {
   const { prefixProp, field: originField, isChild } = props;
   /*** 合并统一 tempField ***/
   let { tpl, ...field } = originField;
   if (tpl) {
-    const { rules: tplRules = [], ...restTplField } = defaultFormItemTpls[tpl];
+    const { rules: tplRules = [], ...restTplField } = formItemTpls[tpl];
     const { rules = [], ...restField } = field;
     field = merge({ prop: tpl, rules: mergeRules([...tplRules, ...rules]) }, restTplField, restField);
   }

@@ -1,11 +1,11 @@
 import { FormRules } from "element-plus";
 import { BaseRenderComponentType, BaseRenderData } from "@/core/BaseRender.vue";
-import { BaseDataType, CommonSize, OptionItem, StrNum, CommonSlots } from "@/vite-env";
-import { defaultFormItemTpls } from "./_config";
+import { BaseDataType, CommonSize, OptionItem, StrNum, CommonSlots } from "@/core/_types";
 import { DictName } from "@/dict/_types";
 import { PopoverType } from "@/core/_types";
 
-export type RulesType = keyof typeof defaultFormItemTpls;
+export type FormTplType = "common" | "query"; // 常规表单，查询表单
+export type FormItemTplType = string;
 // element-plus的表单控件类型
 export type ElFormItemType =
   | "input"

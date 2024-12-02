@@ -22,7 +22,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { GetAuthRoleList } from "@/api-mock";
 import AddDelTag from "@/core/components/form/_components/AddDelTag.vue";
-import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/core/_types";
 
 //是否支持： 0否;1=是
 const supportSwitchAttrs: CommonObj = {

@@ -32,7 +32,7 @@ import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from 
 import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { exportExcel, handleBtnNext } from "@/utils";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 import { TableDragSortEndNext } from "@/core/components/table/_types";
@@ -55,7 +55,7 @@ const fields = [
     label: "性别",
     type: "select",
     attrs: {
-      options: "Gender",
+      options: "D_Gender",
     },
   },
   {
@@ -63,7 +63,7 @@ const fields = [
     label: "用户类型",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
     },
   },
   {
@@ -71,7 +71,7 @@ const fields = [
     label: "账号状态",
     type: "select",
     attrs: {
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {
@@ -79,7 +79,7 @@ const fields = [
     label: "多标签",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
       multiple: true,
     },
   },

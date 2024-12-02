@@ -1,6 +1,6 @@
 import { computed, reactive, ref, watch } from "vue";
 import { defineStore } from "pinia";
-import { CommonObj, ShowCodes } from "@/vite-env";
+import { CommonObj, ShowCodes } from "@/core/_types";
 import { checkObjKeyError, defaultWidgetSize, showMessage, storage } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 

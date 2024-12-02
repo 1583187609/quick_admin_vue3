@@ -21,7 +21,7 @@
 import { ref, computed } from "vue";
 import { ElTree, useFormItem } from "element-plus";
 import { getTextFromOptions } from "@/utils";
-import { StrNum } from "@/vite-env";
+import { StrNum } from "@/core/_types";
 
 export interface MenuTreeNode {
   id: number;

@@ -1,6 +1,6 @@
 import Mock from "mockjs";
 import { getMockCfg } from "../utils";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const { Random } = Mock;
 
@@ -49,10 +49,10 @@ export function createTestFields(num = 199) {
     [`list|${num}`]: [
       getMockCfg({
         id: null,
-        // enum: { name: "EnableStatus", prop: "status" },
+        // enum: { name: "D_EnableStatus", prop: "status" },
         enum: [
-          { name: "EnableStatus", prop: "status" },
-          { name: "Gender", prop: "gender" },
+          { name: "D_EnableStatus", prop: "status" },
+          { name: "D_Gender", prop: "gender" },
         ],
         phone: null,
         cascader: null,

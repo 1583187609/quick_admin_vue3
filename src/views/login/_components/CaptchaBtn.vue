@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { ElMessage } from "element-plus";
-import { CommonObj, SetInterval } from "@/vite-env";
+import { CommonObj, SetInterval } from "@/core/_types";
 const seconds = 5;
 const currSecond = ref(seconds);
 const hasSend = ref(false);

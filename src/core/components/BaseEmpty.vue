@@ -7,7 +7,7 @@
   </el-empty>
 </template>
 <script lang="ts" setup>
-import { StrNum } from "@/vite-env";
+import { StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     tips?: string;

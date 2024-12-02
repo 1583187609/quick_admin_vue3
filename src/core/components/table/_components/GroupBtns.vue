@@ -12,9 +12,7 @@
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs">
-        更多
-      </el-button>
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs"> 更多 </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
@@ -43,7 +41,7 @@ import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { ClosePopupType } from "@/core/components/BasicPopup/_types";
 import config from "@/config";
-import { ClosePopupInject, CommonObj, CommonSize } from "@/vite-env";
+import { ClosePopupInject, CommonObj, CommonSize } from "@/core/_types";
 import { defaultCommonSize } from "@/core/utils";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);

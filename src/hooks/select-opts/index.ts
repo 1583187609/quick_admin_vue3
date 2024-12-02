@@ -2,7 +2,7 @@
 import { ref, computed, nextTick } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
 import { GetOptionsSchool, GetOptionsCompany } from "@/api-mock";
-import { CommonObj, OptionItem, StrNum } from "@/vite-env";
+import { CommonObj, OptionItem, StrNum } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 
 export type SelectSearchType = "school" | "company";
@@ -39,12 +39,7 @@ export default () => {
    * 获取输入并搜索的下拉项
    * @tips 作为 "school" | "company" 两个搜索下拉项的整合
    */
-  function getSearchOpts(
-    type: SelectSearchType,
-    field: FormFieldAttrs,
-    name?: string,
-    cb?: (val: StrNum, row: CommonObj) => void
-  ) {
+  function getSearchOpts(type: SelectSearchType, field: FormFieldAttrs, name?: string, cb?: (val: StrNum, row: CommonObj) => void) {
     if (!typeMap[type]) throw new Error(`不存在type为${type}的类型`);
     const { fetchApi, defaultField, handleItem, reqNameKey = "name", resValKey = "id", extraParams } = typeMap[type];
     const loading = ref<boolean>(false);

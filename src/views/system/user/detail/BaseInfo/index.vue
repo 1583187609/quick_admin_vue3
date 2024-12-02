@@ -35,7 +35,7 @@
     <template #head-right>
       <div class="f-1 f-sb-c">
         <div class="tags f-fs-c mr-a">
-          <BaseTag class="tag" name="AccountStatus" :value="status" />
+          <BaseTag class="tag" name="D_AccountStatus" :value="status" />
           <el-tag class="tag" color="#F3DBFB" style="color: #d359f5; border: 1px solid #d359f5" v-if="true">优质嘉宾</el-tag>
           <el-tag class="tag" color="#CFFAFF" style="color: #2bb4c5; border: 1px solid #2bb4c5" v-if="true">代理人</el-tag>
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
@@ -108,7 +108,7 @@ import LoveList from "./_components/LoveList.vue";
 import EvaluateList from "./_components/EvaluateList.vue";
 import AboutList from "./_components/AboutList.vue";
 import AboutTitle from "./_components/AboutTitle.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { useDict, usePopup } from "@/hooks";
 import { PostMockCommon } from "@/api-mock";
 import { showMessage } from "@/utils";
@@ -116,7 +116,7 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 
 const { openPopup, closePopup } = usePopup();
 const { getOpts, getText } = useDict();
-const genderOpts = getOpts("Gender");
+const genderOpts = getOpts("D_Gender");
 const infoStatusMap: CommonObj = {
   yes: {
     text: "已完善资料",
@@ -167,7 +167,7 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     },
   },
   {
-    tpl: "age",
+    tpl: "T_Age",
     prop: "nl",
     label: "年龄",
     type: "input-number",
@@ -221,7 +221,7 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     label: "微信号",
   },
   {
-    tpl: "phone",
+    tpl: "T_Phone",
     prop: "sr",
     label: "手机号",
     quickAttrs: {},
@@ -409,7 +409,7 @@ const preferSetFormFields: FormFieldAttrs[] = [
     },
   },
   {
-    tpl: "age",
+    tpl: "T_Age",
     prop: "nlfw",
     label: "年龄范围",
     type: "BaseNumberRange",

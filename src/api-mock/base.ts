@@ -1,5 +1,5 @@
 import http from "@/core/http";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 /************ select 下拉项 *************/
 //获取学校列表数据

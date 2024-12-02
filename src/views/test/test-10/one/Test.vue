@@ -7,7 +7,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, inject, watch, computed } from "vue";
-import { ClosePopupInject, CommonObj } from "@/vite-env";
+import { ClosePopupInject, CommonObj } from "@/core/_types";
 
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(

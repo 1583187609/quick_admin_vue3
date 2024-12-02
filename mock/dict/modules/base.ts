@@ -1,22 +1,22 @@
 export default {
   //启用禁用状态（通用）
-  EnableStatus: {
+  D_EnableStatus: {
     0: "禁用",
     1: "启用",
   },
   //启用禁用状态（通用）
-  YesNoStatus: {
+  D_YesNoStatus: {
     0: "否",
     1: "是",
   },
   //性别
-  Gender: {
+  D_Gender: {
     0: "未知",
     1: "男",
     2: "女",
   },
   //用户类型
-  RoleType: {
+  D_RoleType: {
     0: "超级管理员",
     1: "普通管理员",
     2: "特殊用户",
@@ -27,7 +27,7 @@ export default {
     // 7: "普通会员",
   },
   //权限菜单类型
-  MenuType: {
+  D_MenuType: {
     0: "目录",
     1: "菜单",
     2: "按钮",

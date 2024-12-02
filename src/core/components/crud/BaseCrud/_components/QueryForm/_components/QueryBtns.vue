@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { RefreshLeft } from "@element-plus/icons-vue";
 import { defaultCommonSize } from "@/core/utils";
-import { CommonSize } from "@/vite-env";
+import { CommonSize } from "@/core/_types";
 import { Loading, Search, ArrowDown } from "@element-plus/icons-vue";
 
 const props = withDefaults(

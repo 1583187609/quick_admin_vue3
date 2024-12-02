@@ -4,7 +4,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, NextHintCb, StrNum } from "@/vite-env";
+import { CommonObj, NextHintCb, StrNum } from "@/core/_types";
 // import { MsgPosition } from "./Index.vue";
 const props = withDefaults(
   defineProps<{

@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, inject } from "vue";
 import { FormField, FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { exampleMap } from "./_config";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import Config from "./_components/Config.vue";

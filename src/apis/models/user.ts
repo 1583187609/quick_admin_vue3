@@ -1,5 +1,5 @@
 import http from "@/core/http";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 /************ 用户相关 *************/
 

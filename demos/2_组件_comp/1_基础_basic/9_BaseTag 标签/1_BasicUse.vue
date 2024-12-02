@@ -1,9 +1,9 @@
 <template>
   <div class="f-fs-fs-w">
     <BaseTag />
-    <BaseTag name="RoleType" value="0" />
-    <BaseTag name="RoleType" value="0" pureText />
-    <BaseTag name="RoleType" value="0" count="10" />
+    <BaseTag name="D_RoleType" value="0" />
+    <BaseTag name="D_RoleType" value="0" pureText />
+    <BaseTag name="D_RoleType" value="0" count="10" />
   </div>
 </template>
 <script lang="ts" setup></script>

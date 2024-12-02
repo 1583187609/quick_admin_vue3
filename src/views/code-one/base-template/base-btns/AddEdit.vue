@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
 
 const authTreeData = [
@@ -91,7 +91,7 @@ const fields: FormField[] = [
     quickAttrs: { grid: 12 },
   },
   {
-    tpl: "yesNoSwitch",
+    tpl: "T_YesNoStatus",
     label: "是否提示确认",
     quickAttrs: { grid: 12 },
   },
@@ -114,7 +114,7 @@ const fields: FormField[] = [
     label: "路径跳转",
   },
   {
-    tpl: "remark",
+    tpl: "T_Remark",
   },
 ];
 </script>

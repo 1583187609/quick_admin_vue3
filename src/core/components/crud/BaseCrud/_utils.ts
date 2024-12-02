@@ -1,7 +1,7 @@
 import { ElMessageBox } from "element-plus";
 import { BtnName, BtnItem, BaseBtnType, BtnsMap } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import { CommonObj, OptionItem, StrNum } from "@/vite-env";
+import { CommonObj, OptionItem, StrNum } from "@/core/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
 import {
   rangeJoinChar,

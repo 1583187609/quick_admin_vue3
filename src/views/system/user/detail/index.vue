@@ -21,7 +21,7 @@ import BaseInfo from "./BaseInfo/index.vue";
 import LoginInfo from "./LoginInfo/index.vue";
 import AuthInfo from "./AuthInfo/index.vue";
 import InteractiveInfo from "./InteractiveInfo/index.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

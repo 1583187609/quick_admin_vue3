@@ -8,7 +8,7 @@
         </el-tooltip>
         <BaseCopy class="ml-12 f-0" :text="row.userId" />
         <div class="ml-12 mr-12 f-0">{{ row.userData.age || "-" }}岁</div>
-        <BaseTag name="Gender" :value="row.userData.gender" class="f-0" pureText />
+        <BaseTag name="D_Gender" :value="row.userData.gender" class="f-0" pureText />
       </div>
       <div class="title f-sb-b f-0">
         <b class="b">{{ getText("AboutInfo", row.type) }}</b>
@@ -31,7 +31,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, nextTick } from "vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { getTimeAgo } from "@/core/utils";
 import { AuditStatus } from "../Index.vue";

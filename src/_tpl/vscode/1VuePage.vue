@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const router = useRouter();
 const route = useRoute();

@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { easyNoteDomain, PostUserLogin } from "../apis";
 import { storage } from "@/utils";
 const props = withDefaults(
@@ -30,8 +30,8 @@ const modelData = reactive<CommonObj>({
 const timestamp = ref(Date.now());
 const imgUrl = computed(() => `${easyNoteDomain}/easy-note/tool/captcha?width=100&height=30&background=none&key=${timestamp.value}`);
 const fields: FormField[] = [
-  { tpl: "phone", prop: "phone", label: "账号", required: true },
-  { tpl: "password", prop: "password", label: "密码", required: true },
+  { tpl: "T_Phone", prop: "phone", label: "账号", required: true },
+  { tpl: "T_Password", prop: "password", label: "密码", required: true },
   {
     prop: "captcha",
     label: "验证码",

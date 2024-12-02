@@ -19,7 +19,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext } from "@/vite-env";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 import BaseOption from "@/core/components/BaseOption.vue";
 
@@ -165,8 +165,8 @@ const fields: FormField[] = computed(() => {
   ];
 });
 const cols: TableCol[] = [
-  { type: "sort" },
-  { tpl: "id" },
+  { tpl: "T_Sort" },
+  { tpl: "T_Id" },
   { prop: "tpl", label: "模板类型" },
   { prop: "name", label: "字段名称" },
   { prop: "type", label: "数据类型" },
@@ -179,9 +179,9 @@ const cols: TableCol[] = [
   { prop: "isUnsigned", label: "无符号" },
   { prop: "isFillZero", label: "填充零" },
   { prop: "joinChar", label: "连接符" },
-  { tpl: "remark" },
-  { tpl: "create" },
-  { tpl: "update" },
+  { tpl: "T_Remark" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
@@ -203,10 +203,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, [
-    AddEdit,
-    { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) },
-  ]);
+  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) }]);
 }
 </script>
 <style lang="scss" scoped></style>

@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import SubMenu from "./_components/SubMenu.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { useMenuStore, useSetStore } from "@/store";
 import { useRoute } from "vue-router";
 import cssVars from "@/assets/styles/_var.module.scss";

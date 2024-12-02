@@ -1,6 +1,6 @@
 export default {
   // 账号状态
-  AccountStatus: {
+  D_AccountStatus: {
     0: "正常",
     1: "封禁",
     2: "注销",
@@ -9,7 +9,7 @@ export default {
     5: "待注销",
   },
   // 学历类型
-  EducationType: {
+  D_EducationType: {
     0: "未知",
     1: "专科",
     2: "本科",
@@ -17,7 +17,7 @@ export default {
     4: "博士",
   },
   //婚姻状态
-  MatrimonyStatus: {
+  D_MatrimonyStatus: {
     0: "未婚",
     1: "离异",
     2: "已脱单",

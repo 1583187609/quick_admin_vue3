@@ -2,12 +2,7 @@
 <template>
   <div class="config">
     <InputWays v-model="inpType" />
-    <el-input
-      type="textarea"
-      style="width: 100%"
-      :placeholder="'请输入标准JSON字符串，例：' + exampleMap[type]"
-      v-if="inpType === 0"
-    />
+    <el-input type="textarea" style="width: 100%" :placeholder="'请输入标准JSON字符串，例：' + exampleMap[type]" v-if="inpType === 0" />
     <div class="f-fs-c" v-else-if="inpType === 1">暂未处理动态添加</div>
     <div class="f-fs-fs" v-else-if="inpType === 2">
       暂未处理请求获取
@@ -23,7 +18,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum, OptionItem } from "@/core/_types";
 import InputWays, { InputType } from "./InputWays.vue";
 import { exampleMap } from "../_config";
 const props = withDefaults(

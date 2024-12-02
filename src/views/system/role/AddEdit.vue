@@ -1,11 +1,5 @@
 <template>
-  <BaseForm
-    v-model="modelData"
-    style="width: 600px"
-    :fields="fields"
-    :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
-    :afterSuccess="refreshList"
-  >
+  <BaseForm v-model="modelData" style="width: 600px" :fields="fields" :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd" :afterSuccess="refreshList">
     <template #menu_auth>
       <BaseTree v-modle="modelData.menu_auth" />
     </template>
@@ -14,7 +8,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { GetAuthRoleInfo, PostAuthRoleAdd, PostAuthRoleUpdate } from "@/api-mock";
 
 const props = withDefaults(
@@ -39,7 +33,7 @@ const fields = ref<FormField[]>([
     type: "radio-group",
     attrs: {
       type: "button",
-      options: "EnableStatus",
+      options: "D_EnableStatus",
     },
   },
   {

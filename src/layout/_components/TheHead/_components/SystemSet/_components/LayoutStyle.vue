@@ -32,7 +32,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { LayoutType } from "@/store/modules/set";
 import store, { useBaseStore, useSetStore } from "@/store";
 const layoutMap = {

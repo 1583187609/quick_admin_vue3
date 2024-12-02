@@ -16,7 +16,7 @@ const fields: FormField[] = [
     label: "角色类型",
     type: "select",
     attrs: {
-      options: "RoleType",
+      options: "D_RoleType",
     },
   },
   { prop: "rq", label: "日期", type: "date-picker" },
@@ -37,7 +37,7 @@ const cols: TableCol[] = [
     label: "角色类型",
     minWidth: 90,
   },
-  { tpl: "remark" },
+  { tpl: "T_Remark" },
 ];
 </script>
 <style lang="scss" scoped></style>

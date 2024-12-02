@@ -22,7 +22,7 @@
 import { ref, reactive, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import SectionForm from "@/core/components/form/SectionForm.vue";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import LayoutStyle from "./_components/LayoutStyle.vue";
 import { getIsUpdated } from "@/utils";
@@ -37,18 +37,7 @@ const showHideSwitchAttrs = {
   inactiveText: "隐藏",
 };
 // 预定义主题颜色
-const colorList = [
-  cssVars.colorPrimary,
-  "#daa96e",
-  "#0c819f",
-  "#409eff",
-  "#27ae60",
-  "#ff5c93",
-  "#e74c3c",
-  "#fd726d",
-  "#f39c12",
-  "#9b59b6",
-];
+const colorList = [cssVars.colorPrimary, "#daa96e", "#0c819f", "#409eff", "#27ae60", "#ff5c93", "#e74c3c", "#fd726d", "#f39c12", "#9b59b6"];
 const sizeOpts: OptionItem[] = [
   { label: "大型", value: "large" },
   { label: "中等", value: "medium" },

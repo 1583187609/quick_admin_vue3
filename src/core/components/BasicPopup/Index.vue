@@ -5,30 +5,18 @@
 <template>
   <slot />
   <!-- 对话框 -->
-  <BasicDialog
-    v-model="dialog.show"
-    :footer="dialog.foot"
-    v-bind="dialog.attrs"
-    v-for="(dialog, ind) in dialogs"
-    :key="'dialog-' + ind"
-  >
+  <BasicDialog v-model="dialog.show" :footer="dialog.foot" v-bind="dialog.attrs" v-for="(dialog, ind) in dialogs" :key="'dialog-' + ind">
     <BaseRender :data="dialog.body" />
   </BasicDialog>
   <!-- 抽屉 -->
-  <BasicDrawer
-    v-model="drawer.show"
-    :footer="drawer.foot"
-    v-bind="drawer.attrs"
-    v-for="(drawer, ind) in drawers"
-    :key="'drawer-' + ind"
-  >
+  <BasicDrawer v-model="drawer.show" :footer="drawer.foot" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
     <BaseRender :data="drawer.body" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide, isVNode, toRaw } from "vue";
 import { defaultPopupType, isRenderData, showMessage, sortObjArrByKey, typeOf } from "@/utils";
-import { CommonObj, SetTimeout } from "@/vite-env";
+import { CommonObj, SetTimeout } from "@/core/_types";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
 import BasicDrawer from "./_components/BasicDrawer.vue";
