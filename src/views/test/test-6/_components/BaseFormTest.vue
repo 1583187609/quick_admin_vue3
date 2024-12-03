@@ -51,7 +51,7 @@ const fields = [
   { prop: "xjd", label: "现居地", quickAttrs: { grid: 6 } },
   { prop: "ip", label: "IP地址", quickAttrs: { grid: 6 } },
   { prop: "dh", label: "电话", quickAttrs: { grid: 6 } },
-  { prop: "zdy", label: "自定义", type: "custom" },
+  { prop: "zdy", label: "自定义", type: "slot" },
 ];
 </script>
 <style lang="scss" scoped></style>

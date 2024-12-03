@@ -47,7 +47,7 @@ const cols = [
   { prop: "xjd", label: "现居地" },
   { prop: "ip", label: "IP地址" },
   { prop: "dh", label: "电话" },
-  { prop: "zdy", label: "自定义", type: "custom" },
+  { prop: "zdy", label: "自定义", type: "slot" },
 ];
 
 const rows = [

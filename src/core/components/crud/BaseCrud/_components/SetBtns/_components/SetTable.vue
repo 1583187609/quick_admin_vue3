@@ -83,19 +83,19 @@ const cols: TableColAttrs[] = [
     prop: "visible",
     label: "是否显示",
     width: 80,
-    type: "custom",
+    type: "slot",
   },
   {
     prop: "sortable",
     label: "是否排序",
     width: 80,
-    type: "custom",
+    type: "slot",
   },
   {
     prop: "exportable",
     label: "能否导出",
     width: 80,
-    type: "custom",
+    type: "slot",
   },
 ];
 function handleChange(data: SetTableChangeParams) {

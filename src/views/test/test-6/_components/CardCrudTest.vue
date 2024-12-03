@@ -141,7 +141,7 @@ const fields: FormFieldAttrs[] = [
   {
     prop: "zdy",
     label: "自定义",
-    type: "custom",
+    type: "slot",
     quickAttrs: {
       popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
@@ -163,7 +163,7 @@ const cols = [
   { prop: "xjd", label: "现居地" },
   { prop: "ip", label: "IP地址" },
   { prop: "dh", label: "电话" },
-  { prop: "zdy", label: "自定义", type: "custom" },
+  { prop: "zdy", label: "自定义", type: "slot" },
 ];
 //点击列表上方的额外的按钮
 function onExtraBtns(name: BtnName, next: FinallyNext) {

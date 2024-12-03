@@ -58,7 +58,7 @@ const sections: SectionFormItemAttrs[] = [
       {
         prop: "zdy",
         label: "自定义",
-        type: "custom",
+        type: "slot",
       },
     ],
   },

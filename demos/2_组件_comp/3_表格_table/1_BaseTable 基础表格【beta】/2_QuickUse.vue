@@ -33,7 +33,7 @@ const cols = [
       return "18413321312";
     },
   },
-  { prop: "zdy", label: "自定义", type: "custom", width: 100 },
+  { prop: "zdy", label: "自定义", type: "slot", width: 100 },
 ];
 
 const rows = [

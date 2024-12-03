@@ -2,10 +2,27 @@
 <template>
   <TestView :records="records">
     <div>
-      <BaseForm class="f-2 m-o" v-model="modelData" styleType="cell" :fields="fields" grid="12" label-suffix="：" :size="size" :pureText="pureText">
+      <BaseForm
+        class="f-2 m-o"
+        v-model="modelData"
+        styleType="cell"
+        :fields="fields"
+        grid="12"
+        label-suffix="："
+        :size="size"
+        :pureText="pureText"
+      >
         <template #zdy>这是自定义的表单字段</template>
       </BaseForm>
-      <SectionForm class="f-2 m-o" styleType="cell" :sections="sections" grid="12" label-suffix="：" :size="size" :pureText="pureText">
+      <SectionForm
+        class="f-2 m-o"
+        styleType="cell"
+        :sections="sections"
+        grid="12"
+        label-suffix="："
+        :size="size"
+        :pureText="pureText"
+      >
         <template #zdy>这是自定义的表单字段</template>
       </SectionForm>
     </div>
@@ -67,7 +84,7 @@ const fields = [
   },
   { prop: "ip", label: "IP地址", quickAttrs: { grid: 6 } },
   { prop: "dh", label: "电话", quickAttrs: { grid: 6 } },
-  { prop: "zdy", label: "自定义", type: "custom", quickAttrs: { grid: 18 } },
+  { prop: "zdy", label: "自定义", type: "slot", quickAttrs: { grid: 18 } },
 ];
 const sections = [
   {

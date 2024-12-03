@@ -70,12 +70,12 @@ const sections: SectionFormItem[] = [
   {
     name: "yebd",
     title: "余额变动",
-    type: "custom",
+    type: "slot",
   },
 ];
 const cols: TableCol[] = [
-  { prop: "bd", label: "变动", type: "custom" },
-  { prop: "je", label: "金额", type: "custom" },
+  { prop: "bd", label: "变动", type: "slot" },
+  { prop: "je", label: "金额", type: "slot" },
   { prop: "lx", label: "类型" },
   { prop: "ye", label: "余额" },
   { prop: "sj", label: "时间" },

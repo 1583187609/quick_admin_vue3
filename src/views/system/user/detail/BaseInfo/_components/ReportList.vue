@@ -34,7 +34,7 @@ const cols: TableColAttrs[] = [
   { prop: "jblx", label: "举报类型" },
   { prop: "jbsj", label: "举报时间", width: 110 },
   { prop: "jbnr", label: "举报内容", width: 250 },
-  { prop: "cljg", label: "处理结果", type: "custom", width: 80 },
+  { prop: "cljg", label: "处理结果", type: "slot", width: 80 },
 ];
 const rows: CommonObj[] = [
   {

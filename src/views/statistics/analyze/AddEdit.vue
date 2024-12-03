@@ -37,7 +37,7 @@ const fields = ref<FormField[]>([
     prop: "avatar",
     label: "头像",
     required: false,
-    type: "custom",
+    type: "slot",
   },
   {
     prop: "nickname",

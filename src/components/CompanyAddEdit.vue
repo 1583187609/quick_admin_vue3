@@ -65,8 +65,8 @@ const fields: FormField[] = [
     required: true,
     attrs: { maxlength: 10 },
   },
-  { prop: "logoUrl", label: "公司logo", required: true, type: "custom" },
-  { prop: "emailSuffix", label: "邮箱后缀", type: "custom" },
+  { prop: "logoUrl", label: "公司logo", required: true, type: "slot" },
+  { prop: "emailSuffix", label: "邮箱后缀", type: "slot" },
   {
     label: "认证方式",
     children: [

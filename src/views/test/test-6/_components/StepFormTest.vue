@@ -34,7 +34,7 @@ const sections: SectionFormItemAttrs[] = [
     // pureText: true,
     // size: "small",
     prop: "partOne",
-    type: "custom",
+    type: "slot",
     popover: "块级设置 {pureText: true, size: 'small'}",
     fields: [
       {
@@ -94,7 +94,7 @@ const sections: SectionFormItemAttrs[] = [
         attrs: { disabled: false },
         quickAttrs: { popover: "设置{disabled: false}" },
       },
-      { prop: "zdy", label: "自定义", type: "custom" },
+      { prop: "zdy", label: "自定义", type: "slot" },
     ],
   },
 ];

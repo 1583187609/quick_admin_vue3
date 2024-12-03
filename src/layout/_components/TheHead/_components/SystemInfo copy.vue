@@ -43,25 +43,26 @@ const fields: FormFieldAttrs[] = [
   {
     prop: "version",
     label: "版本号",
-    type: "custom",
+    type: "slot",
     class: "mb-h",
   },
   {
     prop: "depends",
     label: "生产环境依赖",
-    type: "custom",
+    type: "slot",
     class: "mb-h",
   },
   {
     prop: "devDepends",
     label: "开发环境依赖",
-    type: "custom",
+    type: "slot",
     class: "mb-h",
   },
 ];
 const modelData = reactive<CommonObj>({
   name: VITE_APP_NAME,
-  description: "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
+  description:
+    "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
   version: `${env} - ${version}`,
   depends: Object.entries(dependencies),
   devDepends: Object.entries(devDependencies),

@@ -24,7 +24,7 @@ const props = withDefaults(
 const cols: TableColAttrs[] = [
   { prop: "lx", label: "类型", width: 200 },
   { prop: "bdsj", label: "变动时间", width: 120 },
-  { prop: "bdje", label: "变动金额", width: 100, type: "custom" },
+  { prop: "bdje", label: "变动金额", width: 100, type: "slot" },
   { prop: "ye", label: "余额", width: 100 },
 ];
 const rows = reactive([

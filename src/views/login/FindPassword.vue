@@ -22,7 +22,7 @@ const fields = [
     prop: "captcha",
     label: "验证码",
     required: true,
-    // type: "custom",
+    // type: "slot",
     attrs: {
       maxlength: 4,
     },

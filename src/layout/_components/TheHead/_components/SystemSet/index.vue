@@ -37,7 +37,18 @@ const showHideSwitchAttrs = {
   inactiveText: "隐藏",
 };
 // 预定义主题颜色
-const colorList = [cssVars.colorPrimary, "#daa96e", "#0c819f", "#409eff", "#27ae60", "#ff5c93", "#e74c3c", "#fd726d", "#f39c12", "#9b59b6"];
+const colorList = [
+  cssVars.colorPrimary,
+  "#daa96e",
+  "#0c819f",
+  "#409eff",
+  "#27ae60",
+  "#ff5c93",
+  "#e74c3c",
+  "#fd726d",
+  "#f39c12",
+  "#9b59b6",
+];
 const sizeOpts: OptionItem[] = [
   { label: "大型", value: "large" },
   { label: "中等", value: "medium" },
@@ -58,7 +69,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
     {
       title: $t("sysSet.appearance.title"),
       fields: [
-        { prop: "layout_type", label: $t("sysSet.appearance.layoutStyle.label"), type: "custom" },
+        { prop: "layout_type", label: $t("sysSet.appearance.layoutStyle.label"), type: "slot" },
         {
           prop: "widget_size",
           label: $t("sysSet.appearance.widgetSize.label"),
@@ -127,7 +138,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
     {
       title: $t("sysSet.theme.title"),
       fields: [
-        { prop: "theme_color", label: $t("sysSet.theme.themeColor.label"), type: "custom" },
+        { prop: "theme_color", label: $t("sysSet.theme.themeColor.label"), type: "slot" },
         {
           prop: "dark_mode",
           label: $t("sysSet.theme.darkMode.label"),

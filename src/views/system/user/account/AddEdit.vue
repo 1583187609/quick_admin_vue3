@@ -36,7 +36,7 @@ const fields = ref<FormField[]>([
     prop: "avatar",
     label: "头像",
     required: false,
-    type: "custom",
+    type: "slot",
     quickAttrs: {
       tips: "只能上传.jpg,.png,.gif,.jpeg类型，且大小不超过1M",
     },

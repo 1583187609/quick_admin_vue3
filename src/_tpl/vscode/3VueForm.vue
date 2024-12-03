@@ -45,7 +45,7 @@ const fields: FormFieldAttrs[] = [
   {
     prop: "zdy",
     label: "自定义",
-    type: "custom",
+    type: "slot",
   },
 ];
 </script>

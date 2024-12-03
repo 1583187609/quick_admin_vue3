@@ -47,7 +47,7 @@ const cols: TableColAttrs[] = [
   { type: "selection" },
   { prop: "xm", label: "姓名" },
   { prop: "zt", label: "状态" },
-  { prop: "zdy", label: "自定义", type: "custom" },
+  { prop: "zdy", label: "自定义", type: "slot" },
 ];
 
 // 处理额外按钮的点击

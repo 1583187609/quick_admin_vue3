@@ -84,7 +84,7 @@ const cols: FormTableColAttrs[] = [
     },
   },
   { prop: "dh", label: "电话", width: 200, field: { tpl: "T_Phone" } },
-  { prop: "zdy", label: "自定义", width: 200, field: { type: "custom" } },
+  { prop: "zdy", label: "自定义", width: 200, field: { type: "slot" } },
 ];
 
 const rows = Array(30)

@@ -311,7 +311,7 @@ const fields: FormFieldAttrs[] = [
   {
     prop: "zdy",
     label: "自定义",
-    type: "custom",
+    type: "slot",
     quickAttrs: {
       popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
@@ -344,7 +344,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
+                    desc: [
+                      "单个项目的常用组件，采用内嵌至系统的方式。",
+                      "预设了列宽，prop等属性",
+                      "可通过attrs传入UserInfo组件的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -361,16 +365,16 @@ const cols: TableCol[] = [
         prop: "info_complete_children",
         label: "资料完善状态",
         width: 170,
-        type: "custom",
+        type: "slot",
         quickAttrs: {
-          // popover: `需设置 {type: "custom"}`,
+          // popover: `需设置 {type: "slot"}`,
           popover: {
             title: "自定义组件 - InfoSteps",
             slots: {
               default: h(CustomPopover, {
                 sections: [
                   { name: "描述", desc: "项目中的不常用组件，采用自定义方式插入" },
-                  { name: "设置", desc: `{type: "custom"}` },
+                  { name: "设置", desc: `{type: "slot"}` },
                 ],
               }),
             },
@@ -383,7 +387,7 @@ const cols: TableCol[] = [
     prop: "info_complete",
     label: "资料完善状态",
     width: 170,
-    type: "custom",
+    type: "slot",
     quickAttrs: {
       popover: `不放在children中进行展示`,
     },
@@ -459,7 +463,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击整个文本域进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -489,7 +497,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击文本跳转页面，点击图标进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -534,7 +546,7 @@ const cols: TableCol[] = [
             prop: "is_proxy",
             label: "标签(自定义，simple可见)",
             width: 220,
-            type: "custom",
+            type: "slot",
           }
         : {
             prop: "status",

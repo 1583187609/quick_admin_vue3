@@ -75,7 +75,7 @@ const cols = ref<TableCol[]>([
     label: "类型",
     minWidth: 60,
   },
-  { prop: "icon", label: "图标", width: 60, type: "custom" },
+  { prop: "icon", label: "图标", width: 60, type: "slot" },
   { prop: "order", label: "排序", width: 60 },
   {
     prop: "perms",

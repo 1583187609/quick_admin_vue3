@@ -509,7 +509,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "zdy",
       label: "自定义组件",
-      type: "custom",
+      type: "slot",
       quickAttrs: {
         tips: "设置type:'custom'通过插槽加入自定义组件，并通过v-model绑定表单值",
       },

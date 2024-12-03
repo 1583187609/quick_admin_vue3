@@ -13,7 +13,7 @@
     </template>
     <template v-if="!subFields.length">
       <template v-if="newPureText">
-        <slot name="custom" :field="formItemAttrs" v-if="currType === 'custom'" />
+        <slot name="custom" :field="formItemAttrs" v-if="currType === 'slot'" />
         <template v-else>
           {{ getOptionValue(formItemAttrs, modelVal).value }}
         </template>
@@ -25,7 +25,7 @@
           </div>
           <BaseRender :data="currQuickAttrs.before" v-else />
         </template>
-        <slot name="custom" :field="formItemAttrs" v-if="currType === 'custom'">
+        <slot name="custom" :field="formItemAttrs" v-if="currType === 'slot'">
           <div class="color-danger">【自定义】{{ `${formItemAttrs.label}（${formItemAttrs.prop})` }}</div>
         </slot>
         <FormItem
@@ -61,8 +61,19 @@
     </template>
     <!-- 当有子项表单时 -->
     <template v-else>
-      <AddDelList v-model="modelVal" :fields="subFields" :parentProp="formItemAttrs.prop" :formRef="formRef" v-if="currType === 'addDel'" />
-      <AnyEleList v-model="modelVal" :fields="subFields" :prefixProp="formItemAttrs.prop" v-else-if="currType === 'childrenFields'" />
+      <AddDelList
+        v-model="modelVal"
+        :fields="subFields"
+        :parentProp="formItemAttrs.prop"
+        :formRef="formRef"
+        v-if="currType === 'addDel'"
+      />
+      <AnyEleList
+        v-model="modelVal"
+        :fields="subFields"
+        :prefixProp="formItemAttrs.prop"
+        v-else-if="currType === 'childrenFields'"
+      />
       <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
     </template>
   </el-form-item>
@@ -323,7 +334,7 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
     val = getTextFromOpts(options, val);
   } else if (type === "BaseNumberRange") {
     val = val?.join(rangeJoinChar);
-  } else if (type === "custom") {
+  } else if (type === "slot") {
     val = emptyStr;
   } else {
     new Error(`暂未处理此种类型：${type}`);

@@ -47,7 +47,7 @@ const cols: TableCol[] = [
     prop: "table_name",
     label: "表名称",
     minWidth: 90,
-    type: "custom",
+    type: "slot",
   },
   { prop: "status", label: "启用状态", type: "BaseTag" },
   { type: "create" },

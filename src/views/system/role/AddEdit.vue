@@ -31,7 +31,7 @@ const fields = ref<FormField[]>([
   {
     prop: "menu_auth",
     label: "菜单权限",
-    type: "custom",
+    type: "slot",
   },
   {
     prop: "status",

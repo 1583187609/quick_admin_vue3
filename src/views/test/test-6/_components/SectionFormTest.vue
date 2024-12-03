@@ -94,7 +94,7 @@ const sections = [
         attrs: { disabled: false },
         quickAttrs: { grid: 12, popover: "设置{disabled: false}" },
       },
-      { prop: "zdy", label: "自定义", labelWidth: "auto", type: "custom", quickAttrs: { grid: 24 } },
+      { prop: "zdy", label: "自定义", labelWidth: "auto", type: "slot", quickAttrs: { grid: 24 } },
     ],
   },
 ];

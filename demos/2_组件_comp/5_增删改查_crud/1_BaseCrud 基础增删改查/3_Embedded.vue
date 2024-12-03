@@ -224,7 +224,7 @@ const fields: FormFieldAttrs[] = [
   {
     prop: "zdy",
     label: "自定义",
-    type: "custom",
+    type: "slot",
     quickAttrs: {
       popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
@@ -248,9 +248,9 @@ const cols: TableCol[] = [
     prop: "info_complete",
     label: "自定义组件-非内置",
     width: 170,
-    type: "custom",
+    type: "slot",
     quickAttrs: {
-      popover: `需设置 {type: "custom"}`,
+      popover: `需设置 {type: "slot"}`,
     },
   },
   // {
@@ -302,7 +302,7 @@ const cols: TableCol[] = [
         prop: "is_proxy",
         label: "标签(自定义，simple可见)",
         width: 220,
-        type: "custom",
+        type: "slot",
       }
     : {
         prop: "status",

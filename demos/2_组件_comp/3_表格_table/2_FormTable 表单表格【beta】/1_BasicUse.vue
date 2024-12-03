@@ -23,7 +23,7 @@ const cols = [
   { prop: "xjd", label: "现居地", minWidth: 100 },
   { prop: "ip", label: "IP地址", minWidth: 100 },
   { prop: "dh", label: "电话", minWidth: 100 },
-  { prop: "zdy", label: "自定义", type: "custom", minWidth: 100 },
+  { prop: "zdy", label: "自定义", type: "slot", minWidth: 100 },
 ];
 
 const rows = reactive([

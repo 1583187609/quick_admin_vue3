@@ -67,7 +67,7 @@ const fields = computed(() => {
     menuType === 1 && {
       prop: "parent_id",
       label: "上级菜单",
-      type: "custom",
+      type: "slot",
       quickAttrs: {
         popover: "上级菜单",
       },
@@ -83,7 +83,7 @@ const fields = computed(() => {
     menuType !== 2 && {
       prop: "icon",
       label: "图标",
-      type: "custom",
+      type: "slot",
       required: true,
     },
     ...(menuType === 2

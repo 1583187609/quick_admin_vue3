@@ -13,7 +13,7 @@ const cols: TableColAttrs[] = [
   { prop: "id", label: "用户ID", fixed: "left" },
   { prop: "zy", label: "职业" },
   { prop: "xb", label: "性别" },
-  { prop: "zdy", label: "自定义", type: "custom" },
+  { prop: "zdy", label: "自定义", type: "slot" },
 ];
 
 const rows: CommonObj[] = [
