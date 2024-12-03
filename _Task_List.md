@@ -148,6 +148,7 @@
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
 64、封装 TreeCrud 组件  
 74、将 Quick 的内核抽离成 npm 包
+124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 76、请求参数加解密  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供
@@ -170,12 +171,10 @@
 121、处理打包后，页面空白的问题
 122、查询条件支持弹性布局
 123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
-124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
 132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（待定）
 136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
-134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072
 135、完善 importFileFromPaths 方法
 
 ## 待定事项
@@ -302,6 +301,7 @@
 64、保证打包后的静态资源（图片等）路径正确，使用`getWholeUrl`方法
 65、研究自动部署：完善 `deploy.sh` 文件，参见：`https://www.vitejs.net/guide/static-deploy.html#github-pages`
 66、使用`vue-draggle-plus`替换 sortable.js
+134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072
 67、测试验证所有文件都通过 index 文件统一导出带来的性能影响
 68、在 http 请求封装中全局捕获异常并统一处理：使得实际开发中不用 try catch
 69、将 FieldItem 组件中的 AddDelList、AnyEleList 组件用插槽的方式载入
