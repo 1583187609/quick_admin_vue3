@@ -51,7 +51,7 @@
             <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{ renderValue(row[newCol.prop as string]) }}</BaseText>
             <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
             <!-- 自定义列 -->
-            <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'custom'" />
+            <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'slot'" />
             <!-- 创建和修改列 -->
             <OperatorTime :prop="newCol.prop" :data="row" v-else-if="newCol.type === 'OperatorTime'" />
             <!-- 操作栏按钮列 -->
@@ -160,7 +160,7 @@ function getIsNoHandle(scope: CommonObj) {
   if (isOptimization) return false;
   const { _self } = scope;
   const { type, prop } = newCol;
-  if ((prop as string).startsWith("$") || type === "custom") return false;
+  if ((prop as string).startsWith("$") || type === "slot") return false;
   if (!_self.data?.length) return false;
   const row = _self.data[0];
   if (prop?.includes(propsJoinChar)) {

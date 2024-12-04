@@ -37,8 +37,20 @@
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip v-bind="tooltipAttrs" :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)" v-if="screenfull.isEnabled">
-          <el-button id="fullscreen" @click="toggleFullscreen" :icon="isFull ? Aim : FullScreen" type="primary" class="item" plain circle></el-button>
+        <el-tooltip
+          v-bind="tooltipAttrs"
+          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
+          v-if="screenfull.isEnabled"
+        >
+          <el-button
+            id="fullscreen"
+            @click="toggleFullscreen"
+            :icon="isFull ? Aim : FullScreen"
+            type="primary"
+            class="item"
+            plain
+            circle
+          ></el-button>
         </el-tooltip>
       </div>
       <!-- 用户信息 -->
@@ -101,7 +113,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, nextTick } from "vue";
+import { ref, inject, onMounted, nextTick, defineAsyncComponent } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useRouter } from "vue-router";
@@ -109,11 +121,6 @@ import { ElMessageBox } from "element-plus";
 import PageTags from "./_components/PageTags/Index.vue";
 import pkg from "#/package.json";
 import { getUserInfo, showMessage, storage } from "@/utils";
-import UserInfo from "./_components/UserInfo.vue";
-import Notices from "./_components/Notices.vue";
-import SystemSet from "./_components/SystemSet/index.vue";
-import SystemInfo from "./_components/SystemInfo.vue";
-import SearchMenu from "./_components/SearchMenu.vue";
 import PathBreadcrumb from "./_components/PathBreadcrumb.vue";
 import { useSetStore } from "@/store";
 import screenfull from "screenfull";
@@ -124,10 +131,14 @@ import { useI18n } from "vue-i18n";
 import { OpenPopupInject } from "@/core/_types";
 import { Expand, Fold } from "@element-plus/icons-vue";
 import "driver.js/dist/driver.css";
-// import { useDict } from "@/hooks";
+
+const UserInfo = defineAsyncComponent(() => import("./_components/UserInfo.vue"));
+const Notices = defineAsyncComponent(() => import("./_components/Notices.vue"));
+const SystemSet = defineAsyncComponent(() => import("./_components/SystemSet/index.vue"));
+const SystemInfo = defineAsyncComponent(() => import("./_components/SystemInfo.vue"));
+const SearchMenu = defineAsyncComponent(() => import("./_components/SearchMenu.vue"));
 
 const { tm: $t } = useI18n();
-// const { updateStorageDict }=useDict();
 const { VITE_APP_NAME } = import.meta.env;
 const openPopup = inject<OpenPopupInject>("openPopup");
 const menuStore = useMenuStore();

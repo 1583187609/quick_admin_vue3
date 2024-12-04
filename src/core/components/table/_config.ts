@@ -117,16 +117,12 @@ export const baseTableColTypes: CommonObj = getExportData(
       label: "启用状态",
       minWidth: 80,
       type: "switch",
-      attrs: {
-        activeValue: 1,
-        inactiveValue: 0,
-        activeText: "启用",
-        inactiveText: "禁用",
-        inlinePrompt: true,
-        // onChange(e) {
-        //   ElMessage.warning("暂未处理【启用/禁用】事件");
-        // },
-      },
+      attrs: defaultFieldAttrs?.switch?.attrs,
+      // attrs: {
+      //   // onChange(e) {
+      //   //   ElMessage.warning("暂未处理【启用/禁用】事件");
+      //   // },
+      // },
     },
     // input输入框
     T_Input: {
