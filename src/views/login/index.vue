@@ -70,7 +70,7 @@ const modelData = reactive<CommonObj>({
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
-      tpl: /^\d/.test(modelData.phone) ? "phone" : undefined,
+      tpl: /^\d/.test(modelData.phone) ? "T_Phone" : undefined,
       // prop: "phone",
       label: "账号",
       required: true,

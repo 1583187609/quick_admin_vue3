@@ -7,6 +7,7 @@ import UserInfo from "@/components/UserInfo.vue";
 import { TableColAttrs } from "@/core/components/table/_types";
 
 export type InsertTableColCompsType = "UserInfo";
+export type InsertTableColTplsType = "T_UserInfo";
 
 const props = withDefaults(
   defineProps<{

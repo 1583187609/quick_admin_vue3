@@ -1,6 +1,5 @@
-import { FormRules } from "element-plus";
-import { BaseRenderComponentType, BaseRenderData } from "@/core/BaseRender.vue";
-import { BaseDataType, CommonSize, OptionItem, StrNum, CommonSlots } from "@/core/_types";
+import { BaseRenderData } from "@/core/BaseRender.vue";
+import { BaseDataType, CommonSize, OptionItem, StrNum, CommonSlots, CommonObj } from "@/core/_types";
 import { DictName } from "@/dict/_types";
 import { PopoverType } from "@/core/_types";
 
@@ -63,7 +62,16 @@ export type GridAttrs = {
 export type ElColAttrs = GridAttrs & ColOtherAttrs;
 
 export type Grid = number | string | ElColAttrs;
-export type FormItemTplTypes = "phone" | "password" | "identity" | "email" | "price" | "age" | "amount" | "remark";
+export type FormItemTplTypes =
+  | "T_Phone"
+  | "T_Password"
+  | "T_Identity"
+  | "T_Email"
+  | "T_Price"
+  | "T_Age"
+  | "T_Amount"
+  | "T_EnableStatus"
+  | "T_Remark";
 export interface FormFieldAttrs {
   tpl?: FormItemTplTypes; // 模板规则
   key?: any; //v-for的key，如果不写，则是默认的index作为key
@@ -72,10 +80,10 @@ export interface FormFieldAttrs {
   class?: any; //el-form-item 的class属性
   style?: any; //el-form-item 的style属性
   prop?: string | [string, string]; //属性名，当存在children时，可以不传
-  label: string;
+  label?: string;
   size?: CommonSize;
   required?: boolean; //是否必填
-  rules?: FormRules[]; //校验规则
+  rules?: CommonObj[]; //校验规则
   labelWidth?: string | number; //label文字的宽度
   /** 控件（input、select……）的属性，例：placeholder **/
   attrs?: {

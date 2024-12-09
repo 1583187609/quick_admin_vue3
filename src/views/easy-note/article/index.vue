@@ -1,4 +1,4 @@
-<!-- 题目列表 -->
+<!-- 文章列表 -->
 <template>
   <BaseCrud
     :cols="cols"
@@ -25,8 +25,8 @@ const { openPopup } = usePopup();
 const fields: FormField[] = [
   { prop: "id", label: "题目ID" },
   {
-    prop: "question",
-    label: "问题",
+    prop: "title",
+    label: "标题",
   },
   {
     prop: "content",
@@ -39,8 +39,8 @@ const fields: FormField[] = [
 const cols: TableCol[] = [
   { tpl: "T_Id" },
   {
-    prop: "question",
-    label: "问题",
+    prop: "title",
+    label: "标题",
     minWidth: 200,
   },
   {
@@ -48,6 +48,9 @@ const cols: TableCol[] = [
     label: "内容",
     type: "BaseText",
     minWidth: 400,
+    attrs: {
+      title: "内容预览",
+    },
   },
   { prop: "score", label: "评分" },
   { tpl: "T_EnableStatus" },

@@ -3,7 +3,14 @@
   功能：继承并扩展基础表单（BaseForm），并扩展了展开/折叠，多级属性设置等功能。
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -16,7 +23,13 @@
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
-            <el-icon @click="folds[sInd] = !folds[sInd]" class="fold-btn f-0" :class="folds[sInd] ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
+            <el-icon
+              @click="folds[sInd] = !folds[sInd]"
+              class="fold-btn f-0"
+              :class="folds[sInd] ? 'rotate-180' : ''"
+              size="1.5em"
+              v-if="foldable"
+            >
               <CaretTop />
             </el-icon>
           </div>
@@ -84,6 +97,7 @@
         :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
+        :afterReset="afterReset"
         :handleRequest="handleRequest"
         :handleResponse="handleResponse"
         @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
@@ -100,7 +114,7 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { typeOf, isProd } from "@/core/utils";
 import { handleFields } from "./_utils";
-import FooterBtns from "./_components/FooterBtns.vue";
+import FooterBtns, { AfterReset } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
@@ -133,6 +147,7 @@ const props = withDefaults(
     fetch?: UniteFetchType; //接口请求
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
+    afterReset?: AfterReset; // 重置之后的处理方法
     footer?: boolean; //是否显示底部按钮
     submitText?: string; //提交按钮的文字
     resetText?: string; //提交按钮的文字
@@ -205,7 +220,10 @@ watch(
 // }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
+  const {
+    size = field.size ?? sItem.size ?? formAttrs.size,
+    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
+  } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
     readonly = sItem.readonly ?? formAttrs.readonly,

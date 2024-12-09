@@ -4,10 +4,21 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
+    <el-row
+      class="section all-hide-scroll"
+      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+      v-else
+    >
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -41,6 +52,7 @@
         :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
+        :afterReset="afterReset"
         :handleRequest="handleRequest"
         :handleResponse="handleResponse"
         @moreBtns="(name: string, args?: CommonObj, cb?: FinallyNext) => $emit('moreBtns', name, args, cb)"
@@ -59,7 +71,7 @@ import { handleFields } from "./_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
-import FooterBtns from "./_components/FooterBtns.vue";
+import FooterBtns, { AfterReset } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
@@ -99,6 +111,7 @@ const props = withDefaults(
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: FinallyNext; //fetch请求失败之后的回调方法
+    afterReset?: AfterReset; // 重置之后的处理方法
     handleRequest?: (args: any) => any; //处理请求参数
     handleResponse?: (data: any) => any; //处理请求数据
   }>(),

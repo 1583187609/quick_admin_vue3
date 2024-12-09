@@ -333,9 +333,9 @@ const cols: TableCol[] = [
     },
     children: [
       {
+        tpl: "T_UserInfo",
         // prop: "userData", // 默认值为userData
         label: "用户信息",
-        tpl: "T_UserInfo",
         quickAttrs: {
           popover: {
             title: "业务内嵌组件 - UserInfo",

@@ -1,4 +1,4 @@
-<!-- 新增/编辑题目 -->
+<!-- 新增/编辑文章 -->
 <template>
   <BaseForm
     style="width: 1000px"
@@ -24,8 +24,8 @@ const props = withDefaults(
 const modelData = reactive<CommonObj>(Object.assign({ status: 1 }, props.data));
 const fields: FormField[] = [
   {
-    prop: "question",
-    label: "问题",
+    prop: "title",
+    label: "标题",
     required: true,
     attrs: {
       maxlength: 50,

@@ -30,6 +30,7 @@ import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils
 import { CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { ClosePopupInject, ClosePopupType } from "@/core/components/BasicPopup/_types";
 import { Loading, Promotion } from "@element-plus/icons-vue";
+export type AfterReset = () => void;
 
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
@@ -47,6 +48,7 @@ const props = withDefaults(
     fetch?: UniteFetchType; // 请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: FinallyNext;
     afterFail?: FinallyNext;
+    afterReset?: AfterReset;
     handleRequest?: (args: any) => any; // 处理请求参数
     handleResponse?: (data: any) => any; // 处理请求数据
   }>(),
@@ -121,8 +123,9 @@ function handleSubmit() {
 }
 //重置表单
 function handleReset() {
-  const { formRef } = props;
+  const { formRef, afterReset } = props;
   formRef?.resetFields();
+  afterReset?.();
 }
 //点击更多按钮时
 function handleMoreBtns(btn: BtnItem) {

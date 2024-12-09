@@ -47,7 +47,13 @@
             @submit="handleSubmit"
             @reset="handleReset"
             v-bind="getGridAttrs(grid)"
-            v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
+            v-if="
+              newSections.length <= rowNum
+                ? sInd === newSections.length - 1
+                : isFold
+                ? sInd === rowNum - 1
+                : sInd === newSections.length - 1
+            "
           />
         </div>
       </div>
@@ -95,6 +101,7 @@ import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
 import { defaultCommonSize } from "@/core/utils";
 import _ from "lodash";
+import { AfterReset } from "@/core/components/form/_components/FooterBtns.vue";
 
 export type QueryFormItemLayoutType = "flex" | "grid"; // 表单项的布局方式：弹性布局、grid布局
 
@@ -116,7 +123,7 @@ const props = withDefaults(
     noFieldsHide?: boolean; //没有字段时是否不显示表单内容
     sectionFoldable?: boolean;
     layoutType?: QueryFormItemLayoutType; // 表单项的布局方式：弹性布局、grid布局
-    afterReset?: () => void;
+    afterReset?: AfterReset;
   }>(),
   {
     layoutType: "grid",
@@ -267,7 +274,7 @@ function handleSubmit() {
     $emit("search", merge({}, extraParams, formData.value));
   });
 }
-//重置表单
+// 重置表单
 function handleReset() {
   formRef.value?.resetFields();
   props.afterReset?.();

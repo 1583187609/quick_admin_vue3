@@ -41,7 +41,7 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
     //icon 经过 JSON.parse(JSON.stringify())之后，重新渲染时会报错，故做此处理
     const { icon } = targetBtn.attrs || {};
     btnObj = JSON.parse(JSON.stringify(targetBtn));
-    btnObj!.attrs!.icon = icon;
+    if (btnObj?.attrs?.icon) btnObj.attrs.icon = icon;
   } else if (t === "Object") {
     const { name } = btn as BtnItem;
     btnObj = merge({}, btnsMap[name as string], btn);

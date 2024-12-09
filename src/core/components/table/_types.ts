@@ -1,5 +1,5 @@
 import { BaseDataType, CommonObj, CommonSize } from "@/core/_types";
-import { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
+import { InsertTableColCompsType, InsertTableColTplsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode, RendererElement } from "vue";
 import { BaseRenderData } from "@/core/BaseRender.vue";
@@ -54,7 +54,22 @@ export interface TablePaginationAttrs {
  */
 export type SummaryListType = boolean | ((currPage: number, oldList: CommonObj[], newList: CommonObj[]) => CommonObj[]);
 
-export type TableColTplTypes = "id" | "remark";
+export type TableColTplTypes =
+  | "T_Selection"
+  | "T_Sort"
+  | "T_Index"
+  | "T_BaseTag"
+  | "T_BaseImg"
+  | "T_BaseText"
+  | "T_BaseCopy"
+  | "T_OperatorTime"
+  | "T_Operate"
+  | "T_Id"
+  | "T_Remark"
+  | "T_EnableStatus"
+  | "T_Create"
+  | "T_Update"
+  | InsertTableColTplsType;
 
 export type TableColType =
   | "selection"
