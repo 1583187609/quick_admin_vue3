@@ -1,6 +1,5 @@
 <!-- summary
 目标：简化传参。
-注意：该功能待完善。 
 -->
 <template>
   <div class="base-editor">
@@ -13,6 +12,7 @@
       :defaultConfig="editorCfg"
       @onMaxLength="handleMaxLength"
       @onChange="(editor:IDomEditor) => handleEvent(editor, 'change')"
+      @onInput="(editor:IDomEditor) => handleEvent(editor, 'input')"
       @onFocus="(editor:IDomEditor) => handleEvent(editor, 'focus')"
       @onBlur="(editor:IDomEditor) => handleEvent(editor, 'blur')"
       @onCreated="editor => (editorRef = editor)"
@@ -74,7 +74,7 @@ const defaultToolBarConfig = {
 const defaultEditorConfig = {
   placeholder: "请输入内容...",
   // maxLength 应该由表单的规则（rules）来决定，例：rules: [{ max: 10, message: "不能超过10个字符", trigger: "change" }]
-  // maxLength: formItem.rules?.find((it) => !!it.max)?.max,
+  // maxLength: formItem?.rules?.find((it) => !!it.max)?.max,
   // readOnly: true,
   MENU_CONF: {
     uploadImage: {
@@ -136,15 +136,16 @@ const props = withDefaults(
     maxHeight: "none",
   }
 );
-const $emit = defineEmits(["update:modelValue", "change", "focus", "blur"]);
+const $emit = defineEmits(["update:modelValue", "input", "change", "focus", "blur"]);
 const editorRef = shallowRef<any>(null); // editor 实例
 const toolbarCfg: Partial<IToolbarConfig> = merge({}, defaultToolBarConfig, props.toolBarConfig);
 const editorCfg = merge({}, defaultEditorConfig, props.editorConfig, {
-  placeholder: props.placeholder,
-  maxLength: props.maxlength, // formItem.rules?.find(it => !!it.maxlength)?.maxlength,
-  readOnly: props.readonly,
-  disabled: props.disabled,
+  placeholder: props.placeholder, // ?? formItem?.placeholder,
+  maxLength: props.maxlength ?? formItem?.rules?.find(it => !!it.maxlength)?.maxlength,
+  readOnly: props.readonly, // ?? formItem?.readonly,
+  disabled: props.disabled, // ?? formItem?.disabled,
 });
+
 // 编辑器中的文本内容
 const modelVal = computed({
   get: () => props.modelValue,
@@ -153,16 +154,17 @@ const modelVal = computed({
     $emit("update:modelValue", val);
   },
 });
+
 //表单校验参照： http://www.xinyan666.fun/article/article_detail/171/
 function handleMaxLength(editor: IDomEditor) {
-  // formItem?.validate("change");
+  formItem?.validate("change");
   showMessage(`不能超过${editorCfg.maxLength}个字符`, "warning");
 }
 
 /**
  * 处理事件监听逻辑
  */
-function handleEvent(editor: IDomEditor, eventName: "change" | "blur" | "focus") {
+function handleEvent(editor: IDomEditor, eventName: "input" | "change" | "blur" | "focus") {
   $emit(eventName, getEditorVal());
   formItem?.validate(eventName);
 }

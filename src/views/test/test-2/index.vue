@@ -235,7 +235,7 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "bjnr",
           label: "编辑内容",
           type: "slot",
-          rules: [{ max: 10, message: "不能超过10个字符", trigger: "change" }],
+          rules: [{ maxlength: 10, message: "不能超过10个字符", trigger: "change" }],
           quickAttrs: {
             popover: "不能超过最大字符数校验",
           },
