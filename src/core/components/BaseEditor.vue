@@ -4,18 +4,18 @@
 -->
 <template>
   <div class="base-editor">
-    <Toolbar class="tool-bar" :editor="editorInst" :defaultConfig="toolbarCfg" :mode="mode" />
+    <Toolbar class="tool-bar" :editor="editorRef" :mode="mode" :defaultConfig="toolbarCfg" />
     <Editor
+      v-model="modelVal"
       class="editor"
-      :style="{ height: toCssVal(height), width: '100%' }"
-      :defaultConfig="editorCfg"
-      v-model="value"
       :mode="mode"
-      @onMaxLength="onMaxLength"
-      @onChange="onChange"
-      @onFocus="onFocus"
-      @onBlur="onBlur"
-      @onCreated="handleCreated"
+      :style="{ height, minHeight, maxHeight, width }"
+      :defaultConfig="editorCfg"
+      @onMaxLength="handleMaxLength"
+      @onChange="(editor:IDomEditor) => handleEvent(editor, 'change')"
+      @onFocus="(editor:IDomEditor) => handleEvent(editor, 'focus')"
+      @onBlur="(editor:IDomEditor) => handleEvent(editor, 'blur')"
+      @onCreated="editor => (editorRef = editor)"
     />
   </div>
 </template>
@@ -23,18 +23,26 @@
 // 官方文档地址：https://www.wangeditor.com/v5/getting-started.html
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
-import { showMessage, toCssVal } from "@/core/utils";
+import { showMessage } from "@/core/utils";
 import { useFormItem } from "element-plus";
-import { CommonObj, StrNum } from "@/core/_types";
+import { CommonObj } from "@/core/_types";
 import { isProd, storage } from "@/core/utils";
+import { shallowRef } from "vue";
+import "@wangeditor/editor/dist/css/style.css";
 import _ from "lodash";
-// import "@wangeditor/editor/dist/css/style.css";
 
 export type ModeTypes = "default" | "simple";
+export type EditorValueType = "html" | "text";
 
 const { merge } = _;
 const { formItem } = useFormItem();
-const defaultToolBarCfg = {
+// const defaultEditorStyle = {
+//   height: "300px",
+//   width: "100%",
+//   minHeight: "none",
+//   maxHeight: "none",
+// };
+const defaultToolBarConfig = {
   // toolbarKeys: [
   //     // 菜单 key
   //     "headerSelect",
@@ -63,10 +71,11 @@ const defaultToolBarCfg = {
   //     "group-more-style", // 排除菜单组，写菜单组 key 的值即可
   // ],
 };
-const defaultEditorCfg = {
+const defaultEditorConfig = {
   placeholder: "请输入内容...",
-  //maxLength 应该由表单的规则（rules）来决定，例：rules: [{ max: 10, message: "不能超过10个字符", trigger: "change" }]
+  // maxLength 应该由表单的规则（rules）来决定，例：rules: [{ max: 10, message: "不能超过10个字符", trigger: "change" }]
   // maxLength: formItem.rules?.find((it) => !!it.max)?.max,
+  // readOnly: true,
   MENU_CONF: {
     uploadImage: {
       fieldName: "file",
@@ -82,7 +91,6 @@ const defaultEditorCfg = {
       },
     },
   },
-  // readOnly: true,
   // customAlert(s: string, t: any) {
   //   showMessage(s, t);
   //   switch (t) {
@@ -106,88 +114,101 @@ const defaultEditorCfg = {
 };
 const props = withDefaults(
   defineProps<{
-    editor?: any;
     modelValue?: string;
-    height?: StrNum;
-    placeholder?: string;
     mode?: ModeTypes;
+    height?: string;
+    width?: string;
+    minHeight?: string;
+    maxHeight?: string;
+    placeholder?: string;
+    maxlength?: number;
+    readonly?: boolean;
+    disabled?: boolean;
     toolBarConfig?: CommonObj;
     editorConfig?: CommonObj;
   }>(),
   {
-    height: 300,
+    modelValue: "",
     mode: "simple",
-    toolBarConfig: () => ({}),
-    editorConfig: () => ({}),
+    height: "300px",
+    width: "100%",
+    minHeight: "none",
+    maxHeight: "none",
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "focus", "blur"]);
-let editorInst: any = null; // editor 实例
-const toolbarCfg: Partial<IToolbarConfig> = merge({}, defaultToolBarCfg, props.toolBarConfig);
-const editorCfg = merge({}, defaultEditorCfg, props.editorConfig, {
+const editorRef = shallowRef<any>(null); // editor 实例
+const toolbarCfg: Partial<IToolbarConfig> = merge({}, defaultToolBarConfig, props.toolBarConfig);
+const editorCfg = merge({}, defaultEditorConfig, props.editorConfig, {
   placeholder: props.placeholder,
-  maxLength: formItem.rules?.find(it => !!it.max)?.max,
+  maxLength: props.maxlength, // formItem.rules?.find(it => !!it.maxlength)?.maxlength,
+  readOnly: props.readonly,
+  disabled: props.disabled,
 });
-//编辑器中的文本内容
-const value = computed({
-  get() {
-    return props.modelValue || "";
-  },
+// 编辑器中的文本内容
+const modelVal = computed({
+  get: () => props.modelValue,
   set(val: string) {
     if (val === "<p><br></p>") val = "";
     $emit("update:modelValue", val);
   },
 });
-const handleCreated = (editor: IDomEditor) => {
-  editorInst = editor; // 记录 editor 实例
-};
 //表单校验参照： http://www.xinyan666.fun/article/article_detail/171/
-function onMaxLength(editor: IDomEditor) {
+function handleMaxLength(editor: IDomEditor) {
   // formItem?.validate("change");
   showMessage(`不能超过${editorCfg.maxLength}个字符`, "warning");
 }
 
-function getVal(val = editorInst.getText()) {
-  // const isEmpty = editorInst.isEmpty();
-  //isEmpty()方法只能识别只有一个空段落情况，其他情况（如有一个空标题、空表格）请使用 editor.getText() 来判断。
-  const isEmpty = val === "";
-  return isEmpty ? "" : editorInst.getHtml();
+/**
+ * 处理事件监听逻辑
+ */
+function handleEvent(editor: IDomEditor, eventName: "change" | "blur" | "focus") {
+  $emit(eventName, getEditorVal());
+  formItem?.validate(eventName);
 }
 
-function onChange(editor: IDomEditor) {
-  $emit("change", getVal());
-  formItem?.validate("change");
+/**
+ * 判断是否为空
+ * @notice isEmpty() 方法只能识别只有一个空段落情况，其他情况（如有一个空标题、空表格）请使用 editor.getText() 来判断。
+ */
+function getIsEmpty() {
+  const { isEmpty, getText } = editorRef.value;
+  let empty = isEmpty();
+  if (!empty) empty = getText() === "";
+  return empty;
 }
 
-function onFocus(editor: IDomEditor) {
-  $emit("focus", getVal());
-  formItem?.validate("focus");
+/**
+ * 获取编辑器的文本内容值
+ * @param {html|text} type 获取文本类型
+ */
+function getEditorVal(type: EditorValueType = "html") {
+  const { getText, getHtml } = editorRef.value;
+  if (getIsEmpty()) return "";
+  return type === "html" ? getHtml() : getText();
 }
 
-function onBlur(editor: IDomEditor) {
-  $emit("blur", getVal());
-  formItem?.validate("blur");
-}
-
-onMounted(() => {});
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
-  if (editorInst == null) return;
-  editorInst.destroy();
+  editorRef.value?.destroy();
 });
-defineExpose<{ editor: any }>({
-  editor: editorInst,
+defineExpose<{ editorRef: any }>({
+  editorRef,
 });
 </script>
 <style lang="scss" scoped>
 .base-editor {
-  border-radius: $radius-main;
+  &.w-e-full-screen-container {
+    z-index: 1000000;
+  }
+  &:not(.w-e-full-screen-container) {
+    border-radius: $radius-main;
+  }
   border: $border-main;
-  overflow: hidden;
+  // overflow: hidden;
   width: 100%;
-}
-
-.tool-bar {
-  border-bottom: $border-main;
+  .tool-bar {
+    border-bottom: $border-main;
+  }
 }
 </style>
