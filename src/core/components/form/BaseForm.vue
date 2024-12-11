@@ -163,6 +163,10 @@ defineExpose<{
   formValidate() {
     return footerBtnsRef.value.formValidate();
   },
+  // 获取配置信息
+  getConfig() {
+    return { fields: newFields.value };
+  },
 });
 </script>
 <style lang="scss">

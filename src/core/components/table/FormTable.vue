@@ -83,6 +83,10 @@ defineExpose({
   // ...tableRef.value,
   formRef,
   tableRef,
+  // 获取配置信息
+  // getConfig() {
+  //   return { fields: fields };
+  // },
 });
 </script>
 <style lang="scss" scoped>

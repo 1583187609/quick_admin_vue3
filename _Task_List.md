@@ -176,6 +176,7 @@
 132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（待定）
 136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
 135、完善 importFileFromPaths 方法
+136、完善 BaseCountTo 方法
 
 ## 待定事项
 

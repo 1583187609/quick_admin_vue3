@@ -79,6 +79,10 @@ function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: 
 }
 defineExpose({
   tableRef,
+  // 获取配置信息
+  getConfig() {
+    return { cols: newCols };
+  },
 });
 </script>
 <style lang="scss" scoped>

@@ -93,6 +93,10 @@ function handleFocus(val: any, prop: any) {
 }
 defineExpose({
   formRef,
+  // 获取配置信息
+  // getConfig() {
+  //   return { sections: newSections.value };
+  // },
 });
 </script>
 <style lang="scss" scoped>
