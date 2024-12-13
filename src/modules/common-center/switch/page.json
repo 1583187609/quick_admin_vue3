@@ -1,4 +1,5 @@
 {
   "title": "开关管理",
-  "icon": "List"
+  "icon": "List",
+  "order": 8
 }

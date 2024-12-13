@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
-import { PostIndustryAdd, PutIndustryUpdate } from "@/views/easy-note/apis";
+import { PostIndustryAdd, PutIndustryUpdate } from "@/modules/project-center/easy-note/apis";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{

@@ -379,7 +379,7 @@
 ~~59、右上角头像 - 个人资料 - 点击编辑按钮 - 再点击查看按钮（不能回到有编辑按钮的页面了）~~  
 ~~60、右上角头像 - 个人资料 - 点击编辑按钮 - 上方的头像的删除图标被挡住了~~  
 ~~30、图片上传组件处理（并实现默认本地上传并展示出来）~~  
-~~75、处理 BaseForm `type='cell' pureText` 时，custom 列未靠上对齐，tabs 的头部应该固定，底部自适应高度滚动，还有疑问气泡未跟 label 文字水平对齐，复现页面：/system/user/detail~~
+~~75、处理 BaseForm `type='cell' pureText` 时，custom 列未靠上对齐，tabs 的头部应该固定，底部自适应高度滚动，还有疑问气泡未跟 label 文字水平对齐，复现页面：/common-center/user/detail~~
 ~~71、BaseForm 上设置 `label-suffix="："` 不生效~~
 
 34、vue 动态与非动态路由加载优化；

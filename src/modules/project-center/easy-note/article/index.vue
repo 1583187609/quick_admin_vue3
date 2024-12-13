@@ -12,7 +12,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetTopicList, DeleteTopicDelete } from "@/views/easy-note/apis";
+import { GetTopicList, DeleteTopicDelete } from "@/modules/project-center/easy-note/apis";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";

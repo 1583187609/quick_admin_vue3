@@ -7,7 +7,7 @@
 :operateBtns="[
   'edit', 'reject','delete','download','pass',
   (row: CommonObj, rowInd: number)=> rowInd % 2 === 1 ? 'forbid' : 'enable',
-  { name: 'view', to: `/system/user/detail?id=${12}`},
+  { name: 'view', to: `/common-center/user/detail?id=${12}`},
   { name: 'view', to: {name: 'systemUserDetail', query: {id: 12}}},
   { name: 'view', text: '查看', to: (row:CommonObj) => ({name: 'systemUserDetail', query:{id: row.id}})},
 ]"
@@ -63,7 +63,7 @@
         {
           name: 'view',
           text: 'url跳转',
-          to: '/system/user/detail?id=12',
+          to: '/common-center/user/detail?id=12',
           order: 50,
           attrs: { icon: 'Link' },
         },
@@ -77,7 +77,7 @@
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
-          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/system/user/detail?id=${id}`}]
+          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/common-center/user/detail?id=${id}`}]
         }else{
           return ['edit', 'audit', 'reject','delete','download','pass', 'repeal', 'reset', 'log', 
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
@@ -344,11 +344,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "单个项目的常用组件，采用内嵌至系统的方式。",
-                      "预设了列宽，prop等属性",
-                      "可通过attrs传入UserInfo组件的props属性",
-                    ],
+                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -463,11 +459,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击整个文本域进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -481,11 +473,11 @@ const cols: TableCol[] = [
         label: "userCode",
         tpl: "T_BaseCopy",
         attrs: {
-          // to: (row: CommonObj) => `/system/user/detail?id=${row.userCode}`,
+          // to: (row: CommonObj) => `/common-center/user/detail?id=${row.userCode}`,
           // 暂时没有实现，检测到绑定了onClick事件后，就将clickIconCopy设为true
           clickIconCopy: true,
           onClick(row: CommonObj) {
-            router.push(`/system/user/detail?id=${row.userCode}`);
+            router.push(`/common-center/user/detail?id=${row.userCode}`);
           },
         },
         quickAttrs: {
@@ -497,11 +489,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击文本跳转页面，点击图标进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],

@@ -1,4 +1,5 @@
 {
   "title": "用户管理",
-  "icon": "UserFilled"
+  "icon": "UserFilled",
+  "order": 3
 }

@@ -1,4 +1,5 @@
 {
   "title": "字典管理",
-  "icon": "WalletFilled"
+  "icon": "WalletFilled",
+  "order": 80
 }

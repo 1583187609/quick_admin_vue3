@@ -35,7 +35,7 @@
       {
         name: 'view',
         text: 'url跳转',
-        to: '/system/user/detail?id=12',
+        to: '/common-center/user/detail?id=12',
         order: 50,
         attrs: { icon: 'Link' },
       },
@@ -49,7 +49,7 @@
         const {id} = row;
         if(rowInd % 2===0){
           return ['edit','delete', 'reject','repeal','pass','download', 'log', 'audit', 'reset', 
-          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/system/user/detail?id=${id}`}]
+          rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/common-center/user/detail?id=${id}`}]
         }else{
           return ['edit', 'audit', 'reject','delete','download','pass', 'repeal', 'reset', 'log', 
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]

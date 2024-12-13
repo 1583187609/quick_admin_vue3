@@ -17,7 +17,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetUserList, DeleteUserDelete, PostUserLogout } from "@/views/easy-note/apis";
+import { GetUserList, DeleteUserDelete, PostUserLogout } from "@/modules/project-center/easy-note/apis";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext, showMessage } from "@/utils";

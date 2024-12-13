@@ -7,13 +7,13 @@
     :cols="cols"
     :fields="fields"
     :fetch="GetUserList"
-    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/system/user/detail' }, , 'delete', 'import', 'export']"
+    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',
       {
         name: 'edit',
         text: '编辑（url)',
-        to: (row: CommonObj) => `/system/user/detail?id=${row.id}`,
+        to: (row: CommonObj) => `/common-center/user/detail?id=${row.id}`,
       },
       'delete',
       (row: CommonObj) => (row?.status === 1 ? 'forbid' : 'enable'),
