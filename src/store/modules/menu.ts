@@ -22,7 +22,8 @@ export default defineStore("menu", () => {
   const router = useRouter();
   const activeIndex = ref<number>(0);
   const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); // 是否折叠菜单
-  const allMenus = reactive<ResponseMenuItem[]>([...(storage.getItem("allMenus") || []), ...autoMenus]); // 完整导航数据
+  // const allMenus = reactive<ResponseMenuItem[]>([...(storage.getItem("allMenus") || []), ...autoMenus]); // 完整导航数据
+  const allMenus = reactive<ResponseMenuItem[]>(autoMenus); // 完整导航数据
   const sideMenus = computed<ResponseMenuItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
 
   /**

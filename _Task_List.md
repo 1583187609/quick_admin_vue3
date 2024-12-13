@@ -144,6 +144,7 @@
 ~~117、处理`@wangeditor/editor/dist/css/style.css`找不到的问题~~
 ~~132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（维持现状，不改动）~~
 ~~136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入（维持现状，不改动）~~
+~~132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（待定）~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -171,10 +172,11 @@
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 120、表格列宽默认宽度为：label 的字符数+1
 121、处理打包后，页面空白的问题
-122、查询条件支持弹性布局
+122、查询条件支持弹性布局（待完善）
 123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
 127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
+136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
 135、完善 importFileFromPaths 方法
 136、完善 BaseCountTo 方法
 137、增加演示功能模块
@@ -392,6 +394,7 @@
 76、优化 BaseNumberRange 嵌套层级
 77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
 ~~78、用 BaseConfig 的 provide、inject 方式提供配置（待定）~~
+79、处理菜单管理页（`system/menu`）栈溢出问题：`Maximum call stack size exceeded`
 
 ## 四、Vue 极致优化清单
 
@@ -464,7 +467,7 @@ const emit = defineEmits<{
    -（各类组件、控件示例，参照 Fantastic）
    -TreeCrud  
    -开发示例模板
-3. 低码中心（lowcode-center）  
+3. 低码中心（low-code-center）  
    -模板管理
    --基础模板  
    ---表字段（只能查看）
@@ -475,7 +478,7 @@ const emit = defineEmits<{
    --模块模板  
    -代码生成（参照当前系统并逐步完善）
    --拖拽生成  
-   --JSOP 配置  
+   --JSON 配置  
    --JSON 生成
 4. 通用中心（common-center）  
    -权限管理  
@@ -487,10 +490,14 @@ const emit = defineEmits<{
    --页面分析  
    -性能分析  
    -异常监控
-6. 商业中心（business-center 服务中心）  
+6. 运营中心（business-center 服务中心）  
    -售卖  
    -售后  
    -意见反馈
-7. 项目中心（project-center）  
+7. 营销中心  
+   -促销活动
+8. 资料中心  
+   -文档、仓库等
+9. 项目中心（project-center）  
    -智慧教育  
    -轻松笔记

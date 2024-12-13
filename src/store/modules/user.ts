@@ -74,7 +74,7 @@ export default defineStore("user", () => {
       user._title = name || nickname || type_text + id;
       userInfo.value = user;
       expired.value = Date.now() + expiration;
-      menuStore.initMenus(_navs);
+      // menuStore.initMenus(_navs);
       storage.setItem("userInfo", user);
       storage.setItem("token", user?.token ?? "");
       storage.setItem("allMenus", _navs);

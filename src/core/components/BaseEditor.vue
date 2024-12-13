@@ -28,7 +28,7 @@ import { useFormItem } from "element-plus";
 import { CommonObj } from "@/core/_types";
 import { isProd, storage } from "@/core/utils";
 import { shallowRef } from "vue";
-import "@wangeditor/editor/dist/css/style.css";
+// import "@wangeditor/editor/dist/css/style.css";
 import _ from "lodash";
 
 export type ModeTypes = "default" | "simple";
