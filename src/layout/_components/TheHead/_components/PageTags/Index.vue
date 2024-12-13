@@ -156,7 +156,7 @@ function onMenuItem(type: MenuItemType, ind: number) {
   getCurrTagInd(ind);
   // 关闭之后，将左右视情况按钮禁用，貌似不生效
   initDisabled();
-  //清除关掉的页签的缓存
+  // 清除关掉的页签的缓存
   const removeNames = getRemoveNames(tags.value);
   keepAliveStore.remove(removeNames);
 }

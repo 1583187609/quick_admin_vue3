@@ -5,10 +5,11 @@ import { storage, defaultHomePath, defaultIconName, defaultLoginExpired } from "
 import { CommonObj } from "@/core/_types";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
-import { useMenuStore } from "@/store";
+import { useMenuStore, useRouteStore } from "@/store";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 // import md5 from "@/services/md5";
 import md5 from "md5";
+import { autoMenus } from "@/router/routes/auto";
 
 export enum VipLevel {
   none = 0, // 非会员
@@ -27,6 +28,7 @@ export default defineStore("user", () => {
   const vipLevel = ref<VipLevelValue>(0); // vip 等级
   const userInfo = ref<CommonObj | null>(storage.getItem("userInfo"));
   const menuStore = useMenuStore();
+  const routeStore = useRouteStore();
   // 登录过期时间
   const expired = ref(new Date(storage.getItem("loginExpiredDate")).getTime() || Date.now());
   const isLogin = computed(() => {
@@ -63,6 +65,7 @@ export default defineStore("user", () => {
       const _navs = getHandleNavs(
         navs.filter((it: ResponseMenuItem) => {
           const { auth_codes } = it;
+          it.source = "dynamic";
           if (!auth_codes) return true;
           return auth_codes.includes(user.type);
         })

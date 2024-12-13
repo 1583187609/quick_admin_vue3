@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
-    :afterSuccess="() => refreshList()"
+    :afterSuccess="() => refreshList?.()"
     :extraParams="{ id: data?.id }"
     @change="(prop:string,val:any)=>modelData[prop] = val"
   >

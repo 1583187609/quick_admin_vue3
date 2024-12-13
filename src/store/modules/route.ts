@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import _ from "lodash";
 import { useRouter } from "vue-router";
 import { useMenuStore } from "@/store";
 import { RouteItem } from "./menu";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
+import _ from "lodash";
 
 const { camelCase } = _;
 const modules = import.meta.glob("../../views/**/*.vue");
+
 export default defineStore("route", () => {
   const menuStore = useMenuStore();
   const router = useRouter();
@@ -62,6 +63,8 @@ export default defineStore("route", () => {
    * 创建路由
    */
   function createRoutes(menus = menuStore.allMenus) {
+    // 动态路由才需要挨个创建
+    menus = menus.filter(it => it.source === "dynamic");
     const routes = getFlatMenus(menus).map((it: ResponseMenuItem) => getRoute(it));
     routes.forEach((item: any) => {
       router.addRoute("layout", item);

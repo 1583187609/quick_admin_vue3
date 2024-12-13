@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="data ? PutIndustryUpdate : PostIndustryAdd"
-    :afterSuccess="() => refreshList()"
+    :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
   >
   </BaseForm>

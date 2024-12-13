@@ -5,7 +5,7 @@
     v-model="modelData"
     :sections="sections"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
-    :afterSuccess="() => refreshList()"
+    :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
     :grid="12"
   >

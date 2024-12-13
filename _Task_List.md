@@ -140,16 +140,19 @@
 ~~129、提供一个方法，当使用同样的模板名称时，对搜索表单和新增编辑表单做差异化显示处理~~
 ~~125、替换表格的 `refreshList` 方法~~
 ~~130、并对不存在的模板（表单项模板、表格列模板）做抛出异常处理~~
+~~4、接入自动化路由（vue-auto-routing 貌似只适用于 Vue2）~~
+~~117、处理`@wangeditor/editor/dist/css/style.css`找不到的问题~~
+~~132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（维持现状，不改动）~~
+~~136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入（维持现状，不改动）~~
 
-4、接入自动化路由（vue-auto-routing 貌似只适用于 Vue2）
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
-64、封装 TreeCrud 组件  
+64、封装 TreeCrud 组件（自行拼装即可）
 74、将 Quick 的内核抽离成 npm 包
 124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
-76、请求参数加解密  
+76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
@@ -164,7 +167,6 @@
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、将 docs、demos 文件夹放入.vitepress 中
 116、新增虚拟列表组件
-117、处理`@wangeditor/editor/dist/css/style.css`找不到的问题
 118、qrcode 支持传入 url（即外部传入的图片）
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 120、表格列宽默认宽度为：label 的字符数+1
@@ -173,14 +175,15 @@
 123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
 127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
-132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（待定）
-136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
 135、完善 importFileFromPaths 方法
 136、完善 BaseCountTo 方法
+137、增加演示功能模块
+138、按新划分菜单模块进行菜单重组
+139、完善自动路由逻辑
 
 ## 待定事项
 
-1、采用`git submodule`方式维护 mock 和基础方法
+1、采用`git submodule`方式维护 mock 和基础方法（待定）
 
 ## TS 类型处理
 
@@ -214,6 +217,9 @@
 64、采用多页面划分多中心模块
 65、实现离线存储，预览整个网页（.appcache、manifest）
 66、处理低代码创建 Section 表单时，为数组的情况
+67、路由多级缓存（参照：Fantastic Admin）
+68、菜单标记（数字、点、文字标签标记）
+69、增加编辑表单时页面离开提醒
 
 ## Docs 功能清单
 
@@ -273,6 +279,7 @@
 ~~39、调整 slots 的位置到 attrs.slots 中~~
 ~~35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题~~
 ~~4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0~~
+~~134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072（位置现状，不改动）~~
 
 16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式，将 compact 改成 mini）；  
 17、将 Echarts 的配置纳入到 config 中  
@@ -302,7 +309,6 @@
 64、保证打包后的静态资源（图片等）路径正确，使用`getWholeUrl`方法
 65、研究自动部署：完善 `deploy.sh` 文件，参见：`https://www.vitejs.net/guide/static-deploy.html#github-pages`
 66、使用`vue-draggle-plus`替换 sortable.js
-134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072
 67、测试验证所有文件都通过 index 文件统一导出带来的性能影响
 68、在 http 请求封装中全局捕获异常并统一处理：使得实际开发中不用 try catch
 69、将 FieldItem 组件中的 AddDelList、AnyEleList 组件用插槽的方式载入
@@ -385,7 +391,7 @@
 74、处理 tpl 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
 76、优化 BaseNumberRange 嵌套层级
 77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
-78、用 BaseConfig 的 provide、inject 方式提供配置
+~~78、用 BaseConfig 的 provide、inject 方式提供配置（待定）~~
 
 ## 四、Vue 极致优化清单
 
@@ -408,7 +414,7 @@
 119、考虑使用 v-once 和 v-memo 来优化渲染性能
 52、关注`resolveComponent`、`mergeProps` api
 53、Ts 相关的定义`PropType `
-70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md`文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在`src/\_code-tpl` 中完善代码片段。
+70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md`文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在`src/_code-tpl` 中完善代码片段。
 30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
 15、测试 3 页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
@@ -449,3 +455,42 @@ const emit = defineEmits<{
 ## 一些参照链接地址
 
 ~~1、配置 husky：https://juejin.cn/post/7261862616095146042~~
+
+## 菜单模块划分
+
+1. 测试中心（test-center）  
+   -（各类测试、要求覆盖面广而全）
+2. 演示中心（demo-center）  
+   -（各类组件、控件示例，参照 Fantastic）
+   -TreeCrud  
+   -开发示例模板
+3. 低码中心（low-code-center）  
+   -模板管理
+   --基础模板  
+   ---表字段（只能查看）
+   ---表单项（只能查看、查询表单、通用表单）  
+   ---表格列（只能查看）  
+   --组件模板  
+   --页面模板  
+   --模块模板  
+   -代码生成（参照当前系统并逐步完善）
+   --拖拽生成  
+   --JSOP 配置  
+   --JSON 生成
+4. 通用中心（common-center）  
+   -权限管理  
+   -字典管理  
+   -开关管理
+5. 监控中心（monitor-center）  
+   -开发分析
+   --组件分析  
+   --页面分析  
+   -性能分析  
+   -异常监控
+6. 商业中心（business-center 服务中心）  
+   -售卖  
+   -售后  
+   -意见反馈
+7. 系统中心（system-center）  
+   -智慧教育  
+   -轻松笔记

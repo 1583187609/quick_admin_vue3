@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="data ? PutUserUpdate : PostUserAdd"
-    :afterSuccess="() => refreshList()"
+    :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
   >
   </BaseForm>

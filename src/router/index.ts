@@ -3,9 +3,8 @@ import { useBaseStore, useKeepAliveStore, useMenuStore, useRouteStore, useUserSt
 import { defaultHomePath, showMessage, storage } from "@/utils";
 import routes from "./routes";
 import NProgress from "nprogress";
-import "nprogress/nprogress.css";
-import { ElMessage } from "element-plus";
 import { CommonObj } from "@/core/_types";
+import "nprogress/nprogress.css";
 
 NProgress.configure({
   easing: "ease", // 动画方式

@@ -5,7 +5,7 @@
     v-model="modelData"
     :fields="fields"
     :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
-    :afterSuccess="() => refreshList()"
+    :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
   >
   </BaseForm>
@@ -55,8 +55,20 @@ const fields: FormField[] = [
   { tpl: "T_YesNoStatus", prop: "notNull", label: "是否非空", quickAttrs: { grid: 12 } },
   { tpl: "T_YesNoStatus", prop: "isPrimaryKey", label: "是否主键", quickAttrs: { grid: 12 } },
   { tpl: "T_YesNoStatus", prop: "isAutoIncrement", label: "是否自增", quickAttrs: { grid: 12 } },
-  { prop: "isUnsigned", label: "无符号", type: "switch", attrs: { activeText: "有", inactiveText: "无" }, quickAttrs: { grid: 12 } },
-  { prop: "isFillZero", label: "填充零", type: "switch", attrs: { activeText: "填充", inactiveText: "不填" }, quickAttrs: { grid: 12 } },
+  {
+    prop: "isUnsigned",
+    label: "无符号",
+    type: "switch",
+    attrs: { activeText: "有", inactiveText: "无" },
+    quickAttrs: { grid: 12 },
+  },
+  {
+    prop: "isFillZero",
+    label: "填充零",
+    type: "switch",
+    attrs: { activeText: "填充", inactiveText: "不填" },
+    quickAttrs: { grid: 12 },
+  },
   { prop: "joinChar", label: "连接符", type: "select", quickAttrs: { grid: 12 } },
   { prop: "defaultValue", label: "默认值" },
   { tpl: "T_Remark", required: true },

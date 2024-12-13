@@ -14,6 +14,7 @@ export interface ResponseMenuItem {
   link_type?: LinkType;
   disabled?: ShowCodes; //是否禁用：0否 1是
   order?: number; //显示的位置顺序，数值越大越靠后，支持负数
+  source?: "fixed" | "auto" | "dynamic"; // 路由来源： auto 自动路由 dynamic 动态路由 fixed 固定写死的路由。默认为auto
   component?: string;
   children?: ResponseMenuItem[];
   create_time?: string; //创建时间

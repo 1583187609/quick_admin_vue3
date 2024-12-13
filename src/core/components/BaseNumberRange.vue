@@ -25,7 +25,11 @@
       @change="handleEvent('change', $event, 1)"
       @blur="handleBlur(1)"
     />
-    <el-icon class="el-icon el-input__icon el-range__close-icon" :class="{ hidden: !modelVals?.length }" @click="handleEvent('clear')">
+    <el-icon
+      class="el-icon el-input__icon el-range__close-icon"
+      :class="{ hidden: !modelVals?.length }"
+      @click="handleEvent('clear')"
+    >
       <CircleClose />
     </el-icon>
   </div>
@@ -99,7 +103,7 @@ function isMinOverMax(vals: ValsArr = []) {
   return Number(minVal) > Number(maxVal);
 }
 
-function handleEvent(type: "input" | "change" | "clear", e, ind: number) {
+function handleEvent(type: "input" | "change" | "clear", e?, ind?: number) {
   if (type === "clear") {
     modelVals.length = 0;
     formItem?.validate("change");
@@ -107,9 +111,10 @@ function handleEvent(type: "input" | "change" | "clear", e, ind: number) {
     $emit("update:modelValue", modelVals);
     return;
   }
+  if (!e || !ind) return;
   const { value } = e.target;
   let val = value.replace(/[^\d.-]/g, "");
-  if (type === "change") val = getLimitNum(modelVals[ind]);
+  if (type === "change") val = getLimitNum(modelVals[ind] as StrNum, ind);
   modelVals[ind] = val;
   if (type === "change") {
     const { precision } = props;

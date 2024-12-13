@@ -9,7 +9,7 @@
   <!-- </el-tooltip> -->
 </template>
 <script lang="ts" setup>
-import { ref, nextTick, useAttrs } from "vue";
+import { ref, nextTick } from "vue";
 import { getIsOver } from "@/utils";
 const props = withDefaults(
   defineProps<{
@@ -26,4 +26,8 @@ function handleMouseenter() {
   });
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// .tooltip-label {
+//   font-size: 12px;
+// }
+</style>

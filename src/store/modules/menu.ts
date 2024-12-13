@@ -2,7 +2,8 @@ import { computed, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
-import { defaultHomePath, storage } from "@/utils";
+import { defaultHomePath, storage, toCamelCase } from "@/utils";
+import { autoMenus } from "@/router/routes/auto";
 export interface RouteItem {
   path: string;
   name: string;
@@ -20,9 +21,10 @@ export interface RouteItem {
 export default defineStore("menu", () => {
   const router = useRouter();
   const activeIndex = ref<number>(0);
-  const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); //是否折叠菜单
-  const allMenus = reactive<ResponseMenuItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
+  const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); // 是否折叠菜单
+  const allMenus = reactive<ResponseMenuItem[]>([...(storage.getItem("allMenus") || []), ...autoMenus]); // 完整导航数据
   const sideMenus = computed<ResponseMenuItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
+
   /**
    * 增加一层监听是为了手动刷新浏览器时（点击左上角的刷新按钮），能够保持和刷新前一样的状态
    * 存储在sessionStorage中是为了避免localStorage中存储过多，影响阅读，且是否折叠这个状态不用一直存储在localStorage中

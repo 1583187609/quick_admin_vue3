@@ -4,7 +4,7 @@
     style="width: 600px"
     :fields="fields"
     :fetch="data ? PostAuthMenuUpdate : PostAuthMenuAdd"
-    :afterSuccess="() => refreshList()"
+    :afterSuccess="() => refreshList?.()"
     @change="handleChange"
   >
     <template #parent_id>

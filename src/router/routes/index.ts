@@ -1,9 +1,10 @@
 import { RouteRecordRaw } from "vue-router";
+import { autoRoutes } from "./auto";
 
 export default [
   {
     path: "/",
-    name: "layout", //父路由不能写name，不然会触发vue警告
+    name: "layout", // 父路由不能写name，不然会触发vue警告
     component: () => import("@/layout/Index.vue"),
     children: [
       {
@@ -25,6 +26,7 @@ export default [
           linkType: 1,
         },
       },
+      ...autoRoutes,
       {
         path: "error", // 示例：/error?type=999
         name: "errorPage",
