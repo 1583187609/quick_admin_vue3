@@ -464,7 +464,7 @@ const emit = defineEmits<{
    -（各类组件、控件示例，参照 Fantastic）
    -TreeCrud  
    -开发示例模板
-3. 低码中心（low-code-center）  
+3. 低码中心（lowcode-center）  
    -模板管理
    --基础模板  
    ---表字段（只能查看）
@@ -491,6 +491,6 @@ const emit = defineEmits<{
    -售卖  
    -售后  
    -意见反馈
-7. 系统中心（system-center）  
+7. 项目中心（project-center）  
    -智慧教育  
    -轻松笔记
