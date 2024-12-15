@@ -1,10 +1,8 @@
-import { getRequestParams, resData, deleteAttrs, filterByConditions, toViteMockApi, getConstructorObj } from "../utils";
+import { getRequestParams, resData, deleteAttrs, toViteMockApi, getConstructorObj, getFilterList } from "../utils";
 import Mock from "mockjs";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
-import roleRows from "../data/roles";
 import { getDictText, getCascadeText, getDictCodes } from "../dict";
-import allAddress from "../data/address";
 import { CommonObj } from "@/core/_types";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -112,43 +110,29 @@ export default toViteMockApi({
     });
   },
   /**
-   * 获取用户列表
+   * 获取用户列表(也可导出)
    * @param type [number] 用户类型，可选值：0超级管理员；1普通管理员 11普通用户
    * @param export_fields [string] 导出字段
    */
   "GET /user/list": (req: CommonObj) => {
-    const { id, type, gender, age = [], name, curr_page = 1, page_size = 10, exports, status } = getRequestParams(req);
-    let queryList = filterByConditions(allUsers, [
-      ["id", id],
-      ["type", type],
-      ["gender", gender],
-      ["status", status],
-      ["age", { type: "range", range: age }],
-      ["name", { type: "blur", byKeys: ["name"], keyword: name }],
-    ]);
+    const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
+    const { id, type, gender, age = [], name, exports, status } = params;
+    let queryList = getFilterList(allUsers, params, { age: ["range", "number"], name: ["match", "blur"] });
     queryList = queryList.map((item: CommonObj) => {
       item = deleteAttrs(item, delAttrs);
       return item;
     });
     if (exports) {
       const { fields, ids } = exports;
-      if (ids?.length) {
-        queryList = filterByConditions(queryList, ["id", { type: "inArr", inArr: ids }]);
-      }
-      if (fields.length) {
+      if (ids?.length) queryList = getFilterList(queryList, { ids }, { ids: ["enums", "same", "id"] });
+      if (fields?.length) {
         queryList = queryList.map(row => {
           const newRow: CommonObj = {};
-          for (const key in row) {
-            if (fields.includes(key)) {
-              newRow[key] = row[key];
-            }
-          }
+          fields.forEach((key: string) => (newRow[key] = row[key]));
           return newRow;
         });
       }
-      return resData({
-        data: queryList,
-      });
+      return resData({ data: queryList });
     } else {
       const sInd = (curr_page - 1) * page_size;
       const eInd = sInd + page_size;
@@ -168,31 +152,11 @@ export default toViteMockApi({
    * @param ids [number] 用户id数组
    */
   "DELETE /user/list": (req: CommonObj) => {
-    const { ids = [] }: CommonObj = getRequestParams(req);
-    const queryList = filterByConditions(allUsers, [["id", { type: "notInArr", notInArr: ids }]]);
+    const params: CommonObj = getRequestParams(req);
+    // const { ids = [] } = params;
+    const queryList = getFilterList(allUsers, params, { ids: ["enums", "same", "id"] }, true);
     allUsers = queryList;
     return resData();
-  },
-  /**
-   * 导出用户列表
-   * @param ids [number] 用户id数组
-   */
-  "POST /user/list/export": (req: CommonObj) => {
-    const { ids = [], cols = [] }: CommonObj = getRequestParams(req);
-    const queryList = filterByConditions(allUsers, [["id", { type: "inArr", inArr: ids }]]);
-    const labels: string[] = [];
-    const props: string[] = [];
-    cols?.forEach((col: TableColAttrs, ind: number) => {
-      const { label, prop } = col;
-      labels.push(label as string);
-      props.push(prop as string);
-    });
-    const rows: any[] = queryList.map((item: CommonObj, ind: number) => {
-      return props.map((prop: string, ind: number) => {
-        return item[prop];
-      });
-    });
-    return resData({ data: [labels, rows.flat(1)] });
   },
   /**
    * 获取用户信息
@@ -238,22 +202,17 @@ export default toViteMockApi({
    * @param psd [string] 密码
    */
   "POST /user/update": (req: CommonObj) => {
-    let code, msg, data;
-    const reqObj = getRequestParams(req);
-    const { id, phone, type, gender, address } = reqObj;
+    const params = getRequestParams(req);
+    const { id, phone, type, gender, address } = params;
     const user = allUsers.find((it: CommonObj) => it.id === id || it.phone === phone);
-    if (user) {
-      data = merge(user, reqObj, {
-        type_text: getDictText("D_RoleType", type),
-        gender_text: getDictText("D_Gender", gender),
-        address_text: getCascadeText("Region", address),
-        update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-      });
-    } else {
-      code = 1;
-      msg = "不存在该用户";
-    }
-    return resData({ code, msg, data });
+    if (!user) return resData({ code: 1, msg: "不存在该用户" });
+    const data = merge(user, params, {
+      type_text: getDictText("D_RoleType", type),
+      gender_text: getDictText("D_Gender", gender),
+      address_text: getCascadeText("Region", address),
+      update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+    });
+    return resData({ data });
   },
   /**
    * 获取用户登录的账号(一类角色各选取一个账号)

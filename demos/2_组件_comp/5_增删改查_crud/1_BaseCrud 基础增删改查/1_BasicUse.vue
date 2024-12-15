@@ -28,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { DeleteUserList, GetUserList, PostUserListExport, PostUserUpdate } from "@/api-mock";
+import { DeleteUserList, GetUserList, GetUserListExport, PostUserUpdate } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
@@ -127,7 +127,7 @@ function handleDelete(ids: string[], next: FinallyNext) {
 }
 //导出
 function handleExport(ids: string[], next: FinallyNext) {
-  PostUserListExport({ ids, cols }).then((res: any) => {
+  GetUserListExport({ ids, cols }).then((res: any) => {
     exportExcel(res, "用户列表");
     next();
   });

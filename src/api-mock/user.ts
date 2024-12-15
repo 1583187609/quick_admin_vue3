@@ -17,10 +17,10 @@ export const GetUserInfo = (data?: CommonObj) => http("get", "/user/info", data)
 export const GetUserNavs = (data?: CommonObj) => http("get", "/user/navs", data);
 //获取用户列表
 export const GetUserList = (data?: CommonObj) => http("get", "/user/list", data);
+//导出用户列表
+export const GetUserListExport = (data?: CommonObj) => http("get", "/user/list", { exports: {}, ...data });
 //批量删除用户
 export const DeleteUserList = (data?: CommonObj) => http("delete", "/user/list", data);
-//导出用户列表
-export const PostUserListExport = (data?: CommonObj) => http("post", "/user/list/export", data);
 //新增用户
 export const PostUserAdd = (data?: CommonObj) => http("post", "/user/add", data);
 //编辑修改用户

@@ -254,7 +254,6 @@ const sections = computed<SectionFormItem[]>(() => {
 });
 //外层套用一层函数，可将参数进行转化处理再执行请求，也可传入handleParams属性
 function handleFetch(params: CommonObj) {
-  console.log(params, "params-----------");
   return PostMockCommon(params);
 }
 </script>

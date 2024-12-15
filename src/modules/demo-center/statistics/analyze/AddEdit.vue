@@ -1,6 +1,5 @@
 <template>
   <BaseForm
-    :request="PostMockCommon"
     v-model="modelData"
     :style="{ width: pureText ? '350px' : '500px' }"
     :fields="fields"
@@ -8,7 +7,6 @@
     :fetch="id ? PostMockCommonUpdate : PostMockCommonAdd"
     :afterSuccess="() => refreshList?.()"
   >
-    <!-- @submit="handleSubmit" -->
     <template #avatar>
       <UploadAvatar v-model="modelData.avatar" />
     </template>
@@ -17,7 +15,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { PostMockCommon, GetUserInfo } from "@/api-mock";
+import { GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/core/components/upload/UploadAvatar.vue";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/core/_types";
@@ -31,7 +29,7 @@ const props = withDefaults(
   {}
 );
 const { id } = props;
-const modelData = reactive<CommonObj>(props.id ? {} : { gender: 0, status: 1 });
+const modelData = reactive<CommonObj>({ gender: 0, status: 1 });
 const fields = ref<FormField[]>([
   {
     prop: "avatar",
@@ -100,10 +98,9 @@ const fields = ref<FormField[]>([
     required: true,
   },
 ]);
-getDetail(id);
+id && getDetail(id);
 //获取详情数据
-function getDetail(id?: StrNum) {
-  if (!id) return;
+function getDetail(id: StrNum) {
   GetUserInfo({ id }).then((res: CommonObj) => {
     Object.assign(modelData, res);
   });

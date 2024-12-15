@@ -1,14 +1,4 @@
-import {
-  getRequestParams,
-  resData,
-  filterByConditions,
-  toViteMockApi,
-  getConstructorObj,
-  getIsInRange,
-  getNavsTree,
-  findTreeNode,
-  getFilterList,
-} from "../utils";
+import { getRequestParams, resData, toViteMockApi, getConstructorObj, getNavsTree, findTreeNode, getFilterList } from "../utils";
 import _ from "lodash";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
@@ -26,12 +16,9 @@ export default toViteMockApi({
    * 权限 - 角色列表
    */
   "GET /auth/role/list": (req: CommonObj) => {
-    const { role_type, status, create_time_range, curr_page = 1, page_size = 10 } = getRequestParams(req);
-    const queryList = filterByConditions(allRoles, [
-      ["role_type", role_type],
-      ["status", status],
-      ["create_time", { type: "range", range: create_time_range, parse: "date" }],
-    ]);
+    const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
+    // const { role, status, create_time_range } = params;
+    const queryList = getFilterList(allRoles, params, { create_time_range: ["range", "date", "create_time"] });
     const sInd = (curr_page - 1) * page_size;
     const eInd = sInd + page_size;
     return resData({
@@ -50,16 +37,16 @@ export default toViteMockApi({
   "POST /auth/role/add": (req: CommonObj) => {
     let code, msg, data;
     const reqObj = getRequestParams(req);
-    const { role_type_text, role_type, status, remark, menu_auth } = reqObj;
-    const isExist = allRoles.find((it: CommonObj) => it.role_type === role_type);
+    const { role_text, role, status, remark, menu_auth } = reqObj;
+    const isExist = allRoles.find((it: CommonObj) => it.role === role);
     if (isExist) {
       code = 1;
       msg = "该角色已存在";
     } else {
       data = merge(getConstructorObj(allRoles?.[0]), reqObj, {
         id: allRoles.slice(-1)[0].id + 1,
-        role_type,
-        role_type_text,
+        role,
+        role_text,
         status_text: getDictText("D_Gender", status),
         create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
       });
@@ -72,13 +59,14 @@ export default toViteMockApi({
    */
   "POST /auth/role/update": (req: CommonObj) => {
     let code, msg, data;
-    const reqObj = getRequestParams(req);
-    const { id, role_type, role_type_text, status, remark, menu_auth } = reqObj;
+    const params = getRequestParams(req);
+    const { id, role, role_text, status, remark, menu_auth } = params;
+    console.log(params, allRoles, "allRoles-=--------------");
     const roleInfo = allRoles.find((it: CommonObj) => it.id === id);
     if (roleInfo) {
-      data = merge(roleInfo, reqObj, {
-        role_type,
-        role_type_text,
+      data = merge(roleInfo, params, {
+        role,
+        role_text,
         status_text: getDictText("D_Gender", status),
         update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
       });
@@ -107,8 +95,9 @@ export default toViteMockApi({
    * @param ids [number] 角色id数组
    */
   "DELETE /auth/role/list": (req: CommonObj) => {
-    const { ids = [] }: CommonObj = getRequestParams(req);
-    const queryList = filterByConditions(allRoles, [["id", { type: "notInArr", notInArr: ids }]]);
+    const params: CommonObj = getRequestParams(req);
+    // const { ids = [] } = params;
+    const queryList = getFilterList(allRoles, params, { ids: ["enums", "same", "id"] }, true);
     allRoles = queryList;
     return resData();
   },
@@ -117,14 +106,15 @@ export default toViteMockApi({
    */
   "GET /auth/menu/list": (req: CommonObj) => {
     const { curr_page, page_size, ...params } = getRequestParams(req);
-    const queryTree = getFilterList(JSON.parse(JSON.stringify(allNavsTree)), params, {
+    const cloneAllNavsTree = JSON.parse(JSON.stringify(allNavsTree));
+    const queryList = getFilterList(cloneAllNavsTree, params, {
       name: ["match", "blur"],
       create_time_range: ["range", "date", "create_time"],
     });
     return resData({
       data: {
-        total_num: queryTree.length,
-        records: queryTree,
+        total_num: queryList.length,
+        records: queryList,
         // curr_page,
         // page_size,
         has_next: false,

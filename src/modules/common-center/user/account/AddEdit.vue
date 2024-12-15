@@ -1,6 +1,5 @@
 <template>
   <BaseForm
-    :request="PostMockCommon"
     v-model="modelData"
     :style="{ width: pureText ? '350px' : '550px' }"
     :fields="fields"
@@ -16,7 +15,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { PostMockCommon, GetUserInfo } from "@/api-mock";
+import { GetUserInfo } from "@/api-mock";
 import UploadAvatar from "@/core/components/upload/UploadAvatar.vue";
 import { PostUserAdd, PostUserUpdate } from "@/api-mock";
 import { CommonObj, FinallyNext } from "@/core/_types";

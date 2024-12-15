@@ -25,7 +25,7 @@ import { usePopup } from "@/hooks";
 const { openPopup } = usePopup();
 const fields = ref<FormField[]>([
   {
-    prop: "role_type",
+    prop: "role",
     label: "角色类型",
     type: "select",
     attrs: {
@@ -54,6 +54,7 @@ const cols = ref<TableCol[]>([
   { prop: "create_time", label: "创建时间", width: 180, sortable: true },
   { prop: "update_time", label: "修改时间", width: 180, sortable: true },
 ]);
+
 //点击操作栏的分组按钮
 function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(

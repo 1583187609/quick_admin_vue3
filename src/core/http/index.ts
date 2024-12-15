@@ -28,7 +28,7 @@ export interface NewAxiosRequestConfig extends AxiosRequestConfig {
 }
 
 const defaultCustomCfg = {
-  isStringify: false, //对于post请求的参数是否字符串序列化
+  isStringify: undefined, // 对于post请求的参数，get请求的数组或对象参数，是否字符串序列化
   loadEnable: true, // 是否启用全局loading
   toastEnable: true, // 对于code非成功值的提示信息是否要进行toast提示
   reconnectMax: 1, //失败后重新请求的最大尝试次数
@@ -50,17 +50,11 @@ const statusMap: Record<number, string> = {
 
 const service: AxiosInstance = axios.create({
   withCredentials: true,
-  // `paramsSerializer` 是一个负责 `params` 序列化的函数
-  // (e.g. https://www.npmjs.com/package/qs, http://api.jquery.com/jquery.param/)
   // baseURL: 'https://some-domain.com/api/',
   // paramsSerializer: function (params) {
+  //   // query = qs.stringify(params,{arrayFormat:'repeat'})
+  //   // return qs.stringify(params, { indices: false });
   //   return qs.stringify(params, { arrayFormat: "repeat" });
-  // },
-  paramsSerializer: function (params) {
-    return qs.stringify(params, { indices: false });
-  },
-  // paramsSerializer: {
-  //   indexes: null,
   // },
 });
 
@@ -128,11 +122,18 @@ function fetch<T = any>(
 ): Promise<T> {
   method = method.toLowerCase();
   const cfg: NewAxiosRequestConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
+  const { isStringify = method === "get" } = customCfg;
   if (method === "get") {
+    if (isStringify) {
+      // 将数组或对象字符串序列化
+      for (const key in data) {
+        const val = data[key];
+        if (typeof val === "object") data[key] = JSON.stringify(val);
+      }
+    }
     cfg.params = data;
   } else if (["post", "put", "patch", "delete"].includes(method)) {
     const isObj = typeOf(data) === "Object";
-    const { isStringify } = customCfg;
     cfg.data = isObj && isStringify ? qs.stringify(data) : data;
   } else {
     throw new Error(`暂不支持此请求方法：${method}`);

@@ -18,6 +18,8 @@ export const GetMockCommonList = (data?: GetMockCommonListReq) =>
     // toastEnable: true,
     // reconnectMax: 1,
   });
+// 通用的导出接口
+export const GetMockCommonExport = (data?: CommonObj) => http("get", "/mock/common/list", { exports, ...data });
 // 通用的获取数据（信息对象）接口
 export const GetMockCommonDetail = (data?: CommonObj) => http("get", "/mock/common/detail", data);
 // 通用的提交数据（信息对象）接口
@@ -28,8 +30,6 @@ export const PostMockCommonAdd = (data?: CommonObj) => http("post", "/mock/commo
 export const PostMockCommonUpdate = (data?: CommonObj) => http("post", "/mock/common/update", data);
 // 通用的导入接口
 export const PostMockCommonImport = (data?: CommonObj) => http("post", "/mock/common/import", data);
-// 通用的导出接口
-export const PostMockCommonExport = (data?: CommonObj) => http("post", "/mock/common/export", data);
 // 通用的删除接口
 export const DeleteMockCommon = (data?: CommonObj) => http("delete", "/mock/common", data);
 // 通用的更新全部数据接口

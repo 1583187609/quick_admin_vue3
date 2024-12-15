@@ -1,7 +1,7 @@
-import { getRequestParams, resData, deleteAttrs, filterByConditions, toViteMockApi } from "../utils";
+import { getRequestParams, resData, deleteAttrs, toViteMockApi, getFilterList } from "../utils";
 import allUsers from "../data/user";
 import allNavs from "../data/navs";
-import roleRows from "../data/roles";
+import allRoles from "../data/roles";
 import testFields from "../data/test";
 import dictMap, { getDictText } from "../dict";
 import allAddress from "../data/address";
@@ -22,49 +22,22 @@ export default toViteMockApi({
    * 通用的获取列表的接口
    */
   "GET /mock/common/list": (req: CommonObj) => {
-    const { id, type, gender, age = [], name, curr_page = 1, page_size = 10, exports = false, emptyList = false, status } = getRequestParams(req);
-    if (emptyList) {
-      return resData({
-        data: {
-          total_num: 0,
-          records: [],
-          curr_page,
-          page_size,
-          has_next: false,
-        },
-      });
-    }
-    let queryList = filterByConditions(allUsers, [
-      ["id", id],
-      ["type", type],
-      ["gender", gender],
-      ["status", status],
-      ["age", { type: "range", range: age }],
-      ["name", { type: "blur", byKeys: ["name"], keyword: name }],
-    ]);
-    queryList = queryList.map((item: CommonObj) => {
-      item = deleteAttrs(item, delAttrs);
-      return item;
-    });
+    const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
+    const { id, type, gender, age = [], name, exports, emptyList, status } = params;
+    if (emptyList) return resData({ data: { total_num: 0, records: [], curr_page, page_size, has_next: false } });
+    let queryList = getFilterList(allUsers, params, { age: ["range", "number"], name: ["match", "blur"] });
+    queryList = queryList.map((item: CommonObj) => deleteAttrs(item, delAttrs));
     if (exports) {
       const { fields, ids } = exports;
-      if (ids?.length) {
-        queryList = filterByConditions(queryList, ["id", { type: "inArr", inArr: ids }]);
-      }
-      if (fields.length) {
+      if (ids?.length) queryList = getFilterList(queryList, { ids }, { ids: ["enums", "same", "id"] });
+      if (fields?.length) {
         queryList = queryList.map(row => {
           const newRow: CommonObj = {};
-          for (const key in row) {
-            if (fields.includes(key)) {
-              newRow[key] = row[key];
-            }
-          }
+          fields.forEach((key: string) => (newRow[key] = row[key]));
           return newRow;
         });
       }
-      return resData({
-        data: queryList,
-      });
+      return resData({ data: queryList });
     } else {
       const sInd = (curr_page - 1) * page_size;
       const eInd = sInd + page_size;
@@ -95,21 +68,22 @@ export default toViteMockApi({
    * 通用的修改接口
    */
   "POST /mock/common/update": (req: CommonObj) => {
-    // by 根据某些字段去查，to，去修改某些字段
-    const { by = { id: 10, status: 1 }, to = { status: 2 }, name = "users" } = getRequestParams(req);
-    if (!by || !to) return resData();
-    let queryList: any[] = [];
+    // by 根据某些字段去查
+    const { byName = "users", byKeys = ["id"], ...params } = getRequestParams(req);
+    if (!byKeys?.length || !params) return resData();
+    const by: CommonObj = {};
+    byKeys.forEach((key: string) => {
+      by[key] = params[key];
+    });
     const listMap = {
       users: allUsers,
+      roles: allRoles,
     };
-    const byConditions: [string, any][] = [];
-    Object.keys(by).forEach(key => {
-      byConditions.push([key, by[key]]);
-    });
-    queryList = filterByConditions(listMap[name], byConditions);
+    let queryList: any[] = getFilterList(listMap[byName], by);
+    if (!queryList.length) return resData({ code: 1, msg: "未找到记录" });
     queryList.forEach(item => {
-      Object.keys(to).forEach(key => {
-        item[key] = to[key];
+      Object.keys(params).forEach(key => {
+        if (item[key] !== undefined) item[key] = params[key];
       });
     });
     return resData({ data: queryList });

@@ -6,6 +6,7 @@ import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
 
 const { merge } = _;
+
 /**
  * 获取请求参数
  * @param req 请求体
@@ -13,7 +14,13 @@ const { merge } = _;
  */
 export function getRequestParams(req: CommonObj, ignoreKeys = ["phone"]) {
   const { url, body, query, headers } = req;
-  const reqParams = merge(body, query);
+  // 将字符串化的数组或对象，转成对应的数组或对象
+  for (const key in query) {
+    const val = query[key];
+    const isParse = typeof val === "string" && ["[", "{"].includes(val.charAt(0));
+    if (isParse) query[key] = JSON.parse(val);
+  }
+  const reqParams = merge({}, body, query);
   //是否忽略掉要转成number类型
   function isIgnore(key: string, val: any) {
     const valType = typeOf(val);
@@ -57,7 +64,8 @@ export function toViteMockApi(obj: CommonObj) {
 
 // 判断是否在枚举区间内
 export type ParseEnumType = "same" | "equal"; // same（全等于===） equal（约等于==）；
-export function getIsInEnum(val: any, enums: any[] = [], parse: ParseEnumType = "same") {
+export function getIsInEnum(val: any, enums: any[] | any = [], parse: ParseEnumType = "same") {
+  if (!Array.isArray(enums)) enums = [enums];
   if (parse === "same") return enums.includes(val);
   if (parse === "equal") return enums.some(it => it == val);
   throw new Error(`暂未处理此类型：${parse}`);
@@ -74,6 +82,9 @@ export function getIsInRange(val: any, range: [any, any], parse: ParseRangeItemT
   if (!range?.length) return true;
   let [min, max] = range;
   if (parse === "date") {
+    if (!min.includes(" ")) min += " 00:00:00";
+    if (!max.includes(" ")) max += " 23:59:59";
+    if (!val.includes(" ")) val += " 00:00:00";
     min = new Date(min).getTime();
     max = new Date(max).getTime();
     val = new Date(val).getTime();
@@ -101,10 +112,10 @@ export function getIsInRange(val: any, range: [any, any], parse: ParseRangeItemT
     age: ["range", "number", "age"], // 数字区间
     ids: ["enums", "same", "id"], // 枚举区间之一
   }
- * @param {boolean} isExclud 是否排除条件匹配的项 
+ * @param {boolean} isExclude 是否排除条件匹配的项 
  * @returns {object[]}
  */
-export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, isExclud = false) {
+export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, isExclude = false) {
   const keys = Object.keys(params);
   return list?.filter((item: CommonObj) => {
     const { children } = item;
@@ -123,71 +134,13 @@ export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, 
       throw new Error(`暂未处理此类型：${validType}`);
     });
     if (children?.length) {
-      item.children = getFilterList(children, params, rules, isExclud);
+      item.children = getFilterList(children, params, rules, isExclude);
       // return !!item.children?.length;
     }
-    return isExclud ? !isValid : isValid;
+    return isExclude ? !isValid : isValid;
   });
 }
 
-/**
- * 根据一个或多个条件过滤数组元素
- * @param list [array] 需要过滤的数组
- * @param byConditions [array] 过滤依据的条件，示例：[['type',1],['gender',1]]
- */
-export function filterByConditions(list: any[], byConditions: any[]) {
-  /**
-   * @param record object 一条记录数据信息
-   * //blur 模糊查询 precise 精准查询 range 区间查询   inArr 指定数组中查询 notInArr 不在指定的数组中
-   * @param condition object 依据的字段名，示例：{ type: "blur", byKeys: ["name"], keyword: "范" }]
-   * @other type string 模糊查询，可选值：["blur"]
-   * @other byKeys string[] 依据的字段名，示例：['name','nickname']
-   * @other keyword string 依据的关键词，示例："范"
-   */
-  function isIncludesKeyword(record: CommonObj, condition: CommonObj, key: string) {
-    const {
-      type = "blur",
-      byKeys,
-      keyword,
-      range,
-      parse, //按某种类型进行转换  例：date: 转换时间
-      inArr,
-      notInArr,
-    } = condition;
-    if (["blur", "precise"].includes(type)) {
-      if (["", undefined].includes(keyword)) return true;
-      return byKeys.some((key: string, ind: number) => {
-        if (type === "blur") {
-          return record[key].includes(keyword);
-        } else if (type === "precise") {
-          return record[key] === keyword;
-        } else {
-          throw new Error(`暂不支持 ${type} 查询`);
-        }
-      });
-    } else if (type === "range") {
-      return getIsInRange(record[key], range, parse);
-    } else if (type === "inArr") {
-      return inArr.includes(record[key]);
-    } else if (type === "notInArr") {
-      return !notInArr.includes(record[key]);
-    }
-    return true;
-  }
-  return list.filter((row, index) => {
-    const isValid = byConditions.every(([key, val], aInd) => {
-      const valType = typeOf(val);
-      if (valType === "Undefined") {
-        return true;
-      } else if (valType === "Object") {
-        return isIncludesKeyword(row, val, key);
-      } else {
-        return val === "" || row[key] === val;
-      }
-    });
-    return isValid;
-  });
-}
 /**
  * 根据字典获取下拉选项数据
  * @param name string 字典名

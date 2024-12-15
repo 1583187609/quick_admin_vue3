@@ -1,9 +1,4 @@
-import { getRequestParams, resData, deleteAttrs, filterByConditions, toViteMockApi } from "../utils";
-import allUsers from "../data/user";
-import allNavs from "../data/navs";
-import roleRows from "../data/roles";
-import testFields from "../data/test";
-import dictMap, { getDictText } from "../dict";
+import { getRequestParams, resData, deleteAttrs, toViteMockApi } from "../utils";
 import allAddress from "../data/address";
 import allSchool from "../data/school";
 import allCompany from "../data/company";

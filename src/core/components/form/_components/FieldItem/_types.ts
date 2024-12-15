@@ -27,7 +27,7 @@ export type FormChildrenType =
   | "addDel"; //新增删除分组
 export type SystemFormItemType =
   // 其他
-  | "custom"
+  | "slot"
   | "empty"
   // 内置系统组件
   | "BaseNumberRange"
@@ -62,16 +62,7 @@ export type GridAttrs = {
 export type ElColAttrs = GridAttrs & ColOtherAttrs;
 
 export type Grid = number | string | ElColAttrs;
-export type FormItemTplTypes =
-  | "T_Phone"
-  | "T_Password"
-  | "T_Identity"
-  | "T_Email"
-  | "T_Price"
-  | "T_Age"
-  | "T_Amount"
-  | "T_EnableStatus"
-  | "T_Remark";
+export type FormItemTplTypes = "T_Phone" | "T_Password" | "T_Identity" | "T_Email" | "T_Price" | "T_Age" | "T_Amount" | "T_EnableStatus" | "T_Remark";
 export interface FormFieldAttrs {
   tpl?: FormItemTplTypes; // 模板规则
   key?: any; //v-for的key，如果不写，则是默认的index作为key
