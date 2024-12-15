@@ -11,7 +11,7 @@
     @click="handleClick"
     :router="false"
   >
-    <SubMenu :data="props.menus ?? menuStore.allMenus" v-if="(props.menus ?? menuStore.allMenus)?.length" />
+    <SubMenu :data="menusData" v-if="menusData?.length" />
     <BaseEmpty tips="无" size="32" v-else />
   </el-menu>
 </template>
@@ -23,12 +23,13 @@ import { useMenuStore, useSetStore } from "@/store";
 import { useRoute } from "vue-router";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { ResponseMenuItem, MenuEffect } from "./_types";
+import { computed } from "vue";
 
 const { navBgDark, navTextColorLight, navBgLight } = cssVars;
 const props = withDefaults(
   defineProps<{
-    defaultOpeneds?: string[]; //默认打开的 sub-menu 的 index 的数组
-    map?: CommonObj; //键值对映射 ResponseMenuItem
+    defaultOpeneds?: string[]; // 默认打开的 sub-menu 的 index 的数组
+    map?: CommonObj; // 键值对映射 ResponseMenuItem
     menus?: ResponseMenuItem[];
     effect?: MenuEffect;
   }>(),
@@ -39,7 +40,8 @@ const props = withDefaults(
 const route = useRoute();
 const menuStore = useMenuStore();
 const setStore = useSetStore();
-menuStore.initMenusActive(route.path); //初始菜单选中项
+const menusData = computed(() => props.menus ?? menuStore.allMenus);
+menuStore.initMenusActive(route.path); // 初始菜单选中项
 function handleClick() {
   if (setStore.layout.type === "columns") {
     menuStore.isCollapse = false;

@@ -56,7 +56,7 @@ function handleClick(menu: ResponseMenuItem) {
     // tagIcon.href = "/ico.svg";
     // win?.document.head.appendChild(tagIcon);
   } else {
-    throw new Error(`暂不支持code为${link_type}的外链类型`);
+    throw new Error(`暂未处理外链类型：${link_type}`);
   }
 }
 </script>

@@ -395,6 +395,7 @@
 77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
 ~~78、用 BaseConfig 的 provide、inject 方式提供配置（待定）~~
 79、处理菜单管理页（`system/menu`）栈溢出问题：`Maximum call stack size exceeded`
+80、刷新页面，菜单未展开对应的菜单项，`common-center/menu/automate` 可复现
 
 ## 四、Vue 极致优化清单
 

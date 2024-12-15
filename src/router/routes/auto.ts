@@ -61,15 +61,16 @@ function getAutoRoutesTree(comps, pages) {
 
 // 获取自动路由的菜单
 function getAutoMenus(routes: any[] = [], idStr = "", level = 0) {
-  if (!routes?.length) return;
+  if (!routes?.length) return [];
   return routes.map((item: any, ind: number) => {
-    const { meta = {}, name, path, children } = item;
-    const { id, title = name, icon, type = level === 0 ? 0 : 1, disabled } = meta;
+    const { meta = {}, name, path, children, component } = item;
+    const isMenu = component !== undefined;
+    const { id, title = name, icon, type = isMenu ? 1 : 0, disabled } = meta;
     idStr = idStr ? `${idStr}-${ind + 1}` : id;
     return {
       id: idStr,
       label: title,
-      icon,
+      icon: level < 2 ? icon : undefined,
       path: `/${path}`,
       type,
       auth_codes: null,
@@ -80,8 +81,8 @@ function getAutoMenus(routes: any[] = [], idStr = "", level = 0) {
       update_time: "1995-03-15 04:23:10",
       source: level === 0 ? "auto" : undefined,
       disabled,
-      component: children?.length ? undefined : `/${path}/index.vue`,
-      children: getAutoMenus(children, idStr, level++),
+      component: isMenu ? `/${path}/index.vue` : undefined,
+      children: getAutoMenus(children, idStr, level + 1),
     };
   });
 }

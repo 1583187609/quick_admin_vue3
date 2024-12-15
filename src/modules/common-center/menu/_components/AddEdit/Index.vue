@@ -23,10 +23,12 @@ import MenuTree from "./_components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { defaultIconName } from "@/utils";
 import { useDict } from "@/hooks";
+import { MenuListType } from "../MenuList.vue";
 
 const { getText } = useDict();
 const props = withDefaults(
   defineProps<{
+    type?: MenuListType;
     data?: CommonObj;
     menuTree?: any[];
     refreshList?: FinallyNext;

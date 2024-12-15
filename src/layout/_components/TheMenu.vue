@@ -13,6 +13,7 @@ import { useRouter } from "vue-router";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useMenuStore, useSetStore } from "@/store";
 import { defaultHomePath } from "@/utils";
+
 const { VITE_APP_NAME } = import.meta.env;
 
 const menuStore = useMenuStore();

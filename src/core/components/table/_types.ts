@@ -80,7 +80,7 @@ export type TableColType =
   | "BaseText"
   | "BaseCopy"
   | "OperatorTime" // "create" "update"
-  | "custom"
+  | "slot"
   | "operate"
   | InsertTabColFormType
   | InsertTableColCompsType;

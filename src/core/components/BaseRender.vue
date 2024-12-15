@@ -9,7 +9,7 @@
     v-if="dataType === 'Object' && ((renderData as RenderVue).setup || isVNode(renderData))"
   />
   <!-- 如果是数组（创建虚拟DOM的参数 -->
-  <component :is="h(...(renderData as HArgs))" v-else-if="dataType === 'Array'" />
+  <component :is="h(...(renderData as HArgs))" v-bind="$attrs" v-else-if="dataType === 'Array'" />
   <!-- 如果是基本数据类型 -->
   <template v-else>{{ renderData }}</template>
 </template>
@@ -67,6 +67,10 @@ export type BaseRenderComponentType =
 export type BaseRenderData =
   | BaseDataType //基础数据类型
   | BaseRenderComponentType;
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const $attrs = useAttrs();
 const props = withDefaults(

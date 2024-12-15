@@ -27,6 +27,19 @@ import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
 import { emptyStr, handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
+import { getNavsTree } from "#/mock/utils";
+import { autoMenus } from "@/router/routes/auto";
+
+export type MenuListType = "automate" | "dynamic";
+
+const props = withDefaults(
+  defineProps<{
+    type?: MenuListType;
+  }>(),
+  {
+    type: "dynamic",
+  }
+);
 
 const { openPopup } = usePopup();
 const menuTree = ref<MenuTreeNode[]>([]);
@@ -56,7 +69,7 @@ const fields = ref<FormField[]>([
       options: "D_YesNoStatus",
     },
   },
-  {
+  props.type === "dynamic" && {
     prop: "create_time_range",
     label: "创建时间",
     type: "date-picker",
@@ -90,8 +103,12 @@ const cols = ref<TableCol[]>([
     type: "BaseTag",
   },
   { prop: "remark", label: "备注" },
-  { prop: "create_time", label: "创建时间" },
-  { prop: "update_time", label: "创建时间" },
+  ...(props.type === "dynamic"
+    ? [
+        { prop: "create_time", label: "创建时间" },
+        { prop: "update_time", label: "更新时间" },
+      ]
+    : []),
 ]);
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { selectedKeys } = restArgs;
@@ -114,25 +131,34 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
     name
   );
 }
-//新增/删除
+// 新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
   openPopup(`${row ? "编辑" : "新增"}菜单`, [AddEdit, { data: row, menuTree: menuTree.value, refreshList: next }]);
 }
-//删除
+// 删除
 function handleDelete(ids: string[], next: FinallyNext) {
   DeleteAuthMenuList({ ids }).then((res: CommonObj) => {
     next();
   });
 }
-//切换状态
+// 切换状态
 function handleToggleStatus(row: CommonObj, next: FinallyNext) {}
 
-//处理请求
+// 处理请求
 function handleFetch(data: CommonObj) {
-  return GetAuthMenuList(data).then((res: CommonObj) => {
-    menuTree.value = res.records;
-    return res;
-  });
+  const { type } = props;
+  if (type === "automate") {
+    return new Promise(resolve => {
+      menuTree.value = getNavsTree(autoMenus) as MenuTreeNode[];
+      resolve({ total_num: 10, records: menuTree.value, has_next: false });
+    });
+  }
+  if (type === "dynamic") {
+    return GetAuthMenuList(data).then((res: CommonObj) => {
+      menuTree.value = res.records;
+      return res;
+    });
+  }
 }
 </script>
 <style lang="scss" scoped></style>
