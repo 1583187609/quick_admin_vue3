@@ -55,24 +55,79 @@ export function toViteMockApi(obj: CommonObj) {
   return arr;
 }
 
+// 判断是否在枚举区间内
+export type ParseEnumType = "same" | "equal"; // same（全等于===） equal（约等于==）；
+export function getIsInEnum(val: any, enums: any[] = [], parse: ParseEnumType = "same") {
+  if (parse === "same") return enums.includes(val);
+  if (parse === "equal") return enums.some(it => it == val);
+  throw new Error(`暂未处理此类型：${parse}`);
+}
+
 /**
  * 判断数据是否在数据区间内
  * @param range [any,any] 数据区间
  * @param now 当前数据
  * @param parse 要转换成的格式，之后再进行对比
  */
-export type ParseRangeItemType = "date";
-export function getIsInDateRange(range: [any, any], now: any, parse?: ParseRangeItemType) {
-  if (range?.length) {
-    let [min, max] = range;
-    if (parse === "date") {
-      min = new Date(min).getTime();
-      max = new Date(max).getTime();
-      now = new Date(now).getTime();
-    }
-    return now > min && now < max;
+export type ParseRangeItemType = "date" | "number";
+export function getIsInRange(val: any, range: [any, any], parse: ParseRangeItemType = "date") {
+  if (!range?.length) return true;
+  let [min, max] = range;
+  if (parse === "date") {
+    min = new Date(min).getTime();
+    max = new Date(max).getTime();
+    val = new Date(val).getTime();
+  } else if (parse === "number") {
+    min = Number(min);
+    max = Number(max);
+    val = Number(val);
+  } else {
+    throw new Error(`暂未处理此类型：${parse}`);
   }
-  return true;
+  return val > min && val < max;
+}
+
+/**
+ * 过滤列表
+ * @param {object[]} list 要处理的列表
+ * @param {object} params 传递的参数
+ * @param {object} rules  过滤规则
+ * @example rules = {
+ * // 未写出来的，默认为 ["match", "equal", prop] 第三个参数是对应的属性名，默认跟rules的键名保持一致
+    name: ["match", "blur", "name"], // 模糊匹配
+    status: ["match", "same", "status"], // 严格匹配（===）
+    is_cache: ["match", "equal", "is_cache"], // 非严格匹配（==）
+    create_time: ["range", "date", "create_time"], // 日期区间
+    age: ["range", "number", "age"], // 数字区间
+    ids: ["enums", "same", "id"], // 枚举区间之一
+  }
+ * @param {boolean} isExclud 是否排除条件匹配的项 
+ * @returns {object[]}
+ */
+export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, isExclud = false) {
+  const keys = Object.keys(params);
+  return list?.filter((item: CommonObj) => {
+    const { children } = item;
+    const isValid = keys.every(key => {
+      const val = params[key];
+      if (val === undefined) return true;
+      const [validType, strategy, prop = key] = rules[key] ?? ["match", "equal"];
+      if (validType === "match") {
+        if (strategy === "blur") return item[prop].includes(val);
+        if (strategy === "equal") return item[prop] == val;
+        if (strategy === "same") return item[prop] === val;
+        throw new Error(`暂未处理此类型：${strategy}`);
+      }
+      if (validType === "range") return getIsInRange(item[prop], val, strategy);
+      if (validType === "enums") return getIsInEnum(item[prop], val, strategy);
+      throw new Error(`暂未处理此类型：${validType}`);
+    });
+    if (children?.length) {
+      item.children = getFilterList(children, params, rules, isExclud);
+      // return !!item.children?.length;
+    }
+    return isExclud ? !isValid : isValid;
+  });
 }
 
 /**
@@ -111,17 +166,7 @@ export function filterByConditions(list: any[], byConditions: any[]) {
         }
       });
     } else if (type === "range") {
-      // if (range?.length) {
-      //   let [min, max] = range;
-      //   let now = record[key];
-      //   if (parse === "date") {
-      //     min = new Date(min).getTime();
-      //     max = new Date(max).getTime();
-      //     now = new Date(now).getTime();
-      //   }
-      //   return now > min && now < max;
-      // }
-      return getIsInDateRange(range, record[key], parse);
+      return getIsInRange(record[key], range, parse);
     } else if (type === "inArr") {
       return inArr.includes(record[key]);
     } else if (type === "notInArr") {
@@ -215,8 +260,8 @@ export function getConstructorObj(obj: CommonObj = {}, excludeNames?: string[]) 
  * 获取NavsTree
  * @param navs object[] 原始导航树数据
  */
-export function getNavsTree(navs?: CommonObj[]): CommonObj[] | undefined {
-  if (!navs) return;
+export function getNavsTree(navs?: CommonObj[]): CommonObj[] {
+  if (!navs) return [];
   return navs.map((item: CommonObj, ind) => {
     const { label, component = "", path, children, status, is_cache, type, ...rest } = item;
     return {

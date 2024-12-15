@@ -292,7 +292,7 @@ watch(
 );
 // 点击搜索
 function handleSearch(data: CommonObj) {
-  Object.assign(params, { [currPageKey]: 1 });
+  pagination && Object.assign(params, { [currPageKey]: 1 });
   getList(params, undefined, "search");
 }
 // 重置
@@ -303,12 +303,12 @@ function handleAfterReset() {
 }
 // 每页条数变化时
 function handleSizeChange(val: number) {
-  Object.assign(params, { [currPageKey]: 1, [pageSizeKey]: val });
+  pagination && Object.assign(params, { [currPageKey]: 1, [pageSizeKey]: val });
   getList(params, undefined, "sizeChange");
 }
 // 当前页码变化时
 function handleCurrChange(val: number) {
-  Object.assign(params, { [currPageKey]: val });
+  pagination && Object.assign(params, { [currPageKey]: val });
   getList(params, undefined, "currChange");
 }
 /**
@@ -324,8 +324,8 @@ function handleChange(changedVals: CommonObj, isInit?: boolean) {
     Object.assign(initParams, params);
   } else {
     if (!changeFetch) return;
-    // merge(params, changedVals, { [currPageKey]: 1 }); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
-    Object.assign(params, changedVals, { [currPageKey]: 1 });
+    // merge(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
+    Object.assign(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined);
   }
   getList(params, undefined, isInit ? "init" : "change");
 }
@@ -360,7 +360,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
         newRows.value = newList;
       }
       Object.assign(pageInfo, { total: res[resMap.total_num as string], hasMore: res[resMap.has_more as string] });
-      Object.assign(currPageInfo, { [currPageKey]: _currPage, [pageSizeKey]: args[pageSizeKey] });
+      pagination && Object.assign(currPageInfo, { [currPageKey]: _currPage, [pageSizeKey]: args[pageSizeKey] });
       afterSuccess?.(res);
       $emit("rows", newRows.value, args);
       cb?.();

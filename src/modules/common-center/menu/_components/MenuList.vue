@@ -27,7 +27,7 @@ import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
 import { emptyStr, handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
-import { getNavsTree } from "#/mock/utils";
+import { getFilterList, getNavsTree } from "#/mock/utils";
 import { autoMenus } from "@/router/routes/auto";
 
 export type MenuListType = "automate" | "dynamic";
@@ -82,6 +82,7 @@ const cols = ref<TableCol[]>([
     label: "名称",
     minWidth: 220,
     align: "left",
+    fixed: "left",
   },
   {
     prop: "type_text",
@@ -149,8 +150,10 @@ function handleFetch(data: CommonObj) {
   const { type } = props;
   if (type === "automate") {
     return new Promise(resolve => {
-      menuTree.value = getNavsTree(autoMenus) as MenuTreeNode[];
-      resolve({ total_num: 10, records: menuTree.value, has_next: false });
+      const allRrecords = getNavsTree(autoMenus) as MenuTreeNode[];
+      menuTree.value = allRrecords;
+      const records = getFilterList(JSON.parse(JSON.stringify(allRrecords)), data);
+      resolve({ total_num: 10, records, has_next: false });
     });
   }
   if (type === "dynamic") {

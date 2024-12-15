@@ -4,9 +4,10 @@ import {
   filterByConditions,
   toViteMockApi,
   getConstructorObj,
-  getIsInDateRange,
+  getIsInRange,
   getNavsTree,
   findTreeNode,
+  getFilterList,
 } from "../utils";
 import _ from "lodash";
 import _allUsers from "../data/user";
@@ -14,12 +15,9 @@ import allNavs from "../data/navs";
 import roleRows from "../data/roles";
 import { getDictText, getCascadeText } from "../dict";
 import dayjs from "dayjs";
-import Mock from "mockjs";
 import { CommonObj } from "@/core/_types";
 
 const { merge } = _;
-const { Random } = Mock;
-const delAttrs: string[] = ["psd"];
 let allRoles = JSON.parse(JSON.stringify(roleRows));
 let allNavsTree = getNavsTree(allNavs);
 
@@ -118,32 +116,11 @@ export default toViteMockApi({
    * 权限 - 获取菜单列表
    */
   "GET /auth/menu/list": (req: CommonObj) => {
-    const {
-      name,
-      status,
-      is_cache,
-      is_link,
-      create_time_range,
-      // curr_page = 1,
-      // page_size = 10,
-    } = getRequestParams(req);
-    const queryTree = getFilterTree(JSON.parse(JSON.stringify(allNavsTree)));
-    function getFilterTree(arr: any) {
-      return arr?.slice()?.filter((item: any, ind: number) => {
-        if (item.children?.length) {
-          item.children = getFilterTree(item.children);
-          return !!item.children?.length;
-        } else {
-          return (
-            (name === undefined || item.name.includes(name)) &&
-            (status === undefined || item.status === status) &&
-            (is_cache === undefined || item.is_cache === is_cache) &&
-            (is_link === undefined || item.is_link === is_link) &&
-            getIsInDateRange(create_time_range, item.create_time, "date")
-          );
-        }
-      });
-    }
+    const { curr_page, page_size, ...params } = getRequestParams(req);
+    const queryTree = getFilterList(JSON.parse(JSON.stringify(allNavsTree)), params, {
+      name: ["match", "blur"],
+      create_time_range: ["range", "date", "create_time"],
+    });
     return resData({
       data: {
         total_num: queryTree.length,
@@ -159,15 +136,8 @@ export default toViteMockApi({
    * @param ids [number] 菜单id数组
    */
   "DELETE /auth/menu/list": (req: CommonObj) => {
-    const { ids = [] }: CommonObj = getRequestParams(req);
-    allNavsTree = getFilterTree(allNavsTree);
-    function getFilterTree(arr: any[]) {
-      return arr?.filter((item: any, ind: number) => {
-        const { id, children } = item;
-        item.children = getFilterTree(children);
-        return !ids.includes(id);
-      });
-    }
+    const params: CommonObj = getRequestParams(req);
+    allNavsTree = getFilterList(allNavsTree, params, { ids: ["enums", "same", "id"] }, true);
     return resData();
   },
   /**
