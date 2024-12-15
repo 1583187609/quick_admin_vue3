@@ -242,10 +242,6 @@ defineExpose({
   formValidate() {
     return footerBtnsRef.value.formValidate();
   },
-  // 获取配置信息
-  getConfig() {
-    return { sections: newSections.value };
-  },
 });
 </script>
 <style lang="scss">

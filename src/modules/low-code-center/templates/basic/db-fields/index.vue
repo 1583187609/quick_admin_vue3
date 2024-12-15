@@ -46,18 +46,18 @@ const tplTypeOpts = [
     label: "ID",
     value: "id",
     children: [
-      { label: "id", value: "id", slots: [BaseOption, { left: "通用id", right: "id" }] },
-      { label: "creatorId", value: "creatorId", slots: [BaseOption, { left: "创建人id", right: "creatorId" }] },
-      { label: "updatorId", value: "updatorId", slots: [BaseOption, { left: "更新人id", right: "updatorId" }] },
+      { label: "通用id", value: "id", slots: BaseOption },
+      { label: "创建人id", value: "creatorId", slots: BaseOption },
+      { label: "更新人id", value: "updatorId", slots: BaseOption },
     ],
   },
   {
     label: "用户",
     value: "user",
     children: [
-      { label: "姓名", value: "name", slots: [BaseOption, { left: "姓名", right: "name" }] },
-      { label: "性别", value: "gender", slots: [BaseOption, { left: "性别", right: "gender" }] },
-      { label: "年龄", value: "age", slots: [BaseOption, { left: "年龄", right: "age" }] },
+      { label: "姓名", value: "name", slots: BaseOption },
+      { label: "性别", value: "gender", slots: BaseOption },
+      { label: "年龄", value: "age", slots: BaseOption },
     ],
   },
 ];
@@ -67,18 +67,19 @@ const dataTypeOpts = (signed = true) => {
       value: 1,
       label: "数字",
       children: [
-        { label: "tinyint", value: "tinyint", slots: [BaseOption, { left: "tinyint", right: getMaxLengthRange(1, signed) }] },
-        { label: "smallint", value: "smallint", slots: [BaseOption, { left: "smallint", right: getMaxLengthRange(2, signed) }] },
+        { label: "tinyint", value: "tinyint", range: getMaxLengthRange(1, signed), slots: [BaseOption, { rightKey: "range" }] },
+        { label: "smallint", value: "smallint", range: getMaxLengthRange(2, signed), slots: [BaseOption, { rightKey: "range" }] },
         {
           label: "mediumint",
           value: "mediumint",
-          slots: [BaseOption, { left: "mediumint", right: getMaxLengthRange(3, signed) }],
+          range: getMaxLengthRange(3, signed),
+          slots: [BaseOption, { rightKey: "range" }],
         },
-        { label: "int", value: "int", slots: [BaseOption, { left: "int", right: getMaxLengthRange(4, signed) }] },
-        { label: "integer", value: "integer", slots: [BaseOption, { left: "integer", right: getMaxLengthRange(5, signed) }] },
-        { label: "bigint", value: "bigint", slots: [BaseOption, { left: "bigint", right: getMaxLengthRange(6, signed) }] },
-        { label: "float", value: "float", slots: [BaseOption, { left: "float", right: getMaxLengthRange(7, signed) }] },
-        { label: "double", value: "double", slots: [BaseOption, { left: "double", right: getMaxLengthRange(8, signed) }] },
+        { label: "int", value: "int", range: getMaxLengthRange(4, signed), slots: [BaseOption, { rightKey: "range" }] },
+        { label: "integer", value: "integer", range: getMaxLengthRange(5, signed), slots: [BaseOption, { rightKey: "range" }] },
+        { label: "bigint", value: "bigint", range: getMaxLengthRange(6, signed), slots: [BaseOption, { rightKey: "range" }] },
+        { label: "float", value: "float", range: getMaxLengthRange(7, signed), slots: [BaseOption, { rightKey: "range" }] },
+        { label: "double", value: "double", range: getMaxLengthRange(8, signed), slots: [BaseOption, { rightKey: "range" }] },
       ],
     },
     {
@@ -203,7 +204,10 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) }]);
+  openPopup(`${row ? "编辑" : "新增"}`, [
+    AddEdit,
+    { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) },
+  ]);
 }
 </script>
 <style lang="scss" scoped></style>

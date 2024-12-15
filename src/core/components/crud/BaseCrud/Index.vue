@@ -495,10 +495,6 @@ defineExpose({
   },
   // ...queryFormRef.value,
   // ...queryTableRef.value,
-  // 获取配置信息
-  // getConfig() {
-  //   return { fields, sections, cols: newCols.value };
-  // },
 });
 </script>
 <style lang="scss" scoped>

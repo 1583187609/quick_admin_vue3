@@ -38,9 +38,9 @@ import BaseOption from "@/core/components/BaseOption.vue";
 import { reactive } from "vue";
 
 const btnsOpts: OptionItem[] = [
-  { label: "新增", value: "add", slots: [BaseOption, { left: "新增", right: "add" }] },
-  { label: "删除", value: "delete", slots: [BaseOption, { left: "删除", right: "delete" }] },
-  { label: "编辑", value: "edit", slots: [BaseOption, { left: "编辑", right: "edit" }] },
+  { label: "新增", value: "add", slots: BaseOption },
+  { label: "删除", value: "delete", slots: BaseOption },
+  { label: "编辑", value: "edit", slots: BaseOption },
 ];
 const { openPopup, closePopup } = usePopup();
 const modelData = reactive<CommonObj>({

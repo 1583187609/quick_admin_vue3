@@ -14,7 +14,7 @@
       @blur="(...args) => $emit('blur', ...args)"
       @focus="handleFocus"
       @change="(...args) => $emit('change', ...args)"
-      ref="formRef"
+      ref="sectionFormRef"
     >
       <template #head-right="scope">
         <slot :name="'head-right-' + (scope.section.prop ?? scope.index + 1)" v-bind="scope" />
@@ -64,7 +64,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["change", "blur", "focus"]);
-const formRef = ref<any>(null);
+const sectionFormRef = ref<any>(null);
 const steps = computed<StepItemAttrs[]>(() => {
   return props.sections
     .filter(it => !!it)
@@ -92,11 +92,7 @@ function handleFocus(val: any, prop: any) {
   $emit("focus", val, prop);
 }
 defineExpose({
-  formRef,
-  // 获取配置信息
-  // getConfig() {
-  //   return { sections: newSections.value };
-  // },
+  sectionFormRef,
 });
 </script>
 <style lang="scss" scoped>

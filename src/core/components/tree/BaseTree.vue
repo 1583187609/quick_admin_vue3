@@ -1,55 +1,34 @@
 <template>
-  <el-tree :props="props" :load="loadNode" lazy show-checkbox @check-change="handleCheckChange" />
+  <el-tree class="base-tree" :load="load" :data="data" :lazy="lazy" ref="treeRef">
+    <template #empty>
+      <BaseEmpty />
+    </template>
+    <template #[key]="scope" v-for="(val, key) in getSlotsMap(slots)" :key="key">
+      <BaseRender :renderData="val" :scope="scope" />
+    </template>
+  </el-tree>
 </template>
 
 <script lang="ts" setup>
-import type Node from "element-plus/es/components/tree/src/model/node";
-let count = 1;
+import { CommonObj, CommonSlots } from "@/core/_types";
+import { getSlotsMap } from "@/utils";
+import { ElTree } from "element-plus";
 
-interface Tree {
-  name: string;
-}
-
-const props = {
-  label: "name",
-  children: "zones",
-};
-
-const handleCheckChange = (data: Tree, checked: boolean, indeterminate: boolean) => {
-  console.log(data, checked, indeterminate);
-};
-
-const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
-  if (node.level === 0) {
-    return resolve([{ name: "Root1" }, { name: "Root2" }]);
+const props = withDefaults(
+  defineProps<{
+    load?: (node: Node, resolve: (data: CommonObj[]) => void) => CommonObj[];
+    lazy?: boolean;
+    data?: CommonObj[];
+    slots?: CommonSlots;
+  }>(),
+  {
+    lazy: _props => !!_props.load,
+    data: () => [],
   }
-  if (node.level > 3) return resolve([]);
+);
+const treeRef = ref<InstanceType<typeof ElTree>>(null);
 
-  let hasChild = false;
-  if (node.data.name === "region1") {
-    hasChild = true;
-  } else if (node.data.name === "region2") {
-    hasChild = false;
-  } else {
-    hasChild = Math.random() > 0.5;
-  }
-
-  setTimeout(() => {
-    let data: Tree[] = [];
-    if (hasChild) {
-      data = [
-        {
-          name: `zone${count++}`,
-        },
-        {
-          name: `zone${count++}`,
-        },
-      ];
-    } else {
-      data = [];
-    }
-
-    resolve(data);
-  }, 500);
-};
+defineExpose({
+  treeRef,
+});
 </script>

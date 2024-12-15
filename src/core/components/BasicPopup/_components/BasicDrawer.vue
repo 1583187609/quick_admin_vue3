@@ -1,23 +1,23 @@
 <template>
   <el-drawer v-model="show" class="basic-drawer" :title="isStr ? title : undefined" ref="basicDrawerRef">
-    <template #header="scoped" v-if="!isStr">
-      <BaseRender :scoped="scoped" :data="title" />
+    <template #header="scope" v-if="!isStr">
+      <BaseRender :renderData="title" :scope="scope" />
     </template>
     <slot />
-    <template #footer="scoped" v-if="footer">
+    <template #footer="scope" v-if="footer">
       <FootBtns
         :type="footer"
         @cancel="handleCancel"
         @confirm="handleConfirm"
         v-if="['confirm','alert'].includes(footer as FootBtnsType)"
       />
-      <BaseRender :scoped="scoped" :data="footer" v-else />
+      <BaseRender :renderData="footer" :scope="scope" v-else />
     </template>
   </el-drawer>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import { BaseRenderData } from "@/core/BaseRender.vue";
+import { BaseRenderData } from "@/core/components/BaseRender.vue";
 import { popupCloseAnimationDuration, showMessage, typeOf } from "@/core/utils";
 import FootBtns, { FootBtnsType } from "./FootBtns.vue";
 

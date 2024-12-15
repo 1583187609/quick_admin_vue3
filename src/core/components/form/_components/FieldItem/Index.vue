@@ -6,8 +6,8 @@
     v-if="typeof currType === 'string'"
   >
     <!-- el-form-item 的插槽(label、error等) -->
-    <template #[key] v-for="(val, key) in getFormItemSlots(formItemAttrs, currQuickAttrs?.popover)" :key="key">
-      <BaseRender :data="val" />
+    <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs, currQuickAttrs?.popover)" :key="key">
+      <BaseRender :renderData="val" :scope="scope" />
       <QuestionPopover :popover="currQuickAttrs?.popover" v-if="currQuickAttrs?.popover" />
       <template v-if="labelSuffix">{{ labelSuffix }}</template>
     </template>
@@ -23,7 +23,7 @@
           <div class="mr-h" v-if="typeof currQuickAttrs.before === 'string'">
             {{ currQuickAttrs.before }}
           </div>
-          <BaseRender :data="currQuickAttrs.before" v-else />
+          <BaseRender :renderData="currQuickAttrs.before" v-else />
         </template>
         <slot name="custom" :field="formItemAttrs" v-if="currType === 'slot'">
           <div class="color-danger">【自定义】{{ `${formItemAttrs.label}（${formItemAttrs.prop})` }}</div>
@@ -54,7 +54,7 @@
         <template v-else>{{ throwTplError(`不存在此类型：${currType}`) }}</template>
         <template v-if="currQuickAttrs?.after">
           <div class="ml-h" v-if="typeof currQuickAttrs.after === 'string'">{{ currQuickAttrs.after }}</div>
-          <BaseRender :data="currQuickAttrs.after" v-else />
+          <BaseRender :renderData="currQuickAttrs.after" v-else />
         </template>
       </template>
       <div class="notice" v-html="'注：' + currQuickAttrs.tips" v-if="currQuickAttrs?.tips" />
@@ -78,7 +78,7 @@
     </template>
   </el-form-item>
   <!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
-  <BaseRender :data="currType" v-else />
+  <BaseRender :renderData="currType" v-else />
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056

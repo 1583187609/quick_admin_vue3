@@ -2,12 +2,12 @@
   目标：定位为表单表格。继承自BaseForm和BaseTable，兼顾了表单编辑校验，并且样式以表格呈现。
 -->
 <template>
-  <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="form-table" ref="formRef">
+  <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="form-table" ref="baseFormRef">
     <template #header="scope">
       <slot name="header" v-bind="scope" />
     </template>
     <template #content>
-      <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="tableRef">
+      <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="baseTableRef">
         <template #header="{ column, col }">
           <span :class="{ required: !!col?.field?.required }">{{ column.label }}</span>
         </template>
@@ -48,8 +48,8 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
-const formRef = ref<FormInstance | null>(null);
-const tableRef = ref<FormInstance | null>(null);
+const baseFormRef = ref<FormInstance | null>(null);
+const baseTableRef = ref<FormInstance | null>(null);
 const modelData = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
@@ -79,14 +79,8 @@ const fields = computed(() => {
 
 // 暴露属性方法
 defineExpose({
-  // ...formRef.value,
-  // ...tableRef.value,
-  formRef,
-  tableRef,
-  // 获取配置信息
-  // getConfig() {
-  //   return { fields: fields };
-  // },
+  baseFormRef,
+  baseTableRef,
 });
 </script>
 <style lang="scss" scoped>

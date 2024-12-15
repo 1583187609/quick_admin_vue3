@@ -6,11 +6,11 @@
     :title="isStr ? title : undefined"
     ref="basicDialogRef"
   >
-    <template #header="scoped" v-if="!isStr">
-      <BaseRender :scoped="scoped" :data="title" />
+    <template #header="scope" v-if="!isStr">
+      <BaseRender :renderData="title" :scope="scope" />
     </template>
     <slot />
-    <template #footer v-if="footer">
+    <template #footer="scope" v-if="footer">
       <slot name="footer">
         <FootBtns
           :type="footer"
@@ -18,7 +18,7 @@
           @confirm="handleConfirm"
           v-if="['confirm','alert'].includes(footer as FootBtnsType)"
         />
-        <BaseRender :data="footer" v-else />
+        <BaseRender :renderData="footer" :scope="scope" v-else />
       </slot>
     </template>
   </el-dialog>
@@ -26,8 +26,8 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from "vue";
 import { popupCloseAnimationDuration, showMessage, typeOf } from "@/core/utils";
-import { BaseRenderData } from "@/core/BaseRender.vue";
 import FootBtns, { FootBtnsType } from "./FootBtns.vue";
+import { BaseRenderData } from "@/core/components/BaseRender.vue";
 // import { useEvent } from "@/core/_hooks";
 
 const props = withDefaults(

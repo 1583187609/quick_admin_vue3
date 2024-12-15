@@ -5,12 +5,24 @@
 <template>
   <slot />
   <!-- 对话框 -->
-  <BasicDialog v-model="dialog.show" :footer="dialog.foot" v-bind="dialog.attrs" v-for="(dialog, ind) in dialogs" :key="'dialog-' + ind">
-    <BaseRender :data="dialog.body" />
+  <BasicDialog
+    v-model="dialog.show"
+    :footer="dialog.foot"
+    v-bind="dialog.attrs"
+    v-for="(dialog, ind) in dialogs"
+    :key="'dialog-' + ind"
+  >
+    <BaseRender :renderData="dialog.body" />
   </BasicDialog>
   <!-- 抽屉 -->
-  <BasicDrawer v-model="drawer.show" :footer="drawer.foot" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
-    <BaseRender :data="drawer.body" />
+  <BasicDrawer
+    v-model="drawer.show"
+    :footer="drawer.foot"
+    v-bind="drawer.attrs"
+    v-for="(drawer, ind) in drawers"
+    :key="'drawer-' + ind"
+  >
+    <BaseRender :renderData="drawer.body" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup>

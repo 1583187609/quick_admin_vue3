@@ -26,7 +26,7 @@ import BaseOption from "@/core/components/BaseOption.vue";
 const { openPopup } = usePopup();
 const btnTypeOpts = Object.keys(btnsMap).map(it => {
   const label = btnsMap[it].text;
-  return { label, value: it, slots: [BaseOption, { left: label, right: it }] };
+  return { label, value: it, slots: BaseOption };
 });
 const fields: FormField[] = [
   {

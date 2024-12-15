@@ -1,7 +1,10 @@
 <!-- 疑问浮框 -->
 <template>
   <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-    <BaseRender :data="(popoverAttrs as PopoverSlots).slots?.default" v-if="(popoverAttrs as PopoverSlots).slots?.default" />
+    <BaseRender
+      :renderData="(popoverAttrs as PopoverSlots).slots?.default"
+      v-if="(popoverAttrs as PopoverSlots).slots?.default"
+    />
     <template #reference>
       <el-icon :color="cssVars[`color${upperFirst(type)}`]" class="icon f-0" :class="[newSize]" v-bind="$attrs">
         <QuestionFilled />

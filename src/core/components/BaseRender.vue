@@ -3,11 +3,15 @@
 -->
 <template>
   <!-- 如果是引入的组件或者是虚拟dom -->
-  <component :is="data" v-bind="$attrs" v-if="dataType === 'Object' && ((data as RenderVue).setup || isVNode(data))" />
+  <component
+    :is="renderData"
+    v-bind="$attrs"
+    v-if="dataType === 'Object' && ((renderData as RenderVue).setup || isVNode(renderData))"
+  />
   <!-- 如果是数组（创建虚拟DOM的参数 -->
-  <component :is="h(...(data as HArgs))" v-else-if="dataType === 'Array'" />
+  <component :is="h(...(renderData as HArgs))" v-else-if="dataType === 'Array'" />
   <!-- 如果是基本数据类型 -->
-  <template v-else>{{ data }}</template>
+  <template v-else>{{ renderData }}</template>
 </template>
 <script lang="ts" setup>
 // h函数传参规则见：https://cn.vuejs.org/api/render-function.html#h
@@ -67,12 +71,12 @@ export type BaseRenderData =
 const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
-    data?: BaseRenderData;
+    renderData?: BaseRenderData;
   }>(),
   {
-    data: devErrorTips("数据空空") as any,
+    renderData: devErrorTips("数据空空") as any,
   }
 );
-const dataType = computed(() => typeOf(props.data));
+const dataType = computed(() => typeOf(props.renderData));
 </script>
 <style lang="scss" scoped></style>

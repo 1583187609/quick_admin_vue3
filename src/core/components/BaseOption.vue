@@ -2,23 +2,28 @@
 <template>
   <div class="base-option f-sb-c">
     <slot name="left">
-      <div :class="leftClass" class="f-1 line-1">{{ left || emptyStr }}</div>
+      <div :class="leftClass" class="f-1 line-1">{{ option?.[leftKey] ?? emptyStr }}</div>
     </slot>
     <slot name="right">
-      <div :class="rightClass" class="f-0 short-name">{{ right }}</div>
+      <div :class="rightClass" class="f-0 short-name">{{ option?.[rightKey] ?? "" }}</div>
     </slot>
   </div>
 </template>
 <script lang="ts" setup>
 import { emptyStr } from "@/core/utils";
+import { CommonObj } from "../_types";
 const props = withDefaults(
   defineProps<{
-    left?: string;
-    right?: string;
+    option?: CommonObj;
+    leftKey?: string;
+    rightKey?: string;
     leftClass?: string;
     rightClass?: string;
   }>(),
-  {}
+  {
+    leftKey: "label",
+    rightKey: "value",
+  }
 );
 </script>
 <style lang="scss" scoped>

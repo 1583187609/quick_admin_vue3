@@ -10,22 +10,30 @@
     @change="handleChange"
     v-if="elType === 'cascader'"
   >
-    <template #[key] v-for="(val, key) in getSlotsMap(slots)" :key="key">
-      <BaseRender :data="val" />
+    <template #[key]="scope" v-for="(val, key) in getSlotsMap(slots)" :key="key">
+      <BaseRender :renderData="val" :scope="scope" />
     </template>
   </component>
-  <component v-model="modelVal" :is="`el-${elType}`" v-bind="itemAttrs" @blur="handleBlur" @focus="handleFocus" @change="handleChange" v-else>
-    <template #[key] v-for="(val, key) in getSlotsMap(slots)" :key="key">
-      <BaseRender :data="val" />
+  <component
+    v-model="modelVal"
+    :is="`el-${elType}`"
+    v-bind="itemAttrs"
+    @blur="handleBlur"
+    @focus="handleFocus"
+    @change="handleChange"
+    v-else
+  >
+    <template #[key]="scope" v-for="(val, key) in getSlotsMap(slots)" :key="key">
+      <BaseRender :renderData="val" :scope="scope" />
     </template>
     <template v-if="elType === 'select'">
       <!-- 分组下拉项 -->
       <template v-if="subOptions?.find(it => !!it.children)">
         <el-option-group v-for="(gItem, gInd) in subOptions" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
-          <!-- <template #[key] v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
+          <!-- <template #[key]="scope" v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
           <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
-            <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
-              <BaseRender :data="val" />
+            <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
+              <BaseRender :renderData="val" :scope="scope" :option="opt" />
             </template>
           </el-option>
           <!-- </template> -->
@@ -34,8 +42,8 @@
       <!-- 不分组下拉项 -->
       <template v-else>
         <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in subOptions" :key="ind">
-          <template #[key] v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
-            <BaseRender :data="val" />
+          <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
+            <BaseRender :renderData="val" :scope="scope" :option="opt" />
           </template>
         </el-option>
       </template>
@@ -47,16 +55,16 @@
         v-for="(opt, ind) in subOptions"
         :key="ind"
       >
-        <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
-          <BaseRender :data="val" />
+        <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
+          <BaseRender :renderData="val" :scope="scope" :option="opt" />
         </template>
       </component>
     </template>
     <template v-else-if="elType === 'checkbox-group'">
       <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
       <el-checkbox :name="name" v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in subOptions" :key="ind">
-        <template #[key] v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
-          <BaseRender :data="val" />
+        <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
+          <BaseRender :renderData="val" :scope="scope" :option="opt" />
         </template>
       </el-checkbox>
     </template>

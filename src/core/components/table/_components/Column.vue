@@ -9,7 +9,7 @@
     <template v-else>
       <el-table-column v-bind="bindAttrs" v-if="newCol.children?.length">
         <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(newCol, currPopover)" :key="key">
-          <BaseRender :data="val" />
+          <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
             <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
           </template>
@@ -31,7 +31,7 @@
       </el-table-column>
       <el-table-column v-bind="bindAttrs" v-else>
         <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(newCol, currPopover)" :key="key">
-          <BaseRender :data="val" />
+          <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
             <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
             <MarkIcon v-if="getShowMark(scope)" />
@@ -40,7 +40,7 @@
         <template #default="{ row, column, $index }">
           <slot v-bind="{ row, column, $index, col: newCol }" v-if="!newCol.type">
             <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
-            <BaseRender :data="newCol.formatter(row, column, row[newCol.prop as string], $index)" v-if="newCol.formatter" />
+            <BaseRender :renderData="newCol.formatter(row, column, row[newCol.prop as string], $index)" v-if="newCol.formatter" />
             <template v-else>{{ renderValue(row[newCol.prop as string]) }}</template>
           </slot>
           <template v-else>
@@ -48,8 +48,15 @@
             <el-icon size="1.2em" v-if="newCol.type === 'sort'"><Sort /></el-icon>
             <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
             <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
-            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{ renderValue(row[newCol.prop as string]) }}</BaseText>
-            <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
+            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{
+              renderValue(row[newCol.prop as string])
+            }}</BaseText>
+            <BaseCopy
+              :data="row"
+              :text="row[newCol.prop as string]"
+              v-bind="newCol.attrs"
+              v-else-if="newCol.type === 'BaseCopy'"
+            />
             <!-- 自定义列 -->
             <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'slot'" />
             <!-- 创建和修改列 -->
