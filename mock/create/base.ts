@@ -1,6 +1,12 @@
 import Mock from "mockjs";
 import { getMockCfg } from "../utils";
 import { CommonObj } from "@/core/_types";
+import { getMockConfig } from "../design/_utils";
+import dayjs from "dayjs";
+import { getDictValues } from "../dict";
+// import allSchool from "../data/school";
+// import allCompany from "../data/company";
+// import allJob from "../data/job";
 
 const { Random } = Mock;
 
@@ -63,6 +69,108 @@ export function createTestFields(num = 199) {
         custom: null,
       }),
     ],
+  });
+  mockData.list = num > 1 ? mockData.list : [mockData.list];
+  return mockData.list;
+}
+
+// userData
+// { type: "url", prop: "avatar" },
+export function createDemoFields(num = 9, defObj: CommonObj = {}) {
+  // const allSchoolNames = allSchool.map(it => it.name);
+  // const allCompanyName = allCompany.map(it => it.name);
+  // const allJobName = allJob.map(it => it.name);
+  const { type } = defObj;
+  //角色名称映射
+  const roleNameMap: CommonObj = {
+    0: "superAdmin",
+    1: "admin",
+    2: "specialUser",
+    3: "user",
+    4: "visitor",
+    5: "developer",
+  };
+  const config = getMockConfig([
+    "id",
+    "userCode",
+    "phone",
+    "nickname",
+    { type: "enum", prop: "gender", attrs: { name: "D_Gender" } },
+    "userName:name:用户姓名",
+    "avatar",
+    "region:address:地址",
+    "birthday",
+    {
+      type: "custom",
+      attrs: {
+        "role|1": type === undefined ? getDictValues("D_RoleType") : [type],
+      },
+    },
+    {
+      type: "custom",
+      attrs: {
+        account(res: CommonObj) {
+          const { id, role } = res.context.currentContext;
+          return `${roleNameMap[role]}_${id}`;
+        },
+      },
+    },
+    {
+      type: "custom",
+      attrs: {
+        psd(res: CommonObj) {
+          const { role } = res.context.currentContext;
+          return `${roleNameMap[role]}12345`;
+        },
+      },
+    },
+    {
+      type: "custom",
+      attrs: {
+        age(res: CommonObj) {
+          const { birthday } = res.context.currentContext;
+          return dayjs().diff(birthday, "year");
+        },
+      },
+    },
+    "enableStatus",
+    "createTime:register_time:注册时间",
+    "createUser",
+    "updateTime",
+    "updateUser",
+    "remark",
+    { type: "ctitle", prop: "produce", attrs: { min: 3, max: 200 } },
+    {
+      type: "custom",
+      attrs: {
+        user_data(res: CommonObj) {
+          const { id, user_code, address, address_text, avatar, gender, nickname } = res.context.currentContext;
+          return {
+            id, // id
+            user_code, // 学号
+            avatar, // 头像
+            gender, // 性别
+            nickname, // 用户昵称
+            "account_status|1": getDictValues("D_AccountStatus"), // 账号状态
+            "company_status|1": [0, 1], // 公司认证
+            "school_status|1": [0, 1], // 学历认证
+            "school_certificate_level|1": getDictValues("D_EducationType"), // 学历
+            "single_type|1": getDictValues("D_MatrimonyStatus"), // 单身状态
+            // "school_name|1": allSchoolNames, // 学校
+            // "company_name|1": allCompanyName, // 公司
+            // "job_name|1": allJobName, // 职业
+            "income_type_name|1": ["小于10w", "10~20w", "20~30w", "30~50w", "100w以上"], // 收入
+            live_city: address.slice(0, 2), // 现居地
+            live_city_text: address_text, // 现居地
+            city: address.slice(0, 2), // 家乡
+            city_text: address_text, // 家乡
+          };
+        },
+      },
+    },
+  ]);
+  const mockData = Mock.mock({
+    [`list|${num}`]: [config],
   });
   mockData.list = num > 1 ? mockData.list : [mockData.list];
   return mockData.list;

@@ -40,6 +40,6 @@ export const designMap = {
   //   user: {
   //     name: "用户",
   //     list: [], // allUsers,
-  //     privatekeys: ["psd"],
+  //     privateKeys: ["psd"],
   //   },
 };

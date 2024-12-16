@@ -62,13 +62,7 @@ export function getIsBetweenRange(val: any, range: [any, any], type: ParseRangeI
  * @param {boolean} isExclude 是否排除条件匹配的项 
  * @returns {object[]}
  */
-export function getFilterList(
-  list: CommonObj[],
-  params: CommonObj,
-  rules = {},
-  isExclude = false,
-  privatekeys?: string[]
-): CommonObj[] {
+export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, isExclude = false, privateKeys?: string[]): CommonObj[] {
   const keys = Object.keys(params);
   return list?.filter((item: CommonObj) => {
     const { children } = item;
@@ -86,9 +80,9 @@ export function getFilterList(
       if (validType === "enums") return getIsInEnums(item[prop], val, strategy);
       throw new Error(`暂未处理此类型：${validType}`);
     });
-    if (privatekeys?.length) deleteAttrs(item, privatekeys, false);
+    if (privateKeys?.length) deleteAttrs(item, privateKeys, false);
     if (children?.length) {
-      item.children = getFilterList(children, params, rules, isExclude, privatekeys);
+      item.children = getFilterList(children, params, rules, isExclude, privateKeys);
       // return !!item.children?.length;
     }
     return isExclude ? !isValid : isValid;

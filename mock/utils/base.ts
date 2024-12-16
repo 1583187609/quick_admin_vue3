@@ -4,6 +4,7 @@
 
 import { CommonObj, StrNum } from "@/core/_types";
 import dayjs from "dayjs";
+import { defaultDateFormat } from "./consts";
 
 /**
  * 函数未传必填参数时的校验
@@ -66,7 +67,7 @@ export function getDateTimestamp(date: any) {
     h: 60 * 60,
     d: 60 * 60 * 24,
     M: 60 * 60 * 24 * 30,
-    y: 60 * 60 * 24 * 30 * 365,
+    y: 60 * 60 * 24 * 365,
   };
   return nowTime + num * ratioMap[unit] * 1000;
 }
@@ -77,7 +78,7 @@ export function getDateTimestamp(date: any) {
  * @param maxDate 距离现在最近的时刻（单位：秒）
  * @returns
  */
-export function getRandomDate(minDate = "-1y", maxDate = Date.now(), fmt = "YYYY-MM-DD HH:mm:ss"): StrNum {
+export function getRandomDate(minDate = "-1y", maxDate = Date.now(), fmt = defaultDateFormat): StrNum {
   const minTime = getDateTimestamp(minDate);
   const maxTime = getDateTimestamp(maxDate);
   if (minTime >= maxTime) throw new Error(`最小时间不能大于等于最大时间`);

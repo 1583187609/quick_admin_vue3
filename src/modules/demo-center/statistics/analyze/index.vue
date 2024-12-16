@@ -46,7 +46,6 @@ const fields = ref<FormField[]>([
     prop: "age",
     label: "年龄",
     type: "BaseNumberRange",
-    // attrs: { minProp: "min_age", maxProp: "max_age" },
   },
   {
     prop: "gender",

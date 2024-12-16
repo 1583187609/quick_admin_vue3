@@ -24,7 +24,7 @@ let allUsers = JSON.parse(JSON.stringify(_allUsers));
 export function createRestfulApis(name = "user", prefix = "") {
   const design = designMap[name];
   if (!design) throw new Error(`不存在该类型：${name}`);
-  const { name: cnName = name, list = [], privatekeys } = design;
+  const { name: cnName = name, list = [], privateKeys } = design;
   return {
     // 新增
     [`POST ${prefix}/${name}/add`]: (req: CommonObj) => {
@@ -69,7 +69,7 @@ export function createRestfulApis(name = "user", prefix = "") {
         params,
         { age: ["range", "number"], name: ["match", "blur"], create_time_range: ["range", "date", "create_time"] },
         false,
-        privatekeys
+        privateKeys
       );
       // 如果是导出列表
       if (exports) {

@@ -1,12 +1,4 @@
-import {
-  getRequestParams,
-  responseData,
-  toViteMockApi,
-  getConstructorObj,
-  getNavsTree,
-  findTreeNode,
-  getFilterList,
-} from "../utils";
+import { getRequestParams, responseData, toViteMockApi, getConstructorObj, getNavsTree, findTreeNode, getFilterList } from "../utils";
 import _ from "lodash";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
@@ -49,11 +41,13 @@ export default toViteMockApi({
     const { id, role, role_text, status, remark, menu_auth } = params;
     const data = allRoles.find((it: CommonObj) => it.id === id);
     if (!data) return responseData({ code: 1, msg: "不存在该角色" });
-    merge(data, params, {
-      role_text: getDictLabel("D_RoleType", role),
-      status_text: getDictLabel("D_Gender", status),
-      update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-    });
+    merge(data, params);
+    // {
+    //   role,
+    //   role_text: getDictLabel("D_RoleType", role),
+    //   status_text: getDictLabel("D_Gender", status),
+    //   update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+    // }
     return responseData({ data });
   },
   // 查询角色列表

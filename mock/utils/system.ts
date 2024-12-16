@@ -141,41 +141,6 @@ const { merge } = _;
 // console.log(Example, 'Example')
 
 /**
- * 自定义扩展Mock
- */
-// Mock.Random.extend({
-//   // 生成早于当前时间的随机日期
-//   getRandomEarlyDate,
-//   // 获取随机的日志时间（创建时间、修改时间）
-//   getRandomDate(createTime?: number, fmt = "YYYY-MM-DD HH:mm:ss") {
-//     if (!createTime)
-//       return dayjs(getRandomEarlyDate(undefined, undefined, "")).format(fmt);
-//     const nowTime = Date.now();
-//     const diff = nowTime - new Date(createTime).getTime();
-//     const randomDiff = Math.floor(Math.random() * diff);
-//     return dayjs(new Date(nowTime - randomDiff)).format(fmt);
-//   },
-// });
-// export const extendMock = Mock;
-
-/**
- * 生成早于当前时间的随机日期
- * @param maxDiff 距离现在最久的时刻（单位：秒）
- * @param minDiff 距离现在最近的时刻（单位：秒）
- * @returns
- */
-// function getRandomEarlyDate(
-//   minDiff = 60 * 60 * 0.1,
-//   maxDiff = 60 * 60 * 24 * 365,
-//   fmt = "YYYY-MM-DD HH:mm:ss"
-// ): StrNum {
-//   const now = Date.now();
-//   const randomDiff = (Math.floor(Math.random() * maxDiff) + minDiff) * 1000;
-//   const randomTime = new Date(now - randomDiff).getTime();
-//   return fmt ? dayjs(randomTime).format(fmt) : randomTime;
-// }
-
-/**
  * 处理数据，转化成vite mock api需要的数据结构
  * @param {object} apiObj api对象
  */

@@ -7,7 +7,7 @@
     :afterSuccess="() => refreshList?.()"
   >
     <template #menu_auth>
-      <BaseTree v-modle="modelData.menu_auth" />
+      <BaseTree v-model="modelData.menu_auth" />
     </template>
   </BaseForm>
 </template>

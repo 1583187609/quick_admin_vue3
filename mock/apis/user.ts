@@ -1,12 +1,14 @@
 import { getRequestParams, responseData, deleteAttrs, toViteMockApi, getConstructorObj, getFilterList } from "../utils";
 import Mock from "mockjs";
 import _allUsers from "../data/user";
+// import testUserFields from "../data/test";
 import allNavs from "../data/navs";
 import { getDictLabel, getCascadeLabel, getDictValues } from "../dict";
 import { CommonObj } from "@/core/_types";
 import dayjs from "dayjs";
 import _ from "lodash";
 
+// console.log(testUserFields, "testUserFields----------");
 const { merge } = _;
 const delAttrs: string[] = ["psd"];
 let allUsers = JSON.parse(JSON.stringify(_allUsers));

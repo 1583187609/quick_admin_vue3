@@ -16,7 +16,7 @@ export default {
     3: "硕士",
     4: "博士",
   },
-  //婚姻状态
+  // 婚姻状态
   D_MatrimonyStatus: {
     0: "未婚",
     1: "离异",
