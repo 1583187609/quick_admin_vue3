@@ -210,9 +210,9 @@ export function omitAttrs(obj: CommonObj, list = emptyVals) {
  * @param {CommonObj} obj 要剔除属性的对象
  * @param {string | string[]} keys 剔除的属性数组
  */
-export function deleteAttrs(obj: CommonObj = {}, keys?: string | string[]) {
+export function deleteAttrs(obj: CommonObj = {}, keys?: string | string[], clone = true) {
   if (!keys?.length) return obj;
-  const newObj = JSON.parse(JSON.stringify(obj));
+  const newObj = clone ? JSON.parse(JSON.stringify(obj)) : obj;
   if (typeof keys === "string") return delete newObj[keys];
   keys.forEach(key => delete newObj[key]);
   return newObj;
@@ -269,7 +269,11 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
+export function getExportData(
+  sysData: any,
+  customData?: any,
+  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
+) {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean", "undefined"].includes(typeof sysData); //如果是基础数据类型

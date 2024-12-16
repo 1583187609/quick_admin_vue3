@@ -3,8 +3,8 @@ import { CommonObj } from "@/core/_types";
 
 //获取验证码
 export const GetUserCaptcha = (data?: CommonObj) => http("get", "/user/captcha", data);
-//注册
-export const PostUserRegister = (data?: CommonObj) => http("post", "/user/register", data);
+//注册/新增
+export const PostUserAdd = (data?: CommonObj) => http("post", "/user/add", data);
 //登录
 export const PostUserLogin = (data?: CommonObj) => http("post", "/user/login", data);
 //登出
@@ -21,7 +21,5 @@ export const GetUserList = (data?: CommonObj) => http("get", "/user/list", data)
 export const GetUserListExport = (data?: CommonObj) => http("get", "/user/list", { exports: {}, ...data });
 //批量删除用户
 export const DeleteUserList = (data?: CommonObj) => http("delete", "/user/list", data);
-//新增用户
-export const PostUserAdd = (data?: CommonObj) => http("post", "/user/add", data);
 //编辑修改用户
 export const PostUserUpdate = (data?: CommonObj) => http("post", "/user/update", data);

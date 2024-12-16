@@ -1,14 +1,12 @@
-import { getRequestParams, resData, deleteAttrs, toViteMockApi, getConstructorObj, getFilterList } from "../utils";
+import { getRequestParams, responseData, deleteAttrs, toViteMockApi, getConstructorObj, getFilterList } from "../utils";
 import Mock from "mockjs";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
-import { getDictText, getCascadeText, getDictCodes } from "../dict";
+import { getDictLabel, getCascadeLabel, getDictValues } from "../dict";
 import { CommonObj } from "@/core/_types";
 import dayjs from "dayjs";
 import _ from "lodash";
-import { TableColAttrs } from "@/core/components/table/_types";
 
-const { Random } = Mock;
 const { merge } = _;
 const delAttrs: string[] = ["psd"];
 let allUsers = JSON.parse(JSON.stringify(_allUsers));
@@ -21,74 +19,11 @@ const cacheData: CommonObj = {
 function setCache(key: string, val: any) {
   cacheData[key] = val;
 }
+
 export default toViteMockApi({
   /**
-   * 用户注册
-   * @param phone [string] 电话号码
-   * @param psd [string] 密码
-   */
-  "POST /user/register": (req: CommonObj) => {
-    const { phone = "", psd = "" } = getRequestParams(req);
-    let code, msg;
-    const data = allUsers.find((it: CommonObj) => {
-      return it.phone === phone;
-    });
-    if (data) {
-      code = 1;
-      msg = "该账号已注册";
-    }
-    return resData({ code, msg, data });
-  },
-  /**
-   * 用户登录
-   * @param phone [string] 电话号码
-   * @param psd [string] 密码
-   * @param valid_captcha [boolean] 是否校验验证码
-   */
-  "POST /user/login": (req: CommonObj) => {
-    const { phone = "", psd = "", captcha = "", valid_captcha = true } = getRequestParams(req, ["captcha", "phone", "psd"]);
-    let code, msg;
-    const data: CommonObj[] = allUsers.find((it: CommonObj) => {
-      return (it.phone === phone || it.account === phone) && it.psd === psd;
-    });
-    if (!data) {
-      code = 1;
-      msg = "账号或密码错误";
-      return resData({ code, msg });
-    } else {
-      const isErr = captcha?.toLowerCase() !== cacheData.captcha?.toLowerCase();
-      if (valid_captcha && isErr) {
-        return resData({ code: 1, msg: "验证码错误" });
-      } else {
-        const { token } = Mock.mock({ token: "@guid" }); //生成32位uuid 的token
-        setCache("token", token);
-        return resData({
-          data: {
-            navs: allNavs,
-            user: { token, ...deleteAttrs(data, delAttrs) },
-          },
-        });
-      }
-    }
-  },
-  /**
-   * 用户退出
-   */
-  "POST /user/logout": (req: CommonObj) => {
-    const { phone = "", token = "", is_valid = true } = getRequestParams(req);
-    let code, msg;
-    if (is_valid) {
-      const isExist = allUsers.find((it: CommonObj) => it.phone === phone);
-      if (!isExist) {
-        code = 1;
-        msg = "不存在该用户";
-      }
-    }
-    return resData({ code, msg });
-  },
-  /**
    * 用户验证码
-   * @param ilo0 boolean 是否包含ilo0
+   * @param {boolean} ilo0 是否排除ilo0
    */
   "GET /user/captcha": (req: CommonObj) => {
     const { num = 4, ilo0 = true } = getRequestParams(req);
@@ -97,23 +32,47 @@ export default toViteMockApi({
       captcha: captchaReg,
     });
     setCache("captcha", captcha);
-    return resData({ data: captcha });
+    return responseData({ data: captcha });
   },
-  /**
-   * 用户菜单导航数据
-   * @param type [number] 用户类型，可选值：0超级管理员；1普通管理员 11普通用户
-   */
-  "GET /user/navs": (req: CommonObj) => {
-    // const {} = getRequestParams(req);
-    return resData({
-      data: allNavs,
+  // 注册/新增用户
+  "POST /user/add": (req: CommonObj) => {
+    const params = getRequestParams(req);
+    const { type, gender, phone, address } = params;
+    let data = allUsers.find((it: CommonObj) => it.phone === phone);
+    if (data) return responseData({ code: 1, msg: "该账号已存在" });
+    data = merge(getConstructorObj(allUsers?.[0]), params, {
+      id: allUsers.slice(-1)[0].id + 1,
+      type_text: getDictLabel("D_RoleType", type),
+      gender_text: getDictLabel("D_Gender", gender),
+      address_text: getCascadeLabel("Region", address),
+      create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
     });
+    allUsers.push(data);
+    return responseData({ data });
   },
-  /**
-   * 获取用户列表(也可导出)
-   * @param type [number] 用户类型，可选值：0超级管理员；1普通管理员 11普通用户
-   * @param export_fields [string] 导出字段
-   */
+  // 删除用户
+  "DELETE /user/list": (req: CommonObj) => {
+    const params: CommonObj = getRequestParams(req);
+    // const { ids = [] } = params;
+    const queryList = getFilterList(allUsers, params, { ids: ["enums", "same", "id"] }, true);
+    allUsers = queryList;
+    return responseData();
+  },
+  // 修改用户
+  "POST /user/update": (req: CommonObj) => {
+    const params = getRequestParams(req);
+    const { id, phone, type, gender, address } = params;
+    const user = allUsers.find((it: CommonObj) => it.id === id || it.phone === phone);
+    if (!user) return responseData({ code: 1, msg: "不存在该用户" });
+    const data = merge(user, params, {
+      type_text: getDictLabel("D_RoleType", type),
+      gender_text: getDictLabel("D_Gender", gender),
+      address_text: getCascadeLabel("Region", address),
+      update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+    });
+    return responseData({ data });
+  },
+  // 查询/导出用户列表
   "GET /user/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
     const { id, type, gender, age = [], name, exports, status } = params;
@@ -132,11 +91,11 @@ export default toViteMockApi({
           return newRow;
         });
       }
-      return resData({ data: queryList });
+      return responseData({ data: queryList });
     } else {
       const sInd = (curr_page - 1) * page_size;
       const eInd = sInd + page_size;
-      return resData({
+      return responseData({
         data: {
           total_num: queryList.length,
           records: queryList.slice(sInd, eInd),
@@ -147,78 +106,16 @@ export default toViteMockApi({
       });
     }
   },
-  /**
-   * 批量删除用户列表
-   * @param ids [number] 用户id数组
-   */
-  "DELETE /user/list": (req: CommonObj) => {
-    const params: CommonObj = getRequestParams(req);
-    // const { ids = [] } = params;
-    const queryList = getFilterList(allUsers, params, { ids: ["enums", "same", "id"] }, true);
-    allUsers = queryList;
-    return resData();
-  },
-  /**
-   * 获取用户信息
-   */
+  // 查询用户信息
   "GET /user/info": (req: CommonObj) => {
     const { id } = getRequestParams(req);
-    let code, msg;
     const data = allUsers.find((it: CommonObj) => it.id === id);
-    if (!data) {
-      code = 1;
-      msg = "不存在该用户";
-    }
-    return resData({ code, msg, data });
+    if (!data) return responseData({ code: 1, msg: "不存在该用户" });
+    return responseData({ data });
   },
-  /**
-   * 管理员新增用户
-   * @param phone [string] 电话号码
-   * @param psd [string] 密码
-   */
-  "POST /user/add": (req: CommonObj) => {
-    const reqObj = getRequestParams(req);
-    let code, msg, data;
-    const { type, gender, phone, address } = reqObj;
-    const isExist = allUsers.find((it: CommonObj) => it.phone === phone);
-    if (isExist) {
-      code = 1;
-      msg = "该用户已存在";
-    } else {
-      data = merge(getConstructorObj(allUsers?.[0]), reqObj, {
-        id: allUsers.slice(-1)[0].id + 1,
-        type_text: getDictText("D_RoleType", type),
-        gender_text: getDictText("D_Gender", gender),
-        address_text: getCascadeText("Region", address),
-        create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-      });
-      allUsers.push(data);
-    }
-    return resData({ code, msg, data });
-  },
-  /**
-   * 编辑修改用户资料
-   * @param phone [string] 电话号码
-   * @param psd [string] 密码
-   */
-  "POST /user/update": (req: CommonObj) => {
-    const params = getRequestParams(req);
-    const { id, phone, type, gender, address } = params;
-    const user = allUsers.find((it: CommonObj) => it.id === id || it.phone === phone);
-    if (!user) return resData({ code: 1, msg: "不存在该用户" });
-    const data = merge(user, params, {
-      type_text: getDictText("D_RoleType", type),
-      gender_text: getDictText("D_Gender", gender),
-      address_text: getCascadeText("Region", address),
-      update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-    });
-    return resData({ data });
-  },
-  /**
-   * 获取用户登录的账号(一类角色各选取一个账号)
-   */
+  // 获取登录账号（一类角色各选取一个账号）
   "GET /user/login/accounts": (req: CommonObj) => {
-    const roles = getDictCodes("D_RoleType");
+    const roles = getDictValues("D_RoleType");
     const accounts: CommonObj[] = [];
     let ind = 0;
     _allUsers.find((item: CommonObj) => {
@@ -229,23 +126,44 @@ export default toViteMockApi({
       }
       return ind >= roles.length;
     });
-    return resData({
+    return responseData({
       data: accounts,
     });
   },
-  /**
-   * 删除用户
-   */
+  // 用户登录
+  "POST /user/login": (req: CommonObj) => {
+    const { phone = "", psd = "", captcha = "" } = getRequestParams(req, ["captcha", "phone", "psd"]);
+    const data: CommonObj[] = allUsers.find((it: CommonObj) => {
+      return (it.phone === phone || it.account === phone) && it.psd === psd;
+    });
+    if (!data) return responseData({ code: 1, msg: "账号或密码错误" });
+    const isErr = captcha?.toLowerCase() !== cacheData.captcha?.toLowerCase();
+    if (isErr) {
+      return responseData({ code: 1, msg: "验证码错误" });
+    } else {
+      const { token } = Mock.mock({ token: "@guid" }); //生成32位uuid 的token
+      setCache("token", token);
+      return responseData({
+        data: {
+          navs: allNavs,
+          user: { token, ...deleteAttrs(data, delAttrs) },
+        },
+      });
+    }
+  },
+  // 用户退出
+  "POST /user/logout": (req: CommonObj) => {
+    const { phone, token } = getRequestParams(req);
+    const target = allUsers.find((it: CommonObj) => it.phone === phone);
+    if (!target) return responseData({ code: 1, msg: "不存在该用户" });
+    return responseData();
+  },
+  // 删除用户
   // "DELETE /user/:id": (req: CommonObj) => {
   //   const { id } = getRequestParams(req);
-  //   let code, msg, data;
   //   const findInd = allUsers.findIndex((it: CommonObj) => it.id === id);
-  //   if (findInd === -1) {
-  //     code = 1;
-  //     msg = "不存在该用户";
-  //   } else {
-  //     allUsers.splice(findInd, 1);
-  //   }
-  //   return resData({ code, msg, data });
+  //   if (findInd === -1) return responseData({ code: 1, msg: "不存在该用户" });
+  //   allUsers.splice(findInd, 1);
+  //   return responseData();
   // },
 });

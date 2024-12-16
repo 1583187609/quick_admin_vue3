@@ -1,6 +1,10 @@
-import { StrNum } from "@/core/_types";
+import { CommonObj, StrNum } from "@/core/_types";
 import dayjs from "dayjs";
 import Mock from "mockjs";
+import _ from "lodash";
+import { typeOf } from "./base";
+
+const { merge } = _;
 
 /**
  * 一、 语法规范
@@ -143,7 +147,7 @@ import Mock from "mockjs";
 //   // 生成早于当前时间的随机日期
 //   getRandomEarlyDate,
 //   // 获取随机的日志时间（创建时间、修改时间）
-//   getRandomLogDate(createTime?: number, fmt = "YYYY-MM-DD HH:mm:ss") {
+//   getRandomDate(createTime?: number, fmt = "YYYY-MM-DD HH:mm:ss") {
 //     if (!createTime)
 //       return dayjs(getRandomEarlyDate(undefined, undefined, "")).format(fmt);
 //     const nowTime = Date.now();
@@ -172,16 +176,73 @@ import Mock from "mockjs";
 // }
 
 /**
+ * 处理数据，转化成vite mock api需要的数据结构
+ * @param {object} apiObj api对象
+ */
+export function toViteMockApi(apiObj: CommonObj) {
+  const apis: CommonObj[] = [];
+  for (const key in apiObj) {
+    const [method, url] = key.split(" ");
+    apis.push({
+      url,
+      method: method.toLowerCase(), //一定要转为小写，不然打包出来会提示404，踩了很久的坑
+      response: apiObj[key],
+    });
+  }
+  return apis;
+}
+
+/**
+ * 获取转换后的值
+ * @param {string} key 键名
+ * @param {any} val 值
+ * @param {string[]} ignoreKeys 要忽略转换的键名
+ * @returns
+ */
+export function getTransferValue(key: string, val: any, ignoreKeys: string[] = ["phone"]) {
+  const t = typeOf(val);
+  if (t !== "String") return val;
+  if (ignoreKeys.includes(key) || val === "") return val;
+  if (val === "null") return null;
+  if (val === "undefined") return undefined;
+  if (val === "true") return true;
+  if (val === "false") return false;
+  const num = Number(val);
+  return isNaN(num) ? val : num;
+}
+
+/**
+ * 获取请求参数
+ * @param req 请求体
+ * @param {string[]} ignoreKeys 不要转成数字类型的key值数组
+ */
+export function getRequestParams(req: CommonObj, ignoreKeys?: string[]) {
+  const { url, body, query, headers } = req;
+  // 将字符串化的数组或对象，转成对应的数组或对象
+  for (const key in query) {
+    const val = query[key];
+    const isParse = typeof val === "string" && ["[", "{"].includes(val.charAt(0));
+    if (isParse) query[key] = JSON.parse(val);
+  }
+  const reqParams = merge({}, body, query);
+  for (const key in reqParams) {
+    const val = reqParams[key];
+    reqParams[key] = getTransferValue(key, val, ignoreKeys);
+  }
+  return reqParams;
+}
+
+/**
  * 生成响应内容
  * @param {Object} param 参数内容 code: 0 成功;  <0失败且不显示失败内容;  >0失败，但是提示消息内容
  * @returns
  */
-export interface ResponseType {
+export interface ResponseData {
   code?: number;
   msg?: string;
   data?: any;
 }
-export default (res: ResponseType = { code: 0, msg: "成功", data: null }): ResponseType => {
+export function responseData(res: ResponseData = { code: 0, msg: "成功", data: null }): ResponseData {
   const { code = 0, msg = "成功", data = null } = res;
   return { code, msg, data };
-};
+}

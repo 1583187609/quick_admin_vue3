@@ -1,99 +1,46 @@
-import _ from "lodash";
-import dictMap from "../dict";
-import { getDictText } from "../dict";
-import { CommonObj, OptionItem } from "@/core/_types";
+import { getDictLabel } from "../dict";
+import { CommonObj } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
-
-const { merge } = _;
-
-/**
- * 获取请求参数
- * @param req 请求体
- * @param ignoreKeys [array] 不要转成数字类型的key值数组
- */
-export function getRequestParams(req: CommonObj, ignoreKeys = ["phone"]) {
-  const { url, body, query, headers } = req;
-  // 将字符串化的数组或对象，转成对应的数组或对象
-  for (const key in query) {
-    const val = query[key];
-    const isParse = typeof val === "string" && ["[", "{"].includes(val.charAt(0));
-    if (isParse) query[key] = JSON.parse(val);
-  }
-  const reqParams = merge({}, body, query);
-  //是否忽略掉要转成number类型
-  function isIgnore(key: string, val: any) {
-    const valType = typeOf(val);
-    const isEmptyStr = val === "";
-    const isIgnoreKey = ignoreKeys?.includes(key);
-    const isIgnoreType = ["Null", "Undefined", "Boolean", "Array"].includes(valType);
-    return isEmptyStr || isIgnoreKey || isIgnoreType;
-  }
-  for (const key in reqParams) {
-    const val = reqParams[key];
-    if (isIgnore(key, val)) continue;
-    const numVal = Number(val);
-    if (!isNaN(numVal)) {
-      reqParams[key] = numVal;
-    } else {
-      if (val === "true") {
-        reqParams[key] = true;
-      } else if (val === "false") {
-        reqParams[key] = false;
-      }
-    }
-  }
-  return reqParams;
-}
+import { deleteAttrs } from "@/utils";
 
 /**
- * 处理数据，转化成vite mock api需要的数据结构
+ * 判断是否在枚举区间内
+ * @param {any} val 当前数据
+ * @param {(string|number)[]} range  枚举区间
+ * @param {same|equal} type 策略类型 same（全等于===） equal（约等于==）
  */
-export function toViteMockApi(obj: CommonObj) {
-  const arr: CommonObj[] = [];
-  for (const key in obj) {
-    const [method, url] = key.split(" ");
-    arr.push({
-      url,
-      method: method.toLowerCase(), //一定要转为小写，不然打包出来会提示404，踩了很久的坑
-      response: obj[key],
-    });
-  }
-  return arr;
-}
-
-// 判断是否在枚举区间内
 export type ParseEnumType = "same" | "equal"; // same（全等于===） equal（约等于==）；
-export function getIsInEnum(val: any, enums: any[] | any = [], parse: ParseEnumType = "same") {
+export function getIsInEnums(val: any, enums: any[] | any = [], type: ParseEnumType = "same") {
   if (!Array.isArray(enums)) enums = [enums];
-  if (parse === "same") return enums.includes(val);
-  if (parse === "equal") return enums.some(it => it == val);
-  throw new Error(`暂未处理此类型：${parse}`);
+  if (type === "same") return enums.includes(val);
+  if (type === "equal") return enums.some(it => it == val);
+  throw new Error(`暂未处理此类型：${type}`);
 }
 
 /**
  * 判断数据是否在数据区间内
- * @param range [any,any] 数据区间
- * @param now 当前数据
- * @param parse 要转换成的格式，之后再进行对比
+ * @param {any} val 当前数据
+ * @param {[any,any]} range  数据区间
+ * @param {date|number} type 策略类型
  */
 export type ParseRangeItemType = "date" | "number";
-export function getIsInRange(val: any, range: [any, any], parse: ParseRangeItemType = "date") {
+export function getIsBetweenRange(val: any, range: [any, any], type: ParseRangeItemType = "date") {
   if (!range?.length) return true;
   let [min, max] = range;
-  if (parse === "date") {
+  if (type === "date") {
     if (!min.includes(" ")) min += " 00:00:00";
     if (!max.includes(" ")) max += " 23:59:59";
     if (!val.includes(" ")) val += " 00:00:00";
     min = new Date(min).getTime();
     max = new Date(max).getTime();
     val = new Date(val).getTime();
-  } else if (parse === "number") {
+  } else if (type === "number") {
     min = Number(min);
     max = Number(max);
     val = Number(val);
   } else {
-    throw new Error(`暂未处理此类型：${parse}`);
+    throw new Error(`暂未处理此类型：${type}`);
   }
   return val > min && val < max;
 }
@@ -115,7 +62,13 @@ export function getIsInRange(val: any, range: [any, any], parse: ParseRangeItemT
  * @param {boolean} isExclude 是否排除条件匹配的项 
  * @returns {object[]}
  */
-export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, isExclude = false) {
+export function getFilterList(
+  list: CommonObj[],
+  params: CommonObj,
+  rules = {},
+  isExclude = false,
+  privatekeys?: string[]
+): CommonObj[] {
   const keys = Object.keys(params);
   return list?.filter((item: CommonObj) => {
     const { children } = item;
@@ -129,12 +82,13 @@ export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, 
         if (strategy === "same") return item[prop] === val;
         throw new Error(`暂未处理此类型：${strategy}`);
       }
-      if (validType === "range") return getIsInRange(item[prop], val, strategy);
-      if (validType === "enums") return getIsInEnum(item[prop], val, strategy);
+      if (validType === "range") return getIsBetweenRange(item[prop], val, strategy);
+      if (validType === "enums") return getIsInEnums(item[prop], val, strategy);
       throw new Error(`暂未处理此类型：${validType}`);
     });
+    if (privatekeys?.length) deleteAttrs(item, privatekeys, false);
     if (children?.length) {
-      item.children = getFilterList(children, params, rules, isExclude);
+      item.children = getFilterList(children, params, rules, isExclude, privatekeys);
       // return !!item.children?.length;
     }
     return isExclude ? !isValid : isValid;
@@ -142,54 +96,10 @@ export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, 
 }
 
 /**
- * 根据字典获取下拉选项数据
- * @param name string 字典名
- * @param ignoreKeys array 要忽略翻译的键名数组集合
- */
-export function getOptsFromDict(name: string, ignoreKeys: string[]) {
-  const opts: OptionItem[] = [];
-  const map = dictMap[name];
-  if (!map) return null;
-  for (const key in map) {
-    if (!ignoreKeys?.includes(key)) {
-      opts.push({ value: Number(key), label: map[key] });
-    }
-  }
-  return opts;
-}
-/**
- * 获取字典映射中的keys值
- * @param name string 字典名
- * @param val number 指定值
- */
-export function getDictMapKeys(name: string, val: string | number) {
-  if (val === undefined) {
-    return Object.keys(dictMap[name]).map(item => Number(item));
-  } else {
-    return [val];
-  }
-}
-
-/**
- * 修改一个对象，例：用户
- * @param newObj object 新传入的对象
- * @param oldObj object 对象默认（初始）值
- * @return object 返回合并之后的对象
- */
-export function addObj(newObj: CommonObj, oldObj: CommonObj, othObj: CommonObj) {
-  // const obj: CommonObj = {};
-  // for (const key in oldObj) {
-  //   obj[key] = newObj[key] ?? oldObj[key];
-  // }
-  // return obj;
-  return merge({}, oldObj, newObj);
-}
-
-/**
  * 获取构造对象
- * @param obj object 要依照的对象
- * @param excludeNames string[] 要排除生成的属性名
- * @return object 构造好之后的新对象
+ * @param {object} obj  要依照的对象
+ * @param {string[]} excludeNames  要排除生成的属性名
+ * @return {object} 构造好之后的新对象
  */
 export function getConstructorObj(obj: CommonObj = {}, excludeNames?: string[]) {
   const newObj: CommonObj = {};
@@ -211,7 +121,7 @@ export function getConstructorObj(obj: CommonObj = {}, excludeNames?: string[]) 
 
 /**
  * 获取NavsTree
- * @param navs object[] 原始导航树数据
+ * @param {object[]} navs  原始导航树数据
  */
 export function getNavsTree(navs?: CommonObj[]): CommonObj[] {
   if (!navs) return [];
@@ -222,13 +132,13 @@ export function getNavsTree(navs?: CommonObj[]): CommonObj[] {
       menu_path: path,
       component_path: component,
       children: getNavsTree(children),
-      remark: "", //备注
+      remark: "", // 备注
       order: 1,
       perms: "menu:list:auth",
       status,
-      status_text: getDictText("D_EnableStatus", status),
+      status_text: getDictLabel("D_EnableStatus", status),
       type,
-      type_text: getDictText("D_MenuType", type),
+      type_text: getDictLabel("D_MenuType", type),
       is_link: type === 2 ? 1 : 0,
       is_cache,
       ...rest,
@@ -237,11 +147,11 @@ export function getNavsTree(navs?: CommonObj[]): CommonObj[] {
 }
 
 /**
- * 修改一个对象，例：用户
- * @param arr object[] 树形数据数组
- * @param byId string 查找时要依据的id
- * @param propsMap object 属性映射
- * @return object 查找到的树节点
+ * 查找树节点
+ * @param {object[]} arr  树形数据数组
+ * @param {string} byId  查找时要依据的id
+ * @param {object} propsMap  属性映射
+ * @return {object} 查找到的树节点
  */
 export function findTreeNode(arr: any[], byId: string, propsMap: CommonObj = { id: "id", children: "children" }) {
   let node = null;
@@ -262,17 +172,27 @@ export function findTreeNode(arr: any[], byId: string, propsMap: CommonObj = { i
 
 /**
  * 获取图片地址
- * @tips  性别： 0未知 1男 2女
- * @params maxNum 跟性别头像的最大下标值保持一致
+ * @param {0|1|2}  gender 性别： 0未知 1男 2女
+ * @param {number} maxNum 跟性别头像的最大下标值保持一致
  */
 export function getAvatarUrl(gender: 0 | 1 | 2, maxNum = 6) {
-  //性别 0未知 1男 2女
+  // 性别 0未知 1男 2女
   const max = maxNum + 1;
   const ind = Math.floor(Math.random() * max);
-  const genderMap = {
-    1: "boy",
-    2: "girl",
-  };
+  const genderMap = { 1: "boy", 2: "girl" };
   if (gender === 0) return "";
   return `${getBasePath()}/static/imgs/${genderMap[gender]}-${ind}.jpg`;
+}
+
+/**
+ * 获取树节点总数
+ * @param {object[]} tree
+ */
+export function getListTotal(tree: CommonObj[] = [], total = 0) {
+  if (!tree?.length) return total;
+  tree.forEach((item: CommonObj) => {
+    total++;
+    getListTotal(item.children, total);
+  });
+  return total;
 }

@@ -1,5 +1,5 @@
 import allAddress from "../data/address";
-import { CommonObj } from "@/core/_types";
+import { CommonObj, OptionItem } from "@/core/_types";
 import baseDict from "./modules/base";
 import otherDict from "./modules/other";
 
@@ -15,22 +15,49 @@ const dictMap: CommonObj = {
   ...baseDict,
   ...otherDict,
 };
-//获取字典文本
-export function getDictText(name: DictNames, val: string | number) {
-  return dictMap[name][val] || "";
+
+export default dictMap;
+
+// 获取字典映射
+export function getDictMap(name: DictNames) {
+  const map = dictMap[name];
+  if (!map) throw new Error(`不存在该字典：${map}`);
+  return map;
 }
-//获取字典码值
-export function getDictCodes(name: DictNames) {
-  return Object.keys(dictMap[name]).map(it => Number(it));
+// 获取字典文本
+export function getDictLabel(name: DictNames, val: string | number) {
+  return getDictMap(name)[val] ?? "";
 }
-export default dictMap as CommonObj;
+// 获取字典文本集合
+export function getDictLables(name: DictNames) {
+  return Object.values(getDictMap(name));
+}
+// 获取字典码值
+export function getDictValues(name: DictNames) {
+  return Object.keys(getDictMap(name)).map(it => {
+    const num = Number(it);
+    return isNaN(num) ? it : num;
+  });
+}
+/**
+ * 根据字典获取下拉选项数据
+ * @param {string} name  字典名
+ */
+export function getDictOptions(name: string) {
+  const map = getDictMap(name);
+  const opts: OptionItem[] = [];
+  for (const key in map) {
+    opts.push({ label: map[key], value: Number(key) });
+  }
+  return opts;
+}
 
 export type CascaderType = keyof typeof cascaderMap;
 const cascaderMap = {
   Region: allAddress,
 };
 //获取级联地址文本
-export function getCascadeText(type: CascaderType, ids: [number, number, number] = [0, 0, 0], byKey = "id") {
+export function getCascadeLabel(type: CascaderType, ids: [number, number, number] = [0, 0, 0], byKey = "id") {
   const mapOpts = cascaderMap[type];
   if (!mapOpts) return "-";
   const [pId, cId, aId] = ids;

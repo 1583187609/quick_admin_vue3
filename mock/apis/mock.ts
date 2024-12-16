@@ -1,12 +1,11 @@
-import { getRequestParams, resData, deleteAttrs, toViteMockApi, getFilterList } from "../utils";
+import { getRequestParams, responseData, deleteAttrs, toViteMockApi, getFilterList } from "../utils";
 import allUsers from "../data/user";
-import allNavs from "../data/navs";
 import allRoles from "../data/roles";
-import testFields from "../data/test";
-import dictMap, { getDictText } from "../dict";
-import allAddress from "../data/address";
-import allSchool from "../data/school";
-import allCompany from "../data/company";
+// import allNavs from "../data/navs";
+// import testFields from "../data/test";
+// import allAddress from "../data/address";
+// import allSchool from "../data/school";
+// import allCompany from "../data/company";
 import { CommonObj } from "@/core/_types";
 
 const listMap = {
@@ -16,23 +15,45 @@ const listMap = {
 
 const delAttrs: string[] = ["psd"];
 
+// 通用接口相关
 export default toViteMockApi({
-  /**
-   * 通用的获取详情数据接口
-   */
-  "GET /mock/common/detail": (req: CommonObj) => {
-    const { byName = "users", byKeys = ["id"], ...params } = getRequestParams(req);
+  // 新增
+  "POST /mock/common/add": (req: CommonObj) => {
+    const { byName = "users", byKeys = ["phone"], ...params } = getRequestParams(req);
     const by: CommonObj = {};
     byKeys.forEach((key: string) => {
       by[key] = params[key];
     });
     const queryList: CommonObj[] = getFilterList(listMap[byName], by);
-    if (!queryList.length) return resData({ code: 1, msg: "未找到记录" });
-    return resData({ data: queryList.length === 1 ? queryList[0] : queryList });
+    if (queryList?.length) return responseData({ code: 1, msg: "已存在该记录" });
+    return responseData();
   },
-  /**
-   * 通用的获取列表的接口(也可作为导出用)
-   */
+  // 删除
+  "DELETE /mock/common": (req: CommonObj) => {
+    const { byName = "users", ...params } = getRequestParams(req);
+    // const { ids = [] } = params;
+    const queryList: CommonObj[] = getFilterList(listMap[byName], params, { ids: ["enums", "same", "id"] }, true);
+    if (!queryList.length) return responseData({ code: 1, msg: "未找到记录" });
+    return responseData();
+  },
+  // 修改
+  "POST /mock/common/update": (req: CommonObj) => {
+    const { byName = "users", byKeys = ["id"], ...params } = getRequestParams(req);
+    if (!byKeys?.length || !params) return responseData();
+    const by: CommonObj = {}; // 根据某些字段去查
+    byKeys.forEach((key: string) => {
+      by[key] = params[key];
+    });
+    const queryList: CommonObj[] = getFilterList(listMap[byName], by);
+    if (!queryList.length) return responseData({ code: 1, msg: "未找到记录" });
+    queryList.forEach(item => {
+      Object.keys(params).forEach(key => {
+        if (item[key] !== undefined) item[key] = params[key];
+      });
+    });
+    return responseData({ data: queryList });
+  },
+  // 查询/导出列表
   "GET /mock/common/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
     const { byName = "users", id, type, gender, age = [], name, status, exports } = params;
@@ -48,11 +69,11 @@ export default toViteMockApi({
           return newRow;
         });
       }
-      return resData({ data: queryList });
+      return responseData({ data: queryList });
     } else {
       const sInd = (curr_page - 1) * page_size;
       const eInd = sInd + page_size;
-      return resData({
+      return responseData({
         data: {
           total_num: queryList.length,
           records: queryList.slice(sInd, eInd),
@@ -63,74 +84,35 @@ export default toViteMockApi({
       });
     }
   },
-  /**
-   * 通用的提交数据（信息对象）接口
-   */
-  "POST /mock/common": (req: CommonObj) => {
-    return resData();
-  },
-  /**
-   * 通用的新增接口
-   */
-  "POST /mock/common/add": (req: CommonObj) => {
-    const { byName = "users", byKeys = ["phone"], ...params } = getRequestParams(req);
+  // 查询详情
+  "GET /mock/common/detail": (req: CommonObj) => {
+    const { byName = "users", byKeys = ["id"], ...params } = getRequestParams(req);
     const by: CommonObj = {};
     byKeys.forEach((key: string) => {
       by[key] = params[key];
     });
     const queryList: CommonObj[] = getFilterList(listMap[byName], by);
-    if (queryList?.length) return resData({ code: 1, msg: "已存在该记录" });
-    return resData();
+    if (!queryList.length) return responseData({ code: 1, msg: "未找到记录" });
+    return responseData({ data: queryList.length === 1 ? queryList[0] : queryList });
   },
-  /**
-   * 通用的修改接口
-   */
-  "POST /mock/common/update": (req: CommonObj) => {
-    const { byName = "users", byKeys = ["id"], ...params } = getRequestParams(req);
-    if (!byKeys?.length || !params) return resData();
-    const by: CommonObj = {}; // 根据某些字段去查
-    byKeys.forEach((key: string) => {
-      by[key] = params[key];
-    });
-    let queryList: any[] = getFilterList(listMap[byName], by);
-    if (!queryList.length) return resData({ code: 1, msg: "未找到记录" });
-    queryList.forEach(item => {
-      Object.keys(params).forEach(key => {
-        if (item[key] !== undefined) item[key] = params[key];
-      });
-    });
-    return resData({ data: queryList });
-  },
-  /**
-   * 通用的导入接口
-   */
+  // 导入
   "POST /mock/common/import": (req: CommonObj) => {
     const { byName = "users", byKey = "id", ...params } = getRequestParams(req);
     const by: CommonObj = { [byKey]: params[byKey] };
     const queryList: CommonObj[] = getFilterList(listMap[byName], by);
-    if (queryList?.length) return resData({ code: 1, msg: `已存在该记录：${queryList.map(it => it[byKey]).join(", ")}` });
-    return resData();
+    if (queryList?.length) return responseData({ code: 1, msg: `已存在该记录：${queryList.map(it => it[byKey]).join(", ")}` });
+    return responseData();
   },
-  /**
-   * 通用的删除接口
-   */
-  "DELETE /mock/common": (req: CommonObj) => {
-    const { byName = "users", ...params } = getRequestParams(req);
-    // const { ids = [] } = params;
-    const queryList: CommonObj[] = getFilterList(listMap[byName], params, { ids: ["enums", "same", "id"] }, true);
-    if (!queryList.length) return resData({ code: 1, msg: "未找到记录" });
-    return resData();
+  // 提交
+  "POST /mock/common": (req: CommonObj) => {
+    return responseData();
   },
-  /**
-   * 通用的更新全部数据接口（类似post）
-   */
+  // 修改全部（类似post）
   "PUT /mock/common": (req: CommonObj) => {
-    return resData();
+    return responseData();
   },
-  /**
-   * 通用的更新局部数据（类似post，只针对更改过的）接口。是对put的补充，patch意为修补。
-   */
+  // 修改局部（类似post，只针对更改过的，是对put的补充，patch意为修补）
   "PATCH /mock/common": (req: CommonObj) => {
-    return resData();
+    return responseData();
   },
 });

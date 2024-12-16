@@ -6,8 +6,8 @@ const { Random } = Mock;
 
 /**
  * 生成正式用户列表数据
- * @param num [string] 生成数量
- * @param defObj [object] 模板默认值
+ * @param {string} num  生成数量
+ * @param {object} defObj  模板默认值
  */
 export function createPhone(phonePre = "135") {
   const reg = new RegExp(`\\d{${11 - phonePre.length}}`);
@@ -16,7 +16,7 @@ export function createPhone(phonePre = "135") {
 
 /**
  * 生成公司列表数据
- * @param num [string] 生成总数数量
+ * @param {string} num  生成总数数量
  * @param idStart id开始值
  */
 export function createCompanyList(num = 100, idStart = 1) {

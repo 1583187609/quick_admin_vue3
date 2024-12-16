@@ -1,27 +1,69 @@
-import { getRequestParams, resData, toViteMockApi, getConstructorObj, getNavsTree, findTreeNode, getFilterList } from "../utils";
+import {
+  getRequestParams,
+  responseData,
+  toViteMockApi,
+  getConstructorObj,
+  getNavsTree,
+  findTreeNode,
+  getFilterList,
+} from "../utils";
 import _ from "lodash";
 import _allUsers from "../data/user";
 import allNavs from "../data/navs";
 import roleRows from "../data/roles";
-import { getDictText, getCascadeText } from "../dict";
+import { getDictLabel, getCascadeLabel } from "../dict";
 import dayjs from "dayjs";
 import { CommonObj } from "@/core/_types";
 
 const { merge } = _;
-let allRoles = JSON.parse(JSON.stringify(roleRows));
 let allNavsTree = getNavsTree(allNavs);
+let allRoles = JSON.parse(JSON.stringify(roleRows));
 
 export default toViteMockApi({
-  /**
-   * 权限 - 角色列表
-   */
+  // 新增角色
+  "POST /auth/role/add": (req: CommonObj) => {
+    const params = getRequestParams(req);
+    const { role_text, role, status, remark, menu_auth } = params;
+    const target = allRoles.find((it: CommonObj) => it.role === role);
+    if (target) return responseData({ code: 1, msg: "该角色已存在" });
+    const data = merge(getConstructorObj(allRoles?.[0]), params, {
+      id: allRoles.slice(-1)[0].id + 1,
+      role,
+      role_text,
+      status_text: getDictLabel("D_Gender", status),
+      create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+    });
+    allRoles.push(data);
+    return responseData({ data });
+  },
+  // 删除角色
+  "DELETE /auth/role/list": (req: CommonObj) => {
+    const params: CommonObj = getRequestParams(req);
+    // const { ids = [] } = params;
+    allRoles = getFilterList(allRoles, params, { ids: ["enums", "same", "id"] }, true);
+    return responseData();
+  },
+  // 修改角色
+  "POST /auth/role/update": (req: CommonObj) => {
+    const params = getRequestParams(req);
+    const { id, role, role_text, status, remark, menu_auth } = params;
+    const data = allRoles.find((it: CommonObj) => it.id === id);
+    if (!data) return responseData({ code: 1, msg: "不存在该角色" });
+    merge(data, params, {
+      role_text: getDictLabel("D_RoleType", role),
+      status_text: getDictLabel("D_Gender", status),
+      update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+    });
+    return responseData({ data });
+  },
+  // 查询角色列表
   "GET /auth/role/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
     // const { role, status, create_time_range } = params;
     const queryList = getFilterList(allRoles, params, { create_time_range: ["range", "date", "create_time"] });
     const sInd = (curr_page - 1) * page_size;
     const eInd = sInd + page_size;
-    return resData({
+    return responseData({
       data: {
         total_num: queryList.length,
         records: queryList,
@@ -31,79 +73,14 @@ export default toViteMockApi({
       },
     });
   },
-  /**
-   * 权限 - 新增角色
-   */
-  "POST /auth/role/add": (req: CommonObj) => {
-    let code, msg, data;
-    const reqObj = getRequestParams(req);
-    const { role_text, role, status, remark, menu_auth } = reqObj;
-    const isExist = allRoles.find((it: CommonObj) => it.role === role);
-    if (isExist) {
-      code = 1;
-      msg = "该角色已存在";
-    } else {
-      data = merge(getConstructorObj(allRoles?.[0]), reqObj, {
-        id: allRoles.slice(-1)[0].id + 1,
-        role,
-        role_text,
-        status_text: getDictText("D_Gender", status),
-        create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-      });
-      allRoles.push(data);
-    }
-    return resData({ code, msg, data });
-  },
-  /**
-   * 权限 - 修改角色
-   */
-  "POST /auth/role/update": (req: CommonObj) => {
-    let code, msg, data;
-    const params = getRequestParams(req);
-    const { id, role, role_text, status, remark, menu_auth } = params;
-    console.log(params, allRoles, "allRoles-=--------------");
-    const roleInfo = allRoles.find((it: CommonObj) => it.id === id);
-    if (roleInfo) {
-      data = merge(roleInfo, params, {
-        role,
-        role_text,
-        status_text: getDictText("D_Gender", status),
-        update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-      });
-    } else {
-      code = 1;
-      msg = "不存在该角色";
-    }
-    return resData({ code, msg, data });
-  },
-  /**
-   * 获取角色信息
-   * @param phone [string] 电话号码
-   */
+  // 查询角色信息
   "GET /auth/role/info": (req: CommonObj) => {
-    let code, msg;
     const { id } = getRequestParams(req);
     const data = allRoles.find((it: CommonObj) => it.id === id);
-    if (!data) {
-      code = 1;
-      msg = "不存在该角色";
-    }
-    return resData({ code, msg, data });
+    if (!data) return responseData({ code: 1, msg: "不存在该角色" });
+    return responseData({ data });
   },
-  /**
-   * 批量删除角色列表
-   * @param ids [number] 角色id数组
-   */
-  "DELETE /auth/role/list": (req: CommonObj) => {
-    const params: CommonObj = getRequestParams(req);
-    // const { ids = [] } = params;
-    const queryList = getFilterList(allRoles, params, { ids: ["enums", "same", "id"] }, true);
-    allRoles = queryList;
-    return resData();
-  },
-  /**
-   * 权限 - 获取菜单列表
-   */
+  // 查询菜单列表
   "GET /auth/menu/list": (req: CommonObj) => {
     const { curr_page, page_size, ...params } = getRequestParams(req);
     const cloneAllNavsTree = JSON.parse(JSON.stringify(allNavsTree));
@@ -111,7 +88,7 @@ export default toViteMockApi({
       name: ["match", "blur"],
       create_time_range: ["range", "date", "create_time"],
     });
-    return resData({
+    return responseData({
       data: {
         total_num: queryList.length,
         records: queryList,
@@ -121,73 +98,50 @@ export default toViteMockApi({
       },
     });
   },
-  /**
-   * 权限 - 批量删除菜单列表
-   * @param ids [number] 菜单id数组
-   */
+  // 删除菜单
   "DELETE /auth/menu/list": (req: CommonObj) => {
     const params: CommonObj = getRequestParams(req);
     allNavsTree = getFilterList(allNavsTree, params, { ids: ["enums", "same", "id"] }, true);
-    return resData();
+    return responseData();
   },
-  /**
-   * 权限 - 获取菜单信息
-   */
+  // 查询菜单详情
   "GET /auth/menu/info": (req: CommonObj) => {
     const { id } = getRequestParams(req, ["id"]);
-    let code, msg;
     const data = findTreeNode(allNavsTree, id);
-    if (!data) {
-      code = 1;
-      msg = "不存在该菜单";
-    } else {
-    }
-    return resData({ code, msg, data });
+    if (!data) return responseData({ code: 1, msg: "不存在该菜单" });
+    return responseData({ data });
   },
-  /**
-   * 权限 - 新增菜单
-   * @param phone [string] 电话号码
-   * @param psd [string] 密码
-   */
+  // 新增菜单
   "POST /auth/menu/add": (req: CommonObj) => {
-    // const reqObj = getRequestParams(req);
+    // const params = getRequestParams(req);
     // let code, msg, data;
-    // const { type, gender, phone, address } = reqObj;
+    // const { type, gender, phone, address } = params;
     // const isExist = allNavsTree.find((it: CommonObj) => it.phone === phone);
     // if (isExist) {
     //   code = 1;
     //   msg = "该菜单已存在";
     // } else {
-    //   data = merge(getConstructorObj(allNavsTree?.[0]), reqObj, {
+    //   data = merge(getConstructorObj(allNavsTree?.[0]), params, {
     //     id: allNavsTree.slice(-1)[0].id + 1,
-    //     type_text: getDictText("D_RoleType", type),
-    //     gender_text: getDictText("D_Gender", gender),
-    //     address_text: getCascadeText("Region", address),
+    //     type_text: getDictLabel("D_RoleType", type),
+    //     gender_text: getDictLabel("D_Gender", gender),
+    //     address_text: getCascadeLabel("Region", address),
     //     create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
     //   });
     //   allNavsTree.push(data);
     // }
-    // return resData({ code, msg, data });
-    return resData();
+    // return responseData({ code, msg, data });
+    return responseData();
   },
-  /**
-   * 权限 - 编辑修改菜单
-   * @param phone [string] 电话号码
-   * @param psd [string] 密码
-   */
+  // 修改菜单
   "POST /auth/menu/update": (req: CommonObj) => {
-    let code, msg, data;
-    const reqObj = getRequestParams(req);
-    const { id } = reqObj;
-    data = findTreeNode(allNavsTree, id);
-    if (data) {
-      data = merge(data, reqObj, {
-        update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-      });
-    } else {
-      code = 1;
-      msg = "不存在该菜单/目录/按钮";
-    }
-    return resData({ code, msg, data });
+    const params = getRequestParams(req);
+    const { id } = params;
+    let data = findTreeNode(allNavsTree, id);
+    if (!data) return responseData({ code: 1, msg: "不存在该菜单/目录/按钮" });
+    data = merge(data, params, {
+      update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+    });
+    return responseData({ data });
   },
 });
