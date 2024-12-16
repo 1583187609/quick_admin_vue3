@@ -3,7 +3,8 @@ import { getMockCfg } from "../utils";
 import { CommonObj } from "@/core/_types";
 import { getMockConfig } from "../design/_utils";
 import dayjs from "dayjs";
-import { getDictValues } from "../dict";
+import { getDictLabel, getDictValues } from "../dict";
+import { needParam } from "@/utils";
 // import allSchool from "../data/school";
 // import allCompany from "../data/company";
 // import allJob from "../data/job";
@@ -74,13 +75,18 @@ export function createTestFields(num = 199) {
   return mockData.list;
 }
 
+/**
+ * 获取用户的默认配置
+ * @param defaultData
+ */
+// 待完善配置项
 // userData
 // { type: "url", prop: "avatar" },
-export function createDemoFields(num = 9, defObj: CommonObj = {}) {
+function getUserConfig(defaultData: CommonObj = {}) {
   // const allSchoolNames = allSchool.map(it => it.name);
   // const allCompanyName = allCompany.map(it => it.name);
   // const allJobName = allJob.map(it => it.name);
-  const { type } = defObj;
+  const { role } = defaultData;
   //角色名称映射
   const roleNameMap: CommonObj = {
     0: "superAdmin",
@@ -90,7 +96,7 @@ export function createDemoFields(num = 9, defObj: CommonObj = {}) {
     4: "visitor",
     5: "developer",
   };
-  const config = getMockConfig([
+  return getMockConfig([
     "id",
     "userCode",
     "phone",
@@ -103,7 +109,7 @@ export function createDemoFields(num = 9, defObj: CommonObj = {}) {
     {
       type: "custom",
       attrs: {
-        "role|1": type === undefined ? getDictValues("D_RoleType") : [type],
+        "role|1": role === undefined ? getDictValues("D_RoleType") : [role],
       },
     },
     {
@@ -169,6 +175,33 @@ export function createDemoFields(num = 9, defObj: CommonObj = {}) {
       },
     },
   ]);
+}
+
+function getRoleConfig(defaultData: CommonObj = {}) {
+  const codes = getDictValues("D_RoleType");
+  const num = codes.length;
+  return getMockConfig([
+    "id",
+    {
+      role(res: CommonObj) {
+        const { id } = res.context.currentContext;
+        return codes[id - 1];
+      },
+      role_text: (res: CommonObj) => {
+        const { role } = res.context.currentContext;
+        return getDictLabel("D_RoleType", role);
+      },
+    },
+    "enableStatus",
+    "remark",
+    "createTime",
+    "updateTime",
+    "createUser",
+    "updateUser",
+  ]);
+}
+
+export function getMockList(num = 9, config = needParam()) {
   const mockData = Mock.mock({
     [`list|${num}`]: [config],
   });
