@@ -142,7 +142,7 @@ export const baseTableColTypes: CommonObj = getExportData(
     /*** 外部组件列 ***/
     // 例：用户信息
     // T_UserInfo: {
-    //   prop: "userData",
+    //   prop: "user_data",
     //   label: "用户信息",
     //   fixed: "left",
     //   type: "UserInfo",

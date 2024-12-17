@@ -2,9 +2,10 @@
 /*************** 此处的方法可能与src/components/_utils中的方法重名，故单独提取出来进行维护 ***************/
 /****************************************************************************************************/
 
-import { CommonObj, StrNum } from "@/core/_types";
+import { CommonObj, OptionItem, StrNum } from "@/core/_types";
 import dayjs from "dayjs";
 import { defaultDateFormat } from "./consts";
+import allAddress from "../data/address";
 
 /**
  * 函数未传必填参数时的校验
@@ -73,12 +74,12 @@ export function getDateTimestamp(date: any) {
 }
 
 /**
- * 生成早于当前时间的随机日期
+ * 获取限定区间的随机日期
  * @param minDate 距离现在最久的时刻（单位：秒）数值：1, -1，单位：y, M, d, h, m, s
  * @param maxDate 距离现在最近的时刻（单位：秒）
  * @returns
  */
-export function getRandomDate(minDate = "-1y", maxDate = Date.now(), fmt = defaultDateFormat): StrNum {
+export function getRandomLimitDate(minDate = "-1y", maxDate = Date.now(), fmt = defaultDateFormat): StrNum {
   const minTime = getDateTimestamp(minDate);
   const maxTime = getDateTimestamp(maxDate);
   if (minTime >= maxTime) throw new Error(`最小时间不能大于等于最大时间`);
@@ -98,4 +99,90 @@ export function deleteAttrs(obj: CommonObj = {}, keys: string | string[]) {
   if (typeof keys === "string") return delete newObj[keys];
   keys.forEach(key => delete newObj[key]);
   return newObj;
+}
+
+// const tempCascader = [
+//   {
+//     name: "Level one 1",
+//     list: [
+//       {
+//         name: "Level two 1-1",
+//         list: [
+//           {
+//             name: "Level three 1-1-1",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     name: "Level one 2",
+//     list: [
+//       {
+//         name: "Level two 2-1",
+//         list: [
+//           {
+//             name: "Level three 2-1-1",
+//           },
+//         ],
+//       },
+//       {
+//         name: "Level two 2-2",
+//         list: [
+//           {
+//             name: "Level three 2-2-1",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     name: "Level one 3",
+//     list: [
+//       {
+//         name: "Level two 3-1",
+//         list: [
+//           {
+//             name: "Level three 3-1-1",
+//           },
+//         ],
+//       },
+//       {
+//         name: "Level two 3-2",
+//         list: [
+//           {
+//             name: "Level three 3-2-1",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
+
+/**
+ * 获取标准的级联数据
+ */
+export function getStandardCascader(
+  cascader: CommonObj[] = allAddress,
+  props: CommonObj = { label: "label", value: "value", children: "children" }
+): OptionItem[] {
+  const { label: labelKey, value: valueKey, children: childrenKey } = props;
+  function cycleHandle(list: CommonObj[] = []) {
+    return list.map((item: CommonObj) => {
+      if (labelKey !== "label") {
+        item.label = item[labelKey] ?? "";
+        delete item[labelKey];
+      }
+      if (valueKey !== "value") {
+        item.value = item[valueKey] ?? "";
+        delete item[valueKey];
+      }
+      if (childrenKey !== "children" && item[childrenKey]?.length) {
+        item.children = cycleHandle(item.children);
+        delete item[childrenKey];
+      }
+      return item as OptionItem;
+    }) as OptionItem[];
+  }
+  return cycleHandle(cascader);
 }

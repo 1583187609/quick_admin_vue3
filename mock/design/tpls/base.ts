@@ -32,9 +32,10 @@ export default {
     },
   },
   T_Remark: {
-    type: "ctitle",
+    type: "string",
     remark: "备注",
     attrs: {
+      typeKey: "csentence",
       min: 5,
       max: 20,
     },
@@ -46,13 +47,16 @@ export default {
       name: "Region",
     },
   },
-  T_City: {
-    type: "city",
+  T_Address: {
+    type: "address",
     remark: "城市",
-    attrs: {},
+    attrs: {
+      typeKey: "county",
+      prefix: true,
+    },
   },
   T_EnableStatus: {
-    type: "enum",
+    type: "dict",
     prop: "status",
     remark: "启用状态",
     attrs: {
@@ -60,14 +64,14 @@ export default {
     },
   },
   T_YesNoStatus: {
-    type: "enum",
+    type: "dict",
     remark: "是否状态",
     attrs: {
       name: "D_YesNoStatus",
     },
   },
   T_RoleType: {
-    type: "enum",
+    type: "dict",
     prop: "role",
     remark: "角色类型",
     attrs: {
@@ -75,7 +79,7 @@ export default {
     },
   },
   T_MenuType: {
-    type: "enum",
+    type: "dict",
     prop: "menu",
     remark: "菜单类型",
     attrs: {

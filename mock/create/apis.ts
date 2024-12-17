@@ -1,22 +1,18 @@
-import { getRequestParams, responseData, getConstructorObj, getNavsTree, getFilterList, getListTotal } from "../utils";
-import _ from "lodash";
+import { getRequestParams, responseData, getConstructorObj, getFilterList, getListTotal, defaultDateFormat } from "../utils";
 import _allUsers from "../data/user";
-import allNavs from "../data/navs";
 import roleRows from "../data/roles";
-import { getDictLabel, getCascadeLabel } from "../dict";
+import { getDictLabel } from "../dict";
 import dayjs from "dayjs";
 import { CommonObj } from "@/core/_types";
-import { deleteAttrs } from "@/utils";
 import { designMap } from "../design";
+import _ from "lodash";
 
 const { merge } = _;
 
-let allNavsTree = getNavsTree(allNavs);
 let allRoles = JSON.parse(JSON.stringify(roleRows));
-let allUsers = JSON.parse(JSON.stringify(_allUsers));
 
 /**
- * 生成restful api
+ * 生成restful 风格的 api
  * @param {string} name 名称
  * @param {string} prefix 前缀，例："/common
  * @returns {object}
@@ -36,7 +32,7 @@ export function createRestfulApis(name = "user", prefix = "") {
         id: allRoles.slice(-1)[0].id + 1,
         role_text: getDictLabel("D_RoleType", role),
         status_text: getDictLabel("D_EnableStatus", status),
-        create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+        create_time: dayjs(Date.now()).format(defaultDateFormat),
       });
       allRoles.push(data);
       return responseData({ data });
@@ -57,7 +53,7 @@ export function createRestfulApis(name = "user", prefix = "") {
       merge(data, params, {
         role_text: getDictLabel("D_RoleType", role),
         status_text: getDictLabel("D_Gender", status),
-        update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
+        update_time: dayjs(Date.now()).format(defaultDateFormat),
       });
       return responseData({ data });
     },

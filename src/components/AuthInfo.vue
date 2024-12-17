@@ -1,16 +1,16 @@
 <!-- 页面-简介 -->
 <template>
   <div class="auth-info">
-    <div class="f-c-c-c item-box" v-if="data.schoolStatus === 0">
+    <div class="f-c-c-c item-box" v-if="data.school_status === 0">
       <BaseTag name="D_AuthCase" value="2" />
       <div class="text-tag">{{ data.labelSchool || "-" }}</div>
-      <div class="text-tag">{{ data.schoolName || "-" }}</div>
+      <div class="text-tag">{{ data.school_name || "-" }}</div>
     </div>
-    <div class="f-c-c-c item-box" v-if="data.companyStatus === 0">
+    <div class="f-c-c-c item-box" v-if="data.company_status === 0">
       <BaseTag name="D_AuthCase" value="3" />
       <div class="text-tag">{{ data.labelCompany || "-" }}</div>
     </div>
-    <template v-if="data.schoolStatus !== 0 && data.companyStatus !== 0">-</template>
+    <template v-if="data.school_status !== 0 && data.company_status !== 0">-</template>
   </div>
 </template>
 <script lang="ts" setup>

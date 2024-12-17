@@ -3,7 +3,7 @@ import { typeOf } from "@/core/utils";
 
 //整理Avatar审核的要传入组件的数据
 export function getAvatarRowData(row: CommonObj): CommonObj {
-  const { id, age, gender, nickname, avatar } = row.userData;
+  const { id, age, gender, nickname, avatar } = row.user_data;
   const { cnt, noPassCnt } = row.avatarUploadData;
   return {
     userId: id,

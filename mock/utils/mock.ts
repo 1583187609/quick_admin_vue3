@@ -2,14 +2,14 @@ import allAddress from "../data/address";
 import { getCascadeLabel, getDictValues, getDictLabel } from "../dict";
 import { createPhone } from "../create";
 import { CommonObj } from "@/core/_types";
-import { getRandomDate, typeOf } from "./base";
+import { getRandomLimitDate, typeOf } from "./base";
 import Mock from "mockjs";
 
 const { Random } = Mock;
 
 // 创建 Mock.js 方法来生成数据
 Mock.Random.extend({
-  randomDate: getRandomDate, // 获取随机时间（创建时间、修改时间）
+  randomDate: getRandomLimitDate, // 获取随机时间（创建时间、修改时间）
 });
 
 /**

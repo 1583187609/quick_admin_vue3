@@ -128,7 +128,7 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
           return Random.ctitle(0, 20);
         },
         // 用户信息
-        userData(res: CommonObj) {
+        user_data(res: CommonObj) {
           const { id, userCode, address, address_text, avatar, gender, nickname } = res.context.currentContext;
           return {
             id, // id
@@ -136,19 +136,19 @@ export function createUserList(defObj: CommonObj = {}, num = 100, idStart = 1) {
             avatar, // 头像
             gender, // 性别
             nickname, // 用户昵称
-            "accountStatus|1": getDictValues("D_AccountStatus"), // 账号状态
-            "companyStatus|1": [0, 1], // 公司认证
-            "schoolStatus|1": [0, 1], // 学历认证
-            "schoolCertificateLevel|1": getDictValues("D_EducationType"), // 学历
-            "singleType|1": getDictValues("D_MatrimonyStatus"), // 单身状态
-            "schoolName|1": allSchoolNames, // 学校
-            "companyName|1": allCompanyName, // 公司
-            "jobName|1": allJobName, // 职业
-            "incomeTypeName|1": ["小于10w", "10~20w", "20~30w", "30~50w", "100w以上"], // 收入
-            liveCity: address.slice(0, 2), // 现居地
-            liveCityText: address_text, // 现居地
+            "account_status|1": getDictValues("D_AccountStatus"), // 账号状态
+            "company_status|1": [0, 1], // 公司认证
+            "school_status|1": [0, 1], // 学历认证
+            "school_certificate_level|1": getDictValues("D_EducationType"), // 学历
+            "single_type|1": getDictValues("D_MatrimonyStatus"), // 单身状态
+            "school_name|1": allSchoolNames, // 学校
+            "company_name|1": allCompanyName, // 公司
+            "job_name|1": allJobName, // 职业
+            "income_type_name|1": ["小于10w", "10~20w", "20~30w", "30~50w", "100w以上"], // 收入
+            live_city: address.slice(0, 2), // 现居地
+            live_city_text: address_text, // 现居地
             city: address.slice(0, 2), // 家乡
-            cityText: address_text, // 家乡
+            city_text: address_text, // 家乡
           };
         },
       },

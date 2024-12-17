@@ -11,26 +11,26 @@
           <BaseTag class="f-0 gender" name="D_Gender" :value="data.gender" size="small" pureText />
         </div>
         <div class="f-sb-c">
-          <BaseTag class="f-0" name="D_AccountStatus" :value="data.accountStatus" size="small" />
+          <BaseTag class="f-0" name="D_AccountStatus" :value="data.account_status" size="small" />
           <BaseTag class="f-0" name="D_AuthCase" :value="getAuthStatus(data)" size="small" />
         </div>
       </div>
     </template>
     <template v-else>
       <div class="avatar-box f-0 mr-8">
-        <el-popover :show-after="200" :hide-after="0" trigger="hover" v-if="data.companyStatus === 0">
+        <el-popover :show-after="200" :hide-after="0" trigger="hover" v-if="data.company_status === 0">
           <template #reference>
             <BaseTag class="company" name="D_AuthCase" value="3">公司</BaseTag>
           </template>
-          <div>{{ data.companyName }}</div>
+          <div>{{ data.company_name }}</div>
         </el-popover>
         <BaseAvatar class="avatar" :src="data.avatar" :gender="data.gender" />
-        <el-popover :show-after="200" :hide-after="0" trigger="hover" v-if="data.schoolStatus === 0">
+        <el-popover :show-after="200" :hide-after="0" trigger="hover" v-if="data.school_status === 0">
           <template #reference>
             <BaseTag class="education" name="D_AuthCase" value="2">学历</BaseTag>
           </template>
           <div>
-            {{ getText("D_EducationType", data.schoolCertificateLevel) || "-" }}
+            {{ getText("D_EducationType", data.school_certificate_level) || "-" }}
           </div>
         </el-popover>
       </div>
@@ -39,9 +39,9 @@
           <b @click="toUserDetail" class="nickname line-1">{{ data.nickname || "-" }}</b>
           <BaseTag class="f-0 gender" name="D_Gender" :value="data.gender" size="small" pureText />
           <span class="f-0 age">{{ data.age || "0" }}岁</span>
-          <BaseTag class="f-0 ml-h mr-a" name="D_MatrimonyStatus" :value="data.singleType" size="small" pureText />
-          <BaseTag class="f-0" name="D_AccountStatus" :value="data.accountStatus" size="small" />
-          <!-- v-if="data.accountStatus !== 0" -->
+          <BaseTag class="f-0 ml-h mr-a" name="D_MatrimonyStatus" :value="data.single_type" size="small" pureText />
+          <BaseTag class="f-0" name="D_AccountStatus" :value="data.account_status" size="small" />
+          <!-- v-if="data.account_status !== 0" -->
         </div>
         <div class="f-sb-c">
           <div class="f-0 item">ID：<BaseCopy :text="data.id" line="1" /></div>
@@ -49,23 +49,23 @@
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            学历：<b>{{ getText("D_EducationType", data.schoolCertificateLevel) || "-" }}</b>
+            学历：<b>{{ getText("D_EducationType", data.school_certificate_level) || "-" }}</b>
           </div>
           <div class="item f-0">
-            学校：<b>{{ data.schoolName || "-" }}</b>
+            学校：<b>{{ data.school_name || "-" }}</b>
           </div>
         </div>
         <div class="f-fs-fs">
           <div class="item f-0">
-            职业：<b>{{ data.jobName || "-" }}</b>
+            职业：<b>{{ data.job_name || "-" }}</b>
           </div>
           <div class="item f-0">
-            收入：<b>{{ data.incomeTypeName || "-" }}</b>
+            收入：<b>{{ data.income_type_name || "-" }}</b>
           </div>
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            现居地：<b>{{ getText("Region", data.liveCity) || "-" }}</b>
+            现居地：<b>{{ getText("Region", data.live_city) || "-" }}</b>
           </div>
           <div class="item f-0">
             家乡：<b>{{ getText("Region", data.city) || "-" }}</b>
@@ -92,14 +92,14 @@ const props = withDefaults(
   }
 );
 function getAuthStatus(data) {
-  const { companyStatus, schoolStatus } = data;
+  const { company_status, school_status } = data;
   let status = 0;
-  if (companyStatus === 0 && schoolStatus === 0) {
+  if (company_status === 0 && school_status === 0) {
     status = 4;
   } else {
-    if (companyStatus === 0) {
+    if (company_status === 0) {
       status = 3;
-    } else if (schoolStatus === 0) {
+    } else if (school_status === 0) {
       status = 2;
     } else {
       status = 1;

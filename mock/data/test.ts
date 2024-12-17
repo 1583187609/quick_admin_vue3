@@ -1,5 +1,3 @@
-import { createTestFields, getMockList } from "../create";
+import { createTestFields } from "../create";
 
-// export default createTestFields();
-
-export default getMockList();
+export default createTestFields();

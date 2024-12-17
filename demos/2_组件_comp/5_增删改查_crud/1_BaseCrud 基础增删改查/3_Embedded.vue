@@ -58,7 +58,7 @@
     :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    :handleRequest="(args:CommonObj) => handleRegionParams(args, ['liveCity'])"
+    :handleRequest="(args:CommonObj) => handleRegionParams(args, ['live_city'])"
     compact
     selection
   >
@@ -169,7 +169,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "liveCity",
+    prop: "live_city",
     label: "居住地址",
     type: "cascader",
     attrs: {
@@ -233,7 +233,7 @@ const fields: FormFieldAttrs[] = [
 const cols: TableCol[] = [
   //表格表头
   {
-    // prop: "userData",
+    // prop: "user_data",
     label: "自定义组件列-内置 [UserInfo]",
     type: "UserInfo",
     quickAttrs: {

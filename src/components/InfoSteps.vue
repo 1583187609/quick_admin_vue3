@@ -24,7 +24,7 @@
 import { CommonObj } from "@/core/_types";
 // infoStatus 0已完善已通过 1已完善未通过 2已完善待审核 3未完善
 // idCardStatus 0 为0 已实名
-// companyStatus schoolStatus  任一为0 即已认证
+// company_status school_status  任一为0 即已认证
 const statusMap: CommonObj = {
   0: {
     text: "已完善 - 已通过",
@@ -52,10 +52,10 @@ const props = withDefaults(
   }
 );
 const resData = computed(() => {
-  const { infoStatus = "", idCardStatus, companyStatus, schoolStatus } = props.data;
+  const { infoStatus = "", idCardStatus, company_status, school_status } = props.data;
   return {
     hasRealName: idCardStatus === 0,
-    hasAuth: companyStatus === 0 || schoolStatus === 0,
+    hasAuth: company_status === 0 || school_status === 0,
     info: statusMap[infoStatus] || {},
   };
 });

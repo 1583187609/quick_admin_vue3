@@ -52,14 +52,14 @@ export function getDictOptions(name: string) {
   return opts;
 }
 
-export type CascaderType = keyof typeof cascaderMap;
+export type CascaderName = keyof typeof cascaderMap;
 const cascaderMap = {
   Region: allAddress,
 };
 //获取级联地址文本
-export function getCascadeLabel(type: CascaderType, ids: [number, number, number] = [0, 0, 0], byKey = "id") {
-  const mapOpts = cascaderMap[type];
-  if (!mapOpts) return "-";
+export function getCascadeLabel(name: CascaderName, ids: [number, number, number] = [0, 0, 0], byKey = "id") {
+  const mapOpts = cascaderMap[name];
+  if (!mapOpts) return "";
   const [pId, cId, aId] = ids;
   const pItem = mapOpts.find((it: CommonObj) => it[byKey] === pId);
   const cItem = pItem?.city.find((it: CommonObj) => it[byKey] === cId);

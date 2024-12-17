@@ -119,9 +119,9 @@ function getModel() {
     data.typeId = "";
   }
   if (isApply) {
-    const { companyName } = data || {};
+    const { company_name } = data || {};
     //公司申报时不回显邮箱
-    return { status: 0, emailSuffix: [], fullName: companyName };
+    return { status: 0, emailSuffix: [], fullName: company_name };
   } else {
     //新增/编辑时
     return Object.assign({ status: 0, emailSuffix: [] }, data);

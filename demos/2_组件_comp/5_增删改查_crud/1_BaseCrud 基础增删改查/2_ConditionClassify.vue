@@ -84,7 +84,7 @@ const fields = [
     },
   },
   {
-    prop: "liveCity",
+    prop: "live_city",
     label: "居住地址",
     type: "cascader",
     attrs: {

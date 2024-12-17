@@ -1,21 +1,22 @@
 export default {
   T_Nickname: {
-    type: "cword",
+    type: "string",
     remark: "昵称",
     attrs: {
-      words: "别样的感动",
+      typeKey: "title",
       min: 1,
       max: 5,
     },
   },
   T_Age: {
-    type: "integer",
+    type: "natural",
     remark: "年龄",
     attrs: {
       min: 1,
       max: 30,
     },
   },
+  // 随机的自然数，大于等于 0 的整数
   T_UserCode: {
     type: "natural",
     remark: "学号",
@@ -25,7 +26,7 @@ export default {
     },
   },
   T_Height: {
-    type: "integer",
+    type: "natural",
     remark: "身高",
     attrs: {
       min: 150,
@@ -41,25 +42,31 @@ export default {
     },
   },
   T_UserName: {
-    type: "cname",
-    remark: "姓名", // （中文）
-    attrs: {},
+    type: "name",
+    remark: "姓名",
+    attrs: {
+      typeKey: "cname", // （中文姓名）
+    },
   },
   T_CreateUser: {
-    type: "cname",
+    type: "name",
     remark: "创建人",
-    attrs: {},
+    attrs: {
+      typeKey: "cname", // （中文姓名）
+    },
   },
   T_UpdateUser: {
-    type: "cname",
+    type: "name",
     remark: "修改人",
-    attrs: {},
+    attrs: {
+      typeKey: "cname", // （中文姓名）
+    },
   },
   T_Avatar: {
-    type: "avatar",
+    type: "image",
     remark: "头像图片地址",
     attrs: {
-      genderKey: "gender",
+      typeKey: "avatar",
     },
   },
   T_Phone: {
@@ -70,28 +77,28 @@ export default {
     },
   },
   T_Gender: {
-    type: "enum",
+    type: "dict",
     remark: "性别",
     attrs: {
       name: "D_Gender",
     },
   },
   T_AccountStatus: {
-    type: "enum",
+    type: "dict",
     remark: "账号状态",
     attrs: {
       name: "D_AccountStatus",
     },
   },
   T_EducationType: {
-    type: "enum",
+    type: "dict",
     remark: "学历类型",
     attrs: {
       name: "D_EducationType",
     },
   },
   D_MatrimonyStatus: {
-    type: "enum",
+    type: "dict",
     remark: "婚姻状态",
     attrs: {
       name: "D_MatrimonyStatus",

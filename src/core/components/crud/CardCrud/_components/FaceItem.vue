@@ -2,13 +2,13 @@
 <template>
   <div class="face-item f-fs-s-c">
     <div class="f-fs-s-c cont-box f-1">
-      <div class="f-fs-c head f-0" v-if="row.userData">
-        <el-tooltip :show-after="300" :content="row.userData.nickname" :disabled="!row.userData.nickname">
-          <span class="mr-a line-1">{{ row.userData.nickname || "-" }}</span>
+      <div class="f-fs-c head f-0" v-if="row.user_data">
+        <el-tooltip :show-after="300" :content="row.user_data.nickname" :disabled="!row.user_data.nickname">
+          <span class="mr-a line-1">{{ row.user_data.nickname || "-" }}</span>
         </el-tooltip>
         <BaseCopy class="ml-12 f-0" :text="row.userId" />
-        <div class="ml-12 mr-12 f-0">{{ row.userData.age || "-" }}岁</div>
-        <BaseTag name="D_Gender" :value="row.userData.gender" class="f-0" pureText />
+        <div class="ml-12 mr-12 f-0">{{ row.user_data.age || "-" }}岁</div>
+        <BaseTag name="D_Gender" :value="row.user_data.gender" class="f-0" pureText />
       </div>
       <div class="title f-sb-b f-0">
         <b class="b">驳回：{{ row.myFacePersonRejectNum }}</b>
@@ -22,7 +22,14 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn :name="btn" round size="small" @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
+      <BaseBtn
+        :name="btn"
+        round
+        size="small"
+        @click="() => $emit('operateBtns', btn)"
+        v-for="(btn, ind) in operateBtns"
+        :key="ind"
+      />
     </div>
   </div>
 </template>

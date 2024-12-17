@@ -28,14 +28,14 @@
         <BaseTag
           name="D_AccountStatus"
           class="f-0 ml-h"
-          :value="data[userDataKey].accountStatus"
-          v-if="data[userDataKey].accountStatus !== 0"
+          :value="data[userDataKey].account_status"
+          v-if="data[userDataKey].account_status !== 0"
         />
       </div>
       <div class="f-fs-c tips-info">
         <BaseCopy class="f-0" :text="data?.[userDataKey]?.id" line="1" />
         <div class="ml-h mr-h f-1 line-1">
-          {{ getText("Region", data?.[userDataKey]?.liveCity) || emptyStr }}
+          {{ getText("Region", data?.[userDataKey]?.live_city) || emptyStr }}
         </div>
         <div class="f-0">{{ data?.[userDataKey]?.age }}岁</div>
       </div>
@@ -62,7 +62,7 @@ const props = withDefaults(
     isSearchResult?: boolean;
   }>(),
   {
-    userDataKey: "userData",
+    userDataKey: "user_data",
   }
 );
 const converStatus: CommonObj = getConversationStatus();

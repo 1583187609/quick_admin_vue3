@@ -72,7 +72,7 @@ const config = {
       // T_BaseCopy: {},
       //用户信息
       T_UserInfo: {
-        prop: "userData",
+        prop: "user_data",
         label: "用户信息",
         type: "UserInfo",
         // minWidth: 280, // 450/280
