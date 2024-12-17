@@ -24,11 +24,11 @@ const typeMap: CommonObj = {
     fetchApi: GetOptionsCompany,
     defaultField: { prop: "gs", label: "公司", type: "select" },
     handleItem(item: CommonObj) {
-      const { fullName, shortName, id } = item;
+      const { full_name, short_name, id } = item;
       return {
-        label: fullName,
+        label: full_name,
         value: id,
-        slots: [CompanyOption, { fullName, shortName }],
+        slots: [CompanyOption, { full_name, short_name }],
       };
     },
   },

@@ -59,7 +59,7 @@ export default defineStore("user", () => {
     } else {
       storage.removeItem("rememberAccount");
     }
-    // params.psd = md5(params.psd); // 启用 md5 进行加密
+    // params.password = md5(params.password); // 启用 md5 进行加密
     return PostUserLogin(params).then(async (res: CommonObj) => {
       const { user, navs } = res;
       const _navs = getHandleNavs(

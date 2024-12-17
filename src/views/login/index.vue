@@ -27,18 +27,10 @@ meta:
         </template>
       </BaseForm>
       <div class="foot f-sb-c">
-        <el-button
-          @click="openPopup({ title: '免费注册', direction: 'ltr' }, Register, 'drawer')"
-          class="btn"
-          type="info"
-          size="small"
-          link
-        >
+        <el-button @click="openPopup({ title: '免费注册', direction: 'ltr' }, Register, 'drawer')" class="btn" type="info" size="small" link>
           免费注册
         </el-button>
-        <el-button @click="openPopup('找回密码', FindPassword, 'drawer')" class="btn" type="info" size="small" link>
-          找回密码
-        </el-button>
+        <el-button @click="openPopup('找回密码', FindPassword, 'drawer')" class="btn" type="info" size="small" link> 找回密码 </el-button>
       </div>
     </div>
   </div>
@@ -63,7 +55,7 @@ const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
 const modelData = reactive<CommonObj>({
   phone: storeAccount?.phone ?? "18483221518",
-  psd: storeAccount?.psd ?? "superAdmin12345",
+  password: storeAccount?.password ?? "superAdmin12345",
   captcha: "",
   remember: !!storeAccount,
 });
@@ -84,7 +76,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
     },
     {
       tpl: "T_Password",
-      prop: "psd",
+      prop: "password",
       label: "密码",
       required: true,
       attrs: {
@@ -132,7 +124,7 @@ function handleFetchSuggestions(queryStr: string, cb: any) {
   cb(opts);
 }
 function handleSelect(item: CommonObj) {
-  modelData.psd = item.psd;
+  modelData.password = item.password;
 }
 </script>
 <style lang="scss" scoped>

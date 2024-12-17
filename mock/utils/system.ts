@@ -1,8 +1,6 @@
-import { CommonObj, StrNum } from "@/core/_types";
-import dayjs from "dayjs";
-import Mock from "mockjs";
-import _ from "lodash";
+import { CommonObj } from "@/core/_types";
 import { typeOf } from "./base";
+import _ from "lodash";
 
 const { merge } = _;
 
@@ -54,7 +52,7 @@ const { merge } = _;
 
 /**
  * 根据数据模板生成模拟数据
- * @params {String} rurl 请求地址：可以是url字符串或url正则。例如 /\/domain\/list\.json/、'/domian/list.json'
+ * @params {String} rurl 请求地址：可以是url字符串或url正则。例如 /\/domain\/list\.json/、'/domain/list.json'
  * @params {String} rtype 请求类型：可以是get、post、put、patch、delete
  * @params {Object、String} template 数据模板：可以是对象或字符串。例如 { 'data|1-10':[{}] }、'@EMAIL'。
  * @params {Function}} handle 用于生成响应数据的函数

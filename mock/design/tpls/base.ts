@@ -7,26 +7,60 @@ export default {
       min: 1,
     },
   },
+  T_Title: {
+    type: "string",
+    remark: "标题名称",
+    attrs: {
+      typeKey: "ctitle",
+      min: 3,
+      max: 8,
+    },
+  },
   T_CreateTime: {
-    type: "date",
+    type: "createUpdate",
+    // prop: "create_time",
     remark: "创建时间",
     attrs: {
+      typeKey: "createTime",
       min: "-1y",
       max: "-1M",
     },
   },
   T_UpdateTime: {
-    type: "date",
+    type: "createUpdate",
+    // prop: "update_time",
     remark: "更新时间",
     attrs: {
+      typeKey: "updateTime",
       min: "-1M",
     },
   },
-  T_CreateUpdateTime: {
-    type: "createUpdateTime",
-    prop: ["create_time", "update_time"],
-    remark: "创建/更新时间",
+  T_Create: {
+    type: "createUpdate",
+    prop: ["create_time", "create_user"],
+    remark: "创建时间+创建人",
     attrs: {
+      typeKey: "create",
+      min: "-1y",
+      max: "-1M",
+    },
+  },
+  T_Update: {
+    type: "createUpdate",
+    prop: ["update_time", "update_user"],
+    remark: "更新时间+更新人",
+    attrs: {
+      typeKey: "update",
+      min: "-1y",
+      max: "-1M",
+    },
+  },
+  T_CreateUpdate: {
+    type: "createUpdate",
+    prop: ["create_time", "create_user", "update_time", "update_user"],
+    remark: "创建时间+创建人+更新时间+更新人",
+    attrs: {
+      typeKey: "createUpdate",
       min: "-1y",
       max: "-1M",
     },

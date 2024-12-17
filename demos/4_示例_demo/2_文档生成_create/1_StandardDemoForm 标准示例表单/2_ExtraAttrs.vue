@@ -21,7 +21,7 @@ const fields: FormFieldAttrs[] = [
   },
   {
     tpl: "T_Password",
-    prop: "psd",
+    prop: "password",
     label: "密码",
     quickAttrs: {
       popover: "设置tips，在底部获得注：的能力",

@@ -60,8 +60,8 @@ const fields = ref<FormField[]>([
     },
   },
   {
-    prop: "type",
-    label: "用户类型",
+    prop: "role",
+    label: "角色类型",
     type: "select",
     attrs: {
       options: "D_RoleType",
@@ -86,7 +86,7 @@ const cols: TableCol[] = [
   { prop: "age", label: "年龄", width: 90, sortable: true },
   { prop: "address_text", label: "地址", minWidth: 250 },
   { prop: "phone", label: "电话", minWidth: 120 },
-  { prop: "type_text", label: "用户类型", minWidth: 100 },
+  { prop: "role_text", label: "角色类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
 ];
 //点击操作栏的分组按钮

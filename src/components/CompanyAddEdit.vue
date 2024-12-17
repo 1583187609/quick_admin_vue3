@@ -54,13 +54,13 @@ const fields: FormField[] = [
     },
   },
   {
-    prop: "fullName",
+    prop: "full_name",
     label: "公司全称",
     required: true,
     attrs: { maxlength: 30 },
   },
   {
-    prop: "shortName",
+    prop: "short_name",
     label: "公司简称",
     required: true,
     attrs: { maxlength: 10 },
@@ -121,7 +121,7 @@ function getModel() {
   if (isApply) {
     const { company_name } = data || {};
     //公司申报时不回显邮箱
-    return { status: 0, emailSuffix: [], fullName: company_name };
+    return { status: 0, emailSuffix: [], full_name: company_name };
   } else {
     //新增/编辑时
     return Object.assign({ status: 0, emailSuffix: [] }, data);

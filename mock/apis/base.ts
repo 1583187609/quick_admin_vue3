@@ -1,8 +1,10 @@
 import { getRequestParams, responseData, toViteMockApi } from "../utils";
-import allAddress from "../data/address";
-import allSchool from "../data/school";
-import allCompany from "../data/company";
 import { CommonObj } from "@/core/_types";
+import allData from "../data";
+
+const allAddress = allData.region.lit;
+const allSchool = allData.school.lit;
+const allCompany = allData.company.lit;
 
 export default toViteMockApi({
   // 获取学校列表
@@ -16,7 +18,7 @@ export default toViteMockApi({
   "GET /options/company": (req: CommonObj) => {
     const params = getRequestParams(req);
     const { name } = params;
-    const list = allCompany.filter((it: CommonObj) => it.fullName.includes(name));
+    const list = allCompany.filter((it: CommonObj) => it.full_name.includes(name));
     return responseData({ data: list });
   },
   // 获取地区省市区县

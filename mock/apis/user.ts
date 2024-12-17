@@ -1,17 +1,15 @@
 import { getRequestParams, responseData, deleteAttrs, toViteMockApi, getConstructorObj, getFilterList } from "../utils";
 import Mock from "mockjs";
-import _allUsers from "../data/user";
-// import testUserFields from "../data/test";
-import allNavs from "../data/navs";
 import { getDictLabel, getCascadeLabel, getDictValues } from "../dict";
 import { CommonObj } from "@/core/_types";
 import dayjs from "dayjs";
+import allData from "../data";
 import _ from "lodash";
 
-// console.log(testUserFields, "testUserFields----------");
 const { merge } = _;
-const delAttrs: string[] = ["psd"];
-let allUsers = JSON.parse(JSON.stringify(_allUsers));
+const delAttrs: string[] = allData.user.privateKeys;
+let allUsers = allData.user.list;
+const allNavs = allData.navs.list;
 //缓存数据
 const cacheData: CommonObj = {
   token: "", //登录授权token
@@ -120,10 +118,10 @@ export default toViteMockApi({
     const roles = getDictValues("D_RoleType");
     const accounts: CommonObj[] = [];
     let ind = 0;
-    _allUsers.find((item: CommonObj) => {
+    allUsers.find((item: CommonObj) => {
       if (roles[ind] === item.type) {
-        const { account, type_text, phone, id, psd } = item;
-        accounts.push({ account, type_text, phone, id, psd });
+        const { account, type_text, phone, id, password } = item;
+        accounts.push({ account, type_text, phone, id, password });
         ind++;
       }
       return ind >= roles.length;
@@ -134,9 +132,9 @@ export default toViteMockApi({
   },
   // 用户登录
   "POST /user/login": (req: CommonObj) => {
-    const { phone = "", psd = "", captcha = "" } = getRequestParams(req, ["captcha", "phone", "psd"]);
+    const { phone = "", password = "", captcha = "" } = getRequestParams(req, ["captcha", "phone", "password"]);
     const data: CommonObj[] = allUsers.find((it: CommonObj) => {
-      return (it.phone === phone || it.account === phone) && it.psd === psd;
+      return (it.phone === phone || it.account === phone) && it.password === password;
     });
     if (!data) return responseData({ code: 1, msg: "账号或密码错误" });
     const isErr = captcha?.toLowerCase() !== cacheData.captcha?.toLowerCase();

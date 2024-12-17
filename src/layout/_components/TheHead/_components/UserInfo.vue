@@ -51,8 +51,8 @@ const fields = computed<FormFieldAttrs[]>(() => {
       },
     },
     {
-      prop: "type_text",
-      label: "用户类型",
+      prop: "role_text",
+      label: "角色类型",
       attrs: {
         disabled: true,
       },

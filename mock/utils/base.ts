@@ -11,7 +11,7 @@ import allAddress from "../data/address";
  * 函数未传必填参数时的校验
  * @param name string 参数名称
  */
-export function needParam(name = "") {
+export function needParam(name = ""): any {
   throw new Error(`${name}必传`);
 }
 

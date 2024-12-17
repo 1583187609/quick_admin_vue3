@@ -16,7 +16,7 @@ const fields = [
   },
   {
     tpl: "T_Password",
-    prop: "psd",
+    prop: "password",
     label: "密码",
     required: true,
     attrs: { type: "password" },
@@ -32,7 +32,7 @@ const fields = [
 ];
 //校验两次输入的密码是否一致
 function checkConfirmPsd(rule: any, value: any, callback: any) {
-  if (value !== modelData.psd) {
+  if (value !== modelData.password) {
     callback(new Error("确认密码和密码需要保持一致"));
   } else {
     callback();

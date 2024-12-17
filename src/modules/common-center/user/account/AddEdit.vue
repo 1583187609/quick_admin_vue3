@@ -114,7 +114,7 @@ const fields = ref<FormField[]>([
   },
   {
     tpl: "T_Password",
-    prop: "psd",
+    prop: "password",
     label: "密码",
     required: true,
     quickAttrs: {

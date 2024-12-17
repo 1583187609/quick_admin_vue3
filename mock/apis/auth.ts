@@ -1,15 +1,13 @@
 import { getRequestParams, responseData, toViteMockApi, getConstructorObj, getNavsTree, findTreeNode, getFilterList } from "../utils";
-import _ from "lodash";
-import _allUsers from "../data/user";
-import allNavs from "../data/navs";
-import roleRows from "../data/roles";
-import { getDictLabel, getCascadeLabel } from "../dict";
+import { getDictLabel } from "../dict";
 import dayjs from "dayjs";
 import { CommonObj } from "@/core/_types";
+import allData from "../data";
+import _ from "lodash";
 
 const { merge } = _;
-let allNavsTree = getNavsTree(allNavs);
-let allRoles = JSON.parse(JSON.stringify(roleRows));
+let allNavsTree = getNavsTree(allData.navs.list);
+let allRoles = allData.role.list;
 
 export default toViteMockApi({
   // 新增角色

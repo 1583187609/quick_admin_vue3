@@ -23,7 +23,7 @@ const fields: FormFieldAttrs[] = [
     attrs: { showWordLimit: false },
     quickAttrs: { popover: "在attrs中设置{showWordLimit: false}，覆盖默认配置" },
   },
-  { tpl: "T_Password", prop: "psd", label: "密码", quickAttrs: { example: "zhangSan123456" } },
+  { tpl: "T_Password", prop: "password", label: "密码", quickAttrs: { example: "zhangSan123456" } },
   { tpl: "T_Age", prop: "age", label: "年龄" },
   { prop: "salary", label: "时薪", quickAttrs: { before: "每", after: "元" } },
   {
