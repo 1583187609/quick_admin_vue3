@@ -1,8 +1,8 @@
 <template>
-  <BaseForm v-model="modelData" style="width: 450px" :fields="fields" :fetch="PostUserAdd" submitText="注册" />
+  <BaseForm v-model="modelData" style="width: 450px" :fields="fields" :fetch="PostMockUser" submitText="注册" />
 </template>
 <script lang="ts" setup>
-import { PostUserAdd } from "@/api-mock";
+import { PostMockUser } from "@/api-mock";
 import { CommonObj } from "@/core/_types";
 import { reactive } from "vue";
 

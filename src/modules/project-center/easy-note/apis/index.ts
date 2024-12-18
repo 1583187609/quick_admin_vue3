@@ -8,14 +8,14 @@ export const easyNoteDomain = "http://localhost:7003";
 export const GetToolCaptcha = (data?: CommonObj) => http("get", `${easyNoteDomain}/easy-note/tool/captcha`, data, { intercept: false });
 
 // 用户相关
-export const PostUserAdd = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/add`, data);
+export const PostMockUser = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/add`, data);
 export const DeleteUserDelete = (data?: CommonObj) => http("delete", `${easyNoteDomain}/easy-note/user/delete`, data);
 export const PutUserUpdate = (data?: CommonObj) => http("put", `${easyNoteDomain}/easy-note/user/update`, data);
-export const GetUserList = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/list`, data);
+export const GetMockUser = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/list`, data);
 export const GetUserDetail = (data?: CommonObj) => http("get", `${easyNoteDomain}/easy-note/user/detail`, data);
 
-export const PostUserLogin = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/login`, data);
-export const PostUserLogout = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/logout`, data);
+export const PostMockUserLogin = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/login`, data);
+export const PostMockUserLogout = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/user/logout`, data);
 
 // 题目相关
 export const PostTopicAdd = (data?: CommonObj) => http("post", `${easyNoteDomain}/easy-note/topic/add`, data);

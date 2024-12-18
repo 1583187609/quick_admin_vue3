@@ -4,7 +4,7 @@
     :style="{ width: pureText ? '350px' : '550px' }"
     :fields="fields"
     :pureText="pureText"
-    :fetch="id ? PostUserUpdate : PostUserAdd"
+    :fetch="id ? PatchMockUser : PostMockUser"
     :afterSuccess="() => refreshList?.()"
   >
     <template #avatar>
@@ -15,9 +15,9 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { GetUserInfo } from "@/api-mock";
+import { GetMockUser } from "@/api-mock";
 import UploadAvatar from "@/core/components/upload/UploadAvatar.vue";
-import { PostUserAdd, PostUserUpdate } from "@/api-mock";
+import { PostMockUser, PatchMockUser } from "@/api-mock";
 import { CommonObj, FinallyNext } from "@/core/_types";
 
 const props = withDefaults(
@@ -144,7 +144,7 @@ if (id) {
 }
 //获取详情数据
 function getDetail(id: string | number) {
-  GetUserInfo({ id }).then((res: CommonObj) => {
+  GetMockUser({ id }).then((res: CommonObj) => {
     Object.assign(modelData, res);
   });
 }

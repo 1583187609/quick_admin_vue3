@@ -11,7 +11,7 @@ import { showMessage } from "../platform";
  * 函数未传必填参数时的校验
  * @param {string} name 参数名称
  */
-export function needParam(name: string = "") {
+export function needParam(name: string = ""): any {
   throw new Error("请传入参数：" + name);
 }
 

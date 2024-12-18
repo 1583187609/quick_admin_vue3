@@ -3,7 +3,7 @@
 <template>
   <BaseForm
     v-model="modelData"
-    :fetch="PostUserLogin"
+    :fetch="PostMockUserLogin"
     :afterSuccess="handleSuccess"
     :afterFail="handleFail"
     submitText="登录"
@@ -15,7 +15,7 @@
 import { ref, reactive, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { easyNoteDomain, PostUserLogin } from "../apis";
+import { easyNoteDomain, PostMockUserLogin } from "../apis";
 import { storage } from "@/utils";
 const props = withDefaults(
   defineProps<{

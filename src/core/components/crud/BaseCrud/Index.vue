@@ -34,6 +34,8 @@
     <div class="f-fs-fs">
       <ExtraBtns
         class="f-1 mr-a"
+        :seledAmount="seledRows.length"
+        :totalAmount="pageInfo.total"
         :btns="newExtraBtns"
         :disabled="disabled"
         :size="size"
@@ -107,17 +109,7 @@ import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.v
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import {
-  omitAttrs,
-  printLog,
-  propsJoinChar,
-  rangeJoinChar,
-  showMessage,
-  typeOf,
-  emptyVals,
-  defaultReqMap,
-  defaultResMap,
-} from "@/core/utils";
+import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
@@ -249,7 +241,8 @@ const newExtraBtns = computed<BtnItem[]>(() => {
     if (batchBtnNames?.includes(name as string)) {
       btnObj.popconfirm = false;
       if (attrs) {
-        attrs.disabled = handleClickType === "custom" ? !pageInfo.total : !seledRows.value.length;
+        const byTotalDisabled = handleClickType === "custom" || name === "export";
+        attrs.disabled = byTotalDisabled ? !pageInfo.total : !seledRows.value.length;
       }
     }
     if (disabled) attrs!.disabled = disabled;

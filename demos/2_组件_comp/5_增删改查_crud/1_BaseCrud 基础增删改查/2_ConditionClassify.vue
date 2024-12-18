@@ -7,7 +7,7 @@
     :cols="cols"
     :fields="fields"
     :sections="sections"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',
@@ -28,7 +28,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { DeleteUserList, GetUserList, GetUserListExport, PostUserUpdate } from "@/api-mock";
+import { DeleteMockUser, GetMockUser, PatchMockUser } from "@/api-mock";
 import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { exportExcel, handleBtnNext } from "@/utils";
@@ -157,13 +157,13 @@ function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
 }
 //批量删除
 function handleDelete(ids: string[], next: FinallyNext) {
-  DeleteUserList({ ids }).then((res: any) => {
+  DeleteMockUser({ ids }).then((res: any) => {
     next();
   });
 }
 //导出
 function handleExport(ids: string[], next: FinallyNext) {
-  GetUserListExport({ ids, cols }).then((res: any) => {
+  GetMockUser({ exports: true }).then((res: any) => {
     exportExcel(res, "用户列表");
     next();
   });
@@ -171,7 +171,7 @@ function handleExport(ids: string[], next: FinallyNext) {
 //禁用
 function handleToggleStatus(row: CommonObj, next: FinallyNext) {
   const { status, id } = row;
-  PostUserUpdate({
+  PatchMockUser({
     id,
     status: status === 1 ? 2 : 1,
   }).then((res: CommonObj) => {

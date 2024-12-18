@@ -373,6 +373,18 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
     // if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getCascadeLabel(name, res.context.currentContext[prop]);
     return cfg;
   }
+  // // token
+  // if (type === "token") {
+  //   cfg[prop] = () => Mock.mock({ token: "@guid" });
+  //   return cfg;
+  // }
+  // // captcha
+  // if (type === "captcha") {
+  //   const { num = 4, ilo0 = true } = {};
+  //   const captchaReg = new RegExp(ilo0 ? `[a-hj-km-zA-HJ-KM-Z2-9]{${num}}` : `[a-zA-Z0-9]{${num}}`);
+  //   cfg[prop] = () => Mock.mock({ captcha: captchaReg });
+  //   return cfg;
+  // }
   // 自定义
   if (type === "custom") return merge(cfg, attrs);
   throw new Error(`暂未处理此类型：${type}`);

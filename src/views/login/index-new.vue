@@ -40,7 +40,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, computed } from "vue";
-import { PostUserLogin } from "@/api-mock";
+import { PostMockUserLogin } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { CommonObj } from "@/core/_types";
 import CaptchaBtn from "./_components/CaptchaBtn.vue";
@@ -53,17 +53,17 @@ export type FormType = "login" | "register" | "forget";
 const typeMap: CommonObj = {
   login: {
     title: "登录",
-    api: PostUserLogin,
+    api: PostMockUserLogin,
     submitText: "登录",
   },
   register: {
     title: "注册",
-    api: PostUserLogin,
+    api: PostMockUserLogin,
     submitText: "注册",
   },
   forget: {
     title: "忘记密码",
-    api: PostUserLogin,
+    api: PostMockUserLogin,
   },
 };
 // const props = withDefaults(defineProps<{}>(), {});

@@ -47,7 +47,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       // edit: () => handleAddEdit(row, next),
-      // delete: () => DeleteUserList({ id }).then(() => next()),
+      // delete: () => DeleteMockUser({ id }).then(() => next()),
     },
     name
   );

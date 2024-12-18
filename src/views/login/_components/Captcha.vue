@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { GetUserCaptcha } from "@/api-mock";
+import { GetMockCaptcha } from "@/api-mock";
 const props = withDefaults(
   defineProps<{
     prop: string;
@@ -30,7 +30,7 @@ const newVal = computed({
   },
 });
 function getCaptcha() {
-  GetUserCaptcha().then((res: any) => {
+  GetMockCaptcha().then((res: any) => {
     captchaCode.value = res;
   });
 }

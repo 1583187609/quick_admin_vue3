@@ -6,6 +6,8 @@ import {
   defaultDateFormat,
   needParam,
   getFilterRules,
+  toViteMockApi,
+  typeOf,
 } from "../utils";
 import dayjs from "dayjs";
 import { CommonObj } from "@/core/_types";
@@ -52,7 +54,7 @@ function toArray(data: CommonObj | CommonObj[]) {
  * @param {object} targetObj 目标对象
  * @returns {object}
  */
-function whenAddfillAttrs(currentObj: CommonObj = needParam(), targetObj: CommonObj = needParam(), lastId = needParam()) {
+function whenAddFillAttrs(currentObj: CommonObj = needParam(), targetObj: CommonObj = needParam(), lastId = needParam()) {
   const currKeys = Object.keys(currentObj);
   const tarKeys = Object.keys(targetObj);
   tarKeys.forEach(key => {
@@ -87,16 +89,16 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
   if (!target) throw new Error(`不存在该类型：${enName}`);
   let { list = [] } = target;
   const { name: cnName = needParam() } = target; // cnName 模块的中文名称
-  return {
+  return toViteMockApi({
     // 新增/批量新增（导入）
     [`POST ${prefix}/${enName}`]: (req: CommonObj) => {
       const params = getRequestParams(req);
-      const { byKey = "id", data = needParam() } = params;
-      const newList: CommonObj[] = toArray(data);
+      const { byKey = "id", importList, ...data } = params;
+      const newList: CommonObj[] = toArray(importList ?? data);
       const byIds = newList.map(it => it[byKey]);
-      const findList = getFilterList(list, { ids: byIds }, { ids: ["pick", "same", byKey] });
+      const findList = getFilterList(list, { ids: byIds }, getFilterRules(byKey));
       if (findList?.length) return responseData({ code: 1, msg: `${cnName}已存在：${findList.map(it => it[byKey]).join(", ")}` });
-      newList.forEach((row, ind) => whenAddfillAttrs(row, list[0], list.at(-1)[byKey] + ind)); // 将新增的每项填充好缺失的属性
+      newList.forEach((row, ind) => whenAddFillAttrs(row, list[0], list.at(-1)[byKey] + ind)); // 将新增的每项填充好缺失的属性
       list.push(...newList);
       return responseData({ data: newList.length === 1 ? newList[0] : newList });
     },
@@ -106,23 +108,23 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
       const { byKey = "id", id, ids } = params;
       if (!id && !ids?.length) return responseData({ code: 1, msg: `请传入参数 id 或 ids` });
       const byIds: CommonObj[] = toArray(id ?? ids);
-      const findList = getFilterList(list, { ids: byIds }, { ids: ["pick", "same", byKey] }, undefined, undefined, []);
+      const findList = getFilterList(list, { ids: byIds }, getFilterRules(byKey), undefined, undefined, []);
       const findIds = findList.map(it => it[byKey]);
       if (byIds.length !== findIds.length) {
         const notFindIds = byIds.filter(id => !findIds.includes(id));
         return responseData({ code: 1, msg: `${cnName}不存在：${notFindIds.join(", ")}` });
       }
-      list = getFilterList(list, { ids: byIds }, { ids: ["pick", "same", byKey] }, true);
+      list = getFilterList(list, { ids: byIds }, getFilterRules(byKey), true);
       return responseData();
     },
     // PUT 修改全部（类似post）
     // PATCH 修改局部（类似post，只针对更改过的，是对put的补充，patch意为修补）
     [`PATCH ${prefix}/${enName}`]: (req: CommonObj) => {
       const params = getRequestParams(req);
-      const { byKey = "id", data = needParam() } = params;
+      const { byKey = "id", ...data } = params;
       const putList: CommonObj[] = toArray(data); // 一维数组，无嵌套
       const byIds = putList.map((row: CommonObj) => row[byKey]);
-      const findList = getFilterList(list, { ids: byIds }, { ids: ["pick", "same", byKey] }, undefined, undefined, []);
+      const findList = getFilterList(list, { ids: byIds }, getFilterRules(byKey), undefined, undefined, []);
       const findIds = findList.map(it => it[byKey]);
       if (byIds.length !== findIds.length) {
         const notFindIds = byIds.filter(id => !findIds.includes(id));
@@ -135,7 +137,7 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
           const { children } = row;
           const findInd = putList.findIndex(it => it[byKey] === id);
           if (findInd === -1) return updateList(children);
-          merge(row, putList[findInd]);
+          merge(row, putList[findInd], { update_time: dayjs().format(defaultDateFormat) });
           putList.splice(findInd, 1);
           return !putList.length;
         });
@@ -152,25 +154,11 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
       const byIds = toArray(id ?? ids);
       // 查询详情
       if ((id ?? ids) && !isPage && !exports && !Object.keys(params).length) {
-        queryList = getFilterList(list, { ids: byIds }, { ids: ["pick", "same", byKey] }, false, undefined, undefined, enName);
+        queryList = getFilterList(list, { ids: byIds }, getFilterRules(byKey), false, undefined, undefined, enName);
         return responseData({ data: queryList.length === 1 ? queryList[0] : queryList });
       }
-      queryList = getFilterList(
-        list,
-        { curr_page, page_size, ids: byIds, ...params },
-        {
-          ids: ["pick", "same", byKey],
-          age: ["range", "number"],
-          name: ["match", "blur"],
-          create_times: ["range", "date", "create_time"],
-        },
-        // getFilterRules(params, enName),
-        false,
-        undefined,
-        undefined,
-        enName
-      );
-      const total = getListTotal(queryList);
+      queryList = getFilterList(list, { ids: byIds, ...params }, getFilterRules(byKey), false, undefined, undefined, enName);
+      // console.log(getFilterRules(params, enName), "getFilterRules(params, enName)---------");
       // 如果是导出列表（暂不支持嵌套的列表导出）
       if (exports) {
         const maxLimit = 2000;
@@ -180,7 +168,7 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
         }
         const allKeys = Object.keys(queryList[0]);
         if (!allKeys.length) throw new Error(`列表项不能为空`);
-        const { includesKeys = allKeys, excludesKeys, isFlat = true } = exports;
+        const { includesKeys = allKeys, excludesKeys, isFlat = true } = typeOf(exports) === "Object" ? exports : {};
         const exportFields = excludesKeys?.length ? includesKeys.filter(key => !excludesKeys.includes(key)) : includesKeys;
         function cycleHandle(arr: CommonObj[], flatList: CommonObj[] | undefined = isFlat ? [] : undefined) {
           if (!arr?.length) return [];
@@ -198,14 +186,15 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
           return flatList ?? treeList;
         }
         queryList = cycleHandle(queryList);
-        return responseData({ data: { total_num: total, records: queryList } });
+        return responseData({ data: queryList });
       }
       // 如果是查询列表
+      const total = getListTotal(queryList);
       if (!isPage) return responseData({ data: { total_num: total, records: queryList } });
       const sInd = (curr_page - 1) * page_size;
       const eInd = sInd + page_size;
       queryList = queryList.slice(sInd, eInd);
       return responseData({ data: { total_num: total, records: queryList, curr_page, page_size, has_next: eInd < total - 1 } });
     },
-  };
+  });
 }

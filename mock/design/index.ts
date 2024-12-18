@@ -8,6 +8,7 @@ import allJob from "../data/job";
 import allNavs from "../data/navs";
 import allDepartment from "../data/department";
 import Mock from "mockjs";
+import { typeOf } from "../utils";
 
 const { Random } = Mock;
 
@@ -60,7 +61,7 @@ export const designMap = {
               if (roleInd < roles.length) getInfo(id - 1);
               return roleInd - 1;
             }, //角色类型
-            // role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
+            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
             phone: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
           },
           {
@@ -70,7 +71,7 @@ export const designMap = {
               return `${roleMap[role]}_${id}`;
             },
           },
-          { password: ({ context }: CommonObj) => `role_${context.currentContext.role}_123456` },
+          { password: ({ context }: CommonObj) => `role${context.currentContext.role}123456` },
           { age: ({ context }: CommonObj) => dayjs().diff(context.currentContext.birthday, "year") },
           { type: "dict", prop: "account_status", attrs: { name: "D_AccountStatus" } }, // 账号状态
           { type: "dict", prop: "company_status", attrs: { name: "D_YesNoStatus" } }, // 公司是否认证
@@ -105,7 +106,7 @@ export const designMap = {
           // 角色类型
           {
             role: ({ context }: CommonObj) => roles[context.currentContext.id - 1], //角色类型
-            // role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
+            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
           },
           "enableStatus",
           "createUpdate",
@@ -163,13 +164,31 @@ export const designMap = {
       return allNavs;
     },
   },
+  // 菜单
+  menu: {
+    name: "菜单",
+    getList() {
+      return allNavs;
+    },
+  },
 };
 
 export function getDesignData(designCfg: CommonObj = designMap, keys = Object.keys(designCfg)) {
   const data: CommonObj = {};
   keys.forEach(key => {
     const { getList, ...rest } = designCfg[key];
-    const { list, rules } = getList;
+    const result = getList();
+    const t = typeOf(result);
+    let list = [];
+    let rules = [];
+    if (t === "Array") {
+      list = result;
+    } else if (t === "Object") {
+      list = result.list;
+      rules = result.rules;
+    } else {
+      throw new Error(`暂未处理此类型：${t}`);
+    }
     data[key] = {
       list,
       rules,

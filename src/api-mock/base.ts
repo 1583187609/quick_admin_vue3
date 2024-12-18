@@ -3,10 +3,10 @@ import { CommonObj } from "@/core/_types";
 
 /************ select 下拉项 *************/
 //获取学校列表数据
-export const GetOptionsSchool = (data?: CommonObj) => http("get", "/options/school", data);
+export const GetOptionsSchool = (data?: CommonObj) => http("get", "/mock/options/school", data);
 //获取公司列表数据
-export const GetOptionsCompany = (data?: CommonObj) => http("get", "/options/company", data);
+export const GetOptionsCompany = (data?: CommonObj) => http("get", "/mock/options/company", data);
 
 /************ cascader 下拉项 *************/
 // 获取mock 地区省市区县
-export const GetCascaderRegion = (data?: CommonObj) => http("get", "/cascader/region", data);
+export const GetCascaderRegion = (data?: CommonObj) => http("get", "/mock/cascader/region", data);

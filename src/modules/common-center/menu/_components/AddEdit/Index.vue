@@ -3,7 +3,7 @@
     v-model="modelData"
     style="width: 600px"
     :fields="fields"
-    :fetch="data ? PostAuthMenuUpdate : PostAuthMenuAdd"
+    :fetch="data ? PatchMockMenu : PostMockMenu"
     :afterSuccess="() => refreshList?.()"
     @change="handleChange"
   >
@@ -16,9 +16,9 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
+import { reactive, computed } from "vue";
 import IconPicker from "./_components/IconPicker/Index.vue";
-import { GetAuthMenuInfo, PostAuthMenuAdd, PostAuthMenuUpdate } from "@/api-mock";
+import { PostMockMenu, PatchMockMenu, GetMockMenu } from "@/api-mock";
 import MenuTree from "./_components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { defaultIconName } from "@/utils";
@@ -201,7 +201,7 @@ const fields = computed(() => {
 getInfo(props.data?.id);
 function getInfo(id?: StrNum) {
   if (!id) return;
-  GetAuthMenuInfo({ id }).then((res: CommonObj) => {
+  GetMockMenu({ id }).then((res: CommonObj) => {
     const { type } = res;
     type === 2 && (res.type = 1);
     type === 3 && (res.type = 2);

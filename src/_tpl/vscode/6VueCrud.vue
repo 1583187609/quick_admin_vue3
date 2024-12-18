@@ -15,7 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { DeleteUserList, GetMockCommonList } from "@/api-mock";
+import { DeleteMockUser, GetMockCommonList } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
@@ -66,7 +66,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => DeleteUserList({ id }).then(() => next()),
+      delete: () => DeleteMockUser({ id }).then(() => next()),
     },
     name
   );

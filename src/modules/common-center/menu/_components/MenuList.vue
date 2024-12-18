@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { GetAuthMenuList, DeleteAuthMenuList } from "@/api-mock";
+import { GetMockMenu, DeleteMockMenu } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
@@ -70,7 +70,7 @@ const fields = ref<FormField[]>([
     },
   },
   props.type === "dynamic" && {
-    prop: "create_time_range",
+    prop: "create_times",
     label: "创建时间",
     type: "date-picker",
   },
@@ -78,7 +78,7 @@ const fields = ref<FormField[]>([
 const cols = ref<TableCol[]>([
   { type: "selection" },
   {
-    prop: "name",
+    prop: "label",
     label: "名称",
     minWidth: 220,
     align: "left",
@@ -110,6 +110,7 @@ const cols = ref<TableCol[]>([
         { prop: "update_time", label: "更新时间" },
       ]
     : []),
+  { type: "operate", label: "操作", width: 240 }, //  245 可覆盖操作列的属性设置
 ]);
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { selectedKeys } = restArgs;
@@ -138,9 +139,7 @@ function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
 }
 // 删除
 function handleDelete(ids: string[], next: FinallyNext) {
-  DeleteAuthMenuList({ ids }).then((res: CommonObj) => {
-    next();
-  });
+  DeleteMockMenu({ ids }).then((res: CommonObj) => next());
 }
 // 切换状态
 function handleToggleStatus(row: CommonObj, next: FinallyNext) {}
@@ -150,14 +149,14 @@ function handleFetch(data: CommonObj) {
   const { type } = props;
   if (type === "automate") {
     return new Promise(resolve => {
-      const allRrecords = getNavsTree(autoMenus) as MenuTreeNode[];
-      menuTree.value = allRrecords;
-      const records = getFilterList(JSON.parse(JSON.stringify(allRrecords)), data);
+      const allRecords = getNavsTree(autoMenus) as MenuTreeNode[];
+      menuTree.value = allRecords;
+      const records = getFilterList(JSON.parse(JSON.stringify(allRecords)), data);
       resolve({ total_num: 10, records, has_next: false });
     });
   }
   if (type === "dynamic") {
-    return GetAuthMenuList(data).then((res: CommonObj) => {
+    return GetMockMenu(data).then((res: CommonObj) => {
       menuTree.value = res.records;
       return res;
     });

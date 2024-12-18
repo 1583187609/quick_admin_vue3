@@ -4,7 +4,7 @@
     v-model="modelData"
     :cols="cols"
     :fields="fields"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :extraBtns="['add']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
@@ -13,7 +13,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetUserList, DeleteUserList } from "@/api-mock";
+import { GetMockUser, DeleteMockUser } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
@@ -197,17 +197,14 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => DeleteUserList({ id }).then(() => next()),
+      delete: () => DeleteMockUser({ id }).then(() => next()),
     },
     name
   );
 }
 //新增/编辑
 function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  openPopup(`${row ? "编辑" : "新增"}`, [
-    AddEdit,
-    { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) },
-  ]);
+  openPopup(`${row ? "编辑" : "新增"}`, [AddEdit, { data: row, refreshList: next, tplTypeOpts, dataTypeOpts: dataTypeOpts(false) }]);
 }
 </script>
 <style lang="scss" scoped></style>

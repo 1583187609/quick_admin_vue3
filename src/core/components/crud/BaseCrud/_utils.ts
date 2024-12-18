@@ -18,6 +18,8 @@ import { batchBtnNames } from ".";
 import { defineAsyncComponent } from "vue";
 import _ from "lodash";
 
+const { upperFirst } = _;
+
 const CommonImport = defineAsyncComponent(() => import("./_components/CommonImport.vue"));
 
 export interface ExtraBtnRestArgs {
@@ -26,7 +28,57 @@ export interface ExtraBtnRestArgs {
   exportRows: string[][];
 }
 
-const { upperFirst } = _;
+export function getExportRows(cols: TableColAttrs[] = [], rows: CommonObj[] = []): string[][] {
+  const exportRows: string[][] = [];
+  const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
+  exportRows.push(newCols.map((it: TableColAttrs) => it.label) as string[]);
+  rows.forEach((row: CommonObj) => {
+    const list: string[] = [];
+    newCols.forEach((col: TableColAttrs) => {
+      const { prop, type, formatter } = col;
+      let val = "";
+      if (allowList.includes(type)) val = formatter?.(row) ?? row[prop as string] ?? "";
+      list.push(val);
+    });
+    exportRows.push(list);
+  });
+  return exportRows;
+}
+
+// 显示确认弹窗（渲染html字符串）
+export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit }) {
+  const { name = "", text, attrs } = btnObj;
+  const colorType = attrs?.type || "primary";
+  const colorKey = `color${upperFirst(colorType)}`;
+  const color = cssVars[colorKey];
+  const style = `style="color:${color};"`;
+  const len = isSeledAll ? total : seledRows.length;
+  const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
+  ElMessageBox.confirm(hintTips, "温馨提示", {
+    type: name === "delete" ? "error" : "warning",
+    dangerouslyUseHTMLString: true,
+    closeOnClickModal: false,
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    confirmButtonClass: `el-button--${colorType}`,
+    cancelButtonClass: `el-button--${colorType} is-plain`,
+    draggable: true,
+  })
+    .then(() => {
+      let exportRows: any[] = [];
+      if (name === "export") {
+        const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
+        exportRows = getExportRows(newCols, seledRows);
+      }
+      $emit("extraBtns", name, next, {
+        selectedKeys: seledKeys,
+        selectedRows: seledRows,
+        exportRows,
+      });
+    })
+    .catch(() => {});
+}
+
 // "index", "selection", "sort", "operate", "id", "create", "update", "remark", "custom", "switch", "BaseTag", "BaseImg", "BaseText", "BaseCopy", "UserInfo"
 const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function handleClickExtraBtns({
@@ -41,59 +93,33 @@ export function handleClickExtraBtns({
   openPopup,
   importCfg,
 }: HandleClickExtraBtnsProps) {
-  const { name = "", text, attrs, handleClickType } = btnObj;
+  const { name = "", text, handleClickType } = btnObj;
   if (handleClickType === "custom")
     return $emit("extraBtns", name, next, {
       selectedKeys: [],
       selectedRows: [],
       exportRows: [],
     });
-  const colorType = attrs?.type || "primary";
-  const colorKey = `color${upperFirst(colorType)}`;
-  const color = cssVars[colorKey];
   if (batchBtnNames.includes(name)) {
-    const isSeledAll = seledRows.length === total; //是否选择了所有
-    const isOverLimit = exportCfg?.limit ? seledRows.length > exportCfg.limit : false;
-    if ((["export"] as BtnName[]).includes(name) && isOverLimit) {
-      const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
-      showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
+    if (name === "export") {
+      const isOverLimit = exportCfg?.limit ? seledRows.length > exportCfg.limit : false;
+      if (isOverLimit) {
+        const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
+        showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
+      } else {
+        showConfirmHtmlBox({
+          btnObj,
+          seledRows,
+          seledKeys,
+          cols,
+          total,
+          next,
+          $emit,
+          isSeledAll: seledRows.length === 0 || seledRows.length === total,
+        });
+      }
     } else {
-      const style = `style="color:${color};`;
-      const len = seledRows.length;
-      const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录？`;
-      ElMessageBox.confirm(hintTips, "温馨提示", {
-        type: name === "delete" ? "error" : "warning",
-        dangerouslyUseHTMLString: true,
-        closeOnClickModal: false,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        confirmButtonClass: `el-button--${colorType}`,
-        cancelButtonClass: `el-button--${colorType} is-plain`,
-        draggable: true,
-      })
-        .then(() => {
-          const exportRows: any[] = [];
-          if (name === "export") {
-            const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
-            exportRows.push(newCols.map((it: TableColAttrs) => it.label));
-            seledRows.forEach((row: CommonObj) => {
-              const list: string[] = [];
-              newCols.forEach((col: TableColAttrs) => {
-                const { prop, type, formatter } = col;
-                let val = "";
-                if (allowList.includes(type)) val = formatter?.(row) ?? row[prop as string] ?? "";
-                list.push(val);
-              });
-              exportRows.push(list);
-            });
-          }
-          $emit("extraBtns", name, next, {
-            selectedKeys: seledKeys,
-            selectedRows: seledRows,
-            exportRows,
-          });
-        })
-        .catch(() => {});
+      showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, $emit, isSeledAll: seledRows.length === total });
     }
   } else if (name === "import") {
     openPopup("导入文件", [CommonImport, { ...importCfg, onChange: (arr: CommonObj[]) => $emit("click", name, arr) }]);

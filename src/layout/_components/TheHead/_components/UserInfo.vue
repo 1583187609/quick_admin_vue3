@@ -3,7 +3,7 @@
     style="width: 400px"
     :fields="fields"
     v-model="modelData"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
     :submitText="editEnable ? undefined : ''"
     :resetText="editEnable ? undefined : ''"
@@ -20,7 +20,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
 import { CommonObj } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
-import { GetUserList } from "@/api-mock";
+import { GetMockUser } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 
 const editEnable = ref(false);

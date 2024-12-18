@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { GetUserInfo } from "@/api-mock";
+import { GetMockUser } from "@/api-mock";
 import UploadAvatar from "@/core/components/upload/UploadAvatar.vue";
 import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/core/_types";
@@ -101,7 +101,7 @@ const fields = ref<FormField[]>([
 id && getDetail(id);
 //获取详情数据
 function getDetail(id: StrNum) {
-  GetUserInfo({ id }).then((res: CommonObj) => {
+  GetMockUser({ id }).then((res: CommonObj) => {
     Object.assign(modelData, res);
   });
 }

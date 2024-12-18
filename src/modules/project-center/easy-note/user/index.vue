@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :extraBtns="[
       'add',
       { name: 'login', text: '登录', attrs: { type: 'primary' } },
@@ -17,7 +17,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetUserList, DeleteUserDelete, PostUserLogout } from "@/modules/project-center/easy-note/apis";
+import { GetMockUser, DeleteUserDelete, PostMockUserLogout } from "@/modules/project-center/easy-note/apis";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext, showMessage } from "@/utils";
@@ -103,7 +103,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   );
 }
 function handleLogout() {
-  PostUserLogout().then(() => {
+  PostMockUserLogout().then(() => {
     showMessage("退出登录成功");
   });
 }

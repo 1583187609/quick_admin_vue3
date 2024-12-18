@@ -76,6 +76,17 @@ function getCodeMap(enName: string) {
   return map;
 }
 
+// 这个作为临时方案
+export function getFilterRules(byKey) {
+  return {
+    ids: ["pick", "same", byKey],
+    // role: ["pick", "same"],
+    age: ["between", "number"],
+    name: ["match", "blur"],
+    create_times: ["between", "date", "create_time"],
+  };
+}
+
 /**
  * 获取过滤股则
  * @param enName 英文名称（表名）
@@ -88,25 +99,38 @@ function getCodeMap(enName: string) {
     create_times: ["between", "date", "create_time"],
    }
 */
-export function getFilterRules(params: CommonObj, enName: string) {
+export function getFilterRulesNew(params: CommonObj, enName: string) {
   const target = allData[enName];
   if (!target) throw new Error(`不存在该表：${enName}`);
   const { rules = [] } = target;
   const ruleMap: CommonObj = {};
   rules.forEach((rule: CommonObj) => {
-    const { type, prop, attrs } = rules;
+    let { prop, attrs } = rule;
+    let { type } = rule;
+    if (type === "createUpdate") {
+      const { typeKey } = attrs;
+      // 已处理 createTime, createUser, updateTime, updateUser,
+      // 不可能能作为表单字段：create, update, createUpdate
+      if (["createTime", "updateTime"].includes(typeKey)) type = "date";
+      else if (["createUser", "updateUser"].includes(typeKey)) type = "name";
+      else if (["create", "update", "createUpdate"].includes(typeKey)) {
+        type = "date";
+        if (["create", "createUpdate"].includes(typeKey)) prop = "create_time";
+        else if (["update", "createUpdate"].includes(typeKey)) prop = "update_time";
+        // createUpdate 待完善处理
+      }
+    }
     const val = params[prop];
     const t = typeOf(val);
     if (t === "Undefined") return;
-    const { typeKey } = attrs;
     let [validType, strategy] = ["match", "equal"];
     // ["match", "equal"]：id,
     // ["match", "blur"]:  string, name, phone
     // ["pick", "same"]：dict,
-    // ["beetween", "date"]: date
+    // ["between", "date"]: date
     // 多义性：number（match-equal, between-number)
     // 不可能作为表单字段：address, image
-    // 暂未处理完善：cascader, createUpdate
+    // 暂未处理完善：cascader, createUpdate(不可能能作为表单字段：create, update, createUpdate)
     if (["string", "name", "phone"].includes(type)) {
       validType = "match";
       strategy = "blur";
@@ -133,7 +157,13 @@ export function getFilterRules(params: CommonObj, enName: string) {
     }
     ruleMap[prop] = [validType, strategy, prop];
   });
-  return ruleMap;
+  // return ruleMap;
+  return {
+    ids: ["pick", "same", "id"],
+    age: ["between", "number"],
+    name: ["match", "blur"],
+    create_times: ["between", "date", "create_time"],
+  };
 }
 
 /**
@@ -193,7 +223,7 @@ export function getFilterList(
 ): CommonObj[] {
   if (!list.length) return [];
   if (typeof codeMap === "string") codeMap = getCodeMap(codeMap);
-  const prpos = codeMap ? Object.keys(codeMap) : undefined;
+  const props = codeMap ? Object.keys(codeMap) : undefined;
   // slice 浅克隆一层，不影响原数组
   return list.slice().filter((item: CommonObj) => {
     const { children, ...restItem } = item;
@@ -201,9 +231,9 @@ export function getFilterList(
     if (delKeys?.length) deleteAttrs(item, delKeys, false);
     // 将字典值携带上文本字段
     if (codeMap) {
-      prpos?.forEach(prop => {
+      props?.forEach(prop => {
         const name = codeMap[prop];
-        const t = name.charAt[0];
+        const t = name.charAt(0);
         if (t === "D") {
           item[`${prop}_${dictTextPropKey}`] = getDictLabel(name, item[prop]);
         } else if (t === "C") {
@@ -234,30 +264,6 @@ export function getListTotal(tree: CommonObj[] = [], total = 0) {
     getListTotal(item.children, total);
   });
   return total;
-}
-
-/**
- * 获取构造对象
- * @param {object} obj  要依照的对象
- * @param {string[]} excludeNames  要排除生成的属性名
- * @return {object} 构造好之后的新对象
- */
-export function getConstructorObj(obj: CommonObj = {}, excludeNames?: string[]) {
-  const newObj: CommonObj = {};
-  const typeMap: CommonObj = {
-    Undefined: undefined,
-    Boolean: false,
-    Number: NaN,
-    String: "",
-    Function: () => {},
-  };
-  for (const key in obj) {
-    // if (!excludeNames?.includes(key)) {
-    const type = typeOf(obj[key]);
-    newObj[key] = typeMap[type];
-    // }
-  }
-  return newObj;
 }
 
 /**

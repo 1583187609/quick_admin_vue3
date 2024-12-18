@@ -13,7 +13,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetMockCommonList, DeleteUserList } from "@/api-mock";
+import { GetMockCommonList, DeleteMockUser } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";
@@ -38,7 +38,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => DeleteUserList({ id }).then(() => next()),
+      delete: () => DeleteMockUser({ id }).then(() => next()),
     },
     name
   );

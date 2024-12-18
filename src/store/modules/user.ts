@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { PostUserLogin, PostUserLogout } from "@/api-mock";
+import { PostMockUserLogin, PostMockUserLogout } from "@/api-mock";
 import { storage, defaultHomePath, defaultIconName, defaultLoginExpired } from "@/utils";
 import { CommonObj } from "@/core/_types";
 import { ElNotification, dayjs } from "element-plus";
@@ -60,7 +60,7 @@ export default defineStore("user", () => {
       storage.removeItem("rememberAccount");
     }
     // params.password = md5(params.password); // 启用 md5 进行加密
-    return PostUserLogin(params).then(async (res: CommonObj) => {
+    return PostMockUserLogin(params).then(async (res: CommonObj) => {
       const { user, navs } = res;
       const _navs = getHandleNavs(
         navs.filter((it: ResponseMenuItem) => {
@@ -111,7 +111,7 @@ export default defineStore("user", () => {
       router.push({ name: "login", query });
     }
     if (!isFetch) return handleClear();
-    PostUserLogout({ phone: userInfo.value!.phone }).then(() => handleClear());
+    PostMockUserLogout({ phone: userInfo.value!.phone }).then(() => handleClear());
   }
   return {
     isLogin,

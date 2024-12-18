@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :extraBtns="['add', { name: 'add', text: '新增(url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',
@@ -23,14 +23,14 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { DeleteUserList, GetUserList, GetUserListExport, PostUserUpdate } from "@/api-mock";
+import { DeleteMockUser, GetMockUser, PatchMockUser } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
-import { TableCol } from "@/core/components/table/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs, getExportRows } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -67,7 +67,7 @@ const fields = ref<FormField[]>([
     },
   },
 ]);
-const cols: TableCol[] = [
+const cols: TableColAttrs[] = [
   { tpl: "T_Selection" },
   { tpl: "T_Sort" },
   { tpl: "T_Index" },
@@ -79,7 +79,7 @@ const cols: TableCol[] = [
   { prop: "phone", label: "电话", minWidth: 120 },
   { prop: "role_text", label: "角色类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
-  // { type: "operate", label: "操作栏", width: 500 }, //  245 可覆盖操作列的属性设置
+  // { type: "operate", label: "操作", width: 500 }, //  245 可覆盖操作列的属性设置
 ];
 //点击操作栏的分组按钮
 function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
@@ -116,21 +116,22 @@ function handleView(row: CommonObj) {
 }
 //批量删除
 function handleDelete(ids: string[], next: FinallyNext) {
-  DeleteUserList({ ids }).then((res: any) => {
+  DeleteMockUser({ ids }).then((res: any) => {
     next();
   });
 }
 //导出
 function handleExport(ids: string[], next: FinallyNext) {
-  GetUserListExport({ ids, cols }).then((res: any) => {
-    exportExcel(res, "用户列表");
+  GetMockUser({ exports: true }).then((res: any) => {
+    const exportRows = getExportRows(cols, res);
+    exportExcel(exportRows, "用户列表");
     next();
   });
 }
 //禁用
 function handleToggleStatus(row: CommonObj, next: FinallyNext) {
   const { status, id } = row;
-  PostUserUpdate({
+  PatchMockUser({
     id,
     status: status === 1 ? 2 : 1,
   }).then((res: CommonObj) => {

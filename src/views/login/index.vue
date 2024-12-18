@@ -21,7 +21,7 @@ meta:
         submitText="登录"
         ref="formRef"
       >
-        <!-- :fetch="PostUserLogin" -->
+        <!-- :fetch="PostMockUserLogin" -->
         <template #captcha>
           <Captcha v-model="modelData.captcha" prop="captcha" />
         </template>
@@ -37,7 +37,7 @@ meta:
 </template>
 <script lang="ts" setup>
 import { ref, reactive, computed } from "vue";
-import { GetUserLoginAccounts } from "@/api-mock";
+import { GetMockUserLoginAccounts } from "@/api-mock";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
@@ -55,7 +55,7 @@ const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
 const modelData = reactive<CommonObj>({
   phone: storeAccount?.phone ?? "18483221518",
-  password: storeAccount?.password ?? "superAdmin12345",
+  password: storeAccount?.password ?? "role0123456",
   captcha: "",
   remember: !!storeAccount,
 });
@@ -63,7 +63,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
       tpl: /^\d/.test(modelData.phone) ? "T_Phone" : undefined,
-      // prop: "phone",
+      prop: "phone",
       label: "账号",
       required: true,
       type: "autocomplete",
@@ -101,7 +101,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
 });
 loadAll();
 function loadAll() {
-  GetUserLoginAccounts().then((res: CommonObj[]) => {
+  GetMockUserLoginAccounts().then((res: CommonObj[]) => {
     accountOpts.value = res.map((item: CommonObj) => {
       const { account, ...rest } = item;
       return { value: account, ...rest };

@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :extraBtns="['add']"
     :operateBtns="['edit', { name: 'view', to: ({id}:CommonObj) => `/code/one-site/system-design/tables/detail?id=${id}` }, 'delete']"
     @extraBtns="onExtraBtns"
@@ -16,7 +16,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetUserList, DeleteUserList } from "@/api-mock";
+import { GetMockUser, DeleteMockUser } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { emptyStr, handleBtnNext } from "@/utils";
@@ -67,7 +67,7 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
     {
       edit: () => handleAddEdit(row, next),
-      delete: () => DeleteUserList({ id }).then(() => next()),
+      delete: () => DeleteMockUser({ id }).then(() => next()),
     },
     name
   );

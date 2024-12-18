@@ -62,7 +62,18 @@ export type GridAttrs = {
 export type ElColAttrs = GridAttrs & ColOtherAttrs;
 
 export type Grid = number | string | ElColAttrs;
-export type FormItemTplTypes = "T_Phone" | "T_Password" | "T_Identity" | "T_Email" | "T_Price" | "T_Age" | "T_Amount" | "T_EnableStatus" | "T_Remark";
+export type FormItemTplTypes =
+  | "T_Id"
+  | "T_Phone"
+  | "T_Password"
+  | "T_Identity"
+  | "T_Email"
+  | "T_Price"
+  | "T_Age"
+  | "T_Amount"
+  | "T_EnableStatus"
+  | "T_CreateTime"
+  | "T_Remark";
 export interface FormFieldAttrs {
   tpl?: FormItemTplTypes; // 模板规则
   key?: any; //v-for的key，如果不写，则是默认的index作为key

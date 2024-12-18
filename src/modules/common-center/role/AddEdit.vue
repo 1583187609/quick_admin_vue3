@@ -3,7 +3,7 @@
     v-model="modelData"
     style="width: 600px"
     :fields="fields"
-    :fetch="id ? PostAuthRoleUpdate : PostAuthRoleAdd"
+    :fetch="id ? PatchMockRole : PostMockRole"
     :afterSuccess="() => refreshList?.()"
   >
     <template #menu_auth>
@@ -15,7 +15,7 @@
 import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
-import { GetAuthRoleInfo, PostAuthRoleAdd, PostAuthRoleUpdate } from "@/api-mock";
+import { PostMockRole, PatchMockRole, GetMockRole } from "@/api-mock";
 
 const props = withDefaults(
   defineProps<{
@@ -50,12 +50,9 @@ const fields = ref<FormField[]>([
     },
   },
 ]);
-getInfo(props.id);
-function getInfo(id?: StrNum) {
-  if (!id) return;
-  GetAuthRoleInfo({ id }).then((res: CommonObj) => {
-    Object.assign(modelData, res);
-  });
+props.id && getInfo(props.id);
+function getInfo(id: StrNum) {
+  GetMockRole({ id }).then((res: CommonObj) => Object.assign(modelData, res));
 }
 </script>
 <style lang="scss" scoped></style>
