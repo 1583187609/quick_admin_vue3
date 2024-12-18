@@ -54,7 +54,7 @@ export function getDictOptions(name: string) {
 
 export type CascaderName = keyof typeof cascaderMap;
 const cascaderMap = {
-  Region: allAddress,
+  C_Region: allAddress,
 };
 //获取级联地址文本
 export function getCascadeLabel(name: CascaderName, ids: [number, number, number] = [0, 0, 0], byKey = "id") {

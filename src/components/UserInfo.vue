@@ -65,10 +65,10 @@
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            现居地：<b>{{ getText("Region", data.live_city) || "-" }}</b>
+            现居地：<b>{{ getText("C_Region", data.live_city) || "-" }}</b>
           </div>
           <div class="item f-0">
-            家乡：<b>{{ getText("Region", data.city) || "-" }}</b>
+            家乡：<b>{{ getText("C_Region", data.city) || "-" }}</b>
           </div>
         </div>
       </div>

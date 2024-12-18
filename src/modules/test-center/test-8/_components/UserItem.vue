@@ -35,7 +35,7 @@
       <div class="f-fs-c tips-info">
         <BaseCopy class="f-0" :text="data?.[userDataKey]?.id" line="1" />
         <div class="ml-h mr-h f-1 line-1">
-          {{ getText("Region", data?.[userDataKey]?.live_city) || emptyStr }}
+          {{ getText("C_Region", data?.[userDataKey]?.live_city) || emptyStr }}
         </div>
         <div class="f-0">{{ data?.[userDataKey]?.age }}岁</div>
       </div>

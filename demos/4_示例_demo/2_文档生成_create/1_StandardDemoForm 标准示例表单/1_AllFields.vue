@@ -17,7 +17,7 @@ import { CommonObj } from "@/core/_types";
 
 const { getOpts } = useDict();
 const genderOpts = getOpts("D_Gender");
-const regionOpts = getOpts("Region");
+const regionOpts = getOpts("C_Region");
 
 const modelData = reactive<CommonObj>({
   age: 12,

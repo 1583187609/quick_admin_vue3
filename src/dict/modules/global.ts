@@ -4,5 +4,5 @@ import { lazyFetch } from "..";
 
 export default {
   // 省市区级联
-  Region: lazyFetch(GetCascaderRegion),
+  C_Region: lazyFetch(GetCascaderRegion),
 } as CommonObj;

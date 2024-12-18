@@ -55,7 +55,7 @@ const fields = computed<FormField[]>(() => {
             label: "省市区",
             type: "cascader",
             attrs: {
-              options: "Region",
+              options: "C_Region",
             },
           },
         ]

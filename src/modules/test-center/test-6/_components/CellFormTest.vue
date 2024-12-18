@@ -78,7 +78,7 @@ const fields = [
     label: "现居地",
     type: "cascader",
     attrs: {
-      options: "Region",
+      options: "C_Region",
     },
     quickAttrs: { grid: 6 },
   },
@@ -143,7 +143,7 @@ const sections = [
         type: "cascader",
         size: "default",
         attrs: {
-          options: "Region",
+          options: "C_Region",
         },
         quickAttrs: { grid: 12, tips: "字段级的size【el-form-item】" },
       },

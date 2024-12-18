@@ -23,7 +23,7 @@ const fields: FormFieldAttrs[] = [
     label: "省市区",
     type: "cascader",
     attrs: {
-      options: "Region",
+      options: "C_Region",
     },
     quickAttrs: { grid: 8 },
   },

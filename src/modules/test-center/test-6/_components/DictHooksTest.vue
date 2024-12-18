@@ -56,7 +56,7 @@ const fields = [
     label: "省市区级联）",
     type: "cascader",
     attrs: {
-      options: "Region",
+      options: "C_Region",
     },
   },
   {

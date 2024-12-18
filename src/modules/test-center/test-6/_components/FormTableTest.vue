@@ -79,7 +79,7 @@ const cols: FormTableColAttrs[] = [
     field: {
       type: "cascader",
       attrs: {
-        options: "Region",
+        options: "C_Region",
       },
     },
   },

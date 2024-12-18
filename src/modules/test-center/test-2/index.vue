@@ -93,7 +93,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "地址",
           type: "cascader",
           attrs: {
-            options: "Region",
+            options: "C_Region",
           },
         },
         {

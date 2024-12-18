@@ -44,7 +44,7 @@ export default toViteMockApi({
       id: allUsers.slice(-1)[0].id + 1,
       type_text: getDictLabel("D_RoleType", type),
       gender_text: getDictLabel("D_Gender", gender),
-      address_text: getCascadeLabel("Region", address),
+      address_text: getCascadeLabel("C_Region", address),
       create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
     });
     allUsers.push(data);
@@ -54,7 +54,7 @@ export default toViteMockApi({
   "DELETE /user/list": (req: CommonObj) => {
     const params: CommonObj = getRequestParams(req);
     // const { ids = [] } = params;
-    const queryList = getFilterList(allUsers, params, { ids: ["enums", "same", "id"] }, true);
+    const queryList = getFilterList(allUsers, params, { ids: ["pick", "same", "id"] }, true);
     allUsers = queryList;
     return responseData();
   },
@@ -67,7 +67,7 @@ export default toViteMockApi({
     const data = merge(user, params, {
       type_text: getDictLabel("D_RoleType", type),
       gender_text: getDictLabel("D_Gender", gender),
-      address_text: getCascadeLabel("Region", address),
+      address_text: getCascadeLabel("C_Region", address),
       update_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
     });
     return responseData({ data });
@@ -76,14 +76,14 @@ export default toViteMockApi({
   "GET /user/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
     const { id, type, gender, age = [], name, exports, status } = params;
-    let queryList = getFilterList(allUsers, params, { age: ["range", "number"], name: ["match", "blur"] });
+    let queryList = getFilterList(allUsers, params, { age: ["between", "number"], name: ["match", "blur"] });
     queryList = queryList.map((item: CommonObj) => {
       item = deleteAttrs(item, delAttrs);
       return item;
     });
     if (exports) {
       const { fields, ids } = exports;
-      if (ids?.length) queryList = getFilterList(queryList, { ids }, { ids: ["enums", "same", "id"] });
+      if (ids?.length) queryList = getFilterList(queryList, { ids }, { ids: ["pick", "same", "id"] });
       if (fields?.length) {
         queryList = queryList.map(row => {
           const newRow: CommonObj = {};

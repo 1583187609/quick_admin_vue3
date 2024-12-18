@@ -6,6 +6,7 @@ import allAddress from "../data/address";
 import allSchool from "../data/school";
 import allJob from "../data/job";
 import allNavs from "../data/navs";
+import allDepartment from "../data/department";
 import Mock from "mockjs";
 
 const { Random } = Mock;
@@ -51,8 +52,8 @@ export const designMap = {
           "avatar",
           "birthday",
           "region:address:现处地址",
-          { type: "cascader", prop: "live_city", remark: "现居地", attrs: { name: "Region", level: 2 } },
-          { type: "cascader", prop: "city", remark: "家乡", attrs: { name: "Region", level: 2 } },
+          { type: "cascader", prop: "live_city", remark: "现居地", attrs: { name: "C_Region", level: 2 } },
+          { type: "cascader", prop: "city", remark: "家乡", attrs: { name: "C_Region", level: 2 } },
           {
             role({ context }: CommonObj) {
               const { id } = context.currentContext;
@@ -114,6 +115,13 @@ export const designMap = {
       );
     },
   },
+  // 部门表
+  department: {
+    name: "部门",
+    getList() {
+      return allDepartment;
+    },
+  },
   // 行政地址
   region: {
     name: "行政地址",
@@ -161,8 +169,10 @@ export function getDesignData(designCfg: CommonObj = designMap, keys = Object.ke
   const data: CommonObj = {};
   keys.forEach(key => {
     const { getList, ...rest } = designCfg[key];
+    const { list, rules } = getList;
     data[key] = {
-      list: getList(),
+      list,
+      rules,
       ...rest,
     };
   });

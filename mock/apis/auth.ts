@@ -38,7 +38,7 @@ export default toViteMockApi({
   "DELETE /auth/role/list": (req: CommonObj) => {
     const params: CommonObj = getRequestParams(req);
     // const { ids = [] } = params;
-    allRoles = getFilterList(allRoles, params, { ids: ["enums", "same", "id"] }, true);
+    allRoles = getFilterList(allRoles, params, { ids: ["pick", "same", "id"] }, true);
     return responseData();
   },
   // 修改角色
@@ -60,7 +60,7 @@ export default toViteMockApi({
   "GET /auth/role/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
     // const { role, status, create_times } = params;
-    const queryList = getFilterList(allRoles, params, { create_times: ["range", "date", "create_time"] });
+    const queryList = getFilterList(allRoles, params, { create_times: ["between", "date", "create_time"] });
     const sInd = (curr_page - 1) * page_size;
     const eInd = sInd + page_size;
     return responseData({
@@ -86,7 +86,7 @@ export default toViteMockApi({
     const cloneAllNavsTree = JSON.parse(JSON.stringify(allNavsTree));
     const queryList = getFilterList(cloneAllNavsTree, params, {
       name: ["match", "blur"],
-      create_times: ["range", "date", "create_time"],
+      create_times: ["between", "date", "create_time"],
     });
     return responseData({
       data: {
@@ -101,7 +101,7 @@ export default toViteMockApi({
   // 删除菜单
   "DELETE /auth/menu/list": (req: CommonObj) => {
     const params: CommonObj = getRequestParams(req);
-    allNavsTree = getFilterList(allNavsTree, params, { ids: ["enums", "same", "id"] }, true);
+    allNavsTree = getFilterList(allNavsTree, params, { ids: ["pick", "same", "id"] }, true);
     return responseData();
   },
   // 查询菜单详情
@@ -125,7 +125,7 @@ export default toViteMockApi({
     //     id: allNavsTree.slice(-1)[0].id + 1,
     //     type_text: getDictLabel("D_RoleType", type),
     //     gender_text: getDictLabel("D_Gender", gender),
-    //     address_text: getCascadeLabel("Region", address),
+    //     address_text: getCascadeLabel("C_Region", address),
     //     create_time: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
     //   });
     //   allNavsTree.push(data);

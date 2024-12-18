@@ -82,7 +82,7 @@ export default {
     type: "cascader",
     remark: "行政地址",
     attrs: {
-      name: "Region",
+      name: "C_Region",
     },
   },
   T_Address: {

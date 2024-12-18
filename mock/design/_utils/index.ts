@@ -22,7 +22,7 @@ Random.extend({
   // 获取级联的ids
   cascaderValues(name: string = "", level) {
     const cascaderMap: CommonObj = {
-      Region: allAddress,
+      C_Region: allAddress,
     };
     let ids: number[] = [];
     const cascaderOpts = cascaderMap[name];
@@ -285,10 +285,12 @@ const mockRuleMap = {
       if (typeKey === "createUser") [createUserProp = needParam("createUserProp")] = prop;
       if (typeKey === "updateTime") [updateTimeProp = needParam("updateTimeProp")] = prop;
       if (typeKey === "updateUser") [updateUserProp = needParam("updateUserProp")] = prop;
-      if (typeKey === "create")
+      if (typeKey === "create") {
         [createTimeProp = needParam("createTimeProp"), createUserProp = needParam("createUserProp")] = prop;
-      if (typeKey === "update")
+      }
+      if (typeKey === "update") {
         [updateTimeProp = needParam("updateTimeProp"), updateUserProp = needParam("updateUserProp")] = prop;
+      }
       if (typeKey === "createUpdate") {
         [
           createTimeProp = needParam("createTimeProp"),
@@ -384,8 +386,12 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
  */
 export function getMockList(rules: (CommonObj | string)[] = [], num = 9): CommonObj {
   const config: CommonObj = {};
-  rules.forEach((simpleRule: CommonObj | string) => addMockConfig(getStandardRule(simpleRule), config));
+  const standRules = rules.map((simpleRule: CommonObj | string) => {
+    const standRule = getStandardRule(simpleRule);
+    addMockConfig(standRule, config);
+    return standRule;
+  });
   const mockData = Mock.mock({ [`list|${num}`]: [config] });
   mockData.list = num > 1 ? mockData.list : [mockData.list];
-  return mockData.list;
+  return { list: mockData.list, rules: standRules };
 }

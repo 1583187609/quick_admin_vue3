@@ -87,7 +87,7 @@ const fields = ref<FormField[]>([
     required: false,
     type: "cascader",
     attrs: {
-      options: "Region",
+      options: "C_Region",
       style: "width: 100%",
     },
   },

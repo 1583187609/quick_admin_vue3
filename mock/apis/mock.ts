@@ -19,7 +19,7 @@ export default toViteMockApi({
   "DELETE /mock/common": (req: CommonObj) => {
     const { byName = "user", ...params } = getRequestParams(req);
     // const { ids = [] } = params;
-    const queryList: CommonObj[] = getFilterList(allData[byName].list, params, { ids: ["enums", "same", "id"] }, true);
+    const queryList: CommonObj[] = getFilterList(allData[byName].list, params, { ids: ["pick", "same", "id"] }, true);
     if (!queryList.length) return responseData({ code: 1, msg: "未找到记录" });
     return responseData();
   },
@@ -44,11 +44,11 @@ export default toViteMockApi({
   "GET /mock/common/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
     const { byName = "user", id, type, gender, age = [], name, status, exports } = params;
-    let queryList = getFilterList(allData[byName].list, params, { age: ["range", "number"], name: ["match", "blur"] });
+    let queryList = getFilterList(allData[byName].list, params, { age: ["between", "number"], name: ["match", "blur"] });
     queryList = queryList.map((item: CommonObj) => deleteAttrs(item, allData[byName].privateKeys));
     if (exports) {
       const { fields, ids } = exports;
-      if (ids?.length) queryList = getFilterList(queryList, { ids }, { ids: ["enums", "same", "id"] });
+      if (ids?.length) queryList = getFilterList(queryList, { ids }, { ids: ["pick", "same", "id"] });
       if (fields?.length) {
         queryList = queryList.map(row => {
           const newRow: CommonObj = {};
