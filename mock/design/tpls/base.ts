@@ -3,6 +3,8 @@ export default {
     type: "id",
     // prop: "id", // 省略不写，则跟模板名称的下划线命名保持一致
     remark: "自增id",
+    notNull: true,
+    isAutoIncrement: true,
     attrs: {
       min: 1,
     },
@@ -10,6 +12,7 @@ export default {
   T_Title: {
     type: "string",
     remark: "标题名称",
+    defaultValue: "标题示例",
     attrs: {
       typeKey: "ctitle",
       min: 3,
@@ -30,6 +33,7 @@ export default {
     type: "createUpdate",
     // prop: "update_time",
     remark: "更新时间",
+    defaultValue: () => Date.now(),
     attrs: {
       typeKey: "updateTime",
       min: "-1M",
@@ -93,6 +97,7 @@ export default {
     type: "dict",
     prop: "status",
     remark: "启用状态",
+    defaultValue: 1,
     attrs: {
       name: "D_EnableStatus",
     },
@@ -100,6 +105,7 @@ export default {
   T_YesNoStatus: {
     type: "dict",
     remark: "是否状态",
+    defaultValue: 1,
     attrs: {
       name: "D_YesNoStatus",
     },
@@ -108,6 +114,7 @@ export default {
     type: "dict",
     prop: "role",
     remark: "角色类型",
+    defaultValue: 6,
     attrs: {
       name: "D_RoleType",
     },
@@ -116,6 +123,7 @@ export default {
     type: "dict",
     prop: "menu",
     remark: "菜单类型",
+    defaultValue: 0,
     attrs: {
       name: "D_MenuType",
     },

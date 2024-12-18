@@ -285,8 +285,10 @@ const mockRuleMap = {
       if (typeKey === "createUser") [createUserProp = needParam("createUserProp")] = prop;
       if (typeKey === "updateTime") [updateTimeProp = needParam("updateTimeProp")] = prop;
       if (typeKey === "updateUser") [updateUserProp = needParam("updateUserProp")] = prop;
-      if (typeKey === "create") [createTimeProp = needParam("createTimeProp"), createUserProp = needParam("createUserProp")] = prop;
-      if (typeKey === "update") [updateTimeProp = needParam("updateTimeProp"), updateUserProp = needParam("updateUserProp")] = prop;
+      if (typeKey === "create")
+        [createTimeProp = needParam("createTimeProp"), createUserProp = needParam("createUserProp")] = prop;
+      if (typeKey === "update")
+        [updateTimeProp = needParam("updateTimeProp"), updateUserProp = needParam("updateUserProp")] = prop;
       if (typeKey === "createUpdate") {
         [
           createTimeProp = needParam("createTimeProp"),
@@ -317,7 +319,7 @@ const mockRuleMap = {
  * @notice cfg[`${prop}|+1`] = Random.boolean(); // () = > Random.boolean() 写函数，列表每项的值就会不一样，否则就会一样
  * @returns {object}
  */
-function addMockConfig(rule: CommonObj, cfg: CommonObj = {}, textKey = "text") {
+function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
   const { type, prop, remark, attrs } = rule;
   if (cfg[prop] !== undefined) throw new Error(`已添加过属性：${prop}`);
   const target = mockRuleMap[type];
@@ -357,16 +359,16 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}, textKey = "text") {
   }
   // 字典类
   if (type === "dict") {
-    const { name = needParam(), withText = true } = attrs;
+    const { name = needParam() } = attrs;
     cfg[prop] = () => Random.pick(getDictValues(name));
-    if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getDictLabel(name, res.context.currentContext[prop]);
+    // if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getDictLabel(name, res.context.currentContext[prop]);
     return cfg;
   }
   // 级联 level: 3表示返回共3级
   if (type === "cascader") {
-    const { name = needParam(), withText = true, level } = attrs;
+    const { name = needParam(), level } = attrs;
     cfg[prop] = () => Random.cascaderValues(name, level);
-    if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getCascadeLabel(name, res.context.currentContext[prop]);
+    // if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getCascadeLabel(name, res.context.currentContext[prop]);
     return cfg;
   }
   // 自定义

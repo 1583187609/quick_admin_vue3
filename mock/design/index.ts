@@ -59,7 +59,7 @@ export const designMap = {
               if (roleInd < roles.length) getInfo(id - 1);
               return roleInd - 1;
             }, //角色类型
-            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
+            // role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
             phone: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
           },
           {
@@ -104,7 +104,7 @@ export const designMap = {
           // 角色类型
           {
             role: ({ context }: CommonObj) => roles[context.currentContext.id - 1], //角色类型
-            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
+            // role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
           },
           "enableStatus",
           "createUpdate",

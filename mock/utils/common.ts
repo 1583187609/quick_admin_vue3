@@ -1,5 +1,5 @@
 import { getDictLabel } from "../dict";
-import { CommonObj } from "@/core/_types";
+import { CommonObj, StrNum } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
 import { deleteAttrs } from "@/utils";
@@ -46,7 +46,7 @@ export function getIsBetweenRange(val: any, range: [any, any], type: ParseRangeI
 }
 
 /**
- * 过滤列表
+ * 过滤列表（不会更改原数组）
  * @param {object[]} list 要处理的列表
  * @param {object} params 传递的参数
  * @param {object} rules  过滤规则
@@ -60,12 +60,22 @@ export function getIsBetweenRange(val: any, range: [any, any], type: ParseRangeI
     ids: ["enums", "same", "id"], // 枚举区间之一
   }
  * @param {boolean} isExclude 是否排除条件匹配的项 
- * @returns {object[]}
+ * @param {boolean} onlyNode 是否只返回目标节点 
+ * @returns {object[]} 
  */
-export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, isExclude = false, privateKeys?: string[]): CommonObj[] {
+export function getFilterList(
+  list: CommonObj[],
+  params: CommonObj,
+  rules = {},
+  isExclude = false,
+  delKeys?: string[],
+  nodeList?: CommonObj[]
+): CommonObj[] {
+  if (!list.length) return [];
   const keys = Object.keys(params);
-  return list?.filter((item: CommonObj) => {
-    const { children } = item;
+  // slice 浅克隆一层，不影响原数组
+  return list.slice().filter((item: CommonObj) => {
+    const { children, ...restItem } = item;
     const isValid = keys.every(key => {
       const val = params[key];
       if (val === undefined) return true;
@@ -80,14 +90,42 @@ export function getFilterList(list: CommonObj[], params: CommonObj, rules = {}, 
       if (validType === "enums") return getIsInEnums(item[prop], val, strategy);
       throw new Error(`暂未处理此类型：${validType}`);
     });
-    if (privateKeys?.length) deleteAttrs(item, privateKeys, false);
+    if (delKeys?.length) deleteAttrs(item, delKeys, false);
+    if (nodeList && (isExclude ? !isValid : isValid)) nodeList.push(restItem);
     if (children?.length) {
-      item.children = getFilterList(children, params, rules, isExclude, privateKeys);
+      item.children = getFilterList(children, params, rules, isExclude, delKeys, nodeList);
       // return !!item.children?.length;
     }
-    return isExclude ? !isValid : isValid;
+    if (isExclude) return !isValid;
+    return isValid;
   });
 }
+
+/**
+ * 获取树节点总数
+ * @param {object[]} tree
+ */
+export function getListTotal(tree: CommonObj[] = [], total = 0) {
+  if (!tree?.length) return total;
+  tree.forEach((item: CommonObj) => {
+    total++;
+    getListTotal(item.children, total);
+  });
+  return total;
+}
+
+/**
+ * 获取树节点ids
+ * @param {object[]} tree
+ */
+// export function getListIds(tree: CommonObj[] = [], byKey = "id", ids: StrNum[] = []) {
+//   if (!tree?.length) return ids;
+//   tree.forEach((item: CommonObj) => {
+//     ids.push(item[byKey]);
+//     getListIds(item.children, byKey, ids);
+//   });
+//   return ids;
+// }
 
 /**
  * 获取构造对象
@@ -176,17 +214,4 @@ export function getAvatarUrl(gender: 0 | 1 | 2, maxNum = 6) {
   const genderMap = { 1: "boy", 2: "girl" };
   if (gender === 0) return "";
   return `${getBasePath()}/static/imgs/${genderMap[gender]}-${ind}.jpg`;
-}
-
-/**
- * 获取树节点总数
- * @param {object[]} tree
- */
-export function getListTotal(tree: CommonObj[] = [], total = 0) {
-  if (!tree?.length) return total;
-  tree.forEach((item: CommonObj) => {
-    total++;
-    getListTotal(item.children, total);
-  });
-  return total;
 }

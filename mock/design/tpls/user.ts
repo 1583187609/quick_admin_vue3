@@ -2,6 +2,7 @@ export default {
   T_Nickname: {
     type: "string",
     remark: "昵称",
+    defaultValue: (val = "未知用户") => val,
     attrs: {
       typeKey: "ctitle",
       min: 1,
@@ -11,6 +12,7 @@ export default {
   T_Age: {
     type: "number",
     remark: "年龄",
+    defaultValue: 18,
     attrs: {
       typeKey: "natural",
       min: 1,
@@ -30,6 +32,7 @@ export default {
   T_Height: {
     type: "number",
     remark: "身高",
+    defaultValue: 160,
     attrs: {
       typeKey: "natural",
       min: 150,
@@ -83,6 +86,7 @@ export default {
   T_Gender: {
     type: "dict",
     remark: "性别",
+    defaultValue: 0,
     attrs: {
       name: "D_Gender",
     },
@@ -90,6 +94,7 @@ export default {
   T_AccountStatus: {
     type: "dict",
     remark: "账号状态",
+    defaultValue: 1,
     attrs: {
       name: "D_AccountStatus",
     },
@@ -97,6 +102,7 @@ export default {
   T_EducationType: {
     type: "dict",
     remark: "学历类型",
+    defaultValue: 2,
     attrs: {
       name: "D_EducationType",
     },
@@ -104,6 +110,7 @@ export default {
   D_MatrimonyStatus: {
     type: "dict",
     remark: "婚姻状态",
+    defaultValue: 0,
     attrs: {
       name: "D_MatrimonyStatus",
     },

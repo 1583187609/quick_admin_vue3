@@ -1,4 +1,12 @@
-import { getRequestParams, responseData, toViteMockApi, getConstructorObj, getNavsTree, findTreeNode, getFilterList } from "../utils";
+import {
+  getRequestParams,
+  responseData,
+  toViteMockApi,
+  getConstructorObj,
+  getNavsTree,
+  findTreeNode,
+  getFilterList,
+} from "../utils";
 import { getDictLabel } from "../dict";
 import dayjs from "dayjs";
 import { CommonObj } from "@/core/_types";
@@ -51,8 +59,8 @@ export default toViteMockApi({
   // 查询角色列表
   "GET /auth/role/list": (req: CommonObj) => {
     const { curr_page = 1, page_size = 10, ...params } = getRequestParams(req);
-    // const { role, status, create_time_range } = params;
-    const queryList = getFilterList(allRoles, params, { create_time_range: ["range", "date", "create_time"] });
+    // const { role, status, create_times } = params;
+    const queryList = getFilterList(allRoles, params, { create_times: ["range", "date", "create_time"] });
     const sInd = (curr_page - 1) * page_size;
     const eInd = sInd + page_size;
     return responseData({
@@ -78,7 +86,7 @@ export default toViteMockApi({
     const cloneAllNavsTree = JSON.parse(JSON.stringify(allNavsTree));
     const queryList = getFilterList(cloneAllNavsTree, params, {
       name: ["match", "blur"],
-      create_time_range: ["range", "date", "create_time"],
+      create_times: ["range", "date", "create_time"],
     });
     return responseData({
       data: {
