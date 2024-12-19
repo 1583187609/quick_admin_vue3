@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
-import { PostMockCommon, GetCascaderRegion } from "@/api-mock";
+import { PostMockCommon, GetMockCascader } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/core/_types";
 
 const modelData = reactive<CommonObj>({
@@ -63,7 +63,7 @@ const fields: FormFieldAttrs[] = [
 ];
 
 const getRegionOpts = () => {
-  GetCascaderRegion().then(res => (regionOpts.value = res));
+  GetMockCascader().then(res => (regionOpts.value = res));
 };
 getRegionOpts();
 </script>

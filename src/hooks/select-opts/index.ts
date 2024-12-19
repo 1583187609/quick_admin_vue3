@@ -1,7 +1,7 @@
 // 获取下拉项 select 的 options
 import { ref, computed, nextTick } from "vue";
 import CompanyOption from "./_components/CompanyOption.vue";
-import { GetOptionsSchool, GetOptionsCompany } from "@/api-mock";
+import { GetMockOptions } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 
@@ -11,8 +11,9 @@ const typeMap: CommonObj = {
   school: {
     reqNameKey: "name",
     resValKey: "id", //跟下方的handleItem中的value对应的键名保持一致
-    fetchApi: GetOptionsSchool,
+    fetchApi: GetMockOptions,
     defaultField: { prop: "xx", label: "学校", type: "select" },
+    extraParams: { type: "school" },
     handleItem(item: CommonObj) {
       const { name, id } = item;
       return { label: name, value: id };
@@ -21,8 +22,9 @@ const typeMap: CommonObj = {
   company: {
     reqNameKey: "name",
     resValKey: "id",
-    fetchApi: GetOptionsCompany,
+    fetchApi: GetMockOptions,
     defaultField: { prop: "gs", label: "公司", type: "select" },
+    extraParams: { type: "company" },
     handleItem(item: CommonObj) {
       const { full_name, short_name, id } = item;
       return {

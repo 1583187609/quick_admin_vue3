@@ -64,6 +64,15 @@ export const PostMockUserLogout = (data?: CommonObj) => http("post", "/mock/user
 //获取可登录的用户账号
 export const GetMockUserLoginAccounts = (data?: CommonObj) => http("get", "/mock/user/login/accounts", data);
 
-export * from "./auth";
-export * from "./base";
-export * from "./mock";
+/************ select 下拉项 *************/
+// 获取学校/公司下拉项数据
+export const GetMockOptions = (data?: CommonObj) => http("get", "/mock/options", data);
+
+/************ cascader 下拉项 *************/
+// 获取mock 地区省市区县
+export const GetMockCascader = (data?: CommonObj) => http("get", "/mock/cascader", data);
+
+/************ 临时写的三个暂用接口 *************/
+export const GetImSearchFromUserList = (data?: CommonObj) => http("get", "/mock/common", data);
+export const GetImSearchFriendList = (data?: CommonObj) => http("get", "/mock/common", data);
+export const GetImSearchP2pChatList = (data?: CommonObj) => http("get", "/mock/common", data);

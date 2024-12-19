@@ -35,8 +35,8 @@ Random.extend({
    * @param {number} maxNum  跟性别头像的最大下标值保持一致
    * @returns
    */
-  avatar(gender, maxNum = 6) {
-    if (gender === 0) return "";
+  avatar(gender = Random.pick(getDictValues("D_Gender")), maxNum = 6) {
+    if (!gender) return "";
     const max = maxNum + 1;
     const ind = Math.floor(Math.random() * max);
     const genderMap = { 1: "boy", 2: "girl" };

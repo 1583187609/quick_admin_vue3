@@ -316,6 +316,7 @@
 67、测试验证所有文件都通过 index 文件统一导出带来的性能影响
 68、在 http 请求封装中全局捕获异常并统一处理：使得实际开发中不用 try catch
 69、将 FieldItem 组件中的 AddDelList、AnyEleList 组件用插槽的方式载入
+70、完善下载模板 mock 接口
 
 ## 三、Bug 清单
 

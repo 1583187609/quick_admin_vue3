@@ -2,41 +2,27 @@ import { getRequestParams, responseData, toViteMockApi } from "../utils";
 import { CommonObj } from "@/core/_types";
 import allData from "../data";
 
-const allRegions = allData.region.lit;
-const allSchool = allData.school.lit;
-const allCompany = allData.company.lit;
+const allRegions = allData.region.list;
+const allSchool = allData.school.list;
+const allCompany = allData.company.list;
 
 export default toViteMockApi({
   // 获取下拉项
   "GET /mock/options": (req: CommonObj) => {
     const params = getRequestParams(req);
-    const { name } = params;
-    const list = allSchool.filter((it: CommonObj) => it.name.includes(name));
+    const { name = "school", label, value } = params;
+    const target = allData[name];
+    if (!target) throw new Error(`不存在该下拉项：${name}`);
+    const list = target.list.filter((it: CommonObj) => it.label.includes(label));
     return responseData({ data: list });
   },
   // 获取级联
   "GET /mock/cascader": (req: CommonObj) => {
     const params = getRequestParams(req);
-    const { name } = params;
-    const list = allSchool.filter((it: CommonObj) => it.name.includes(name));
+    const { name = "region", value } = params;
+    const target = allData[name];
+    if (!target) throw new Error(`不存在该级联：${name}`);
+    const list = target.list.filter((it: CommonObj) => true);
     return responseData({ data: list });
-  },
-  // 获取学校列表
-  "GET /mock/options/school": (req: CommonObj) => {
-    const params = getRequestParams(req);
-    const { name } = params;
-    const list = allSchool.filter((it: CommonObj) => it.name.includes(name));
-    return responseData({ data: list });
-  },
-  // 获取公司列表
-  "GET /mock/options/company": (req: CommonObj) => {
-    const params = getRequestParams(req);
-    const { name } = params;
-    const list = allCompany.filter((it: CommonObj) => it.full_name.includes(name));
-    return responseData({ data: list });
-  },
-  // 获取地区省市区县
-  "GET /mock/cascader/region": (req: CommonObj) => {
-    return responseData({ data: allRegions });
   },
 });
