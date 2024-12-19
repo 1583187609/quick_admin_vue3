@@ -6,7 +6,7 @@ import allData from "../data";
 import { getSession, setSession } from "./_session";
 
 const delAttrs: string[] = allData.user.privateKeys;
-let allUsers = allData.user.list;
+const allUsers = allData.user.list;
 const allNavs = allData.menu.list;
 
 export default toViteMockApi({
@@ -47,6 +47,7 @@ export default toViteMockApi({
     if (isErr) return responseData({ code: 1, msg: "验证码错误" });
     const { token } = Mock.mock({ token: "@guid" }); // 生成32位uuid 的token
     setSession("token", token);
+    setSession("userInfo", data);
     return responseData({ data: { navs: allNavs, user: { token, ...deleteAttrs(data, delAttrs) } } });
   },
   // 登出（推出登录）
@@ -54,6 +55,7 @@ export default toViteMockApi({
     const { phone, token } = getRequestParams(req);
     const target = allUsers.find((it: CommonObj) => it.phone === phone);
     if (!target) return responseData({ code: 1, msg: "不存在该用户" });
+    setSession("userInfo", null);
     return responseData();
   },
 });

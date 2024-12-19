@@ -4,6 +4,7 @@ import { needParam } from "@/utils";
 const sessionData = {
   token: "", //登录授权token
   captcha: "", //4位验证码
+  userInfo: null,
 };
 
 // 获取（修改）缓存

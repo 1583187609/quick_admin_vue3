@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { CommonObj } from "@/core/_types";
 import allData from "../data";
 import _ from "lodash";
+import { getSession } from "../apis/_session";
 
 const { merge } = _;
 
@@ -47,7 +48,6 @@ function toArray(data: CommonObj | CommonObj[]) {
   if (!Array.isArray(data)) return [data];
   return data as CommonObj[];
 }
-
 /**
  * 当新增时将对象填充满属性
  * @param {object} currentObj 当前要处理的对象
@@ -137,7 +137,10 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
           const { children } = row;
           const findInd = putList.findIndex(it => it[byKey] === id);
           if (findInd === -1) return updateList(children);
-          merge(row, putList[findInd], { update_time: dayjs().format(defaultDateFormat) });
+          merge(row, putList[findInd], {
+            update_time: dayjs().format(defaultDateFormat),
+            update_user: getSession("userInfo").name,
+          });
           putList.splice(findInd, 1);
           return !putList.length;
         });

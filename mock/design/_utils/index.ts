@@ -328,6 +328,7 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
   // 创建人/更新人
   if (["createUser", "updateUser"].includes(type)) {
     const {} = attrs;
+    // const authUserNames = authUsers.map(it => it.name); // 如果考虑实时更新，应该写在此处，若考虑性能则不用
     cfg[prop] = handler ?? (() => Random.pick(authUserNames));
     return cfg;
   }
