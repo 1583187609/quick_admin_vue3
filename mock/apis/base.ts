@@ -2,10 +2,6 @@ import { getRequestParams, responseData, toViteMockApi } from "../utils";
 import { CommonObj } from "@/core/_types";
 import allData from "../data";
 
-const allRegions = allData.region.list;
-const allSchool = allData.school.list;
-const allCompany = allData.company.list;
-
 export default toViteMockApi({
   // 获取下拉项
   "GET /mock/options": (req: CommonObj) => {

@@ -8,7 +8,7 @@ const restfulApis = [
   ...createRestfulApis("role"),
   ...createRestfulApis("menu"),
   ...createRestfulApis("common"),
-  // ...createRestfulApis("department"),
+  ...createRestfulApis("department"),
 ];
 
 export default [...base, ...users, ...restfulApis];

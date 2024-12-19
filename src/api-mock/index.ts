@@ -45,6 +45,16 @@ export const PatchMockMenu = (data?: CommonObj) => http("patch", "/mock/menu", d
 // 查询详情、查询列表、导出列表
 export const GetMockMenu = (data?: CommonObj) => http("get", "/mock/menu", data);
 
+/************ 部门相关 *************/
+// 新增、批量导入
+export const PostMockDepartment = (data?: CommonObj) => http("post", "/mock/department", data);
+// 删除、批量删除
+export const DeleteMockDepartment = (data?: CommonObj) => http("delete", "/mock/department", data);
+// 修改、批量修改
+export const PatchMockDepartment = (data?: CommonObj) => http("patch", "/mock/department", data);
+// 查询详情、查询列表、导出列表
+export const GetMockDepartment = (data?: CommonObj) => http("get", "/mock/department", data);
+
 /************ 用户相关 *************/
 // 新增、批量导入
 export const PostMockUser = (data?: CommonObj) => http("post", "/mock/user", data);

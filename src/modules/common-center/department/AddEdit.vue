@@ -26,15 +26,20 @@ const props = withDefaults(
 );
 const modelData = reactive<CommonObj>(props.id ? {} : { status: 1 });
 const fields = ref<FormField[]>([
-  { prop: "role_text", label: "角色名称", required: true },
-  { prop: "role", label: "角色标识符", attrs: { disabled: true } },
+  { prop: "role_text", label: "部门名称", required: true },
   {
     prop: "menu_auth",
-    label: "菜单权限",
+    label: "选择部门",
     type: "slot",
   },
   { tpl: "T_EnableStatus" },
-  { tpl: "T_Remark" },
+  {
+    prop: "produce",
+    label: "部门简介",
+    attrs: {
+      type: "textarea",
+    },
+  },
 ]);
 props.id && getInfo(props.id);
 function getInfo(id: StrNum) {
