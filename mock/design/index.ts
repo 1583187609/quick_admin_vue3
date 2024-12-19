@@ -1,14 +1,14 @@
 import { CommonObj } from "@/core/_types";
 import { getMockList } from "./_utils";
-import { getDictLabel, getDictMap, getDictValues } from "../dict";
+import { getDictMap, getDictValues } from "../dict";
 import dayjs from "dayjs";
-import allAddress from "../data/address";
+import allRegions from "../data/regions";
 import allSchool from "../data/school";
 import allJob from "../data/job";
 import allNavs from "../data/navs";
 import allDepartment from "../data/department";
 import Mock from "mockjs";
-import { typeOf } from "../utils";
+import { getNavsTree, typeOf } from "../utils";
 
 const { Random } = Mock;
 
@@ -56,13 +56,20 @@ export const designMap = {
           { type: "cascader", prop: "live_city", remark: "现居地", attrs: { name: "C_Region", level: 2 } },
           { type: "cascader", prop: "city", remark: "家乡", attrs: { name: "C_Region", level: 2 } },
           {
-            role({ context }: CommonObj) {
+            type: "dict",
+            prop: "role", //角色类型
+            attrs: { name: "D_RoleType" },
+            handler({ context }: CommonObj) {
               const { id } = context.currentContext;
               if (roleInd < roles.length) getInfo(id - 1);
               return roleInd - 1;
-            }, //角色类型
-            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
-            phone: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
+            },
+          },
+          {
+            type: "phone",
+            prop: "phone",
+            handler: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
+            // phone: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
           },
           {
             // 账号
@@ -103,10 +110,11 @@ export const designMap = {
       return getMockList(
         [
           "id",
-          // 角色类型
           {
-            role: ({ context }: CommonObj) => roles[context.currentContext.id - 1], //角色类型
-            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
+            type: "dict",
+            prop: "role", //角色类型
+            attrs: { name: "D_RoleType" },
+            handler: ({ context }: CommonObj) => roles[context.currentContext.id - 1],
           },
           "enableStatus",
           "createUpdate",
@@ -127,7 +135,7 @@ export const designMap = {
   region: {
     name: "行政地址",
     getList() {
-      return allAddress;
+      return allRegions;
     },
   },
   // 公司
@@ -157,18 +165,11 @@ export const designMap = {
       return allJob;
     },
   },
-  // 导航
-  navs: {
-    name: "导航",
-    getList() {
-      return allNavs;
-    },
-  },
   // 菜单
   menu: {
     name: "菜单",
     getList() {
-      return allNavs;
+      return getNavsTree(allNavs, { value: "id", label: "name" });
     },
   },
 };

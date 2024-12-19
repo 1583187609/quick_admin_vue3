@@ -104,6 +104,7 @@ export default {
   },
   T_YesNoStatus: {
     type: "dict",
+    prop: "yes_no",
     remark: "是否状态",
     defaultValue: 1,
     attrs: {
@@ -121,7 +122,6 @@ export default {
   },
   T_MenuType: {
     type: "dict",
-    prop: "menu",
     remark: "菜单类型",
     defaultValue: 0,
     attrs: {

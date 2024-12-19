@@ -2,7 +2,7 @@ import { getRequestParams, responseData, toViteMockApi } from "../utils";
 import { CommonObj } from "@/core/_types";
 import allData from "../data";
 
-const allAddress = allData.region.lit;
+const allRegions = allData.region.lit;
 const allSchool = allData.school.lit;
 const allCompany = allData.company.lit;
 
@@ -37,20 +37,6 @@ export default toViteMockApi({
   },
   // 获取地区省市区县
   "GET /mock/cascader/region": (req: CommonObj) => {
-    // const params = getRequestParams(req);
-    // const { name } = params;
-    const cloneAddress = allAddress.map((pItem, pInd) => {
-      const { id, name, city } = pItem;
-      const cloneCity = city.map((cItem, cInd) => {
-        const { id, name, area } = cItem;
-        const cloneArea = area.map((aItem, aInd) => {
-          const { id, name } = aItem;
-          return { value: id, label: name };
-        });
-        return { value: id, label: name, children: cloneArea };
-      });
-      return { value: id, label: name, children: cloneCity };
-    });
-    return responseData({ data: cloneAddress });
+    return responseData({ data: allRegions });
   },
 });

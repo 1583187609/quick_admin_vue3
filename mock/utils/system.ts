@@ -179,7 +179,7 @@ export function getTransferValue(key: string, val: any, ignoreKeys: string[] = [
  * @param req 请求体
  * @param {string[]} ignoreKeys 不要转成数字类型的key值数组
  */
-export function getRequestParams(req: CommonObj, ignoreKeys?: string[]) {
+export function getRequestParams(req: CommonObj, ignoreKeys?: string[]): CommonObj {
   const { url, body, query, headers } = req;
   // 将字符串化的数组或对象，转成对应的数组或对象
   for (const key in query) {

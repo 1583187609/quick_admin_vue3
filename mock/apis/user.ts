@@ -7,7 +7,7 @@ import { getSession, setSession } from "./_session";
 
 const delAttrs: string[] = allData.user.privateKeys;
 let allUsers = allData.user.list;
-const allNavs = allData.navs.list;
+const allNavs = allData.menu.list;
 
 export default toViteMockApi({
   /**

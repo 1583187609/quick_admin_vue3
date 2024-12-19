@@ -1,5 +1,5 @@
 import { getCascadeLabel, getDictLabel } from "../dict";
-import { CommonObj } from "@/core/_types";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
 import { deleteAttrs } from "@/utils";
@@ -99,14 +99,14 @@ export function getFilterRules(byKey) {
     create_times: ["between", "date", "create_time"],
    }
 */
-export function getFilterRulesNew(params: CommonObj, enName: string) {
+export function getFilterRulesNew(enName: string, params: CommonObj) {
   const target = allData[enName];
   if (!target) throw new Error(`不存在该表：${enName}`);
   const { rules = [] } = target;
   const ruleMap: CommonObj = {};
   rules.forEach((rule: CommonObj) => {
-    let { prop, attrs } = rule;
-    let { type } = rule;
+    let { prop, type } = rule;
+    const { attrs } = rule;
     if (type === "createUpdate") {
       const { typeKey } = attrs;
       // 已处理 createTime, createUser, updateTime, updateUser,
@@ -157,13 +157,7 @@ export function getFilterRulesNew(params: CommonObj, enName: string) {
     }
     ruleMap[prop] = [validType, strategy, prop];
   });
-  // return ruleMap;
-  return {
-    ids: ["pick", "same", "id"],
-    age: ["between", "number"],
-    name: ["match", "blur"],
-    create_times: ["between", "date", "create_time"],
-  };
+  return ruleMap;
 }
 
 /**
@@ -195,7 +189,7 @@ function getIsValid(params: CommonObj, row: CommonObj, filterRules: CommonObj) {
 }
 
 /**
- * 过滤列表（不会更改原数组）
+ * 过滤列表（不会更改原数组，仅处理标准数据结构的级联OptionItem）
  * @param {object[]} list 要处理的列表
  * @param {object} params 传递的参数
  * @param {object} filterRules  过滤规则
@@ -234,22 +228,17 @@ export function getFilterList(
       props?.forEach(prop => {
         const name = codeMap[prop];
         const t = name.charAt(0);
-        if (t === "D") {
-          item[`${prop}_${dictTextPropKey}`] = getDictLabel(name, item[prop]);
-        } else if (t === "C") {
-          item[`${prop}_${dictTextPropKey}`] = getCascadeLabel(name, item[prop]);
-        } else {
-          throw new Error(`暂未处理此类型：${t}`);
-        }
+        const fnMap = { D: getDictLabel, C: getCascadeLabel };
+        const fn = fnMap[t];
+        if (!fn) throw new Error(`暂未处理此类型：${t}`);
+        item[`${prop}_${dictTextPropKey}`] = fn(name, item[prop]);
       });
     }
     if (nodeList && (isExclude ? !isValid : isValid)) nodeList.push(restItem);
     if (children?.length) {
       item.children = getFilterList(children, params, filterRules, isExclude, delKeys, nodeList, codeMap);
-      // return !!item.children?.length;
     }
-    if (isExclude) return !isValid;
-    return isValid;
+    return isExclude ? !isValid : isValid;
   });
 }
 

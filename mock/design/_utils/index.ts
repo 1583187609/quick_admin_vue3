@@ -1,10 +1,10 @@
-import allAddress from "#/mock/data/address";
-import { getCascadeLabel, getDictValues, getDictLabel } from "#/mock/dict";
+import { getCascaderRandomValues, getDictValues } from "#/mock/dict";
 import { CommonObj } from "@/core/_types";
 import { getRandomLimitDate, needParam, typeOf } from "#/mock/utils";
 import defaultMockTpls from "../tpls";
 import Mock from "mockjs";
 import { getBasePath } from "#/mock/_platform/_utils";
+import designTpls from "../tpls";
 import _ from "lodash";
 
 const { merge, upperFirst, snakeCase } = _;
@@ -20,18 +20,8 @@ Random.extend({
     return pre + Mock.mock(reg);
   },
   // 获取级联的ids
-  cascaderValues(name: string = "", level) {
-    const cascaderMap: CommonObj = {
-      C_Region: allAddress,
-    };
-    let ids: number[] = [];
-    const cascaderOpts = cascaderMap[name];
-    if (!cascaderOpts) throw new Error(`不存在该级联：${name}`);
-    const arrAreas = cascaderOpts?.map(pItem => pItem.city?.map(cItem => cItem.area?.map(aItem => aItem.id)));
-    const pInd = Math.floor(Math.random() * arrAreas.length);
-    const cInd = Math.floor(Math.random() * arrAreas[pInd].length);
-    const aInd = Math.floor(Math.random() * arrAreas[pInd][cInd].length);
-    ids = [cascaderOpts[pInd].id, cascaderOpts[pInd].city[cInd].id, cascaderOpts[pInd].city[cInd].area[aInd].id];
+  cascaderValues(name: string = needParam(), level) {
+    const ids: number[] = getCascaderRandomValues(name);
     if (!level) return ids;
     return ids.slice(0, level);
   },
@@ -89,7 +79,7 @@ function getStandardRule(simple: string | CommonObj) {
     info = merge({ prop: snakeCase(tpl), remark: Tpl }, defaultMockTpls[Tpl], { prop, remark }); // { tpl: Tpl }
   } else if (t === "Object") {
     const { tpl = "", type, prop = snakeCase(tpl), ...rest } = simple as CommonObj;
-    if (!type) return { type: "custom", attrs: simple }; // 如果没有type，则为自定义
+    if (!type) return { type: "custom", customRule: simple }; // 如果没有type，则为自定义
     if (!tpl && !prop) throw new Error(`不能同时tpl和prop未设置`);
     const Tpl = getTplName(tpl);
     info = merge({ prop, type }, defaultMockTpls[Tpl], rest); // { tpl: Tpl }
@@ -322,7 +312,7 @@ const mockRuleMap = {
  * @returns {object}
  */
 function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
-  const { type, prop, remark, attrs } = rule;
+  const { type, prop, remark, attrs, customRule, handler } = rule;
   if (cfg[prop] !== undefined) throw new Error(`已添加过属性：${prop}`);
   const target = mockRuleMap[type];
   /****** mockjs内置+扩展 ******/
@@ -334,10 +324,10 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
     if (Array.isArray(result)) {
       result.forEach(item => {
         const [key, val] = Object.entries(item)[0];
-        cfg[key] = val;
+        cfg[key] = handler ?? val;
       });
     } else {
-      cfg[prop] = fn(attrs, prop);
+      cfg[prop] = handler ?? fn(attrs, prop);
     }
     return cfg;
   }
@@ -350,44 +340,81 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
   // }
   if (type === "id") {
     const { start = 1 } = attrs;
-    cfg[`${prop}|+1`] = start;
+    cfg[`${prop}|+1`] = handler ?? start;
     return cfg;
   }
   // 电话号码
   if (type === "phone") {
     const { pre } = attrs;
-    cfg[prop] = () => Random.phone(pre);
+    cfg[prop] = handler ?? (() => Random.phone(pre));
     return cfg;
   }
   // 字典类
   if (type === "dict") {
     const { name = needParam() } = attrs;
-    cfg[prop] = () => Random.pick(getDictValues(name));
-    // if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getDictLabel(name, res.context.currentContext[prop]);
+    cfg[prop] = handler ?? (() => Random.pick(getDictValues(name)));
     return cfg;
   }
   // 级联 level: 3表示返回共3级
   if (type === "cascader") {
     const { name = needParam(), level } = attrs;
-    cfg[prop] = () => Random.cascaderValues(name, level);
-    // if (withText) cfg[`${prop}_${textKey}`] = (res: CommonObj) => getCascadeLabel(name, res.context.currentContext[prop]);
+    cfg[prop] = handler ?? (() => Random.cascaderValues(name, level));
     return cfg;
   }
   // // token
   // if (type === "token") {
-  //   cfg[prop] = () => Mock.mock({ token: "@guid" });
+  //   cfg[prop] = handler ?? (() => Mock.mock({ token: "@guid" }));
   //   return cfg;
   // }
   // // captcha
   // if (type === "captcha") {
   //   const { num = 4, ilo0 = true } = {};
   //   const captchaReg = new RegExp(ilo0 ? `[a-hj-km-zA-HJ-KM-Z2-9]{${num}}` : `[a-zA-Z0-9]{${num}}`);
-  //   cfg[prop] = () => Mock.mock({ captcha: captchaReg });
+  //   cfg[prop] = handler ?? (() => Mock.mock({ captcha: captchaReg }));
   //   return cfg;
   // }
   // 自定义
-  if (type === "custom") return merge(cfg, attrs);
+  if (type === "custom") {
+    infferWarnLog(customRule);
+    return merge(cfg, customRule);
+  }
   throw new Error(`暂未处理此类型：${type}`);
+}
+
+// 获取模板中设置的默认 props
+function getDefaultTplsProps(excludesTypes: string[] = ["id"]): CommonObj {
+  const typesMap: CommonObj = {};
+  const tplKeys = Object.keys(designTpls);
+  tplKeys.forEach(tpl => {
+    const { type, remark, prop = snakeCase(tpl) } = designTpls[tpl];
+    if (excludesTypes?.includes(type)) return;
+    if (typesMap[type]) return typesMap[type].push(prop);
+    typesMap[type] = [remark, prop];
+  });
+  return typesMap;
+}
+const defaultTplsProps = getDefaultTplsProps();
+
+// 发出推断警告
+function infferWarnLog(rule: CommonObj = needParam(), tplProps: CommonObj = defaultTplsProps) {
+  if (!tplProps?.length) return;
+  const props = Object.keys(rule);
+  if (!props.length) return;
+  let name: string | undefined = "";
+  let type: string | undefined = "";
+  let findKey: string | undefined = "";
+  const keys = Object.keys(tplProps);
+  keys.find(key => {
+    const [remark, ...restKeys] = tplProps[key];
+    findKey = props.find(prop => restKeys.includes(prop));
+    if (findKey) {
+      name = remark;
+      type = key;
+    }
+    return !!findKey;
+  });
+  if (!findKey) return;
+  console.warn(`${findKey}可能为${name}，应该加上type类型：${type}`);
 }
 
 /**
@@ -397,13 +424,13 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
  * @returns {object[]}
  */
 export function getMockList(rules: (CommonObj | string)[] = [], num = 9): CommonObj {
-  const config: CommonObj = {};
+  const cfg: CommonObj = {};
   const standRules = rules.map((simpleRule: CommonObj | string) => {
     const standRule = getStandardRule(simpleRule);
-    addMockConfig(standRule, config);
+    addMockConfig(standRule, cfg);
     return standRule;
   });
-  const mockData = Mock.mock({ [`list|${num}`]: [config] });
+  const mockData = Mock.mock({ [`list|${num}`]: [cfg] });
   mockData.list = num > 1 ? mockData.list : [mockData.list];
   return { list: mockData.list, rules: standRules };
 }

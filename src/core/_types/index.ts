@@ -37,7 +37,7 @@ export type CommonSlots = string | BaseRenderComponentType | { [key: string]: st
 export type ShowCodes = 0 | 1; //0 false  1 true
 export interface OptionItem {
   value: string | number | boolean;
-  label?: string;
+  label: string;
   disabled?: boolean;
   children?: OptionItem[];
   slots?: BaseRenderData; // {default: ''} 或 [], 或 h(), 或引入的组件

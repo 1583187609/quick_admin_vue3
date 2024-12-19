@@ -5,7 +5,6 @@
 import { CommonObj, OptionItem, StrNum } from "@/core/_types";
 import dayjs from "dayjs";
 import { defaultDateFormat } from "./consts";
-import allAddress from "../data/address";
 
 /**
  * 函数未传必填参数时的校验
@@ -101,74 +100,16 @@ export function deleteAttrs(obj: CommonObj = {}, keys: string | string[]) {
   return newObj;
 }
 
-// const tempCascader = [
-//   {
-//     name: "Level one 1",
-//     list: [
-//       {
-//         name: "Level two 1-1",
-//         list: [
-//           {
-//             name: "Level three 1-1-1",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     name: "Level one 2",
-//     list: [
-//       {
-//         name: "Level two 2-1",
-//         list: [
-//           {
-//             name: "Level three 2-1-1",
-//           },
-//         ],
-//       },
-//       {
-//         name: "Level two 2-2",
-//         list: [
-//           {
-//             name: "Level three 2-2-1",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     name: "Level one 3",
-//     list: [
-//       {
-//         name: "Level two 3-1",
-//         list: [
-//           {
-//             name: "Level three 3-1-1",
-//           },
-//         ],
-//       },
-//       {
-//         name: "Level two 3-2",
-//         list: [
-//           {
-//             name: "Level three 3-2-1",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ];
-
 /**
  * 获取标准的级联数据
  */
-export function getStandardCascader(
-  cascader: CommonObj[] = allAddress,
-  props: CommonObj = { label: "label", value: "value", children: "children" }
-): OptionItem[] {
-  const { label: labelKey, value: valueKey, children: childrenKey } = props;
-  function cycleHandle(list: CommonObj[] = []) {
-    return list.map((item: CommonObj) => {
+export function getStandardCascader(list: CommonObj[] = [], propsMap: CommonObj): OptionItem[] {
+  if (!list?.length) return [];
+  if (!propsMap) return list as OptionItem[];
+  const { label: labelKey = "label", value: valueKey = "value", children: childrenKey = "children" } = propsMap;
+  function cycleHandle(arr: CommonObj[] = []) {
+    // slice 浅克隆一层，避免影响原有数据
+    return arr.slice().map((item: CommonObj) => {
       if (labelKey !== "label") {
         item.label = item[labelKey] ?? "";
         delete item[labelKey];
@@ -177,12 +118,12 @@ export function getStandardCascader(
         item.value = item[valueKey] ?? "";
         delete item[valueKey];
       }
-      if (childrenKey !== "children" && item[childrenKey]?.length) {
-        item.children = cycleHandle(item.children);
+      if (childrenKey !== "children" && item[childrenKey]) {
+        item.children = cycleHandle(item[childrenKey]);
         delete item[childrenKey];
       }
       return item as OptionItem;
     }) as OptionItem[];
   }
-  return cycleHandle(cascader);
+  return cycleHandle(list);
 }

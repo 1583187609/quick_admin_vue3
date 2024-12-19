@@ -6,7 +6,7 @@ import { getRequestParams, responseData, toViteMockApi, getNavsTree, findTreeNod
 // import _ from "lodash";
 
 // const { merge } = _;
-// let allNavsTree = getNavsTree(allData.navs.list);
+// let allNavsTree = getNavsTree(allData.menus.list);
 // let allRoles = allData.role.list;
 
 export default toViteMockApi({
