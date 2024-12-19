@@ -19,7 +19,7 @@
       :cols="createData.columns"
       :extraBtns="createData.extraBtns"
       :operateBtns="createData.operateBtns"
-      :fetch="GetMockCommonList"
+      :fetch="GetMockCommon"
       v-if="modelData.type === 0"
     />
     <BaseForm class="f-1" :fields="createData.fields" :fetch="PostMockCommon" v-else-if="modelData.type === 1" />
@@ -27,7 +27,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { GetMockCommonList, PostMockCommon } from "@/api-mock";
+import { GetMockCommon, PostMockCommon } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { showMessage, typeOf } from "@/utils";

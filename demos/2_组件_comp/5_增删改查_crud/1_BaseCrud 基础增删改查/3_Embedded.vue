@@ -8,7 +8,7 @@
     v-model="modelData"
     :cols="cols"
     :fields="fields"
-    :fetch="GetMockCommonList"
+    :fetch="GetMockCommon"
     :importCfg="testImportCfg"
     :extraBtns="[
       'add',
@@ -92,7 +92,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { GetMockCommonList, PostMockCommon, DeleteMockCommon } from "@/api-mock";
+import { GetMockCommon, PostMockCommon, DeleteMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { TableCol, TableColAttrs } from "@/core/components/table";
 import InfoSteps from "@/components/InfoSteps.vue";

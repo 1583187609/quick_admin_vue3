@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
+    :fetch="data ? PatchMockCommon : PostMockCommon"
     :afterSuccess="() => refreshList?.()"
     :extraParams="{ id: data?.id }"
     @change="(prop:string,val:any)=>modelData[prop] = val"
@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
+import { PostMockCommon, PatchMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/core/_types";
 
 const cflxOpts: OptionItem[] = [

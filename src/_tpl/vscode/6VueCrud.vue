@@ -4,7 +4,7 @@
     v-model="modelData"
     :cols="cols"
     :fields="fields"
-    :fetch="GetMockCommonList"
+    :fetch="GetMockCommon"
     :extraBtns="['add']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
@@ -15,7 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { DeleteMockUser, GetMockCommonList } from "@/api-mock";
+import { DeleteMockUser, GetMockCommon } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";

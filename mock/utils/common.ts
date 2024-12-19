@@ -2,7 +2,7 @@ import { getCascadeLabel, getDictLabel } from "../dict";
 import { CommonObj, OptionItem } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
-import { deleteAttrs } from "@/utils";
+import { deleteAttrs, emptyVals } from "@/utils";
 import allData from "../data";
 import { dictTextPropKey } from "./consts";
 
@@ -75,77 +75,82 @@ function getCodeMap(enName: string) {
   });
   return map;
 }
+/**
+ * 获取匹配策略方式
+ * @param {string} type 模板类型
+ * @param {any} val 传入的值
+ * @returns {[strategy, way]}
+ * ["match", "equal"]：id,
+ * ["match", "blur"]:  string, name, phone
+ * ["pick", "same"]：dict,
+ * ["between", "date"]: date
+ * 多义性：number（match-equal, between-number)
+ * 不可能作为表单字段：address, image
+ * 暂未处理完善：cascader
+ * 其余默认：dict
+ */
 
-// 这个作为临时方案
-export function getFilterRules(byKey) {
-  return {
-    ids: ["pick", "same", byKey],
-    // role: ["pick", "same"],
-    age: ["between", "number"],
-    name: ["match", "blur"],
-    create_times: ["between", "date", "create_time"],
-  };
+function getStrategyWay(type, val) {
+  if (["createTime", "updateTime"].includes(type)) type = "date";
+  else if (["createUser", "updateUser"].includes(type)) type = "name";
+  if (["string", "name", "phone"].includes(type)) return ["match", "blur"];
+  const t = typeOf(val);
+  if (type === "number") {
+    if (t === "Array") return ["between", "number"];
+    return ["match", "equal"];
+  }
+  if (type === "date") {
+    if (t === "Array") return ["between", "date"];
+    if (t === "String") return ["match", "same"];
+    throw new Error(`暂未处理此类型：${t}`);
+  }
+  if (type === "cascader") return ["cascader", "equal"];
+  return ["match", "equal"];
 }
-
+/**
+ * 判断是否是空参数
+ * @param {any} val 要判断的参数值
+ * @returns {boolean} 是否是空参数
+ */
+function getIsEmptyParams(val: any) {
+  if (emptyVals.includes(val)) return true;
+  const t = typeOf(val);
+  if (t === "Array") return !val.length;
+  if (t === "Object") return !Object.keys(val).length;
+  return false;
+}
 /**
  * 获取过滤股则
  * @param enName 英文名称（表名）
- * @returns 例：{role: "D_RoleType"}
- * // 过滤规则示例
+ * @returns {object}
+ * 返回示例
  * {
     ids: ["pick", "same", byKey],
     age: ["between", "number"],
     name: ["match", "blur"],
-    create_times: ["between", "date", "create_time"],
+    create_time: ["between", "date", "create_time"],
    }
 */
-export function getFilterRulesNew(enName: string, params: CommonObj) {
+export function getFilterRules(enName: string, params: CommonObj) {
   const target = allData[enName];
   if (!target) throw new Error(`不存在该表：${enName}`);
-  const { rules = [] } = target;
+  const keys = Object.keys(params);
+  if (!keys.length) return;
   const ruleMap: CommonObj = {};
-  rules.forEach((rule: CommonObj) => {
-    let { type } = rule;
-    const { attrs, prop } = rule;
-    const { typeKey } = attrs;
-    const val = params[prop];
-    const t = typeOf(val);
-    if (t === "Undefined") return;
-    if (["createTime", "updateTime"].includes(typeKey)) type = "date";
-    else if (["createUser", "updateUser"].includes(typeKey)) type = "name";
-    let [validType, strategy] = ["match", "equal"];
-    // ["match", "equal"]：id,
-    // ["match", "blur"]:  string, name, phone
-    // ["pick", "same"]：dict,
-    // ["between", "date"]: date
-    // 多义性：number（match-equal, between-number)
-    // 不可能作为表单字段：address, image
-    // 暂未处理完善：cascader
-    if (["string", "name", "phone"].includes(type)) {
-      validType = "match";
-      strategy = "blur";
-    } else if (type === "number") {
-      if (t === "Array") {
-        validType = "between";
-        strategy = "number";
-      } else {
-        validType = "match";
-        strategy = "equal";
-      }
-    } else if (type === "date") {
-      if (t === "Array") {
-        validType = "between";
-        strategy = "date";
-      } else {
-        throw new Error(`暂未处理此类型：${type}`);
-      }
-    } else if (type === "dict") {
-      validType = "pick";
-      strategy = "same";
-    } else if (type === "cascader") {
-      validType = "cascader";
-    }
-    ruleMap[prop] = [validType, strategy, prop];
+  const { rules = [] } = target;
+  keys.forEach(key => {
+    const val = params[key];
+    if (getIsEmptyParams(val)) return;
+    let byKey = key;
+    const targetRule = rules.find(it => {
+      if (key.at(-1) !== "s") return it.prop === key;
+      const isFind = it.prop === key.slice(0, -1);
+      if (isFind) byKey = key.slice(0, -1);
+      return isFind;
+    });
+    if (!targetRule) return;
+    const [strategy, way] = getStrategyWay(targetRule.type, val);
+    ruleMap[key] = [strategy, way, byKey];
   });
   return ruleMap;
 }
@@ -161,8 +166,9 @@ function getIsValid(params: CommonObj, row: CommonObj, filterRules: CommonObj) {
   const keys = Object.keys(params);
   return keys.every(key => {
     const val = params[key];
-    if (val === undefined) return true;
+    if (getIsEmptyParams(val)) return true;
     const [validType, strategy, prop = key] = filterRules[key] ?? ["match", "equal"];
+    if (row[prop] === undefined) return true;
     if (validType === "match") {
       if (strategy === "blur") return row[prop].includes(val);
       if (strategy === "equal") return row[prop] == val;
@@ -170,7 +176,6 @@ function getIsValid(params: CommonObj, row: CommonObj, filterRules: CommonObj) {
       throw new Error(`暂未处理此类型：${strategy}`);
     }
     // 如果为 between 和 pick 类型，则 val 是数组
-    if (Array.isArray(val) && !val.length) return true;
     if (validType === "between") return getIsBetweenRange(row[prop], val, strategy);
     if (validType === "pick") return getIsInPickArr(row[prop], val, strategy);
     if (validType === "cascader") return getIsInCascader(row[prop], val, strategy);
@@ -193,42 +198,43 @@ function getIsValid(params: CommonObj, row: CommonObj, filterRules: CommonObj) {
     ids: ["pick", "same", "id"], // 枚举区间之一
   }
  * @param {boolean} isExclude 是否排除条件匹配的项 
- * @param {CommonObj[]} nodeList 只返回目标节点 
  * @returns {object[]} 
  */
 export function getFilterList(
   list: CommonObj[],
   params: CommonObj,
-  filterRules = {},
-  isExclude = false,
+  filterRules?: any,
   delKeys?: string[],
-  nodeList?: CommonObj[],
   codeMap?: string | CommonObj
 ): CommonObj[] {
-  if (!list.length) return [];
+  if (getIsEmptyParams(list)) return [];
   if (typeof codeMap === "string") codeMap = getCodeMap(codeMap);
-  const props = codeMap ? Object.keys(codeMap) : undefined;
   // slice 浅克隆一层，不影响原数组
   return list.slice().filter((item: CommonObj) => {
-    const { children, ...restItem } = item;
+    const { children } = item;
     const isValid = getIsValid(params, item, filterRules);
     if (delKeys?.length) deleteAttrs(item, delKeys, false);
-    // 将字典值携带上文本字段
-    if (codeMap) {
-      props?.forEach(prop => {
-        const name = codeMap[prop];
-        const t = name.charAt(0);
-        const fnMap = { D: getDictLabel, C: getCascadeLabel };
-        const fn = fnMap[t];
-        if (!fn) throw new Error(`暂未处理此类型：${t}`);
-        item[`${prop}_${dictTextPropKey}`] = fn(name, item[prop]);
-      });
-    }
-    if (nodeList && (isExclude ? !isValid : isValid)) nodeList.push(restItem);
+    if (codeMap) fillTextProp(item, codeMap as CommonObj); // 将字典值携带上文本字段
     if (children?.length) {
-      item.children = getFilterList(children, params, filterRules, isExclude, delKeys, nodeList, codeMap);
+      item.children = getFilterList(children, params, filterRules, delKeys, codeMap);
     }
-    return isExclude ? !isValid : isValid;
+    return isValid;
+  });
+}
+
+/**
+ * 填充文本属性
+ * @param {object} data 要填充的数据（对象）
+ */
+function fillTextProp(data: CommonObj, codeMap: CommonObj) {
+  const keys = Object.keys(codeMap);
+  keys.forEach(prop => {
+    const name = codeMap![prop];
+    const t = name.charAt(0);
+    const fnMap = { D: getDictLabel, C: getCascadeLabel };
+    const fn = fnMap[t];
+    if (!fn) throw new Error(`暂未处理此类型：${t}`);
+    data[`${prop}_${dictTextPropKey}`] = fn(name, data[prop]);
   });
 }
 
@@ -243,6 +249,50 @@ export function getListTotal(tree: CommonObj[] = [], total = 0) {
     getListTotal(item.children, total);
   });
   return total;
+}
+/**
+ * 获取列表（根据ids，不会改变原数组）
+ * @param tree 要处理的嵌套树列表
+ * @param ids 要依据的ids
+ * @param deleteChildren 是否删除children属性
+ * @param propsMap 键值对映射
+ * @returns
+ */
+export function getListByIds(tree: CommonObj[] = [], ids: number[] = [], deleteChildren = true, propsMap?: CommonObj) {
+  if (!tree?.length || !ids?.length) return [];
+  const { id: idKey = "id", children: childrenKey = "children" } = propsMap ?? {};
+  const list: CommonObj[] = [];
+  function cycle(arr: CommonObj[]) {
+    // slice 只深克隆一层
+    if (!arr?.length) return;
+    arr.forEach((item: CommonObj) => {
+      const id = item[idKey];
+      if (id === undefined) return; // throw new Error(`不存在该属性：${byKey}`);
+      if (ids.includes(id)) list.push(item);
+      cycle(item[childrenKey]);
+      deleteChildren && delete item[childrenKey];
+    });
+  }
+  cycle(JSON.parse(JSON.stringify(tree)));
+  return list;
+}
+/**
+ * 删除节点（根据ids，不会改变原数组）
+ * @param tree
+ * @param ids
+ */
+export function deleteListByIds(tree: CommonObj[], ids: number[], propsMap?: CommonObj) {
+  if (!tree?.length || !ids?.length) return tree;
+  const { id: idKey = "id", children: childrenKey = "children" } = propsMap ?? {};
+  function cycle(arr: CommonObj[]) {
+    if (!arr?.length) return arr;
+    return arr.filter((item: CommonObj) => {
+      const id = item[idKey];
+      if (item[childrenKey]?.length) item[childrenKey] = cycle(item[childrenKey]);
+      return !ids.includes(id);
+    });
+  }
+  return cycle(tree);
 }
 
 /**

@@ -177,14 +177,14 @@ export const defaultTableColTpls: CommonObj = {
   // dateTime: { minWidth: 160 },
   //创建人/创建列
   T_Create: {
-    prop: ["creator_name", "create_time"],
+    prop: ["create_user", "create_time"],
     label: "创建时间",
     minWidth: 160,
     type: "OperatorTime",
   },
   //修改人/修改时间列
   T_Update: {
-    prop: ["updator_name", "update_time"],
+    prop: ["update_user", "update_time"],
     label: "修改时间",
     minWidth: 160,
     type: "OperatorTime",
@@ -192,7 +192,7 @@ export const defaultTableColTpls: CommonObj = {
   // 备注列
   T_Remark: {
     // prop: "remark", // 省略不写时，prop 跟模板名称保持一致
-    label: "备注信息",
+    label: "备注",
     minWidth: 140,
     type: "BaseText",
   },

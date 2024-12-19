@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
+    :fetch="data ? PatchMockCommon : PostMockCommon"
     :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : {}"
   />
@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
-import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
+import { PostMockCommon, PatchMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 
 const props = withDefaults(

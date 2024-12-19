@@ -14,7 +14,7 @@
 import { ref } from "vue";
 import { PostMockRole, DeleteMockRole, GetMockRole } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
-import { TableCol, TableColAttrs } from "@/core/components/table/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
@@ -33,27 +33,16 @@ const fields = ref<FormField[]>([
       options: "D_RoleType",
     },
   },
-  {
-    prop: "status",
-    label: "状态",
-    type: "select",
-    attrs: {
-      options: "D_EnableStatus",
-    },
-  },
-  {
-    prop: "create_times",
-    label: "创建时间",
-    type: "date-picker",
-  },
+  { tpl: "T_EnableStatus" },
+  { tpl: "T_CreateTime" },
 ]);
 const cols = ref<TableColAttrs[]>([
   { type: "selection" },
   { prop: "role_text", label: "角色类型", width: 120 },
-  { prop: "status", label: "状态", type: "BaseTag" },
-  { prop: "remark", label: "备注", minWidth: 250 },
-  { prop: "create_time", label: "创建时间", width: 180, sortable: true },
-  { prop: "update_time", label: "修改时间", width: 180, sortable: true },
+  { tpl: "T_EnableStatus" },
+  { tpl: "T_Remark" },
+  { tpl: "T_Create", sortable: true },
+  { tpl: "T_Update", sortable: true },
 ]);
 //点击列表上方的额外按钮
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {

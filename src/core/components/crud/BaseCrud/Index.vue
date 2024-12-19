@@ -132,7 +132,7 @@ import { filterBtnsByAuth } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
 import _ from "lodash";
 
-const { merge, cloneDeep } = _;
+const { merge, cloneDeep, snakeCase } = _;
 const $slots = defineSlots<{
   default: () => void; // 默认插槽
   middle?: () => void; // 中间插槽
@@ -254,14 +254,15 @@ const newExtraBtns = computed<BtnItem[]>(() => {
 function filterCycle(cols: TableCol[] = []) {
   return cols
     .filter(it => !!it)
-    .map(originCol => {
+    .map((originCol: any) => {
       let { tpl, ...col } = originCol;
       const { type } = col;
       if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
       if (tpl) {
         const tplData = defaultTableColTpls[tpl];
         if (!tplData) throw new Error(`不存在该模板：${tpl}`);
-        col = merge({ prop: tpl }, tplData, col);
+        const { prop = snakeCase(tpl.slice(2)) } = tplData;
+        col = merge({ prop }, tplData, col);
       }
       const { children } = col as TableColAttrs;
       if (children?.length) (col as TableColAttrs).children = filterCycle(children);

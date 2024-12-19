@@ -1,42 +1,6 @@
 import http from "@/core/http";
 import { CommonObj } from "@/core/_types";
 
-/************ 通用接口 *************/
-// 通用的获取列表（分页数组）接口
-// ts类型示例
-export interface GetMockCommonListReq {
-  [key: string]: any;
-}
-export interface GetMockCommonListRes {
-  [key: string]: any;
-}
-export const GetMockCommonList = (data?: GetMockCommonListReq) =>
-  http<GetMockCommonListRes>("get", "/mock/common/list", data, {
-    // 此处是对单个请求的：是否字符串序列化、是否显示全局加载动效、是否吐司提示、请求失败后最大重连次数的设置
-    // isStringify: false,
-    // loadEnable: true,
-    // toastEnable: true,
-    // reconnectMax: 1,
-  });
-// 通用的导出接口
-export const GetMockCommonExport = (data?: CommonObj) => http("get", "/mock/common/list", { exports, ...data });
-// 通用的获取数据（信息对象）接口
-export const GetMockCommonDetail = (data?: CommonObj) => http("get", "/mock/common/detail", data);
-// 通用的提交数据（信息对象）接口
-export const PostMockCommon = (data?: CommonObj) => http("post", "/mock/common", data);
-// 通用的新增接口
-export const PostMockCommonAdd = (data?: CommonObj) => http("post", "/mock/common/add", data);
-// 通用的修改接口
-export const PostMockCommonUpdate = (data?: CommonObj) => http("post", "/mock/common/update", data);
-// 通用的导入接口
-export const PostMockCommonImport = (data?: CommonObj) => http("post", "/mock/common/import", data);
-// 通用的删除接口
-export const DeleteMockCommon = (data?: CommonObj) => http("delete", "/mock/common", data);
-// 通用的更新全部数据接口
-export const PutMockCommon = (data?: CommonObj) => http("put", "/mock/common", data);
-// 通用的更新局部数据接口
-export const PatchMockCommon = (data?: CommonObj) => http("patch", "/mock/common", data);
-
 /************ 临时写的三个暂用接口 *************/
 export const GetImSearchFromUserList = (data?: CommonObj) => http("get", "/mock/common/list", data);
 export const GetImSearchFriendList = (data?: CommonObj) => http("get", "/mock/common/list", data);

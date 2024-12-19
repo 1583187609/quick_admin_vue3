@@ -105,7 +105,7 @@ const config = {
       //   has_more: "hasMore",
       //   records: "list",
       // }),
-      filterByAuth: (auth: number[]) => auth.includes(getUserInfo()?.type),
+      filterByAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
       // filterByAuth: (auth: number[]) => true,
       //跟下面的size  small 搭配使用
       // grid: () => ({
@@ -142,7 +142,7 @@ const config = {
   },
   BaseBtn: {
     btnsMap: {
-      //auth 权限说明 0超级管理员 1普通管理员 2特殊用户 3普通用户 4游客用户 5开发者
+      //auth 权限说明 0开发者 1超级管理员 2普通管理员 3超级VIP 4普通VIP 5特殊用户 6普通用户
       add: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
       edit: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
       delete: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },

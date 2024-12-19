@@ -66,6 +66,7 @@ const fields = ref<FormField[]>([
       options: "D_EnableStatus",
     },
   },
+  { tpl: "T_CreateTime" },
 ]);
 const cols: TableColAttrs[] = [
   { tpl: "T_Selection" },
@@ -79,6 +80,8 @@ const cols: TableColAttrs[] = [
   { prop: "phone", label: "电话", minWidth: 120 },
   { prop: "role_text", label: "角色类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
   // { type: "operate", label: "操作", width: 500 }, //  245 可覆盖操作列的属性设置
 ];
 //点击操作栏的分组按钮

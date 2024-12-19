@@ -10,8 +10,9 @@ import allData from "../../data";
 
 const { merge, upperFirst, snakeCase } = _;
 const { Random } = Mock;
-const { authUsers } = allData.user;
-const authUserNames = authUsers.map(it => it.name);
+// const { authUsers } = allData.user;
+// const authUserNames = authUsers.map(it => it.name);
+const authUserNames = [];
 
 // 扩展 mock 能力
 Random.extend({
@@ -264,7 +265,7 @@ const mockRuleMap = {
  * @returns {object}
  */
 function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
-  const { type, prop, remark, attrs, customRule, handler } = rule;
+  const { type, prop, remark, attrs = {}, customRule, handler } = rule;
   if (cfg[prop] !== undefined) throw new Error(`已添加过属性：${prop}`);
   const target = mockRuleMap[type];
   /****** mockjs内置+扩展 ******/
@@ -329,7 +330,7 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
   if (["createUser", "updateUser"].includes(type)) {
     const {} = attrs;
     // const authUserNames = authUsers.map(it => it.name); // 如果考虑实时更新，应该写在此处，若考虑性能则不用
-    cfg[prop] = handler ?? (() => Random.pick(authUserNames));
+    cfg[prop] = handler ?? (() => (authUserNames.length ? Random.pick(authUserNames) : Random.cname(Math.random() < 0.5)));
     return cfg;
   }
   // // token
@@ -346,7 +347,7 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
   // }
   // 自定义
   if (type === "custom") {
-    infferWarnLog(customRule);
+    inferredWarnLog(customRule);
     return merge(cfg, customRule);
   }
   throw new Error(`暂未处理此类型：${type}`);
@@ -367,7 +368,7 @@ function getDefaultTplsProps(excludesTypes: string[] = ["id"]): CommonObj {
 const defaultTplsProps = getDefaultTplsProps();
 
 // 发出推断警告
-function infferWarnLog(rule: CommonObj = needParam(), tplProps: CommonObj = defaultTplsProps) {
+function inferredWarnLog(rule: CommonObj = needParam(), tplProps: CommonObj = defaultTplsProps) {
   if (!tplProps?.length) return;
   const props = Object.keys(rule);
   if (!props.length) return;

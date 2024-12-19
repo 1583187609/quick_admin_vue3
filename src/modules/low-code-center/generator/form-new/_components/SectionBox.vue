@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <section class="section-box f-fs-s">
+  <section class="section-box f-fs-s-c">
     <header class="head f-0">{{ title }}</header>
     <div class="body f-1">
       <slot />
@@ -22,12 +22,13 @@ const props = withDefaults(
   height: 100%;
   border: $border-main;
   border-radius: $radius-main;
+  background: #fff;
   .head {
-    padding: $gap-half $gap;
+    padding: $gap-half;
     border-bottom: $border-main;
   }
   .body {
-    padding: $gap-half $gap;
+    padding: $gap-half;
     overflow: auto;
   }
 }

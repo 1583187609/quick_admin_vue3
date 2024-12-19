@@ -1,6 +1,30 @@
 import http from "@/core/http";
 import { CommonObj } from "@/core/_types";
 
+/************ 通用接口 *************/
+// {
+//   此处是对单个请求的：是否字符串序列化、是否显示全局加载动效、是否吐司提示、请求失败后最大重连次数的设置
+//   isStringify: false,
+//   loadEnable: true,
+//   toastEnable: true,
+//   reconnectMax: 1,
+// }
+// ts类型示例
+export interface PostMockCommonListReq {
+  [key: string]: any;
+}
+export interface PostMockCommonListRes {
+  [key: string]: any;
+}
+// 新增、批量导入
+export const PostMockCommon = (data?: PostMockCommonListReq) => http<PostMockCommonListRes>("post", "/mock/common", data);
+// 删除、批量删除
+export const DeleteMockCommon = (data?: CommonObj) => http("delete", "/mock/common", data);
+// 修改、批量修改
+export const PatchMockCommon = (data?: CommonObj) => http("patch", "/mock/common", data);
+// 查询详情、查询列表、导出列表
+export const GetMockCommon = (data?: CommonObj) => http("get", "/mock/common", data);
+
 /************ 角色相关 *************/
 // 新增、批量导入
 export const PostMockRole = (data?: CommonObj) => http("post", "/mock/role", data);

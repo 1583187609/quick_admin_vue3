@@ -4,7 +4,7 @@
     :fields="fields"
     :fetch="handleFetch"
     :extraBtns="['add', 'delete']"
-    :operateBtns="['edit', 'delete', (row:CommonObj)=>row.status===1 ? 'forbid' : 'enable']"
+    :operateBtns="getOperateBtns"
     :pagination="false"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
@@ -27,7 +27,7 @@ import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
 import { emptyStr, handleBtnNext } from "@/utils";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
-import { getFilterList, getNavsTree } from "#/mock/utils";
+import { getFilterList, getListTotal, getNavsTree } from "#/mock/utils";
 import { autoMenus } from "@/router/routes/auto";
 
 export type MenuListType = "automate" | "dynamic";
@@ -70,7 +70,7 @@ const fields = ref<FormField[]>([
     },
   },
   props.type === "dynamic" && {
-    prop: "create_times",
+    prop: "create_time",
     label: "创建时间",
     type: "date-picker",
   },
@@ -78,7 +78,7 @@ const fields = ref<FormField[]>([
 const cols = ref<TableCol[]>([
   { type: "selection" },
   {
-    prop: "label",
+    prop: "name",
     label: "名称",
     minWidth: 220,
     align: "left",
@@ -112,6 +112,13 @@ const cols = ref<TableCol[]>([
     : []),
   { type: "operate", label: "操作", width: 240 }, //  245 可覆盖操作列的属性设置
 ]);
+// 获取操作栏的按钮
+function getOperateBtns(row: CommonObj) {
+  const { children, status } = row;
+  const total = getListTotal(children);
+  const popconfirm = total ? `确定删除及其子级共 ${total + 1} 条记录吗？` : true;
+  return ["edit", { name: "delete", popconfirm }, status === 1 ? "forbid" : "enable"];
+}
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
   const { selectedKeys } = restArgs;
   handleBtnNext(

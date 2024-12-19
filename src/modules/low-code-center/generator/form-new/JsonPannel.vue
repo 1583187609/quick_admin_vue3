@@ -1,6 +1,6 @@
 <!-- JSON面板 -->
 <template>
-  <SectionBox title="JSON" class="json-pannel" :style="{ width }">
+  <SectionBox title="JSON" class="json-pannel" :style="{ minWidth: width }">
     <BaseForm :fields="fields" :moreBtns="['add']" @moreBtns="handleMoreBtns" />
   </SectionBox>
 </template>
@@ -8,7 +8,7 @@
 import { computed, reactive } from "vue";
 import SectionBox from "./_components/SectionBox.vue";
 import { usePopup } from "@/hooks";
-import SetPannel from "./SetPannel.vue";
+import SetPannel from "./SetPannel/Index.vue";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj } from "@/core/_types";

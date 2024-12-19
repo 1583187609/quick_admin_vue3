@@ -2,7 +2,7 @@
 <template>
   <SectionForm style="width: 800px" :sections="sections">
     <template #yebd>
-      <BaseCrud :fetch="GetMockCommonList" :cols="cols" :tableAttrs="{ size: 'small' }" :pageAttrs="{ small: true }">
+      <BaseCrud :fetch="GetMockCommon" :cols="cols" :tableAttrs="{ size: 'small' }" :pageAttrs="{ small: true }">
         <template #bd="{ row, index }">
           <BaseNum :value="(index % 2 === 0 ? 1 : -1) * 20" showText />
         </template>
@@ -15,7 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import { TableCol } from "@/core/components/table/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { SectionFormItem } from "@/core/components/form/_types";

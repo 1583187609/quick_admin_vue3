@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="GetMockCommonList"
+    :fetch="GetMockCommon"
     :extraBtns="['add']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
@@ -13,7 +13,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetMockCommonList, DeleteMockUser } from "@/api-mock";
+import { GetMockCommon, DeleteMockUser } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { handleBtnNext } from "@/utils";

@@ -4,7 +4,7 @@
     style="width: 1000px"
     v-model="modelData"
     :sections="sections"
-    :fetch="data ? PostMockCommonUpdate : PostMockCommonAdd"
+    :fetch="data ? PatchMockCommon : PostMockCommon"
     :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
     :grid="12"
@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { FormField, SectionFormItem } from "@/core/components/form/_types";
-import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
+import { PostMockCommon, PatchMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 const yesNoSwitchAttrs = {

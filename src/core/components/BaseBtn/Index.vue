@@ -2,7 +2,7 @@
  目标：仅传入name属性，即可享有对应按钮的全部功能（含颜色、文本、图标、权限、默认逻辑等），也可传入属性值进行覆盖，同时提供了快捷属性（to、popoconfirm）。
 -->
 <template>
-  <el-popconfirm @confirm="handleClickDebounce" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
+  <el-popconfirm @confirm="handleClickDebounce" width="fit-content" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs">
         <slot>{{ emptyVals.includes(newBtn?.text) ? emptyStr : newBtn?.text }}</slot>

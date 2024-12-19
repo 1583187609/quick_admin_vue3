@@ -1,5 +1,5 @@
 <template>
-  <SectionBox title="文件" class="file-pannel">
+  <SectionBox title="文件" class="file-pannel" style="min-width: 150px">
     <BaseTree :data="treeData" />
   </SectionBox>
 </template>

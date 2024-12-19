@@ -121,7 +121,7 @@ export default {
   ),
   // 按需（懒）加载请求（带attrs）
   TestFetchLazy: lazyFetch(() =>
-    GetMockCommonList().then((res: CommonObj) => {
+    GetMockCommon().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
       const obj: CommonObj = {};
       const typeMap = { 0: "primary", 1: "danger", 2: "info" };

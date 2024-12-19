@@ -1,4 +1,4 @@
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import { CommonObj } from "@/core/_types";
 import { lazyFetch } from "..";
 
@@ -383,7 +383,7 @@ export default {
   ),
   // 按需（懒）加载请求（不带attrs）
   TestFetch: lazyFetch(() =>
-    GetMockCommonList().then((res: CommonObj) => {
+    GetMockCommon().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
       return list.map((item: string, ind: number) => {
         return { label: "按需请求（无attrs)" + ind, value: ind };
@@ -392,7 +392,7 @@ export default {
   ),
   // 按需（懒）加载请求（带attrs）
   TestFetchLazy: lazyFetch(() =>
-    GetMockCommonList().then((res: CommonObj) => {
+    GetMockCommon().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
       const obj: CommonObj = {};
       const typeMap = { 0: "primary", 1: "danger", 2: "info" };

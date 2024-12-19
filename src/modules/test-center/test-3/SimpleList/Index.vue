@@ -2,7 +2,7 @@
 <template>
   <BaseCrud
     style="max-width: 1400px"
-    :fetch="GetMockCommonList"
+    :fetch="GetMockCommon"
     :fields="fields"
     :cols="cols"
     :extraBtns="[
@@ -21,7 +21,7 @@
 import { reactive } from "vue";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { FormField } from "@/core/components/form/_types";
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
 import { usePopup } from "@/hooks";

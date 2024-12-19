@@ -48,20 +48,10 @@
           <el-form-item :prop="'list.' + ind + '.hour'" required :rules="[{ required: true, message: '请输入小时' }]">
             <el-input v-model="sizeForm.list[ind].hour" placeholder="请输入小时" clearable />
           </el-form-item>
-          <el-form-item
-            class="ml-h"
-            :prop="'list.' + ind + '.money'"
-            required
-            :rules="[{ required: true, message: '请输入小时' }]"
-          >
+          <el-form-item class="ml-h" :prop="'list.' + ind + '.money'" required :rules="[{ required: true, message: '请输入小时' }]">
             <el-input v-model="sizeForm.list[ind].money" placeholder="请输入金额" />
           </el-form-item>
-          <el-form-item
-            class="ml-h"
-            :prop="'list.' + ind + '.money'"
-            required
-            :rules="[{ required: true, message: '请选择类型' }]"
-          >
+          <el-form-item class="ml-h" :prop="'list.' + ind + '.money'" required :rules="[{ required: true, message: '请选择类型' }]">
             <el-select
               v-model="sizeForm.list[ind].type"
               style="min-width: 120px"
@@ -134,7 +124,7 @@
 import { isVNode, reactive, ref, h } from "vue";
 import type { ComponentSize, FormProps, FormInstance } from "element-plus";
 import { CirclePlus, Remove } from "@element-plus/icons-vue";
-import { PostMockCommon, GetMockCommonList } from "@/api-mock";
+import { PostMockCommon, GetMockCommon } from "@/api-mock";
 import { CommonObj } from "@/core/_types";
 import BaseIcon from "@/core/components/BaseIcon.vue";
 import { cancelHttp } from "@/core/http";
@@ -192,7 +182,7 @@ function sendFetch() {
 }
 function sendFetchTest() {
   console.log("点击了发送请求按钮");
-  GetMockCommonList({})
+  GetMockCommon({})
     .then((res: CommonObj) => {
       console.log(res, "请求成功---------------------");
     })

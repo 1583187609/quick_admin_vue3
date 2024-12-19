@@ -8,7 +8,7 @@ export interface ResponseMenuItem {
   icon: IconNames; //首字母大写，ElementPlus中有效的图标均可，例：Promotion
   path: string;
   type: number; //0目录 1菜单（显示） 2菜单（不显示）3外链（暂未使用）
-  auth_codes?: number[] | null; //该路由的权限 0超级管理员 1普通管理员 2特殊用户 3普通用户 4游客用户 5开发人员
+  auth_codes?: number[] | null; //该路由的权限
   status: ShowCodes; //0 禁用 1启用
   is_cache?: ShowCodes; //是否缓存：0否 1是
   link_type?: LinkType;

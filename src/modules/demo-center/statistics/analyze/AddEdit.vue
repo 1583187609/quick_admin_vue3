@@ -4,7 +4,7 @@
     :style="{ width: pureText ? '350px' : '500px' }"
     :fields="fields"
     :pureText="pureText"
-    :fetch="id ? PostMockCommonUpdate : PostMockCommonAdd"
+    :fetch="id ? PatchMockCommon : PostMockCommon"
     :afterSuccess="() => refreshList?.()"
   >
     <template #avatar>
@@ -17,7 +17,7 @@ import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { GetMockUser } from "@/api-mock";
 import UploadAvatar from "@/core/components/upload/UploadAvatar.vue";
-import { PostMockCommonAdd, PostMockCommonUpdate } from "@/api-mock";
+import { PostMockCommon, PatchMockCommon } from "@/api-mock";
 import { StrNum, FinallyNext, CommonObj } from "@/core/_types";
 
 const props = withDefaults(

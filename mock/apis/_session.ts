@@ -1,10 +1,10 @@
-import { needParam } from "@/utils";
+import { needParam, storage } from "@/utils";
 
 // 缓存的session数据
 const sessionData = {
   token: "", //登录授权token
   captcha: "", //4位验证码
-  userInfo: null,
+  userInfo: storage.getItem("userInfo"),
 };
 
 // 获取（修改）缓存

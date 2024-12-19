@@ -68,7 +68,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import Chart from "@/core/components/chart/Chart.vue";
 import ChartLine from "@/core/components/chart/ChartLine.vue";
 import ChartBar from "@/core/components/chart/ChartBar.vue";
@@ -370,7 +370,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位" },
       { prop: "accept_time", label: "接受时间" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
   {
     label: "我的待阅",
@@ -381,7 +381,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位1" },
       { prop: "accept_time", label: "接受时间1" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
   {
     label: "我的已办",
@@ -392,7 +392,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位2" },
       { prop: "accept_time", label: "接受时间2" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
   {
     label: "我发起的",
@@ -403,7 +403,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位3" },
       { prop: "accept_time", label: "接受时间3" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
 ];
 const activeName = ref(1);

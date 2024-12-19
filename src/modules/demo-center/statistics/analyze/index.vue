@@ -3,7 +3,7 @@
     :cols="cols"
     v-model="modelData"
     :fields="fields"
-    :fetch="GetMockCommonList"
+    :fetch="GetMockCommon"
     :extraBtns="['add']"
     :operateBtns="[
       'edit',
@@ -26,7 +26,7 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { ref, reactive } from "vue";

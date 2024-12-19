@@ -13,7 +13,7 @@ import { CommonObj, OptionItem } from "@/core/_types";
 import { exampleMap } from "../_config";
 import { getWidgetAttrsFields } from "./_config";
 import { usePopup } from "@/hooks";
-import Config from "./_components/Config.vue";
+// import Config from "./_components/Config.vue";
 
 const { openPopup, closePopup } = usePopup();
 
@@ -244,7 +244,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
 function openConfigPopup(type: string = "") {
   // const label = getFields().find(it => it.prop === type)?.label ?? "";
   const label = "label";
-  openPopup(`编辑${label}(${type})`, [Config, { type }]);
+  // openPopup(`编辑${label}(${type})`, [Config, { type }]);
 }
 function handleSubmit(data: CommonObj) {
   closePopup();

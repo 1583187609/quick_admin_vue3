@@ -40,7 +40,7 @@
       :cols="cols"
       :fields="fields"
       :sections="sections"
-      :fetch="GetMockCommonList"
+      :fetch="GetMockCommon"
       :importCfg="testImportCfg"
       :extraBtns="[
         'add',
@@ -128,7 +128,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, reactive, h } from "vue";
-import { GetMockCommonList, PostMockCommon, DeleteMockCommon, PostMockCommonUpdate } from "@/api-mock";
+import { GetMockCommon, PostMockCommon, DeleteMockCommon, PatchMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { TableCol, TableColAttrs } from "@/core/components/table/_types";
 import AddEdit from "./AddEdit.vue";
@@ -599,7 +599,7 @@ const cols: TableCol[] = [
         minWidth: 100,
         attrs: {},
         quickAttrs: {
-          handleChange: (val: any, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate().then((res: any) => next()),
+          handleChange: (val: any, row: CommonObj, next: FinallyNext) => PatchMockCommon().then((res: any) => next()),
           popover: `设置{tpl: "T_Switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
         },
       },
@@ -609,7 +609,7 @@ const cols: TableCol[] = [
         type: "input",
         width: 100,
         quickAttrs: {
-          handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate({}).then((res: any) => next()),
+          handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
         },
       },
       {
@@ -625,7 +625,7 @@ const cols: TableCol[] = [
           ],
         },
         quickAttrs: {
-          handleChange: (val: string, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate({}).then((res: any) => next()),
+          handleChange: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
         },
       },
       {
@@ -634,7 +634,7 @@ const cols: TableCol[] = [
         type: "input-number",
         width: 180,
         quickAttrs: {
-          handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PostMockCommonUpdate({}).then((res: any) => next()),
+          handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
         },
       },
     ],

@@ -4,7 +4,7 @@ import { DictName } from "@/dict/_types";
 import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage, getTextFromOptions, emptyStr, needParam } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/core/_types";
 import dayjs from "dayjs";
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 
 // 配置项，启用本地存储类型、存储自动过期时间（过期后，会重新请求更新存储数据）
 const storateType: "" | StorageType = "local"; //存储方式，可选值： '', local、session、cookie
@@ -64,7 +64,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
         proxyMap[name] = getStorage(`dict.${name}`, storateType as StorageType);
       });
     }
-    return await GetMockCommonList().then((res: any) => {
+    return await GetMockCommon().then((res: any) => {
       const list = res.records.slice(0, 3);
       const inserted = insertNames.length > 0; // 是否已经插入过names
       list.map((item, ind) => {

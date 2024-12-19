@@ -6,7 +6,7 @@
       v-model="modelData"
       :fields="fields"
       :cols="cols"
-      :fetch="GetMockCommonList"
+      :fetch="GetMockCommon"
       :grid="{ xs: 24, sm: 12, md: 12, lg: 8, xl: 6 }"
       :disabled="false"
       :readonly="true"
@@ -40,7 +40,7 @@ import TestView from "@/core/components/TestView.vue";
 import { handleBtnNext } from "@/utils";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { useSelectOpts } from "@/hooks";
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 
 const records = {

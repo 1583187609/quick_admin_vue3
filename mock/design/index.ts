@@ -1,6 +1,6 @@
 import { CommonObj } from "@/core/_types";
 import { getMockList } from "./_utils";
-import { getDictMap, getDictValues } from "../dict";
+import { getDictLabel, getDictMap, getDictValues } from "../dict";
 import dayjs from "dayjs";
 import allRegions from "../data/regions";
 import allSchool from "../data/school";
@@ -13,6 +13,12 @@ import { getNavsTree, typeOf } from "../utils";
 const { Random } = Mock;
 
 export const designMap = {
+  common: {
+    name: "通用表",
+    getList() {
+      return [];
+    },
+  },
   // 用户表
   user: {
     name: "用户",
@@ -57,7 +63,7 @@ export const designMap = {
           { type: "cascader", prop: "city", remark: "家乡", attrs: { name: "C_Region", level: 2 } },
           {
             type: "dict",
-            prop: "role", //角色类型
+            prop: "role", // 角色类型
             attrs: { name: "D_RoleType" },
             handler({ context }: CommonObj) {
               const { id } = context.currentContext;
@@ -69,7 +75,6 @@ export const designMap = {
             type: "phone",
             prop: "phone",
             handler: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
-            // phone: ({ context }: CommonObj) => Random.phone(roleWeight[context.currentContext.role].phonePre),
           },
           {
             // 账号
@@ -92,9 +97,7 @@ export const designMap = {
           { type: "string", prop: "produce", attrs: { typeKey: "ctitle", min: 3, max: 200 } },
           { user_data: ({ context }: CommonObj) => JSON.parse(JSON.stringify(context.currentContext)) },
           "enableStatus", // 启用禁用状态
-          "createTime:register_time:注册时间",
-          "createUser",
-          "update",
+          "createUpdate",
           "remark",
         ],
         199,
@@ -121,10 +124,8 @@ export const designMap = {
         [
           "id",
           {
-            type: "dict",
-            prop: "role", //角色类型
-            attrs: { name: "D_RoleType" },
-            handler: ({ context }: CommonObj) => roles[context.currentContext.id - 1],
+            role: ({ context }: CommonObj) => roles[context.currentContext.id - 1],
+            role_text: ({ context }: CommonObj) => getDictLabel("D_RoleType", context.currentContext.role),
           },
           "enableStatus",
           "createUpdate",

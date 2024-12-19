@@ -94,7 +94,7 @@ function handleClick(btnObj: BtnItem) {
   if (to) {
     router.push(to as any);
   } else {
-    $emit("click", btnObj, (hint = `${text || "操作"}成功！`, closeType?: ClosePopupType, cb?: () => void) => {
+    $emit("click", btnObj, (hint = `${text || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void) => {
       showMessage(hint);
       closePopup(closeType);
       cb?.();

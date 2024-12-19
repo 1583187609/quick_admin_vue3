@@ -1,9 +1,9 @@
 <!-- 日志管理 -->
 <template>
-  <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommonList" index></BaseCrud>
+  <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommon" index></BaseCrud>
 </template>
 <script lang="ts" setup>
-import { GetMockCommonList } from "@/api-mock";
+import { GetMockCommon } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 
