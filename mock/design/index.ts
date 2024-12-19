@@ -97,7 +97,17 @@ export const designMap = {
           "update",
           "remark",
         ],
-        199
+        199,
+        {
+          // 有权限的用户
+          authUsers(list: CommonObj[] = []) {
+            // 统计有权限账号的个数
+            const total = Object.keys(roleWeight)
+              .filter(n => Number(n) < 3)
+              .reduce((pre, cur) => pre + Number(cur), 0);
+            return list.slice(0, total);
+          },
+        }
       );
     },
   },
@@ -169,7 +179,7 @@ export const designMap = {
   menu: {
     name: "菜单",
     getList() {
-      return getNavsTree(allNavs, { value: "id", label: "name" });
+      return getNavsTree(allNavs);
     },
   },
 };

@@ -55,20 +55,6 @@ export default {
       typeKey: "cname", // （中文姓名）
     },
   },
-  T_CreateUser: {
-    type: "name",
-    remark: "创建人",
-    attrs: {
-      typeKey: "cname", // （中文姓名）
-    },
-  },
-  T_UpdateUser: {
-    type: "name",
-    remark: "修改人",
-    attrs: {
-      typeKey: "cname", // （中文姓名）
-    },
-  },
   T_Avatar: {
     type: "image",
     remark: "头像图片地址",

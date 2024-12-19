@@ -20,55 +20,40 @@ export default {
     },
   },
   T_CreateTime: {
-    type: "createUpdate",
+    type: "createTime",
     // prop: "create_time",
     remark: "创建时间",
     attrs: {
-      typeKey: "createTime",
       min: "-1y",
       max: "-1M",
     },
   },
   T_UpdateTime: {
-    type: "createUpdate",
+    type: "updateTime",
     // prop: "update_time",
     remark: "更新时间",
     defaultValue: () => Date.now(),
     attrs: {
-      typeKey: "updateTime",
       min: "-1M",
     },
   },
-  T_Create: {
-    type: "createUpdate",
-    prop: ["create_time", "create_user"],
-    remark: "创建时间+创建人",
+  T_CreateUser: {
+    type: "name",
+    remark: "创建人",
     attrs: {
-      typeKey: "create",
-      min: "-1y",
-      max: "-1M",
+      typeKey: "cname", // （中文姓名）
     },
   },
-  T_Update: {
-    type: "createUpdate",
-    prop: ["update_time", "update_user"],
-    remark: "更新时间+更新人",
+  T_UpdateUser: {
+    type: "name",
+    remark: "修改人",
     attrs: {
-      typeKey: "update",
-      min: "-1y",
-      max: "-1M",
+      typeKey: "cname", // （中文姓名）
     },
   },
-  T_CreateUpdate: {
-    type: "createUpdate",
-    prop: ["create_time", "create_user", "update_time", "update_user"],
-    remark: "创建时间+创建人+更新时间+更新人",
-    attrs: {
-      typeKey: "createUpdate",
-      min: "-1y",
-      max: "-1M",
-    },
-  },
+  T_Create: ["createTime", "createUser"],
+  T_Update: ["updateTime", "updateUser"],
+  T_CreateUpdate: ["createTime", "createUser", "updateTime", "updateUser"],
   T_Remark: {
     type: "string",
     remark: "备注",

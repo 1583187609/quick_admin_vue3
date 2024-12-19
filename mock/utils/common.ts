@@ -105,24 +105,14 @@ export function getFilterRulesNew(enName: string, params: CommonObj) {
   const { rules = [] } = target;
   const ruleMap: CommonObj = {};
   rules.forEach((rule: CommonObj) => {
-    let { prop, type } = rule;
-    const { attrs } = rule;
-    if (type === "createUpdate") {
-      const { typeKey } = attrs;
-      // 已处理 createTime, createUser, updateTime, updateUser,
-      // 不可能能作为表单字段：create, update, createUpdate
-      if (["createTime", "updateTime"].includes(typeKey)) type = "date";
-      else if (["createUser", "updateUser"].includes(typeKey)) type = "name";
-      else if (["create", "update", "createUpdate"].includes(typeKey)) {
-        type = "date";
-        if (["create", "createUpdate"].includes(typeKey)) prop = "create_time";
-        else if (["update", "createUpdate"].includes(typeKey)) prop = "update_time";
-        // createUpdate 待完善处理
-      }
-    }
+    let { type } = rule;
+    const { attrs, prop } = rule;
+    const { typeKey } = attrs;
     const val = params[prop];
     const t = typeOf(val);
     if (t === "Undefined") return;
+    if (["createTime", "updateTime"].includes(typeKey)) type = "date";
+    else if (["createUser", "updateUser"].includes(typeKey)) type = "name";
     let [validType, strategy] = ["match", "equal"];
     // ["match", "equal"]：id,
     // ["match", "blur"]:  string, name, phone
@@ -130,7 +120,7 @@ export function getFilterRulesNew(enName: string, params: CommonObj) {
     // ["between", "date"]: date
     // 多义性：number（match-equal, between-number)
     // 不可能作为表单字段：address, image
-    // 暂未处理完善：cascader, createUpdate(不可能能作为表单字段：create, update, createUpdate)
+    // 暂未处理完善：cascader
     if (["string", "name", "phone"].includes(type)) {
       validType = "match";
       strategy = "blur";

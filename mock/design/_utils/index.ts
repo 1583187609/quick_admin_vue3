@@ -6,9 +6,12 @@ import Mock from "mockjs";
 import { getBasePath } from "#/mock/_platform/_utils";
 import designTpls from "../tpls";
 import _ from "lodash";
+import allData from "../../data";
 
 const { merge, upperFirst, snakeCase } = _;
 const { Random } = Mock;
+const { authUsers } = allData.user;
+const authUserNames = authUsers.map(it => it.name);
 
 // 扩展 mock 能力
 Random.extend({
@@ -56,7 +59,7 @@ function getTplName(tpl: string) {
  * @param simple 简单的规则
  * @returns {object} 标准的规则
  */
-function getStandardRule(simple: string | CommonObj) {
+function getStandardRule(simple: string | CommonObj): CommonObj | CommonObj[] {
   if (!simple) throw new Error(`不允许为空`);
   const t = typeOf(simple);
   let info: CommonObj = {};
@@ -67,6 +70,8 @@ function getStandardRule(simple: string | CommonObj) {
     if (list.length === 1) {
       [tpl] = list;
       Tpl = getTplName(tpl as unknown as string);
+      // 如果是一组模板，则直接返回
+      if (Array.isArray(defaultMockTpls[Tpl])) return defaultMockTpls[Tpl].map((it, i) => getStandardRule(it));
     } else if (list.length === 2) {
       [tpl, remark] = list;
       Tpl = getTplName(tpl as unknown as string);
@@ -249,59 +254,6 @@ const mockRuleMap = {
       return () => Random[typeKey](...argsMap[typeKey]);
     },
   },
-  // 创建更新
-  createUpdate: {
-    names: ["createTime", "createUser", "updateTime", "updateUser", "create", "update", "createUpdate"],
-    defaultName: "createUpdate",
-    fn(attrs, prop = needParam()) {
-      const { typeKey = "createUpdate", min, max, format } = attrs;
-      // 整理好值
-      let createDate = undefined;
-      const createTime = () => {
-        createDate = Random.limitDate(min, max, format);
-        return createDate;
-      };
-      const updateTime = () => Random.limitDate(createDate, max, format);
-      const createUser = () => Random.cname();
-      const updateUser = () => Random.cname();
-      // 如果是单个，直接返回
-      if (typeKey === "createTime") return createTime;
-      if (typeKey === "createUser") return createUser;
-      if (typeKey === "updateTime") return updateTime;
-      if (typeKey === "updateUser") return updateUser;
-      // 整理好多个的prop
-      let [createTimeProp, updateTimeProp, createUserProp, updateUserProp]: string[] = ["", "", "", ""];
-      if (typeKey === "createTime") [createTimeProp = needParam("createTimeProp")] = prop;
-      if (typeKey === "createUser") [createUserProp = needParam("createUserProp")] = prop;
-      if (typeKey === "updateTime") [updateTimeProp = needParam("updateTimeProp")] = prop;
-      if (typeKey === "updateUser") [updateUserProp = needParam("updateUserProp")] = prop;
-      if (typeKey === "create") {
-        [createTimeProp = needParam("createTimeProp"), createUserProp = needParam("createUserProp")] = prop;
-      }
-      if (typeKey === "update") {
-        [updateTimeProp = needParam("updateTimeProp"), updateUserProp = needParam("updateUserProp")] = prop;
-      }
-      if (typeKey === "createUpdate") {
-        [
-          createTimeProp = needParam("createTimeProp"),
-          createUserProp = needParam("createUserProp"),
-          updateTimeProp = needParam("updateTimeProp"),
-          updateUserProp = needParam("updateUserProp"),
-        ] = prop;
-      }
-      //返回多个的值
-      if (typeKey === "create") return [{ [createTimeProp]: createTime }, { [createUserProp]: createUser }];
-      if (typeKey === "update") return [{ [updateTimeProp]: updateTime }, { [updateUserProp]: updateUser }];
-      if (typeKey === "createUpdate") {
-        return [
-          { [createTimeProp]: createTime },
-          { [createUserProp]: createUser },
-          { [updateTimeProp]: updateTime },
-          { [updateUserProp]: updateUser },
-        ];
-      }
-    },
-  },
 };
 
 /**
@@ -359,6 +311,24 @@ function addMockConfig(rule: CommonObj, cfg: CommonObj = {}) {
   if (type === "cascader") {
     const { name = needParam(), level } = attrs;
     cfg[prop] = handler ?? (() => Random.cascaderValues(name, level));
+    return cfg;
+  }
+  // 创建时间
+  if (type === "createTime") {
+    const { min, max, format } = attrs;
+    cfg[prop] = handler ?? (() => Random.limitDate(min, max, format));
+    return cfg;
+  }
+  // 更新时间
+  if (type === "updateTime") {
+    const { min, max, format } = attrs;
+    cfg[prop] = handler ?? (({ context }: CommonObj) => Random.limitDate(context.currentContext.create_time ?? min, max, format));
+    return cfg;
+  }
+  // 创建人/更新人
+  if (["createUser", "updateUser"].includes(type)) {
+    const {} = attrs;
+    cfg[prop] = handler ?? (() => Random.pick(authUserNames));
     return cfg;
   }
   // // token
@@ -423,14 +393,30 @@ function infferWarnLog(rule: CommonObj = needParam(), tplProps: CommonObj = defa
  * @param {number} num 要生成的条数
  * @returns {object[]}
  */
-export function getMockList(rules: (CommonObj | string)[] = [], num = 9): CommonObj {
+export function getMockList(rules: (CommonObj | string)[] = [], num = 9, extraAttrs?: CommonObj): CommonObj {
   const cfg: CommonObj = {};
-  const standRules = rules.map((simpleRule: CommonObj | string) => {
+  const standRuleList: CommonObj = [];
+  rules.forEach((simpleRule: CommonObj | string) => {
     const standRule = getStandardRule(simpleRule);
-    addMockConfig(standRule, cfg);
-    return standRule;
+    const t = typeOf(standRule);
+    if (t === "Object") {
+      addMockConfig(standRule, cfg);
+      standRuleList.push(standRule);
+    } else if (t === "Array") {
+      standRule.forEach(item => {
+        addMockConfig(item, cfg);
+        standRuleList.push(item);
+      });
+    } else {
+      throw new Error(`暂未处理此类型：${t}`);
+    }
   });
   const mockData = Mock.mock({ [`list|${num}`]: [cfg] });
   mockData.list = num > 1 ? mockData.list : [mockData.list];
-  return { list: mockData.list, rules: standRules };
+  if (extraAttrs) {
+    Object.keys(extraAttrs).forEach(key => {
+      extraAttrs[key] = extraAttrs[key](mockData.list);
+    });
+  }
+  return { list: mockData.list, rules: standRuleList, ...extraAttrs };
 }
