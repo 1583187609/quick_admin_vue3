@@ -42,7 +42,7 @@
 5、BaseEditor
 6、完善 BaseKeyVal 的 optsName
 7、BaseNum
-8、BasicQrcode
+8、BaseQrcode
 9、LoadMore
 10、OpenFile 考虑看要不要移出
 11、TestView 考虑改名

@@ -48,7 +48,6 @@
     "interview:dev": "vitepress dev",
     "interview:build": "vitepress build",
     "interview:preview": "vitepress preview",
-    "db": "node ./scripts/db/index.js",
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {

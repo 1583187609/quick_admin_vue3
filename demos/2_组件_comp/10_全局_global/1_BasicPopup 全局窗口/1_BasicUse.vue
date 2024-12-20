@@ -1,5 +1,5 @@
 <!-- summary 基础用法
-打开弹窗示例。默认是打开Dialog。
+  打开弹窗示例。默认是打开Dialog。
 -->
 <template>
   <div>
@@ -14,7 +14,7 @@
             // onCancel: () => ElMessage.info('点击了取消按钮'),
             // onConfirm: () => ElMessage.info('点击了确认按钮'),
           },
-          Test,
+          '这是弹窗内容',
           'dialog',
           'confirm'
         )

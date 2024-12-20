@@ -4,7 +4,9 @@
 <template>
   <div>
     <el-button @click="openPopup('弹窗', '常规弹窗')" type="warning">打开常规弹窗</el-button>
-    <el-button @click="openPopup(['div', {}, '弹窗标题（自定义渲染）'], '弹窗内容')" type="warning">打开弹窗（自定义header）</el-button>
+    <el-button @click="openPopup(['div', {}, '弹窗标题（自定义渲染）'], '弹窗内容')" type="warning"
+      >打开弹窗（自定义header）</el-button
+    >
     <el-button
       @click="
         openPopup(
