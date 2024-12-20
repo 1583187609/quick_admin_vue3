@@ -1,5 +1,14 @@
 ## 随记清单
 
+说明文档概述，通过如下措施：
+1、从目标组件中获取摘要描述信息，提示信息（tip、warning、danger、detail 等）  
+2、从示例组件中获取（示例代码、实际 UI 效果）、摘要描述信息、提示信息（tip、warning、danger、detail 等）  
+3、通过 vue-docgen-api 从目标组件中获取 defineProps、defineEmits、defineExpose、defineSlots 中获取：名称、描述、ts 类型、默认值  
+4、从.ts 或.vue 文件中获取 ts 类型
+
+能够实现：
+只需在源码中写好注释，即可通过 node 命令生成说明文档，大大降低了了说明文档的维护难度。
+
 ## 待定清单
 
 13、完全继承 UI 框架的属性

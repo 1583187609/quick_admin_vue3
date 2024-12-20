@@ -1,3 +1,5 @@
+import { getPackageVersion } from "../utils/index.js";
+
 export const docsPath = "/docs"; //文档路径
 export const demosPath = "/demos"; //示例路径
 export const cachePath = "/.vitepress/cache/views"; //临时缓存路径
@@ -15,8 +17,8 @@ export const showGridAttrs = { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 };
 
 export const projectInfo = {
   title: "Quick Admin Vue3",
-  description: "开发最快的后台管理模板",
-  stackBrief: "Vite+Vue3+ElementPlus+Pinia+TypeScript+Sass",
+  description: "开发最快的中后台模板",
+  stackBrief: `Vite${getPackageVersion("vite")} + Vue${getPackageVersion("vue")} + Ts + Pinia + ElementPlus`,
 }; //项目信息
 
 // 资源地址

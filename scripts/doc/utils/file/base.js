@@ -3,6 +3,7 @@
  ********************************************/
 import fs from "fs";
 import path from "path";
+import pkg from "../../../../package.json";
 
 /**
  * 判断是否是绝对路径
@@ -130,4 +131,23 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
   }
   lines.splice(ind, 0, ...addLines);
   return lines.join("\r\n");
+}
+
+/**
+ * 获取包的版本号
+ * @param {string} name 包名称
+ * @param {number} level 版本号深度
+ */
+export function getPackageVersion(name = needParam(), level = 2) {
+  const { dependencies, devDependencies } = pkg;
+  const depObj = { ...dependencies, ...devDependencies };
+  const keys = Object.keys(depObj);
+  let version = "";
+  keys.find(key => {
+    const isFind = key === name;
+    if (isFind) version = depObj[key];
+    return isFind;
+  });
+  version = version.replace(/[^]/, "");
+  return version.split(".").slice(0, level).join(".");
 }

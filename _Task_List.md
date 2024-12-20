@@ -191,6 +191,7 @@
 
 1、采用`git submodule`方式维护 mock 和基础方法（待定）
 141、将 SectionForm 改为 BaseSectionForm（待确定）
+143、考虑移除 sass
 
 ## TS 类型处理
 
