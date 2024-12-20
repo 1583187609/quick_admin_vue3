@@ -141,6 +141,7 @@ function handleMoreBtns(btn: BtnItem) {
 defineExpose({
   formValidate: handleValidate,
   submit: handleSubmit,
+  reset: handleReset,
 });
 </script>
 <style lang="scss" scoped>

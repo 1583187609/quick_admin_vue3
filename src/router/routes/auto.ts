@@ -6,17 +6,38 @@ import { RouteRecordRaw } from "vue-router";
 
 const orderJoinChar = "_"; // order的链接符号
 
+/**
+ * 从路径中获取排序序号
+ * @returns {number}
+ */
+function getOrderFromPath(path: string) {
+  if (!path) return;
+  const name = path.split("/").at(-2);
+  if (!name) return;
+  const n = Number(name.split(orderJoinChar)[0]);
+  if (isNaN(n)) return;
+  return n;
+}
+
+/**
+ * 获取去除order序号之后的路由地址
+ * @param routPath 路由路径
+ * @returns {string}
+ */
+function getRoutePathRemoveOrder(routPath: string) {
+  return routPath
+    .split("/")
+    .map(it => it.split(orderJoinChar).at(-1))
+    .join("/");
+}
+
 // 获取自动路由（扁平化，非嵌套结构）
 function getAutoRoutesFlat(comps, pages, prefix = "../../modules/", fileName = "page.json"): RouteRecordRaw[] {
   return Object.entries(pages)
     .map(([path, meta]) => {
       // 去除路径中的 '../../modules/' 前缀和 '/page.json' 后缀
       let routPath = path.slice(prefix.length, -(fileName.length + 1));
-      // 去掉路径中的序号
-      routPath = routPath
-        .split("/")
-        .map(it => it.split(orderJoinChar).at(-1))
-        .join("/");
+      routPath = getRoutePathRemoveOrder(routPath); // 去掉路径中的序号
       const compPath = path.replace(`/${fileName}`, "/index.vue");
       const component = comps[compPath];
       return {
@@ -28,17 +49,7 @@ function getAutoRoutesFlat(comps, pages, prefix = "../../modules/", fileName = "
     })
     .filter(it => it.component);
 }
-/**
- * 从路径中获取排序序号
- * @returns {number}
- */
-function getOrderFromPath(path: string = needParam()) {
-  const name = path.split("/").at(-2);
-  if (!name) return;
-  const n = Number(name.split(orderJoinChar)[0]);
-  if (isNaN(n)) return;
-  return n;
-}
+
 /**
  * 获取自动路由（嵌套结构；文件路径中的order优先级高于page.json中的order）
  * @param comps vue组件信息
@@ -55,9 +66,10 @@ function getAutoRoutesTree(comps, pages, prefix = "../../modules/", fileName = "
     const compPath = path.replace(`/${fileName}`, "/index.vue");
     const component = comps[compPath]; // 组件
     const meta = pages[path];
-    const order = getOrderFromPath(component);
+    const order = getOrderFromPath(compPath);
     if (order !== undefined) meta.order = order;
-    const routPath = path.slice(prefix.length, -(fileName.length + 1)); // 去除路径中的 '../../modules/' 前缀和 '/index.vue' 后缀 或者 '/page.json' 后缀
+    let routPath = path.slice(prefix.length, -(fileName.length + 1)); // 去除路径中的 '../../modules/' 前缀和 '/index.vue' 后缀 或者 '/page.json' 后缀
+    routPath = getRoutePathRemoveOrder(routPath); // 去掉路径中的序号
     const parts = routPath.split("/");
     function addToTree(node, parts, level = 0) {
       if (level >= parts.length) return;

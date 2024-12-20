@@ -224,6 +224,9 @@ defineExpose({
   formValidate() {
     return footerBtnsRef.value.formValidate();
   },
+  reset() {
+    footerBtnsRef.value.reset();
+  },
 });
 </script>
 <style lang="scss">

@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-import SectionBox from "./_components/SectionBox.vue";
+import SectionBox from "../_components/SectionBox.vue";
 import { OptionItem } from "@/core/_types";
 
 const treeData: OptionItem[] = [

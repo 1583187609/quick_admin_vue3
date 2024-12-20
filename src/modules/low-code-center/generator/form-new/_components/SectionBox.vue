@@ -1,7 +1,10 @@
 <!-- 页面-简介 -->
 <template>
   <section class="section-box f-fs-s-c">
-    <header class="head f-0">{{ title }}</header>
+    <header class="head f-sb-c f-0">
+      <span class="mr-a">{{ title }}</span>
+      <slot name="right"></slot>
+    </header>
     <div class="body f-1">
       <slot />
     </div>
@@ -24,7 +27,8 @@ const props = withDefaults(
   border-radius: $radius-main;
   background: #fff;
   .head {
-    padding: $gap-half;
+    height: 36px;
+    padding: 0 $gap-half;
     border-bottom: $border-main;
   }
   .body {
