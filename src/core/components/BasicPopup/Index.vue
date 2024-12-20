@@ -205,7 +205,7 @@ function openPopup(
  */
 function getTopPopupIds(num = 1): (DrawerId | DialogId)[] {
   if (num <= 0) throw new Error("请传入一个正整数");
-  const popups = sortObjArrByKey([...dialogs, ...drawers], "createAt", "desc");
+  const popups = sortObjArrByKey([...dialogs, ...drawers], "desc", "createAt");
   const topPops = popups.slice(0, num);
   return topPops?.map(it => `${it.name}-${it.id}` as DrawerId | DialogId);
 }

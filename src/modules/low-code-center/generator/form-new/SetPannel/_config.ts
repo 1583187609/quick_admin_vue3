@@ -218,7 +218,7 @@ function getNearList(): OptionItem[] {
 }
 function getOptions(enums?: OptionItem[]) {
   if (!enums) return;
-  sortObjArrByKey(enums, "frequency", "asc");
+  sortObjArrByKey(enums, "asc", "frequency");
   const heightList: OptionItem[] = [];
   const commonList: OptionItem[] = [];
   const neverList: OptionItem[] = [];
@@ -250,11 +250,11 @@ export function getWidgetAttrsFields(type: string): FormFieldAttrs[] {
     console.warn(`暂未配置此控件类型：${type}`);
     return [];
   }
-  sortObjArrByKey(propList as CommonObj[], "frequency", "asc");
+  sortObjArrByKey(propList as CommonObj[], "asc", "frequency");
   return propList.map(item => {
     const standProps = getStandardAttrsItem(item);
     const { value, label, enums } = standProps;
-    sortObjArrByKey(enums, "frequency", "asc");
+    sortObjArrByKey(enums, "asc", "frequency");
     return {
       prop: value,
       type: enums ? "select" : undefined,

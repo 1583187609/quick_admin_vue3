@@ -320,16 +320,26 @@ export function handleBtnNext(map: CommonObj, name: BtnName) {
 }
 
 /**
- * 对象数组排序（默认order）
+ * 数组排序（支持对象，数字数组等，默认order）
  * @param {CommonObj[]} arr 要排序的数组
- * @param {string} key  排序依据的对象属性键名
  * @param {asc | desc | random} type 排序方式 asc 升序 desc 降序 random 随机
+ * @param {string} key  排序依据的对象属性键名
  */
 export type SortType = "asc" | "desc" | "random";
-export function sortObjArrByKey(arr: CommonObj[] = [], key = "order", type: SortType = "asc"): CommonObj[] {
+export function sortObjArrByKey(arr: CommonObj[] = [], type: SortType = "asc", key = "order"): CommonObj[] {
+  if (!arr?.length || !key) return arr;
+  const keys = key.split(".");
   arr.sort((a: CommonObj, b: CommonObj) => {
-    if (type === "asc") return a[key] - b[key];
-    if (type === "desc") return b[key] - a[key];
+    sortObjArrByKey(a.children, type, key);
+    let aVal: any = a;
+    let bVal: any = b;
+    keys.find(k => {
+      if (typeof aVal !== "object" || typeof bVal !== "object") return true;
+      aVal = aVal[k] ?? 0; // Infinity;
+      bVal = bVal[k] ?? 0; // Infinity;
+    });
+    if (type === "asc") return aVal - bVal;
+    if (type === "desc") return bVal - aVal;
     if (type === "random") return Math.random() - 0.5;
     throw new Error(`传参类型错误：${type}`);
   });

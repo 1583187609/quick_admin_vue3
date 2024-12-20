@@ -1,14 +1,23 @@
 // 自动路由
+import { needParam } from "#/mock/utils";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
-import { defaultIconName, toCamelCase } from "@/utils";
+import { defaultIconName, sortObjArrByKey, toCamelCase } from "@/utils";
 import { RouteRecordRaw } from "vue-router";
 
-// 获取自动路由
-function getAutoRoutes(comps, pages): RouteRecordRaw[] {
+const orderJoinChar = "_"; // order的链接符号
+
+// 获取自动路由（扁平化，非嵌套结构）
+function getAutoRoutesFlat(comps, pages, prefix = "../../modules/", fileName = "page.json"): RouteRecordRaw[] {
   return Object.entries(pages)
     .map(([path, meta]) => {
-      const routPath = path.slice(14, -10); // 去除路径中的 '../../modules/' 前缀和 '/page.json' 后缀
-      const compPath = path.replace("/page.json", "/index.vue");
+      // 去除路径中的 '../../modules/' 前缀和 '/page.json' 后缀
+      let routPath = path.slice(prefix.length, -(fileName.length + 1));
+      // 去掉路径中的序号
+      routPath = routPath
+        .split("/")
+        .map(it => it.split(orderJoinChar).at(-1))
+        .join("/");
+      const compPath = path.replace(`/${fileName}`, "/index.vue");
       const component = comps[compPath];
       return {
         path: routPath,
@@ -19,23 +28,36 @@ function getAutoRoutes(comps, pages): RouteRecordRaw[] {
     })
     .filter(it => it.component);
 }
-
-function sortByOrder(arr = []) {
-  if (arr?.length) {
-    arr.forEach((it: any) => sortByOrder(it.children));
-    arr.sort((a: any, b: any) => (a?.meta?.order ?? 1) - (b?.meta?.order ?? 1));
-  }
+/**
+ * 从路径中获取排序序号
+ * @returns {number}
+ */
+function getOrderFromPath(path: string = needParam()) {
+  const name = path.split("/").at(-2);
+  if (!name) return;
+  const n = Number(name.split(orderJoinChar)[0]);
+  if (isNaN(n)) return;
+  return n;
 }
-
-function getAutoRoutesTree(comps, pages) {
+/**
+ * 获取自动路由（嵌套结构；文件路径中的order优先级高于page.json中的order）
+ * @param comps vue组件信息
+ * @param pages 页面信息
+ * @param prefix 要忽略掉的前缀
+ * @param fileName 要查找的页面信息文件名称
+ * @returns {object[]}
+ */
+function getAutoRoutesTree(comps, pages, prefix = "../../modules/", fileName = "page.json") {
   const tree = [];
-  const keys = Object.keys(pages);
-  keys.sort((a, b) => a.length - b.length); // 排序处理
-  keys.forEach(path => {
-    const compPath = path.replace("/page.json", "/index.vue");
+  const paths = Object.keys(pages);
+  paths.sort((a, b) => a.length - b.length); // 排序处理
+  paths.forEach(path => {
+    const compPath = path.replace(`/${fileName}`, "/index.vue");
     const component = comps[compPath]; // 组件
     const meta = pages[path];
-    const routPath = path.slice(14, -10); // 去除路径中的 '../../modules/' 前缀和 '/index.vue' 后缀 或者 '/page.json' 后缀
+    const order = getOrderFromPath(component);
+    if (order !== undefined) meta.order = order;
+    const routPath = path.slice(prefix.length, -(fileName.length + 1)); // 去除路径中的 '../../modules/' 前缀和 '/index.vue' 后缀 或者 '/page.json' 后缀
     const parts = routPath.split("/");
     function addToTree(node, parts, level = 0) {
       if (level >= parts.length) return;
@@ -55,17 +77,17 @@ function getAutoRoutesTree(comps, pages) {
     }
     addToTree(tree, parts);
   });
-  sortByOrder(tree);
+  sortObjArrByKey(tree, "asc", "meta.order");
   return tree;
 }
 
 // 获取自动路由的菜单
-function getAutoMenus(routes: any[] = [], idStr = "", level = 0) {
+function getAutoMenus(routes: any[] = [], idStr = "", level = 0): ResponseMenuItem[] {
   if (!routes?.length) return [];
   return routes.map((item: any, ind: number) => {
     const { meta = {}, name, path, children, component } = item;
     const isMenu = component !== undefined;
-    const { id, title = name, icon, type = isMenu ? 1 : 0, disabled } = meta;
+    const { id, title = name, icon = defaultIconName, type = isMenu ? 1 : 0, disabled } = meta;
     idStr = idStr ? `${idStr}-${ind + 1}` : id;
     return {
       id: idStr,
@@ -89,5 +111,5 @@ function getAutoMenus(routes: any[] = [], idStr = "", level = 0) {
 
 const comps = import.meta.glob("../../modules/**/index.vue");
 const pages = import.meta.glob("../../modules/**/page.json", { eager: true, import: "default" });
-export const autoRoutes = getAutoRoutes(comps, pages); // 自动路由
+export const autoRoutes = getAutoRoutesFlat(comps, pages); // 自动路由
 export const autoMenus = getAutoMenus(getAutoRoutesTree(comps, pages)); // 根据自动路由生成的自动菜单

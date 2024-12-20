@@ -183,11 +183,14 @@
 138、按新划分菜单模块进行菜单重组
 139、完善自动路由逻辑
 140、处理导入逻辑
-141、将 SectionForm 改为 BaseSectionForm（待确定）
+141、爬取 ElementPlus 官网中的表格属性数据
+142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
+142、删除 db 脚本
 
 ## 待定事项
 
 1、采用`git submodule`方式维护 mock 和基础方法（待定）
+141、将 SectionForm 改为 BaseSectionForm（待确定）
 
 ## TS 类型处理
 
