@@ -4,13 +4,16 @@
 
 import cssVars from "@/assets/styles/_var.module.scss";
 import { RendererElement, RendererNode, VNode, h, isVNode, markRaw } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf, defaultPopoverAttrs, noAuthPaths } from "@/core/utils";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/core/_types";
 import { PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { HArgs, RenderVue } from "@/core/BaseRender.vue";
+import _ from "lodash";
+
+const { upperFirst } = _;
 
 export const themeMap = {
   primary: cssVars.colorPrimary,
@@ -36,6 +39,37 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
     duration,
     grouping: true,
     showClose: duration > 2000,
+  });
+}
+
+/**
+ * 显示确认提示框
+ * @param htmlStr 提示的文本内容
+ * @param type 提示框类型
+ * @param lightWords 高亮文字
+ * @param {string} title 标题
+ * @returns {Promise}
+ */
+export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", lightWords: string[] = [], title = "温馨提示") {
+  const typeMap = { danger: "error" };
+  const colorType = type;
+  const colorKey = `color${upperFirst(colorType)}`;
+  const color = cssVars[colorKey];
+  const style = `style="color:${color};"`;
+  const lightStr = `<b ${style}>${0}</b>`;
+  return new Promise((resolve, reject) => {
+    ElMessageBox.confirm(htmlStr, title, {
+      type: typeMap[type] ?? type,
+      dangerouslyUseHTMLString: true,
+      closeOnClickModal: false,
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      confirmButtonClass: `el-button--${colorType}`,
+      cancelButtonClass: `el-button--${colorType} is-plain`,
+      draggable: true,
+    })
+      .then(res => resolve(res))
+      .catch(() => {});
   });
 }
 
@@ -205,17 +239,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;

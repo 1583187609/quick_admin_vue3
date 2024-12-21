@@ -10,7 +10,7 @@ export interface BtnsAllMap {
 }
 
 export interface BtnCfg {
-  name: string;
+  tpl: string;
   text?: string;
   type?: string;
   icon?: string;
@@ -33,7 +33,7 @@ export interface BtnAttrs {
 export type BtnHandleClickType = "common" | "custom"; // 可选值：common（通用）、custom（自定义）
 
 export interface BtnItem {
-  name?: BtnName; //可以不传值
+  tpl?: BtnName; //可以不传值
   text?: string; //按钮文本
   order?: number; //按钮顺序
   auth?: number[]; //权限

@@ -19,7 +19,7 @@
         :key="fInd"
       />
     </el-row>
-    <AddDelBtn @click="(type:AddDelBtnType)=>handleAddDel(type,ind)" :type="ind < newList.length - 1 ? 'del' : 'add'" />
+    <AddDelBtn @click="(type:AddDelBtnType)=>handleAddDel(type,ind)" :type="ind < newList.length - 1 ? 'delete' : 'add'" />
     <!-- </el-space> -->
   </el-form-item>
 </template>

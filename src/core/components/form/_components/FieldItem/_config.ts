@@ -300,6 +300,11 @@ function getFormItemTpls(type: FormTplType = "common") {
         maxlength: 10,
       },
     },
+    // 用户姓名
+    T_UserName: {
+      label: "姓名",
+      attrs: {},
+    },
     // 备注
     T_Remark: {
       // prop: "remark", // 省略不写，则和键名保持一致
@@ -428,6 +433,15 @@ function getFormItemTpls(type: FormTplType = "common") {
             type: "switch",
             attrs: { activeText: "启用", inactiveText: "禁用" },
           }),
+    },
+    /***** 枚举类 *****/
+    // 性别
+    T_Gender: {
+      label: "性别",
+      type: isQuery ? "select" : "radio-group",
+      attrs: {
+        options: "D_Gender",
+      },
     },
   };
 }

@@ -3,7 +3,7 @@
   <div class="f-sb-fs" style="height: 200px">
     <SectionForm class="create-base-form f-3" v-model="modelData" :sections="sections">
       <template #head-right>
-        <BaseBtn name="delete" link icon="" />
+        <BaseBtn tpl="delete" link icon="" />
       </template>
     </SectionForm>
     <div class="ml-t f-1 f-fs-s-c">

@@ -29,7 +29,7 @@
     </div>
     <div class="foot-box f-c-c">
       <BaseBtn
-        :name="btn"
+        :tpl="btn"
         round
         size="small"
         :disabled="isPatrol ? false : status !== 2"

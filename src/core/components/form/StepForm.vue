@@ -54,7 +54,7 @@ const props = withDefaults(
     sections?: SectionFormItem[];
     direction?: StepDirection;
     stepAttrs?: StepItemAttrs;
-    formAttrs?: CommonObj; // SectionFormAtrrs;
+    formAttrs?: CommonObj; // SectionFormAttrs;
     footer?: boolean;
   }>(),
   {

@@ -10,6 +10,8 @@ import {
   getLabelFromOptionsByLastValue,
   defaultFormItemType,
   showMessage,
+  ThemeColorType,
+  showConfirmMessage,
 } from "@/core/utils";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
@@ -54,29 +56,18 @@ export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, 
   const style = `style="color:${color};"`;
   const len = isSeledAll ? total : seledRows.length;
   const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
-  ElMessageBox.confirm(hintTips, "温馨提示", {
-    type: name === "delete" ? "error" : "warning",
-    dangerouslyUseHTMLString: true,
-    closeOnClickModal: false,
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    confirmButtonClass: `el-button--${colorType}`,
-    cancelButtonClass: `el-button--${colorType} is-plain`,
-    draggable: true,
-  })
-    .then(() => {
-      let exportRows: any[] = [];
-      if (name === "export") {
-        const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
-        exportRows = getExportRows(newCols, seledRows);
-      }
-      $emit("extraBtns", name, next, {
-        selectedKeys: seledKeys,
-        selectedRows: seledRows,
-        exportRows,
-      });
-    })
-    .catch(() => {});
+  showConfirmMessage(hintTips, colorType).then(() => {
+    let exportRows: any[] = [];
+    if (name === "export") {
+      const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
+      exportRows = getExportRows(newCols, seledRows);
+    }
+    $emit("extraBtns", name, next, {
+      selectedKeys: seledKeys,
+      selectedRows: seledRows,
+      exportRows,
+    });
+  });
 }
 
 // "index", "selection", "sort", "operate", "id", "create", "update", "remark", "custom", "switch", "BaseTag", "BaseImg", "BaseText", "BaseCopy", "UserInfo"

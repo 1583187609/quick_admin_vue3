@@ -1,17 +1,19 @@
 <!-- 表单配置生成文件 -->
 <template>
   <div class="f-sb-s page-view">
-    <FilePannel v-model="currFile" class="pannel f-0" style="width: 150px" />
+    <FilePannel v-model="currFile" class="pannel f-0" style="width: 300px" />
     <PreviewPannel
-      :activeIndex="editInd"
-      :data="fileData"
       class="pannel f-1"
+      :activeIndex="editInd"
+      :data="formFields"
+      :defaultValues="defaultValues"
+      :fileInfo="currFile"
       @add="handleAdd"
       @del="handleDel"
       @edit="handleEdit"
       @clear="handleClear"
     />
-    <SetPannel class="pannel f-1" :data="currData" @save="handleSave" ref="setPannelRef" :type="setType" />
+    <SetPannel class="pannel f-1" :data="currData" @save="handleSave" :type="setType" ref="setPannelRef" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -24,54 +26,61 @@ import { showMessage } from "@/utils";
 import _ from "lodash";
 
 const { merge } = _;
-const currFile = ref("");
+const currFile = ref<CommonObj>();
 const setType = ref<SetPannelType>("add");
+const defaultValues = reactive<CommonObj>({});
 const editInd = ref<number>(-1);
 const currData = ref<CommonObj>();
 const setPannelRef = ref<any>(null);
-const fileData = ref<CommonObj[]>([{ prop: "add", label: "", labelWidth: "0", type: "slot" }]);
+const formFields = ref<CommonObj[]>([]);
 
 watch(
   () => currFile.value,
   newVal => {
     if (!newVal) return;
-    fileData.value = [];
+    formFields.value = newVal.data.fields;
   }
 );
 function handleSave(data, type: SetPannelType, ind: number) {
-  const isExist = fileData.value.find(it => it.prop === data.prop);
+  const isExist = formFields.value.find(it => it.prop === data.prop);
   if (type === "add") {
     if (isExist) return showMessage(`已添加过该属性：${data.prop}`, "error");
-    fileData.value.push(data);
-    // showMessage("新增成功");
+    formFields.value.push(data);
   } else if (type === "edit") {
-    merge(fileData.value[editInd.value], data);
-    // showMessage("修改成功");
+    merge(formFields.value[editInd.value], data);
   } else {
     throw new Error(`暂未处理此类型：${type}`);
   }
+  getDefaultVals(data);
   setPannelRef.value.reset();
 }
 function handleAdd(data) {
-  fileData.value.splice(-1, 0, data);
+  formFields.value.push(data);
   setPannelRef.value.reset();
   setType.value = "add";
-  editInd.value = fileData.value.length - 2;
-  currData.value = fileData.value.at(-2);
+  editInd.value = formFields.value.length - 1;
+  currData.value = formFields.value.at(-1);
 }
 function handleDel(ind: number) {
-  fileData.value.splice(ind, 1);
+  formFields.value.splice(ind, 1);
   setPannelRef.value.reset();
   showMessage("删除成功");
 }
 function handleEdit(ind: number) {
-  currData.value = JSON.parse(JSON.stringify(fileData.value[ind]));
+  currData.value = JSON.parse(JSON.stringify(formFields.value[ind]));
   setType.value = "edit";
   editInd.value = ind;
 }
 function handleClear() {
-  fileData.value = [fileData.value.at(-1)!];
+  formFields.value = [];
   setPannelRef.value.reset();
+}
+// 获取默认值
+function getDefaultVals(field?: CommonObj) {
+  if (!field) return;
+  const { defaultValue, prop } = field;
+  if (defaultValue === undefined) return;
+  defaultValues[prop] = defaultValue;
 }
 </script>
 <style lang="scss" scoped>

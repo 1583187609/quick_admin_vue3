@@ -1,11 +1,12 @@
 <!-- 设置面板 -->
 <template>
-  <SectionBox title="配置" class="set-pannel">
+  <SectionBox title="配置" class="set-pannel" bodyClass="p-h">
     <template #right v-if="modelData.label && modelData.prop">
       {{ `${modelData.label}（${modelData.prop}）` }}
     </template>
     <SectionForm
       v-model="modelData"
+      :defaultExpands="[0, 1]"
       :sections="sections"
       :style="{ width }"
       :submitText="type === 'add' ? '创建' : '修改'"
@@ -26,26 +27,23 @@ import SectionBox from "../_components/SectionBox.vue";
 import { CommonObj, OptionItem } from "@/core/_types";
 import { exampleMap } from "../_config";
 import { getWidgetAttrsFields } from "./_config";
-import { usePopup } from "@/hooks";
 import { defaultFormItemType } from "@/utils";
 import BaseOption from "@/core/components/BaseOption.vue";
 import CssUnit from "./_components/CssUnit.vue";
 import EleDom from "./_components/EleDom.vue";
 import _ from "lodash";
+import { defaultFormItemTplsMap } from "@/core/components/form/_components/FieldItem";
 
 export type SetPannelType = "add" | "edit";
 
 const { merge } = _;
-const { openPopup, closePopup } = usePopup();
 
 const switchYewNoAttrs = {
+  activeValue: true,
+  inactiveValue: false,
   activeText: "是",
   inactiveText: "否",
 };
-// const yesNoOpts: OptionItem[] = [
-//   { label: "是", value: 1 },
-//   { label: "否", value: 0 },
-// ];
 const validOpts: OptionItem[] = [
   { label: "电话号码", value: "phone", slots: BaseOption },
   { label: "身份证号", value: "identity", slots: BaseOption },
@@ -76,7 +74,11 @@ watch(
   () => props.data,
   newVal => {
     if (!newVal) return;
-    merge(modelData, props.data);
+    const { tpl } = newVal;
+    if (!tpl) return merge(modelData, props.data);
+    const tplInfo = defaultFormItemTplsMap.common[tpl];
+    if (!tplInfo) throw new Error(`不存在该模板：${tpl}`);
+    merge(modelData, tplInfo, { tpl });
   }
 );
 const formRef = ref<any>(null);

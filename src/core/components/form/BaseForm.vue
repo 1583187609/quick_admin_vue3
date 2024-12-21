@@ -45,7 +45,7 @@
         :handleRequest="handleRequest"
         :handleResponse="handleResponse"
         @moreBtns="(name: string, args?: CommonObj, cb?: FinallyNext) => $emit('moreBtns', name, args, cb)"
-        @submit="(args: CommonObj) => $emit('submit', args)"
+        @submit="(args: CommonObj) => $emit('submit', args, submitNext)"
         ref="footerBtnsRef"
         v-if="!pureText"
       />
@@ -62,15 +62,16 @@ import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
 import FooterBtns, { AfterReset } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
-import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
+import { ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
-import { defaultCommonSize } from "@/core/utils";
+import { defaultCommonSize, showMessage } from "@/core/utils";
 import config from "@/config";
 import _ from "lodash";
-import { useFormAttrs } from "@/core/hooks";
+import { useFormAttrs, usePopup } from "@/core/hooks";
 
 const { merge } = _;
 
+const { closePopup } = usePopup();
 const $slots = defineSlots<{
   header?: () => void; // 顶部插槽
   content?: () => void; // 内容插槽
@@ -138,10 +139,17 @@ watch(
   },
   { immediate: true, deep: true }
 );
+// 提交之后的回调函数
+function submitNext(hint: string, closeType: ClosePopupType, cb?: () => void) {
+  const { submitText = "提交" } = props;
+  showMessage(hint ?? `${submitText || "操作"}成功`);
+  closePopup(closeType);
+  cb?.();
+}
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();
-  $emit("submit", params.value);
+  $emit("submit", params.value, submitNext);
 }
 
 defineExpose<{

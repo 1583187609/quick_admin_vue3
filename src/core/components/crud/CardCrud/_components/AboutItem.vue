@@ -25,14 +25,7 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn
-        :name="btn"
-        size="small"
-        round
-        @click="() => $emit('operateBtns', btn)"
-        v-for="(btn, ind) in operateBtns"
-        :key="ind"
-      />
+      <BaseBtn :tpl="btn" size="small" round @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
     </div>
   </div>
 </template>

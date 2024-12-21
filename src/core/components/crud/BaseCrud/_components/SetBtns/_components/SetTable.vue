@@ -30,8 +30,8 @@
     </template>
   </BaseTable>
   <div class="f-c-c mt-16">
-    <BaseBtn @click="handleSave" :name="{ name: 'submit', text: '保存' }" />
-    <BaseBtn @click="handleReset" name="reset" />
+    <BaseBtn @click="handleSave" :tpl="{ name: 'submit', text: '保存' }" />
+    <BaseBtn @click="handleReset" tpl="reset" />
   </div>
 </template>
 <script lang="ts" setup>

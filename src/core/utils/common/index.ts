@@ -9,4 +9,5 @@ export * from "./debug";
 export * from "./base";
 export * from "./consts";
 export * from "./config";
+export * from "./tree";
 export * from "./_temp";

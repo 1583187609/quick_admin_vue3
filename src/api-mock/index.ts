@@ -24,6 +24,8 @@ export const DeleteMockCommon = (data?: CommonObj) => http("delete", "/mock/comm
 export const PatchMockCommon = (data?: CommonObj) => http("patch", "/mock/common", data);
 // 查询详情、查询列表、导出列表
 export const GetMockCommon = (data?: CommonObj) => http("get", "/mock/common", data);
+// 下载导入模板
+export const GetMockCommonTpl = (data?: CommonObj) => http("get", "/mock/common/tpl", data);
 
 /************ 角色相关 *************/
 // 新增、批量导入
@@ -34,6 +36,8 @@ export const DeleteMockRole = (data?: CommonObj) => http("delete", "/mock/role",
 export const PatchMockRole = (data?: CommonObj) => http("patch", "/mock/role", data);
 // 查询详情、查询列表、导出列表
 export const GetMockRole = (data?: CommonObj) => http("get", "/mock/role", data);
+// 下载导入模板
+export const GetMockRoleTpl = (data?: CommonObj) => http("get", "/mock/role/tpl", data);
 
 /************ 菜单相关 *************/
 // 新增、批量导入
@@ -44,6 +48,8 @@ export const DeleteMockMenu = (data?: CommonObj) => http("delete", "/mock/menu",
 export const PatchMockMenu = (data?: CommonObj) => http("patch", "/mock/menu", data);
 // 查询详情、查询列表、导出列表
 export const GetMockMenu = (data?: CommonObj) => http("get", "/mock/menu", data);
+// 下载导入模板
+export const GetMockMenuTpl = (data?: CommonObj) => http("get", "/mock/menu/tpl", data);
 
 /************ 部门相关 *************/
 // 新增、批量导入
@@ -54,6 +60,8 @@ export const DeleteMockDepartment = (data?: CommonObj) => http("delete", "/mock/
 export const PatchMockDepartment = (data?: CommonObj) => http("patch", "/mock/department", data);
 // 查询详情、查询列表、导出列表
 export const GetMockDepartment = (data?: CommonObj) => http("get", "/mock/department", data);
+// 下载导入模板
+export const GetMockDepartmentTpl = (data?: CommonObj) => http("get", "/mock/department/tpl", data);
 
 /************ 用户相关 *************/
 // 新增、批量导入
@@ -64,6 +72,8 @@ export const DeleteMockUser = (data?: CommonObj) => http("delete", "/mock/user",
 export const PatchMockUser = (data?: CommonObj) => http("patch", "/mock/user", data);
 // 查询详情、查询列表、导出列表
 export const GetMockUser = (data?: CommonObj) => http("get", "/mock/user", data);
+// 下载导入模板
+export const GetMockUserTpl = (data?: CommonObj) => http("get", "/mock/user/tpl", data);
 
 //获取验证码
 export const GetMockCaptcha = (data?: CommonObj) => http("get", "/mock/captcha", data);

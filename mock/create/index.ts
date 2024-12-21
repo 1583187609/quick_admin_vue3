@@ -202,7 +202,7 @@ export function createRestfulApis(enName = "user", prefix = "/mock") {
       queryList = queryList.slice(sInd, eInd);
       return responseData({ data: { total_num: total, records: queryList, curr_page, page_size, has_next: eInd < total - 1 } });
     },
-    // 下载模板
-    [`GET ${prefix}/${enName}/download_tpl`]: (req: CommonObj) => {},
+    // 下载导入模板
+    [`GET ${prefix}/${enName}/tpl`]: (req: CommonObj) => {},
   });
 }

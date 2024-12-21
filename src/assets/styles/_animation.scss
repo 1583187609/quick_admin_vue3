@@ -4,6 +4,10 @@
 .rotate:hover {
   animation-play-state: paused;
 }
+.rotate-90 {
+  transform: rotate(90deg);
+  transition: transform 0.3s;
+}
 .rotate-180 {
   transform: rotate(180deg);
   transition: transform 0.3s;

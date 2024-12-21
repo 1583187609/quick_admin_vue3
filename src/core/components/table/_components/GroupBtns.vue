@@ -1,7 +1,7 @@
 <template>
   <div class="group-btns table-operate-col" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
     <BaseBtn
-      :name="btn"
+      :tpl="btn"
       :data="row"
       :size="size"
       class="btn"
@@ -17,7 +17,7 @@
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
             <BaseBtn
-              :name="btn"
+              :tpl="btn"
               :data="row"
               :size="size"
               class="btn"

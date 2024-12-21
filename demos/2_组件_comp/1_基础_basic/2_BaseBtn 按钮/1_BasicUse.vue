@@ -8,22 +8,22 @@
       <BaseBtn />
       <BaseBtn>按钮</BaseBtn>
       <BaseBtn text="按钮" />
-      <BaseBtn name="add" />
-      <BaseBtn name="edit" />
-      <BaseBtn name="edit" :attrs="{ type: 'info', text: '$编辑$' }" />
+      <BaseBtn tpl="add" />
+      <BaseBtn tpl="edit" />
+      <BaseBtn tpl="edit" :attrs="{ type: 'info', text: '$编辑$' }" />
     </div>
   </div>
   <div class="part">
     <div>快捷属性 & 默认逻辑</div>
     <div class="f-fs-fs-w">
-      <BaseBtn name="detail" />
-      <BaseBtn name="detail" to="/" />
-      <BaseBtn name="import" />
-      <BaseBtn name="import" @click="ElMessage.info('点击了导入按钮，可以自定义点击逻辑')" handleClickType="custom" />
-      <BaseBtn name="delete" />
-      <BaseBtn name="delete" :auth="[0]">删除（角色值为0可见）</BaseBtn>
-      <BaseBtn name="delete" popconfirm="删除后将不能进行恢复，确定删除吗？" />
-      <BaseBtn name="delete" :popconfirm="false" />
+      <BaseBtn tpl="detail" />
+      <BaseBtn tpl="detail" to="/" />
+      <BaseBtn tpl="import" />
+      <BaseBtn tpl="import" @click="ElMessage.info('点击了导入按钮，可以自定义点击逻辑')" handleClickType="custom" />
+      <BaseBtn tpl="delete" />
+      <BaseBtn tpl="delete" :auth="[0]">删除（角色值为0可见）</BaseBtn>
+      <BaseBtn tpl="delete" popconfirm="删除后将不能进行恢复，确定删除吗？" />
+      <BaseBtn tpl="delete" :popconfirm="false" />
     </div>
   </div>
 </template>

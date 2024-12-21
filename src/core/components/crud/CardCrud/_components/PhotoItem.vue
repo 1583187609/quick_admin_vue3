@@ -4,7 +4,7 @@
     <BarsImg :src="row.url" :topBar="topBar" class="img" :bottomBar="row.status === 1 ? row.reason : ''" />
     <div class="foot-box f-c-c-c f-0">
       <BaseCopy class="mb-q" :text="row.userId" />
-      <BaseBtn :name="btn" round size="small" @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
+      <BaseBtn :tpl="btn" round size="small" @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
     </div>
   </div>
 </template>

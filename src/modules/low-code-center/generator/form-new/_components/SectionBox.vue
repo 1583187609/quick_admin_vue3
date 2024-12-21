@@ -1,12 +1,14 @@
 <!-- 页面-简介 -->
 <template>
   <section class="section-box f-fs-s-c">
-    <header class="head f-sb-c f-0">
-      <span class="mr-a">{{ title }}</span>
+    <header class="head f-sb-c f-0" :class="{ 'border-bottom': borderBottom }">
+      <span class="mr-a f-0">{{ title }}</span>
       <slot name="right"></slot>
     </header>
-    <div class="body f-1">
-      <slot />
+    <div class="body hover-show-scroll f-1" :class="bodyClass">
+      <slot>
+        <BaseEmpty :tips="emptyTips" />
+      </slot>
     </div>
   </section>
 </template>
@@ -14,8 +16,12 @@
 const props = withDefaults(
   defineProps<{
     title?: string;
+    bodyClass?: string;
+    emptyTips?: string;
+    borderBottom?: boolean;
   }>(),
   {
+    borderBottom: true,
     title: "未命名标题",
   }
 );
@@ -29,10 +35,11 @@ const props = withDefaults(
   .head {
     height: 36px;
     padding: 0 $gap-half;
-    border-bottom: $border-main;
+    &.border-bottom {
+      border-bottom: $border-main;
+    }
   }
   .body {
-    padding: $gap-half;
     overflow: auto;
   }
 }

@@ -61,19 +61,8 @@
     </template>
     <!-- 当有子项表单时 -->
     <template v-else>
-      <AddDelList
-        v-model="modelVal"
-        :fields="subFields"
-        :parentProp="formItemAttrs.prop"
-        :formRef="formRef"
-        v-if="currType === 'addDel'"
-      />
-      <AnyEleList
-        v-model="modelVal"
-        :fields="subFields"
-        :prefixProp="formItemAttrs.prop"
-        v-else-if="currType === 'childrenFields'"
-      />
+      <AddDelList v-model="modelVal" :fields="subFields" :parentProp="formItemAttrs.prop" :formRef="formRef" v-if="currType === 'addDel'" />
+      <AnyEleList v-model="modelVal" :fields="subFields" :prefixProp="formItemAttrs.prop" v-else-if="currType === 'childrenFields'" />
       <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
     </template>
   </el-form-item>
@@ -227,7 +216,7 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
 function getRules(field: FormFieldAttrs) {
   const { label = "", rules = [], required } = field;
   if (!required || rules.find(it => it.required)) return rules;
-  return [{ required, message: label + "必填", trigger: "change" }, ...rules];
+  return [{ required, message: label + "必填" }, ...rules];
 }
 // 弹性伸缩类名
 const flexClass = computed(() => {

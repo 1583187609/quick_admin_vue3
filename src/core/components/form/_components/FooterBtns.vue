@@ -13,8 +13,8 @@
       {{ submitText }}
     </el-button>
     <template v-for="(btn, ind) in newMoreBtns" :key="ind">
-      <BaseBtn @click="handleMoreBtns(btn)" :name="btn" :disabled="disabled" v-if="btn.popconfirm" />
-      <BaseBtn v-debounce.immediate="() => handleMoreBtns(btn)" :name="btn" :disabled="disabled" v-else />
+      <BaseBtn @click="handleMoreBtns(btn)" :tpl="btn" :disabled="disabled" v-if="btn.popconfirm" />
+      <BaseBtn v-debounce.immediate="() => handleMoreBtns(btn)" :tpl="btn" :disabled="disabled" v-else />
     </template>
     <el-button :icon="RefreshLeft" @click="handleReset" :disabled="disabled || isLoading" v-if="resetText">
       {{ resetText }}

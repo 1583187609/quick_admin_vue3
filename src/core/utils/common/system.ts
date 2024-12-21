@@ -2,11 +2,13 @@
 /**************** 系统级别的方法，可能因工程改变而改变 ****************/
 /********************************************************************/
 
-import { emptyStr, needParam, typeOf } from "@/core/utils";
+import { ThemeColorType, emptyStr, needParam, typeOf } from "@/core/utils";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { CommonObj, GetRequired, OptionItem, StrNum } from "@/core/_types";
 import { emptyVals, emptyTime } from "@/utils";
+import cssVars from "@/assets/styles/_var.module.scss";
 import dayjs from "dayjs";
+import _ from "lodash";
 import * as xlsx from "xlsx";
 
 interface OptionPropsMap {
@@ -15,6 +17,7 @@ interface OptionPropsMap {
   children?: string;
 }
 
+const { upperFirst } = _;
 const defaultOptionPropsMap: GetRequired<OptionPropsMap> = {
   label: "label",
   value: "value",
@@ -315,3 +318,12 @@ export const getInputLimitNum = (value: any, min?: number, max?: number, fixNum?
 //       });
 //   });
 // }
+
+/**
+ * 获取系统主题色
+ * @param type 主题色类型
+ * @returns {string}
+ */
+export function getSysThemeColor(type: ThemeColorType) {
+  return cssVars["color" + upperFirst(type)];
+}

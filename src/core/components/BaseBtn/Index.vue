@@ -5,12 +5,12 @@
   <el-popconfirm @confirm="handleClickDebounce" width="fit-content" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs">
-        <slot>{{ emptyVals.includes(newBtn?.text) ? emptyStr : newBtn?.text }}</slot>
+        <slot>{{ emptyVals.includes(newBtn?.text) ? "" : newBtn?.text }}</slot>
       </el-button>
     </template>
   </el-popconfirm>
   <el-button class="base-btn" v-bind="newBtn.attrs" @click="handleClickDebounce" v-else>
-    <slot>{{ emptyVals.includes(newBtn?.text) ? emptyStr : newBtn?.text }}</slot>
+    <slot>{{ emptyVals.includes(newBtn?.text) ? "" : newBtn?.text }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
@@ -32,7 +32,7 @@ const props = withDefaults(
     /**
      * 基础扩展属性
      */
-    name?: BaseBtnType; // 可以不传值
+    tpl?: BaseBtnType; // 可以不传值
     data?: CommonObj; // 要传递的数据
     order?: number; // 按钮顺序
     auth?: number[]; // 权限
@@ -48,7 +48,7 @@ const props = withDefaults(
     // ...restAttrs 其余属性同el-button的属性
   }>(),
   {
-    name: "empty",
+    tpl: "empty",
     handleClickType: "common",
     isDebounce: true,
     // 为undefined不能不写，不然vue会将boolean类型转为false，会导致后续逻辑异常
@@ -59,21 +59,21 @@ const props = withDefaults(
 const $emit = defineEmits<{
   /**
    * 点击事件
-   * @type {name: BtnName}
+   * @type {tpl: BtnName}
    */
   click: [BtnName];
 }>();
 const newBtn = computed<EndBtnItem>(() => {
-  const { name } = props;
-  return getBtnObj(name, undefined, { attrs: $attrs });
+  const { tpl } = props;
+  return getBtnObj(tpl, undefined, { attrs: $attrs });
 });
 // 处理点击事件
 function handleClick() {
-  const { name, to } = newBtn.value;
-  if (to === undefined) return $emit("click", name!);
+  const { tpl, to } = newBtn.value;
+  if (to === undefined) return $emit("click", tpl!);
   const t = typeOf(to);
   router.push(t === "Function" ? (to as Function)(props.data) : to);
 }
 // 点击事件防抖处理
-const handleClickDebounce = props.isDebounce ? debounce(handleClick) : handleClick;
+const handleClickDebounce = props.isDebounce ? debounce(handleClick, true, 500) : handleClick;
 </script>

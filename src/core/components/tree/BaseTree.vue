@@ -1,10 +1,13 @@
+<!-- summary 基础树 
+  扩展了叶子节点点击事件
+-->
 <template>
-  <el-tree class="base-tree" :load="load" :data="data" :lazy="lazy" ref="treeRef">
+  <el-tree @nodeClick="handleNodeClick" class="base-tree hover-show-scroll" :load="load" :data="data" :lazy="lazy" ref="treeRef">
     <template #empty>
       <BaseEmpty />
     </template>
     <template #[key]="scope" v-for="(val, key) in getSlotsMap(slots)" :key="key">
-      <BaseRender :renderData="val" :scope="scope" />
+      <BaseRender :renderData="val" v-bind="scope" />
     </template>
   </el-tree>
 </template>
@@ -26,9 +29,21 @@ const props = withDefaults(
     data: () => [],
   }
 );
+const $emit = defineEmits(["nodeClick", "leafNodeClick"]);
 const treeRef = ref<InstanceType<typeof ElTree>>(null);
-
+function handleNodeClick(...args) {
+  $emit("nodeClick", ...args);
+  const [data, node, treeNode, event] = args;
+  if (node.isLeaf) $emit("leafNodeClick", ...args);
+}
 defineExpose({
   treeRef,
 });
 </script>
+<style lang="scss" scoped>
+.base-tree {
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 100px;
+}
+</style>

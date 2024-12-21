@@ -1,6 +1,6 @@
 import * as Icons from "@element-plus/icons-vue";
 import { CircleCloseFilled } from "@element-plus/icons-vue";
-import { getUserInfo, typeOf } from "@/core/utils";
+import { getSysThemeColor, getUserInfo, typeOf } from "@/core/utils";
 import { btnsMap } from "@/core/components/BaseBtn";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/core/_types";
@@ -9,17 +9,17 @@ import { FilterAuthItem } from "@/core/components/crud/BaseCrud/_types";
 import { PopconfirmAttrs, PopconfirmType } from "../_types";
 import _ from "lodash";
 
-const { merge, upperFirst } = _;
+const { merge } = _;
 
 /**
  * 获取popconfirm的属性对象
  * @param {string | boolean | PopconfirmAttrs} popconfirm
  * @param {string} text 按钮文字
  */
-function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem): PopconfirmAttrs {
+export function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem): PopconfirmAttrs {
   const { text, attrs = {} } = btnObj;
   const { type } = attrs;
-  const btnAttrs = { iconColor: cssVars["color" + upperFirst(type)], confirmButtonType: type };
+  const btnAttrs = { iconColor: getSysThemeColor(type), confirmButtonType: type };
   const title = `确认${text}吗？`;
   const t = typeOf(popconfirm);
   if (t === "String") return { title: popconfirm as string, ...btnAttrs };

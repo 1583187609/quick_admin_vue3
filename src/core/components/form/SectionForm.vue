@@ -8,7 +8,7 @@
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
           <!-- @click="toggleFold($event, sInd)" -->
-          <div class="head f-sb-c">
+          <div @click="toggleFold($event, sInd)" class="head f-sb-c">
             <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
               <QuestionPopover :popover="sItem.popover" class="ml-q f-0 mr-h" v-if="sItem.popover" />
@@ -16,13 +16,19 @@
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
             </slot>
-            <el-icon @click="folds[sInd] = !folds[sInd]" class="fold-btn f-0" :class="folds[sInd] ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
-              <CaretTop />
+            <el-icon
+              @click="foldStatusList[sInd] = !foldStatusList[sInd]"
+              class="fold-btn f-0"
+              :class="foldStatusList[sInd] ? '' : 'rotate-90'"
+              size="1.5em"
+              v-if="foldable"
+            >
+              <ArrowRight />
             </el-icon>
           </div>
           <el-row
             class="body f-fs-fs-w hover-show-scroll"
-            :style="folds[sInd] ? { maxHeight: 0, overflow: 'hidden' } : { maxHeight: bodyMaxHeight, overflow: 'auto' }"
+            :style="foldStatusList[sInd] ? { maxHeight: 0, overflow: 'hidden' } : { maxHeight: bodyMaxHeight, overflow: 'auto' }"
           >
             <slot name="body" :section="sItem" :index="sInd" v-if="sItem.type === 'custom'">
               <slot :name="sItem.prop" />
@@ -88,7 +94,7 @@
         :handleRequest="handleRequest"
         :handleResponse="handleResponse"
         @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
-        @submit="(args:CommonObj)=>$emit('submit', args)"
+        @submit="(args:CommonObj)=>$emit('submit', args, submitNext)"
         ref="footerBtnsRef"
         v-if="!formAttrs.pureText"
       />
@@ -99,27 +105,30 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { typeOf, isProd } from "@/core/utils";
+import { typeOf, isProd, showMessage } from "@/core/utils";
 import { handleFields } from "./_utils";
 import FooterBtns, { AfterReset } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
-import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
+import { ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
 import { defaultCommonSize } from "@/core/utils";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
-import { CaretTop } from "@element-plus/icons-vue";
+import { ArrowRight } from "@element-plus/icons-vue";
 import config from "@/config";
 import _ from "lodash";
-import { useFormAttrs } from "@/core/hooks";
+import { useFormAttrs, usePopup } from "@/core/hooks";
 
 const { merge } = _;
+
+const { closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj; //表单数据
+    defaultExpands?: number[]; // 默认展开的块
     styleType?: FormStyleType;
     sections?: SectionFormItem[];
     // grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
@@ -131,6 +140,7 @@ const props = withDefaults(
     // labelWidth?: string; //label的宽度
     scrollToError?: boolean; //校验失败后是否自动滚到失败位置
     foldable?: boolean; //是否允许折叠
+    accordion?: boolean; // 是否手风琴模式
     fetch?: UniteFetchType; //接口请求
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
@@ -164,11 +174,11 @@ const props = withDefaults(
     ...config?.SectionForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "change", "blur", "focus", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "submit", "change", "blur", "focus", "toggle", "moreBtns"]);
 const $attrs = useAttrs();
 const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
-const folds = ref<boolean[]>([]);
+const foldStatusList = ref<boolean[]>(getInitFolds(props.defaultExpands));
 const formRef = ref<FormInstance>();
 const newSections = ref<SectionFormItemAttrs[]>([]);
 const formData = computed({
@@ -198,11 +208,25 @@ watch(
   },
   { immediate: true, deep: true }
 );
-// function toggleFold(e: any, ind: number) {
-//   if (e.target?.classList?.contains("head")) {
-//     folds.value[ind] = !folds.value[ind];
-//   }
-// }
+function getInitFolds(expands?: number[]) {
+  const { sections } = props;
+  if (!expands?.length || !sections?.length) return [];
+  const arr = Array(sections.length).fill(true);
+  expands.forEach(ind => (arr[ind] = false));
+  return arr;
+}
+function toggleFold(e: any, ind: number) {
+  if (!e.target?.classList?.contains("head")) return;
+  const { accordion } = props;
+  if (!accordion) {
+    foldStatusList.value[ind] = !foldStatusList.value[ind];
+  } else {
+    newSections.value?.forEach((it, i) => {
+      foldStatusList.value[i] = ind !== i;
+    });
+  }
+  $emit("toggle", ind);
+}
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
   const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
@@ -214,10 +238,17 @@ function getLevelsAttrs(field, sItem) {
   } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }
+// 提交之后的回调函数
+function submitNext(hint: string, closeType: ClosePopupType, cb?: () => void) {
+  const { submitText = "提交" } = props;
+  showMessage(hint ?? `${submitText || "操作"}成功`);
+  closePopup(closeType);
+  cb?.();
+}
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();
-  $emit("submit", params.value);
+  $emit("submit", params.value, submitNext);
 }
 defineExpose({
   formRef,
@@ -287,6 +318,7 @@ $g: 4px; // 2px 4px 6px small default large
       }
     }
     .fold-btn {
+      padding: 0.2em;
       margin-left: $gap-qtr;
       cursor: pointer;
       transition: all $transition-time-main;

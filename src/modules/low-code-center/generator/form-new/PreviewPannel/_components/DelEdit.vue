@@ -1,7 +1,7 @@
 <!-- 删除编辑按钮 -->
 <template>
   <div class="del-edit">
-    <AddDelBtn @click="$emit('del')" type="del" />
+    <AddDelBtn @click="$emit('del')" type="delete" />
     <AddDelBtn @click="$emit('edit')" type="edit" />
   </div>
 </template>

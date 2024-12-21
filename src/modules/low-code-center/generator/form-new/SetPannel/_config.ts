@@ -277,7 +277,9 @@ function getType(standProps: CommonObj) {
 }
 // 获取控件属性的字段信息
 export function getWidgetAttrsFields(type: string): FormFieldAttrs[] {
-  const propList: WidgetProp[] = widgetAttrsMap[type].filter(it => (it.frequency ?? 0) < 999);
+  const widgetAttrs = widgetAttrsMap[type];
+  if (!widgetAttrs) return [];
+  const propList: WidgetProp[] = widgetAttrs.filter(it => (it.frequency ?? 0) < 999);
   if (!propList) {
     console.warn(`暂未配置此控件类型：${type}`);
     return [];
