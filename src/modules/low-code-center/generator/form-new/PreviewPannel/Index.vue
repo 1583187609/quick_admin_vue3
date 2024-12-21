@@ -29,11 +29,11 @@ import SectionBox from "../_components/SectionBox.vue";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { TableCol } from "@/core/components/table/_types";
 import { usePopup } from "@/hooks";
-import DelEdit from "./_components/DelEdit.vue";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { showMessage, showConfirmMessage, getTreeNodesByValue } from "@/utils";
 import { CommonObj } from "@/core/_types";
 import { sysGeneratorTplsNew } from "../FilePannel/_config";
+import IconBtns, { IconBtnTpl } from "@/core/components/IconBtns.vue";
 
 const isView = ref<boolean>(true);
 const { openPopup } = usePopup();
@@ -51,7 +51,7 @@ const props = withDefaults(
 );
 const menuPathStr = computed(() => getTreeNodesByValue(sysGeneratorTplsNew, props.fileInfo?.id).join(" / "));
 const routePathStr = computed(() => "/demo-center/comps/form/base-form/basic-use");
-const $emit = defineEmits(["update:modelValue", "add", "del", "edit", "clear"]);
+const $emit = defineEmits(["update:modelValue", "add", "delete", "edit", "clear"]);
 const type = ref("baseForm");
 const modelData = computed({
   get: () => props.defaultValues,
@@ -60,7 +60,7 @@ const modelData = computed({
 const order = ref(0);
 const fields = computed(() => {
   return props?.data.map((it, i) => {
-    const after = isView.value ? undefined : [DelEdit, { onEdit: () => $emit("edit", i), onDel: () => $emit("del", i) }];
+    const after = isView.value ? undefined : [IconBtns, { tpl: ["delete", "edit"], onClick: (tpl: IconBtnTpl) => $emit(tpl, i) }];
     if (it.quickAttrs) {
       it.quickAttrs.after = after;
     } else {
@@ -77,6 +77,7 @@ const fields = computed(() => {
   });
 });
 const disabled = computed(() => !fields.value.length);
+function handleClick() {}
 function handleCreateFile() {
   const htmlStr = `菜单路径：${menuPathStr.value}<br/>路由信息：${routePathStr.value}`;
   showConfirmMessage(htmlStr, undefined, undefined, "请确认信息").then(res => showMessage("生成成功"));

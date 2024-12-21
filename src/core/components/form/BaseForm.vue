@@ -30,8 +30,8 @@
       <FooterBtns
         :loading="loading"
         :moreBtns="moreBtns"
-        :submitText="submitText"
-        :resetText="resetText"
+        :submitBtn="submitBtn"
+        :resetBtn="resetBtn"
         :disabled="!newFields.length"
         :formRef="formRef"
         :omit="omit"
@@ -56,11 +56,11 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { handleFields } from "./_utils";
+import { getFootBtnAttrs, handleFields } from "./_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
-import FooterBtns, { AfterReset } from "./_components/FooterBtns.vue";
+import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
@@ -89,8 +89,8 @@ const props = withDefaults(
     // disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
     footer?: boolean; //是否显示底部按钮
-    submitText?: string; //提交按钮的文字
-    resetText?: string; //提交按钮的文字
+    submitBtn?: FootBtn; //提交按钮的文字
+    resetBtn?: FootBtn; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交请求状态。控制提交按钮是否显示加载图标
@@ -141,7 +141,7 @@ watch(
 );
 // 提交之后的回调函数
 function submitNext(hint: string, closeType: ClosePopupType, cb?: () => void) {
-  const { submitText = "提交" } = props;
+  const submitText = getFootBtnAttrs(props.submitBtn)?.text ?? "提交";
   showMessage(hint ?? `${submitText || "操作"}成功`);
   closePopup(closeType);
   cb?.();

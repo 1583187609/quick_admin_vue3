@@ -20,7 +20,7 @@ import { SectionFormItem } from "@/core/components/form/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { CommonObj } from "@/core/_types";
 import { PostMockCommon } from "@/api-mock";
-import AddDelBtn from "@/core/components/form/_components/AddDelBtn.vue";
+import IconBtns from "@/core/components/IconBtns.vue";
 
 const tipsList: string[] = ["section块之间span属性功能完善", "label宽度根据各个section块决定"];
 //是否支持： 0否;1=是
@@ -104,8 +104,8 @@ const sections = computed<SectionFormItem[]>(() => {
           // },
           quickAttrs: {
             // before: "第",
-            // after: h(AddDelBtn, { name: "add" }),
-            after: [AddDelBtn, { name: "add" }],
+            // after: h(IconBtns, { tpl: "add" }),
+            after: [IconBtns, { tpl: "add" }],
           },
         },
         {

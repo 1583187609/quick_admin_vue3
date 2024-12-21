@@ -19,17 +19,17 @@
         :key="fInd"
       />
     </el-row>
-    <AddDelBtn @click="(type:AddDelBtnType)=>handleAddDel(type,ind)" :type="ind < newList.length - 1 ? 'delete' : 'add'" />
+    <IconBtns fontSize="26" @click="(type:IconBtnTpl)=>handleAddDel(type,ind)" :tpl="ind < newList.length - 1 ? 'delete' : 'add'" />
     <!-- </el-space> -->
   </el-form-item>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
-import AddDelBtn, { AddDelBtnType } from "@/core/components/form/_components/AddDelBtn.vue";
 import { handleFields, getAddDelItem } from "@/core/components/form/_utils";
 import { CommonObj, CommonSize } from "@/core/_types";
 import { showMessage } from "@/core/utils";
+import IconBtns, { IconBtnTpl } from "@/core/components/IconBtns.vue";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import _ from "lodash";
 
@@ -99,7 +99,7 @@ watch(
 );
 
 //处理新增/删除按钮的逻辑
-function handleAddDel(type: AddDelBtnType, ind: number) {
+function handleAddDel(type: IconBtnTpl, ind: number) {
   if (type === "add") {
     const { formRef } = props;
     function handle() {
@@ -118,7 +118,7 @@ function handleAddDel(type: AddDelBtnType, ind: number) {
     });
     return;
   }
-  if (type === "del") return newList.value.splice(ind, 1);
+  if (type === "delete") return newList.value.splice(ind, 1);
   throw new Error(`暂不支持${type}类型`);
 }
 </script>

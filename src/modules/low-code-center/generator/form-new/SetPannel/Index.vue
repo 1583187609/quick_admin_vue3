@@ -9,7 +9,7 @@
       :defaultExpands="[0, 1]"
       :sections="sections"
       :style="{ width }"
-      :submitText="type === 'add' ? '创建' : '修改'"
+      :submitBtn="type === 'add' ? '创建' : '修改'"
       @submit="handleSubmit"
       ref="formRef"
     >

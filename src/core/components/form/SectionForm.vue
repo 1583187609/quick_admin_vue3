@@ -79,8 +79,8 @@
       <FooterBtns
         :loading="loading"
         :moreBtns="moreBtns"
-        :submitText="submitText"
-        :resetText="resetText"
+        :submitBtn="submitBtn"
+        :resetBtn="resetBtn"
         :disabled="!newSections.length"
         :formRef="formRef"
         :omit="omit"
@@ -106,8 +106,8 @@
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { typeOf, isProd, showMessage } from "@/core/utils";
-import { handleFields } from "./_utils";
-import FooterBtns, { AfterReset } from "./_components/FooterBtns.vue";
+import { getFootBtnAttrs, handleFields } from "./_utils";
+import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
@@ -146,8 +146,8 @@ const props = withDefaults(
     afterFail?: () => void; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
     footer?: boolean; //是否显示底部按钮
-    submitText?: string; //提交按钮的文字
-    resetText?: string; //提交按钮的文字
+    submitBtn?: FootBtn; //提交按钮的文字
+    resetBtn?: FootBtn; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
@@ -240,7 +240,7 @@ function getLevelsAttrs(field, sItem) {
 }
 // 提交之后的回调函数
 function submitNext(hint: string, closeType: ClosePopupType, cb?: () => void) {
-  const { submitText = "提交" } = props;
+  const submitText = getFootBtnAttrs(props.submitBtn)?.text ?? "提交";
   showMessage(hint ?? `${submitText || "操作"}成功`);
   closePopup(closeType);
   cb?.();

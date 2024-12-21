@@ -16,3 +16,25 @@ export const defaultGridAttrs: GridAttrs = {
   lg: 6,
   xl: 4,
 };
+
+export const iconBtnsMap = {
+  add: {
+    name: "add",
+    text: "新增",
+    type: "primary",
+    icon: "CirclePlus",
+  },
+  delete: {
+    name: "delete",
+    text: "删除",
+    type: "danger",
+    icon: "Remove",
+    popconfirm: true,
+  },
+  edit: {
+    name: "edit",
+    text: "编辑",
+    type: "primary",
+    icon: "Edit",
+  },
+};

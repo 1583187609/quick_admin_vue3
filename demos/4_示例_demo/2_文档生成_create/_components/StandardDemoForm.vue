@@ -40,8 +40,8 @@
     <FooterBtns
       :loading="loading"
       :moreBtns="moreBtns"
-      :submitText="submitText"
-      :resetText="resetText"
+      :submitBtn="submitBtn"
+      :resetBtn="resetBtn"
       :formRef="formRef"
       :omit="omit"
       :log="log"
@@ -88,8 +88,8 @@ const props = withDefaults(
     onFail?: FinallyNext; //fetch请求失败之后的回调方法
     span?: string | number; //同ElementPlus 的span，1 ~ 24
     footer?: boolean; //是否显示底部按钮
-    submitText?: string; //提交按钮的文字
-    resetText?: string; //提交按钮的文字
+    submitBtn?: FootBtn; //提交按钮的文字
+    resetBtn?: FootBtn; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标

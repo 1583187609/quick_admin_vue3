@@ -4,7 +4,15 @@
     <span class="mr-a">{{ data.label }}</span>
     <span class="draft" v-if="data?.data?.isDraft">草稿</span>
     <span v-if="!node.isLeaf">{{ data.total }}</span>
-    <IconBtns :hidden="hidden" @click="handleClick" :tpl="node.isLeaf ? ['delete', 'edit'] : ['add']" v-if="!onlyDraft" />
+    <IconBtns
+      size="small"
+      gap="4px"
+      fontSize="1.2em"
+      :hidden="hidden"
+      @click="handleClick"
+      :tpl="node.isLeaf ? ['delete', 'edit'] : ['add']"
+      v-if="!onlyDraft"
+    />
   </div>
 </template>
 <script lang="ts" setup>

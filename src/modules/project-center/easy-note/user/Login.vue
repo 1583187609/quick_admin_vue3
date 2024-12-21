@@ -6,7 +6,7 @@
     :fetch="PostMockUserLogin"
     :afterSuccess="handleSuccess"
     :afterFail="handleFail"
-    submitText="登录"
+    submitBtn="登录"
     :fields="fields"
     style="width: 350px"
   ></BaseForm>

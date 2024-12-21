@@ -3,48 +3,51 @@
 -->
 <template>
   <div class="footer-btns f-c-c f-0 pt-h pb-h">
-    <el-button type="primary" v-debounce.immediate="handleSubmit" :disabled="disabled || isLoading" v-if="submitText">
+    <el-button type="primary" v-debounce.immediate="handleSubmit" :disabled="disabled || isLoading" v-if="newSubmitBtn">
       <template #icon>
-        <el-icon :class="{ rotate: isLoading }" :name="isLoading ? 'Loading' : 'Promotion'">
-          <Loading v-if="isLoading" />
-          <Promotion v-else />
-        </el-icon>
+        <BaseIcon :class="{ rotate: isLoading }" :name="isLoading ? 'Loading' : newSubmitBtn.icon ?? 'Promotion'" />
       </template>
-      {{ submitText }}
+      {{ newSubmitBtn.text }}
     </el-button>
     <template v-for="(btn, ind) in newMoreBtns" :key="ind">
       <BaseBtn @click="handleMoreBtns(btn)" :tpl="btn" :disabled="disabled" v-if="btn.popconfirm" />
       <BaseBtn v-debounce.immediate="() => handleMoreBtns(btn)" :tpl="btn" :disabled="disabled" v-else />
     </template>
-    <el-button :icon="RefreshLeft" @click="handleReset" :disabled="disabled || isLoading" v-if="resetText">
-      {{ resetText }}
+    <el-button @click="handleReset" :disabled="disabled || isLoading" v-if="newResetBtn">
+      <template #icon><BaseIcon :name="newResetBtn.icon ?? 'RefreshLeft'" /></template>
+      {{ newResetBtn.text }}
     </el-button>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, watch, inject, computed } from "vue";
-import { RefreshLeft } from "@element-plus/icons-vue";
 import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils";
 import { CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { ClosePopupInject, ClosePopupType } from "@/core/components/BasicPopup/_types";
-import { Loading, Promotion } from "@element-plus/icons-vue";
+import { getFootBtnAttrs } from "../_utils";
 export type AfterReset = () => void;
+export interface FootBtnAttrs {
+  text?: string;
+  icon?: string;
+  // 不提供按钮的其他属性了，因为样式统一的话，原则上不允许随意更改统一的样式了
+}
+export type FootBtn = FootBtnAttrs | string;
 
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     loading?: boolean;
-    submitText?: string;
-    resetText?: string;
+    submitBtn?: FootBtn;
+    resetBtn?: FootBtn;
     moreBtns?: BaseBtnType[]; // 底部的额外更多按钮
-    formRef?: any;
     omit?: boolean;
     log?: boolean;
     debug?: boolean;
     disabled?: boolean; // 是否禁用按钮
     params?: any;
+    formRef?: any;
     fetch?: UniteFetchType; // 请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: FinallyNext;
     afterFail?: FinallyNext;
@@ -54,16 +57,18 @@ const props = withDefaults(
   }>(),
   {
     omit: true,
-    submitText: "提交",
-    resetText: "重置",
+    submitBtn: "提交",
+    resetBtn: "重置",
     moreBtns: () => [],
   }
 );
 const $emit = defineEmits(["moreBtns", "submit"]);
 const isLoading = ref(props.loading);
+const newSubmitBtn = getFootBtnAttrs(props.submitBtn);
+const newResetBtn = getFootBtnAttrs(props.resetBtn);
 watch(
   () => props.loading,
-  (newVal, oldVal) => {
+  newVal => {
     isLoading.value = newVal;
   }
 );
@@ -94,7 +99,7 @@ function handleValidate() {
   });
 }
 //请求成功之后的回调函数
-const defaultAfterSuccess: FinallyNext = (hint = props.submitText + "成功！", closeType?: ClosePopupType, cb?: () => void) => {
+const defaultAfterSuccess: FinallyNext = (hint = newSubmitBtn.text + "成功！", closeType?: ClosePopupType, cb?: () => void) => {
   showMessage(hint);
   closePopup(closeType);
   cb?.();
@@ -103,7 +108,7 @@ const defaultAfterSuccess: FinallyNext = (hint = props.submitText + "成功！",
 function handleSubmit() {
   handleValidate()
     .then((params: any) => {
-      const { log, fetch, handleResponse, afterSuccess = defaultAfterSuccess, afterFail, submitText } = props;
+      const { log, fetch, handleResponse, afterSuccess = defaultAfterSuccess, afterFail } = props;
       if (!fetch) return $emit("submit", params);
       isLoading.value = true;
       fetch(params)

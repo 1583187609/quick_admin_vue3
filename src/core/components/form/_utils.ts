@@ -4,6 +4,7 @@ import { CommonObj } from "@/core/_types";
 import { handleFormInitData } from "@/core/utils";
 import { defaultFormItemTplsMap } from "./_components/FieldItem";
 import _ from "lodash";
+import { FootBtn, FootBtnAttrs } from "./_components/FooterBtns.vue";
 
 const { merge } = _;
 /**
@@ -130,4 +131,15 @@ export function getGridAttrs(grid: Grid = 24) {
     return getGridAttrs(colNum);
   }
   return grid;
+}
+
+/**
+ * 获取底部按钮的属性（表单底部的按钮）
+ */
+export function getFootBtnAttrs(btn: FootBtn): FootBtnAttrs | undefined {
+  if (!btn) return;
+  const t = typeOf(btn);
+  if (t === "String") return { text: btn } as FootBtnAttrs;
+  if (t === "Object") return btn as FootBtnAttrs;
+  throw new Error(`暂未处理此类型：${t}`);
 }

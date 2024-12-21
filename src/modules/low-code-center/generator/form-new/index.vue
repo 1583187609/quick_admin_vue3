@@ -9,7 +9,7 @@
       :defaultValues="defaultValues"
       :fileInfo="currFile"
       @add="handleAdd"
-      @del="handleDel"
+      @delete="handleDel"
       @edit="handleEdit"
       @clear="handleClear"
     />

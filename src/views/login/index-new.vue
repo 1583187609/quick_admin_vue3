@@ -22,7 +22,7 @@
           class="form f-0"
           v-model="modelData"
           :fields="fields"
-          :submitText="typeMap[type].submitText"
+          :submitBtn="typeMap[type].submitBtn"
           :loading="loading"
           :autoFixedFoot="false"
           @submit="handleSubmit"
@@ -54,12 +54,12 @@ const typeMap: CommonObj = {
   login: {
     title: "登录",
     api: PostMockUserLogin,
-    submitText: "登录",
+    submitBtn: "登录",
   },
   register: {
     title: "注册",
     api: PostMockUserLogin,
-    submitText: "注册",
+    submitBtn: "注册",
   },
   forget: {
     title: "忘记密码",

@@ -5,7 +5,7 @@
       <BaseForm
         v-model="modelData"
         :fields="fields"
-        submitText="生成"
+        submitBtn="生成"
         :moreBtns="['download']"
         @change="handleChange"
         @submit="handleSubmit"

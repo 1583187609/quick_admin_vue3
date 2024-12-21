@@ -4,8 +4,8 @@
     style="width: 370px"
     v-model="modelData"
     :sections="sections"
-    :submitText="hasUpdated ? $t('sysSet.reset') : ''"
-    resetText=""
+    :submitBtn="hasUpdated ? $t('sysSet.reset') : ''"
+    resetBtn=""
     @change="handleChange"
     @submit="handleReset"
     :key="formKey"
@@ -37,18 +37,7 @@ const showHideSwitchAttrs = {
   inactiveText: "隐藏",
 };
 // 预定义主题颜色
-const colorList = [
-  cssVars.colorPrimary,
-  "#daa96e",
-  "#0c819f",
-  "#409eff",
-  "#27ae60",
-  "#ff5c93",
-  "#e74c3c",
-  "#fd726d",
-  "#f39c12",
-  "#9b59b6",
-];
+const colorList = [cssVars.colorPrimary, "#daa96e", "#0c819f", "#409eff", "#27ae60", "#ff5c93", "#e74c3c", "#fd726d", "#f39c12", "#9b59b6"];
 const sizeOpts: OptionItem[] = [
   { label: "大型", value: "large" },
   { label: "中等", value: "medium" },

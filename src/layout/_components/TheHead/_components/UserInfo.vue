@@ -5,8 +5,8 @@
     v-model="modelData"
     :fetch="GetMockUser"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
-    :submitText="editEnable ? undefined : ''"
-    :resetText="editEnable ? undefined : ''"
+    :submitBtn="editEnable ? undefined : ''"
+    :resetBtn="editEnable ? undefined : ''"
     @moreBtns="onMoreBtns"
     :key="editEnable"
   >

@@ -1,6 +1,8 @@
 <!-- 图标 -->
 <template>
-  <div>图标</div>
+  <div>
+    <BaseIcon size="4em" />
+  </div>
 </template>
 <script lang="ts" setup>
 import { CommonObj } from "@/core/_types";

@@ -18,7 +18,7 @@ meta:
         :loading="loading"
         :fields="fields"
         @submit="handleSubmit"
-        submitText="登录"
+        submitBtn="登录"
         ref="formRef"
       >
         <!-- :fetch="PostMockUserLogin" -->
