@@ -74,7 +74,7 @@ function whenAddFillAttrs(currentObj: CommonObj = needParam(), targetObj: Common
   });
   // 以目标对象为准，剔除掉传入的多余属性
   currKeys.forEach(key => {
-    console.warn(`多传入了属性：${key}`);
+    // console.warn(`多传入了属性：${key}`);
     delete currentObj[key];
   });
   return currentObj;

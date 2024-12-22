@@ -34,6 +34,7 @@ export type BtnHandleClickType = "common" | "custom"; // 可选值：common（�
 
 export interface BtnItem {
   tpl?: BtnName; //可以不传值
+  name: BtnName;
   text?: string; //按钮文本
   order?: number; //按钮顺序
   auth?: number[]; //权限

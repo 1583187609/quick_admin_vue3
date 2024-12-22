@@ -7,7 +7,7 @@
       <BaseEmpty />
     </template>
     <template #[key]="scope" v-for="(val, key) in getSlotsMap(slots)" :key="key">
-      <BaseRender :renderData="val" v-bind="scope" />
+      <BaseRender :renderData="val" :scope="scope" />
     </template>
   </el-tree>
 </template>

@@ -7,7 +7,7 @@
       class="btn"
       :class="[vertical ? 'vertical' : '']"
       v-bind="defaultBtnAttrs"
-      @click="handleClick(btn)"
+      @click="handleClick"
       v-for="(btn, ind) in newBtns.slice(0, isOver ? maxNum - 1 : maxNum)"
       :key="ind"
     />
@@ -23,7 +23,7 @@
               class="btn"
               :class="[vertical ? 'vertical' : '']"
               v-bind="defaultBtnAttrs"
-              @click="handleClick(btn)"
+              @click="handleClick"
             />
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -33,15 +33,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject } from "vue";
+import { computed } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-import { sortObjArrByKey, showMessage, defaultGroupBtnsMaxNum, emptyStr } from "@/core/utils";
-import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
+import { sortObjArrByKey, defaultGroupBtnsMaxNum, emptyStr } from "@/core/utils";
+import { BaseBtnType, BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import { ClosePopupType } from "@/core/components/BasicPopup/_types";
 import config from "@/config";
-import { ClosePopupInject, CommonObj, CommonSize } from "@/core/_types";
+import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
 import { defaultCommonSize } from "@/core/utils";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
@@ -58,7 +57,6 @@ const defaultBtnAttrs = {
   // style: "padding: 0",
 };
 const router = useRouter();
-const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     btns?: BaseBtnType[];
@@ -89,17 +87,10 @@ const newBtns = computed(() => {
   dropPopconfirm = !tempBtns.slice(maxNum - 1).some(it => it.popconfirm);
   return tempBtns;
 });
-function handleClick(btnObj: BtnItem) {
-  const { name, text, to } = btnObj;
-  if (to) {
-    router.push(to as any);
-  } else {
-    $emit("click", btnObj, (hint = `${text || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void) => {
-      showMessage(hint);
-      closePopup(closeType);
-      cb?.();
-    });
-  }
+function handleClick(tpl: BtnName, btnObj: BtnItem, next: FinallyNext, e: Event) {
+  const { to } = btnObj;
+  if (to) return router.push(to as any);
+  $emit("click", tpl, btnObj, next, e);
 }
 </script>
 <style lang="scss">

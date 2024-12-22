@@ -187,6 +187,7 @@
 141、爬取 ElementPlus 官网中的表格属性数据
 142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
 143、整理 menuTree 组件
+144、抽离 IconPicker 组件
 
 ## 待定事项
 

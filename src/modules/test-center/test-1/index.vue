@@ -503,7 +503,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "sctp",
       label: "上传图片",
-      required: true,
+      // required: true,
       type: "BaseUpload",
     },
     {

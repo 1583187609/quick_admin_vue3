@@ -75,7 +75,7 @@ import { typeOf, getTextFromOpts, defaultFormItemType, defaultFormChildrenType, 
 import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
-import { defaultFieldAttrs, defaultFormItemTplsMap } from ".";
+import { defaultFieldAttrs, defaultFormItemTplsMap, getStandAttrsFromTpl } from ".";
 import { rangeJoinChar, emptyVals, throwTplError } from "@/core/utils";
 import { useDict, useFormAttrs } from "@/hooks";
 import { FormItemTplTypes, FormItemType, FormTplType } from "./_types";
@@ -137,11 +137,10 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   /*** 合并统一 tempField ***/
   let { tpl, ...field } = originField;
   if (tpl) {
-    const tplData = formItemTpls[tpl];
-    if (!tplData) throw new Error(`不存在该模板：${tpl}`);
+    const tplData = getStandAttrsFromTpl(tpl, formItemTpls);
     const { rules: tplRules = [], ...restTplField } = tplData;
     const { rules = [], ...restField } = field;
-    field = merge({ prop: tpl, rules: mergeRules([...tplRules, ...rules]) }, restTplField, restField);
+    field = merge({ rules: mergeRules([...tplRules, ...rules]) }, restTplField, restField);
   }
   const endType = field.type ?? (field.children?.length ? defaultFormChildrenType : defaultFormItemType);
   const defField = defaultFieldAttrs[endType];

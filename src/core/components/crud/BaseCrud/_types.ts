@@ -19,6 +19,7 @@ export interface HandleClickExtraBtnsProps {
   exportCfg?: {
     limit: number; //一次性导出数据的上限条数
   };
+  e: Event;
   $emit: any;
   refreshList?: any;
   next: any;

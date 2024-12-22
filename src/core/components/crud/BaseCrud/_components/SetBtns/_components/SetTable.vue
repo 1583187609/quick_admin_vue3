@@ -101,13 +101,13 @@ const cols: TableColAttrs[] = [
 function handleChange(data: SetTableChangeParams) {
   $emit("change", data);
 }
-function handleSave() {
+function handleSave(...args) {
   showMessage("保存成功");
-  $emit("submit");
+  $emit("submit", ...args);
 }
-function handleReset() {
+function handleReset(...args) {
   showMessage("已重置");
-  $emit("reset");
+  $emit("reset", ...args);
 }
 </script>
 <style lang="scss" scoped>

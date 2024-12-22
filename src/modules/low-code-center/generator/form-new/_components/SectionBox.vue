@@ -1,7 +1,7 @@
 <!-- 页面-简介 -->
 <template>
   <section class="section-box f-fs-s-c">
-    <header class="head f-sb-c f-0" :class="{ 'border-bottom': borderBottom }">
+    <header class="head f-sb-c f-0" :class="{ 'border-bottom': borderBottom }" v-if="title">
       <span class="mr-a f-0">{{ title }}</span>
       <slot name="right"></slot>
     </header>
@@ -22,7 +22,6 @@ const props = withDefaults(
   }>(),
   {
     borderBottom: true,
-    title: "未命名标题",
   }
 );
 </script>

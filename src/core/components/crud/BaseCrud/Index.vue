@@ -107,7 +107,7 @@ import ExtraBtns from "./_components/ExtraBtns.vue";
 import SetBtns from "./_components/SetBtns/Index.vue";
 import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
-import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
+import { BaseBtnType, BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/utils";
 import config from "@/config";
@@ -130,6 +130,7 @@ import { TableAttrs } from "@/core/components/table/_types";
 import { defaultCommonSize, defaultPagination, judgeIsInDialog } from "@/core/utils";
 import { filterBtnsByAuth } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
+import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
 import _ from "lodash";
 
 const { merge, cloneDeep, snakeCase } = _;
@@ -259,10 +260,8 @@ function filterCycle(cols: TableCol[] = []) {
       const { type } = col;
       if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
       if (tpl) {
-        const tplData = defaultTableColTpls[tpl];
-        if (!tplData) throw new Error(`不存在该模板：${tpl}`);
-        const { prop = snakeCase(tpl.slice(2)) } = tplData;
-        col = merge({ prop }, tplData, col);
+        const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
+        col = merge(tplData, col);
       }
       const { children } = col as TableColAttrs;
       if (children?.length) (col as TableColAttrs).children = filterCycle(children);
@@ -368,7 +367,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 }
 
 // 点击额外的按钮
-function onExtraBtns(btnObj: BtnItem) {
+function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Event) {
   const { exportCfg, importCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
   const { text } = btnObj;
@@ -382,13 +381,9 @@ function onExtraBtns(btnObj: BtnItem) {
     }),
     total: pageInfo.total,
     exportCfg,
+    e,
     $emit,
-    next: (hint = `${text || "操作"}成功`, closeType?: ClosePopupType, cb?: () => void, isRefreshList: boolean = true) => {
-      showMessage(hint);
-      closePopup(closeType);
-      isRefreshList && refreshList();
-      cb?.();
-    },
+    next: () => next(text, undefined, refreshList),
     openPopup,
     importCfg,
   });

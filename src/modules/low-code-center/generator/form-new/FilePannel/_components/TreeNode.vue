@@ -1,16 +1,16 @@
 <!-- 页面-简介 -->
 <template>
   <div class="tree-node f-sb-c">
-    <span class="mr-a">{{ data.label }}</span>
-    <span class="draft" v-if="data?.data?.isDraft">草稿</span>
-    <span v-if="!node.isLeaf">{{ data.total }}</span>
+    <span class="mr-a">{{ scope.data.label }}</span>
+    <span class="draft" v-if="scope.data?.data?.isDraft">草稿</span>
+    <span v-if="!scope.node.isLeaf">{{ scope.data.total }}</span>
     <IconBtns
       size="small"
       gap="4px"
       fontSize="1.2em"
       :hidden="hidden"
       @click="handleClick"
-      :tpl="node.isLeaf ? ['delete', 'edit'] : ['add']"
+      :tpl="scope.node.isLeaf ? ['delete', 'edit'] : ['add']"
       v-if="!onlyDraft"
     />
   </div>
@@ -20,8 +20,8 @@ import { CommonObj } from "@/vite-env";
 import IconBtns from "@/core/components/IconBtns.vue";
 const props = withDefaults(
   defineProps<{
-    data?: CommonObj;
-    node?: CommonObj;
+    // scope 属性是从插槽中取到的
+    scope?: CommonObj;
     hidden?: boolean;
     onlyDraft?: boolean;
   }>(),
@@ -30,8 +30,8 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["add", "delete", "edit"]);
-function handleClick(type: string) {
-  const { data, node } = props;
+function handleClick(type: "add" | "delete" | "edit") {
+  const { data, node } = props.scope;
   $emit(type, data, node);
 }
 </script>

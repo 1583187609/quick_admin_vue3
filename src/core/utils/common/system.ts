@@ -17,7 +17,7 @@ interface OptionPropsMap {
   children?: string;
 }
 
-const { upperFirst } = _;
+const { upperFirst, snakeCase } = _;
 const defaultOptionPropsMap: GetRequired<OptionPropsMap> = {
   label: "label",
   value: "value",
@@ -258,7 +258,7 @@ export function downloadByBuffer(buffer, name?: string) {
  * @returns {string} zh | en
  */
 export function getBrowserLang() {
-  const lang = (navigator.language ?? navigator.browserLanguage).toLowerCase();
+  const lang = (navigator.language ?? navigator?.browserLanguage).toLowerCase();
   return ["cn", "zh", "zh-cn"].includes(lang) ? "zh" : "en";
 }
 

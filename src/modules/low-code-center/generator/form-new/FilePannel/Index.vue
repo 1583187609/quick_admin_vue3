@@ -1,5 +1,5 @@
 <template>
-  <SectionBox title="文件" class="file-pannel">
+  <SectionBox class="file-pannel">
     <FilterTree
       :options="[
         { label: '全部', value: 0 },
@@ -53,13 +53,13 @@ const props = withDefaults(
     modelValue?: CommonObj;
   }>(),
   {
-    modelValue: () => reactive({}),
+    modelValue: reactive({}),
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
 const modelVal = computed({
   get: () => props.modelValue,
-  set: (val: string) => $emit("update:modelValue", val),
+  set: (val: any) => $emit("update:modelValue", val),
 });
 
 function handleLeafNodeClick(data) {
@@ -87,14 +87,22 @@ function handleDelete(data: CommonObj, node: CommonObj) {
   const { id } = data;
   deleteTreeNodeByValue(sysFileTplsTree, id);
   showMessage("删除成功");
+  modelVal.value = undefined;
 }
 function handleConfirm(type: "add" | "edit", data: CommonObj, next: FinallyNext) {
-  const { pId, name } = data;
+  const { pId, cn_name } = data;
   const node = getTreeNodeByValue(sysFileTplsTree, pId);
   if (!node) return;
-  if (type === "add") node.children.push({ label: name });
-  else if (type === "edit") node.label = name;
-  else throw new Error(`暂未处理此类型：${type}`);
+  if (type === "add") {
+    const info = { label: cn_name, fileInfo: { compInfo: {} } };
+    node.children.push(info);
+    // modelVal.value = info;
+  } else if (type === "edit") {
+    node.label = cn_name;
+    // modelVal.value = node;
+  } else {
+    throw new Error(`暂未处理此类型：${type}`);
+  }
   next();
 }
 function customNodeClass(res: TreeNodeData, node: Node) {

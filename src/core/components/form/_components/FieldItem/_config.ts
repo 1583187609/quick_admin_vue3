@@ -2,7 +2,9 @@ import { CommonObj } from "@/core/_types";
 import { FormFieldAttrs, FormTplType } from "@/core/components/form/_types";
 import { getExportData, rangeJoinChar, regexp } from "@/core/utils";
 import config from "@/config";
+import _ from "lodash";
 
+const { snakeCase } = _;
 const formCfg = config?.form;
 
 //日期快捷方式
@@ -451,3 +453,18 @@ export const defaultFormItemTplsMap = {
   common: getFormItemTpls("common"), // 常规表单（新增/编辑表单、分块表单）表单项字段模板
   query: getFormItemTpls("query"), // 查询表单的表单项模板
 };
+
+/**
+ * 获取模块对应的数据信息
+ * @param {string} tpl 模板名称
+ * @param {object} tplMap 模板映射
+ * @returns {object}
+ */
+export function getStandAttrsFromTpl(tpl, tplMap = defaultFormItemTplsMap.common) {
+  let tplInfo = tplMap[tpl];
+  if (!tplInfo) throw new Error(`不存在该模板：${tpl}`);
+  tplInfo = JSON.parse(JSON.stringify(tplInfo));
+  if (!tplInfo.prop) tplInfo.prop = snakeCase(tpl.slice(2));
+  tplInfo.tpl = tpl;
+  return tplInfo;
+}

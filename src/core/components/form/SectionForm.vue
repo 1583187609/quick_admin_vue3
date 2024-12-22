@@ -96,8 +96,9 @@
         @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
         @submit="(args:CommonObj)=>$emit('submit', args, submitNext)"
         ref="footerBtnsRef"
-        v-if="!formAttrs.pureText"
+        v-if="!formAttrs.pureText && footer === true"
       />
+      <BaseRender :renderData="footer" v-else />
     </slot>
   </el-form>
 </template>
@@ -120,7 +121,8 @@ import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
 import config from "@/config";
 import _ from "lodash";
-import { useFormAttrs, usePopup } from "@/core/hooks";
+import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
+import { BaseRenderComponentType } from "../BaseRender.vue";
 
 const { merge } = _;
 
@@ -145,7 +147,7 @@ const props = withDefaults(
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
-    footer?: boolean; //是否显示底部按钮
+    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
     submitBtn?: FootBtn; //提交按钮的文字
     resetBtn?: FootBtn; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
@@ -239,12 +241,7 @@ function getLevelsAttrs(field, sItem) {
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }
 // 提交之后的回调函数
-function submitNext(hint: string, closeType: ClosePopupType, cb?: () => void) {
-  const submitText = getFootBtnAttrs(props.submitBtn)?.text ?? "提交";
-  showMessage(hint ?? `${submitText || "操作"}成功`);
-  closePopup(closeType);
-  cb?.();
-}
+const submitNext = useNextCallback(getFootBtnAttrs(props.submitBtn)?.text ?? "提交", closePopup);
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();

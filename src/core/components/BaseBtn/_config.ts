@@ -194,7 +194,7 @@ export default {
     order: 40,
     attrs: {
       type: "primary",
-      icon: "DocumentChecked",
+      icon: "Promotion",
     },
   },
   reset: {

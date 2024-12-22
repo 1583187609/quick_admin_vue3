@@ -109,8 +109,8 @@ const newAttrs = computed(() => {
   );
 });
 
-function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next);
+function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, e: Event) {
+  $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next, e);
 }
 function handleUpdateCol(colAttrs: TableColAttrs, ind: number) {
   Object.assign(newCols[ind], colAttrs);

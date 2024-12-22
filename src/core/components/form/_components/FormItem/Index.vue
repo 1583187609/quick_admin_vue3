@@ -14,15 +14,7 @@
       <BaseRender :renderData="val" :scope="scope" />
     </template>
   </component>
-  <component
-    v-model="modelVal"
-    :is="`el-${elType}`"
-    v-bind="itemAttrs"
-    @blur="handleBlur"
-    @focus="handleFocus"
-    @change="handleChange"
-    v-else
-  >
+  <component v-model="modelVal" :is="`el-${elType}`" v-bind="itemAttrs" @blur="handleBlur" @focus="handleFocus" @change="handleChange" v-else>
     <template #[key]="scope" v-for="(val, key) in getSlotsMap(slots)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
     </template>
@@ -51,7 +43,7 @@
     <template v-else-if="elType === 'radio-group'">
       <component
         :is="`el-radio${$attrs.type ? `-${$attrs.type}` : ''}`"
-        v-bind="deleteAttrs(opt, ['slots'])"
+        v-bind="deleteAttrs(opt, ['slots', 'children'])"
         v-for="(opt, ind) in subOptions"
         :key="ind"
       >

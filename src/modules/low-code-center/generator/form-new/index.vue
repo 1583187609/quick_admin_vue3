@@ -1,19 +1,19 @@
 <!-- 表单配置生成文件 -->
 <template>
   <div class="f-sb-s page-view">
-    <FilePannel v-model="currFile" class="pannel f-0" style="width: 300px" />
+    <FilePannel v-model="currMenuInfo" class="pannel f-0" style="width: 300px" />
     <PreviewPannel
       class="pannel f-1"
-      :activeIndex="editInd"
-      :data="formFields"
-      :defaultValues="defaultValues"
-      :fileInfo="currFile"
+      :activeIndex="currFieldInd"
+      :formFields="formFields"
+      :defaultValues="previewDefaultValues"
+      :menuInfo="currMenuInfo"
       @add="handleAdd"
       @delete="handleDel"
       @edit="handleEdit"
       @clear="handleClear"
     />
-    <SetPannel class="pannel f-1" :data="currData" @save="handleSave" :type="setType" ref="setPannelRef" />
+    <SetPannel class="pannel f-1" :fieldInfo="currFieldInfo" @save="handleSave" :type="setType" ref="setPannelRef" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -26,28 +26,32 @@ import { showMessage } from "@/utils";
 import _ from "lodash";
 
 const { merge } = _;
-const currFile = ref<CommonObj>();
+const currMenuInfo = ref<CommonObj>();
 const setType = ref<SetPannelType>("add");
-const defaultValues = reactive<CommonObj>({});
-const editInd = ref<number>(-1);
-const currData = ref<CommonObj>();
+const previewDefaultValues = reactive<CommonObj>({});
+const currFieldInd = ref<number>(-1);
 const setPannelRef = ref<any>(null);
 const formFields = ref<CommonObj[]>([]);
+const currFieldInfo = computed<CommonObj | undefined>(() => {
+  const field = formFields.value[currFieldInd.value];
+  if (!field) return;
+  return JSON.parse(JSON.stringify(field));
+});
 
 watch(
-  () => currFile.value,
+  () => currMenuInfo.value,
   newVal => {
     if (!newVal) return;
-    formFields.value = newVal.data.fields;
+    formFields.value = newVal.fileInfo.compInfo.fields;
   }
 );
-function handleSave(data, type: SetPannelType, ind: number) {
+function handleSave(data: CommonObj, type: SetPannelType) {
   const isExist = formFields.value.find(it => it.prop === data.prop);
   if (type === "add") {
     if (isExist) return showMessage(`已添加过该属性：${data.prop}`, "error");
     formFields.value.push(data);
   } else if (type === "edit") {
-    merge(formFields.value[editInd.value], data);
+    merge(formFields.value[currFieldInd.value], data);
   } else {
     throw new Error(`暂未处理此类型：${type}`);
   }
@@ -58,8 +62,7 @@ function handleAdd(data) {
   formFields.value.push(data);
   setPannelRef.value.reset();
   setType.value = "add";
-  editInd.value = formFields.value.length - 1;
-  currData.value = formFields.value.at(-1);
+  currFieldInd.value = formFields.value.length - 1;
 }
 function handleDel(ind: number) {
   formFields.value.splice(ind, 1);
@@ -67,9 +70,8 @@ function handleDel(ind: number) {
   showMessage("删除成功");
 }
 function handleEdit(ind: number) {
-  currData.value = JSON.parse(JSON.stringify(formFields.value[ind]));
   setType.value = "edit";
-  editInd.value = ind;
+  currFieldInd.value = ind;
 }
 function handleClear() {
   formFields.value = [];
@@ -80,7 +82,7 @@ function getDefaultVals(field?: CommonObj) {
   if (!field) return;
   const { defaultValue, prop } = field;
   if (defaultValue === undefined) return;
-  defaultValues[prop] = defaultValue;
+  previewDefaultValues[prop] = defaultValue;
 }
 </script>
 <style lang="scss" scoped>

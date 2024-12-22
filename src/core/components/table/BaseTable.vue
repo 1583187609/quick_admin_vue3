@@ -70,12 +70,9 @@ const newCols = reactive<TableColAttrs[]>(
   })
 );
 //点击操作栏按钮
-function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, isRefreshList: boolean = true) {
+function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, e: Event) {
   const { name } = btnObj;
-  $emit(operateBtnsEmitName, name, { $index, ...row }, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
-    next(hint, closeType, cb);
-    // isRefreshList && refreshList();
-  });
+  $emit(operateBtnsEmitName, name, { $index, ...row }, next, e);
 }
 defineExpose({
   tableRef,

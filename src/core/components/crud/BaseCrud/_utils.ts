@@ -48,7 +48,7 @@ export function getExportRows(cols: TableColAttrs[] = [], rows: CommonObj[] = []
 }
 
 // 显示确认弹窗（渲染html字符串）
-export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit }) {
+export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit, e }) {
   const { name = "", text, attrs } = btnObj;
   const colorType = attrs?.type || "primary";
   const colorKey = `color${upperFirst(colorType)}`;
@@ -62,11 +62,17 @@ export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, 
       const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
       exportRows = getExportRows(newCols, seledRows);
     }
-    $emit("extraBtns", name, next, {
-      selectedKeys: seledKeys,
-      selectedRows: seledRows,
-      exportRows,
-    });
+    $emit(
+      "extraBtns",
+      name,
+      next,
+      {
+        selectedKeys: seledKeys,
+        selectedRows: seledRows,
+        exportRows,
+      },
+      e
+    );
   });
 }
 
@@ -79,6 +85,7 @@ export function handleClickExtraBtns({
   seledKeys,
   total,
   exportCfg,
+  e,
   $emit,
   next,
   openPopup,
@@ -86,11 +93,17 @@ export function handleClickExtraBtns({
 }: HandleClickExtraBtnsProps) {
   const { name = "", text, handleClickType } = btnObj;
   if (handleClickType === "custom")
-    return $emit("extraBtns", name, next, {
-      selectedKeys: [],
-      selectedRows: [],
-      exportRows: [],
-    });
+    return $emit(
+      "extraBtns",
+      name,
+      next,
+      {
+        selectedKeys: [],
+        selectedRows: [],
+        exportRows: [],
+      },
+      e
+    );
   if (batchBtnNames.includes(name)) {
     if (name === "export") {
       const isOverLimit = exportCfg?.limit ? seledRows.length > exportCfg.limit : false;
@@ -105,21 +118,28 @@ export function handleClickExtraBtns({
           cols,
           total,
           next,
+          e,
           $emit,
           isSeledAll: seledRows.length === 0 || seledRows.length === total,
         });
       }
     } else {
-      showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, $emit, isSeledAll: seledRows.length === total });
+      showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, e, $emit, isSeledAll: seledRows.length === total });
     }
   } else if (name === "import") {
-    openPopup("导入文件", [CommonImport, { ...importCfg, onChange: (arr: CommonObj[]) => $emit("click", name, arr) }]);
+    openPopup("导入文件", [CommonImport, { ...importCfg, onChange: (arr: CommonObj[]) => $emit("click", name, arr, e) }]);
   } else {
-    $emit("extraBtns", name, next, {
-      selectedKeys: [],
-      selectedRows: [],
-      exportRows: [],
-    });
+    $emit(
+      "extraBtns",
+      name,
+      next,
+      {
+        selectedKeys: [],
+        selectedRows: [],
+        exportRows: [],
+      },
+      e
+    );
   }
 }
 

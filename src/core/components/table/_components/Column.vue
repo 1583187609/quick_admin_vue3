@@ -48,15 +48,8 @@
             <el-icon size="1.2em" v-if="newCol.type === 'sort'"><Sort /></el-icon>
             <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
             <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
-            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{
-              renderValue(row[newCol.prop as string])
-            }}</BaseText>
-            <BaseCopy
-              :data="row"
-              :text="row[newCol.prop as string]"
-              v-bind="newCol.attrs"
-              v-else-if="newCol.type === 'BaseCopy'"
-            />
+            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{ renderValue(row[newCol.prop as string]) }}</BaseText>
+            <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
             <!-- 自定义列 -->
             <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'slot'" />
             <!-- 创建和修改列 -->
@@ -67,7 +60,7 @@
               :row="{ ...row, $index }"
               :btns="getGroupBtnsByRow(row, $index)"
               v-bind="operateBtnsAttrs"
-              @click="(btnObj, next) => onOperateBtns(btnObj, { row, col: newCol, $index }, next)"
+              @click="(...args) => handleClickGroupBtns(args, { row, col: newCol, $index })"
               v-else-if="newCol.type === 'operate'"
             />
             <!-- 内嵌表单控件列 -->
@@ -88,7 +81,7 @@
 </template>
 <script lang="ts" setup>
 import { propsJoinChar, deleteAttrs, renderValue, getTableColumnSlots } from "@/core/utils";
-import { BtnItem } from "@/core/components/BaseBtn/_types";
+import { BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import GroupBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/GroupBtns.vue";
 import InsertCustomTableColComps from "@/config/_components/InsertCustomTableColComps.vue";
@@ -142,9 +135,9 @@ function getNewCol(col: TableColAttrs) {
   delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
-
-function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext) {
-  $emit("operateBtns", btnObj, { row, col, $index }, next);
+function handleClickGroupBtns(args: [BtnName, BtnItem, FinallyNext, Event], data: { row: CommonObj; col: TableColAttrs; $index: number }) {
+  const [tpl, btnObj, next, e] = args;
+  $emit("operateBtns", btnObj, data, next, e);
 }
 
 // 是否标记（显示）未联调图标

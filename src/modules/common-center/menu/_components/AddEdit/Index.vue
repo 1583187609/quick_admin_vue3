@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
-import IconPicker from "./_components/IconPicker/Index.vue";
+import IconPicker from "@/core/components/IconPicker/Index.vue";
 import { PostMockMenu, PatchMockMenu, GetMockMenu } from "@/api-mock";
 import MenuTree from "./_components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";

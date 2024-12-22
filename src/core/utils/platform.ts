@@ -137,7 +137,7 @@ export function renderValue(val?: string): string {
  * @param {Number} delay 延迟时间
  * @example methods: {onSubmit: debounce((that, event, ...args) => {console.log("防抖测试");})}
  */
-export function debounce(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000, showMsg = true) {
+export function debounce(fn: (event: Event, ...args: any) => void, immediate = true, delay = 1000, showMsg = true) {
   let timer: any = null;
   return function (event: Event, ...args: any) {
     if (timer) clearTimeout(timer);
@@ -147,13 +147,13 @@ export function debounce(fn: (that: any, event: Event, ...args: any) => void, im
         timer = null;
       }, delay);
       if (canExe) {
-        fn(this, event, ...args);
+        fn(event, ...args);
       } else {
         showMsg && showMessage("您的操作太频繁了", "warning");
       }
     } else {
       timer = setTimeout(() => {
-        fn(this, event, ...args);
+        fn(event, ...args);
         timer = null;
       }, delay);
     }
@@ -167,13 +167,13 @@ export function debounce(fn: (that: any, event: Event, ...args: any) => void, im
  * @param {Number} delay 延迟时间
  * @example methods: {onSubmit: throttle((that, event, ...args) => {console.log("节流测试");})}
  */
-export function throttle(fn: (that: any, event: Event, ...args: any) => void, immediate = true, delay = 1000) {
+export function throttle(fn: (event: Event, ...args: any) => void, immediate = true, delay = 1000) {
   if (immediate) {
     let previous = 0;
     return function (e: Event, ...args: any) {
       const now = Date.now();
       if (now - previous > delay) {
-        fn(this, e, ...args);
+        fn(e, ...args);
         previous = now;
       }
     };
@@ -182,7 +182,7 @@ export function throttle(fn: (that: any, event: Event, ...args: any) => void, im
     return function (e: Event, ...args: any) {
       if (!timer) {
         timer = setTimeout(() => {
-          fn(this, e, ...args);
+          fn(e, ...args);
           timer = null;
         }, delay);
       }

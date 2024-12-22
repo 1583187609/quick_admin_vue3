@@ -1,6 +1,6 @@
 <template>
   <div class="extra-btns f-fs-fs-w">
-    <BaseBtn :tpl="btn" class="btn-item" :class="size" @click="$emit('click', btn)" v-for="(btn, ind) in newBtns" :key="ind" />
+    <BaseBtn :tpl="btn" class="btn-item" :class="size" @click="(...args) => $emit('click', ...args)" v-for="(btn, ind) in newBtns" :key="ind" />
   </div>
 </template>
 <script lang="ts" setup>

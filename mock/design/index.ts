@@ -93,7 +93,7 @@ export const designMap = {
           "createUpdate",
           "remark",
         ],
-        122
+        22
       );
     },
   },
@@ -178,7 +178,7 @@ export const designMap = {
           "createUpdate",
           "remark",
         ],
-        199,
+        42,
         {
           // 有权限的用户
           authUsers(list: CommonObj[] = []) {

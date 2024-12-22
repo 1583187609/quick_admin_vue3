@@ -47,8 +47,9 @@
         @moreBtns="(name: string, args?: CommonObj, cb?: FinallyNext) => $emit('moreBtns', name, args, cb)"
         @submit="(args: CommonObj) => $emit('submit', args, submitNext)"
         ref="footerBtnsRef"
-        v-if="!pureText"
+        v-if="!pureText && footer === true"
       />
+      <BaseRender :renderData="footer" v-else />
     </slot>
   </el-form>
 </template>
@@ -58,16 +59,17 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { getFootBtnAttrs, handleFields } from "./_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
+import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
 import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
-import { ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
+import { CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize, showMessage } from "@/core/utils";
 import config from "@/config";
+import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
+import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
-import { useFormAttrs, usePopup } from "@/core/hooks";
 
 const { merge } = _;
 
@@ -88,7 +90,7 @@ const props = withDefaults(
     // readonly?: boolean; //是否只读
     // disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
-    footer?: boolean; //是否显示底部按钮
+    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
     submitBtn?: FootBtn; //提交按钮的文字
     resetBtn?: FootBtn; //提交按钮的文字
     extraParams?: CommonObj; //额外的参数
@@ -140,12 +142,7 @@ watch(
   { immediate: true, deep: true }
 );
 // 提交之后的回调函数
-function submitNext(hint: string, closeType: ClosePopupType, cb?: () => void) {
-  const submitText = getFootBtnAttrs(props.submitBtn)?.text ?? "提交";
-  showMessage(hint ?? `${submitText || "操作"}成功`);
-  closePopup(closeType);
-  cb?.();
-}
+const submitNext = useNextCallback(getFootBtnAttrs(props.submitBtn)?.text ?? "提交", closePopup);
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();

@@ -2,9 +2,11 @@ import { FormField, FormFieldAttrs, FormTplType, Grid } from "@/core/components/
 import { typeOf, propsJoinChar } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
 import { handleFormInitData } from "@/core/utils";
-import { defaultFormItemTplsMap } from "./_components/FieldItem";
+import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "./_components/FieldItem";
 import _ from "lodash";
 import { FootBtn, FootBtnAttrs } from "./_components/FooterBtns.vue";
+import { getBtnObj } from "../BaseBtn";
+import { BtnItem, BtnName } from "../BaseBtn/_types";
 
 const { merge } = _;
 /**
@@ -48,9 +50,8 @@ export function handleFields(
     if (typeOf(originField) !== "Object") return null;
     let { tpl, ...field } = originField as FormFieldAttrs;
     if (tpl) {
-      const tplData = defaultFormItemTplsMap[tplType][tpl];
-      if (!tplData) throw new Error(`不存在该模板：${tpl}`);
-      field = merge({}, tplData, field);
+      const tplData = getStandAttrsFromTpl(tpl, defaultFormItemTplsMap[tplType]);
+      field = merge(tplData, field);
     }
     const { type, prop = tpl, children } = field;
     const propType = typeOf(prop);
@@ -134,12 +135,28 @@ export function getGridAttrs(grid: Grid = 24) {
 }
 
 /**
+ * 判断是否是英文字符
+ * @param str 要判断的字符
+ * @returns {boolean} 是/否
+ */
+export function judgeIsEnChar(str: string) {
+  if (!str || typeof str !== "string") return false;
+  const code = str.charCodeAt(0);
+  return (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
+}
+
+/**
  * 获取底部按钮的属性（表单底部的按钮）
  */
-export function getFootBtnAttrs(btn: FootBtn): FootBtnAttrs | undefined {
+export function getFootBtnAttrs(btn: FootBtn, tpl: BtnName): BtnItem | undefined {
   if (!btn) return;
   const t = typeOf(btn);
-  if (t === "String") return { text: btn } as FootBtnAttrs;
-  if (t === "Object") return btn as FootBtnAttrs;
+  if (t === "String") {
+    if (judgeIsEnChar(btn as string)) return getBtnObj(btn as BtnName);
+    const btnObj = getBtnObj(tpl as BtnName);
+    btnObj.text = btn as string;
+    return btnObj;
+  }
+  if (t === "Object") return btn as BtnItem;
   throw new Error(`暂未处理此类型：${t}`);
 }

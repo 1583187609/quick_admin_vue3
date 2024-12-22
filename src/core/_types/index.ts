@@ -2,7 +2,7 @@
 /************************** 这里是全局的 ts 类型 ****************************/
 /***************************************************************************/
 
-import { ButtonType } from "@/core/components/BaseBtn/_types";
+import { BtnItem, BtnName, ButtonType } from "@/core/components/BaseBtn/_types";
 import { BaseRenderData } from "@/core/BaseRender.vue";
 import type { MessageParams, messageType } from "element-plus";
 import { EpPropMergeType } from "element-plus/es/utils";
@@ -20,6 +20,7 @@ export type UniteFetchType = FetchType | ((params: CommonObj) => FetchType);
 export type SetTimeout = null | NodeJS.Timeout;
 export type SetInterval = null | NodeJS.SetInterval;
 export type TostMessageType = messageType;
+export type NextArgs = [BtnName, BtnItem, FinallyNext, Event];
 export type FinallyNext = (
   hint?: string | MessageParams,
   closeType?: ClosePopupType,
