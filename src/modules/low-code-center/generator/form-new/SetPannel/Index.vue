@@ -6,9 +6,9 @@
     bodyClass="p-h"
     emptyTips="请在左侧选择字段"
   >
-    <template #right v-if="modelData.label && modelData.prop">
-      {{ `${modelData.label}（${modelData.prop}）` }}
-    </template>
+    <el-tabs v-model="currConfigType">
+      <el-tab-pane v-bind="item" v-for="(item, ind) in configTypeOpts" :key="ind"></el-tab-pane>
+    </el-tabs>
     <SectionForm
       v-model="modelData"
       @change="handleChange"
@@ -19,12 +19,13 @@
       :submitBtn="type === 'add' ? '创建' : '修改'"
       @submit="handleSubmit"
       ref="formRef"
-      v-if="props.fieldInfo"
+      v-if="currConfigType === 'field' && props.fieldInfo"
     >
       <!-- <template #before>
       <EleDom />
     </template> -->
     </SectionForm>
+    <BaseForm v-else-if="currConfigType === 'json'"></BaseForm>
   </SectionBox>
 </template>
 <script lang="ts" setup>
@@ -43,9 +44,14 @@ import _ from "lodash";
 import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
 
 export type SetPannelType = "add" | "edit";
+export type ConfigType = "field" | "json"; // 配置字段，配置JSON
 
 const { merge, snakeCase } = _;
 const propPrefix = "_";
+const configTypeOpts: CommonObj[] = [
+  { label: "配置字段", name: "field" },
+  { label: "配置JSON", name: "json" },
+];
 const switchYewNoAttrs = {
   activeValue: true,
   inactiveValue: false,
@@ -78,6 +84,8 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["save"]);
+const currConfigType = ref<ConfigType>("field"); // 配置类型
+
 const formRef = ref<any>(null);
 const defaultValue = { type: defaultFormItemType, grid: 24, pureText: 0 };
 const modelData = ref<CommonObj>({ ...defaultValue, ...props.fieldInfo });

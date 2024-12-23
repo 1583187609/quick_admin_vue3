@@ -1,42 +1,28 @@
-<!-- summary
-  集成了样式（颜色+图标+位置）、权限、路由跳转、气泡确认框（popconfirm）等功能。
+<!-- summary 基础用法
+  同ElementPlus用法保持一致
 -->
 <template>
-  <div class="part">
-    <div>基础用法 & 属性覆盖</div>
-    <div class="f-fs-fs-w">
-      <BaseBtn />
-      <BaseBtn>按钮</BaseBtn>
-      <BaseBtn text="按钮" />
-      <BaseBtn tpl="add" />
-      <BaseBtn tpl="edit" />
-      <BaseBtn tpl="edit" :attrs="{ type: 'info', text: '$编辑$' }" />
-    </div>
-  </div>
-  <div class="part">
-    <div>快捷属性 & 默认逻辑</div>
-    <div class="f-fs-fs-w">
-      <BaseBtn tpl="detail" />
-      <BaseBtn tpl="detail" to="/" />
-      <BaseBtn tpl="import" />
-      <BaseBtn tpl="import" @click="ElMessage.info('点击了导入按钮，可以自定义点击逻辑')" handleClickType="custom" />
-      <BaseBtn tpl="delete" />
-      <BaseBtn tpl="delete" :auth="[0]">删除（角色值为0可见）</BaseBtn>
-      <BaseBtn tpl="delete" popconfirm="删除后将不能进行恢复，确定删除吗？" />
-      <BaseBtn tpl="delete" :popconfirm="false" />
-    </div>
+  <div class="f-fs-fs-w">
+    <BaseBtn />
+    <BaseBtn type="success" :icon="CirclePlus">新增</BaseBtn>
+    <BaseBtn type="sucess" :icon="Edit">编辑</BaseBtn>
+    <BaseBtn type="danger" :icon="Remove">删除</BaseBtn>
+    <BaseBtn type="info" :icon="View">详情</BaseBtn>
+    <BaseBtn type="primary" :icon="Top" @click="openPopup('导入', [CommonImport, {}])">导入</BaseBtn>
+    <BaseBtn type="warning" :icon="Link" @click="router.push('/')" link>前往首页</BaseBtn>
   </div>
 </template>
 <script lang="ts" setup>
-import { ElMessage } from "element-plus";
+import { CirclePlus, Edit, Link, Remove, Top, View } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router";
+import { usePopup } from "@/hooks";
+import CommonImport from "@/core/components/crud/BaseCrud/_components/CommonImport.vue";
+
+const { openPopup } = usePopup();
+const router = useRouter();
 </script>
 <style lang="scss" scoped>
 .base-btn {
-  margin: $gap-half;
-}
-.part {
-  &:not(:last-child) {
-    margin-bottom: $gap;
-  }
+  margin: 0 $gap $gap 0;
 }
 </style>

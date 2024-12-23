@@ -1,3 +1,6 @@
+<!-- summary 基础用法
+  继承了BaseImg的其他属性，还提供了区分性别的默认底图。
+-->
 <template>
   <div class="f-fs-fs-w">
     <BaseAvatar />

@@ -9,8 +9,8 @@
 
 <script lang="ts" setup>
 import * as Icons from "@element-plus/icons-vue";
-import { defaultIconName, typeOf } from "@/core/utils";
-import { CommonObj, RouteTo, StrNum } from "./_types";
+import { defaultIconName } from "@/core/utils";
+import { RouteTo, StrNum } from "./_types";
 import { useAttrs } from "vue";
 import { useRouter } from "vue-router";
 
@@ -21,8 +21,7 @@ const props = withDefaults(
   defineProps<{
     name?: IconNames;
     size?: StrNum;
-    to?: RouteTo | ((data: CommonObj) => RouteTo);
-    data?: any; // to 的函数要传递的参数
+    to?: RouteTo;
   }>(),
   {
     name: defaultIconName,
@@ -32,9 +31,8 @@ const props = withDefaults(
 const $attrs = useAttrs();
 // 跳转页面或触发点击事件
 function handleClick(e) {
-  const { to, data } = props;
+  const { to } = props;
   if (!to) return;
-  if (typeOf(to) === "Function") return router.push((to as Function)(data));
   return router.push(to as RouteTo);
 }
 </script>

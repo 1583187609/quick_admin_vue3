@@ -5,7 +5,11 @@
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !isClickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!textStr || !to">
-        <span @click="handleClick" class="f-1" :class="{ [`line-${line}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }">
+        <span
+          @click="handleClick"
+          class="f-1"
+          :class="{ [`line-${line}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }"
+        >
           <slot>{{ textStr || emptyStr }}</slot>
         </span>
       </el-tooltip>
@@ -21,8 +25,8 @@
 </template>
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-import { CommonObj, RouteTo, StrNum } from "@/core/_types";
-import { showMessage, defaultTooltipAttrs, typeOf, emptyStr } from "@/utils";
+import { RouteTo, StrNum } from "@/core/_types";
+import { showMessage, defaultTooltipAttrs, emptyStr } from "@/utils";
 import { DocumentCopy } from "@element-plus/icons-vue";
 import { useAttrs } from "vue";
 
@@ -33,8 +37,7 @@ const tooltipAttrs = {
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
-    to?: RouteTo | ((data: CommonObj) => RouteTo);
-    data?: CommonObj;
+    to?: RouteTo;
     text?: StrNum;
     line?: StrNum; // 最多显示几行，超出文本会显示省略号
     stop?: boolean; // 是否阻止点击事件的冒泡
@@ -60,10 +63,9 @@ const isClickIconCopy = computed(() => {
 const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 // 跳转页面或触发点击事件
 function handleClick(e) {
-  const { to, data } = props;
+  const { to } = props;
   if (!textStr.value || !to) return;
   e.stopPropagation();
-  if (typeOf(to) === "Function") return router.push((to as Function)(data));
   return router.push(to as RouteTo);
 }
 // 处理点击事件

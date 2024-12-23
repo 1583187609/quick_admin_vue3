@@ -1,3 +1,6 @@
+<!-- summary 基础用法
+  提供了加载中、加载失败图标状态，默认底图展示。图片预览功能、路由跳转功能。
+-->
 <template>
   <div class="f-fs-fs-w">
     <BaseImg />

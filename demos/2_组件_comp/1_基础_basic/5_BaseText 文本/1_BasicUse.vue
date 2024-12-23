@@ -1,3 +1,6 @@
+<!-- summary 基础用法
+  超过n行会自动省略。出现省略号后可点击，以 dialog 展示全部内容。
+-->
 <template>
   <div class="f-sb-fs-w">
     <div class="box f-1">

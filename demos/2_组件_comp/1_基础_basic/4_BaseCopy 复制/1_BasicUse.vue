@@ -1,3 +1,6 @@
+<!-- summary 基础用法
+  满足仅复制、点击和复制。支持路由跳转，自定义点击事件。同时会自动切换图标的鼠标样式（cursor）
+-->
 <template>
   <div class="mb-h">
     <BaseCopy text="这是待复制内容1" />
@@ -9,7 +12,7 @@
     <BaseCopy clickIconCopy>这是待复制内容3，当且仅当点击图标时才复制文本</BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy to="/comp/basic/BaseBtn">同时满足跳转和复制功能</BaseCopy>
+    <BaseCopy to="/">同时满足跳转和复制功能（注意各区域的鼠标样式）</BaseCopy>
   </div>
   <div class="mb-h">
     <BaseCopy @click="handleClick">同时满足自定义点击事件和复制功能</BaseCopy>
@@ -18,6 +21,6 @@
 <script lang="ts" setup>
 import { ElMessage } from "element-plus";
 function handleClick() {
-  ElMessage.info("点击了click事件");
+  ElMessage.info("触发了click事件");
 }
 </script>

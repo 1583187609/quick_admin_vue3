@@ -188,6 +188,13 @@
 142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
 143、整理 menuTree 组件
 144、抽离 IconPicker 组件
+145、将表格列的 type 支持传入任意组件
+146、将对表单的字段处理，分别放在 FormItem、FieleItem、FieldItmeCol 中
+147、完善低码中心的配置 JSON 生成页面的逻辑
+148、整合 extraBtns 中的导入按钮逻辑到 BaseBtn 中
+149、简化按钮 loading，用 ElementPlus 提供的 loading 属性完成
+150、BaseBtn 的 validate 属性有待重新确定
+151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 
 ## 待定事项
 
