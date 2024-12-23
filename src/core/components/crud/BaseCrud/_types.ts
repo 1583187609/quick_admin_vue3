@@ -1,7 +1,7 @@
 import { CommonObj, StrNum } from "@/core/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
-import { TplCfgAttrs } from "./_components/CommonImport.vue";
+import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 
 export type FilterAuthItem = number | { code: number; disabled: boolean }; //disabled: 默认false
 export type FilterByAuthFn = (auth: number[]) => boolean;
@@ -24,7 +24,7 @@ export interface HandleClickExtraBtnsProps {
   refreshList?: any;
   next: any;
   openPopup?: any;
-  importCfg?: TplCfgAttrs;
+  importCfg?: ImportCfgAttrs;
 }
 
 // 键值对类型（只含label、value两个属性）

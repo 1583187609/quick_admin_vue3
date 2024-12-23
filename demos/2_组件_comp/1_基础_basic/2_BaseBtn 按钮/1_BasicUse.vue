@@ -16,7 +16,7 @@
 import { CirclePlus, Edit, Link, Remove, Top, View } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { usePopup } from "@/hooks";
-import CommonImport from "@/core/components/crud/BaseCrud/_components/CommonImport.vue";
+import CommonImport from "@/core/components/BaseBtn/_components/CommonImport.vue";
 
 const { openPopup } = usePopup();
 const router = useRouter();

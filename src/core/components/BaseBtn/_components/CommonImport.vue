@@ -28,7 +28,7 @@ export interface ImportTplColsItem {
   prop: string;
   label: string;
 }
-export interface TplCfgAttrs {
+export interface ImportCfgAttrs {
   name?: string; // excel文件名称，例："XXX模板示例"
   cols?: ImportTplColsItem[]; // 导入列，例：[{ prop: "userName", label: "用户姓名" },{ prop: "phone", label: "电话号码" },{ prop: "labelName", label: "标签名称" }]
   accept?: string;

@@ -3,7 +3,13 @@ import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { autoMenus } from "@/router/routes/auto";
+import { deleteAttrs } from "@/utils";
 
+export function getSubOptions(parOptions: OptionItem[] = [], val: number, omitChildren = true, childrenKey = "children") {
+  const opts = parOptions.find(it => it.value === val)?.[childrenKey];
+  if (!omitChildren) return opts;
+  return opts.map(item => deleteAttrs(item, [childrenKey]));
+}
 const simpleFormFields = [
   { tpl: "T_UserName" },
   { tpl: "T_Gender" },

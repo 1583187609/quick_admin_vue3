@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { sysGeneratorTplsNew, compTypeOptions } from "../_config";
+import { sysGeneratorTplsNew, compTypeOptions, getSubOptions } from "../_config";
 import { deleteAttrs, getTreeNodeByValue, getTreeNodesByValue } from "@/core/utils";
 import { getGroupApiOpts } from "../../_config";
 import { OptionItem } from "@/core/_types";
@@ -36,11 +36,6 @@ const modelData = reactive<CommonObj>({
   route_path: "/demo-center/comps/form/base-form/basic-use",
   ...props.data,
 });
-function getSubOptions(parOptions: OptionItem[] = [], val: number, omitChildren = true, childrenKey = "children") {
-  const opts = parOptions.find(it => it.value === val)?.[childrenKey];
-  if (!omitChildren) return opts;
-  return opts.map(item => deleteAttrs(item, [childrenKey]));
-}
 const fields = computed<FormFieldAttrs[]>(() => {
   const { compType, contType } = modelData;
   const contTypeOpts = getSubOptions(compTypeOptions, compType); // compTypeOptions.find(it => it.value === compType)?.children;

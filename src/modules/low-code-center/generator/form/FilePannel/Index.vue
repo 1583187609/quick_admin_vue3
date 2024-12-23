@@ -50,9 +50,11 @@ const sysFileTplsTree = reactive(sysGeneratorTplsNew);
 // }
 const props = withDefaults(
   defineProps<{
+    defaultValue?: string; // 默认选中的树id
     modelValue?: CommonObj;
   }>(),
   {
+    // defaultValue: "199-1-1-2-1-1",
     modelValue: reactive({}),
   }
 );
@@ -61,7 +63,7 @@ const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
-
+if (props.defaultValue) handleLeafNodeClick(getTreeNodeByValue(sysFileTplsTree, props.defaultValue));
 function handleLeafNodeClick(data) {
   modelVal.value = data;
 }

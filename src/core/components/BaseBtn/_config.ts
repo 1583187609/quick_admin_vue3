@@ -49,7 +49,7 @@ export default {
     // auth: [0,1,2],
     // to: undefined,
     order: 3,
-    validate: true,
+    validateForm: true,
     attrs: {
       type: "success",
       icon: "Checked",
@@ -66,7 +66,7 @@ export default {
     // auth: [0,1,2],
     // to: undefined,
     order: 4,
-    validate: true,
+    validateForm: true,
     attrs: {
       type: "danger",
       icon: "Failed",

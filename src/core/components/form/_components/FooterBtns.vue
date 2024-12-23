@@ -5,14 +5,7 @@
   <div class="footer-btns f-c-c f-0 pt-h pb-h">
     <BaseBtn :tpl="newSubmitBtn" :loading="isLoading" :disabled="disabled" @click="handleSubmit" v-if="newSubmitBtn" />
     <BaseBtn @click="handleMoreBtns" :tpl="btn" :disabled="disabled" v-for="(btn, ind) in newMoreBtns" :key="ind" />
-    <BaseBtn
-      v-bind="newResetBtn.attrs"
-      :tpl="newResetBtn.name || 'reset'"
-      :loading="isLoading"
-      :disabled="disabled"
-      @click="handleReset"
-      v-if="newResetBtn"
-    />
+    <BaseBtn v-bind="newResetBtn.attrs" :tpl="newResetBtn.name || 'reset'" :disabled="disabled" @click="handleReset" v-if="newResetBtn" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -129,9 +122,9 @@ function handleReset(...args) {
 }
 //点击更多按钮时
 function handleMoreBtns(tpl: BtnName, btn: BtnItem, next: FinallyNext, e: Event) {
-  const { name, validate, to } = btn;
+  const { name, validateForm, to } = btn;
   if (to) return;
-  if (!validate) return $emit("moreBtns", name, props.params, defaultAfterSuccess);
+  if (!validateForm) return $emit("moreBtns", name, props.params, defaultAfterSuccess);
   handleValidate()
     .then(params => {
       $emit("moreBtns", name, params, defaultAfterSuccess);

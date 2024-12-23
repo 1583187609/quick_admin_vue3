@@ -1,57 +1,23 @@
-<!-- 设置面板 -->
+<!-- 配置字段 -->
 <template>
-  <SectionBox
-    :title="modelData._label && modelData._prop ? `${modelData._label}（${modelData._prop}）` : '未选择'"
-    class="set-pannel"
-    bodyClass="p-h"
-    emptyTips="请在左侧选择字段"
-  >
-    <el-tabs v-model="currConfigType">
-      <el-tab-pane v-bind="item" v-for="(item, ind) in configTypeOpts" :key="ind"></el-tab-pane>
-    </el-tabs>
-    <SectionForm
-      v-model="modelData"
-      @change="handleChange"
-      :sections="sections"
-      :style="{ width }"
-      grid="12"
-      :footer="false"
-      :submitBtn="type === 'add' ? '创建' : '修改'"
-      @submit="handleSubmit"
-      ref="formRef"
-      v-if="currConfigType === 'field' && props.fieldInfo"
-    >
-      <!-- <template #before>
+  <SectionForm v-model="modelData" @change="handleChange" :sections="sections" grid="12" :footer="false" ref="formRef">
+    <!-- <template #before>
       <EleDom />
     </template> -->
-    </SectionForm>
-    <BaseForm v-else-if="currConfigType === 'json'"></BaseForm>
-  </SectionBox>
+  </SectionForm>
 </template>
 <script lang="ts" setup>
-import { computed, reactive } from "vue";
-import SectionForm from "@/core/components/form/SectionForm.vue";
-import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
-import SectionBox from "../_components/SectionBox.vue";
-import { CommonObj, OptionItem } from "@/core/_types";
-import { exampleMap } from "../_config";
+import { ref, computed } from "vue";
 import { getWidgetAttrsFields } from "./_config";
-import { defaultFormItemType, deleteAttrs } from "@/utils";
-import BaseOption from "@/core/components/BaseOption.vue";
-import CssUnit from "./_components/CssUnit.vue";
-import EleDom from "./_components/EleDom.vue";
-import _ from "lodash";
+import SectionForm from "@/core/components/form/SectionForm.vue";
+import { CommonObj } from "@/vite-env";
 import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
-
-export type SetPannelType = "add" | "edit";
-export type ConfigType = "field" | "json"; // 配置字段，配置JSON
-
-const { merge, snakeCase } = _;
+import { OptionItem } from "@/core/_types";
+import BaseOption from "@/core/components/BaseOption.vue";
+import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
+import { defaultFormItemType } from "@/utils";
+import { exampleMap } from "../_config";
 const propPrefix = "_";
-const configTypeOpts: CommonObj[] = [
-  { label: "配置字段", name: "field" },
-  { label: "配置JSON", name: "json" },
-];
 const switchYewNoAttrs = {
   activeValue: true,
   inactiveValue: false,
@@ -75,46 +41,34 @@ const widgetTypeOpts: OptionItem[] = [
 ];
 const props = withDefaults(
   defineProps<{
-    fieldInfo?: FormFieldAttrs;
-    width?: string;
-    type?: SetPannelType;
+    modelValue?: CommonObj;
   }>(),
-  {
-    type: "add",
-  }
+  {}
 );
-const $emit = defineEmits(["save"]);
-const currConfigType = ref<ConfigType>("field"); // 配置类型
-
+const $emit = defineEmits(["update:modelValue", "change"]);
 const formRef = ref<any>(null);
 const defaultValue = { type: defaultFormItemType, grid: 24, pureText: 0 };
-const modelData = ref<CommonObj>({ ...defaultValue, ...props.fieldInfo });
-const defaultValueWidgetAttrs = ref<FormFieldAttrs>({});
-watch(
-  () => props.fieldInfo,
-  newVal => {
-    if (!newVal) {
-      modelData.value = getFieldWithPrefix(defaultValue);
-      return;
+const modelData = computed<FormFieldAttrs>({
+  get: () => {
+    if (!props.modelValue) {
+      return getFieldWithPrefix(defaultValue);
     }
-    const { tpl, ...restInfo } = newVal;
+    const { tpl, ...restInfo } = props.modelValue;
     if (!tpl) {
-      modelData.value = getFieldWithPrefix({ ...defaultValue, ...props.fieldInfo });
-      return;
+      return getFieldWithPrefix({ ...defaultValue, ...props.modelValue });
     }
     const tplInfo = getStandAttrsFromTpl(tpl, defaultFormItemTplsMap.common);
     const originData = { ...defaultValue, ...tplInfo, ...restInfo };
-    modelData.value = getFieldWithPrefix({ ...defaultValue, ...tplInfo, ...restInfo });
     const { type, attrs } = originData;
     defaultValueWidgetAttrs.value = { type, attrs };
+    return getFieldWithPrefix(originData);
   },
-  {
-    immediate: true,
-  }
-);
+  set: (val: CommonObj) => $emit("update:modelValue", val),
+});
+const defaultValueWidgetAttrs = ref<FormFieldAttrs>({});
 const sections = computed<SectionFormItemAttrs[]>(() => {
-  if (!props.fieldInfo) return [];
-  const { type } = modelData.value;
+  if (!props.modelValue) return [];
+  const { type = defaultFormItemType } = modelData.value;
   const showOpts = ["select", "cascader", "checkbox-group"].includes(type);
   return [
     {
@@ -325,11 +279,11 @@ function handleChange(val: string | number, prop: string, args: CommonObj) {
   handleSubmit(modelData.value);
 }
 function handleSubmit(params: CommonObj) {
-  $emit("save", getFieldWithoutPrefix(params), props.type);
+  $emit("change", getFieldWithoutPrefix(params));
 }
 defineExpose({
   reset() {
-    formRef.value?.reset();
+    formRef.value?.reset?.();
   },
 });
 </script>

@@ -122,7 +122,7 @@ import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
 import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "@/core/components/crud/BaseCrud/_types";
-import { TplCfgAttrs } from "./_components/CommonImport.vue";
+import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
 import { ExportCfg } from "./_types";
@@ -157,7 +157,7 @@ const props = withDefaults(
     formAttrs?: FormAttrs; //el-form 的属性配置
     /** 中间按钮 **/
     extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
-    importCfg?: TplCfgAttrs; //导入的下载模板配置
+    importCfg?: ImportCfgAttrs; //导入的下载模板配置
     exportCfg?: ExportCfg; //导出配置
     /** 底部表格 **/
     cols?: TableCol[]; //表格列数据

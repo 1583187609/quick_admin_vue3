@@ -193,7 +193,7 @@
 147、完善低码中心的配置 JSON 生成页面的逻辑
 148、整合 extraBtns 中的导入按钮逻辑到 BaseBtn 中
 149、简化按钮 loading，用 ElementPlus 提供的 loading 属性完成
-150、BaseBtn 的 validate 属性有待重新确定
+150、BaseBtn 的 validateForm 属性有待重新确定
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 
 ## 待定事项
@@ -446,6 +446,7 @@
 4、 设置 isOptimization （是否优化开关），来避免较为复杂的运算逻辑
 5、 高阶组件不能用于低阶通用组件中（例：通用组件的图标不用 BaseIcon）
 65、WeakMap 优化
+66、低码中心，配置简化 JSON 时候，进行校验并纠错提示
 
 ### 动画优化相关
 

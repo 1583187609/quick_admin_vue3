@@ -13,7 +13,7 @@
         {
           name: 'noValid',
           text: '不触发表单校验',
-          validate: false,
+          validateForm: false,
           attrs: { type: 'primary', plain: true },
         },
         {
@@ -600,7 +600,7 @@ function handleMoreBtns(name: BtnName, params: CommonObj) {
   handleBtnNext(map, name);
 }
 function handleNoValid() {
-  ElMessage.warning(`validate: false，不触发表单校验`);
+  ElMessage.warning(`validateForm: false，不触发表单校验`);
 }
 </script>
 <style lang="scss" scoped>

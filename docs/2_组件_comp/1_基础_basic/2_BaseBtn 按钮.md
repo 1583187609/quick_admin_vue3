@@ -1,83 +1,83 @@
 # BaseBtn 按钮
 
 &emsp;&emsp;目标：仅传入`name`属性，即可享有对应按钮的全部功能（含颜色、文本、图标、权限、默认逻辑等），也可传入属性值进行覆盖，同时提供了快捷属性（`to`、`popoconfirm`）。
+
 ## 基础用法
 
 &emsp;&emsp;集成了样式（颜色+图标+位置）、权限、路由跳转、气泡确认框（`popconfirm`）等功能。
 
-::: demo 
-/demos/2_组件_comp/1_基础_basic/2_BaseBtn 按钮/1_BasicUse.vue
+::: demo
+/demos/2*组件\_comp/1*基础\_basic/2_BaseBtn 按钮/1_BasicUse.vue
 :::
 
-
-## API 
+## API
 
 ### Props
 
-|属性|说明|类型|默认值|
-|:---|:---|:---|:---|
-|`modelValue`|表单数据，可设默认值|`CommonObj`|-|
-|`fields`|表单字段|`FormField[]`|`[]`|
-|`sections`|分块的表单字段|`SectionFormItemAttrs[]`|-|
-|`fetch`|列表请求接口|`UniteFetchType`|-|
-|`extraParams`|额外的参数|`CommonObj`|-|
-|`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|`true`|
-|`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|`true`|
-|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`Grid`|`defaultGridAttrs`|
-|`rowNum`|筛选条件的(表单)展示几行|`number`|-|
-|`formAttrs`|`el-form `的属性配置|`FormAttrs`|`defaultFormAttrs`|
-|`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
-|`importCfg`|导入的下载模板配置|`TplCfgAttrs`|-|
-|`exportCfg`|导出配置|`ExportCfg`|{ `limit: 10000 `}|
-|`cols`|表格列数据|`TableCol[]`|`[]`|
-|`operateBtns`|操作栏的分组按钮，在表格的操作一栏|`OperateBtnsType`|-|
-|`operateBtnsAttrs`|操作栏按钮的配置|`OperateBtnsAttrs`|-|
-|`filterByAuth`|按钮权限处理逻辑|`FilterByAuthFn`|`true`|
-|`tableAttrs`|`el-table `的属性配置|`TableAttrs`|`defaultTableAttrs`|
-|`pageAttrs`|分页配置|`CommonObj`|-|
-|`pagination`|是否分页|`false \| TablePaginationAttrs`|`defaultPagination`|
-|`showPagination`|是否显示分页|`boolean`|`true`|
-|`omit`|是否剔除掉`undefined, ''`的属性值|`boolean`|`true`|
-|`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|`_props.grid.xl < 6`|
-|`size`|整体的控件大小|`CommonSize`|`defaultCommonSize`|
-|`readonly`|是否只读|`boolean`|-|
-|`disabled`|是否禁用|`boolean`|-|
-|`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
-|`log`|是否打印`console.log(rows)`|`boolean \| "req" \| "res"`|-|
-|`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
-|`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
-|`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|
-|`afterSuccess`|请求成功的回调函数|`() => void`|-|
-|`afterFail`|请求成功的回调函数|`() => void`|-|
-|`handleRequest`|处理参数|`() => void`|-|
-|`handleResponse`|处理响应数据|`() => void`|-|
-|`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|
+| 属性               | 说明                                                                                   | 类型                            | 默认值               |
+| :----------------- | :------------------------------------------------------------------------------------- | :------------------------------ | :------------------- |
+| `modelValue`       | 表单数据，可设默认值                                                                   | `CommonObj`                     | -                    |
+| `fields`           | 表单字段                                                                               | `FormField[]`                   | `[]`                 |
+| `sections`         | 分块的表单字段                                                                         | `SectionFormItemAttrs[]`        | -                    |
+| `fetch`            | 列表请求接口                                                                           | `UniteFetchType`                | -                    |
+| `extraParams`      | 额外的参数                                                                             | `CommonObj`                     | -                    |
+| `changeFetch`      | 是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）                 | `boolean`                       | `true`               |
+| `inputDebounce`    | 输入框输入时，是否通过防抖输入，触发搜索                                               | `boolean`                       | `true`               |
+| `grid`             | 栅格配置，同`ElementPlus`的`el-col`的属性                                              | `Grid`                          | `defaultGridAttrs`   |
+| `rowNum`           | 筛选条件的(表单)展示几行                                                               | `number`                        | -                    |
+| `formAttrs`        | `el-form `的属性配置                                                                   | `FormAttrs`                     | `defaultFormAttrs`   |
+| `extraBtns`        | 额外的按钮，在表单下方，表格上方                                                       | `BaseBtnType[]`                 | -                    |
+| `importCfg`        | 导入的下载模板配置                                                                     | `ImportCfgAttrs`                | -                    |
+| `exportCfg`        | 导出配置                                                                               | `ExportCfg`                     | { `limit: 10000 `}   |
+| `cols`             | 表格列数据                                                                             | `TableCol[]`                    | `[]`                 |
+| `operateBtns`      | 操作栏的分组按钮，在表格的操作一栏                                                     | `OperateBtnsType`               | -                    |
+| `operateBtnsAttrs` | 操作栏按钮的配置                                                                       | `OperateBtnsAttrs`              | -                    |
+| `filterByAuth`     | 按钮权限处理逻辑                                                                       | `FilterByAuthFn`                | `true`               |
+| `tableAttrs`       | `el-table `的属性配置                                                                  | `TableAttrs`                    | `defaultTableAttrs`  |
+| `pageAttrs`        | 分页配置                                                                               | `CommonObj`                     | -                    |
+| `pagination`       | 是否分页                                                                               | `false \| TablePaginationAttrs` | `defaultPagination`  |
+| `showPagination`   | 是否显示分页                                                                           | `boolean`                       | `true`               |
+| `omit`             | 是否剔除掉`undefined, ''`的属性值                                                      | `boolean`                       | `true`               |
+| `compact`          | 表单项、表格列之间排列是否紧凑点                                                       | `boolean`                       | `_props.grid.xl < 6` |
+| `size`             | 整体的控件大小                                                                         | `CommonSize`                    | `defaultCommonSize`  |
+| `readonly`         | 是否只读                                                                               | `boolean`                       | -                    |
+| `disabled`         | 是否禁用                                                                               | `boolean`                       | -                    |
+| `optimization`     | 默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算 | `boolean`                       | -                    |
+| `log`              | 是否打印`console.log(rows)`                                                            | `boolean \| "req" \| "res"`     | -                    |
+| `debug`            | 是否在打印请求数据之后不执行请求的逻辑                                                 | `boolean`                       | -                    |
+| `reqMap`           | 请求参数的键名映射                                                                     | `ReqMap`                        | `defaultReqMap`      |
+| `resMap`           | 响应参数的键名映射                                                                     | `ResMap`                        | `defaultResMap`      |
+| `afterSuccess`     | 请求成功的回调函数                                                                     | `() => void`                    | -                    |
+| `afterFail`        | 请求成功的回调函数                                                                     | `() => void`                    | -                    |
+| `handleRequest`    | 处理参数                                                                               | `() => void`                    | -                    |
+| `handleResponse`   | 处理响应数据                                                                           | `() => void`                    | -                    |
+| `summaryList`      | 汇总请求数据的 `list`                                                                  | `SummaryListType`               | -                    |
 
 ### $emit
 
-|事件名称|说明|回调参数|
-|:---|:---|:---|
-|`update:modelValue`|-|-|
-|`extraBtns`|-|-|
-|`selectionChange`|-|-|
-|`rows`|-|-|
-|`dargSortEnd`|-|-|
+| 事件名称            | 说明 | 回调参数 |
+| :------------------ | :--- | :------- |
+| `update:modelValue` | -    | -        |
+| `extraBtns`         | -    | -        |
+| `selectionChange`   | -    | -        |
+| `rows`              | -    | -        |
+| `dargSortEnd`       | -    | -        |
 
 ### Expose
 
-|方法名|说明|类型|
-|:---|:---|:---|
-|`refreshList`|-|`() => void`|
-|`getList`|-|`() => void`|
-|`getQueryParams`|-|`() => void`|
-|`getQueryFields`|-|`() => void`|
+| 方法名           | 说明 | 类型         |
+| :--------------- | :--- | :----------- |
+| `refreshList`    | -    | `() => void` |
+| `getList`        | -    | `() => void` |
+| `getQueryParams` | -    | `() => void` |
+| `getQueryFields` | -    | `() => void` |
 
 ### Slots
 
-|插槽名|说明|Scope|
-|:---|:---|:---|
-|`field.prop`|-|`name, field, form`|
-|`middle`|中间插槽|-|
-|`content`|内容插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
-|`col.prop as string`|-|`row, col, $index, name`|
-|`default`|默认插槽|-|
+| 插槽名               | 说明     | Scope                                                  |
+| :------------------- | :------- | :----------------------------------------------------- |
+| `field.prop`         | -        | `name, field, form`                                    |
+| `middle`             | 中间插槽 | -                                                      |
+| `content`            | 内容插槽 | `loading, rows, total, hasMore, params, onOperateBtns` |
+| `col.prop as string` | -        | `row, col, $index, name`                               |
+| `default`            | 默认插槽 | -                                                      |

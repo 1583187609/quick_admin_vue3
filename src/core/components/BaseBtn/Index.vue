@@ -4,8 +4,7 @@
 <template>
   <el-popconfirm @confirm="handleClickDebounce" width="fit-content" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
-      <el-button class="base-btn" v-bind="newBtn.attrs" :disabled="loading || newBtn?.attrs?.disabled">
-        <template #icon><BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : iconName" /></template>
+      <el-button class="base-btn" v-bind="newBtn.attrs" :disabled="loading || newBtn?.attrs?.disabled" :loading="loading">
         <slot>{{ emptyVals.includes(newBtn?.text) ? "" : newBtn?.text }}</slot>
       </el-button>
     </template>
@@ -14,23 +13,26 @@
     class="base-btn"
     v-bind="newBtn.attrs"
     :disabled="loading || newBtn?.attrs?.disabled"
+    :loading="loading"
     @click="handleClickDebounce"
     v-else
   >
-    <template #icon><BaseIcon :class="{ rotate: loading }" :name="loading ? 'Loading' : iconName" /></template>
     <slot>{{ emptyVals.includes(newBtn?.text) ? "" : newBtn?.text }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
-import { computed, useAttrs } from "vue";
+import { computed, defineAsyncComponent, useAttrs } from "vue";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import { debounce, emptyStr, emptyVals, typeOf } from "@/core/utils";
+import { debounce, emptyVals } from "@/core/utils";
 import { useRouter } from "vue-router";
 import { CommonObj, FinallyNext, PopconfirmAttrs, RouteTo } from "@/core/_types";
-import { BaseBtnType, BtnHandleClickType, EndBtnItem, BtnName, BtnItem } from "./_types";
+import { BaseBtnType, BtnHandleClickType, EndBtnItem, BtnName } from "./_types";
 import { useNextCallback, usePopup } from "@/hooks";
+import { ImportCfgAttrs } from "@/core/components/BaseBtn/_components/CommonImport.vue";
 
-const { closePopup } = usePopup();
+const CommonImport = defineAsyncComponent(() => import("@/core/components/BaseBtn/_components/CommonImport.vue"));
+
+const { openPopup, closePopup } = usePopup();
 defineOptions({
   inheritAttrs: false,
 });
@@ -52,8 +54,15 @@ const props = withDefaults(
      * 功能扩展属性
      */
     handleClickType?: BtnHandleClickType; // 例：导入按钮会默认打开弹窗等逻辑，此参数用于设置对点击事件做不同处理
-    validate?: boolean; // 是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
+    validateForm?: boolean; // 是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
     loading?: boolean; // 是否显示加载图标
+    /**
+     * 特定按钮的数据或配置信息
+     */
+    dataAttrs?: ImportCfgAttrs;
+    /**
+     * 其余属性
+     */
     // ...restAttrs 其余属性同el-button的属性
   }>(),
   {
@@ -61,7 +70,7 @@ const props = withDefaults(
     handleClickType: "common",
     isDebounce: true,
     // 为undefined不能不写，不然vue会将boolean类型转为false，会导致后续逻辑异常
-    validate: undefined,
+    validateForm: undefined,
     popconfirm: undefined,
   }
 );
@@ -71,21 +80,27 @@ const $emit = defineEmits<{
    * @type {tpl: BtnName}
    */
   click: [BtnName, EndBtnItem, FinallyNext, Event];
+  change: [BtnName, any, FinallyNext, Event]; // 第二个参数any是导入文件时候的 change 事件接收到的数据
 }>();
-const iconName = ref<string>();
-const newBtn = computed<EndBtnItem>(() => {
-  const { tpl } = props;
-  const btn = getBtnObj(tpl, undefined, { attrs: $attrs });
-  let _icon = btn?.attrs?.icon;
-  if (typeof _icon === "object") _icon = _icon.name;
-  iconName.value = _icon;
-  if (iconName.value) delete btn!.attrs!.icon;
-  return btn;
-});
+const newBtn = computed<EndBtnItem>(() => getBtnObj(props.tpl, undefined, { attrs: $attrs }));
 // 处理点击事件
 function handleClick(e: Event) {
   const { name, to, text } = newBtn.value;
-  if (to === undefined) return $emit("click", name, newBtn.value, useNextCallback(text, closePopup), e);
+  if (to === undefined) {
+    const { dataAttrs, handleClickType } = props;
+    if (name === "import" && handleClickType !== "custom") {
+      return openPopup("导入文件", [
+        CommonImport,
+        {
+          ...(dataAttrs as ImportCfgAttrs),
+          onChange(arr: CommonObj[]) {
+            $emit("change", name, arr, useNextCallback(text, closePopup), e);
+          },
+        },
+      ]);
+    }
+    return $emit("click", name, newBtn.value, useNextCallback(text, closePopup), e);
+  }
   router.push(to as RouteTo);
 }
 // 点击事件防抖处理
