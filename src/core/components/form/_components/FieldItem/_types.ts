@@ -71,7 +71,9 @@ export type FormItemTplTypes =
   | "T_Price"
   | "T_Age"
   | "T_Amount"
+  | "T_YesNoStatus"
   | "T_EnableStatus"
+  | "T_Region"
   | "T_CreateTime"
   | "T_Remark";
 export interface FormFieldAttrs {

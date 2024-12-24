@@ -34,7 +34,7 @@
 
 # 组件优化事项
 
-1、BarsImg
+1、TagImg
 2、AddDelTag
 3、BaseAudio
 3、BaseVideo
@@ -56,7 +56,7 @@
 ## 重大尝试革新
 
 ~~1、将.vue 文件放入文件夹中，通过 export default 暴露出来，保持原有引用路径不变~~
-~~3、将 BaseImg, BarsImg 放入 img 文件夹下~~
+~~3、将 BaseImg, TagImg 放入 img 文件夹下~~
 ~~4、全局 Ts 类型处理~~
 ~~5、将 `export * from "./_types";` 从 `index.ts中移除`~~
 ~~2、将 dict 拆为 select、cascader、tree 三种进行管理~~

@@ -1,29 +1,21 @@
 <!-- summary 字段显示与隐藏
-  下面介绍了如何控制字段的显示与隐藏，实现快速开发页面。
+  单个或多个字段的隐藏方式
  -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
-    <template #zdy>
-      <input placeholder="请输入（这是自定义的输入框）" style="width: 400px; border: 1px solid green; border-radius: 6px" />
-    </template>
-  </BaseForm>
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon" />
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
-import { FormField, FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/core/_types";
+import { FormField } from "@/core/components/form/_types";
 
 const typeOpts: OptionItem[] = [
-  { label: "简短", value: 0 },
+  { label: "简单", value: 0 },
   { label: "一般", value: 1 },
   { label: "详细", value: 2 },
 ];
-const modelData = reactive<CommonObj>({
-  type: 0,
-  age: 12,
-  gender: 0,
-});
+const modelData = reactive<CommonObj>({ type: 0 });
 
 const fields = computed<FormField[]>(() => {
   const { type } = modelData;
@@ -45,7 +37,8 @@ const fields = computed<FormField[]>(() => {
         options: "D_Gender",
       },
     },
-    type !== 0 && { prop: "age", label: "年龄", type: "input-number" },
+    type !== 0 && { prop: "age", label: "年龄", type: "input-number" }, // 控制单个字段显示与隐藏
+    // 控制多个字段显示与隐藏
     ...(type === 2
       ? [
           { prop: "height", label: "身高", type: "slider", attrs: { min: 100, max: 250 } },

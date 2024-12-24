@@ -5,6 +5,7 @@
     <span class="draft" v-if="scope.data?.data?.isDraft">草稿</span>
     <span v-if="!scope.node.isLeaf">{{ scope.data.total }}</span>
     <IconBtns
+      stop
       size="small"
       gap="4px"
       fontSize="1.2em"

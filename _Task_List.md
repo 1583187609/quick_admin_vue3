@@ -195,6 +195,31 @@
 149、简化按钮 loading，用 ElementPlus 提供的 loading 属性完成
 150、BaseBtn 的 validateForm 属性有待重新确定
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
+152、将 formItem 的子项拆分出来（不应该放入里面，会导致组件变得臃肿庞大）
+153、将公共 Css 加上前缀
+154、全局控件大小增加 mini 选项
+155、完善用户端全局设置
+
+- 国际化
+- 控件大小
+- 主题切换
+
+156、将各个组件的属性实现继承
+
+## Demo 功能验证清单
+
+1、BaseIcon 的默认值
+2、BaseBtn 的默认值（用新增按钮），验证继承的`el-button`属性是否生效（重点关注 icon 传入字符串或组件时是否渲染正常，不考虑支持直接传入字符串（考虑性能，跟 el-button 保持一致就好））  
+3、验证按钮权限的 auth 功能是否正常，重点关注 auth 为函数状态时的表现  
+4、移除 BaseCopy、BaseText 的 text 属性，采用直接传入 slot 的方式  
+5、注意验证 BaeCopy 传入 html 字符串时候的表现情况  
+6、完善所有基础组件的描述类信息  
+7、验证 BaseImg 的 iconSize 属性大小是否满足 UI 美观要求  
+8、验证 BaseNumberRange 在 BaseCrud 的传参情况，和默认值情况  
+9、验证数字上升、数字过渡组件功能是否完善
+10、写一个新的工作台页面
+11、完善 BaseNumber.vue 后去掉 BaseNum.vue 组件
+12、当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示
 
 ## 待定事项
 
@@ -279,7 +304,7 @@
 ~~40、国际化处理的配置文件（langs）应该分别放在各个模块下方~~  
 ~~67、完善 CellTable 组件~~
 ~~68、将级联、下拉项分开，且分同步异步文件夹~~
-~~71、将 BaseImg、BarsImg 放到同一个文件夹`img`下~~  
+~~71、将 BaseImg、TagImg 放到同一个文件夹`img`下~~  
 ~~5、FormItem type==='empty' 相关逻辑完善~~  
 ~~45、BasicDialog 中 query-table 类名需要提取出来~~  
 ~~29、大屏数据页面用统一的基础 Echarts 组件~~
@@ -447,6 +472,7 @@
 5、 高阶组件不能用于低阶通用组件中（例：通用组件的图标不用 BaseIcon）
 65、WeakMap 优化
 66、低码中心，配置简化 JSON 时候，进行校验并纠错提示
+67、找一种更好的传递上下级 grid、disabled、pureText、readonly 之类属性的方式
 
 ### 动画优化相关
 
@@ -478,7 +504,8 @@ const emit = defineEmits<{
 
 ~~1. 正式推广之前，将工程改个名字（Quick Admin Vue3、Quick Admin React18）~~  
 2. 配置 jkenjs  
-3. 自制脚手架，需要用到的库：commander.js、download-git-repo、inquirer、ora、chalk
+3. 自制脚手架，需要用到的库：commander.js、download-git-repo、inquirer、ora、chalk  
+4. 创建开源许可（根据 gitee 的提示进行创建）
 
 ## 一些参照链接地址
 

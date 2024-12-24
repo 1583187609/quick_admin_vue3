@@ -3,12 +3,12 @@
 -->
 <template>
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy">
-    <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': Number(line) > 0, hover: textStr && !isClickIconCopy }">
+    <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': +maxLine > 0, hover: textStr && !isClickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!textStr || !to">
         <span
           @click="handleClick"
           class="f-1"
-          :class="{ [`line-${line}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }"
+          :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }"
         >
           <slot>{{ textStr || emptyStr }}</slot>
         </span>
@@ -37,17 +37,16 @@ const tooltipAttrs = {
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
-    to?: RouteTo;
-    text?: StrNum;
-    line?: StrNum; // 最多显示几行，超出文本会显示省略号
+    to?: RouteTo; // 路由跳转，等价于 router.push(to)
     stop?: boolean; // 是否阻止点击事件的冒泡
+    maxLine?: StrNum; // 最多显示几行，超出文本会显示省略号
     clickIconCopy?: boolean; // 是否只当点击图标时才复制文本
-    successTips?: string;
+    tips?: string; // 复制成功之后的提示文案
   }>(),
   {
-    line: 1,
+    maxLine: 1,
     clickIconCopy: undefined,
-    successTips: "复制成功！",
+    tips: "复制成功",
   }
 );
 
@@ -60,19 +59,19 @@ const isClickIconCopy = computed(() => {
   const { to, clickIconCopy = !!to || !!onClick } = props;
   return clickIconCopy;
 });
-const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
+const textStr = computed<StrNum>(() => $slots.default?.()[0]?.children ?? "");
 // 跳转页面或触发点击事件
 function handleClick(e) {
-  const { to } = props;
+  const { to, stop } = props;
   if (!textStr.value || !to) return;
-  e.stopPropagation();
+  if (stop) e.stopPropagation();
   return router.push(to as RouteTo);
 }
 // 处理点击事件
 function handleCopy(e) {
   if (!textStr.value) return;
   const { tagName, classList } = e.target.parentNode;
-  const { stop, successTips } = props;
+  const { stop, tips } = props;
   if (stop) e.stopPropagation();
   const isAtIcon = classList.contains("icon") || tagName === "svg";
   if ($attrs.onClick && !isAtIcon) return $attrs.onClick?.();
@@ -82,7 +81,7 @@ function handleCopy(e) {
   document.body.appendChild(input);
   input.select();
   const copyText = document.execCommand("copy");
-  if (copyText) showMessage(successTips, "success");
+  if (copyText) showMessage(tips, "success");
   document.body.removeChild(input);
 }
 </script>

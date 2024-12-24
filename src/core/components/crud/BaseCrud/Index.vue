@@ -109,7 +109,17 @@ import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.v
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/utils";
+import {
+  omitAttrs,
+  printLog,
+  propsJoinChar,
+  rangeJoinChar,
+  showMessage,
+  typeOf,
+  emptyVals,
+  defaultReqMap,
+  defaultResMap,
+} from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
@@ -117,7 +127,16 @@ import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_comp
 import { splitPropsParams } from "@/core/utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { batchBtnNames } from "@/core/components/crud/BaseCrud";
-import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, ClosePopupInject } from "@/core/_types";
+import {
+  CommonObj,
+  UniteFetchType,
+  FinallyNext,
+  StrNum,
+  CommonSize,
+  GetRequired,
+  ClosePopupInject,
+  BaseDataType,
+} from "@/core/_types";
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
@@ -170,7 +189,7 @@ const props = withDefaults(
     pagination?: false | TablePaginationAttrs; //是否分页
     showPagination?: boolean; // 是否显示分页
     /** 整体控制 **/
-    omit?: boolean; // 是否剔除掉undefined, ''的属性值
+    omits?: boolean | BaseDataType[]; // 是否剔除掉null, undefined, ""的属性值
     compact?: boolean; // 表单项、表格列之间排列是否紧凑点
     size?: CommonSize; // 整体的控件大小
     readonly?: boolean; // 是否只读
@@ -193,7 +212,7 @@ const props = withDefaults(
     cols: () => [],
     changeFetch: true,
     size: defaultCommonSize,
-    omit: true,
+    omits: true,
     inputDebounce: true,
     showPagination: true,
     pagination: () => defaultPagination,
@@ -242,7 +261,7 @@ const newExtraBtns = computed<BtnItem[]>(() => {
     if (batchBtnNames?.includes(name as string)) {
       btnObj.popconfirm = false;
       if (attrs) {
-        const byTotalDisabled = handleClickType === "custom" || name === "export";
+        const byTotalDisabled = !handleClickType || name === "export";
         attrs.disabled = byTotalDisabled ? !pageInfo.total : !seledRows.value.length;
       }
     }
@@ -325,11 +344,11 @@ function handleChange(changedVals: CommonObj, isInit?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { fetch, handleRequest, omit, handleResponse, summaryList, afterSuccess, afterFail, log } = props;
+  const { fetch, handleRequest, omits, handleResponse, summaryList, afterSuccess, afterFail, log } = props;
   if (!fetch) return;
   loading.value = true;
   if (handleRequest) args = handleRequest(args);
-  omit && (args = omitAttrs(args)); //剔除掉值为undefined, '', null的属性
+  args = omitAttrs(args, omits);
   (log === true || log === "req") && printLog(args, "req");
   fetch(args)
     .then((res: any) => {
@@ -441,8 +460,8 @@ onMounted(() => {
 defineExpose({
   refreshList,
   getList,
-  getQueryParams(omit = props.omit) {
-    return omit ? omitAttrs(params) : params;
+  getQueryParams(omits = props.omits) {
+    return omitAttrs(params, omits);
   },
   getQueryFields(excludeKeys = [currPageKey, pageSizeKey]) {
     const queryFields: KeyValItem[] = [];

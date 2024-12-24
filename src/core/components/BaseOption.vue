@@ -2,7 +2,7 @@
 <template>
   <div class="base-option f-sb-c">
     <slot name="left">
-      <div :class="leftClass" class="f-1 line-1">{{ option?.[leftKey] ?? emptyStr }}</div>
+      <div :class="leftClass" class="f-1 q-line-1">{{ option?.[leftKey] ?? emptyStr }}</div>
     </slot>
     <slot name="right">
       <div :class="rightClass" class="f-0 short-name">{{ option?.[rightKey] ?? "" }}</div>

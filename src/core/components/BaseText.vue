@@ -2,13 +2,13 @@
 目标：对文本内容进行展示，多行时自动省略，并支持弹窗展示全部内容，同时自带样式。
 -->
 <template>
-  <div class="base-text" :class="{ [`line-${maxLine}`]: true, over: isOver }" @click="handleClick" ref="baseTextRef">
-    <slot>{{ textStr }}</slot>
+  <div class="base-text" :class="{ [`q-line-${maxLine}`]: true, over: isOver }" @click="handleClick" ref="baseTextRef">
+    <slot></slot>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, computed } from "vue";
-import { OpenPopupInject, StrNum } from "@/core/_types";
+import { ref, inject, onMounted } from "vue";
+import { CommonObj, OpenPopupInject, PopupType, StrNum } from "@/core/_types";
 import { getIsOver } from "@/core/utils";
 
 const openPopup = inject<OpenPopupInject>("openPopup");
@@ -18,19 +18,17 @@ const defaultPopupAttrs = {
 };
 const props = withDefaults(
   defineProps<{
-    text?: string;
     maxLine?: StrNum; //最多显示几行，可选值：1~5 必须为整数
-    popupAttrs?: any;
+    popupType?: PopupType;
+    popupAttrs?: CommonObj;
   }>(),
   {
     maxLine: 2,
-    popupAttrs: () => ({ title: "详情", width: "500px" }),
   }
 );
 const $slots = defineSlots<{
   default: () => void; // 默认插槽
 }>();
-const textStr = computed<StrNum>(() => props.text ?? $slots.default?.()[0]?.children ?? "");
 const baseTextRef = ref<HTMLDivElement | null>(null);
 const isOver = ref(false);
 onMounted(() => {
@@ -38,7 +36,7 @@ onMounted(() => {
 });
 function handleClick(e: any) {
   if (!isOver.value) return;
-  openPopup({ ...defaultPopupAttrs, ...props.popupAttrs }, e.target.innerText);
+  openPopup({ ...defaultPopupAttrs, ...props.popupAttrs }, e.target.innerText, props.popupType);
 }
 </script>
 <style lang="scss" scoped>

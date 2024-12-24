@@ -55,7 +55,7 @@ const props = withDefaults(
   }>(),
   {
     // defaultValue: "199-1-1-2-1-1",
-    modelValue: reactive({}),
+    modelValue: () => reactive({}),
   }
 );
 const $emit = defineEmits(["update:modelValue"]);

@@ -13,7 +13,7 @@
       </el-icon>
       <span class="text">{{ loadTips }}</span>
     </div>
-    <slot><BaseEmpty :tips="emptyTips" /></slot>
+    <slot><BaseEmpty :description="emptyTips" /></slot>
     <div :style="`height: ${toCssVal(paddingBottom)};`"></div>
     <div class="f-c-c load-tips" v-if="loading && isToBottom">
       <el-icon class="rotate">

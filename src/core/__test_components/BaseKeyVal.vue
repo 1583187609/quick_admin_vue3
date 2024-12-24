@@ -14,7 +14,7 @@
     <div
       class="val f-1 f-fs-fs-w"
       :class="{
-        [`line-${props.line}`]: !!props.line,
+        [`q-line-${props.line}`]: !!props.line,
         [`${props.valClass}`]: !!props.valClass,
       }"
     >

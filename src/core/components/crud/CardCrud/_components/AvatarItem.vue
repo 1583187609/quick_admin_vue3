@@ -6,12 +6,12 @@
           {{ passed ? "已通过" : rejected ? "已驳回" : "" }}
         </div>
       </div>
-      <BarsImg :bottomBar="status === 1 ? row.reason : ''" width="200" height="200" :src="row.src" class="avatar f-0" />
+      <TagImg :bottomTag="status === 1 ? row.reason : ''" width="200" height="200" :src="row.src" class="avatar f-0" />
       <div class="info f-1">
-        <div @click="$router.push({ name: 'systemUserDetail', query: { id: row.userId } })" class="nickname line-2 row">
+        <div @click="$router.push({ name: 'systemUserDetail', query: { id: row.userId } })" class="nickname q-line-2 row">
           {{ row.nickname || "-" }}
         </div>
-        <BaseCopy class="row" :text="row.userId" />
+        <BaseCopy class="row">{{ row.userId }}</BaseCopy>
         <div class="f-fs-c row">
           <span class="mr-h">{{ row.age ?? "-" }}岁</span>
           <BaseTag name="D_Gender" :value="row.gender" pure-text />
@@ -46,7 +46,7 @@ import { getTimeAgo } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
 import { OperateBtnsType } from "@/core/components/table/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
-import BarsImg from "@/core/img/BarsImg.vue";
+import TagImg from "@/core/img/TagImg.vue";
 import { operateBtnsEmitName } from "@/core/components/table";
 
 const props = withDefaults(

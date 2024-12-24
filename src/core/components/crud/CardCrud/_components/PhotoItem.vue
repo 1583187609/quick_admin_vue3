@@ -1,10 +1,17 @@
 <!-- 组件 - 资料巡查 -->
 <template>
   <div class="photo-item f-fs-s-c" :class="{ passed: status === 0, rejected: status === 1 }">
-    <BarsImg :src="row.url" :topBar="topBar" class="img" :bottomBar="row.status === 1 ? row.reason : ''" />
+    <TagImg :src="row.url" :topTag="topTag" class="img" :bottomTag="row.status === 1 ? row.reason : ''" />
     <div class="foot-box f-c-c-c f-0">
-      <BaseCopy class="mb-q" :text="row.userId" />
-      <BaseBtn :tpl="btn" round size="small" @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
+      <BaseCopy class="mb-q">{{ row.userId }}</BaseCopy>
+      <BaseBtn
+        :tpl="btn"
+        round
+        size="small"
+        @click="() => $emit('operateBtns', btn)"
+        v-for="(btn, ind) in operateBtns"
+        :key="ind"
+      />
     </div>
   </div>
 </template>
@@ -12,7 +19,7 @@
 import { ref, computed, nextTick } from "vue";
 import { CommonObj } from "@/core/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
-import BarsImg from "@/core/img/BarsImg.vue";
+import TagImg from "@/core/img/TagImg.vue";
 import { AuditStatus } from "../Index.vue";
 import { useDict } from "@/hooks";
 import { operateBtnsEmitName } from "@/core/components/table";
@@ -29,7 +36,7 @@ const props = withDefaults(
     operateBtns: () => [],
   }
 );
-const topBar = computed(() => {
+const topTag = computed(() => {
   const status = props.row.status;
   if (status === 1) {
     const obj: CommonObj = getMap("AuditStatus")[status];

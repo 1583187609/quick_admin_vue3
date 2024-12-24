@@ -2,7 +2,7 @@
 目标：统一空状态组件
 -->
 <template>
-  <el-empty class="base-empty" style="padding: 16px" :description="tips" :image-size="Number(size)">
+  <el-empty class="base-empty" style="padding: 16px" :description="description" :image-size="+size">
     <slot />
   </el-empty>
 </template>
@@ -10,11 +10,11 @@
 import { StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
-    tips?: string;
+    description?: string;
     size?: StrNum;
   }>(),
   {
-    tips: "空空如也~",
+    description: "空空如也~",
     size: 50,
   }
 );

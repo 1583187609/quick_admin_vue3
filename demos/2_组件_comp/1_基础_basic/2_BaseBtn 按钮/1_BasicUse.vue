@@ -1,5 +1,5 @@
 <!-- summary 基础用法
-  同ElementPlus用法保持一致
+  默认为新增按钮，继承 el-button 属性，所以传入 el-button 的属性都是生效的。
 -->
 <template>
   <div class="f-fs-fs-w">

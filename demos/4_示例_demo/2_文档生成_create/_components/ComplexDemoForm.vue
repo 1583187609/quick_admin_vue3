@@ -34,7 +34,7 @@
       :submitBtn="submitBtn"
       :resetBtn="resetBtn"
       :formRef="formRef"
-      :omit="omit"
+      :omits="omits"
       :log="log"
       :debug="debug"
       :params="params"
@@ -85,7 +85,7 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
-    omit?: boolean; //是否剔除掉值为 undefined, null, “” 的参数
+    omits?: boolean; //是否剔除掉值为 undefined, null, “” 的参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
@@ -95,7 +95,7 @@ const props = withDefaults(
     modelValue: () => reactive({}),
     grid: 24,
     footer: true,
-    omit: true,
+    omits: true,
     autoFixedFoot: true,
     fields: () => [],
   }
@@ -159,8 +159,8 @@ defineExpose({
   // 这是测试方法
   refreshList,
   getList: () => {},
-  getQueryParams(omit = props.omit) {
-    return omit ? true : params;
+  getQueryParams(omits = props.omits) {
+    return omits ? true : params;
   },
   getQueryFields(excludeKeys = []) {
     const queryFields: KeyValItem[] = [];

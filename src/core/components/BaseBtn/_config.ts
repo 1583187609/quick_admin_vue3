@@ -10,6 +10,7 @@ export default {
     text: "新增",
     // auth: [0,1,2],
     // to: undefined,
+    // handleClickType: undefined,
     order: 0,
     attrs: {
       type: "success",
@@ -93,6 +94,7 @@ export default {
     text: "导入",
     // auth: [0, 1, 2],
     // to: undefined,
+    handleClickType: "common",
     order: 6,
     attrs: {
       type: "primary",
@@ -229,15 +231,4 @@ export default {
       icon: "Link",
     },
   },
-  // //当按钮的name不对时，默认展示这个空按钮，用于给开发者提示
-  // empty: {
-  //   name: "empty",
-  //   text: "~empty~",
-  //   // auth: [],
-  //   // to: undefined,
-  //   order: 100,
-  //   attrs: {
-  //     type: "danger",
-  //   },
-  // },
 } as CommonObj;

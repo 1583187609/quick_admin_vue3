@@ -61,24 +61,24 @@
               <div class="f-fs-c">
                 【
                 <el-tooltip :content="chatInfo.headInfo.fromUser.nickname">
-                  <span class="nickname line-1">{{ chatInfo.headInfo.fromUser.nickname || "-" }}</span> </el-tooltip
+                  <span class="nickname q-line-1">{{ chatInfo.headInfo.fromUser.nickname || "-" }}</span> </el-tooltip
                 >】
               </div>
               <div>与</div>
               <div class="f-fs-c">
                 【
                 <el-tooltip :content="chatInfo.headInfo.toUser.nickname">
-                  <span class="nickname line-1">{{ chatInfo.headInfo.toUser.nickname || "-" }}</span>
+                  <span class="nickname q-line-1">{{ chatInfo.headInfo.toUser.nickname || "-" }}</span>
                 </el-tooltip>
                 】
               </div>
-              <div class="line-1">的聊天记录</div>
+              <div class="q-line-1">的聊天记录</div>
             </div>
             <!-- <div class="first-time f-0">
               首次建立会话时间：{{chatInfo.headInfo.firstDate || '-'}}
             </div> -->
             <el-tooltip :content="'首次建立会话时间：' + chatInfo.headInfo.firstDate">
-              <span class="first-time line-1">{{ chatInfo.headInfo.firstDate }}</span>
+              <span class="first-time q-line-1">{{ chatInfo.headInfo.firstDate }}</span>
             </el-tooltip>
             <el-button
               @click="openSearchChat(chatInfo.headInfo.fromUser, chatInfo.headInfo.toUser, modelData.msgWord)"
@@ -358,7 +358,11 @@ function getChatList(fromUserId: number, toUserId: number, direction: ChatListQu
  * 是否要自动打开消息搜索弹窗
  * @return 返回类型 null | { fromUser: CommonObj; toUser: CommonObj }
  */
-async function isOpenSearchMsgPopup(fromUserId: StrNum, toUserId: StrNum, keyWord: string): null | { fromUser: CommonObj; toUser: CommonObj } {
+async function isOpenSearchMsgPopup(
+  fromUserId: StrNum,
+  toUserId: StrNum,
+  keyWord: string
+): null | { fromUser: CommonObj; toUser: CommonObj } {
   if (keyWord) {
     return await GetImSearchP2pChatList({
       fromUserId,

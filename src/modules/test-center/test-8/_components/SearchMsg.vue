@@ -17,7 +17,7 @@
           <b class="nickname mr-o">{{ item.user.nickname }}</b>
           <time class="time">{{ item.createdDate }}</time>
         </div>
-        <div class="line-1" v-html="getHtml(item)"></div>
+        <div class="q-line-1" v-html="getHtml(item)"></div>
       </div>
     </LoadMore>
   </div>

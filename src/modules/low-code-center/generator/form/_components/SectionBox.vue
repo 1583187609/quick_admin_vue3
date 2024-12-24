@@ -7,7 +7,7 @@
     </header>
     <div class="body hover-show-scroll f-1" :class="bodyClass">
       <slot>
-        <BaseEmpty :tips="emptyTips" />
+        <BaseEmpty :description="emptyTips" />
       </slot>
     </div>
   </section>

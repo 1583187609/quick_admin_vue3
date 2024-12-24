@@ -4,7 +4,7 @@
       <!-- 标题栏 -->
       <h1 class="h1 f-c-c" @click="router.push({ name: 'home' })" v-if="setStore.layout.type === 'horizontal'">
         <BaseImg :src="logoImg" size="30" :preview="false" />
-        <div class="ml-h line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
+        <div class="ml-h q-line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
       </h1>
       <!-- 折叠按钮 -->
       <el-icon
@@ -56,7 +56,7 @@
       <!-- 用户信息 -->
       <div id="user-simple-info" class="user-info f-0 f-fe-c">
         <div class="mr-h">
-          <div class="line-1 nickname">{{ user?.name }}</div>
+          <div class="nickname q-line-1">{{ user?.name }}</div>
           <div class="version">{{ pkg.version }}</div>
         </div>
         <el-dropdown ref="dropdownRef">

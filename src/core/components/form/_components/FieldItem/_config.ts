@@ -445,6 +445,15 @@ function getFormItemTpls(type: FormTplType = "common") {
         options: "D_Gender",
       },
     },
+    /***** 级联类 *****/
+    // 行政地址
+    T_Region: {
+      label: "地址",
+      type: "cascader",
+      attrs: {
+        options: "C_Region",
+      },
+    },
   };
 }
 

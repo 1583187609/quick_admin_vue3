@@ -7,16 +7,12 @@
     class="base-img"
     :class="{ round, to: !!to, empty: !src }"
     :src="src || emptyImg"
-    :fit="fit"
-    :style="newStyle"
-    :initialIndex="initialIndex"
-    v-bind="previewAttrs"
-    preview-teleported
-    hide-on-click-modal
+    :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }"
+    v-bind="newAttrs"
   >
     <template #placeholder>
       <div class="err-box f-c-c-c">
-        <el-icon class="rotate" :size="sizeMap[sizeType]" name="Loading">
+        <el-icon class="rotate" :size="iconSize" name="Loading">
           <Loading />
         </el-icon>
         <span class="tips">{{ loadTips }}</span>
@@ -24,9 +20,9 @@
     </template>
     <template #error>
       {{ $emit("error") }}
-      <el-image class="base-img" :class="{ round }" :src="errImgSrc" :fit="fit" preview-teleported v-if="errImgSrc" />
+      <el-image class="base-img" :class="{ round }" :src="errImgSrc" v-bind="defaultImageAttrs" v-if="errImgSrc" />
       <div class="err-box f-c-c-c" v-else>
-        <el-icon :size="sizeMap[sizeType]" name="Picture">
+        <el-icon :size="iconSize" name="Picture">
           <Picture />
         </el-icon>
         <span class="tips" v-if="errTips">{{ errTips }}</span>
@@ -38,57 +34,59 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { defaultCommonSize, toCssVal } from "@/core/utils";
-import { CommonObj, CommonSize } from "@/core/_types";
+import { getCssNum, toCssVal } from "@/core/utils";
+import { CommonObj, CommonSize, RouteTo, StrNum } from "@/core/_types";
 import emptyImg from "@/assets/images/default/img.png";
 import { Loading, Picture } from "@element-plus/icons-vue";
 
 export type ImgFitType = "fill" | "contain" | "cover" | "none" | "scale-down";
-const sizeMap: CommonObj = {
-  large: 26,
-  default: 22,
-  small: 18,
+// const sizeMap: CommonObj = {
+//   large: 26,
+//   default: 22,
+//   small: 18,
+// };
+// 默认的图片属性
+const defaultImageAttrs = {
+  fit: "cover", // ImgFitType
+  previewTeleported: true,
+  hideOnClickModal: true,
 };
 const router = useRouter();
 const props = withDefaults(
   defineProps<{
-    size?: number | string;
-    sizeType?: CommonSize;
-    width?: number | string;
-    height?: number | string;
+    size?: StrNum;
+    iconSize?: number;
+    width?: StrNum;
+    height?: StrNum;
+    to?: RouteTo;
     src?: string;
-    fit?: ImgFitType;
     round?: boolean;
-    to?: string | CommonObj;
-    initialIndex?: number;
-    zoomRate?: number;
-    stopPropagation?: boolean; //点击图片时，是否阻止冒泡
+    stop?: boolean; // 点击图片时，是否阻止冒泡
     preview?: boolean;
     loadTips?: string;
     errTips?: string;
     errImgSrc?: string;
+    // 其他同 el-image 的属性
+    // fit?: ImgFitType;
+    // initialIndex?: number;
   }>(),
   {
-    fit: "cover",
-    sizeType: defaultCommonSize,
+    iconSize: ({ size, width, height }) => (getCssNum(size) ?? Math.max(getCssNum(width) ?? 0, getCssNum(height) ?? 0)) * 0.1,
     loadTips: "玩命加载中…",
     errTips: "加载失败",
     preview: (props: CommonObj) => props.to === undefined,
   }
 );
 const $emit = defineEmits(["click", "error"]);
-const previewAttrs = computed<CommonObj>(() => (props.src && props.preview ? { previewSrcList: [props.src] } : {}));
-const newStyle = computed(() => {
-  return {
-    height: toCssVal(props.size || props.height),
-    width: toCssVal(props.size || props.width),
-  };
+const newAttrs = computed<CommonObj>(() => {
+  if (!props.src || !props.preview) return defaultImageAttrs;
+  return { ...defaultImageAttrs, previewSrcList: [props.src] };
 });
-//处理点击图片
+// 处理点击图片
 function handleClick(e: any) {
-  const { preview, to, stopPropagation } = props;
+  const { to, stop } = props;
   to ? router.push(to) : $emit("click", e);
-  if (stopPropagation) e.stopImmediatePropagation();
+  if (stop) e.stopImmediatePropagation();
 }
 </script>
 

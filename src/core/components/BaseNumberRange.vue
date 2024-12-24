@@ -3,14 +3,14 @@
 -->
 <template>
   <div
-    :class="{ [`el-range-editor--${size}`]: true }"
+    :class="`el-range-editor--${size}`"
     class="base-number-range el-date-editor el-date-editor--daterange el-input__wrapper el-range-editor"
   >
     <input
       v-model="modelVals[0]"
       class="el-range-input"
       :maxlength="maxLength"
-      :placeholder="minPlaceholder"
+      :placeholder="startPlaceholder"
       @input="handleEvent('input', $event, 0)"
       @change="handleEvent('change', $event, 0)"
       @blur="handleBlur(0)"
@@ -20,7 +20,7 @@
       v-model="modelVals[1]"
       class="el-range-input"
       :maxlength="maxLength"
-      :placeholder="maxPlaceholder"
+      :placeholder="endPlaceholder"
       @input="handleEvent('input', $event, 1)"
       @change="handleEvent('change', $event, 1)"
       @blur="handleBlur(1)"
@@ -51,17 +51,14 @@ const props = withDefaults(
     max?: number;
     size?: CommonSize;
     precision?: number; // 精度（保留n位小数位数）
-    minPlaceholder?: string;
-    maxPlaceholder?: string;
-    // 属性名跟date-picker的保持一致
+    maxlength?: number; // 最大字符长度
+    startPlaceholder?: string;
+    endPlaceholder?: string;
+    // 属性名跟 date-picker 的保持一致
     rangeSeparator?: string; // 分隔符
-    maxlength?: number;
   }>(),
   {
-    modelValue: () => [],
-    // min: -100,
-    // max: 100,
-    precision: 0,
+    modelValue: () => reactive([]),
     minPlaceholder: "最小值",
     maxPlaceholder: "最大值",
     size: defaultCommonSize,

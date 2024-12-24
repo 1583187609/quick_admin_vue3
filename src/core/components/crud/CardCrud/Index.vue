@@ -23,7 +23,7 @@
             :status="row[statusKey]"
             :operateBtns="getGroupBtnsOfRowSimple(row, $index, props)"
             @operateBtns="(btn:BtnItem)=>onOperateBtns(btn,{ ...row, $index },rows,params)"
-            :bottomBar="row[statusKey] === 1 ? row.reason || '~原因为空~' : ''"
+            :bottomTag="row[statusKey] === 1 ? row.reason || '~原因为空~' : ''"
             v-else-if="type === 'about'"
           />
           <FaceItem
@@ -32,7 +32,7 @@
             :status="row[statusKey]"
             :operateBtns="getGroupBtnsOfRowSimple(row, $index, props)"
             @operateBtns="(btn:BtnItem)=>onOperateBtns(btn,{ ...row, $index },rows,params)"
-            :bottomBar="row[statusKey] === 1 ? row.rejectReason || '~原因为空~' : ''"
+            :bottomTag="row[statusKey] === 1 ? row.rejectReason || '~原因为空~' : ''"
             v-else-if="type === 'face'"
           />
           <PhotoItem

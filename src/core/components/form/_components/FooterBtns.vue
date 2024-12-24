@@ -5,7 +5,13 @@
   <div class="footer-btns f-c-c f-0 pt-h pb-h">
     <BaseBtn :tpl="newSubmitBtn" :loading="isLoading" :disabled="disabled" @click="handleSubmit" v-if="newSubmitBtn" />
     <BaseBtn @click="handleMoreBtns" :tpl="btn" :disabled="disabled" v-for="(btn, ind) in newMoreBtns" :key="ind" />
-    <BaseBtn v-bind="newResetBtn.attrs" :tpl="newResetBtn.name || 'reset'" :disabled="disabled" @click="handleReset" v-if="newResetBtn" />
+    <BaseBtn
+      v-bind="newResetBtn.attrs"
+      :tpl="newResetBtn.name || 'reset'"
+      :disabled="disabled"
+      @click="handleReset"
+      v-if="newResetBtn"
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -13,7 +19,7 @@ import { ref, watch, inject, computed } from "vue";
 import { BaseBtnType, BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils";
-import { CommonObj, FinallyNext, UniteFetchType, NextArgs } from "@/core/_types";
+import { CommonObj, FinallyNext, UniteFetchType, NextArgs, BaseDataType } from "@/core/_types";
 import { ClosePopupInject } from "@/core/components/BasicPopup/_types";
 import { getFootBtnAttrs } from "../_utils";
 import { useNextCallback } from "@/hooks";
@@ -33,7 +39,7 @@ const props = withDefaults(
     submitBtn?: FootBtn;
     resetBtn?: FootBtn;
     moreBtns?: BaseBtnType[]; // 底部的额外更多按钮
-    omit?: boolean;
+    omits?: boolean | BaseDataType[];
     log?: boolean;
     debug?: boolean;
     disabled?: boolean; // 是否禁用按钮
@@ -47,7 +53,7 @@ const props = withDefaults(
     handleResponse?: (data: any) => any; // 处理请求数据
   }>(),
   {
-    omit: true,
+    omits: true,
     submitBtn: "提交",
     resetBtn: "重置",
     moreBtns: () => [],
@@ -66,7 +72,7 @@ watch(
 const newMoreBtns = computed(() => props.moreBtns.map((btn: BaseBtnType) => getBtnObj(btn)));
 //处理校验逻辑
 function handleValidate() {
-  const { log, debug, omit } = props;
+  const { log, debug, omits } = props;
   return new Promise((resolve, reject) => {
     let { params } = props;
     const { formRef, handleRequest } = props;
@@ -75,7 +81,7 @@ function handleValidate() {
       if (valid) {
         params = splitPropsParams(params);
         if (handleRequest) params = handleRequest(params);
-        if (omit) params = omitAttrs(params);
+        params = omitAttrs(params, omits);
         if (log || debug) {
           printLog(params, "req");
           if (debug) return;

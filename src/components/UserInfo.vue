@@ -5,9 +5,11 @@
     <template v-if="simple">
       <BaseAvatar class="avatar simple f-0 mr-8" :src="data.avatar" :gender="data.gender" />
       <div class="f-1 f-sb-s-c">
-        <b @click="toUserDetail" class="nickname line-1">{{ data.nickname || "-" }}</b>
+        <b @click="toUserDetail" class="nickname q-line-1">{{ data.nickname || "-" }}</b>
         <div class="f-fs-c">
-          <div class="f-0 mr-o">ID：<BaseCopy :text="data.id" line="1" /></div>
+          <div class="f-0 mr-o">
+            ID：<BaseCopy maxLine="1">{{ data.id }}</BaseCopy>
+          </div>
           <BaseTag class="f-0 gender" name="D_Gender" :value="data.gender" size="small" pureText />
         </div>
         <div class="f-sb-c">
@@ -36,7 +38,7 @@
       </div>
       <div class="f-1 f-sb-s-c">
         <div class="f-sb-c">
-          <b @click="toUserDetail" class="nickname line-1">{{ data.nickname || "-" }}</b>
+          <b @click="toUserDetail" class="nickname q-line-1">{{ data.nickname || "-" }}</b>
           <BaseTag class="f-0 gender" name="D_Gender" :value="data.gender" size="small" pureText />
           <span class="f-0 age">{{ data.age || "0" }}岁</span>
           <BaseTag class="f-0 ml-h mr-a" name="D_MatrimonyStatus" :value="data.single_type" size="small" pureText />
@@ -44,8 +46,12 @@
           <!-- v-if="data.account_status !== 0" -->
         </div>
         <div class="f-sb-c">
-          <div class="f-0 item">ID：<BaseCopy :text="data.id" line="1" /></div>
-          <div class="f-0 item">学号：<BaseCopy :text="data.userCode" line="1" /></div>
+          <div class="f-0 item">
+            ID：<BaseCopy maxLine="1">{{ data.id }}</BaseCopy>
+          </div>
+          <div class="f-0 item">
+            学号：<BaseCopy maxLine="1">{{ data.userCode }}</BaseCopy>
+          </div>
         </div>
         <div class="f-fs-c">
           <div class="item f-0">

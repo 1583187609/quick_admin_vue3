@@ -43,7 +43,6 @@ const props = withDefaults(
     fontSize: "1.6em",
     tpl: "add",
     gap: "0",
-    stop: true,
   }
 );
 const $emit = defineEmits(["click"]);

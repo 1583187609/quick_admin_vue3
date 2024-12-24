@@ -5,7 +5,7 @@
   <div class="base-section">
     <div class="head f-sb-c">
       <div class="title f-fs-c f-1">
-        <BaseText maxLine="1" :text="title" :popupAttrs="{ title: '问题' }" />
+        <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
         <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge" />
       </div>
       <slot name="head-right" />

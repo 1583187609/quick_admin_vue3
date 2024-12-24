@@ -48,8 +48,12 @@
             <el-icon size="1.2em" v-if="newCol.type === 'sort'"><Sort /></el-icon>
             <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
             <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
-            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">{{ renderValue(row[newCol.prop as string]) }}</BaseText>
-            <BaseCopy :data="row" :text="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'" />
+            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
+              {{ renderValue(row[newCol.prop as string]) }}
+            </BaseText>
+            <BaseCopy :data="row" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'">
+              {{ row[newCol.prop as string] }}
+            </BaseCopy>
             <!-- 自定义列 -->
             <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'slot'" />
             <!-- 创建和修改列 -->
@@ -135,7 +139,10 @@ function getNewCol(col: TableColAttrs) {
   delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
   return col;
 }
-function handleClickGroupBtns(args: [BtnName, BtnItem, FinallyNext, Event], data: { row: CommonObj; col: TableColAttrs; $index: number }) {
+function handleClickGroupBtns(
+  args: [BtnName, BtnItem, FinallyNext, Event],
+  data: { row: CommonObj; col: TableColAttrs; $index: number }
+) {
   const [tpl, btnObj, next, e] = args;
   $emit("operateBtns", btnObj, data, next, e);
 }

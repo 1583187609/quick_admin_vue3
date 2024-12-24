@@ -11,6 +11,7 @@ export default [
         path: "",
         name: "home",
         component: () => import("@/views/home/index.vue"),
+        // component: () => import("@/views/home/workbench/index.vue"),
         meta: {
           title: "首页",
           cache: false,

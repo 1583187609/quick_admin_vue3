@@ -1,7 +1,7 @@
 <template>
   <div class="asider f-sb-s-c" :class="{ fold: menuStore.isCollapse }">
     <h1 @click="router.push(defaultHomePath)" class="h1 f-0 f-c-c">
-      <div class="line-1">
+      <div class="q-line-1">
         {{ menuStore.isCollapse ? VITE_APP_NAME.charAt(0) : VITE_APP_NAME }}
       </div>
     </h1>

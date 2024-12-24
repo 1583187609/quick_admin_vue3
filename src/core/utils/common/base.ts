@@ -6,7 +6,7 @@ import { regexp, showMessage } from "@/core/utils";
 import _ from "lodash";
 import config from "@/config";
 import type { ConfigMergeStrategy } from "@/config/_types";
-import { CommonObj, StrNum } from "@/core/_types";
+import { BaseDataType, CommonObj, StrNum } from "@/core/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { propsJoinChar, emptyVals } from "@/utils";
 
@@ -115,6 +115,16 @@ export const toCssVal = (val: number | string | undefined, unit = "px") => {
 };
 
 /**
+ * 获取size数值
+ * @param size size大小
+ * @returns {undefined | number}
+ */
+export function getCssNum(size?: StrNum) {
+  if (typeof size === "string") return parseInt(size);
+  return size;
+}
+
+/**
  * 获取css值的单位
  * @param {string} val  数值
  * @returns {string}
@@ -179,17 +189,20 @@ export function getBytes(str = "") {
 }
 
 /**
- * 剔除对象值为指定类型的对象属性
+ * 剔除对象值为指定类型的对象属性（后续考虑要不要剔除空数组、空对象）
  * @param {CommonObj} obj 要剔除属性的对象
- * @param {any[]} list 要剔除的属性值构成的数组
+ * @param {BaseDataType[]} list 要剔除的属性值构成的数组
  */
-export function omitAttrs(obj: CommonObj, list = emptyVals) {
+export function omitAttrs(obj: CommonObj, list: BaseDataType | BaseDataType[] = emptyVals) {
+  if (!list) return obj;
+  if (list === true) list = emptyVals;
+  if (!Array.isArray(list)) throw new Error(`list参数应该为一个数组`);
   const newObj: CommonObj = {};
   for (const key in obj) {
     const val = obj[key];
     const t = typeOf(val);
     if (t === "Object") {
-      newObj[key] = omitAttrs(val);
+      newObj[key] = omitAttrs(val, list);
       continue;
     }
     // 如果range类字段，每个值都为空字符串，则剔除掉这个属性

@@ -12,7 +12,7 @@
     :router="false"
   >
     <SubMenu :data="menusData" v-if="menusData?.length" />
-    <BaseEmpty tips="无" size="32" v-else />
+    <BaseEmpty description="无" size="32" v-else />
   </el-menu>
 </template>
 

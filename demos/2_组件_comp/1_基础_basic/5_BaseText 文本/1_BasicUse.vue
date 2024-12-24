@@ -1,19 +1,19 @@
 <!-- summary 基础用法
-  超过n行会自动省略。出现省略号后可点击，以 dialog 展示全部内容。
+  超过n行会自动出现省略号。出现省略号后可点击，默认以 dialog 展示全部内容。
 -->
 <template>
   <div class="f-sb-fs-w">
     <div class="box f-1">
-      <BaseText :text="shortContent" />
-    </div>
-    <div class="box f-1">
       <BaseText>{{ shortContent }}</BaseText>
     </div>
     <div class="box f-1">
-      <BaseText maxLine="3" :text="longContent"></BaseText>
+      <BaseText maxLine="3">{{ longContent }}</BaseText>
     </div>
     <div class="box f-1">
-      <BaseText title="查看完整内容">{{ longContent }}</BaseText>
+      <BaseText :popupAttrs="{ title: '查看完整内容' }">{{ longContent }}</BaseText>
+    </div>
+    <div class="box f-1">
+      <BaseText popupType="drawer">{{ longContent }}</BaseText>
     </div>
   </div>
 </template>

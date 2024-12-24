@@ -4,10 +4,21 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
+    <el-row
+      class="section all-hide-scroll"
+      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+      v-else
+    >
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -34,7 +45,7 @@
         :resetBtn="resetBtn"
         :disabled="!newFields.length"
         :formRef="formRef"
-        :omit="omit"
+        :omits="omits"
         :log="log"
         :debug="debug"
         :params="params"
@@ -63,7 +74,7 @@ import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
 import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
-import { CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
+import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
 import { defaultCommonSize, showMessage } from "@/core/utils";
 import config from "@/config";
@@ -82,30 +93,45 @@ const $slots = defineSlots<{
 }>();
 const props = withDefaults(
   defineProps<{
+    /**
+     * 基础属性
+     */
     modelValue?: CommonObj; //表单数据
-    styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
     fields?: FormField[]; //表单字段项
+    /**
+     * 继承属性
+     */
     // grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     // size?: CommonSize;
     // readonly?: boolean; //是否只读
     // disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
-    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
+    styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
+    /**
+     * 底部按钮
+     */
     submitBtn?: FootBtn; //提交按钮的文字
     resetBtn?: FootBtn; //提交按钮的文字
-    extraParams?: CommonObj; //额外的参数
-    moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交请求状态。控制提交按钮是否显示加载图标
-    omit?: boolean; //是否剔除掉值为 undefined, null, “” 的参数
-    log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
-    debug?: boolean; //是否终止提交，并打印传参
+    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
+    moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
+    /**
+     * 处理属性
+     */
+    extraParams?: CommonObj; //额外的参数
+    omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的请求参数
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
+    handleRequest?: (args: any) => any; //处理请求参数
+    handleResponse?: (data: any) => any; //处理请求数据
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: FinallyNext; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
-    handleRequest?: (args: any) => any; //处理请求参数
-    handleResponse?: (data: any) => any; //处理请求数据
+    /**
+     * 调试属性
+     */
+    log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
+    debug?: boolean; //是否终止提交，并打印传参
   }>(),
   {
     styleType: "common",
@@ -113,7 +139,7 @@ const props = withDefaults(
     // size: defaultCommonSize,
     // grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
     footer: true,
-    omit: true,
+    omits: true,
     autoFixedFoot: true,
     fields: () => [],
     ...config?.BaseForm?.Index,

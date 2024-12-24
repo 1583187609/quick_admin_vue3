@@ -196,8 +196,7 @@ function openPopup(
   }
   if (type === "dialog") return openDialog(head, body, foot);
   if (type === "drawer") return openDrawer(head, body, foot);
-  // 如果不是弹窗类型，则打开dialog，且type的值作为dialog的footer渲染
-  return openDialog(head, body, type as FootRenderData);
+  throw new Error(`暂不支持此类型弹窗：${type}`);
 }
 
 /**

@@ -1,21 +1,27 @@
 <!-- summary 基础用法
-  满足仅复制、点击和复制。支持路由跳转，自定义点击事件。同时会自动切换图标的鼠标样式（cursor）
+  支持仅复制、to跳转和复制、自定义click事件和复制。点击区域和文本区域鼠标样式会自动变化。
+  设置maxLine，最多显示几行，默认为1。
 -->
 <template>
   <div class="mb-h">
-    <BaseCopy text="这是待复制内容1" />
+    <BaseCopy>这是待复制内容1</BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy>这是待复制内容2</BaseCopy>
+    <BaseCopy>这是待复制内容<b style="color: red">2</b></BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy clickIconCopy>这是待复制内容3，当且仅当点击图标时才复制文本</BaseCopy>
+    <BaseCopy clickIconCopy>这是待复制内容3（当且仅当点击图标时才复制文本）</BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy to="/">同时满足跳转和复制功能（注意各区域的鼠标样式）</BaseCopy>
+    <BaseCopy to="/">这是待复制内容4（同时满足跳转和复制功能，注意各区域的鼠标样式）</BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy @click="handleClick">同时满足自定义点击事件和复制功能</BaseCopy>
+    <BaseCopy @click="handleClick">这是待复制内容5,（同时满足自定义点击事件和复制功能，注意各区域的鼠标样式）</BaseCopy>
+  </div>
+  <div class="mb-h">
+    <BaseCopy maxLine="2" tips="已成功复制，请粘贴看效果">
+      这是待复制内容5,（请按下F12键打开控制台后，调节窗口宽度，并留意出现省略号的最大行数）
+    </BaseCopy>
   </div>
 </template>
 <script lang="ts" setup>

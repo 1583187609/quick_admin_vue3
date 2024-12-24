@@ -3,7 +3,14 @@
   功能：继承并扩展基础表单（BaseForm），并扩展了展开/折叠，多级属性设置等功能。
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -83,7 +90,7 @@
         :resetBtn="resetBtn"
         :disabled="!newSections.length"
         :formRef="formRef"
-        :omit="omit"
+        :omits="omits"
         :log="log"
         :debug="debug"
         :params="params"
@@ -112,7 +119,7 @@ import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
-import { ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
+import { BaseDataType, ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
@@ -153,7 +160,7 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
-    omit?: boolean; //是否剔除掉值为 undefined, null, “” 的参数
+    omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的参数
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     bodyMaxHeight?: string; //
@@ -168,7 +175,7 @@ const props = withDefaults(
     // size: defaultCommonSize,
     // grid: 24,
     footer: true,
-    omit: true,
+    omits: true,
     foldable: true,
     bodyMaxHeight: "90vh",
     autoFixedFoot: true,
@@ -231,7 +238,10 @@ function toggleFold(e: any, ind: number) {
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
+  const {
+    size = field.size ?? sItem.size ?? formAttrs.size,
+    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
+  } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
     readonly = sItem.readonly ?? formAttrs.readonly,

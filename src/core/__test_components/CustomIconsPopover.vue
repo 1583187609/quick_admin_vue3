@@ -10,7 +10,7 @@
     <ul class="list f-fs-fs-w all-hide-scroll">
       <li @click="onClick('')" class="item f-c-c-c f-1" :class="{ active: iconName == '' }">
         <span class="f-c-c" style="height: 32px; width: 32px; font-size: 22px">无</span>
-        <span class="text line-1">none</span>
+        <span class="text q-line-1">none</span>
       </li>
       <li
         @click="onClick(name)"
@@ -20,7 +20,7 @@
         :key="ind"
       >
         <BaseIcon :name="name" size="30"></BaseIcon>
-        <span class="text line-1">{{ name }}</span>
+        <span class="text q-line-1">{{ name }}</span>
       </li>
       <li class="f-empty item" v-for="(item, ind) in 7 - (names.length % 7)" :key="'empty-' + ind"></li>
     </ul>

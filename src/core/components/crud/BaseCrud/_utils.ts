@@ -65,7 +65,7 @@ export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, 
 const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function handleClickExtraBtns({ btnObj, cols = [], seledRows, seledKeys, total, exportCfg, e, $emit, next }: HandleClickExtraBtnsProps) {
   const { name = "", text, handleClickType } = btnObj;
-  if (handleClickType === "custom" || !batchBtnNames.includes(name)) {
+  if (!handleClickType || !batchBtnNames.includes(name)) {
     return $emit("extraBtns", name, next, { selectedKeys: [], selectedRows: [], exportRows: [] }, e);
   }
   if (name !== "export") {

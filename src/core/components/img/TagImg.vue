@@ -2,24 +2,28 @@
   目标：给图片提供带 bar 提示语的功能
 -->
 <template>
-  <div :style="newStyle" class="bars-img f-c-c" :class="{ 'hover-move': hoverMove }">
-    <el-tag class="f-c-c top-bar" v-bind="topTip.attrs" v-if="topTip.text">
+  <div
+    :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }"
+    class="tag-img f-c-c"
+    :class="{ 'hover-move': hoverMove }"
+  >
+    <el-tag class="f-c-c top-bar" v-bind="topTip.attrs" v-if="topTag">
       {{ topTip.text }}
     </el-tag>
     <BaseImg v-bind="$attrs" />
-    <div class="bottom-text" :class="sizeType" v-bind="bottomTip.attrs" v-if="bottomTip.text">
+    <div class="bottom-text" :class="tagSize" v-bind="bottomTip.attrs" v-if="bottomTag">
       {{ bottomTip.text }}
     </div>
     <!-- <el-tag
       class="f-c-c bottom-bar"
       v-bind="bottomTip.attrs"
-      v-if="bottomTip.text"
+      v-if="bottomTag"
     >
       {{ bottomTip.text }}
     </el-tag> -->
     <el-tag
       class="left-tag"
-      :size="sizeType"
+      :size="tagSize"
       v-bind="tag"
       :style="{ bottom: currSize.bottom + ind * currSize.height + 'px' }"
       v-for="(tag, ind) in newLeftTags"
@@ -35,7 +39,8 @@ import { TagType } from "@/core/components/BaseTag.vue";
 import { getBarObj } from "@/core/components/crud/CardCrud/_utils";
 import { CommonObj, CommonSize } from "@/core/_types";
 
-export interface BarAttrs {
+// 嵌套的tag属性，先临时这样取名
+export interface NestedTagAttrs {
   text: string;
   attrs?: {
     type?: TagType;
@@ -48,50 +53,48 @@ defineOptions({
 
 const sizeMap: CommonObj = {
   large: {
-    bottom: 0, //4
+    bottom: 0, // 4
     height: 36,
   },
   default: {
-    bottom: 0, //2
+    bottom: 0, // 2
     height: 26,
   },
   small: {
-    bottom: 0, //0
+    bottom: 0, // 0
     height: 22,
   },
+  // mini: {
+  //   bottom: 0,
+  //   height: 20,
+  // },
 };
 const props = withDefaults(
   defineProps<{
-    sizeType?: CommonSize;
-    topBar?: string | BarAttrs;
-    bottomBar?: string | BarAttrs;
-    leftTags?: (string | BarAttrs)[];
+    tagSize?: CommonSize; // el-tag 的大小
+    topTag?: string | NestedTagAttrs;
+    bottomTag?: string | NestedTagAttrs;
+    leftTags?: (string | NestedTagAttrs)[];
     hoverMove?: boolean; //当鼠标移动到图片上时，顶部、底部的bar文本信息是否移开
-    //其他属性则按照 BaseImg 的属性来设置
+    // 其他属性则按照 BaseImg 的属性来设置
   }>(),
   {
-    sizeType: defaultCommonSize,
+    tagSize: defaultCommonSize,
     hoverMove: true,
   }
 );
 const $attrs = useAttrs();
-const currSize = sizeMap[props.sizeType];
-const newStyle = computed(() => {
-  return {
-    height: toCssVal(props.size || props.height),
-    width: toCssVal(props.size || props.width),
-  };
-});
+const currSize = sizeMap[props.tagSize];
 //顶部提示文字
-const topTip = computed<any>(() => getBarObj(props.topBar));
+const topTip = computed<any>(() => getBarObj(props.topTag));
 //底部提示文字
-const bottomTip = computed<any>(() => getBarObj(props.bottomBar));
+const bottomTip = computed<any>(() => getBarObj(props.bottomTag));
 //左侧标签
-const newLeftTags = computed<any>(() => props.leftTags?.map((item, ind) => getBarObj(item)) ?? []);
+const newLeftTags = computed<any>(() => props.leftTags?.map(item => getBarObj(item)) ?? []);
 </script>
 
 <style lang="scss" scoped>
-.bars-img {
+.tag-img {
   position: relative;
   overflow: hidden;
   .base-img {

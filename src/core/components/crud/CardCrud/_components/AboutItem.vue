@@ -4,9 +4,9 @@
     <div class="f-fs-s-c cont-box f-1">
       <div class="f-fs-c head f-0" v-if="row.user_data">
         <el-tooltip :show-after="300" :content="row.user_data.nickname" :disabled="!row.user_data.nickname">
-          <span class="mr-a line-1">{{ row.user_data.nickname || "-" }}</span>
+          <span class="mr-a q-line-1">{{ row.user_data.nickname || "-" }}</span>
         </el-tooltip>
-        <BaseCopy class="ml-12 f-0" :text="row.userId" />
+        <BaseCopy class="ml-12 f-0">{{ row.userId }}</BaseCopy>
         <div class="ml-12 mr-12 f-0">{{ row.user_data.age || "-" }}岁</div>
         <BaseTag name="D_Gender" :value="row.user_data.gender" class="f-0" pureText />
       </div>
@@ -25,13 +25,20 @@
       </div>
     </div>
     <div class="foot-box f-c-c f-0">
-      <BaseBtn :tpl="btn" size="small" round @click="() => $emit('operateBtns', btn)" v-for="(btn, ind) in operateBtns" :key="ind" />
+      <BaseBtn
+        :tpl="btn"
+        size="small"
+        round
+        @click="() => $emit('operateBtns', btn)"
+        v-for="(btn, ind) in operateBtns"
+        :key="ind"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, nextTick } from "vue";
-import { CommonObj } from "@/core/_types";
+import { CommonObj, CommonSize } from "@/core/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { getTimeAgo } from "@/core/utils";
 import { AuditStatus } from "../Index.vue";
@@ -61,10 +68,10 @@ const sizeMap: CommonObj = {
 const props = withDefaults(
   defineProps<{
     row?: CommonObj;
-    sizeType?: "large" | "default" | "small";
+    sizeType?: CommonSize;
     operateBtns?: BtnItem[];
     status?: AuditStatus;
-    bottomBar?: string | DictName;
+    bottomTag?: string | DictName;
   }>(),
   {
     row: () => ({}),
@@ -80,7 +87,7 @@ const moreRef = ref();
 const popoverRef = ref();
 const currSize = sizeMap[props.sizeType];
 //底部提示文字
-const bottomTip = computed<any>(() => getBarObj(props.bottomBar));
+const bottomTip = computed<any>(() => getBarObj(props.bottomTag));
 nextTick(() => {
   getShowScroll();
 });

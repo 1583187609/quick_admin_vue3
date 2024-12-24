@@ -1,8 +1,7 @@
-<!-- summary
-  支持的控件类型包括以下三部分：
-  ElementPlus：input, select, …
-  内置：BaseImg, BaseUpload, BaseNumberRange, …
-  自定义扩展：UserInfo, …
+<!-- summary 基础用法
+  最外一层是el-form-item的属性（除tpl、type、quickAttrs，attrs、slots外），attrs是el-form-item内部的控件属性
+  为了减少编码量，某些使用频率较高的控件会作为默认值，或自带默认属性（可在全局config中进行配置修改）。例：表单项控件类型默认为input，el-date-picker的type默认为daterange或datetimerange（根据format而决定）
+  设置v-model绑定数据的初始值即可设置默认值
  -->
 <template>
   <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
@@ -13,9 +12,9 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { PostMockCommon, GetMockCascader } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/core/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 
 const modelData = reactive<CommonObj>({
   age: 12,
@@ -26,40 +25,38 @@ const genderOpts = [
   { label: "男", value: 1 },
   { label: "女", value: 2 },
 ];
+const cityOpts = [
+  { label: "成都", value: 1 },
+  { label: "杭州", value: 2 },
+  { label: "重庆", value: 2 },
+  { label: "西安", value: 2 },
+  { label: "大理", value: 2 },
+  { label: "北京", value: 2 },
+  { label: "天津", value: 2 },
+];
 const regionOpts = ref<OptionItem[]>([]);
 const fields: FormFieldAttrs[] = [
-  { prop: "name", label: "姓名", required: true },
+  { prop: "name", label: "姓名", required: true }, // 控件类型type默认为 input，可省略不写
+  { prop: "gender", label: "性别", type: "select", attrs: { options: genderOpts } },
+  { prop: "age", label: "年龄", type: "input-number", attrs: { min: 0, max: 150 } },
+  { prop: "height", label: "身高", type: "slider", attrs: { min: 0, max: 250 } },
+  { prop: "is_private", label: "是否保密", type: "switch", attrs: { activeText: "是", inactiveText: "否" } },
+  { prop: "region", label: "家乡", type: "cascader", attrs: { options: regionOpts.value } },
+  { prop: "live_city", label: "现居地", type: "radio-group", attrs: { type: "button", options: cityOpts } },
+  { prop: "plan_city", label: "计划定居", type: "checkbox-group", attrs: { options: cityOpts } },
   {
-    prop: "gender",
-    label: "性别",
-    type: "select",
+    prop: "phone",
+    label: "电话号码",
+    type: "input",
     required: true,
-    attrs: {
-      options: genderOpts,
-    },
-  },
-  { prop: "age", label: "年龄", type: "input-number", attrs: { min: 0, max: 100 } },
-  { prop: "height", label: "身高", type: "slider", attrs: { min: 100, max: 250 } },
-  { prop: "weight", label: "体重", type: "slider", attrs: { min: 100, max: 250 } },
-  { prop: "avatar", label: "头像", type: "BaseUpload" },
-  {
-    prop: "region",
-    label: "省市区",
-    type: "cascader",
-    attrs: {
-      options: regionOpts.value,
-    },
+    rules: [{ pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/, message: "请输入合规的11位电话号码" }],
+    attrs: { maxlength: 11 },
   },
   { prop: "remark", label: "备注", attrs: { type: "textarea" } },
-  {
-    prop: "err",
-    label: "分类",
-    type: "cascader1",
-    quickAttrs: {
-      tips: "当类型错误时，会提示【不存在】文案，并标红",
-    },
-  },
-  { prop: "zdy", label: "自定义", type: "slot", quickAttrs: { popover: `设置type: "custom"，即可自定义控件` } },
+  { prop: "avtivity_times", label: "活动时间", type: "date-picker", attrs: { type: "daterange" } },
+  // 暂时留着，后续删除（当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示）
+  { prop: "err", label: "分类", type: "cascader1", attrs: { options: [] } },
+  { prop: "zdy", label: "自定义", type: "slot" },
 ];
 
 const getRegionOpts = () => {

@@ -66,10 +66,10 @@ const props = withDefaults(
     // ...restAttrs 其余属性同el-button的属性
   }>(),
   {
-    tpl: "empty",
-    handleClickType: "common",
+    tpl: "add",
     isDebounce: true,
     // 为undefined不能不写，不然vue会将boolean类型转为false，会导致后续逻辑异常
+    handleClickType: undefined,
     validateForm: undefined,
     popconfirm: undefined,
   }
@@ -85,17 +85,16 @@ const $emit = defineEmits<{
 const newBtn = computed<EndBtnItem>(() => getBtnObj(props.tpl, undefined, { attrs: $attrs }));
 // 处理点击事件
 function handleClick(e: Event) {
-  const { name, to, text } = newBtn.value;
+  const { name, to, text, handleClickType: clickType } = newBtn.value;
+  const { dataAttrs, handleClickType = clickType } = props;
   if (to === undefined) {
-    const { dataAttrs, handleClickType } = props;
-    if (name === "import" && handleClickType !== "custom") {
+    if (name === "import" && handleClickType) {
+      if (handleClickType !== "common") throw new Error(`暂未提供其他导入组件模板`);
       return openPopup("导入文件", [
         CommonImport,
         {
           ...(dataAttrs as ImportCfgAttrs),
-          onChange(arr: CommonObj[]) {
-            $emit("change", name, arr, useNextCallback(text, closePopup), e);
-          },
+          onChange: (arr: CommonObj[]) => $emit("change", name, arr, useNextCallback(text, closePopup), e),
         },
       ]);
     }
@@ -104,5 +103,5 @@ function handleClick(e: Event) {
   router.push(to as RouteTo);
 }
 // 点击事件防抖处理
-const handleClickDebounce = props.isDebounce ? debounce(handleClick, true, 500) : handleClick;
+const handleClickDebounce = newBtn.value.isDebounce || props.isDebounce ? debounce(handleClick, true, 500) : handleClick;
 </script>

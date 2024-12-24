@@ -21,7 +21,7 @@
               query: { id: data?.[userDataKey]?.id },
             })
           "
-          class="nickname line-1 mr-a"
+          class="nickname q-line-1 mr-a"
         >
           {{ data?.[userDataKey]?.nickname || emptyStr }}
         </b>
@@ -33,19 +33,19 @@
         />
       </div>
       <div class="f-fs-c tips-info">
-        <BaseCopy class="f-0" :text="data?.[userDataKey]?.id" line="1" />
-        <div class="ml-h mr-h f-1 line-1">
+        <BaseCopy class="f-0" maxLine="1">{{ data?.[userDataKey]?.id }}</BaseCopy>
+        <div class="ml-h mr-h f-1 q-line-1">
           {{ getText("C_Region", data?.[userDataKey]?.live_city) || emptyStr }}
         </div>
         <div class="f-0">{{ data?.[userDataKey]?.age }}岁</div>
       </div>
       <div class="num-info f-sb-c" v-if="isSearchResult">
         <span>好友{{ data?.countFriend }}/有效{{ data?.countFriendValid }}/过期{{ data?.countFriendInvalid }}</span>
-        <time class="line-1">{{ data?.latestDate }}</time>
+        <time class="q-line-1">{{ data?.latestDate }}</time>
       </div>
       <div class="f-sb-c" v-else>
         <el-tag class="tag" :type="converStatus.type" size="small">{{ converStatus.text }}</el-tag>
-        <span class="num-info line-1">{{ data?.latestDate }}</span>
+        <span class="num-info q-line-1">{{ data?.latestDate }}</span>
       </div>
     </div> -->
   </div>

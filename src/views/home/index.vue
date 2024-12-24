@@ -24,7 +24,7 @@
         <ul class="notices all-hide-scroll" v-if="20">
           <li class="item f-sb-c" v-for="(item, ind) in 20" :key="ind">
             <div class="f-1">
-              <span class="line-1">这是第{{ ind + 1 }}条消息</span>
+              <span class="q-line-1">这是第{{ ind + 1 }}条消息</span>
             </div>
             <time class="time f-0 ml-half">2023-06-19</time>
           </li>
