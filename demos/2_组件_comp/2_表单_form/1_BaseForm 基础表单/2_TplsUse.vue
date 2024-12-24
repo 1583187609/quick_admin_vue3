@@ -1,4 +1,5 @@
 <!-- summary 模板用法
+  用模板实现上述效果，代码量更少
   字段模板（tpl）：以`T_`开头。可在全局配置文件中配置修改
   字典模板（options）：以`D_`开头。可在全局配置文件中配置修改
 -->
@@ -24,11 +25,11 @@ const modelData = reactive<CommonObj>({
 const cityOpts = [
   { label: "成都", value: 1 },
   { label: "杭州", value: 2 },
-  { label: "重庆", value: 2 },
-  { label: "西安", value: 2 },
-  { label: "大理", value: 2 },
-  { label: "北京", value: 2 },
-  { label: "天津", value: 2 },
+  { label: "重庆", value: 3 },
+  { label: "西安", value: 4 },
+  { label: "大理", value: 5 },
+  { label: "北京", value: 6 },
+  { label: "天津", value: 7 },
 ];
 const fields: FormFieldAttrs[] = [
   { prop: "name", label: "姓名", required: true }, // 控件类型type默认为 input，可省略不写
@@ -41,7 +42,7 @@ const fields: FormFieldAttrs[] = [
   { prop: "plan_city", label: "计划定居", type: "checkbox-group", attrs: { options: cityOpts } },
   { tpl: "T_Phone", required: true },
   { tpl: "T_Remark" },
-  { prop: "avtivity_times", label: "活动时间", type: "date-picker" }, // 默认 el-date-picker 的 type 类型为：datetimerange
+  { prop: "activity_times", label: "活动时间", type: "date-picker" }, // 默认 el-date-picker 的 type 类型为：datetimerange
   { prop: "err", label: "分类", type: "cascader", attrs: { options: [] } },
   { prop: "zdy", label: "自定义", type: "slot" },
 ];

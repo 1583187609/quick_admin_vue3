@@ -55,7 +55,7 @@ const fields: FormFieldAttrs[] = [
     attrs: { maxlength: 11 },
   },
   { prop: "remark", label: "备注", attrs: { type: "textarea" } },
-  { prop: "avtivity_times", label: "活动时间", type: "date-picker", attrs: { type: "daterange" } },
+  { prop: "activity_times", label: "活动时间", type: "date-picker", attrs: { type: "daterange" } },
   { prop: "zdy", label: "自定义", type: "slot" },
 ];
 
