@@ -109,12 +109,16 @@ function getFeaturesStr() {
         icon = `
       src: ${icon}`;
       }
-      return `  - icon: ${icon}
+      let text = `  - icon: ${icon}
     title: ${title}
     details: ${details}
-    link: ${link}
-    linkText: ${linkText}
 `;
+      if(link && linkText){
+        text+=`
+    link: ${link}
+    linkText: ${linkText}`
+      }
+      return text;
     })
     .join("");
   return str;

@@ -19,6 +19,6 @@ const customOrderBtns = [
 </script>
 <style lang="scss" scoped>
 .base-btn {
-  margin: 0 $gap $gap 0;
+  margin: $gap-qtr;
 }
 </style>

@@ -11,7 +11,7 @@
 
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/13_BaseVideo 视频【beta】/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/20_BaseVideo 视频【beta】/1_BasicUse.vue
 :::
 
 

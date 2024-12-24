@@ -1,12 +1,12 @@
 # BaseEmpty 空状态
 
 &emsp;&emsp;目标：统一空状态组件
-## 基础用法
+## 基础用法 -->
 
 
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/20_BaseEmpty 空状态/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/9_BaseEmpty 空状态/1_BasicUse.vue
 :::
 
 
@@ -16,7 +16,7 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`tips`|-|`string`|空空如也~|
+|`description`|-|`string`|空空如也~|
 |`size`|-|`StrNum`|`50`|
 
 ### Slots

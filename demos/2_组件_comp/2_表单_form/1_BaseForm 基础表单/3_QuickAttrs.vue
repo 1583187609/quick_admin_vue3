@@ -2,11 +2,14 @@
   扩展的快捷属性，放置在 quickAttrs 中。例：pureText、grid、example、tips、popover
 -->
 <template>
-  <BaseForm :fields="fields" :fetch="PostMockCommon"></BaseForm>
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon"></BaseForm>
 </template>
 <script lang="ts" setup>
 import { PostMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/core/components/form/_types";
+import { reactive } from "vue";
+
+const modelData=reactive<CommonObj>({name:'张三'})
 const fields: FormFieldAttrs[] = [
   {
     prop: "name",

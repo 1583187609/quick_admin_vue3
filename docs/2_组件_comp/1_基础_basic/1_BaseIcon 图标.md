@@ -3,7 +3,7 @@
 &emsp;&emsp;目标：占位，方便快速开发。
 ## 基础用法
 
-&emsp;&emsp;带默认属性值，并可设置属性覆盖（名称、大小等）。
+&emsp;&emsp;属性可设置：`name`（图标类型）、`size`（图标大小）、`to`（跳转链接，等同于 `router.push(to)`）
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/1_BaseIcon 图标/1_BasicUse.vue
@@ -18,8 +18,7 @@
 |:---|:---|:---|:---|
 |`name`|-|`IconNames`|`defaultIconName`|
 |`size`|-|`StrNum`|`1em`|
-|`to`|-|`RouteTo \| TSParenthesizedType`|-|
-|`data`|`to `的函数要传递的参数|`any`|-|
+|`to`|-|`RouteTo`|-|
 
 
 ## 类型声明

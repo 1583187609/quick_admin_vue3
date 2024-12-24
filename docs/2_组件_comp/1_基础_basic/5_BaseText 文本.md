@@ -1,0 +1,27 @@
+# BaseText 文本
+
+&emsp;&emsp;目标：对文本内容进行展示，多行时自动省略，并支持弹窗展示全部内容，同时自带样式。
+## 基础用法
+
+&emsp;&emsp;超过`n`行会自动出现省略号。出现省略号后可点击，默认以 `dialog `展示全部内容。
+
+::: demo 
+/demos/2_组件_comp/1_基础_basic/5_BaseText 文本/1_BasicUse.vue
+:::
+
+
+## API 
+
+### Props
+
+|属性|说明|类型|默认值|
+|:---|:---|:---|:---|
+|`maxLine`|最多显示几行，可选值：`1~5 `必须为整数|`StrNum`|`2`|
+|`popupType`|-|`PopupType`|-|
+|`popupAttrs`|-|`CommonObj`|-|
+
+### Slots
+
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`default`|默认插槽|-|

@@ -23,7 +23,7 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "type",
       label: "类型",
-      type: "select",
+      type: "radio-group",
       attrs: {
         options: typeOpts,
       },

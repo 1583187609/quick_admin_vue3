@@ -19,7 +19,7 @@
 import { ref, computed, nextTick } from "vue";
 import { CommonObj } from "@/core/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
-import TagImg from "@/core/img/TagImg.vue";
+import TagImg from "@/core/components/img/TagImg.vue";
 import { AuditStatus } from "../Index.vue";
 import { useDict } from "@/hooks";
 import { operateBtnsEmitName } from "@/core/components/table";

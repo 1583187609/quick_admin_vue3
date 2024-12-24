@@ -40,6 +40,9 @@ function handleClick(e) {
 .base-icon {
   &.pointer {
     cursor: pointer;
+    &:hover{
+      color: $color-primary;
+    }
   }
 }
 </style>

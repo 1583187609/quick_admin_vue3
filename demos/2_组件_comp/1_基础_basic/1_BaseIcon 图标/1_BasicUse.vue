@@ -5,8 +5,8 @@
   <div class="f-fs-fs-w">
     <BaseIcon />
     <BaseIcon name="CirclePlus" />
-    <BaseIcon size="2em" />
     <BaseIcon name="Link" to="/" />
+    <BaseIcon size="2em" />
   </div>
 </template>
 <style lang="scss" scoped>

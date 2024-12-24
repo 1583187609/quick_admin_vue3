@@ -2,7 +2,7 @@ import { BaseDataType, CommonObj, CommonSize } from "@/core/_types";
 import { InsertTableColCompsType, InsertTableColTplsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import { TableColumnCtx } from "element-plus";
 import { RendererNode, VNode, RendererElement } from "vue";
-import { BaseRenderData } from "@/core/BaseRender.vue";
+import { BaseRenderData } from "@/core/components/BaseRender.vue";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { FinallyNext, HorizontalAlign, PopoverType, StrNum, UniteFetchType } from "@/core/_types";
 import { InsertTabColFormType } from "@/config/_components/InnerExtendTableColComps.vue";

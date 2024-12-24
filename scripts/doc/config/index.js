@@ -1,4 +1,4 @@
-import { getPackageVersion } from "../utils/index.js";
+// import { getPackageVersion } from "../utils/index.js";
 
 export const docsPath = "/docs"; //文档路径
 export const demosPath = "/demos"; //示例路径
@@ -18,7 +18,8 @@ export const showGridAttrs = { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 };
 export const projectInfo = {
   title: "Quick Admin Vue3",
   description: "开发最快的中后台模板",
-  stackBrief: `Vite${getPackageVersion("vite")} + Vue${getPackageVersion("vue")} + Ts + Pinia + ElementPlus`,
+  // stackBrief: `Vite${getPackageVersion("vite")} + Vue${getPackageVersion("vue")} + Ts + Pinia + ElementPlus`,
+  stackBrief: `Vite${5.4} + Vue${3.5} + Ts + Pinia + ElementPlus`,
 }; //项目信息
 
 // 资源地址

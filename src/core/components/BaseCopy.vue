@@ -59,7 +59,7 @@ const isClickIconCopy = computed(() => {
   const { to, clickIconCopy = !!to || !!onClick } = props;
   return clickIconCopy;
 });
-const textStr = computed<StrNum>(() => $slots.default?.()[0]?.children ?? "");
+const textStr = computed<StrNum>(() => $slots.default?.().map(it=>it.children ?? '').join(""));
 // 跳转页面或触发点击事件
 function handleClick(e) {
   const { to, stop } = props;

@@ -25,7 +25,8 @@ const testFnMap = {
  * 撰写通用组件文档
  * @param {(comp|demo|test)[]} parts 是否重写组件文档
  */
-async function writeComponentDocs(parts = []) {
+async function writeComponentDocs(parts = [], createHome = false) {
+  if(createHome) writeHomMdDoc();
   const fullDemoPath = path.join(process.cwd(), demosPath);
   const partNames = fs.readdirSync(fullDemoPath);
   await Promise.all(
@@ -60,7 +61,6 @@ async function writeComponentDocs(parts = []) {
   );
 }
 
-// writeHomMdDoc();
 writeComponentDocs(); //生成组件文档页（通用方法）
 // writeComponentDocs(['comp']);
 // writeComponentDocs(["demo"]);

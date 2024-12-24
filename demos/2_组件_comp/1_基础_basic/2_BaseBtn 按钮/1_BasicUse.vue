@@ -2,10 +2,10 @@
   默认为新增按钮，继承 el-button 属性，所以传入 el-button 的属性都是生效的。
 -->
 <template>
-  <div class="f-fs-fs-w">
+  <div class="f-fs-c-w">
     <BaseBtn />
     <BaseBtn type="success" :icon="CirclePlus">新增</BaseBtn>
-    <BaseBtn type="sucess" :icon="Edit">编辑</BaseBtn>
+    <BaseBtn type="success" :icon="Edit">编辑</BaseBtn>
     <BaseBtn type="danger" :icon="Remove">删除</BaseBtn>
     <BaseBtn type="info" :icon="View">详情</BaseBtn>
     <BaseBtn type="primary" :icon="Top" @click="openPopup('导入', [CommonImport, {}])">导入</BaseBtn>
@@ -23,6 +23,6 @@ const router = useRouter();
 </script>
 <style lang="scss" scoped>
 .base-btn {
-  margin: 0 $gap $gap 0;
+  margin: $gap-qtr;
 }
 </style>

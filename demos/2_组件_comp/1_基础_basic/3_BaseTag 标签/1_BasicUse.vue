@@ -7,9 +7,9 @@
 <template>
   <div class="f-fs-fs-w">
     <BaseTag />
-    <BaseTag>启/禁用</BaseTag>
-    <BaseTag name="D_RoleType" value="0" />
     <BaseTag name="D_RoleType" value="0" pureText />
+    <BaseTag name="D_RoleType" value="0">启/禁用</BaseTag>
+    <BaseTag name="D_RoleType" value="0" />
     <BaseTag name="D_RoleType" value="0" count="10" />
   </div>
 </template>

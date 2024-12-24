@@ -41,8 +41,8 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`formRef`|...`tableRef.value,`|`() => void`|
-|`tableRef`|-|`() => void`|
+|`baseFormRef`|-|`() => void`|
+|`baseTableRef`|-|`() => void`|
 
 ### Slots
 

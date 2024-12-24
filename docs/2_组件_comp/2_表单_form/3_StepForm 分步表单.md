@@ -1,8 +1,4 @@
-# StepForm 分步表单  <Badge class="title-badge" type="warning" text="beta" />
-
-::: warning 实验性
-本功能处于实验性阶段，谨慎使用！
-:::
+# StepForm 分步表单
 
 &emsp;&emsp;目标：定位为步骤表单。  
 &emsp;&emsp;功能：结合了分块表单（`SectionForm`）和步骤条的功能。
@@ -17,7 +13,7 @@
 |`sections`|-|`SectionFormItem[]`|`[]`|
 |`direction`|-|`StepDirection`|`vertical`|
 |`stepAttrs`|-|`StepItemAttrs`|-|
-|`formAttrs`|`SectionFormAtrrs`;|`CommonObj`|-|
+|`formAttrs`|`SectionFormAttrs`;|`CommonObj`|-|
 |`footer`|-|`boolean`|`true`|
 
 ### $emit
@@ -32,7 +28,7 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`formRef`|-|`() => void`|
+|`sectionFormRef`|-|`() => void`|
 
 ### Slots
 

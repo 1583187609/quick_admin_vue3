@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/components/BaseNumberRange.vue",
-  "tsPath": "/src/core/components/BaseNumberRange.vue"
+  "apiPath": "/src/core/components/number/BaseNumberRange.vue",
+  "tsPath": "/src/core/components/number/BaseNumberRange.vue"
 }

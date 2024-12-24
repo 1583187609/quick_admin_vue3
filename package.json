@@ -47,8 +47,7 @@
     "docs:preview": "vitepress preview",
     "interview:dev": "vitepress dev",
     "interview:build": "vitepress build",
-    "interview:preview": "vitepress preview",
-    "preinstall": "npx only-allow pnpm"
+    "interview:preview": "vitepress preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

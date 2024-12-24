@@ -1,4 +1,4 @@
-import { BaseRenderData } from "@/core/BaseRender.vue";
+import { BaseRenderData } from "@/core/components/BaseRender.vue";
 import { BaseDataType, CommonSize, OptionItem, StrNum, CommonSlots, CommonObj } from "@/core/_types";
 import { DictName } from "@/dict/_types";
 import { PopoverType } from "@/core/_types";

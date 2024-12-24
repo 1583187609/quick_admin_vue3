@@ -7,7 +7,7 @@
     <BaseCopy>这是待复制内容1</BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy>这是待复制内容<b style="color: red">2</b></BaseCopy>
+    <BaseCopy>这是待复制内容<b style="color: red">2</b>（复制html字符串中的纯文本内容）</BaseCopy>
   </div>
   <div class="mb-h">
     <BaseCopy clickIconCopy>这是待复制内容3（当且仅当点击图标时才复制文本）</BaseCopy>

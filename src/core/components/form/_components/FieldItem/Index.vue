@@ -87,7 +87,7 @@ import _ from "lodash";
 // 下列两个组件不采用按需加载方式，不然控件会出现延迟出现的现象
 import AddDelList from "../AddDelList.vue";
 import AnyEleList from "../AnyEleList.vue";
-import { BaseRenderData } from "@/core/BaseRender.vue";
+import { BaseRenderData } from "@/core/components/BaseRender.vue";
 
 const { merge } = _;
 const props = withDefaults(

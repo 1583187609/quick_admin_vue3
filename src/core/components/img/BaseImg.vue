@@ -38,6 +38,7 @@ import { getCssNum, toCssVal } from "@/core/utils";
 import { CommonObj, CommonSize, RouteTo, StrNum } from "@/core/_types";
 import emptyImg from "@/assets/images/default/img.png";
 import { Loading, Picture } from "@element-plus/icons-vue";
+import { useAttrs } from "vue";
 
 export type ImgFitType = "fill" | "contain" | "cover" | "none" | "scale-down";
 // const sizeMap: CommonObj = {
@@ -74,18 +75,21 @@ const props = withDefaults(
     iconSize: ({ size, width, height }) => (getCssNum(size) ?? Math.max(getCssNum(width) ?? 0, getCssNum(height) ?? 0)) * 0.1,
     loadTips: "玩命加载中…",
     errTips: "加载失败",
-    preview: (props: CommonObj) => props.to === undefined,
+    preview: true,
   }
 );
-const $emit = defineEmits(["click", "error"]);
+const $emit = defineEmits(["error"]);
+const $attrs = useAttrs();
 const newAttrs = computed<CommonObj>(() => {
-  if (!props.src || !props.preview) return defaultImageAttrs;
-  return { ...defaultImageAttrs, previewSrcList: [props.src] };
+  const { to, src, preview }=props;
+  if (to || $attrs.onClick || !src || !preview) return defaultImageAttrs;
+  return { ...defaultImageAttrs, previewSrcList: [src] };
 });
+
 // 处理点击图片
 function handleClick(e: any) {
   const { to, stop } = props;
-  to ? router.push(to) : $emit("click", e);
+  to && router.push(to) 
   if (stop) e.stopImmediatePropagation();
 }
 </script>

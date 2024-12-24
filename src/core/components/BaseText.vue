@@ -14,7 +14,8 @@ import { getIsOver } from "@/core/utils";
 const openPopup = inject<OpenPopupInject>("openPopup");
 const defaultPopupAttrs = {
   title: "详情",
-  width: "500px",
+  width: "500px", // el-dialog的属性
+  size: 500, // el-drawer的属性
 };
 const props = withDefaults(
   defineProps<{

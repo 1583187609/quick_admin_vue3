@@ -10,7 +10,7 @@ import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/core/_types";
 import { PopoverAttrs, PopoverSlots } from "@/core/_types";
-import { HArgs, RenderVue } from "@/core/BaseRender.vue";
+import { HArgs, RenderVue } from "@/core/components/BaseRender.vue";
 import _ from "lodash";
 
 const { upperFirst } = _;

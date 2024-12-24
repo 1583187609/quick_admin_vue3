@@ -18,6 +18,8 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 const modelData = reactive<CommonObj>({
   age: 12,
   gender: 0,
+  live_city: 1,
+  plan_city: [1, 3]
 });
 const cityOpts = [
   { label: "成都", value: 1 },

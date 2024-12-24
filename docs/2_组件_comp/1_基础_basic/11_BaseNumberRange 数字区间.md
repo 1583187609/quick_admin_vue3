@@ -3,10 +3,14 @@
 &emsp;&emsp;目标：数字区间组件。
 ## 基础用法
 
-
+&emsp;&emsp;设置 `modelValue`，显示初始值  
+&emsp;&emsp;设置 `min`，最小值  
+&emsp;&emsp;设置 `max`，最大值  
+&emsp;&emsp;设置 `size`，控件大小类型  
+&emsp;&emsp;设置 `precision`，保留`n`位小数
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/14_BaseNumberRange 数字区间/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/11_BaseNumberRange 数字区间/1_BasicUse.vue
 :::
 
 
@@ -16,15 +20,15 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`modelValue`|-|`ValsArr`|`[]`|
+|`modelValue`|-|`ValsArr`|`reactive([])`|
 |`min`|-|`number`|-|
 |`max`|-|`number`|-|
 |`size`|-|`CommonSize`|`defaultCommonSize`|
-|`fixedNum`|保留`n`位小数|`number`|`0`|
-|`minPlaceholder`|-|`string`|最小值|
-|`maxPlaceholder`|-|`string`|最大值|
+|`precision`|精度（保留`n`位小数位数）|`number`|-|
+|`maxlength`|最大字符长度|`number`|-|
+|`startPlaceholder`|-|`string`|最小值|
+|`endPlaceholder`|-|`string`|最大值|
 |`rangeSeparator`|分隔符|`string`|`rangeJoinChar`|
-|`maxlength`|-|`number`|-|
 
 ### $emit
 

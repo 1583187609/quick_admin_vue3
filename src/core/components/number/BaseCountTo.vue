@@ -6,7 +6,7 @@
 import { computed, nextTick, ref, watch } from "vue";
 import { TransitionPresets, useTransition } from "@vueuse/core";
 
-interface Props {
+const props = withDefaults(defineProps<{
   startValue?: number;
   endValue?: number;
   duration?: number;
@@ -18,11 +18,9 @@ interface Props {
   decimal?: string;
   useEasing?: boolean;
   transition?: keyof typeof TransitionPresets;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   startValue: 0,
-  endValue: 2021,
+  endValue: new Date().getFullYear(),
   duration: 1500,
   autoplay: true,
   decimals: 0,

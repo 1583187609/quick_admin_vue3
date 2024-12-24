@@ -44,6 +44,18 @@ export function getInitConfigFile(apiPath = "", tsPath = "") {
 }
 
 /**
+ * 将文件名称按照序号进行排序
+ * @param {string[]} fileNames 文件名称
+ */
+function sortByFileName(fileNames=[]){
+  fileNames.sort((a,b)=>{
+    const aOrder = +a.split("_")[0];
+    const bOrder = +b.split("_")[0];
+    return (isNaN(aOrder) ? 0 : aOrder) - (isNaN(bOrder) ? 0 : bOrder);
+  })
+}
+
+/**
  * 生成代码示例
  * @param {string} readPath 读取文件的路径 例：`${demosPath}/xxx/xx`
  * @link 参考链接：https://juejin.cn/post/7243520456979398693
@@ -55,6 +67,7 @@ function getCodeDemos(readPath) {
   let mdStr = "";
   const dirPath = path.join(process.cwd(), readPath);
   const readFiles = fs.readdirSync(dirPath).filter(it => ![readMeName, configName].includes(it));
+  sortByFileName(readFiles);
   readFiles.forEach(file => {
     const curPath = path.join(dirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory();

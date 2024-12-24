@@ -1,27 +1,34 @@
-# BaseCrud 基础增删改查
+# BasicPopup 全局窗口
 
-&emsp;&emsp;目标：简化增删改查的逻辑书写。  
-&emsp;&emsp;功能：支持条件展开/折叠、条件分组；请求参数、响应数据处理；
+&emsp;&emsp;目标：通过打开和关闭两个方法，实现打开/关闭全局弹窗，同时让弹窗属性统一，开发时无需关心属性设置，但支持属性值覆盖。  
+&emsp;&emsp;目前只提供了两种弹出层：`dialog `和 `drawer`，默认为 `dialog`。
 ## 基础用法
 
-&emsp;&emsp;摘要介绍暂时略
+&emsp;&emsp;打开弹窗示例。默认是打开`Dialog`。
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
+/demos/2_组件_comp/10_全局_global/2_BasicPopup 全局窗口/1_BasicUse.vue
 :::
-## 查询条件分类
+## 对话框 Dialog
 
-&emsp;&emsp;摘要介绍暂时略
+&emsp;&emsp;打开弹窗示例。默认是打开`Dialog`。
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_ConditionClassify.vue
+/demos/2_组件_comp/10_全局_global/2_BasicPopup 全局窗口/2_DialogUse.vue
 :::
-## 内嵌组件
+## 抽屉 Drawer
 
-&emsp;&emsp;内嵌组件的说明
+&emsp;&emsp;打开抽屉示例
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/3_Embedded.vue
+/demos/2_组件_comp/10_全局_global/2_BasicPopup 全局窗口/3_DrawerUse.vue
+:::
+## 通用弹窗
+
+&emsp;&emsp;适合全局常用的弹窗
+
+::: demo 
+/demos/2_组件_comp/10_全局_global/2_BasicPopup 全局窗口/4_CommonUse.vue
 :::
 
 
@@ -101,5 +108,20 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/crud/BaseCrud/_types.ts
+
+
+``` ts
+import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";
+
+
+
+
+
+
+
+
+
+    type = defaultPopupType;
+```
+
 :::  

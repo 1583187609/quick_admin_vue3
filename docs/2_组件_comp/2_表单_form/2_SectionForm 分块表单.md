@@ -25,6 +25,7 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
+|`defaultExpands`|默认展开的块|`number[]`|-|
 |`styleType`|-|`FormStyleType`|`common`|
 |`sections`|-|`SectionFormItem[]`|`[]`|
 |`readonly`|是否只读|`boolean`|-|
@@ -32,16 +33,18 @@
 |`pureText`|是否纯文本展示|`boolean`|-|
 |`scrollToError`|校验失败后是否自动滚到失败位置|`boolean`|`true`|
 |`foldable`|是否允许折叠|`boolean`|`true`|
+|`accordion`|是否手风琴模式|`boolean`|-|
 |`fetch`|接口请求|`UniteFetchType`|-|
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`() => void`|-|
-|`footer`|是否显示底部按钮|`boolean`|`true`|
-|`submitText`|提交按钮的文字|`string`|-|
-|`resetText`|提交按钮的文字|`string`|-|
+|`afterReset`|重置之后的处理方法|`AfterReset`|-|
+|`footer`|是否显示底部按钮|`boolean \| BaseRenderComponentType`|`true`|
+|`submitBtn`|提交按钮的文字|`FootBtn`|-|
+|`resetBtn`|提交按钮的文字|`FootBtn`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`moreBtns`|底部的额外更多按钮|`BaseBtnType[]`|-|
 |`loading`|提交按钮是否显示加载图标|`boolean`|-|
-|`omit`|是否剔除掉值为 `undefined, null, `“” 的参数|`boolean`|`true`|
+|`omits`|是否剔除掉值为 `undefined, null, "" `的参数|`boolean \| Array`|`true`|
 |`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 |`bodyMaxHeight`|-|`string`|`90vh`|
@@ -59,6 +62,7 @@
 |`moreBtns`|-|-|
 |`submit`|-|-|
 |`update:modelValue`|-|-|
+|`toggle`|-|-|
 
 ### Expose
 
@@ -66,6 +70,7 @@
 |:---|:---|:---|
 |`formRef`|-|`() => void`|
 |`formValidate`|-|`() => void`|
+|`reset`|-|`() => void`|
 
 ### Slots
 

@@ -45,10 +45,6 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
   } else if (t === "Object") {
     const { name } = btn as BtnItem;
     btnObj = merge({}, btnsMap[name as string], btn);
-    if (btnObj.text === undefined) {
-      // btnObj.text = $slots.default?.()?.[0]?.children as string;
-      btnObj.text = "空按钮";
-    }
   } else if (t === "Function") {
     btnObj = getBtnObj((btn as BtnFn)(row as CommonObj), row);
   }

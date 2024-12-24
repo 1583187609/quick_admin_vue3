@@ -1,8 +1,4 @@
-# BaseTable 基础表格  <Badge class="title-badge" type="warning" text="beta" />
-
-::: warning 实验性
-本功能处于实验性阶段，谨慎使用！
-:::
+# BaseTable 基础表格
 
 &emsp;&emsp;目标：定位为基础表格。继承`el-table`属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性`quickAttrs: popover`。
 ## 基础用法
@@ -10,14 +6,14 @@
 &emsp;&emsp;基础用法
 
 ::: demo 
-/demos/2_组件_comp/3_表格_table/1_BaseTable 基础表格【beta】/1_BasicUse.vue
+/demos/2_组件_comp/3_表格_table/1_BaseTable 基础表格/1_BasicUse.vue
 :::
 ## 快捷用法
 
 &emsp;&emsp;内嵌组件
 
 ::: demo 
-/demos/2_组件_comp/3_表格_table/1_BaseTable 基础表格【beta】/2_QuickUse.vue
+/demos/2_组件_comp/3_表格_table/1_BaseTable 基础表格/2_QuickUse.vue
 :::
 
 

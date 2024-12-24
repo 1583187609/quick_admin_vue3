@@ -37,7 +37,7 @@ import { showMessage } from "@/core/utils";
 import config from "@/config";
 import { CommonObj } from "@/core/_types";
 import { getFileTips, getErrorTips } from "./_utils";
-import { ImgFitType } from "@/core/img/BaseImg.vue";
+import { ImgFitType } from "@/core/components/img/BaseImg.vue";
 import { Plus } from "@element-plus/icons-vue";
 
 const props = withDefaults(

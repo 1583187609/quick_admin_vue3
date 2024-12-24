@@ -46,7 +46,7 @@ import { getTimeAgo } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
 import { OperateBtnsType } from "@/core/components/table/_components/GroupBtns.vue";
 import { AuditStatus } from "../Index.vue";
-import TagImg from "@/core/img/TagImg.vue";
+import TagImg from "@/core/components/img/TagImg.vue";
 import { operateBtnsEmitName } from "@/core/components/table";
 
 const props = withDefaults(

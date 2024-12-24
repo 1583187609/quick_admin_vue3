@@ -221,6 +221,9 @@
 11、完善 BaseNumber.vue 后去掉 BaseNum.vue 组件
 12、当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示
 
+## Demo 功能Bug清单
+1、前一个按钮设置了icon会影响后一个按钮的icon，还有其他的auth属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
+
 ## 待定事项
 
 1、采用`git submodule`方式维护 mock 和基础方法（待定）

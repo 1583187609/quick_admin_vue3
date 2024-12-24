@@ -19,6 +19,8 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 const modelData = reactive<CommonObj>({
   age: 12,
   gender: 0,
+  live_city: 1,
+  plan_city: [1, 3]
 });
 const genderOpts = [
   { label: "未知", value: 0 },
@@ -28,11 +30,11 @@ const genderOpts = [
 const cityOpts = [
   { label: "成都", value: 1 },
   { label: "杭州", value: 2 },
-  { label: "重庆", value: 2 },
-  { label: "西安", value: 2 },
-  { label: "大理", value: 2 },
-  { label: "北京", value: 2 },
-  { label: "天津", value: 2 },
+  { label: "重庆", value: 3 },
+  { label: "西安", value: 4 },
+  { label: "大理", value: 5 },
+  { label: "北京", value: 6 },
+  { label: "天津", value: 7 },
 ];
 const regionOpts = ref<OptionItem[]>([]);
 const fields: FormFieldAttrs[] = [
@@ -54,8 +56,6 @@ const fields: FormFieldAttrs[] = [
   },
   { prop: "remark", label: "备注", attrs: { type: "textarea" } },
   { prop: "avtivity_times", label: "活动时间", type: "date-picker", attrs: { type: "daterange" } },
-  // 暂时留着，后续删除（当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示）
-  { prop: "err", label: "分类", type: "cascader1", attrs: { options: [] } },
   { prop: "zdy", label: "自定义", type: "slot" },
 ];
 

@@ -1,4 +1,4 @@
 {
-  "apiPath": "/src/core/components/number/LiftingNum.vue",
+  "apiPath": "/src/core/components/number/BaseNumber.vue",
   "tsPath": "/src/core/components/number/BaseNumber.vue"
 }

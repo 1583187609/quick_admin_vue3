@@ -11,7 +11,7 @@
 
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/12_BaseAudio 音频【beta】/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/19_BaseAudio 音频【beta】/1_BasicUse.vue
 :::
 
 

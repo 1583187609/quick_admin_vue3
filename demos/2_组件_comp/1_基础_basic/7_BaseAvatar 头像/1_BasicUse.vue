@@ -5,7 +5,6 @@
 <template>
   <div class="f-fs-fs-w">
     <BaseAvatar />
-    <BaseAvatar :gender="0" />
     <BaseAvatar :gender="1" />
     <BaseAvatar :gender="2" />
     <BaseAvatar :src="url" to="/" />

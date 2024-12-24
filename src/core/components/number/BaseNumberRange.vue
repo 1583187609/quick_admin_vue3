@@ -59,8 +59,8 @@ const props = withDefaults(
   }>(),
   {
     modelValue: () => reactive([]),
-    minPlaceholder: "最小值",
-    maxPlaceholder: "最大值",
+    startPlaceholder: "最小值",
+    endPlaceholder: "最大值",
     size: defaultCommonSize,
     rangeSeparator: rangeJoinChar,
   }
