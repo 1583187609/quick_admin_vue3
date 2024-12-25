@@ -3,11 +3,7 @@
 -->
 <template>
   <!-- 如果是引入的组件或者是虚拟dom -->
-  <component
-    :is="renderData"
-    v-bind="$attrs"
-    v-if="dataType === 'Object' && ((renderData as RenderVue).setup || isVNode(renderData))"
-  />
+  <component :is="renderData" v-bind="$attrs" v-if="dataType === 'Object' && ((renderData as RenderVue).setup || isVNode(renderData))" />
   <!-- 如果是数组（创建虚拟DOM的参数 -->
   <component :is="h(...(renderData as HArgs))" v-bind="$attrs" v-else-if="dataType === 'Array'" />
   <!-- 如果是基本数据类型 -->
@@ -77,9 +73,7 @@ const props = withDefaults(
   defineProps<{
     renderData?: BaseRenderData;
   }>(),
-  {
-    renderData: devErrorTips("数据空空") as any,
-  }
+  {}
 );
 const dataType = computed(() => typeOf(props.renderData));
 </script>

@@ -1,6 +1,6 @@
 # BaseEditor 基础富文本
 
-&emsp;&emsp;目标：简化传参。
+&emsp;&emsp;基于`WangEditor`封装。
 ## 基础用法
 
 &emsp;&emsp;摘要介绍暂时略

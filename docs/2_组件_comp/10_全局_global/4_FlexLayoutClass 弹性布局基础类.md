@@ -1,16 +1,13 @@
-# CustomCrud 自定义增删改查  <Badge class="title-badge" type="danger" text="wait" />
+# FlexLayoutClass 弹性布局基础类
 
-::: danger 待完善
-本功能暂不可用，敬请期待！
-:::
+&emsp;&emsp;目标：通过打开和关闭两个方法，实现打开/关闭全局弹窗，同时让弹窗属性统一，开发时无需关心属性设置，但支持属性值覆盖。  
+&emsp;&emsp;目前只提供了两种弹出层：`dialog `和 `drawer`，默认为 `dialog`。
+## 基础用法
 
-&emsp;&emsp;目标：基础增删改查的扩展，每一项元素的呈现样式可以自定义。
-## 相册
-
-&emsp;&emsp;这是相册的摘要描述
+&emsp;&emsp;全局按钮模板、全局表单项模板、全局表格列模板、全局字典、
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/3_CustomCrud 自定义增删改查【wait】/1_Photos.vue
+/demos/2_组件_comp/10_全局_global/4_FlexLayoutClass 弹性布局基础类/1_BasicUse.vue
 :::
 
 
@@ -85,3 +82,25 @@
 |`content`|内容插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|
 |`default`|默认插槽|-|
+
+
+## 类型声明
+
+::: details
+
+
+``` ts
+import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";
+
+
+
+
+
+
+
+
+
+    type = defaultPopupType;
+```
+
+:::  
