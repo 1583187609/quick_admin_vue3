@@ -51,12 +51,7 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param {string} title 标题
  * @returns {Promise}
  */
-export function showConfirmMessage(
-  htmlStr: string,
-  type: ThemeColorType = "warning",
-  lightWords: string[] = [],
-  title = "温馨提示"
-) {
+export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", lightWords: string[] = [], title = "温馨提示") {
   const typeMap = { danger: "error" };
   const colorType = type;
   const colorKey = `color${upperFirst(colorType)}`;
@@ -86,7 +81,7 @@ export function showConfirmMessage(
  */
 export type PrintLogType = "req" | "res" | "err" | "log";
 export type ThemeColorType = "primary" | "success" | "danger" | "warning" | "info";
-export function printLog(data: any, type: PrintLogType | ThemeColorType = "req", text: string = "") {
+export function printLog(data: any, type: PrintLogType | ThemeColorType = "req", text: boolean | string = "") {
   if (["req", "res", "err", "log"].includes(type)) {
     const map: CommonObj = {
       req: {
@@ -107,7 +102,11 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
       },
     };
     const { label, bgColor } = map[type];
-    console.log(`%c ${text || label}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
+    console.log(
+      `%c ${text && typeof text === "string" ? text : "" + label}：`,
+      `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`,
+      data
+    );
   } else {
     const bgColor = themeMap[type as ThemeColorType];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
@@ -245,17 +244,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;

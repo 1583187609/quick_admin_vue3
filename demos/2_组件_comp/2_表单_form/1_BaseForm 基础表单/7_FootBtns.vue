@@ -7,32 +7,34 @@
  注：要保证最外层表单（BaseForm、SectionForm）的高度可获得（height：50vh这种，若百分比高度，如果某一级没有传递百分比，则会导致传递链路整体失效）。
 -->
 <template>
-  <BaseForm :fields="fields" :fetch="PostMockCommon" />
-  <BaseForm :fields="fields" :fetch="PostMockCommon" submitBtn="确认" resetBtn="置空" @submit="args => handleSubmit(args, 1)" />
-  <BaseForm :fields="fields" :fetch="PostMockCommon" submitBtn="add" resetBtn="view" @submit="args => handleSubmit(args, 2)" />
-  <BaseForm
-    :fields="fields"
-    :fetch="PostMockCommon"
-    :submitBtn="{ name: 'add', text: '创建' }"
-    :resetBtn="{ name: 'view', text: '清空' }"
-    @submit="args => handleSubmit(args, 2)"
-  />
-  <BaseForm
-    :fields="fields"
-    :fetch="PostMockCommon"
-    :moreBtns="['reject', { name: 'forbid', validateForm: false, text: '点击不会触发表单校验' }]"
-    @submit="args => handleSubmit(args, 3)"
-    @moreBtns="handleMoreBtns"
-  />
-  <BaseForm :fields="fields" :fetch="PostMockCommon" @submit="args => handleSubmit(args, 4)" />
-  <BaseForm :fields="fields">
-    <template #footer>
-      <div class="f-sb-c">
-        <el-button class="f-1" type="primary" @click="args => handleSubmit(args, 5)">提交</el-button>
-        <el-button class="f-1">重置</el-button>
-      </div>
-    </template>
-  </BaseForm>
+  <div class="f-sb-fs-w" style="width: 100%">
+    <BaseForm :fields="fields" :fetch="PostMockCommon" />
+    <BaseForm :fields="fields" :fetch="PostMockCommon" submitBtn="确认" resetBtn="置空" @submit="args => handleSubmit(args, 1)" />
+    <BaseForm :fields="fields" :fetch="PostMockCommon" submitBtn="add" resetBtn="view" @submit="args => handleSubmit(args, 2)" />
+    <BaseForm
+      :fields="fields"
+      :fetch="PostMockCommon"
+      :submitBtn="{ name: 'add', text: '创建' }"
+      :resetBtn="{ name: 'view', text: '清空' }"
+      @submit="args => handleSubmit(args, 2)"
+    />
+    <BaseForm
+      :fields="fields"
+      :fetch="PostMockCommon"
+      :moreBtns="['reject', { name: 'forbid', validateForm: false, text: '点击不会触发表单校验' }]"
+      @submit="args => handleSubmit(args, 3)"
+      @moreBtns="handleMoreBtns"
+    />
+    <BaseForm :fields="fields" :fetch="PostMockCommon" @submit="args => handleSubmit(args, 4)" />
+    <BaseForm :fields="fields" ref="formRef">
+      <template #footer>
+        <div class="f-sb-c">
+          <el-button class="f-1" type="primary" @click="args => handleCustomSubmit(args, 5)">提交</el-button>
+          <el-button class="f-1" @click="formRef.reset()">重置</el-button>
+        </div>
+      </template>
+    </BaseForm>
+  </div>
 </template>
 <script lang="ts" setup>
 import { PostMockCommon } from "@/api-mock";
@@ -41,10 +43,17 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 import { ElMessage } from "element-plus";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 
+const formRef = ref<any>(null);
 const fields: FormFieldAttrs[] = [{ prop: "name", label: "姓名", required: true }];
 
 function handleSubmit(params, ind: number) {
   ElMessage.info(`提交了表单 ${ind}，参数为：${JSON.stringify(params)}`);
+}
+
+function handleCustomSubmit(params, ind: number) {
+  formRef.value.validate().then(() => {
+    ElMessage.info(`提交了表单 ${ind}，参数为：${JSON.stringify(params)}`);
+  });
 }
 
 function handleMoreBtns(name: BtnName, params: CommonObj) {
@@ -55,4 +64,10 @@ function handleMoreBtns(name: BtnName, params: CommonObj) {
   clickMap[name]?.();
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.base-form {
+  flex-grow: 0;
+  flex-basis: calc(50% - $gap-two);
+  margin-bottom: $gap-two;
+}
+</style>

@@ -23,7 +23,7 @@
 :::
 ## 快捷属性
 
-&emsp;&emsp;扩展的快捷属性，放置在 `quickAttrs `中。例：`pureText`、`grid`、`example`、`tips`、`popover`
+&emsp;&emsp;扩展的快捷属性，放置在 `quickAttrs `中。例：`pureText`、`grid`、`example`、`tips`、`popover`、`before`、`after`
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/3_QuickAttrs.vue
@@ -44,23 +44,32 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/5_ExtendComponent.vue
 :::
-## 底部按钮
+## 插槽规则
 
-&emsp;&emsp;`submitBtn`  
-&emsp;&emsp;`resetBtn`  
-&emsp;&emsp;`moreBtns`  
-&emsp;&emsp;`footer `默认和自定义（自定义换用插槽方式实现）  
-&emsp;&emsp;`autoFixedFoot`
+&emsp;&emsp;插槽可接受字符串（等价于`default`插槽）、对象（键名即为插槽名，值可为字符串、数组、同/异步引入的`vue`组件，渲染规则见`基础/BaseRender渲染`章节内容）。  
+&emsp;&emsp;`JSON`跟实际`DOM`保持一致嵌套，`slots`也是。下面的示例中，`el-form-item`的插槽在最外层的`slots`中，`el-input`的插槽在`attrs.slots`中
 
 ::: demo 
-/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/6_FootBtns.vue
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/6_SlotsRule.vue
+:::
+## 底部按钮
+
+&emsp;&emsp;`submitBtn`：支持传入模板（`save`、`submit`等）、文字（创建、确认）、对象（遵循`BaseBtn`的对象规则），监听事件始终为 `onSubmit`  
+&emsp;&emsp;`resetBtn`：支持传入模板、文字、对象（规则同`submit`），监听事件始终为 `onReset`  
+&emsp;&emsp;`moreBtns`：支出传入数组，数组元素遵循`BaseBtn`的规则，监听事件为：`onMoreBtns(name, params, next, e)`。通过设置`validateForm`为`false`，让点击按钮后不进行表单校验。  
+&emsp;&emsp;`footer `默认（提交、重置按钮）和自定义（使用`footer`插槽方式实现）  
+&emsp;&emsp;设置：`autoFixedFoot`，默认为`true`，若为`true`，则底部按钮会自适应固定在底部，若超出，内容区域会出现滚动条  
+&emsp;&emsp;注：要保证最外层表单（`BaseForm`、`SectionForm`）的高度可获得（`height`：`50vh`这种，若百分比高度，如果某一级没有传递百分比，则会导致传递链路整体失效）。
+
+::: demo 
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/7_FootBtns.vue
 :::
 ## 表单提交处理
 
 &emsp;&emsp;:`fetch `配合 `extraParams`
 
 ::: demo 
-/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/7_HandleSubmit.vue
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/8_HandleSubmit.vue
 :::
 ## 处理请求参数
 
@@ -74,15 +83,7 @@
 &emsp;&emsp;一次性统一处理
 
 ::: demo 
-/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/8_HandleParamsResult.vue
-:::
-## 调试属性
-
-&emsp;&emsp;`log`  
-&emsp;&emsp;`debug`
-
-::: demo 
-/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/9_DebugAttrs.vue
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/9_HandleParamsResult.vue
 :::
 ## 表单样式
 
@@ -91,6 +92,14 @@
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/10_FormStyle.vue
+:::
+## 调试属性
+
+&emsp;&emsp;`log`  
+&emsp;&emsp;`debug`
+
+::: demo 
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/11_DebugAttrs.vue
 :::
 
 

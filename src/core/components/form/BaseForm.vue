@@ -4,21 +4,10 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="styleType"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row
-      class="section all-hide-scroll"
-      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-      v-else
-    >
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -130,7 +119,7 @@ const props = withDefaults(
     /**
      * 调试属性
      */
-    log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
+    log?: boolean | string; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
   }>(),
   {
@@ -174,11 +163,11 @@ function handleEnter() {
 }
 
 defineExpose<{
-  formValidate: () => void;
+  validate: () => void;
   [key: string]: any;
 }>({
   formRef,
-  formValidate() {
+  validate() {
     return footerBtnsRef.value.formValidate();
   },
   reset() {

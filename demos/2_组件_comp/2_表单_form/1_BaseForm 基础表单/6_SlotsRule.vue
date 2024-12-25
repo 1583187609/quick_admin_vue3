@@ -30,68 +30,68 @@ const fields = computed<FormField[]>(() => {
   const { type } = modelData;
   const { popover, label } = slotTypeOpts[type];
   return [
-    {
-      prop: "type",
-      label: "label插槽类型",
-      type: "radio-group",
-      options: slotTypeOpts,
-    },
-    ...(type === 0
-      ? [
-          {
-            prop: "label",
-            label,
-            quickAttrs: {
-              popover,
-            },
-          },
-        ]
-      : [
-          {
-            prop: "custom_label",
-            label: "标签",
-            quickAttrs: {
-              popover,
-            },
-            slots: {
-              label,
-            },
-          },
-        ]),
-    {
-      prop: "content",
-      label: "内容",
-      slots: "自定义内容", // 本质等同于 el-form-item 的 default 插槽
-      quickAttrs: {
-        popover: "slots 接收字符串",
-      },
-    },
-    {
-      prop: "inp_slot_str",
-      label: "输入框插槽",
-      attrs: {
-        slots: {
-          prepend: "http://",
-          append: ".com",
-        },
-      },
-      quickAttrs: {
-        popover: "preend、append插槽，插槽值为纯字符串",
-      },
-    },
-    {
-      prop: "inp_slot_obj",
-      label: "输入框插槽",
-      attrs: {
-        slots: {
-          prefix: h("el-icon", undefined, Search),
-          suffix: [ElButton, { type: "primary" }, "搜搜"],
-        },
-      },
-      quickAttrs: {
-        popover: "prefix、suffix插槽，插槽值为h函数和数组",
-      },
-    },
+    // {
+    //   prop: "type",
+    //   label: "label插槽类型",
+    //   type: "radio-group",
+    //   options: slotTypeOpts,
+    // },
+    // ...(type === 0
+    //   ? [
+    //       {
+    //         prop: "label",
+    //         label,
+    //         quickAttrs: {
+    //           popover,
+    //         },
+    //       },
+    //     ]
+    //   : [
+    //       {
+    //         prop: "custom_label",
+    //         label: "标签",
+    //         quickAttrs: {
+    //           popover,
+    //         },
+    //         slots: {
+    //           label,
+    //         },
+    //       },
+    //     ]),
+    // {
+    //   prop: "content",
+    //   label: "内容",
+    //   slots: "自定义内容", // 本质等同于 el-form-item 的 default 插槽
+    //   quickAttrs: {
+    //     popover: "slots 接收字符串",
+    //   },
+    // },
+    // {
+    //   prop: "inp_slot_str",
+    //   label: "输入框插槽",
+    //   attrs: {
+    //     slots: {
+    //       prepend: "http://",
+    //       append: ".com",
+    //     },
+    //   },
+    //   quickAttrs: {
+    //     popover: "prepend、append插槽，插槽值为纯字符串",
+    //   },
+    // },
+    // {
+    //   prop: "inp_slot_obj",
+    //   label: "输入框插槽",
+    //   attrs: {
+    //     slots: {
+    //       prefix: h("el-icon", undefined, Search),
+    //       suffix: [ElButton, { type: "primary" }, "搜搜"],
+    //     },
+    //   },
+    //   quickAttrs: {
+    //     popover: "prefix、suffix插槽，插槽值为h函数和数组",
+    //   },
+    // },
   ];
 });
 </script>

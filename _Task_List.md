@@ -226,6 +226,9 @@
 15、验证 BaseEditor 是否能在表单中正常展示
 16、将 childrenFields、addDel 抽离出去
 17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常
+18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）
+19、BaseForm 的 pureText 属性未生效
+20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本
 
 ## Demo 功能 Bug 清单
 

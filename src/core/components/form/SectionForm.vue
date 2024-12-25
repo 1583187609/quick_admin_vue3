@@ -3,14 +3,7 @@
   功能：继承并扩展基础表单（BaseForm），并扩展了展开/折叠，多级属性设置等功能。
 -->
 <template>
-  <el-form
-    class="section-form f-fs-s-c"
-    :class="styleType"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="section-form f-fs-s-c" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -161,7 +154,7 @@ const props = withDefaults(
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
     loading?: boolean; //提交按钮是否显示加载图标
     omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的参数
-    log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
+    log?: boolean | string; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     bodyMaxHeight?: string; //
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
@@ -238,10 +231,7 @@ function toggleFold(e: any, ind: number) {
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const {
-    size = field.size ?? sItem.size ?? formAttrs.size,
-    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
-  } = attrs;
+  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
     readonly = sItem.readonly ?? formAttrs.readonly,

@@ -1,4 +1,4 @@
-# BasicConfig 全局配置
+# FlexLayoutClass 弹性布局基础类
 
 &emsp;&emsp;目标：通过打开和关闭两个方法，实现打开/关闭全局弹窗，同时让弹窗属性统一，开发时无需关心属性设置，但支持属性值覆盖。  
 &emsp;&emsp;目前只提供了两种弹出层：`dialog `和 `drawer`，默认为 `dialog`。
@@ -7,7 +7,7 @@
 &emsp;&emsp;全局按钮模板、全局表单项模板、全局表格列模板、全局字典、
 
 ::: demo 
-/demos/2_组件_comp/10_全局_global/1_BasicConfig 全局配置/1_BasicUse.vue
+/demos/2_组件_comp/10_全局_global/3_FlexLayoutClass 弹性布局基础类/1_BasicUse.vue
 :::
 
 

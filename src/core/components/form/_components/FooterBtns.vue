@@ -32,7 +32,7 @@ const props = withDefaults(
     resetBtn?: FootBtn;
     moreBtns?: BaseBtnType[]; // 底部的额外更多按钮
     omits?: boolean | BaseDataType[];
-    log?: boolean;
+    log?: boolean | string;
     debug?: boolean;
     disabled?: boolean; // 是否禁用按钮
     params?: any;
@@ -76,7 +76,7 @@ function handleValidate() {
         if (handleRequest) params = handleRequest(params);
         params = omitAttrs(params, omits);
         if (log || debug) {
-          printLog(params, "req");
+          printLog(params, "req", log);
           if (debug) return;
         }
         resolve(params);
@@ -98,7 +98,7 @@ function handleSubmit(...args) {
       isLoading.value = true;
       fetch(params)
         .then((res: any) => {
-          log && printLog(res, "res");
+          log && printLog(res, "res", log);
           if (handleResponse) res = handleResponse(res);
           if (afterSuccess) return afterSuccess(res, next);
           next();

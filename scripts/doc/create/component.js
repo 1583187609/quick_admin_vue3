@@ -47,12 +47,12 @@ export function getInitConfigFile(apiPath = "", tsPath = "") {
  * 将文件名称按照序号进行排序
  * @param {string[]} fileNames 文件名称
  */
-function sortByFileName(fileNames=[]){
-  fileNames.sort((a,b)=>{
+function sortByFileName(fileNames = []) {
+  fileNames.sort((a, b) => {
     const aOrder = +a.split("_")[0];
     const bOrder = +b.split("_")[0];
     return (isNaN(aOrder) ? 0 : aOrder) - (isNaN(bOrder) ? 0 : bOrder);
-  })
+  });
 }
 
 /**
@@ -71,7 +71,10 @@ function getCodeDemos(readPath) {
   readFiles.forEach(file => {
     const curPath = path.join(dirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory();
-    if (isDir) throw new Error("暂未处理文件夹情况");
+    if (isDir) {
+      if (!file.startsWith("_")) throw new Error(`暂未处理文件夹情况：${curPath}`);
+      return;
+    }
     const newFilePath = `${readPath}/${file}`;
     const info = getInfoByAnnoName(path.join(readPath, file));
     const { title, description = "", tags } = info ?? {};
