@@ -205,6 +205,7 @@
 - 主题切换
 
 156、将各个组件的属性实现继承
+157、在弹窗属性中实现 v-model 的写法
 
 ## Demo 功能验证清单
 
@@ -220,9 +221,15 @@
 10、写一个新的工作台页面
 11、完善 BaseNumber.vue 后去掉 BaseNum.vue 组件
 12、当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示
+13、BaseImg 的图片大小属性是否正常
+14、级联`C_Region`不生效
+15、验证 BaseEditor 是否能在表单中正常展示
+16、将 childrenFields、addDel 抽离出去
+17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常
 
-## Demo 功能Bug清单
-1、前一个按钮设置了icon会影响后一个按钮的icon，还有其他的auth属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
+## Demo 功能 Bug 清单
+
+1、前一个按钮设置了 icon 会影响后一个按钮的 icon，还有其他的 auth 属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
 
 ## 待定事项
 
@@ -476,6 +483,8 @@
 65、WeakMap 优化
 66、低码中心，配置简化 JSON 时候，进行校验并纠错提示
 67、找一种更好的传递上下级 grid、disabled、pureText、readonly 之类属性的方式
+68、当表单项、表格列只有模板属性时，可以简化为写一个字符串（模板名称）
+69、菜单默认为管风琴模式，支持可切换、菜单搜索放在菜单上方搜索处
 
 ### 动画优化相关
 

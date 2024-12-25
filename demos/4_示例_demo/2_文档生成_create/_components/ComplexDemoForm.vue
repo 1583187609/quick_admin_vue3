@@ -43,6 +43,7 @@
       :onFail="onFail"
       :handleRequest="handleRequest"
       :disabled="!newFields.length"
+      :renderData="footer"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
       @submit="(args:CommonObj)=>$emit('submit', args)"
       ref="footerBtnsRef"

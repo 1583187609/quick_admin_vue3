@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <span class="custom-col-head">
+  <span class="colors-label">
     <span :style="{ color: colors[ind % 7] || 'black' }" v-for="(item, ind) in text" :key="ind">{{ item }}</span>
   </span>
 </template>
@@ -11,7 +11,7 @@ const props = withDefaults(
     colors?: string[];
   }>(),
   {
-    text: "自定义多维度列",
+    text: "默认自定义标签",
     colors: () => ["red", "orange", "#8B4513", "green", "blue", "indigo", "purple"],
   }
 );

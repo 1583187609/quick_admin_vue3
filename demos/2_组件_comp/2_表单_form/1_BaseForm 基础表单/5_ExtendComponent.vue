@@ -23,6 +23,15 @@ const fields: FormFieldAttrs[] = [
     type: "BaseUpload",
     required: true,
   },
+  {
+    prop: "article",
+    label: "文章内容",
+    type: "BaseEditor",
+    required: true,
+    attrs: {
+      maxlength: 1000,
+    },
+  },
   { prop: "user_info", label: "用户信息", type: "slot" },
 ];
 </script>

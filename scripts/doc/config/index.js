@@ -6,7 +6,7 @@ export const cachePath = "/.vitepress/cache/views"; //临时缓存路径
 export const indexName = "index.md"; //首页md文件的名称
 export const readMeName = "Summary.md"; //examples下面的 ReadMe 文件的名称（也可理解为摘要）
 export const configName = "data.json"; //examples下面的配置文件的名称
-export const isShortPath = true; //是否缩短路径
+export const isShortPath = false; //是否缩短路径
 // 示例中对vue文件名称的中文标题映射
 export const vueFileNameTitleMap = {
   BasicUse: "基础用法",

@@ -377,9 +377,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       $emit("rows", newRows.value, args);
       cb?.();
     })
-    .catch((err: any) => {
-      afterFail?.(err);
-    })
+    .catch((err: any) => afterFail?.(err))
     .finally(() => {
       loading.value = false;
     });

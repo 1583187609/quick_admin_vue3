@@ -5,24 +5,16 @@
   <div class="footer-btns f-c-c f-0 pt-h pb-h">
     <BaseBtn :tpl="newSubmitBtn" :loading="isLoading" :disabled="disabled" @click="handleSubmit" v-if="newSubmitBtn" />
     <BaseBtn @click="handleMoreBtns" :tpl="btn" :disabled="disabled" v-for="(btn, ind) in newMoreBtns" :key="ind" />
-    <BaseBtn
-      v-bind="newResetBtn.attrs"
-      :tpl="newResetBtn.name || 'reset'"
-      :disabled="disabled"
-      @click="handleReset"
-      v-if="newResetBtn"
-    />
+    <BaseBtn v-bind="newResetBtn.attrs" :tpl="newResetBtn.name" :disabled="disabled" @click="handleReset" v-if="newResetBtn" />
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, watch, inject, computed } from "vue";
-import { BaseBtnType, BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
+import { ref, watch, computed, useAttrs } from "vue";
+import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils";
 import { CommonObj, FinallyNext, UniteFetchType, NextArgs, BaseDataType } from "@/core/_types";
-import { ClosePopupInject } from "@/core/components/BasicPopup/_types";
 import { getFootBtnAttrs } from "../_utils";
-import { useNextCallback } from "@/hooks";
 
 export type AfterReset = (...NextArgs) => void;
 export interface FootBtnAttrs {
@@ -32,7 +24,7 @@ export interface FootBtnAttrs {
 }
 export type FootBtn = FootBtnAttrs | string;
 
-const closePopup = inject<ClosePopupInject>("closePopup");
+// const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     loading?: boolean;
@@ -60,6 +52,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["moreBtns", "submit"]);
+const $attrs = useAttrs();
 const isLoading = ref(props.loading);
 const newSubmitBtn = getFootBtnAttrs(props.submitBtn, "submit");
 const newResetBtn = getFootBtnAttrs(props.resetBtn, "reset");
@@ -95,14 +88,13 @@ function handleValidate() {
     });
   });
 }
-//请求成功之后的回调函数
-const defaultAfterSuccess = useNextCallback(newSubmitBtn?.text ?? "提交", closePopup);
 //提交表单
-function handleSubmit(tpl: BtnName, btnObj: BtnItem, next: FinallyNext, e: Event) {
+function handleSubmit(...args) {
+  const [tpl, btnObj, next, e] = args;
   handleValidate()
     .then((params: any) => {
       const { log, fetch, handleResponse, afterSuccess, afterFail } = props;
-      if (!fetch) return $emit("submit", params);
+      if (!fetch) return $emit("submit", params, next, e);
       isLoading.value = true;
       fetch(params)
         .then((res: any) => {
@@ -111,9 +103,7 @@ function handleSubmit(tpl: BtnName, btnObj: BtnItem, next: FinallyNext, e: Event
           if (afterSuccess) return afterSuccess(res, next);
           next();
         })
-        .catch((err: any) => {
-          afterFail?.(err);
-        })
+        .catch((err: any) => afterFail?.(err))
         .finally(() => {
           isLoading.value = false;
         });
@@ -122,18 +112,21 @@ function handleSubmit(tpl: BtnName, btnObj: BtnItem, next: FinallyNext, e: Event
 }
 //重置表单
 function handleReset(...args) {
+  // 采用此种方式传值，才能监听到是否传入了自定义的 onReset事件，才能跟默认的reset事件区分开
+  if ($attrs.onReset) return $attrs.onReset();
   const { formRef, afterReset } = props;
   formRef?.resetFields();
   afterReset?.(...args);
 }
 //点击更多按钮时
-function handleMoreBtns(tpl: BtnName, btn: BtnItem, next: FinallyNext, e: Event) {
-  const { name, validateForm, to } = btn;
+function handleMoreBtns(...args) {
+  const [tpl, btnObj, next, e] = args;
+  const { name, validateForm, to } = btnObj;
   if (to) return;
-  if (!validateForm) return $emit("moreBtns", name, props.params, defaultAfterSuccess);
+  if (!validateForm) return $emit("moreBtns", name, props.params, next, e);
   handleValidate()
     .then(params => {
-      $emit("moreBtns", name, params, defaultAfterSuccess);
+      $emit("moreBtns", name, params, next, e);
     })
     .catch(() => {});
 }

@@ -1,5 +1,5 @@
 <!-- summary 快捷属性
-  扩展的快捷属性，放置在 quickAttrs 中。例：pureText、grid、example、tips、popover
+  扩展的快捷属性，放置在 quickAttrs 中。例：pureText、grid、example、tips、popover、before、after
 -->
 <template>
   <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon"></BaseForm>
@@ -9,7 +9,7 @@ import { PostMockCommon } from "@/api-mock";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { reactive } from "vue";
 
-const modelData=reactive<CommonObj>({name:'张三'})
+const modelData = reactive<CommonObj>({ name: "张三" });
 const fields: FormFieldAttrs[] = [
   {
     prop: "name",
@@ -32,6 +32,17 @@ const fields: FormFieldAttrs[] = [
     label: "年龄",
     quickAttrs: {
       grid: 12,
+      before: "岁",
+    },
+  },
+  {
+    prop: "day",
+    label: "天数",
+    type: "input-number",
+    attrs: { min: 0, max: 100 },
+    quickAttrs: {
+      before: "第",
+      after: "天",
     },
   },
   {

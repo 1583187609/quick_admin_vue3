@@ -100,12 +100,12 @@
         :afterReset="afterReset"
         :handleRequest="handleRequest"
         :handleResponse="handleResponse"
-        @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
-        @submit="(args:CommonObj)=>$emit('submit', args, submitNext)"
+        @moreBtns="(...args) => $emit('moreBtns', ...args)"
+        @submit="(...args) => $emit('submit', ...args)"
+        @reset="$attrs.onReset"
         ref="footerBtnsRef"
         v-if="!formAttrs.pureText && footer === true"
       />
-      <BaseRender :renderData="footer" v-else />
     </slot>
   </el-form>
 </template>
@@ -127,9 +127,9 @@ import { defaultCommonSize } from "@/core/utils";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
 import config from "@/config";
-import _ from "lodash";
 import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
 import { BaseRenderComponentType } from "../BaseRender.vue";
+import _ from "lodash";
 
 const { merge } = _;
 
@@ -250,12 +250,10 @@ function getLevelsAttrs(field, sItem) {
   } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }
-// 提交之后的回调函数
-const submitNext = useNextCallback(getFootBtnAttrs(props.submitBtn)?.text ?? "提交", closePopup);
 //处理表单的enter时间
 function handleEnter() {
   if (props.fetch) return footerBtnsRef.value.submit();
-  $emit("submit", params.value, submitNext);
+  $emit("submit", params.value, useNextCallback(getFootBtnAttrs(props.submitBtn)?.text ?? "提交", closePopup));
 }
 defineExpose({
   formRef,
