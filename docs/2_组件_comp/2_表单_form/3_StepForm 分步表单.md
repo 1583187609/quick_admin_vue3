@@ -2,6 +2,13 @@
 
 &emsp;&emsp;目标：定位为步骤表单。  
 &emsp;&emsp;功能：结合了分块表单（`SectionForm`）和步骤条的功能。
+## 基础用法
+
+&emsp;&emsp;这是步骤表单基础用法的介绍内容，待完善。
+
+::: demo 
+/demos/2_组件_comp/2_表单_form/3_StepForm 分步表单/1_BasicUse.vue
+:::
 
 
 ## API 

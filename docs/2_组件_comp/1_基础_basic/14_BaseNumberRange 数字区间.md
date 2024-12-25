@@ -10,7 +10,7 @@
 &emsp;&emsp;设置 `precision`，保留`n`位小数
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/11_BaseNumberRange 数字区间/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/14_BaseNumberRange 数字区间/1_BasicUse.vue
 :::
 
 

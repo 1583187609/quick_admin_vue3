@@ -1,5 +1,5 @@
-<!-- summary 传参规则
-  这是分块表单传参规则的介绍内容，待完善。
+<!-- summary 插槽规则
+  section部分有prop属性时，插槽名称，反之插槽名称
  -->
 <template>
   <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></SectionForm>

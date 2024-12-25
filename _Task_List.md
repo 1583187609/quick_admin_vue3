@@ -229,10 +229,12 @@
 18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）
 19、BaseForm 的 pureText 属性未生效
 20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本
+21、清除 Demo 的 vue 文件中的 scss 变量写法（待定，也可能不用删除）
 
 ## Demo 功能 Bug 清单
 
 1、前一个按钮设置了 icon 会影响后一个按钮的 icon，还有其他的 auth 属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
+2、BaseForm pureText 为 true 时，未解析出字典名称对应的文本值
 
 ## 待定事项
 

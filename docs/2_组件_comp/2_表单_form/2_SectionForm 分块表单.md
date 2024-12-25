@@ -9,12 +9,26 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/2_SectionForm 分块表单/1_BasicUse.vue
 :::
-## 传参规则
+## 层级规则
 
-&emsp;&emsp;这是分块表单传参规则的介绍内容，待完善。
+&emsp;&emsp;顶层元素`SectionForm`的属性可依次被`SectionItem`、`FormFieldItem`覆盖
 
 ::: demo 
-/demos/2_组件_comp/2_表单_form/2_SectionForm 分块表单/2_ParamsRules.vue
+/demos/2_组件_comp/2_表单_form/2_SectionForm 分块表单/2_LevelRule.vue
+:::
+## 传参规则
+
+&emsp;&emsp;`section`部分有`prop`属性时，参数会包裹一层，反之，则直接挂在双向绑定的数据上。
+
+::: demo 
+/demos/2_组件_comp/2_表单_form/2_SectionForm 分块表单/3_ParamsRules.vue
+:::
+## 插槽规则
+
+&emsp;&emsp;`section`部分有`prop`属性时，插槽名称，反之插槽名称
+
+::: demo 
+/demos/2_组件_comp/2_表单_form/2_SectionForm 分块表单/4_SlotRule.vue
 :::
 
 
@@ -45,7 +59,7 @@
 |`moreBtns`|底部的额外更多按钮|`BaseBtnType[]`|-|
 |`loading`|提交按钮是否显示加载图标|`boolean`|-|
 |`omits`|是否剔除掉值为 `undefined, null, "" `的参数|`boolean \| Array`|`true`|
-|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
+|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean \| string`|-|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 |`bodyMaxHeight`|-|`string`|`90vh`|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|

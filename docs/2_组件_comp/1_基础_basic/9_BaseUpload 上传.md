@@ -1,0 +1,48 @@
+# BaseUpload 上传
+
+## 基础用法
+
+
+
+::: demo 
+/demos/2_组件_comp/1_基础_basic/9_BaseUpload 上传/1_BasicUse.vue
+:::
+
+
+## API 
+
+### Props
+
+|属性|说明|类型|默认值|
+|:---|:---|:---|:---|
+|`modelValue`|-|`string`|-|
+|`fit`|`EpPropMergeType<StringConstructor`>|`ImgFitType`|-|
+|`drag`|是否可拖动上传|`boolean`|-|
+|`accept`|`image/png, image/jpeg`|`string`|-|
+|`limitSize`|上传文件的大小限制|`number`|-|
+|`action`|-|`string`|-|
+|`listType`|`EpPropMergeType<StringConstructor, "picture-card" | "picture" | "text", unknown> | undefined`;|`any`|-|
+|`limit`|文件列表可上传几张|`number`|-|
+|`tips`|文件大小、支持类型提示文案|`string`|-|
+|`disabled`|是否禁用上传功能|`boolean`|-|
+|`showFileList`|-|`boolean`|-|
+|`handleSuccessResponse`|-|`() => void`|-|
+
+### $emit
+
+|事件名称|说明|回调参数|
+|:---|:---|:---|
+|`update:modelValue`|-|-|
+|`change`|-|-|
+
+
+## 类型声明
+
+::: details
+
+
+``` ts
+import type { UploadProps } from "element-plus";
+```
+
+:::  

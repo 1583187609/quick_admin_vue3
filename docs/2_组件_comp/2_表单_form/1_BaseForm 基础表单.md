@@ -73,6 +73,7 @@
 :::
 ## 处理请求参数
 
+&emsp;&emsp;`extraParams`  
 &emsp;&emsp;`omits`  
 &emsp;&emsp;`handleRequest`  
 &emsp;&emsp;`handleResponse`  
@@ -95,8 +96,8 @@
 :::
 ## 调试属性
 
-&emsp;&emsp;`log`  
-&emsp;&emsp;`debug`
+&emsp;&emsp;`log`为`true`，会打印请求信息，为字符串时，会作为标头文本。  
+&emsp;&emsp;`debug`为`true`会在发起提交请求前打断点
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/11_DebugAttrs.vue
@@ -127,7 +128,7 @@
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
 |`afterReset`|重置之后的处理方法|`AfterReset`|-|
-|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
+|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean \| string`|-|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 
 ### $emit
@@ -144,7 +145,7 @@
 |方法名|说明|类型|
 |:---|:---|:---|
 |`formRef`|-|`() => void`|
-|`formValidate`|-|`() => void`|
+|`validate`|-|`() => void`|
 |`reset`|-|`() => void`|
 
 ### Slots

@@ -6,7 +6,7 @@
 
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/9_BaseEmpty 空状态/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/12_BaseEmpty 空状态/1_BasicUse.vue
 :::
 
 

@@ -1,5 +1,5 @@
 <!-- summary
-目标：简化传参。
+  基于WangEditor封装。
 -->
 <template>
   <div class="base-editor">

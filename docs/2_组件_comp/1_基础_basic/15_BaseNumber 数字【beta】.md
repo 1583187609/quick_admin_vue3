@@ -10,7 +10,7 @@
 &emsp;&emsp;待完善
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/12_BaseNumber 数字【beta】/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/15_BaseNumber 数字【beta】/1_BasicUse.vue
 :::
 
 

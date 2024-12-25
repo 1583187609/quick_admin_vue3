@@ -6,12 +6,6 @@
   支持函数，即：h()。
 -->
 <template>
-  <BaseRender renderData />
-  <br />
-  <BaseRender renderData="" />
-  <br />
-  <BaseRender :renderData="null" />
-  <br />
   <BaseRender renderData="红橙黄绿蓝靛紫" />
   <br />
   <BaseRender :renderData="ColorsText" />
