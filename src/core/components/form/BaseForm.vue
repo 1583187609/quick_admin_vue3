@@ -4,17 +4,30 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
+    <el-row
+      class="section all-hide-scroll"
+      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+      v-else
+    >
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
           v-model="formData[field.prop as string]"
           :field="field"
           :formRef="formRef"
-          @change="(val:any, prop:any) => $emit('change', val, prop)"
+          @blur="$attrs.onBlur"
+          @focus="$attrs.onFocus"
+          @change="$attrs.onChange"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
         >
@@ -42,8 +55,6 @@
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
         :afterReset="afterReset"
-        :handleRequest="handleRequest"
-        :handleResponse="handleResponse"
         @moreBtns="(...args) => $emit('moreBtns', ...args)"
         @submit="(...args) => $emit('submit', ...args)"
         @reset="$attrs.onReset"
@@ -65,7 +76,7 @@ import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
-import { defaultCommonSize, isBaseBtn, isRenderData, showMessage } from "@/core/utils";
+import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";
 import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
 import { BaseRenderComponentType } from "../BaseRender.vue";
@@ -90,6 +101,7 @@ const props = withDefaults(
     /**
      * 继承属性
      */
+    // labelWidth?: string; //label的宽度
     // grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     // size?: CommonSize;
     // readonly?: boolean; //是否只读
@@ -99,20 +111,18 @@ const props = withDefaults(
     /**
      * 底部按钮
      */
+    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
+    autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
     submitBtn?: FootBtn; //提交按钮的文字
     resetBtn?: FootBtn; //提交按钮的文字
-    loading?: boolean; //提交请求状态。控制提交按钮是否显示加载图标
-    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
     moreBtns?: BaseBtnType[]; //底部的额外更多按钮
-    autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
+    loading?: boolean; //提交请求状态。控制提交按钮是否显示加载图标
     /**
      * 处理属性
      */
     extraParams?: CommonObj; //额外的参数
     omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的请求参数
     fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
-    handleRequest?: (args: any) => any; //处理请求参数
-    handleResponse?: (data: any) => any; //处理请求数据
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: FinallyNext; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
@@ -134,7 +144,7 @@ const props = withDefaults(
     ...config?.BaseForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "change", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "submit", "moreBtns"]);
 const $attrs = useAttrs();
 useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
@@ -149,7 +159,7 @@ watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, $emit, modelValue);
+    const result = handleFields(newVal, $attrs, modelValue);
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -167,12 +177,8 @@ defineExpose<{
   [key: string]: any;
 }>({
   formRef,
-  validate() {
-    return footerBtnsRef.value.formValidate();
-  },
-  reset() {
-    footerBtnsRef.value.reset();
-  },
+  validate: () => footerBtnsRef.value.validate(),
+  reset: () => footerBtnsRef.value.reset(),
 });
 </script>
 <style lang="scss">

@@ -7,7 +7,7 @@
       <slot name="header" v-bind="scope" />
     </template>
     <template #content>
-      <BaseTable v-bind="$attrs" :cols="cols" :rows="modelValue" class="table" ref="baseTableRef">
+      <BaseTable v-bind="$attrs" :cols="cols" :data="modelValue" class="table" ref="baseTableRef">
         <template #header="{ column, col }">
           <span :class="{ required: !!col?.field?.required }">{{ column.label }}</span>
         </template>

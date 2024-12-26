@@ -12,7 +12,7 @@ export interface FormAttrs {
 
 export type FormStyleType = "common" | "cell";
 
-export type SectionFormItemType = "custom";
+export type SectionFormItemType = "slot";
 export interface SectionFormItemAttrs {
   prop?: string; // 同ElementPlus 表单组件的prop，使用此属性后，提交的数据则挂载此属性的子属性上
   title: string;

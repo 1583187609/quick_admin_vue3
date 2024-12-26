@@ -2,7 +2,7 @@
   目标：定位为基础表格。继承el-table属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性quickAttrs: popover。
 -->
 <template>
-  <el-table v-bind="defaultTableAttrs" class="base-table" :data="rows" :size="size" ref="tableRef">
+  <el-table v-bind="defaultTableAttrs" class="base-table" :data="data" :size="size" ref="tableRef">
     <Column
       :col="col"
       :size="size"
@@ -43,7 +43,7 @@ import { FilterByAuthFn } from "../crud/BaseCrud/_types";
 const props = withDefaults(
   defineProps<{
     cols: TableColAttrs[]; //表头
-    rows?: CommonObj[]; //表格行数据
+    data?: CommonObj[]; //表格行数据
     size?: CommonSize;
     showSummary?: boolean; //是否显示汇总行
     operateBtnsAttrs?: OperateBtnsAttrs;
@@ -54,7 +54,7 @@ const props = withDefaults(
   {
     size: defaultCommonSize,
     cols: () => [],
-    rows: () => [],
+    data: () => [],
     operateBtns: () => [],
     summaryMethod: handleTableSummary,
   }

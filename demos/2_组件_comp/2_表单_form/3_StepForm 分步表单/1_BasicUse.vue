@@ -1,5 +1,5 @@
 <!-- summary 基础用法
-  这是步骤表单基础用法的介绍内容，待完善。
+  SectionForm属性通过formAttrs传入，步骤条属性通过stepAttrs传入。
  -->
 <template>
   <StepForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></StepForm>

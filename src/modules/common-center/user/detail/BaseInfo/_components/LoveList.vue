@@ -1,6 +1,6 @@
 <!-- 喜欢/被喜欢记录 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows" class="love-list"> </BaseTable>
+  <BaseTable :cols="cols" :data="rows" class="love-list"> </BaseTable>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

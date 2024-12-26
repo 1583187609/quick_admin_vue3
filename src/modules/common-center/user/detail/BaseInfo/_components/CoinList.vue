@@ -1,6 +1,6 @@
 <!-- 金币明细 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows" class="coin-list">
+  <BaseTable :cols="cols" :data="rows" class="coin-list">
     <template #bdje="{ row }">
       <div :class="row.bdje.startsWith('-') ? 'green' : 'red'">
         {{ row.bdje }}

@@ -50,7 +50,6 @@
       :fetch="fetch"
       :afterSuccess="afterSuccess"
       :onFail="onFail"
-      :handleRequest="handleRequest"
       :disabled="!newFields.length"
       :renderData="footer"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
@@ -98,13 +97,6 @@ const props = withDefaults(
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    /**
-     * 处理参数（如果有type，则返回type，否则返回 param 和 return 推导的类型
-     * @type {(args: CommonObj) => CommonObj} TS类型
-     * @param {CommonObj} args 请求参数
-     * @returns {CommonObj} 返回参数
-     */
-    handleRequest?: (args: CommonObj) => CommonObj;
   }>(),
   {
     modelValue: () => reactive({}),
@@ -211,7 +203,7 @@ defineExpose<{
   /**
    * 表单校验
    */
-  formValidate: (str: string, arr: string[]) => any;
+  validate: (str: string, arr: string[]) => any;
   /**
    * 临时的测试方法
    */
@@ -228,8 +220,8 @@ defineExpose<{
    * @param {string[]} arr 传入的数组
    * @returns {void}
    */
-  formValidate(str: string, arr: string[]) {
-    return footerBtnsRef.value.formValidate();
+  validate(str: string, arr: string[]) {
+    return footerBtnsRef.value.validate();
   },
   //表单测试
   tempTestFn_1: () => {

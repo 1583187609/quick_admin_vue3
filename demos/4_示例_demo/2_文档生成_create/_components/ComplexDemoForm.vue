@@ -41,7 +41,6 @@
       :fetch="fetch"
       :afterSuccess="afterSuccess"
       :onFail="onFail"
-      :handleRequest="handleRequest"
       :disabled="!newFields.length"
       :renderData="footer"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
@@ -90,7 +89,6 @@ const props = withDefaults(
     log?: boolean; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
     autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    handleRequest?: (args: CommonObj) => CommonObj; //处理参数
   }>(),
   {
     modelValue: () => reactive({}),
@@ -185,12 +183,12 @@ defineExpose({
 // 下面注释是故意放这里的
 // defineExpose<{
 //   formRef: any; //表单实例
-//   formValidate: () => void; //表单校验
+//   validate: () => void; //表单校验
 //   tempTestFn_1: () => void; //临时的测试方法
 // }>({
 //   formRef,
-//   formValidate() {
-//     return footerBtnsRef.value.formValidate();
+//   validate() {
+//     return footerBtnsRef.value.validate();
 //   },
 //   tempTestFn_1: () => {
 //     console.log("执行了临时的测试方法");

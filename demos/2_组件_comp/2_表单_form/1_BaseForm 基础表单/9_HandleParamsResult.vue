@@ -1,8 +1,6 @@
 <!-- summary 处理请求参数
 extraParams
 omits
-handleRequest
-handleResponse
 afterSuccess
 afterFail
 afterReset
@@ -12,7 +10,6 @@ afterReset
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
     <BaseForm :fields="fields" :fetch="PostMockCommon" :extraParams="extraParams" />
-    <BaseForm :fields="fields" :fetch="PostMockCommon" :handleRequest="handleRequest" :handleResponse="handleResponse" />
     <BaseForm :fields="fields" :fetch="handleFetch" />
   </div>
 </template>
@@ -29,14 +26,6 @@ const fields: FormFieldAttrs[] = [
   { prop: "height", label: "身高", type: "slider", attrs: { min: 0, max: 250 } },
   { prop: "is_private", label: "是否保密", type: "switch", attrs: { activeText: "是", inactiveText: "否" } },
 ];
-// 分两个方法处理
-function handleRequest(args: CommonObj) {
-  return { ...extraParams, ...args };
-}
-function handleResponse(res: CommonObj) {
-  res.type = "随便增加的属性";
-  return res;
-}
 // 一次性统一处理
 function handleFetch(args: CommonObj) {
   args.id = 1;

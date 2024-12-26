@@ -9,7 +9,6 @@
       { name: 'view', text: '查看' },
     ]"
     @moreBtns="onMoreBtns"
-    :handleRequest="handleRequest"
   ></BaseForm>
 </template>
 <script lang="ts" setup>
@@ -65,10 +64,6 @@ function onMoreBtns(name: BtnName, data: CommonObj, next: FinallyNext) {
     },
     name
   );
-}
-function handleRequest(params: CommonObj) {
-  //做一些参数处理……
-  return params;
 }
 </script>
 <style lang="scss" scoped></style>

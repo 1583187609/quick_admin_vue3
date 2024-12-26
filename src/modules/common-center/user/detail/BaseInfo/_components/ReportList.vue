@@ -1,6 +1,6 @@
 <!-- 举报/被举报记录 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows" class="report-list">
+  <BaseTable :cols="cols" :data="rows" class="report-list">
     <template #cljg="{ row, $index }">
       <el-tag :type="statusMap[$index % 2 == 0 ? 'yes' : 'no'].type">{{ statusMap[$index % 2 == 0 ? "yes" : "no"].text }}</el-tag>
     </template>

@@ -3,7 +3,7 @@
   <TestView :records="records">
     <BaseTable
       :cols="cols"
-      :rows="rows"
+      :data="rows"
       style="width: calc(100vw - 600px)"
       :operateBtns="['edit', 'delete']"
       @operateBtns="onOperateBtns"

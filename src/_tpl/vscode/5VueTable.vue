@@ -1,6 +1,6 @@
 <!-- 表格描述 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows">
+  <BaseTable :cols="cols" :data="rows">
     <template #zdy>这是自定义表格列</template>
   </BaseTable>
 </template>

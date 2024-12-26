@@ -34,6 +34,4 @@ export interface CrudProps {
   // compact?: boolean; //表单项之间排列是否紧凑点
   // size?: CommonSize;
   // rowNum?: number; //筛选条件的表单展示几行
-  // handleRequest?: (args: CommonObj) => CommonObj; //处理参数
-  // handleResponse?: (res: any) => any; //处理响应数据
 }

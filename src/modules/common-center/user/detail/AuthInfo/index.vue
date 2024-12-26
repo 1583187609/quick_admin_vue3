@@ -30,13 +30,13 @@
     <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
-    <BaseTable :cols="companyCols" :rows="companyRows" />
+    <BaseTable :cols="companyCols" :data="companyRows" />
   </BaseSection>
   <BaseSection title="学历认证记录">
     <template #head-right>
       <el-tag type="success" class="tag">已完善资料</el-tag>
     </template>
-    <BaseTable :cols="educationCols" :rows="educationRows" />
+    <BaseTable :cols="educationCols" :data="educationRows" />
   </BaseSection>
 </template>
 <script lang="ts" setup>

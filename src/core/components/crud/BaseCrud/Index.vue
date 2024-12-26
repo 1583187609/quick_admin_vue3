@@ -54,7 +54,7 @@
     <slot
       name="content"
       :loading="loading"
-      :rows="newRows"
+      :data="newRows"
       :total="pageInfo.total"
       :hasMore="pageInfo.hasMore"
       :params="params"
@@ -65,7 +65,7 @@
       v-model:cols="newCols"
       :compact="compact"
       :loading="loading"
-      :rows="newRows"
+      :data="newRows"
       :total="pageInfo.total"
       :operateBtns="operateBtns"
       :currPage="pagination ? currPageInfo[currPageKey] : defaultPagination.currPage"
@@ -196,14 +196,12 @@ const props = withDefaults(
     disabled?: boolean; // 是否禁用
     optimization?: boolean; // 默认为 false。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算
     /** 请求控制 **/
-    log?: boolean | "req" | "res"; // 是否打印console.log(rows)
+    log?: boolean | "req" | "res"; // 是否打印console.log(data)
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
     reqMap?: ReqMap; // 请求参数的键名映射
     resMap?: ResMap; // 响应参数的键名映射
     afterSuccess?: (res: any) => void; // 请求成功的回调函数
     afterFail?: (err: any) => void; // 请求成功的回调函数
-    handleRequest?: (args: CommonObj) => CommonObj; //处理参数
-    handleResponse?: (res: any) => any; // 处理响应数据
     /** 下面是待确定项，可以更改名称，可能移除或替换 **/
     summaryList?: SummaryListType; // 汇总请求数据的 list
   }>(),
@@ -228,7 +226,6 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
-const closePopup = inject<ClosePopupInject>("closePopup");
 const { extraParams = {}, pagination } = props;
 const baseCrudRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
@@ -344,16 +341,14 @@ function handleChange(changedVals: CommonObj, isInit?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { fetch, handleRequest, omits, handleResponse, summaryList, afterSuccess, afterFail, log } = props;
+  const { fetch, omits, summaryList, afterSuccess, afterFail, log } = props;
   if (!fetch) return;
   loading.value = true;
-  if (handleRequest) args = handleRequest(args);
   args = omitAttrs(args, omits);
   (log === true || log === "req") && printLog(args, "req");
   fetch(args)
     .then((res: any) => {
       // if (!res) return console.error("未请求到预期数据，请检查接口是否有误");
-      if (handleResponse) res = handleResponse(res);
       const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);
       (log === true || log === "res") && printLog(newList, "res");

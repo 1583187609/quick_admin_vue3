@@ -1,6 +1,6 @@
 <!-- 登录信息 -->
 <template>
-  <BaseTable class="" :cols="cols" :rows="rows"></BaseTable>
+  <BaseTable class="" :cols="cols" :data="rows"></BaseTable>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";

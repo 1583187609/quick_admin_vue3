@@ -1,13 +1,18 @@
-<!-- summary
-  目标：定位为分块（组）表单。
-  功能：继承并扩展基础表单（BaseForm），并扩展了展开/折叠，多级属性设置等功能。
+<!-- summary 分组表单
+  将字段分区块展示。继承并扩展了基础表单（BaseForm），提供了展开/折叠，多级属性设置覆盖等功能。
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    v-bind="defaultFormAttrs"
+    :class="styleType"
+    :model="formData"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
-          <!-- @click="toggleFold($event, sInd)" -->
           <div @click="toggleFold($event, sInd)" class="head f-sb-c">
             <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
@@ -30,10 +35,7 @@
             class="body f-fs-fs-w hover-show-scroll"
             :style="foldStatusList[sInd] ? { maxHeight: 0, overflow: 'hidden' } : { maxHeight: bodyMaxHeight, overflow: 'auto' }"
           >
-            <slot name="body" :section="sItem" :index="sInd" v-if="sItem.type === 'custom'">
-              <slot :name="sItem.prop" />
-            </slot>
-            <!-- <slot :name="sItem.prop" v-if="sItem.type === 'custom'"/> -->
+            <slot :name="sItem.prop ?? `body-${sInd}`" :section="sItem" :index="sInd" v-if="sItem.type === 'slot'" />
             <template v-else>
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItemCol
@@ -41,9 +43,9 @@
                   :formRef="formRef"
                   v-model="formData[sItem.prop][field.prop as string]"
                   v-bind="getLevelsAttrs(field, sItem)"
-                  @blur="(...args) => $emit('blur', ...args)"
-                  @focus="(...args) => $emit('focus', ...args)"
-                  @change="(val:any, prop:any) => $emit('change', val, prop)"
+                  @blur="$attrs.onBlur"
+                  @focus="$attrs.onFocus"
+                  @change="$attrs.onChange"
                   v-if="sItem.prop"
                 >
                   <template #custom="scope">
@@ -57,9 +59,9 @@
                   :formRef="formRef"
                   v-model="formData[field.prop as string]"
                   v-bind="getLevelsAttrs(field, sItem)"
-                  @blur="(...args) => $emit('blur', ...args)"
-                  @focus="(...args) => $emit('focus', ...args)"
-                  @change="(val:any, prop:any) => $emit('change', val, prop)"
+                  @blur="$attrs.onBlur"
+                  @focus="$attrs.onFocus"
+                  @change="$attrs.onChange"
                   v-else
                 >
                   <template #custom="scope">
@@ -91,8 +93,6 @@
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
         :afterReset="afterReset"
-        :handleRequest="handleRequest"
-        :handleResponse="handleResponse"
         @moreBtns="(...args) => $emit('moreBtns', ...args)"
         @submit="(...args) => $emit('submit', ...args)"
         @reset="$attrs.onReset"
@@ -129,42 +129,53 @@ const { merge } = _;
 const { closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
+    /**
+     * 基础属性
+     */
     modelValue?: CommonObj; //表单数据
-    defaultExpands?: number[]; // 默认展开的块
-    styleType?: FormStyleType;
     sections?: SectionFormItem[];
+    bodyMaxHeight?: string; // body内容区域的最大高度
+    foldable?: boolean; //是否允许折叠
+    defaultExpands?: number[]; // 默认展开的块
+    accordion?: boolean; // 是否手风琴模式
+    /**
+     * 继承属性
+     */
+    // labelWidth?: string; //label的宽度
     // grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
     // size?: CommonSize; //是否禁用
     // 布尔值必须写，不然从$attrs传过来后，会处理成''
     readonly?: boolean; //是否只读
     disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
-    // labelWidth?: string; //label的宽度
-    scrollToError?: boolean; //校验失败后是否自动滚到失败位置
-    foldable?: boolean; //是否允许折叠
-    accordion?: boolean; // 是否手风琴模式
+    styleType?: FormStyleType;
+    /**
+     * 底部按钮
+     */
+    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
+    autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
+    submitBtn?: FootBtn; //提交按钮的文字
+    resetBtn?: FootBtn; //提交按钮的文字
+    moreBtns?: BaseBtnType[]; //底部的额外更多按钮
+    loading?: boolean; //提交按钮是否显示加载图标
+    /**
+     * 处理属性
+     */
+    extraParams?: CommonObj; //额外的参数
+    omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的参数
     fetch?: UniteFetchType; //接口请求
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
-    footer?: boolean | BaseRenderComponentType; //是否显示底部按钮
-    submitBtn?: FootBtn; //提交按钮的文字
-    resetBtn?: FootBtn; //提交按钮的文字
-    extraParams?: CommonObj; //额外的参数
-    moreBtns?: BaseBtnType[]; //底部的额外更多按钮
-    loading?: boolean; //提交按钮是否显示加载图标
-    omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的参数
+    /**
+     * 调试属性
+     */
     log?: boolean | string; //是否通过 console.log 打印输出请求参数和响应参数
     debug?: boolean; //是否终止提交，并打印传参
-    bodyMaxHeight?: string; //
-    autoFixedFoot?: boolean; //是否自动固定底部下方按钮（设为false时，盒子阴影才不会被遮挡）
-    handleRequest?: (args: any) => any; // 处理请求参数
-    handleResponse?: (data: any) => any; // 处理请求数据
   }>(),
   {
     modelValue: () => reactive({}),
     styleType: "common",
-    scrollToError: true,
     // size: defaultCommonSize,
     // grid: 24,
     footer: true,
@@ -176,7 +187,7 @@ const props = withDefaults(
     ...config?.SectionForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "change", "blur", "focus", "toggle", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "submit", "toggle", "moreBtns"]);
 const $attrs = useAttrs();
 const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
@@ -197,9 +208,9 @@ watch(
       const { type, prop, fields } = secItem as SectionFormItemAttrs;
       if (typeOf(prop) !== "Undefined") {
         const defVal = modelValue?.[prop as string];
-        formData.value[prop as string] = type === "custom" ? defVal : handleFields(fields, $emit, defVal).data;
+        formData.value[prop as string] = type === "slot" ? defVal : handleFields(fields, $attrs, defVal).data;
       } else {
-        const result = handleFields(fields, $emit, modelValue);
+        const result = handleFields(fields, $attrs, modelValue);
         const { fields: _fields } = result;
         const { data } = result;
         merge(formData.value, data);
@@ -231,7 +242,10 @@ function toggleFold(e: any, ind: number) {
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
+  const {
+    size = field.size ?? sItem.size ?? formAttrs.size,
+    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
+  } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
     readonly = sItem.readonly ?? formAttrs.readonly,
@@ -247,8 +261,8 @@ function handleEnter() {
 }
 defineExpose({
   formRef,
-  formValidate() {
-    return footerBtnsRef.value.formValidate();
+  validate() {
+    return footerBtnsRef.value.validate();
   },
   reset() {
     footerBtnsRef.value.reset();

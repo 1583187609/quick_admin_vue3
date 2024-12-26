@@ -41,8 +41,6 @@ const props = withDefaults(
     afterSuccess?: (params: CommonObj, FinallyNext) => void;
     afterFail?: FinallyNext;
     afterReset?: AfterReset;
-    handleRequest?: (args: any) => any; // 处理请求参数
-    handleResponse?: (data: any) => any; // 处理请求数据
   }>(),
   {
     omits: true,
@@ -68,12 +66,11 @@ function handleValidate() {
   const { log, debug, omits } = props;
   return new Promise((resolve, reject) => {
     let { params } = props;
-    const { formRef, handleRequest } = props;
+    const { formRef } = props;
     if (!formRef) return;
     formRef.validate((valid: any, fieldsObj: CommonObj) => {
       if (valid) {
         params = splitPropsParams(params);
-        if (handleRequest) params = handleRequest(params);
         params = omitAttrs(params, omits);
         if (log || debug) {
           printLog(params, "req", log);
@@ -93,15 +90,14 @@ function handleSubmit(...args) {
   const [tpl, btnObj, next, e] = args;
   handleValidate()
     .then((params: any) => {
-      const { log, fetch, handleResponse, afterSuccess, afterFail } = props;
+      const { log, fetch, afterSuccess, afterFail } = props;
       if (!fetch) return $emit("submit", params, next, e);
       isLoading.value = true;
       fetch(params)
         .then((res: any) => {
           log && printLog(res, "res", log);
-          if (handleResponse) res = handleResponse(res);
-          if (afterSuccess) return afterSuccess(res, next);
-          next();
+          if (!afterSuccess) return next();
+          afterSuccess(res, next);
         })
         .catch((err: any) => afterFail?.(err))
         .finally(() => {
@@ -131,7 +127,7 @@ function handleMoreBtns(...args) {
     .catch(() => {});
 }
 defineExpose({
-  formValidate: handleValidate,
+  validate: handleValidate,
   submit: handleSubmit,
   reset: handleReset,
 });

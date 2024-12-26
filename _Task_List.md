@@ -226,10 +226,19 @@
 15、验证 BaseEditor 是否能在表单中正常展示
 16、将 childrenFields、addDel 抽离出去
 17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常
-18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）
+~~18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）~~
 19、BaseForm 的 pureText 属性未生效
 20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本
 21、清除 Demo 的 vue 文件中的 scss 变量写法（待定，也可能不用删除）
+~~22、table 的 cols、rows 属性考虑要不要改名称~~
+22、docs 脚本中删除因改动文件或文件夹名称，而导致旧的 md 文件成为多余文件的问题
+23、SectionForm 按下 enter 键是否触发提交
+24、验证嵌套的各个插槽是否生效
+24、增加判断是否是初始化数据时触发的表单 change 事件
+25、验证 BaseForm、SectionForm 的 onBlur、onChange、onFocus 事件是否生效
+26、处理每个页面中的...配置，应该提取到某个全局公共处（考虑性能，用户体验，采用懒加载，少混合处理的模式实现）
+27、考虑合并 StepForm 中 formAttrs 属性和 stepAttrs 属性
+28、处理字段类型为 custom 的情况（不被包裹在 el-form-item 中）。并考虑传入字段的方式，对象 OR 可被 BaseRender 渲染的数据信息或者`{type: 'custom',renderData:''}`更倾向于最后一种
 
 ## Demo 功能 Bug 清单
 

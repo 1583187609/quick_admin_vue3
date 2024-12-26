@@ -264,9 +264,9 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         middleFlexGrow: 0,
       },
     },
-    // BasicEditor: {
+    // BaseEditor: {
     //   attrs: {
-    // style: { width: "100%" },
+    //     style: { width: "100%" },
     //   },
     // },
   },

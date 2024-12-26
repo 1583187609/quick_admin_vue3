@@ -1,9 +1,11 @@
 <template>
+  <!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
+  <BaseRender :renderData="field.renderData ?? throwTplError('缺乏renderData')" v-if="currType === 'custom'" />
   <el-form-item
     class="field-item"
     :class="{ 'label-h-center': !!currQuickAttrs?.popover, [`value-v-${currQuickAttrs?.valueAlignContent}`]: true }"
     v-bind="formItemAttrs"
-    v-if="typeof currType === 'string'"
+    v-else
   >
     <!-- el-form-item 的插槽(label、error等) -->
     <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs, currQuickAttrs?.popover)" :key="key">
@@ -61,13 +63,22 @@
     </template>
     <!-- 当有子项表单时 -->
     <template v-else>
-      <AddDelList v-model="modelVal" :fields="subFields" :parentProp="formItemAttrs.prop" :formRef="formRef" v-if="currType === 'addDel'" />
-      <AnyEleList v-model="modelVal" :fields="subFields" :prefixProp="formItemAttrs.prop" v-else-if="currType === 'childrenFields'" />
+      <AddDelList
+        v-model="modelVal"
+        :fields="subFields"
+        :parentProp="formItemAttrs.prop"
+        :formRef="formRef"
+        v-if="currType === 'addDel'"
+      />
+      <AnyEleList
+        v-model="modelVal"
+        :fields="subFields"
+        :prefixProp="formItemAttrs.prop"
+        v-else-if="currType === 'childrenFields'"
+      />
       <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
     </template>
   </el-form-item>
-  <!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
-  <BaseRender :renderData="currType" v-else />
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
@@ -118,7 +129,7 @@ const $emit = defineEmits(["update:modelValue", "change", "blur", "focus"]);
 const $attrs = useAttrs();
 const { labelSuffix, pureText } = useFormAttrs({ ...props, ...$attrs });
 const newPureText = ref(pureText);
-let currType = ref<FormItemType | BaseRenderData>(defaultFormItemType);
+let currType = ref<FormItemType>(defaultFormItemType);
 let currSlots: any; // 当前表单控件的插槽
 let currOptions: any;
 let currFormItemSlots: any; // 当前el-form-item的插槽
@@ -134,6 +145,7 @@ const subFields = ref<FormFieldAttrs[]>([]);
 const formItemTpls = defaultFormItemTplsMap[props.tplType];
 const formItemAttrs = computed<FormFieldAttrs>(() => {
   const { prefixProp, field: originField, isChild } = props;
+  if (originField.type === "custom") return;
   /*** 合并统一 tempField ***/
   let { tpl, ...field } = originField;
   if (tpl) {

@@ -1,9 +1,9 @@
-<!-- summary 基础用法
-  通过 sections 传入分块及字段信息
-  扩展了bodyMaxHeight、foldable、defaultExpands、accordion，其他属性同 BaseForm。
+<!-- summary 属性覆盖原则
+  属性覆盖原则：顶层元素SectionForm的属性可依次被SectionItem、FormFieldItem覆盖
+  labelWidth grid size readonly disabled pureText styleType
  -->
 <template>
-  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon" :grid="12"></SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
@@ -16,6 +16,7 @@ const modelData = reactive<CommonObj>({});
 const sections: SectionFormItemAttrs[] = [
   {
     title: "基础信息",
+    grid: 8,
     fields: [
       { prop: "avatar", label: "头像", type: "BaseUpload" },
       { prop: "name", label: "姓名" },
@@ -31,13 +32,15 @@ const sections: SectionFormItemAttrs[] = [
   },
   {
     title: "教育信息",
+    disabled: true,
     fields: [
-      { prop: "education", label: "学历", type: "select" },
+      { prop: "degree", label: "学历", type: "select" },
       { prop: "school", label: "学校", type: "select", attrs: { options: [] } },
     ],
   },
   {
     title: "职业信息",
+    pureText: true,
     fields: [
       { prop: "job", label: "职业", type: "select" },
       { prop: "annual_salary", label: "年薪", type: "select" },
@@ -45,10 +48,11 @@ const sections: SectionFormItemAttrs[] = [
   },
   {
     title: "附加信息",
+    labelWidth: "10em",
     fields: [
       { prop: "hobby", label: "兴趣爱好", type: "select" },
       { prop: "produce", label: "个人简介", type: "BaseEditor" },
-      { prop: "remark", label: "备注", attrs: { type: "textarea" } },
+      { prop: "remark", label: "备注", labelWidth: "3em", attrs: { type: "textarea" } },
     ],
   },
 ];

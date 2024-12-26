@@ -11,7 +11,7 @@ interface LevelItem {
 type ListItem = string | { content: string; list: ListItem[] };
 interface TableData {
   cols: CommonObj[];
-  rows: CommonObj[];
+  data: CommonObj[];
 }
 interface TopicItem {
   classifyId: number; //所属分类id

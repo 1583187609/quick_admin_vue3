@@ -16,7 +16,7 @@
         </div>
       </div>
       <BaseForm style="height: calc(100% - 70px)" class="f-1" v-model="modelData" :fields="fields" v-if="type === 'baseForm'" />
-      <BaseTable :cols="tableCols" :rows="formFields" v-else-if="type === 'baseTable'" />
+      <BaseTable :cols="tableCols" :data="formFields" v-else-if="type === 'baseTable'" />
       <SectionForm :sections="formSections" v-else-if="type === 'sectionForm'" />
       <BaseCrud :fields="formFields" :cols="tableCols" v-else-if="type === 'baseCrud'" />
     </template>

@@ -3,7 +3,7 @@
 <template>
   <el-table
     class="query-table"
-    :data="rows"
+    :data="data"
     :size="size"
     v-loading="loading"
     @selection-change="handleSelectionChange"
@@ -53,7 +53,7 @@ import config from "@/config";
 const props = withDefaults(
   defineProps<{
     cols: TableColAttrs[]; //表头
-    rows: CommonObj[]; //表格行数据
+    data: CommonObj[]; //表格行数据
     size?: CommonSize;
     compact?: boolean; //是否紧凑
     operateBtns?: OperateBtnsType;
@@ -69,7 +69,7 @@ const props = withDefaults(
   Object.assign(
     {
       cols: () => [],
-      rows: () => [],
+      data: () => [],
       size: defaultCommonSize,
       summaryMethod: handleTableSummary,
     },

@@ -8,7 +8,7 @@
     v-model="modelData"
     :cols="cols"
     :fields="fields"
-    :fetch="GetMockCommon"
+    :fetch="handleFetch"
     :importCfg="testImportCfg"
     :extraBtns="[
       'add',
@@ -58,7 +58,6 @@
     :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    :handleRequest="(args:CommonObj) => handleRegionParams(args, ['live_city'])"
     compact
     selection
   >
@@ -397,6 +396,10 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
     },
     name
   );
+}
+function handleFetch(args: CommonObj) {
+  args = handleRegionParams(args, ["live_city"]);
+  return GetMockCommon(args);
 }
 //新增/编辑
 async function handleAddEdit(row: CommonObj | undefined, next: FinallyNext) {

@@ -3,7 +3,7 @@
     style="width: 400px"
     :cols="cols"
     :rowClassName="({ row }) => (row.hidden ? 'hidden-row' : '')"
-    :rows="rows"
+    :data="rows"
     :size="size"
     :key="tableKey"
   >
@@ -36,12 +36,10 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import BaseTable from "@/core/components/table/BaseTable.vue";
-import { SpecialTableColType, TableColAttrs } from "@/core/components/table/_types";
+import { TableColAttrs } from "@/core/components/table/_types";
 import { CommonObj, CommonSize } from "@/core/_types";
 import config from "@/config";
 import { showMessage } from "@/core/utils";
-import { specialColKeys } from "@/core/components/table";
 
 export type SetTableColType = "visible" | "exportable" | "sortable";
 export interface SetTableChangeParams {

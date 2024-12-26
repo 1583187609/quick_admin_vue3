@@ -1,6 +1,6 @@
 <!-- 关于你/关于我提交记录 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows" class="about-list"></BaseTable>
+  <BaseTable :cols="cols" :data="rows" class="about-list"></BaseTable>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

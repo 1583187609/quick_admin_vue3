@@ -28,10 +28,10 @@ export type FormChildrenType =
 export type SystemFormItemType =
   // 其他
   | "slot"
-  | "empty"
+  | "custom"
   // 内置系统组件
   | "BaseNumberRange"
-  | "BasicEditor"
+  | "BaseEditor"
   | "BaseUpload";
 
 export type FormItemType = ElFormItemType | SystemFormItemType | FormChildrenType;
@@ -79,7 +79,8 @@ export type FormItemTplTypes =
 export interface FormFieldAttrs {
   tpl?: FormItemTplTypes; // 模板规则
   key?: any; //v-for的key，如果不写，则是默认的index作为key
-  type?: FormItemType; //控件类型，例：input
+  type?: FormItemType; // 控件类型，例：input
+  renderData?: BaseRenderData; // 当type为custom时有效。不会被el-form-item包裹，而是直接被BaseRender渲染
   /** 下面是 el-form-item 的属性 **/
   class?: any; //el-form-item 的class属性
   style?: any; //el-form-item 的style属性

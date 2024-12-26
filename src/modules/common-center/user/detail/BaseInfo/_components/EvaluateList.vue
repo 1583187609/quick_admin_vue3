@@ -1,6 +1,6 @@
 <!-- 评价记录 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows" class="report-list"> </BaseTable>
+  <BaseTable :cols="cols" :data="rows" class="report-list"> </BaseTable>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

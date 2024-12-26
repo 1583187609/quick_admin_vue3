@@ -2,7 +2,7 @@
   内嵌组件 
 -->
 <template>
-  <BaseTable :cols="cols" :rows="rows" :operateBtns="['edit', 'delete']" @operateBtns="onOperateBtns">
+  <BaseTable :cols="cols" :data="rows" :operateBtns="['edit', 'delete']" @operateBtns="onOperateBtns">
     <template #zdy>这是自定义表格列</template>
   </BaseTable>
 </template>

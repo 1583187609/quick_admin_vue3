@@ -1,5 +1,5 @@
 <!-- summary 插槽规则
-  section部分有prop属性时，插槽名称，反之插槽名称
+  section部分有prop属性时，以插槽名称，反之以section的index作为插槽名称
  -->
 <template>
   <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></SectionForm>
@@ -8,52 +8,49 @@
 import { reactive } from "vue";
 import { CommonObj } from "@/core/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
-import { SectionFormItem } from "@/core/components/form/_types";
+import { SectionFormItem, SectionFormItemAttrs } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 
 const modelData = reactive<CommonObj>({});
-const sections: SectionFormItem[] = [
+const sections: SectionFormItemAttrs[] = [
   {
-    prop: "part_1",
-    title: "第一部分",
+    title: "基础信息",
     fields: [
+      { prop: "avatar", label: "头像", type: "BaseUpload" },
       { prop: "name", label: "姓名" },
       { prop: "gender", label: "性别" },
+      { prop: "height", label: "身高" },
+      { prop: "weight", label: "体重" },
+      { prop: "age", label: "年龄", type: "input-number", attrs: { min: 0, max: 150 } },
+      { prop: "status", label: "情感状态", type: "select" },
+      { prop: "phone", label: "电话", attrs: { maxlength: 11 } },
+      { prop: "identity", label: "身份证号", attrs: { maxlength: 18 } },
+      { prop: "address", label: "住址", type: "cascader" },
     ],
   },
   {
-    prop: "part_2",
-    title: "第二部分",
+    prop: "education_info",
+    title: "教育信息",
+    disabled: true,
     fields: [
-      { prop: "cellphone", label: "电话" },
-      { prop: "password", label: "密码" },
+      { prop: "degree", label: "学历", type: "select" },
+      { prop: "school", label: "学校", type: "select", attrs: { options: [] } },
     ],
   },
   {
-    prop: "part_3",
-    title: "第三部分",
+    title: "职业信息",
+    prop: "vocational_info",
     fields: [
-      {
-        prop: "height",
-        label: "身高",
-        quickAttrs: {
-          grid: 12,
-        },
-      },
-      {
-        prop: "weight",
-        label: "体重",
-        quickAttrs: {
-          grid: 12,
-        },
-      },
-      {
-        prop: "age",
-        label: "年龄",
-        quickAttrs: {
-          grid: 12,
-        },
-      },
+      { prop: "job", label: "职业", type: "select" },
+      { prop: "annual_salary", label: "年薪", type: "select" },
+    ],
+  },
+  {
+    title: "附加信息",
+    fields: [
+      { prop: "hobby", label: "兴趣爱好", type: "select" },
+      { prop: "produce", label: "个人简介", type: "BaseEditor" },
+      { prop: "remark", label: "备注", attrs: { type: "textarea" } },
     ],
   },
 ];

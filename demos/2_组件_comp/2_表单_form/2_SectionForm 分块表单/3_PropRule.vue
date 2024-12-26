@@ -1,9 +1,8 @@
-<!-- summary 基础用法
-  通过 sections 传入分块及字段信息
-  扩展了bodyMaxHeight、foldable、defaultExpands、accordion，其他属性同 BaseForm。
+<!-- summary 区块上的prop规则
+  section部分有prop属性时，参数会包裹一层，反之，则直接挂在双向绑定的数据上。
  -->
 <template>
-  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon" :grid="12"></SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
@@ -20,9 +19,9 @@ const sections: SectionFormItemAttrs[] = [
       { prop: "avatar", label: "头像", type: "BaseUpload" },
       { prop: "name", label: "姓名" },
       { prop: "gender", label: "性别" },
-      { prop: "age", label: "年龄", type: "input-number", attrs: { min: 0, max: 150 } },
       { prop: "height", label: "身高" },
       { prop: "weight", label: "体重" },
+      { prop: "age", label: "年龄", type: "input-number", attrs: { min: 0, max: 150 } },
       { prop: "status", label: "情感状态", type: "select" },
       { prop: "phone", label: "电话", attrs: { maxlength: 11 } },
       { prop: "identity", label: "身份证号", attrs: { maxlength: 18 } },
@@ -30,14 +29,17 @@ const sections: SectionFormItemAttrs[] = [
     ],
   },
   {
+    prop: "education_info",
     title: "教育信息",
+    disabled: true,
     fields: [
-      { prop: "education", label: "学历", type: "select" },
+      { prop: "degree", label: "学历", type: "select" },
       { prop: "school", label: "学校", type: "select", attrs: { options: [] } },
     ],
   },
   {
     title: "职业信息",
+    prop: "vocational_info",
     fields: [
       { prop: "job", label: "职业", type: "select" },
       { prop: "annual_salary", label: "年薪", type: "select" },

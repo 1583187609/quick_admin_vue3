@@ -85,7 +85,6 @@
       }"
       @extraBtns="onExtraBtns"
       @operateBtns="onOperateBtns"
-      :handleRequest="(args:CommonObj) => handleRegionParams(args, ['live_city'])"
       compact
       ref="baseCrudRef"
     >
@@ -344,7 +343,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
+                    desc: [
+                      "单个项目的常用组件，采用内嵌至系统的方式。",
+                      "预设了列宽，prop等属性",
+                      "可通过attrs传入UserInfo组件的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -459,7 +462,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击整个文本域进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -489,7 +496,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击文本跳转页面，点击图标进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
