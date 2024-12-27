@@ -2,7 +2,7 @@
   目标：定位为基础表格。继承el-table属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性quickAttrs: popover。
 -->
 <template>
-  <el-table v-bind="defaultTableAttrs" class="base-table" :data="data" :size="size" ref="tableRef">
+  <el-table v-bind="defaultTableAttrs" v-loading="isLoading" class="base-table" :data="data" :size="size" ref="tableRef">
     <Column
       :col="col"
       :size="size"
@@ -29,7 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
+import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import Column, { RowBtnInfo } from "@/core/components/table/_components/Column.vue";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { defaultTableAttrs, operateBtnsEmitName, getHandleCols } from "@/core/components/table";
@@ -42,14 +42,29 @@ import { FilterByAuthFn } from "../crud/BaseCrud/_types";
 
 const props = withDefaults(
   defineProps<{
-    cols: TableColAttrs[]; //表头
-    data?: CommonObj[]; //表格行数据
+    /**
+     * 基础属性
+     */
+    cols: TableColAttrs[]; // 表头
+    data?: CommonObj[]; // 表格行数据
     size?: CommonSize;
-    showSummary?: boolean; //是否显示汇总行
-    operateBtnsAttrs?: OperateBtnsAttrs;
+    loading?: boolean; // 是否处于加载中
+    /**
+     * 处理过的属性
+     */
+    showSummary?: boolean; // 是否显示汇总行
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
     filterBtnsByAuth?: (btns: BtnItem[], filterByAuth?: FilterByAuthFn) => BtnItem[];
+    /**
+     * 操作栏属性
+     */
     operateBtns?: BtnItem[];
+    operateBtnsAttrs?: OperateBtnsAttrs;
+    /**
+     * 请求属性
+     */
+    // params?: CommonObj;
+    // fetch?: UniteFetchType;
   }>(),
   {
     size: defaultCommonSize,
@@ -62,12 +77,27 @@ const props = withDefaults(
 const $emit = defineEmits([operateBtnsEmitName]);
 
 let rowNum = props.showSummary ? 2 : 1;
+const isLoading = ref(props.loading);
 const tableRef = ref<any>();
 const newCols = reactive<TableColAttrs[]>(
   getHandleCols(props, (maxLev: number) => {
     rowNum += maxLev - 1;
   })
 );
+// const rows = ref(props.data);
+// fetchRows();
+// function fetchRows() {
+//   const { fetch, params } = props;
+//   if (!fetch) return;
+//   isLoading.value = true;
+//   return fetch(params)
+//     .then(res => {
+//       rows.value = res;
+//     })
+//     .finally(() => {
+//       isLoading.value = false;
+//     });
+// }
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, e: Event) {
   const { name } = btnObj;

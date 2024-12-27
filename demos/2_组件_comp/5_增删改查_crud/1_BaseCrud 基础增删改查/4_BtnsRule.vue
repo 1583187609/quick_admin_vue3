@@ -1,12 +1,13 @@
-<!-- summary 查询条件分类
-  摘要介绍暂时略
+<!-- summary 按钮规则
+  按钮分为两块：额外按钮、操作栏按钮，它们遵循同样的规则。
+  按钮属性可为：函数、数组
+  若为数组，数组元素可为：字符串、对象、函数
 -->
 <template>
   <BaseCrud
     :style="{ height: showMaxHeight }"
     :cols="cols"
     :fields="fields"
-    :sections="sections"
     :fetch="GetMockUser"
     :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
@@ -28,21 +29,23 @@
   </BaseCrud>
 </template>
 <script lang="ts" setup>
+import { ref } from "vue";
 import { DeleteMockUser, GetMockUser, PatchMockUser } from "@/api-mock";
+import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
+// import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 import { TableDragSortEndNext } from "@/core/components/table/_types";
-import { SectionFormItemAttrs } from "@/core/components/form/_types";
-import { useSelectOpts, usePopup } from "@/hooks";
+
+import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 
-const { getSearchOpts } = useSelectOpts();
-const fields = [
+const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },
   {
@@ -74,44 +77,7 @@ const fields = [
       options: "D_EnableStatus",
     },
   },
-  {
-    prop: "multi_tag",
-    label: "多标签",
-    type: "select",
-    attrs: {
-      options: "D_RoleType",
-      multiple: true,
-    },
-  },
-  {
-    prop: "live_city",
-    label: "居住地址",
-    type: "cascader",
-    attrs: {
-      options: "C_Region",
-      filterable: true,
-    },
-  },
-  getSearchOpts("school", {
-    prop: "schoolId",
-    label: "学校",
-    quickAttrs: {
-      popover: "采用hooks封装复杂逻辑",
-    },
-  }),
-  getSearchOpts("company", {
-    prop: "companyId",
-    label: "公司",
-    quickAttrs: {
-      popover: "hooks封装且自定义选择下拉项",
-    },
-  }),
-];
-const sections: SectionFormItemAttrs[] = [
-  { title: "基础", fields: fields.slice(0, 2) },
-  { title: "下拉", fields: fields.slice(2, 8) },
-  { title: "其他", fields: fields.slice(8) },
-];
+]);
 const cols: TableCol[] = [
   { type: "selection" },
   { type: "sort" },
@@ -163,10 +129,7 @@ function handleDelete(ids: string[], next: FinallyNext) {
 }
 //导出
 function handleExport(ids: string[], next: FinallyNext) {
-  GetMockUser({ exports: true }).then((res: any) => {
-    exportExcel(res, "用户列表");
-    next();
-  });
+  GetMockUser({ exports: true }).then((res: any) => next());
 }
 //禁用
 function handleToggleStatus(row: CommonObj, next: FinallyNext) {

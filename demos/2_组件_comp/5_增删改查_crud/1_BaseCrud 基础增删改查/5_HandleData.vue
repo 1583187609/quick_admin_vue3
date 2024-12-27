@@ -1,6 +1,7 @@
-<!-- summary 基础用法
-  基础表单项、表格列
-  查询条件可分块或不分块
+<!-- summary 请求参数&响应数据 处理
+  请求参数：规则同BaseForm
+  响应数据：规则同BaseTable
+  可统一处理：
 -->
 <template>
   <BaseCrud

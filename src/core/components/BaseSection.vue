@@ -6,7 +6,7 @@
     <div class="head f-sb-c">
       <div class="title f-fs-c f-1">
         <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
-        <el-badge :value="badge" class="ml-q" :max="99" :hidden="!badge" />
+        <el-badge class="ml-q" v-bind="{ ...defaultBadgeAttrs, ...badgeAttrs }" v-if="badgeAttrs" />
       </div>
       <slot name="head-right" />
       <el-icon @click="fold = !fold" class="fold-btn" :class="fold ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
@@ -21,24 +21,24 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { CaretTop } from "@element-plus/icons-vue";
+import { CommonObj } from "../_types";
 
+const defaultBadgeAttrs = {
+  max: 99,
+};
 const props = withDefaults(
   defineProps<{
     title?: string;
-    badge?: number | string;
-    max?: number;
+    badgeAttrs?: CommonObj;
     bodyClass?: string;
     foldable?: boolean;
   }>(),
   {
     title: "标题",
-    badge: 0,
-    max: 99,
     bodyClass: "",
     foldable: false,
   }
 );
-const badge = Number(props.badge);
 const fold = ref(false);
 </script>
 <style lang="scss" scoped>

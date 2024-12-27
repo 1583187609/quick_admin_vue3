@@ -239,6 +239,12 @@
 26、处理每个页面中的...配置，应该提取到某个全局公共处（考虑性能，用户体验，采用懒加载，少混合处理的模式实现）
 27、考虑合并 StepForm 中 formAttrs 属性和 stepAttrs 属性
 28、处理字段类型为 custom 的情况（不被包裹在 el-form-item 中）。并考虑传入字段的方式，对象 OR 可被 BaseRender 渲染的数据信息或者`{type: 'custom',renderData:''}`更倾向于最后一种
+29、统一 SectionForm 的 title 为 label 名称（待确定）
+30、验证有 props、无 props、整体插槽内容是否生效
+31、BaseTable 提供 fetch、params 等参数，不分页(待确定)
+32、将各个 Demo 示例用空文件占好位置（罗列好组件要包含的内容，方便随时查漏补缺），用`待完善示意`
+34、处理 BaseCrud 中的表单的创建时间区间的 props，考虑要不要用 quickAttrs 来传递属性 rangeProps: [minProp, maxProp]（待确定）
+33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）
 
 ## Demo 功能 Bug 清单
 

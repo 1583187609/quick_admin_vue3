@@ -1,6 +1,10 @@
-<!-- summary 基础用法
-  基础表单项、表格列
-  查询条件可分块或不分块
+<!-- summary 多弹出层处理
+  导入弹窗（自带，无需引入）
+  新增/编辑弹窗（openPopup打开，next回调关闭）
+  xx列表（抽屉打开，next回调关闭）
+  xx详情（dialog，openPopup打开）
+  xxx长文本弹窗（自带）
+  批量删除、批量驳回、批量通过弹窗
 -->
 <template>
   <BaseCrud

@@ -1,5 +1,5 @@
 <!-- summary 单例多图
-  一个dom载体，渲染多个图表。
+  在一个dom元素中，渲染多个图表。
   layout设置行x列。
 -->
 <template>

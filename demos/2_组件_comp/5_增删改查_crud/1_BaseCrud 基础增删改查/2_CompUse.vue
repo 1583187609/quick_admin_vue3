@@ -1,5 +1,6 @@
-<!-- summary 内嵌组件
-  内嵌组件的说明
+<!-- summary 组件用法
+  内置组件
+  内嵌组件
 -->
 <template>
   <BaseCrud

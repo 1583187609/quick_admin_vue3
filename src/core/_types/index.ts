@@ -16,7 +16,7 @@ export * from "@/core/components/BasicPopup/_types";
 export type ClassType = any;
 export type StyleType = any;
 export type FetchType = (data?: CommonObj) => Promise<AxiosResponse<any, any>>;
-export type UniteFetchType = FetchType | ((params: CommonObj) => FetchType);
+export type UniteFetchType = FetchType | ((params?: CommonObj) => FetchType);
 export type SetTimeout = null | NodeJS.Timeout;
 export type SetInterval = null | NodeJS.SetInterval;
 export type TostMessageType = messageType;

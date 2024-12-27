@@ -1,7 +1,7 @@
 <template>
   <div @click="openSelectIcon" class="icon-box f-c-c">
     <template v-if="iconName">
-      <BaseIcon class="q-line-1" style="line-height: 1" size="28" :name="iconName"></BaseIcon>
+      <BaseIcon class="q-line-1" style="line-height: 1" size="28" :name="iconName" />
       <span class="ml-h">{{ iconName }}</span>
     </template>
     <span class="placeholder" v-else> 点击选择图标 </span>

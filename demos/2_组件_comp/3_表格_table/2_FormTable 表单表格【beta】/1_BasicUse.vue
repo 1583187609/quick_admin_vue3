@@ -1,5 +1,9 @@
 <!-- summary 
-  基础用法
+  cols接受表格列
+  v-model接受表单数据
+  formAttrs接收表单属性
+  表单属性透传
+  注：表单属性、表格属性同BaseForm和BaseTable
  -->
 <template>
   <FormTable :cols="cols" v-model="rows" :operateBtns="['edit', 'delete']" @operateBtns="onOperateBtns">
