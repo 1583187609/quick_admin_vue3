@@ -1,5 +1,6 @@
-<!-- summary 基础用法
-全局按钮模板、全局表单项模板、全局表格列模板、全局字典、
+<!-- summary 全局表格配置
+  基础属性
+  全局表格列模板、
 -->
 <template>
   <div class="example-vue">example-vue</div>

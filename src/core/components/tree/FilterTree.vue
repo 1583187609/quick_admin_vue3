@@ -1,4 +1,6 @@
-<!-- 带过滤条件的树 -->
+<!-- summary
+  继承自BaseTree，带过滤条件的树。
+-->
 <template>
   <div class="filter-tree f-fs-s-c" :style="style" :class="props.class">
     <el-input class="f-0" size="small" v-model.trim="filterText" placeholder="请输入搜索词" clearable v-bind="inputAttrs">

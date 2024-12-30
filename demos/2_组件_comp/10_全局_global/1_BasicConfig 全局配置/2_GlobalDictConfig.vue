@@ -1,5 +1,6 @@
-<!-- summary 基础用法
-  Css变量：src/assets/styles/_var.scss
+<!-- summary 全局字典配置
+全局字典
+全局字典模板
 -->
 <template>
   <div class="example-vue">example-vue</div>

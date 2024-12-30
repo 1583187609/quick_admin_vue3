@@ -1,6 +1,11 @@
 <!-- 页面-简介 -->
 <template>
-  <el-form-item style="width: 100%" :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }" v-for="(item, ind) in newList" :key="ind">
+  <el-form-item
+    style="width: 100%"
+    :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }"
+    v-for="(item, ind) in newList"
+    :key="ind"
+  >
     <!-- <el-space> -->
     <el-row>
       <!-- :grid="field?.quickAttrs?.grid ?? grid"
@@ -11,7 +16,7 @@
       :labelWidth="field?.labelWidth ?? labelWidth" -->
       <FieldItemCol
         v-model="newList[ind][field.prop as string]"
-        :prefixProp="`${parentProp}[${ind}]`"
+        :prefixProp="`${prefixProp}[${ind}]`"
         :field="field"
         isChild
         :ref="el => initRefsList(el, ind)"
@@ -19,7 +24,11 @@
         :key="fInd"
       />
     </el-row>
-    <IconBtns fontSize="26" @click="(type:IconBtnTpl)=>handleAddDel(type,ind)" :tpl="ind < newList.length - 1 ? 'delete' : 'add'" />
+    <IconBtns
+      fontSize="26"
+      @click="(type:IconBtnTpl)=>handleAddDel(type,ind)"
+      :tpl="ind < newList.length - 1 ? 'delete' : 'add'"
+    />
     <!-- </el-space> -->
   </el-form-item>
 </template>
@@ -37,7 +46,7 @@ const { merge, isEqual } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
-    parentProp: string;
+    prefixProp: string;
     fields: FormField[];
     // grid?: Grid;
     // size?: CommonSize;
@@ -48,7 +57,7 @@ const props = withDefaults(
     formRef?: any;
   }>(),
   {
-    parentProp: "",
+    // prefixProp: "",
     fields: () => [],
   }
 );
@@ -110,7 +119,7 @@ function handleAddDel(type: IconBtnTpl, ind: number) {
       // }, 500);
     }
     if (!formRef) return handle();
-    const propsArr = Object.keys(newList.value[0]).map((key: string) => `${props.parentProp}[${ind}].${key}`);
+    const propsArr = Object.keys(newList.value[0]).map((key: string) => `${props.prefixProp}[${ind}].${key}`);
     formRef.validateField(propsArr, (isValid, inValidFields: CommonObj) => {
       if (isValid) return handle();
       const target = Object.values(inValidFields)[0][0];

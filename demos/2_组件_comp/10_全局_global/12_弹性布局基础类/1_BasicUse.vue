@@ -1,5 +1,7 @@
 <!-- summary 基础用法
-全局按钮模板、全局表单项模板、全局表格列模板、全局字典、
+  地址链接：
+  [Github 地址](https://1583187609.github.io/produce/flex-layout)（国外服务，初次加载较慢）
+  [Gitee 地址](http://fanlichuan.gitee.io/produce/flex-layout/index.html)（暂不可用，服务维护升级）
 -->
 <template>
   <div class="example-vue">example-vue</div>

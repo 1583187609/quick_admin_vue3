@@ -62,11 +62,11 @@
       <div class="notice" v-html="'注：' + currQuickAttrs.tips" v-if="currQuickAttrs?.tips" />
     </template>
     <!-- 当有子项表单时 -->
-    <template v-else>
+    <!-- <template v-else>
       <AddDelList
         v-model="modelVal"
         :fields="subFields"
-        :parentProp="formItemAttrs.prop"
+        :prefixProp="formItemAttrs.prop"
         :formRef="formRef"
         v-if="currType === 'addDel'"
       />
@@ -77,7 +77,7 @@
         v-else-if="currType === 'childrenFields'"
       />
       <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
-    </template>
+    </template> -->
   </el-form-item>
 </template>
 <script lang="ts" setup>
@@ -96,8 +96,8 @@ import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
 import _ from "lodash";
 // 下列两个组件不采用按需加载方式，不然控件会出现延迟出现的现象
-import AddDelList from "../AddDelList.vue";
-import AnyEleList from "../AnyEleList.vue";
+// import AddDelList from "../AddDelList.vue";
+// import AnyEleList from "../AnyEleList.vue";
 import { BaseRenderData } from "@/core/components/BaseRender.vue";
 
 const { merge } = _;

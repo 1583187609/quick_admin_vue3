@@ -1,5 +1,5 @@
 <!-- summary 基础树 
-  扩展了叶子节点点击事件
+  继承el-tree，并扩展了叶子节点点击事件 onLeafNodeClick
 -->
 <template>
   <el-tree @nodeClick="handleNodeClick" class="base-tree hover-show-scroll" :load="load" :data="data" :lazy="lazy" ref="treeRef">

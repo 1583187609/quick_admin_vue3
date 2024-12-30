@@ -146,14 +146,15 @@
 ~~136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入（维持现状，不改动）~~
 ~~132、将表格项、表格列、按钮、校验规则等配置项都单独提取到一个模板文件夹下统一管理（待定）~~
 ~~142、删除 db 脚本及其相关项~~
+~~107、BarsImg 视情况而改名。~~
+~~149、简化按钮 loading，用 ElementPlus 提供的 loading 属性完成~~
+~~150、BaseBtn 的 validateForm 属性有待重新确定~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
 64、封装 TreeCrud 组件（自行拼装即可）
-74、将 Quick 的内核抽离成 npm 包
-124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供
@@ -163,12 +164,10 @@
 106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
-107、BarsImg 视情况而改名。
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
 114、将 docs、demos 文件夹放入.vitepress 中
-116、新增虚拟列表组件
 118、qrcode 支持传入 url（即外部传入的图片）
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 120、表格列宽默认宽度为：label 的字符数+1
@@ -182,18 +181,16 @@
 136、完善 BaseCountTo 方法
 137、增加演示功能模块
 138、按新划分菜单模块进行菜单重组
-139、完善自动路由逻辑
-140、处理导入逻辑
+~~139、完善自动路由逻辑~~
+~~144、抽离 IconPicker 组件~~
+140、处理导入逻辑（完善功能）
 141、爬取 ElementPlus 官网中的表格属性数据
 142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
 143、整理 menuTree 组件
-144、抽离 IconPicker 组件
 145、将表格列的 type 支持传入任意组件
 146、将对表单的字段处理，分别放在 FormItem、FieleItem、FieldItmeCol 中
 147、完善低码中心的配置 JSON 生成页面的逻辑
-148、整合 extraBtns 中的导入按钮逻辑到 BaseBtn 中
-149、简化按钮 loading，用 ElementPlus 提供的 loading 属性完成
-150、BaseBtn 的 validateForm 属性有待重新确定
+~~148、整合 extraBtns 中的导入按钮逻辑到 BaseBtn 中~~
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 152、将 formItem 的子项拆分出来（不应该放入里面，会导致组件变得臃肿庞大）
 153、将公共 Css 加上前缀
@@ -206,8 +203,12 @@
 
 156、将各个组件的属性实现继承
 157、在弹窗属性中实现 v-model 的写法
+158、全局配置
 
 ## Demo 功能验证清单
+
+~~18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）~~
+~~22、table 的 cols、rows 属性考虑要不要改名称~~
 
 1、BaseIcon 的默认值
 2、BaseBtn 的默认值（用新增按钮），验证继承的`el-button`属性是否生效（重点关注 icon 传入字符串或组件时是否渲染正常，不考虑支持直接传入字符串（考虑性能，跟 el-button 保持一致就好））  
@@ -226,11 +227,9 @@
 15、验证 BaseEditor 是否能在表单中正常展示
 16、将 childrenFields、addDel 抽离出去
 17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常
-~~18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）~~
 19、BaseForm 的 pureText 属性未生效
 20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本
 21、清除 Demo 的 vue 文件中的 scss 变量写法（待定，也可能不用删除）
-~~22、table 的 cols、rows 属性考虑要不要改名称~~
 22、docs 脚本中删除因改动文件或文件夹名称，而导致旧的 md 文件成为多余文件的问题
 23、SectionForm 按下 enter 键是否触发提交
 24、验证嵌套的各个插槽是否生效
@@ -245,6 +244,8 @@
 32、将各个 Demo 示例用空文件占好位置（罗列好组件要包含的内容，方便随时查漏补缺），用`待完善示意`
 34、处理 BaseCrud 中的表单的创建时间区间的 props，考虑要不要用 quickAttrs 来传递属性 rangeProps: [minProp, maxProp]（待确定）
 33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）
+34、SectionForm 换用 BaseSection 验证功能
+35、完善 AddDelList、AnyEleList、AddDelTag 组件功能
 
 ## Demo 功能 Bug 清单
 
@@ -292,11 +293,18 @@
 67、路由多级缓存（参照：Fantastic Admin）
 68、菜单标记（数字、点、文字标签标记）
 69、增加编辑表单时页面离开提醒
+116、新增虚拟列表组件
+117、打开文件&预览通用组件（打开并预览 pdf）
 
 ## Docs 功能清单
 
 1、让 docs 主题色跟 admin 主题色保持一致
 2、处理左侧和顶部菜单高亮不生效的问题
+
+## Npm 包清单
+
+74、将 Quick 的内核抽离成 npm 包
+124、`Quick Echarts Vue3`、`Quick Storage` 抽成 npm 包
 
 ## 未来功能清单
 

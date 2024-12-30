@@ -1,6 +1,7 @@
 <!-- summary 基础用法
   这是BaseSection的基础使用示例。
   徽章属性
+  popover属性
   折叠属性
   设置bodyClass
 -->

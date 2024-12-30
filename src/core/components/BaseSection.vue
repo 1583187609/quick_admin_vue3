@@ -2,26 +2,28 @@
 目标：内容分块的布局载体。并提供了折叠等功能。
 -->
 <template>
-  <div class="base-section">
-    <div class="head f-sb-c">
-      <div class="title f-fs-c f-1">
+  <div class="base-section" :class="{ border }">
+    <div class="head f-sb-c" @click="toggleFold">
+      <div class="title f-fs-c f-0">
         <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
+        <QuestionPopover :popover="popover" class="ml-q f-0 mr-h" v-if="popover" />
         <el-badge class="ml-q" v-bind="{ ...defaultBadgeAttrs, ...badgeAttrs }" v-if="badgeAttrs" />
       </div>
       <slot name="head-right" />
-      <el-icon @click="fold = !fold" class="fold-btn" :class="fold ? 'rotate-180' : ''" size="1.5em" v-if="foldable">
-        <CaretTop />
+      <el-icon @click="fold = !fold" class="fold-btn f-0" :class="fold ? 'rotate-90' : ''" size="1.5em" v-if="foldable">
+        <ArrowRight />
       </el-icon>
     </div>
-    <div class="body" :class="{ [bodyClass]: true, fold }">
+    <el-row class="body hover-show-scroll" :class="{ [bodyClass]: true, fold }">
       <slot><BaseEmpty /></slot>
-    </div>
+    </el-row>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { CaretTop } from "@element-plus/icons-vue";
-import { CommonObj } from "../_types";
+import { ArrowRight } from "@element-plus/icons-vue";
+import QuestionPopover from "@/core/components/QuestionPopover.vue";
+import { CommonObj, PopoverType } from "../_types";
 
 const defaultBadgeAttrs = {
   max: 99,
@@ -29,27 +31,43 @@ const defaultBadgeAttrs = {
 const props = withDefaults(
   defineProps<{
     title?: string;
+    popover?: PopoverType;
     badgeAttrs?: CommonObj;
-    bodyClass?: string;
     foldable?: boolean;
+    border?: boolean;
+    bodyClass?: string;
+    bodyMaxHeight?: string;
+    defaultFold?: boolean;
   }>(),
   {
-    title: "标题",
+    title: "未命名标题",
+    border: true,
     bodyClass: "",
-    foldable: false,
+    // foldable: false,
+    // defaultFold: false,
+    bodyMaxHeight: "90vh",
   }
 );
-const fold = ref(false);
+const $emit = defineEmits(["toggle"]);
+const fold = ref(props.defaultFold);
+function toggleFold(e) {
+  if (!e.target?.classList?.contains("head")) return;
+  fold.value = !fold.value;
+  $emit("toggle", fold.value);
+}
 </script>
 <style lang="scss" scoped>
 .base-section {
-  border-radius: $radius-main;
-  border: $border-main;
+  &.border {
+    border: $border-main;
+    border-radius: $radius-main;
+    @include shadow-main();
+  }
   background: #fff;
-  @include shadow-main();
   .head {
     padding: $gap-half $gap;
     .title {
+      margin-right: auto;
       font-size: $font-size-heavy;
       font-weight: 500;
       &::before {
@@ -74,13 +92,13 @@ const fold = ref(false);
   .body {
     padding: $gap-half $gap;
     border-top: $border-main;
-    overscroll-behavior: none;
-    // transition: all $transition-time-main;
-    // max-height: 100vh;
+    // overscroll-behavior: auto; // 默认为auto
+    transition: all $transition-time-main;
+    max-height: v-bind(bodyMaxHeight);
+    overflow: "auto";
     &.fold {
-      display: none;
-      // max-height: 0;
-      // overflow: hidden;
+      max-height: 0;
+      overflow: "hidden";
     }
   }
 }

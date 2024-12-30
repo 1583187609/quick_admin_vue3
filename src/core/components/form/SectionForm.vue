@@ -12,7 +12,7 @@
   >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
-        <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
+        <!-- <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
           <div @click="toggleFold($event, sInd)" class="head f-sb-c">
             <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
@@ -32,7 +32,8 @@
             </el-icon>
           </div>
           <el-row
-            class="body f-fs-fs-w hover-show-scroll"
+            class="body hover-show-scroll"
+            :class="bodyClass"
             :style="foldStatusList[sInd] ? { maxHeight: 0, overflow: 'hidden' } : { maxHeight: bodyMaxHeight, overflow: 'auto' }"
           >
             <slot :name="sItem.prop ?? `body-${sInd}`" :section="sItem" :index="sInd" v-if="sItem.type === 'slot'" />
@@ -73,7 +74,53 @@
               </template>
             </template>
           </el-row>
-        </section>
+        </section> -->
+        <BaseSection
+          :title="sItem.title"
+          :popover="sItem.popover"
+          :badgeAttrs="sItem.badgeAttrs"
+          :border="false"
+          @toggle="toggleFold($event, sInd)"
+          v-for="(sItem, sInd) in newSections"
+          :key="sInd"
+        >
+          <template #head-right>
+            <slot :name="'head-right-' + (sItem.prop ?? sInd)" :section="sItem" :index="sInd" />
+          </template>
+          <slot :name="sItem.prop ?? `body-${sInd}`" :section="sItem" :index="sInd" v-if="sItem.type === 'slot'" />
+          <template v-else>
+            <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
+              <FieldItemCol
+                v-model="formData[sItem.prop][field.prop as string]"
+                v-bind="getLevelsAttrs(field, sItem)"
+                :field="field"
+                :formRef="formRef"
+                @blur="$attrs.onBlur"
+                @focus="$attrs.onFocus"
+                @change="$attrs.onChange"
+                v-if="sItem.prop"
+              >
+                <template #custom="scope">
+                  <slot :name="scope.field.prop" v-bind="scope" />
+                </template>
+              </FieldItemCol>
+              <FieldItemCol
+                v-model="formData[field.prop as string]"
+                v-bind="getLevelsAttrs(field, sItem)"
+                :field="field"
+                :formRef="formRef"
+                @blur="$attrs.onBlur"
+                @focus="$attrs.onFocus"
+                @change="$attrs.onChange"
+                v-else
+              >
+                <template #custom="scope">
+                  <slot :name="scope.field.prop" v-bind="scope" />
+                </template>
+              </FieldItemCol>
+            </template>
+          </template>
+        </BaseSection>
       </template>
       <BaseEmpty v-else />
     </div>
@@ -138,6 +185,7 @@ const props = withDefaults(
     foldable?: boolean; //是否允许折叠
     defaultExpands?: number[]; // 默认展开的块
     accordion?: boolean; // 是否手风琴模式
+    bodyClass?: string;
     /**
      * 继承属性
      */
@@ -175,6 +223,7 @@ const props = withDefaults(
   }>(),
   {
     modelValue: () => reactive({}),
+    bodyClass: "f-fs-fs-w",
     styleType: "common",
     // size: defaultCommonSize,
     // grid: 24,
@@ -307,50 +356,42 @@ $g: 4px; // 2px 4px 6px small default large
 .section-form {
   height: 100%;
 }
-.section {
-  width: 100%;
-  margin-bottom: $gap;
-  .head {
-    padding: $gap-qtr;
-    border-bottom: $border-main;
-    .title {
-      margin-right: auto;
-      font-size: $font-size-heavy;
-      &::before {
-        content: "";
-        display: block;
-        width: 6px;
-        height: 1em;
-        border-radius: 3px;
-        background: $color-primary;
-        margin-right: $gap-half;
-      }
-    }
-    .fold-btn {
-      padding: 0.2em;
-      margin-left: $gap-qtr;
-      cursor: pointer;
-      transition: all $transition-time-main;
-      &:hover {
-        color: $color-primary;
-      }
-    }
-  }
-  .body {
-    margin: $gap 0 0;
-    width: 100%;
-    transition: max-height $transition-time-main;
-    overscroll-behavior: auto;
-    // &.fold {
-    //   max-height: 0;
-    //   overflow: hidden;
-    // }
-    // &.expand {
-    //   max-height: 90vh; // 90vh;
-    //   overflow: auto;
-    // }
-  }
-}
+// .section {
+//   width: 100%;
+//   margin-bottom: $gap;
+//   .head {
+//     padding: $gap-qtr;
+//     border-bottom: $border-main;
+//     .title {
+//       margin-right: auto;
+//       font-size: $font-size-heavy;
+//       &::before {
+//         content: "";
+//         display: block;
+//         width: 6px;
+//         height: 1em;
+//         border-radius: 3px;
+//         background: $color-primary;
+//         margin-right: $gap-half;
+//       }
+//     }
+//     .fold-btn {
+//       padding: 0.2em;
+//       margin-left: $gap-qtr;
+//       cursor: pointer;
+//       transition: all $transition-time-main;
+//       &:hover {
+//         color: $color-primary;
+//       }
+//     }
+//   }
+//   .body {
+//     margin: $gap 0 0;
+//     width: 100%;
+//     transition: max-height $transition-time-main;
+//     overscroll-behavior: auto;
+//   }
+// }
 .auto-fixed-foot {
   overflow: auto;
   // overscroll-behavior: auto; // 默认为auto
