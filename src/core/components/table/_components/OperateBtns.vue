@@ -1,5 +1,5 @@
 <template>
-  <div class="group-btns table-operate-col" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
+  <div class="operate-btns table-operate-col" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
     <BaseBtn
       :tpl="btn"
       :data="row"
@@ -12,7 +12,9 @@
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs"> 更多 </el-button>
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs">
+        更多
+      </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
@@ -67,14 +69,12 @@ const props = withDefaults(
     compact?: boolean;
     small?: boolean;
   }>(),
-  Object.assign(
-    {
-      size: defaultCommonSize,
-      btns: () => [],
-      maxNum: defaultGroupBtnsMaxNum,
-    },
-    config?.BaseCrud?._components?.GroupBtns
-  )
+  {
+    size: defaultCommonSize,
+    btns: () => [],
+    maxNum: defaultGroupBtnsMaxNum,
+    ...config?.BaseCrud?._components?.OperateBtns,
+  }
 );
 const $emit = defineEmits(["click"]);
 let dropPopconfirm = false; //更多按钮的下拉菜单中是否存在 popconfirm
@@ -95,7 +95,7 @@ function handleClick(tpl: BtnName, btnObj: BtnItem, next: FinallyNext, e: Event)
 </script>
 <style lang="scss">
 //添加 table-operate-col 类是为了防止全局重复。如果子级按钮是删除，因为包裹了一层el-popconfirm，所以处理透传class会有两种情况，导致删除按钮透传得到的class不会生效
-.group-btns.table-operate-col {
+.operate-btns.table-operate-col {
   .btn {
     &.vertical {
       margin-left: 0 !important;

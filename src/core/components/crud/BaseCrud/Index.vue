@@ -123,7 +123,7 @@ import {
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
-import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/GroupBtns.vue";
+import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
 import { splitPropsParams } from "@/core/utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { batchBtnNames } from "@/core/components/crud/BaseCrud";

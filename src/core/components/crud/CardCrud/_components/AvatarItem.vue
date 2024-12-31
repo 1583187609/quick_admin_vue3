@@ -44,7 +44,7 @@
 import { computed } from "vue";
 import { getTimeAgo } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
-import { OperateBtnsType } from "@/core/components/table/_components/GroupBtns.vue";
+import { OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
 import { AuditStatus } from "../Index.vue";
 import TagImg from "@/core/components/img/TagImg.vue";
 import { operateBtnsEmitName } from "@/core/components/table";

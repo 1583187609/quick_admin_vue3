@@ -237,12 +237,12 @@ const flexClass = computed(() => {
 
 // 判断是否是ElementPlus的控件（待完善）
 function getIsEl() {
-  const code = formItemAttrs.value.type[0].charCodeAt();
+  const code = formItemAttrs.value.type[0].charCodeAt(0);
   return code >= 97 && code <= 122;
 }
 // 判断是否是系统的基础组件（待完善）
 function getIsBase() {
-  const code = formItemAttrs.value.type[0].charCodeAt();
+  const code = formItemAttrs.value.type[0].charCodeAt(0);
   return code >= 65 && code <= 90;
 }
 

@@ -46,7 +46,7 @@
           <template v-else>
             <!-- 拖动排序列 -->
             <el-icon size="1.2em" v-if="newCol.type === 'sort'"><Sort /></el-icon>
-            <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
+            <BaseTag :[value]="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
             <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
             <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
               {{ renderValue(row[newCol.prop as string]) }}
@@ -59,7 +59,7 @@
             <!-- 创建和修改列 -->
             <OperatorTime :prop="newCol.prop" :data="row" v-else-if="newCol.type === 'OperatorTime'" />
             <!-- 操作栏按钮列 -->
-            <GroupBtns
+            <OperateBtns
               :size="size"
               :row="{ ...row, $index }"
               :btns="getGroupBtnsByRow(row, $index)"
@@ -67,16 +67,20 @@
               @click="(...args) => handleClickGroupBtns(args, { row, col: newCol, $index })"
               v-else-if="newCol.type === 'operate'"
             />
+            <!-- 内嵌自定义表单列，例：UserInfo -->
+            <InsertCustomTableColComps
+              :col="newCol"
+              :row="{ ...row, $index }"
+              v-else-if="getIsInnerComponent(newCol.type as InsertTableColCompsType)"
+            />
             <!-- 内嵌表单控件列 -->
             <InnerExtendTableColComps
               :col="newCol"
               :row="{ ...row, $index }"
               :quickAttrs="currQuickAttrs"
               :refreshList="refreshList"
-              v-else-if="!isOptimization && formItemTypes.includes(newCol.type)"
+              v-else
             />
-            <!-- 内嵌自定义表单列 -->
-            <InsertCustomTableColComps :col="newCol" :row="{ ...row, $index }" v-else />
           </template>
         </template>
       </el-table-column>
@@ -87,8 +91,8 @@
 import { propsJoinChar, deleteAttrs, renderValue, getTableColumnSlots } from "@/core/utils";
 import { BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
-import GroupBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/GroupBtns.vue";
-import InsertCustomTableColComps from "@/config/_components/InsertCustomTableColComps.vue";
+import OperateBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
+import InsertCustomTableColComps, { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
 import { CommonObj, FinallyNext, PopoverType } from "@/core/_types";
@@ -100,7 +104,6 @@ import { isOptimization } from "@/core/utils";
 import { Sort } from "@element-plus/icons-vue";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import MarkIcon from "@/core/components/MarkIcon.vue";
-import { formItemTypes } from "@/core/components/form/_components/FormItem/_config";
 
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
@@ -132,6 +135,11 @@ let currQuickAttrs: any;
 const newCol = getNewCol(props.col);
 const bindAttrs = deleteAttrs(newCol, ["children", "slots"]);
 
+// 判断是否是内嵌的组件（外部扩展）
+function getIsInnerComponent(type: InsertTableColCompsType) {
+  const code = type.charCodeAt(0);
+  return code >= 65 && code <= 90; // 大写字母
+}
 // 获取新的列配置数据
 function getNewCol(col: TableColAttrs) {
   currPopover = col.quickAttrs?.popover;

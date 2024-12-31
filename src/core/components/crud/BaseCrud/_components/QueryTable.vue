@@ -38,7 +38,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, reactive } from "vue";
-import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/GroupBtns.vue";
+import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { handleTableSummary } from "@/core/utils";
 import { useCacheScroll } from "@/hooks";

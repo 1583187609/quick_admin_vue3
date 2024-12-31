@@ -12,7 +12,7 @@ import { emptyStr, propsJoinChar, renderValue, typeOf } from "@/core/utils";
 import dayjs from "dayjs";
 const props = withDefaults(
   defineProps<{
-    prop: string;
+    prop: string | [string, string];
     data: CommonObj;
     format?: string;
   }>(),

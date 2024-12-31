@@ -13,7 +13,7 @@ import {
 import { TableCol, TableColAttrs } from "@/core/components/table/_types";
 import { defaultColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
-import { OperateBtnsAttrs } from "@/core/components/table/_components/GroupBtns.vue";
+import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getTempGroupBtnsOfRow } from "@/core/components/crud/BaseCrud";
 import { SpecialTableColType } from "@/core/components/table/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
@@ -89,7 +89,13 @@ export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: 
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getGroupBtnsOfRow(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
+export function getGroupBtnsOfRow(
+  row: CommonObj,
+  rowInd: number,
+  props: CommonObj,
+  operateCol?: TableColAttrs,
+  cb?: (width: StrNum) => void
+) {
   const { operateBtns = [], rows, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);

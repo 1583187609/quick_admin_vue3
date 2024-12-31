@@ -46,7 +46,7 @@ export interface BaseComponentsConfig {
     _components?: {
       ExtraBtns?: CommonObj;
       BatchBtns?: CommonObj;
-      GroupBtns?: CommonObj;
+      OperateBtns?: CommonObj;
       Pagination?: CommonObj;
       QueryForm?: CommonObj;
       Column?: CommonObj;

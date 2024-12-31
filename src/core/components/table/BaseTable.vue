@@ -35,7 +35,7 @@ import { TableColAttrs } from "@/core/components/table/_types";
 import { defaultTableAttrs, operateBtnsEmitName, getHandleCols } from "@/core/components/table";
 import { handleTableSummary } from "@/core/utils";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
-import { OperateBtnsAttrs } from "@/core/components/table/_components/GroupBtns.vue";
+import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getGroupBtnsOfRow } from "./_utils";
 import { defaultCommonSize } from "@/core/utils";
 import { FilterByAuthFn } from "../crud/BaseCrud/_types";

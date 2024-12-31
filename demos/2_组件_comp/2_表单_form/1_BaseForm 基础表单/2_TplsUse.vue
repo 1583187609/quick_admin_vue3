@@ -1,4 +1,4 @@
-<!-- summary 模板用法
+<!-- summary 模板用法（非必须）
   用模板实现上述效果，代码量更少
   字段模板（tpl）：以`T_`开头。可在全局配置文件中配置修改
   字典模板（options）：以`D_`开头。可在全局配置文件中配置修改
@@ -20,7 +20,7 @@ const modelData = reactive<CommonObj>({
   age: 12,
   gender: 0,
   live_city: 1,
-  plan_city: [1, 3]
+  plan_city: [1, 3],
 });
 const cityOpts = [
   { label: "成都", value: 1 },

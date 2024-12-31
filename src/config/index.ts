@@ -121,7 +121,7 @@ const config = {
     // _components: {
     //   ExtraBtns: undefined,
     //   BatchBtns: undefined,
-    //   GroupBtns: undefined,
+    //   OperateBtns: undefined,
     //   Pagination: undefined,
     //   QueryForm: undefined,
     //   Column: undefined,

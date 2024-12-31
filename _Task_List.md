@@ -246,6 +246,8 @@
 33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）
 34、SectionForm 换用 BaseSection 验证功能
 35、完善 AddDelList、AnyEleList、AddDelTag 组件功能
+36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证
+37、完善`InnerExtendTableColComps`组件
 
 ## Demo 功能 Bug 清单
 
@@ -256,7 +258,7 @@
 
 1、采用`git submodule`方式维护 mock 和基础方法（待定）
 141、将 SectionForm 改为 BaseSectionForm（待确定）
-143、考虑移除 sass
+143、考虑整合 sass 并加入 css 变量
 
 ## TS 类型处理
 
