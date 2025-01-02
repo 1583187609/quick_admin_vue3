@@ -49,6 +49,7 @@
         :class="newExtraBtns.length ? ' ml-o' : ' ml-a'"
         :disabled="disabled"
         :size="size"
+        v-if="showSetBtn"
       />
     </div>
     <slot
@@ -159,6 +160,7 @@ const props = withDefaults(
     extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
     importCfg?: ImportCfgAttrs; //导入的下载模板配置
     exportCfg?: ExportCfg; //导出配置
+    showSetBtn?: boolean;
     /** 底部表格 **/
     cols?: TableCol[]; //表格列数据
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
@@ -201,6 +203,7 @@ const props = withDefaults(
     compact: (_props: CommonObj) => _props.grid.xl < 6,
     filterByAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
+    showSetBtn: true,
     formAttrs: () => defaultFormAttrs,
     tableAttrs: () => defaultTableAttrs,
     ...config?.BaseCrud?.Index,

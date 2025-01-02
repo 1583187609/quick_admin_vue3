@@ -51,12 +51,7 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param {string} title 标题
  * @returns {Promise}
  */
-export function showConfirmMessage(
-  htmlStr: string,
-  type: ThemeColorType = "warning",
-  lightWords: string[] = [],
-  title = "温馨提示"
-) {
+export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", lightWords: string[] = [], title = "温馨提示") {
   const typeMap = { danger: "error" };
   const colorType = type;
   const colorKey = `color${upperFirst(colorType)}`;
@@ -249,17 +244,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
@@ -353,21 +344,22 @@ export function getModuleNames() {
  */
 export function getVueFiles(type: "comp" | "page" = "comp", name?: string) {
   const globMap = {
-    comp: import.meta.glob("@/core/**/**/*.vue"),
-    page: import.meta.glob("@/modules/**/**/*.vue"),
+    comp: import.meta.glob("@/core/**/*.vue"),
+    page: import.meta.glob("@/modules/**/*.vue"),
   };
-  const unValidChars = type === "comp" ? [" "] : [" ", "/_"];
+  // const unValidChars = type === "comp" ? [" "] : [" ", "/_"];
+  const unValidChars = [" "];
   let allNames = Object.keys(globMap[type]);
   if (type === "page" && name) {
     const sInd = "/src/modules/".length;
     allNames = allNames.filter(it => it.slice(sInd).startsWith(name));
   }
+  const valideNames: string[] = []; //无效
   const unValidNames: string[] = []; //无效
   //有效
-  const valideNames = allNames.filter((key: string) => {
+  allNames.forEach((key: string) => {
     const isUnValid = unValidChars.some(char => key.includes(char));
-    if (isUnValid) unValidNames.push(key);
-    return true;
+    isUnValid ? unValidNames.push(key) : valideNames.push(key);
   });
   return {
     valideNames,

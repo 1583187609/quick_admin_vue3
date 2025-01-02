@@ -14,6 +14,7 @@
                 size: 'small',
                 pageSizes: [5, 10, 15, 20, 25],
               }"
+              :showSetBtn="false"
               :pagination="{ currPage: 1, pageSize: 5 }"
               v-if="activeName === item.value"
             />
