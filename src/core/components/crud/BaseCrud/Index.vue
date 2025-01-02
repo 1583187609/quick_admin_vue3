@@ -20,7 +20,7 @@
       :rowNum="rowNum"
       :afterReset="handleAfterReset"
       v-bind="formAttrs"
-      @search="handleSearch"
+      @submit="handleSearch"
       @change="handleChange"
       ref="queryFormRef"
     >

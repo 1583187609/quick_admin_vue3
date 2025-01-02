@@ -1,10 +1,17 @@
-<!-- 页面-简介 -->
+<!-- summary 文件代码片段
+ VuePage
+ VueComponent
+ VueForm
+ VueSectionForm
+ VueTable
+ VueCrud
+ AddEdit
+-->
 <template>
-  <div>其他</div>
+  <div class="example-vue">example-vue</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

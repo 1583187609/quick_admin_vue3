@@ -1,14 +1,8 @@
 <!-- 页面-简介 -->
 <template>
   <el-col class="query-btns f-fe-fs ml-a" :class="{ compact, [size]: true }">
-    <el-button type="primary" v-debounce.immediate="() => $emit('submit')" :disabled="loading">
-      <template #icon>
-        <el-icon size="1em" :class="{ rotate: loading }">
-          <Loading v-if="loading" />
-          <Search v-else />
-        </el-icon>
-      </template>
-      <template #default>{{ $t("base.button.search") }}</template>
+    <el-button type="primary" :icon="Search" v-debounce.immediate="() => $emit('submit')" :disabled="loading" :loading="loading">
+      {{ $t("base.button.search") }}
     </el-button>
     <el-button :icon="RefreshLeft" @click="$emit('reset')" :disabled="loading">{{ $t("base.button.reset") }}</el-button>
     <el-button @click="$emit('fold')" text type="primary" v-if="showFoldBtn">

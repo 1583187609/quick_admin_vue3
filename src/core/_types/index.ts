@@ -17,6 +17,7 @@ export type ClassType = any;
 export type StyleType = any;
 export type FetchType = (data?: CommonObj) => Promise<AxiosResponse<any, any>>;
 export type UniteFetchType = FetchType | ((params?: CommonObj) => FetchType);
+export type UniteSubmitFn = UniteFetchType | ((params?: CommonObj) => void);
 export type SetTimeout = null | NodeJS.Timeout;
 export type SetInterval = null | NodeJS.SetInterval;
 export type TostMessageType = messageType;

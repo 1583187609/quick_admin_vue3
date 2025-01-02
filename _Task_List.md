@@ -149,6 +149,10 @@
 ~~107、BarsImg 视情况而改名。~~
 ~~149、简化按钮 loading，用 ElementPlus 提供的 loading 属性完成~~
 ~~150、BaseBtn 的 validateForm 属性有待重新确定~~
+~~139、完善自动路由逻辑~~
+~~144、抽离 IconPicker 组件~~
+~~148、整合 extraBtns 中的导入按钮逻辑到 BaseBtn 中~~
+~~153、将公共 Css 加上前缀~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -181,8 +185,6 @@
 136、完善 BaseCountTo 方法
 137、增加演示功能模块
 138、按新划分菜单模块进行菜单重组
-~~139、完善自动路由逻辑~~
-~~144、抽离 IconPicker 组件~~
 140、处理导入逻辑（完善功能）
 141、爬取 ElementPlus 官网中的表格属性数据
 142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
@@ -190,10 +192,8 @@
 145、将表格列的 type 支持传入任意组件
 146、将对表单的字段处理，分别放在 FormItem、FieleItem、FieldItmeCol 中
 147、完善低码中心的配置 JSON 生成页面的逻辑
-~~148、整合 extraBtns 中的导入按钮逻辑到 BaseBtn 中~~
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 152、将 formItem 的子项拆分出来（不应该放入里面，会导致组件变得臃肿庞大）
-153、将公共 Css 加上前缀
 154、全局控件大小增加 mini 选项
 155、完善用户端全局设置
 
@@ -204,6 +204,10 @@
 156、将各个组件的属性实现继承
 157、在弹窗属性中实现 v-model 的写法
 158、全局配置
+159、将 BaseForm、BaseCrud 中的 onSubmit、onSearch 与 fetch 合并下，共用同一个属性，去掉 fetch 属性（待定）
+160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）
+161、将 modules 中的文件夹、文件进行统计，放入文件分析中
+162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
 
 ## Demo 功能验证清单
 

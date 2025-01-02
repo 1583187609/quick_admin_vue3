@@ -51,7 +51,12 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param {string} title 标题
  * @returns {Promise}
  */
-export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", lightWords: string[] = [], title = "温馨提示") {
+export function showConfirmMessage(
+  htmlStr: string,
+  type: ThemeColorType = "warning",
+  lightWords: string[] = [],
+  title = "温馨提示"
+) {
   const typeMap = { danger: "error" };
   const colorType = type;
   const colorKey = `color${upperFirst(colorType)}`;
@@ -244,13 +249,17 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(
+  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
+  width = "200px"
+): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover))
+      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
@@ -328,18 +337,37 @@ export function getUserInfo(id = ""): CommonObj | null {
   return info;
 }
 
+export function getModuleNames() {
+  const files = import.meta.glob("@/modules/*-center/page.json", { eager: true, import: "default" });
+  const opts = Object.entries(files).map(([key, val]) => {
+    return { label: val.title, value: key.split("/")[3].split("-")[0] };
+  });
+  return opts;
+}
+
 /**
- * 计算src/components下开发的有效页面
+ * 计算开发的有效、无效vue组件
+ * @param type 类型
+ * @param name 模块名称，当类型为page时有效
  * @return
  */
-export function getDevelopComponents() {
-  const comps = import.meta.glob("@/core/**/**/*.vue");
-  const allNames = Object.keys(comps);
-  const unValidNames: string[] = []; //无效页面
-  //有效页面
+export function getVueFiles(type: "comp" | "page" = "comp", name?: string) {
+  const globMap = {
+    comp: import.meta.glob("@/core/**/**/*.vue"),
+    page: import.meta.glob("@/modules/**/**/*.vue"),
+  };
+  const unValidChars = type === "comp" ? [" "] : [" ", "/_"];
+  let allNames = Object.keys(globMap[type]);
+  if (type === "page" && name) {
+    const sInd = "/src/modules/".length;
+    allNames = allNames.filter(it => it.slice(sInd).startsWith(name));
+  }
+  const unValidNames: string[] = []; //无效
+  //有效
   const valideNames = allNames.filter((key: string) => {
-    if (key.includes(" ")) unValidNames.push(key);
-    return !key.includes(" ");
+    const isUnValid = unValidChars.some(char => key.includes(char));
+    if (isUnValid) unValidNames.push(key);
+    return true;
   });
   return {
     valideNames,

@@ -6,81 +6,83 @@
     v-bind="defaultFormAttrs"
     @keyup.enter="handleSubmit"
     ref="formRef"
-    v-if="!noFieldsHide || newFields.length || newSections.length"
+    v-if="newFields.length || newSections.length || showWhenNoFields"
   >
-    <div class="all-hide-scroll wrap-box" :style="{ maxHeight: getMaxHeight() }" v-if="newSections.length">
-      <div class="f-fs-fs" v-for="(sItem, sInd) in newSections.slice(0, isFold ? rowNum : undefined)" :key="sInd">
-        <el-button
-          class="f-0"
-          @click="sectionFolds[sInd] = !sectionFolds[sInd]"
-          text
-          type="info"
-          :disabled="!sectionFoldable || sectionFolds[sInd] === undefined"
-        >
-          <template #icon v-if="sectionFoldable">
-            <el-icon class="icon-fold" :class="{ 'rotate-180': !sectionFolds[sInd] && !sectionFolds[sInd] }">
-              <Minus v-if="sectionFolds[sInd] === undefined" />
-              <ArrowDown v-else />
-            </el-icon>
-          </template>
-          {{ sItem.title }}
-        </el-button>
-        <div class="sec-fields f-fs-fs-w f-1">
-          <QueryFields
-            v-model="formData"
-            v-bind="getQueryFieldsAttrs(field, sItem)"
-            @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
-            v-for="(field, ind) in sItem.fields!.slice(0, sectionFolds[sInd] ? getSectionFoldSliceInd(sInd) : getSliceInd(sInd))"
-            :key="ind"
+    <div class="wrap-box all-hide-scroll" :style="{ maxHeight: getMaxHeight() }" :class="{ 'f-fs-fs-w': !newSections.length }">
+      <template v-if="newSections.length">
+        <div class="f-fs-fs" v-for="(sItem, sInd) in newSections.slice(0, isFold ? rowNum : undefined)" :key="sInd">
+          <el-button
+            class="f-0"
+            @click="sectionFolds[sInd] = !sectionFolds[sInd]"
+            text
+            type="info"
+            :disabled="!sectionFoldable || sectionFolds[sInd] === undefined"
           >
-            <template #custom="{ field: currField }">
-              <slot name="custom" :field="currField" :form="formData" />
+            <template #icon v-if="sectionFoldable">
+              <el-icon class="icon-fold" :class="{ 'rotate-180': !sectionFolds[sInd] && !sectionFolds[sInd] }">
+                <Minus v-if="sectionFolds[sInd] === undefined" />
+                <ArrowDown v-else />
+              </el-icon>
             </template>
-          </QueryFields>
-          <QueryBtns
-            :size="size"
-            :compact="compact"
-            :loading="loading"
-            :isFold="isFold"
-            :showFoldBtn="showFoldBtn"
-            @fold="isFold = !isFold"
-            @submit="handleSubmit"
-            @reset="handleReset"
-            v-bind="getGridAttrs(grid)"
-            v-if="
-              newSections.length <= rowNum
-                ? sInd === newSections.length - 1
-                : isFold
-                ? sInd === rowNum - 1
-                : sInd === newSections.length - 1
-            "
-          />
+            {{ sItem.title }}
+          </el-button>
+          <div class="sec-fields f-fs-fs-w f-1">
+            <QueryFields
+              v-model="formData"
+              v-bind="getQueryFieldsAttrs(field, sItem)"
+              @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
+              v-for="(field, ind) in sItem.fields!.slice(0, sectionFolds[sInd] ? getSectionFoldSliceInd(sInd) : getSliceInd(sInd))"
+              :key="ind"
+            >
+              <template #custom="{ field: currField }">
+                <slot name="custom" :field="currField" :form="formData" />
+              </template>
+            </QueryFields>
+            <QueryBtns
+              :size="size"
+              :compact="compact"
+              :loading="loading"
+              :isFold="isFold"
+              :showFoldBtn="showFoldBtn"
+              @fold="isFold = !isFold"
+              @submit="handleSubmit"
+              @reset="handleReset"
+              v-bind="getGridAttrs(grid)"
+              v-if="
+                newSections.length <= rowNum
+                  ? sInd === newSections.length - 1
+                  : isFold
+                  ? sInd === rowNum - 1
+                  : sInd === newSections.length - 1
+              "
+            />
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="f-fs-fs-w wrap-box all-hide-scroll" :style="{ maxHeight: getMaxHeight() }" v-else>
-      <QueryFields
-        v-model="formData"
-        v-bind="getQueryFieldsAttrs(field)"
-        @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
-        v-for="(field, ind) in newFields.slice(0, getSliceInd())"
-        :key="ind"
-      >
-        <template #custom="{ field: currField }">
-          <slot name="custom" :field="currField" :form="formData" />
-        </template>
-      </QueryFields>
-      <QueryBtns
-        :size="size"
-        :compact="compact"
-        :loading="loading"
-        :isFold="isFold"
-        :showFoldBtn="showFoldBtn"
-        @fold="isFold = !isFold"
-        @submit="handleSubmit"
-        @reset="handleReset"
-        v-bind="getGridAttrs(grid)"
-      />
+      </template>
+      <template v-else>
+        <QueryFields
+          v-model="formData"
+          v-bind="getQueryFieldsAttrs(field)"
+          @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
+          v-for="(field, ind) in newFields.slice(0, getSliceInd())"
+          :key="ind"
+        >
+          <template #custom="{ field: currField }">
+            <slot name="custom" :field="currField" :form="formData" />
+          </template>
+        </QueryFields>
+        <QueryBtns
+          :size="size"
+          :compact="compact"
+          :loading="loading"
+          :isFold="isFold"
+          :showFoldBtn="showFoldBtn"
+          @fold="isFold = !isFold"
+          @submit="handleSubmit"
+          @reset="handleReset"
+          v-bind="getGridAttrs(grid)"
+        />
+      </template>
     </div>
   </el-form>
 </template>
@@ -100,8 +102,8 @@ import { handleFields, getGridAttrs } from "@/core/components/form/_utils";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
 import { defaultCommonSize } from "@/core/utils";
-import _ from "lodash";
 import { AfterReset } from "@/core/components/form/_components/FooterBtns.vue";
+import _ from "lodash";
 
 export type QueryFormItemLayoutType = "flex" | "grid"; // 表单项的布局方式：弹性布局、grid布局
 
@@ -120,7 +122,7 @@ const props = withDefaults(
     inputDebounce?: boolean;
     grid: Grid;
     compact?: boolean; //是否是紧凑的
-    noFieldsHide?: boolean; //没有字段时是否不显示表单内容
+    showWhenNoFields?: boolean; //没有字段时是否不显示表单内容
     sectionFoldable?: boolean;
     layoutType?: QueryFormItemLayoutType; // 表单项的布局方式：弹性布局、grid布局
     afterReset?: AfterReset;
@@ -131,12 +133,11 @@ const props = withDefaults(
     rowNum: 2,
     fields: () => [],
     modelValue: () => reactive({}),
-    noFieldsHide: true,
     sectionFoldable: true,
     ...config?.BaseCrud?._components?.QueryForm,
   }
 );
-const $emit = defineEmits(["update:modelValue", "search", "change"]);
+const $emit = defineEmits(["update:modelValue", "submit", "change"]);
 const $attrs = useAttrs();
 useFormAttrs({ ...props, ...$attrs }, undefined, true);
 let isFirst = true;
@@ -271,7 +272,7 @@ function handleSubmit() {
       return showMessage(target?.message, "error");
     }
     const { extraParams } = props;
-    $emit("search", merge({}, extraParams, formData.value));
+    $emit("submit", merge({}, extraParams, formData.value));
   });
 }
 // 重置表单

@@ -1,16 +1,16 @@
-<!-- 页面-简介 -->
+<!-- 智慧教育 -->
 <template>
-  <div>文件大小分析</div>
+  <div>智慧教育</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 const props = withDefaults(
   defineProps<{
-    exampleProp?: CommonObj;
+    _example_prop?: CommonObj;
   }>(),
   {
-    exampleProp: () => ({}),
+    _example_prop: () => ({}),
   }
 );
 </script>

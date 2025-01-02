@@ -1,6 +1,6 @@
 <!-- 组件描述 -->
 <template>
-  <div class="example-class" v-model="modalData">组件</div>
+  <div class="example-class">组件</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
