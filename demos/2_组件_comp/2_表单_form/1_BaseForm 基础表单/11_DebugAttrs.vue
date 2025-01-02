@@ -4,8 +4,8 @@
 -->
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
-    <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon" :debug="false" :log="false" />
-    <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon" debug log />
+    <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon" :debug="false" :log="false" />
+    <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon" debug log />
   </div>
 </template>
 <script lang="ts" setup>

@@ -10,13 +10,13 @@
         <el-badge class="ml-q" v-bind="{ ...defaultBadgeAttrs, ...badgeAttrs }" v-if="badgeAttrs" />
       </div>
       <slot name="head-right" />
-      <el-icon @click="fold = !fold" class="fold-btn f-0" :class="fold ? 'rotate-90' : ''" size="1.5em" v-if="foldable">
+      <el-icon @click="fold = !fold" class="fold-btn f-0" :class="fold ? 'rotate-90' : ''" size="1em" v-if="foldable">
         <ArrowRight />
       </el-icon>
     </div>
-    <el-row class="body hover-show-scroll" :class="{ [bodyClass]: true, fold }">
+    <div class="body hover-show-scroll" :class="{ [bodyClass]: true, fold, foldable }">
       <slot><BaseEmpty /></slot>
-    </el-row>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -51,21 +51,29 @@ const props = withDefaults(
 const $emit = defineEmits(["toggle"]);
 const fold = ref(props.defaultFold);
 function toggleFold(e) {
-  if (!e.target?.classList?.contains("head")) return;
+  if (!props.foldable || !e.target?.classList?.contains("head")) return;
   fold.value = !fold.value;
   $emit("toggle", fold.value);
 }
 </script>
 <style lang="scss" scoped>
 .base-section {
+  width: 100%;
+  background: #fff;
   &.border {
     border: $border-main;
     border-radius: $radius-main;
     @include shadow-main();
+    .head {
+      padding: $gap-half;
+    }
+    .body {
+      padding: $gap-half $gap;
+    }
   }
-  background: #fff;
   .head {
-    padding: $gap-half $gap;
+    padding: $gap-half 0;
+    border-bottom: $border-main;
     .title {
       margin-right: auto;
       font-size: $font-size-heavy;
@@ -90,15 +98,16 @@ function toggleFold(e) {
     }
   }
   .body {
-    padding: $gap-half $gap;
-    border-top: $border-main;
-    // overscroll-behavior: auto; // 默认为auto
-    transition: all $transition-time-main;
-    max-height: v-bind(bodyMaxHeight);
-    overflow: "auto";
-    &.fold {
-      max-height: 0;
-      overflow: "hidden";
+    overscroll-behavior: auto; // 默认为auto
+    &.foldable {
+      margin: $gap-half 0 0;
+      transition: all $transition-time-main;
+      max-height: v-bind(bodyMaxHeight);
+      overflow: auto;
+      &.fold {
+        max-height: 0;
+        overflow: hidden;
+      }
     }
   }
 }

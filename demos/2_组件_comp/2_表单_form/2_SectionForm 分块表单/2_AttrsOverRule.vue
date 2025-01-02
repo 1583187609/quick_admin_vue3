@@ -3,7 +3,7 @@
   labelWidth grid size readonly disabled pureText styleType
  -->
 <template>
-  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon" :grid="12"></SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" @submit="PostMockCommon" :grid="12"></SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";

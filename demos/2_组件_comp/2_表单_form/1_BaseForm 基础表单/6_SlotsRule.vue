@@ -4,7 +4,7 @@
   如果想要不被el-form-item包裹，type应被指定为custom，同时设置renderData属性
  -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon" />
+  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon" />
 </template>
 <script lang="ts" setup>
 import { reactive, computed, defineAsyncComponent, h } from "vue";

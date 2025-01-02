@@ -9,8 +9,8 @@ afterReset
 -->
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
-    <BaseForm :fields="fields" :fetch="PostMockCommon" :extraParams="extraParams" />
-    <BaseForm :fields="fields" :fetch="handleFetch" />
+    <BaseForm :fields="fields" @submit="PostMockCommon" :extraParams="extraParams" />
+    <BaseForm :fields="fields" @submit="handleFetch" />
   </div>
 </template>
 <script lang="ts" setup>

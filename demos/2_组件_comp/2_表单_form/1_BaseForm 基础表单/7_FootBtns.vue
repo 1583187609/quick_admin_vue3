@@ -8,24 +8,22 @@
 -->
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
-    <BaseForm :fields="fields" :fetch="PostMockCommon" />
-    <BaseForm :fields="fields" :fetch="PostMockCommon" submitBtn="确认" resetBtn="置空" @submit="args => handleSubmit(args, 1)" />
-    <BaseForm :fields="fields" :fetch="PostMockCommon" submitBtn="add" resetBtn="view" @submit="args => handleSubmit(args, 2)" />
+    <BaseForm :fields="fields" @submit="PostMockCommon" />
+    <BaseForm :fields="fields" submitBtn="确认" resetBtn="置空" @submit="args => handleSubmit(args, 1)" />
+    <BaseForm :fields="fields" submitBtn="add" resetBtn="view" @submit="args => handleSubmit(args, 2)" />
     <BaseForm
       :fields="fields"
-      :fetch="PostMockCommon"
       :submitBtn="{ name: 'add', text: '创建' }"
       :resetBtn="{ name: 'view', text: '清空' }"
       @submit="args => handleSubmit(args, 2)"
     />
     <BaseForm
       :fields="fields"
-      :fetch="PostMockCommon"
       :moreBtns="['reject', { name: 'forbid', validateForm: false, text: '点击不会触发表单校验' }]"
       @submit="args => handleSubmit(args, 3)"
       @moreBtns="handleMoreBtns"
     />
-    <BaseForm :fields="fields" :fetch="PostMockCommon" @submit="args => handleSubmit(args, 4)" />
+    <BaseForm :fields="fields" @submit="args => handleSubmit(args, 4)" />
     <BaseForm :fields="fields" ref="formRef">
       <template #footer>
         <div class="f-sb-c">

@@ -1,6 +1,6 @@
 <!-- 表单描述 -->
 <template>
-  <SectionForm v-model="modalData" :sections="sections" :fetch="PostMockCommon">
+  <SectionForm v-model="modalData" :sections="sections" @submit="PostMockCommon">
     <template #zdy>
       <input v-model="modalData.zdy" />
     </template>

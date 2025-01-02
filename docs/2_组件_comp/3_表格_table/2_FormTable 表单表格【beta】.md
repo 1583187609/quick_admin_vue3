@@ -7,17 +7,14 @@
 &emsp;&emsp;目标：定位为表单表格。继承自`BaseForm`和`BaseTable`，兼顾了表单编辑校验，并且样式以表格呈现。
 ## 基础用法
 
-&emsp;&emsp;基础用法
+&emsp;&emsp;`cols`接受表格列  
+&emsp;&emsp;`v-model`接受表单数据  
+&emsp;&emsp;`formAttrs`接收表单属性  
+&emsp;&emsp;表单属性透传  
+&emsp;&emsp;注：表单属性、表格属性同`BaseForm`和`BaseTable`
 
 ::: demo 
 /demos/2_组件_comp/3_表格_table/2_FormTable 表单表格【beta】/1_BasicUse.vue
-:::
-## 快捷用法
-
-&emsp;&emsp;内嵌组件
-
-::: demo 
-/demos/2_组件_comp/3_表格_table/2_FormTable 表单表格【beta】/2_QuickUse.vue
 :::
 
 

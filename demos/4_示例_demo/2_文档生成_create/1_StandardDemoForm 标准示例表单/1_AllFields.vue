@@ -2,7 +2,7 @@
   全部控件类型包含：ElementPlus（input, select）、内置（BaseNumberRange）、自定义扩展（UserInfo）三部分。
 -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
+  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon">
     <template #zdy>
       <input placeholder="请输入（这是自定义的输入框）" style="width: 400px; border: 1px solid green; border-radius: 6px" />
     </template>

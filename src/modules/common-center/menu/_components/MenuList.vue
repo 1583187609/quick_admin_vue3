@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="handleFetch"
+    @submit="handleFetch"
     :extraBtns="['add', 'delete']"
     :operateBtns="getOperateBtns"
     :pagination="false"

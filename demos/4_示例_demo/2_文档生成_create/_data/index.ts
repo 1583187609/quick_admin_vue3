@@ -37,12 +37,11 @@ export const vueStr = `
       :log="log"
       :debug="debug"
       :params="params"
-      :fetch="fetch"
       :afterSuccess="onSuccess"
       :fetchFail="fetchFail"
       :disabled="!newFields.length"
       @moreBtns="(name:string, args?:CommonObj, cb?:FinallyNext) => $emit('moreBtns', name, args, cb)"
-      @submit="(args:CommonObj)=>$emit('submit', args)"
+      @submit="$attrs.onSubmit"
       ref="footerBtnsRef"
       v-if="!pureText && footer"
     />
@@ -71,7 +70,6 @@ const props = withDefaults(
     modelValue?: CommonObj; //表单数据
     fields: FormField[]; //表单字段项
     pureText?: boolean; //是否纯文本展示
-    fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     fetchFail?: FinallyNext; //fetch请求失败之后的回调方法
     span?: string | number; //同ElementPlus 的span，1 ~ 24

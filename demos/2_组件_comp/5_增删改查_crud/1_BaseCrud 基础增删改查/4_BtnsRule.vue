@@ -8,7 +8,7 @@
     :style="{ height: showMaxHeight }"
     :cols="cols"
     :fields="fields"
-    :fetch="GetMockUser"
+    @submit="GetMockUser"
     :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',

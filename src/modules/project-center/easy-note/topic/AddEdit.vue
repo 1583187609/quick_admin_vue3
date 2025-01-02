@@ -4,7 +4,7 @@
     style="width: 1000px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PutTopicUpdate : PostTopicAdd"
+    @submit="data ? PutTopicUpdate : PostTopicAdd"
     :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
   >

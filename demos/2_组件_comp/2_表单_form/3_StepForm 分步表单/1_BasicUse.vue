@@ -2,7 +2,7 @@
   SectionForm属性通过formAttrs传入，步骤条属性通过stepAttrs传入。
  -->
 <template>
-  <StepForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></StepForm>
+  <StepForm v-model="modelData" :sections="sections" @submit="PostMockCommon"></StepForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";

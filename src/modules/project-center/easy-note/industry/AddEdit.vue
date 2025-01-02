@@ -4,7 +4,7 @@
     style="width: 300px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PutIndustryUpdate : PostIndustryAdd"
+    @submit="data ? PutIndustryUpdate : PostIndustryAdd"
     :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
   >

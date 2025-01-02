@@ -2,7 +2,7 @@
   单个或多个字段的隐藏方式
  -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon" />
+  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon" />
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";

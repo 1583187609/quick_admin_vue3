@@ -2,7 +2,7 @@
 <template>
   <BaseForm
     style="width: 500px"
-    :fetch="PostMockCommon"
+    @submit="PostMockCommon"
     :fields="fields"
     :moreBtns="[
       { name: 'pass', popconfirm: false },

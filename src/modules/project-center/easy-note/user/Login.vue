@@ -3,7 +3,7 @@
 <template>
   <BaseForm
     v-model="modelData"
-    :fetch="PostMockUserLogin"
+    @submit="PostMockUserLogin"
     :afterSuccess="handleSuccess"
     :afterFail="handleFail"
     submitBtn="登录"

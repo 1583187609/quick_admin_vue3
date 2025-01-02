@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="modelData"
     :fields="fields"
-    :fetch="data ? PatchMockCommon : PostMockCommon"
+    @submit="data ? PatchMockCommon : PostMockCommon"
     :afterSuccess="() => refreshList?.()"
     :extraParams="{ id: data?.id }"
     @change="(prop:string,val:any)=>modelData[prop] = val"

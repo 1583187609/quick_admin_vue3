@@ -2,14 +2,7 @@
   将字段分区块展示。继承并扩展了基础表单（BaseForm），提供了展开/折叠，多级属性设置覆盖等功能。
 -->
 <template>
-  <el-form
-    class="section-form f-fs-s-c"
-    v-bind="defaultFormAttrs"
-    :class="styleType"
-    :model="formData"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="section-form f-fs-s-c" v-bind="defaultFormAttrs" :class="styleType" :model="formData" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <!-- <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -80,6 +73,7 @@
           :popover="sItem.popover"
           :badgeAttrs="sItem.badgeAttrs"
           :border="false"
+          foldable
           @toggle="toggleFold($event, sInd)"
           v-for="(sItem, sInd) in newSections"
           :key="sInd"
@@ -88,7 +82,7 @@
             <slot :name="'head-right-' + (sItem.prop ?? sInd)" :section="sItem" :index="sInd" />
           </template>
           <slot :name="sItem.prop ?? `body-${sInd}`" :section="sItem" :index="sInd" v-if="sItem.type === 'slot'" />
-          <template v-else>
+          <el-row v-else>
             <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
               <FieldItemCol
                 v-model="formData[sItem.prop][field.prop as string]"
@@ -119,7 +113,7 @@
                 </template>
               </FieldItemCol>
             </template>
-          </template>
+          </el-row>
         </BaseSection>
       </template>
       <BaseEmpty v-else />
@@ -136,12 +130,11 @@
         :log="log"
         :debug="debug"
         :params="params"
-        :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
         :afterReset="afterReset"
         @moreBtns="(...args) => $emit('moreBtns', ...args)"
-        @submit="(...args) => $emit('submit', ...args)"
+        @submit="$attrs.onSubmit"
         @reset="$attrs.onReset"
         ref="footerBtnsRef"
         v-if="!formAttrs.pureText && footer === true"
@@ -211,7 +204,6 @@ const props = withDefaults(
      */
     extraParams?: CommonObj; //额外的参数
     omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的参数
-    fetch?: UniteFetchType; //接口请求
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
@@ -236,7 +228,7 @@ const props = withDefaults(
     ...config?.SectionForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "toggle", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "toggle", "moreBtns"]);
 const $attrs = useAttrs();
 const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
@@ -291,10 +283,7 @@ function toggleFold(e: any, ind: number) {
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const {
-    size = field.size ?? sItem.size ?? formAttrs.size,
-    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
-  } = attrs;
+  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
     readonly = sItem.readonly ?? formAttrs.readonly,
@@ -305,8 +294,7 @@ function getLevelsAttrs(field, sItem) {
 }
 //处理表单的enter时间
 function handleEnter() {
-  if (props.fetch) return footerBtnsRef.value.submit();
-  $emit("submit", params.value, useNextCallback(getFootBtnAttrs(props.submitBtn)?.text ?? "提交", closePopup));
+  footerBtnsRef.value.submit();
 }
 defineExpose({
   formRef,

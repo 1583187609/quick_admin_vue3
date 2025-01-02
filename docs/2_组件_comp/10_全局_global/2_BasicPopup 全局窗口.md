@@ -41,7 +41,6 @@
 |`modelValue`|表单数据，可设默认值|`CommonObj`|-|
 |`fields`|表单字段|`FormField[]`|`[]`|
 |`sections`|分块的表单字段|`SectionFormItemAttrs[]`|-|
-|`fetch`|列表请求接口|`UniteFetchType`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|`true`|
 |`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|`true`|
@@ -65,14 +64,12 @@
 |`readonly`|是否只读|`boolean`|-|
 |`disabled`|是否禁用|`boolean`|-|
 |`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
-|`log`|是否打印`console.log(rows)`|`boolean \| "req" \| "res"`|-|
+|`log`|是否打印`console.log(data)`|`boolean \| "req" \| "res"`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
 |`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|
 |`afterSuccess`|请求成功的回调函数|`() => void`|-|
 |`afterFail`|请求成功的回调函数|`() => void`|-|
-|`handleRequest`|处理参数|`() => void`|-|
-|`handleResponse`|处理响应数据|`() => void`|-|
 |`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|
 
 ### $emit
@@ -100,7 +97,7 @@
 |:---|:---|:---|
 |`field.prop`|-|`name, field, form`|
 |`middle`|中间插槽|-|
-|`content`|内容插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
+|`content`|内容插槽|`loading, data, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|
 |`default`|默认插槽|-|
 

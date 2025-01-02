@@ -10,7 +10,7 @@
 &emsp;&emsp;支持函数，即：`h()`。
 
 ::: demo 
-/demos/2_组件_comp/1_基础_basic/21_BaseRender 渲染/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/22_BaseRender 渲染/1_BasicUse.vue
 :::
 
 

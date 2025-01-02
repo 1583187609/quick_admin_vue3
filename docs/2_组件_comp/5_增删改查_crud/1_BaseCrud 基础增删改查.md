@@ -4,24 +4,58 @@
 &emsp;&emsp;功能：支持条件展开/折叠、条件分组；请求参数、响应数据处理；
 ## 基础用法
 
-&emsp;&emsp;摘要介绍暂时略
+&emsp;&emsp;基础表单项、表格列  
+&emsp;&emsp;查询条件可分块或不分块
 
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/1_BasicUse.vue
 :::
-## 查询条件分类
+## 组件用法
 
-&emsp;&emsp;摘要介绍暂时略
+&emsp;&emsp;内置组件：`BaseTag`、`BaseImg`、`BaseText`、`BaseCopy`、`OperatorTime`  
+&emsp;&emsp;内嵌组件：`UserInfo`  
+&emsp;&emsp;表单控件：`el-input`，`el-switch`等，并对`el-switch`，`el-select`等做了特殊处理
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_ConditionClassify.vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_CompUse.vue
 :::
-## 内嵌组件
+## 模板用法（非必须）
 
-&emsp;&emsp;内嵌组件的说明
+&emsp;&emsp;表单项模板用法同`BaseForm`、表格列模板用法同`BaseTable`  
+&emsp;&emsp;注：查询表单、新增/编辑表单，使用同样模板名称，呈现样式略有差别。（为了满足不同场景下的需求）
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/3_Embedded.vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/3_TplsUse .vue
+:::
+## 按钮规则
+
+&emsp;&emsp;按钮分为两块：额外按钮、操作栏按钮，它们遵循同样的规则。  
+&emsp;&emsp;按钮属性可为：函数、数组  
+&emsp;&emsp;若为数组，数组元素可为：字符串、对象、函数
+
+::: demo 
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/4_BtnsRule.vue
+:::
+## 请求参数&响应数据 处理
+
+&emsp;&emsp;请求参数：规则同`BaseForm`  
+&emsp;&emsp;响应数据：规则同`BaseTable`  
+&emsp;&emsp;可统一处理：
+
+::: demo 
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/5_HandleData.vue
+:::
+## 多弹出层处理
+
+&emsp;&emsp;导入弹窗（自带，无需引入）  
+&emsp;&emsp;新增/编辑弹窗（`openPopup`打开，`next`回调关闭）  
+&emsp;&emsp;`xx`列表（抽屉打开，`next`回调关闭）  
+&emsp;&emsp;`xx`详情（`dialog`，`openPopup`打开）  
+&emsp;&emsp;`xxx`长文本弹窗（自带）  
+&emsp;&emsp;批量删除、批量驳回、批量通过弹窗
+
+::: demo 
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/6_MultiplePopup.vue
 :::
 
 
@@ -34,7 +68,6 @@
 |`modelValue`|表单数据，可设默认值|`CommonObj`|-|
 |`fields`|表单字段|`FormField[]`|`[]`|
 |`sections`|分块的表单字段|`SectionFormItemAttrs[]`|-|
-|`fetch`|列表请求接口|`UniteFetchType`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|`true`|
 |`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|`true`|
@@ -58,14 +91,12 @@
 |`readonly`|是否只读|`boolean`|-|
 |`disabled`|是否禁用|`boolean`|-|
 |`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
-|`log`|是否打印`console.log(rows)`|`boolean \| "req" \| "res"`|-|
+|`log`|是否打印`console.log(data)`|`boolean \| "req" \| "res"`|-|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
 |`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|
 |`afterSuccess`|请求成功的回调函数|`() => void`|-|
 |`afterFail`|请求成功的回调函数|`() => void`|-|
-|`handleRequest`|处理参数|`() => void`|-|
-|`handleResponse`|处理响应数据|`() => void`|-|
 |`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|
 
 ### $emit
@@ -93,7 +124,7 @@
 |:---|:---|:---|
 |`field.prop`|-|`name, field, form`|
 |`middle`|中间插槽|-|
-|`content`|内容插槽|`loading, rows, total, hasMore, params, onOperateBtns`|
+|`content`|内容插槽|`loading, data, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|
 |`default`|默认插槽|-|
 

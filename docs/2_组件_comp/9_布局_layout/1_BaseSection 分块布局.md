@@ -3,7 +3,11 @@
 &emsp;&emsp;目标：内容分块的布局载体。并提供了折叠等功能。
 ## 基础用法
 
-&emsp;&emsp;这是`BaseSection`的基础使用示例。
+&emsp;&emsp;这是`BaseSection`的基础使用示例。  
+&emsp;&emsp;徽章属性  
+&emsp;&emsp;`popover`属性  
+&emsp;&emsp;折叠属性  
+&emsp;&emsp;设置`bodyClass`
 
 ::: demo 
 /demos/2_组件_comp/9_布局_layout/1_BaseSection 分块布局/1_BasicUse.vue
@@ -16,11 +20,20 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`title`|-|`string`|标题|
-|`badge`|-|`number \| string`|`0`|
-|`max`|-|`number`|`99`|
+|`title`|-|`string`|未命名标题|
+|`popover`|-|`PopoverType`|-|
+|`badgeAttrs`|-|`CommonObj`|-|
+|`foldable`|-|`boolean`|-|
+|`border`|-|`boolean`|`true`|
 |`bodyClass`|-|`string`||
-|`foldable`|-|`boolean`|`false`|
+|`bodyMaxHeight`|-|`string`|`90vh`|
+|`defaultFold`|-|`boolean`|-|
+
+### $emit
+
+|事件名称|说明|回调参数|
+|:---|:---|:---|
+|`toggle`|-|-|
 
 ### Slots
 

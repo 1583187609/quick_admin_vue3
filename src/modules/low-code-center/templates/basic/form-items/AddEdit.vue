@@ -4,7 +4,7 @@
     style="width: 1000px"
     v-model="modelData"
     :sections="sections"
-    :fetch="data ? PatchMockCommon : PostMockCommon"
+    @submit="data ? PatchMockCommon : PostMockCommon"
     :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
     :grid="12"

@@ -5,7 +5,7 @@
   <CustomCrud
     v-model="modelData"
     :fields="fields"
-    :fetch="getFromUserList"
+    @submit="getFromUserList"
     :pageAttrs="{ pageSizes: [5, 10, 15, 20, 25] }"
     :pagination="{ currPage: 1, pageSize: 10 }"
     :showPagination="false"
@@ -358,11 +358,7 @@ function getChatList(fromUserId: number, toUserId: number, direction: ChatListQu
  * 是否要自动打开消息搜索弹窗
  * @return 返回类型 null | { fromUser: CommonObj; toUser: CommonObj }
  */
-async function isOpenSearchMsgPopup(
-  fromUserId: StrNum,
-  toUserId: StrNum,
-  keyWord: string
-): null | { fromUser: CommonObj; toUser: CommonObj } {
+async function isOpenSearchMsgPopup(fromUserId: StrNum, toUserId: StrNum, keyWord: string): null | { fromUser: CommonObj; toUser: CommonObj } {
   if (keyWord) {
     return await GetImSearchP2pChatList({
       fromUserId,

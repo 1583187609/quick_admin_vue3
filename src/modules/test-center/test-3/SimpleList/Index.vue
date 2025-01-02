@@ -2,7 +2,7 @@
 <template>
   <BaseCrud
     style="max-width: 1400px"
-    :fetch="GetMockCommon"
+    @submit="GetMockCommon"
     :fields="fields"
     :cols="cols"
     :extraBtns="[

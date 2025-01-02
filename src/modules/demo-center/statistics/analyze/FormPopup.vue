@@ -2,7 +2,7 @@
 <template>
   <SectionForm style="width: 800px" :sections="sections">
     <template #yebd>
-      <BaseCrud :fetch="GetMockCommon" :cols="cols" :tableAttrs="{ size: 'small' }" :pageAttrs="{ small: true }">
+      <BaseCrud @submit="GetMockCommon" :cols="cols" :tableAttrs="{ size: 'small' }" :pageAttrs="{ small: true }">
         <template #bd="{ row, index }">
           <BaseNum :value="(index % 2 === 0 ? 1 : -1) * 20" showText />
         </template>

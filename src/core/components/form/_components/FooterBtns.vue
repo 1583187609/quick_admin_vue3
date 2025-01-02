@@ -15,6 +15,7 @@ import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils";
 import { CommonObj, FinallyNext, UniteFetchType, NextArgs, BaseDataType } from "@/core/_types";
 import { getFootBtnAttrs } from "../_utils";
+import { typeOf } from "#/mock/utils";
 
 export type AfterReset = (...NextArgs) => void;
 export interface FootBtnAttrs {
@@ -37,7 +38,6 @@ const props = withDefaults(
     disabled?: boolean; // 是否禁用按钮
     params?: any;
     formRef?: any;
-    fetch?: UniteFetchType; // 请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: (params: CommonObj, FinallyNext) => void;
     afterFail?: FinallyNext;
     afterReset?: AfterReset;
@@ -49,7 +49,7 @@ const props = withDefaults(
     moreBtns: () => [],
   }
 );
-const $emit = defineEmits(["moreBtns", "submit"]);
+const $emit = defineEmits(["moreBtns"]);
 const $attrs = useAttrs();
 const isLoading = ref(props.loading);
 const newSubmitBtn = getFootBtnAttrs(props.submitBtn, "submit");
@@ -88,23 +88,22 @@ function handleValidate() {
 //提交表单
 function handleSubmit(...args) {
   const [tpl, btnObj, next, e] = args;
-  handleValidate()
-    .then((params: any) => {
-      const { log, fetch, afterSuccess, afterFail } = props;
-      if (!fetch) return $emit("submit", params, next, e);
-      isLoading.value = true;
-      fetch(params)
-        .then((res: any) => {
-          log && printLog(res, "res", log);
-          if (!afterSuccess) return next();
-          afterSuccess(res, next);
-        })
-        .catch((err: any) => afterFail?.(err))
-        .finally(() => {
-          isLoading.value = false;
-        });
-    })
-    .catch(() => {});
+  handleValidate().then((params: CommonObj) => {
+    const { log, afterSuccess, afterFail } = props;
+    const fetch = $attrs.onSubmit(params, next, e);
+    const isPromise = typeOf(fetch) === "Promise";
+    if (isPromise) isLoading.value = true;
+    fetch
+      ?.then((res: any) => {
+        log && printLog(res, "res", log);
+        if (!afterSuccess) return next();
+        afterSuccess(res, next);
+      })
+      .catch((err: any) => afterFail?.(err))
+      .finally(() => {
+        isLoading.value = false;
+      });
+  });
 }
 //重置表单
 function handleReset(...args) {

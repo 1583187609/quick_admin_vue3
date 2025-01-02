@@ -19,7 +19,6 @@
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
 |`fields`|表单字段项|`FormField[]`|`[]`|
 |`pureText`|是否纯文本展示|`boolean`|-|
-|`fetch`|请求接口，一般跟`fetchSuccess`，`fetchFail`一起配合使用|`UniteFetchType`|-|
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`onFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
 |`span`|同`ElementPlus `的`span`，`1 ~ 24`|`string \| number`|-|
@@ -33,7 +32,6 @@
 |`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean`|-|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|
-|`handleRequest`|处理参数|`() => void`|-|
 |`grid`|-|-|`24`|
 
 ::: tip
@@ -46,8 +44,8 @@
 |:---|:---|:---|
 |`change`|-|-|
 |`moreBtns`|-|-|
-|`submit`|-|-|
 |`update:modelValue`|-|-|
+|`submit`|-|-|
 
 ### 方法(expose)
 

@@ -2,7 +2,7 @@
   section部分有prop属性时，参数会包裹一层，反之，则直接挂在双向绑定的数据上。
  -->
 <template>
-  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon" :grid="12"></SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" @submit="PostMockCommon" :grid="12"></SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";

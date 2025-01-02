@@ -109,17 +109,7 @@ import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.v
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import {
-  omitAttrs,
-  printLog,
-  propsJoinChar,
-  rangeJoinChar,
-  showMessage,
-  typeOf,
-  emptyVals,
-  defaultReqMap,
-  defaultResMap,
-} from "@/core/utils";
+import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
@@ -127,16 +117,7 @@ import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_comp
 import { splitPropsParams } from "@/core/utils";
 import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
 import { batchBtnNames } from "@/core/components/crud/BaseCrud";
-import {
-  CommonObj,
-  UniteFetchType,
-  FinallyNext,
-  StrNum,
-  CommonSize,
-  GetRequired,
-  ClosePopupInject,
-  BaseDataType,
-} from "@/core/_types";
+import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, ClosePopupInject, BaseDataType } from "@/core/_types";
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
@@ -151,6 +132,7 @@ import { filterBtnsByAuth } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
 import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
 import _ from "lodash";
+import { useAttrs } from "vue";
 
 const { merge, cloneDeep, snakeCase } = _;
 const $slots = defineSlots<{
@@ -167,7 +149,6 @@ const props = withDefaults(
     modelValue?: CommonObj; // 表单数据，可设默认值
     fields?: FormField[]; // 表单字段
     sections?: SectionFormItemAttrs[]; // 分块的表单字段
-    fetch?: UniteFetchType; // 列表请求接口
     extraParams?: CommonObj; // 额外的参数
     changeFetch?: boolean; // 是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
     inputDebounce?: boolean; // 输入框输入时，是否通过防抖输入，触发搜索
@@ -226,6 +207,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
+const $attrs = useAttrs();
 const { extraParams = {}, pagination } = props;
 const baseCrudRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
@@ -341,13 +323,14 @@ function handleChange(changedVals: CommonObj, isInit?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { fetch, omits, summaryList, afterSuccess, afterFail, log } = props;
-  if (!fetch) return;
-  loading.value = true;
+  const { omits, summaryList, afterSuccess, afterFail, log } = props;
   args = omitAttrs(args, omits);
-  (log === true || log === "req") && printLog(args, "req");
-  fetch(args)
-    .then((res: any) => {
+  if (log === true || log === "req") printLog(args, "req");
+  const fetch = $attrs.onSubmit(args);
+  const isPromise = typeOf(fetch) === "Promise";
+  if (isPromise) loading.value = true;
+  fetch
+    ?.then((res: any) => {
       // if (!res) return console.error("未请求到预期数据，请检查接口是否有误");
       const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);

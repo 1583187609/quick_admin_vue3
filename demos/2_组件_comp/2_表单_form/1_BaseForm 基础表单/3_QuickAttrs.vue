@@ -2,7 +2,7 @@
   扩展的快捷属性，放置在 quickAttrs 中。例：pureText、grid、example、tips、popover、before、after
 -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon"></BaseForm>
+  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon"></BaseForm>
 </template>
 <script lang="ts" setup>
 import { PostMockCommon } from "@/api-mock";

@@ -1,10 +1,9 @@
 # StepForm 分步表单
 
-&emsp;&emsp;目标：定位为步骤表单。  
-&emsp;&emsp;功能：结合了分块表单（`SectionForm`）和步骤条的功能。
+&emsp;&emsp;步骤表单。结合了步骤条和分块表单(`SectionForm)`的功能
 ## 基础用法
 
-&emsp;&emsp;这是步骤表单基础用法的介绍内容，待完善。
+&emsp;&emsp;`SectionForm`属性通过`formAttrs`传入，步骤条属性通过`stepAttrs`传入。
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/3_StepForm 分步表单/1_BasicUse.vue

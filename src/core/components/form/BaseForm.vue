@@ -4,21 +4,10 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="styleType"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row
-      class="section all-hide-scroll"
-      :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
-      v-else
-    >
+    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
       <template v-if="newFields.length">
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
@@ -51,12 +40,11 @@
         :log="log"
         :debug="debug"
         :params="params"
-        :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
         :afterReset="afterReset"
         @moreBtns="(...args) => $emit('moreBtns', ...args)"
-        @submit="(...args) => $emit('submit', ...args)"
+        @submit="$attrs.onSubmit"
         @reset="$attrs.onReset"
         ref="footerBtnsRef"
         v-if="!pureText && footer === true"
@@ -122,7 +110,6 @@ const props = withDefaults(
      */
     extraParams?: CommonObj; //额外的参数
     omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的请求参数
-    fetch?: UniteFetchType; //请求接口，一般跟fetchSuccess，fetchFail一起配合使用
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: FinallyNext; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
@@ -144,7 +131,7 @@ const props = withDefaults(
     ...config?.BaseForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "moreBtns"]);
 const $attrs = useAttrs();
 useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
@@ -159,7 +146,7 @@ watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, $attrs, modelValue);
+    const result = handleFields(newVal, props, modelValue);
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
@@ -168,8 +155,7 @@ watch(
 );
 //处理表单的enter时间
 function handleEnter() {
-  if (props.fetch) return footerBtnsRef.value.submit();
-  $emit("submit", params.value, useNextCallback(getFootBtnAttrs(props.submitBtn)?.text ?? "提交", closePopup));
+  footerBtnsRef.value.submit();
 }
 
 defineExpose<{

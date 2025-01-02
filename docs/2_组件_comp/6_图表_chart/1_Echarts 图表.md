@@ -34,7 +34,7 @@
 :::
 ## 单例多图
 
-&emsp;&emsp;一个`dom`载体，渲染多个图表。  
+&emsp;&emsp;在一个`dom`元素中，渲染多个图表。  
 &emsp;&emsp;`layout`设置行`x`列。
 
 ::: demo 

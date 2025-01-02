@@ -1,7 +1,7 @@
 <!-- 页面-简介 -->
 <template>
   <div class="page-view two f-sb-s">
-    <SectionForm class="f-2" v-model="modelData" :fetch="handleFetch" :sections="sections">
+    <SectionForm class="f-2" v-model="modelData" @submit="handleFetch" :sections="sections">
       <template #head-right-0>这是标题右侧的插槽</template>
       <template #zdy>
         <el-input placeholder="这是自定义组件" v-model="modelData.zdy" clearable />

@@ -7,6 +7,7 @@ import { CommonObj } from "@/core/_types";
 import { BaseBtnType, BtnItem, EndBtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/core/components/crud/BaseCrud/_types";
 import { PopconfirmAttrs, PopconfirmType } from "../_types";
+import { needParam } from "@/utils";
 import _ from "lodash";
 
 const { merge } = _;
@@ -33,24 +34,21 @@ export function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem):
  * @param {string | object | Function} btn 按钮名或按钮对象或方法函数
  * @param {CommonObj} baseBtnAttrs  额外添加的属性，用来覆盖
  */
-export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): EndBtnItem | undefined {
+export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): EndBtnItem {
   const t = typeOf(btn);
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {
     const targetBtn = btnsMap[btn as BtnName];
-    if (!targetBtn) return;
+    if (!targetBtn) return { name: btn as string };
     //icon 经过 JSON.parse(JSON.stringify())之后，重新渲染时会报错，故做此处理
     const { icon } = targetBtn.attrs || {};
     btnObj = JSON.parse(JSON.stringify(targetBtn));
     if (icon) btnObj!.attrs!.icon = icon;
   } else if (t === "Object") {
-    const { name } = btn as BtnItem;
-    if (!name || !btnsMap[name]) return;
+    const { name = needParam() } = btn as BtnItem;
     btnObj = merge({}, btnsMap[name as string], btn);
   } else if (t === "Function") {
-    const _btn = getBtnObj((btn as BtnFn)(row as CommonObj), row);
-    if (!_btn) return;
-    btnObj = _btn;
+    btnObj = getBtnObj((btn as BtnFn)(row as CommonObj), row);
   }
   const { auth, attrs, popconfirm } = btnObj;
   if (auth?.length) {

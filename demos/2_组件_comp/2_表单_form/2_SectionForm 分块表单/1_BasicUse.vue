@@ -3,7 +3,7 @@
   扩展了bodyMaxHeight、foldable、defaultExpands、accordion，其他属性同 BaseForm。
  -->
 <template>
-  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon"></SectionForm>
+  <SectionForm v-model="modelData" :sections="sections" @submit="PostMockCommon"></SectionForm>
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";

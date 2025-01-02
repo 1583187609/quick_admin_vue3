@@ -2,7 +2,7 @@
   除了ElementPlus的属性外，其他的功能属性一律添加在 quickAttrs 中
 -->
 <template>
-  <BaseForm :fields="fields" :fetch="PostMockCommon"></BaseForm>
+  <BaseForm :fields="fields" @submit="PostMockCommon"></BaseForm>
 </template>
 <script lang="ts" setup>
 import { FormFieldAttrs } from "@/core/components/form/_components/FieldItem";

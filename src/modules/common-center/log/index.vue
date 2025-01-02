@@ -1,6 +1,6 @@
 <!-- 日志管理 -->
 <template>
-  <BaseCrud :cols="cols" :fields="fields" :fetch="GetMockCommon" index></BaseCrud>
+  <BaseCrud :cols="cols" :fields="fields" @submit="GetMockCommon" index></BaseCrud>
 </template>
 <script lang="ts" setup>
 import { GetMockCommon } from "@/api-mock";

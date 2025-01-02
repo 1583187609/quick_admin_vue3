@@ -21,7 +21,7 @@ meta:
         submitBtn="登录"
         ref="formRef"
       >
-        <!-- :fetch="PostMockUserLogin" -->
+        <!-- @submit="PostMockUserLogin" -->
         <template #captcha>
           <Captcha v-model="modelData.captcha" prop="captcha" />
         </template>

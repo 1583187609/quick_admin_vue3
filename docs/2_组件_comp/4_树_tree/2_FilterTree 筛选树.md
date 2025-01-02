@@ -1,5 +1,13 @@
 # FilterTree 筛选树
 
+&emsp;&emsp;继承自`BaseTree`，带过滤条件的树。
+## 基础用法
+
+
+
+::: demo 
+/demos/2_组件_comp/4_树_tree/2_FilterTree 筛选树/1_BasicUse.vue
+:::
 
 
 ## API 

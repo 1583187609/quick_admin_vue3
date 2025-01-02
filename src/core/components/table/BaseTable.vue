@@ -64,7 +64,6 @@ const props = withDefaults(
      * 请求属性
      */
     // params?: CommonObj;
-    // fetch?: UniteFetchType;
   }>(),
   {
     size: defaultCommonSize,
@@ -84,20 +83,6 @@ const newCols = reactive<TableColAttrs[]>(
     rowNum += maxLev - 1;
   })
 );
-// const rows = ref(props.data);
-// fetchRows();
-// function fetchRows() {
-//   const { fetch, params } = props;
-//   if (!fetch) return;
-//   isLoading.value = true;
-//   return fetch(params)
-//     .then(res => {
-//       rows.value = res;
-//     })
-//     .finally(() => {
-//       isLoading.value = false;
-//     });
-// }
 //点击操作栏按钮
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, e: Event) {
   const { name } = btnObj;

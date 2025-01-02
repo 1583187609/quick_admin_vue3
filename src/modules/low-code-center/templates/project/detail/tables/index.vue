@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    :fetch="GetMockUser"
+    @submit="GetMockUser"
     :extraBtns="['add']"
     :operateBtns="['edit', { name: 'view', to: ({id}:CommonObj) => `/code/one-site/system-design/tables/detail?id=${id}` }, 'delete']"
     @extraBtns="onExtraBtns"

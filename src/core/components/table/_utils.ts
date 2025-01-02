@@ -89,14 +89,8 @@ export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: 
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getGroupBtnsOfRow(
-  row: CommonObj,
-  rowInd: number,
-  props: CommonObj,
-  operateCol?: TableColAttrs,
-  cb?: (width: StrNum) => void
-) {
-  const { operateBtns = [], rows, operateBtnsAttrs, filterByAuth, disabled, size } = props;
+export function getGroupBtnsOfRow(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
+  const { operateBtns = [], data, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
@@ -108,7 +102,7 @@ export function getGroupBtnsOfRow(
     return filterBtns;
   }
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
-  const isLastRow = rowInd === rows.length - 1;
+  const isLastRow = rowInd === data.length - 1;
   if (!isLastRow) {
     if (operateWidth < width) operateWidth = width;
   } else {

@@ -1,6 +1,13 @@
 # BaseTree 基础树
 
-&emsp;&emsp;扩展了叶子节点点击事件
+&emsp;&emsp;继承`el-tree`，并扩展了叶子节点点击事件 `onLeafNodeClick`
+## 基础用法
+
+
+
+::: demo 
+/demos/2_组件_comp/4_树_tree/1_BaseTree 基础树/1_BasicUse.vue
+:::
 
 
 ## API 

@@ -2,12 +2,12 @@
 <template>
   <div class="page-view one f-sb-s f-1">
     <BaseForm
-      @change="handleChange"
       v-model="modelData"
+      class="three f-2"
       :fields="fields"
-      :fetch="PostMockCommon"
       :size="modelData.widget_size"
       :labelPosition="modelData.label_position"
+      :pureText="false"
       :moreBtns="[
         { name: 'reject', popconfirm: false },
         {
@@ -24,10 +24,10 @@
         },
       ]"
       @moreBtns="handleMoreBtns"
-      class="three f-2"
-      :pureText="false"
+      @change="handleChange"
+      @submit="PostMockCommon"
     >
-      <!--也可写成 :fetch="handleFetch"，处理转换 请求参数 -->
+      <!--也可写成 @submit="handleFetch"，处理转换 请求参数 -->
       <template #zdy>
         <input placeholder="请输入（自定义组件示例）" v-model="modelData.zdy" />
       </template>
