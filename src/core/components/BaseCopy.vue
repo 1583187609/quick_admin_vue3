@@ -2,24 +2,19 @@
 目标：定位为复制文本。提供文本复制功能，并扩展路由跳转、自定义点击时间、同时兼顾复制文本（仅点击图标时可复制）等功能，同时自带样式。
 -->
 <template>
-  <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy">
+  <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy || !textStr">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': +maxLine > 0, hover: textStr && !isClickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!textStr || !to">
-        <span
-          @click="handleClick"
-          class="f-1"
-          :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }"
-        >
-          <slot>{{ textStr || emptyStr }}</slot>
+        <span @click="handleClick" class="f-1" :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }">
+          <slot v-if="textStr">{{ textStr }}</slot>
+          <template v-else>{{ emptyStr }}</template>
         </span>
       </el-tooltip>
-      <template v-if="textStr">
-        <el-tooltip v-bind="tooltipAttrs" :disabled="!isClickIconCopy">
-          <el-icon class="f-0 ml-4 icon hover">
-            <DocumentCopy />
-          </el-icon>
-        </el-tooltip>
-      </template>
+      <el-tooltip v-bind="tooltipAttrs" :disabled="!isClickIconCopy" v-if="textStr">
+        <el-icon class="f-0 ml-4 icon hover">
+          <DocumentCopy />
+        </el-icon>
+      </el-tooltip>
     </div>
   </el-tooltip>
 </template>
@@ -59,7 +54,12 @@ const isClickIconCopy = computed(() => {
   const { to, clickIconCopy = !!to || !!onClick } = props;
   return clickIconCopy;
 });
-const textStr = computed<StrNum>(() => $slots.default?.().map(it=>it.children ?? '').join(""));
+const textStr = computed<StrNum>(() => {
+  return $slots
+    .default?.()
+    .map(it => it.children ?? "")
+    .join("");
+});
 // 跳转页面或触发点击事件
 function handleClick(e) {
   const { to, stop } = props;

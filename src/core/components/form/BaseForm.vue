@@ -7,8 +7,12 @@
   <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
-    <el-row class="section all-hide-scroll" :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']" v-else>
-      <template v-if="newFields.length">
+    <template v-else>
+      <el-row
+        class="section all-hide-scroll"
+        :class="[newFields.length ? 'f-fs-s-w' : 'f-c-c', autoFixedFoot && 'auto-fixed-foot']"
+        v-if="newFields.length"
+      >
         <!-- :class="{ custom: field.type === 'custom' }" -->
         <FieldItemCol
           v-model="formData[field.prop as string]"
@@ -21,13 +25,12 @@
           :key="field.key ?? ind"
         >
           <template #custom="{ field: currField }">
-            <slot :name="currField.prop" :field="currField" :form="formData" />
+            <slot :name="currField.prop" :field="currField" />
           </template>
         </FieldItemCol>
-      </template>
+      </el-row>
       <BaseEmpty v-else />
-    </el-row>
-
+    </template>
     <slot name="footer" v-if="footer">
       <FooterBtns
         :loading="loading"

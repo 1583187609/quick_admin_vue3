@@ -33,18 +33,20 @@ export function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem):
  * 根据按钮名或按钮对象获取按钮对象
  * @param {string | object | Function} btn 按钮名或按钮对象或方法函数
  * @param {CommonObj} baseBtnAttrs  额外添加的属性，用来覆盖
+ * @param {boolean} isStand 是否是标准的按钮属性
  */
-export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }): EndBtnItem {
+export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }, isStand = false): EndBtnItem {
   const t = typeOf(btn);
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {
     const targetBtn = btnsMap[btn as BtnName];
     if (!targetBtn) return { name: btn as string };
-    //icon 经过 JSON.parse(JSON.stringify())之后，重新渲染时会报错，故做此处理
+    //icon 经过 JSON.parse(JSON.stringify())之后，会删除掉函数等属性，重新渲染时会报错，故做如下处理
     const { icon } = targetBtn.attrs || {};
     btnObj = JSON.parse(JSON.stringify(targetBtn));
     if (icon) btnObj!.attrs!.icon = icon;
   } else if (t === "Object") {
+    if (isStand) return btn as EndBtnItem;
     const { name = needParam() } = btn as BtnItem;
     btnObj = merge({}, btnsMap[name as string], btn);
   } else if (t === "Function") {

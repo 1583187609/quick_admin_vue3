@@ -35,7 +35,7 @@
               :key="ind"
             >
               <template #custom="{ field: currField }">
-                <slot name="custom" :field="currField" :form="formData" />
+                <slot name="custom" :field="currField" />
               </template>
             </QueryFields>
             <QueryBtns
@@ -48,13 +48,7 @@
               @submit="handleSubmit"
               @reset="handleReset"
               v-bind="getGridAttrs(grid)"
-              v-if="
-                newSections.length <= rowNum
-                  ? sInd === newSections.length - 1
-                  : isFold
-                  ? sInd === rowNum - 1
-                  : sInd === newSections.length - 1
-              "
+              v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
             />
           </div>
         </div>
@@ -68,7 +62,7 @@
           :key="ind"
         >
           <template #custom="{ field: currField }">
-            <slot name="custom" :field="currField" :form="formData" />
+            <slot name="custom" :field="currField" />
           </template>
         </QueryFields>
         <QueryBtns

@@ -327,6 +327,7 @@ const cols: TableCol[] = [
   {
     prop: "insertCols",
     label: "外部插入列",
+    fixed: "left",
     quickAttrs: {
       popover: "外部插入列实例：内嵌、custom自定义",
     },

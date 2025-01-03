@@ -31,7 +31,7 @@
               @notice {danger} 这是 danger 信息
               @notice {details} 这是 details 信息
             -->
-            <slot :name="currField.prop" :field="currField" :form="formData" />
+            <slot :name="currField.prop" :field="currField" />
           </template>
         </FieldItemCol>
       </template>

@@ -51,6 +51,7 @@ export const defaultPopoverAttrs: CommonObj = getExportData(
     // trigger: "hover",
     // content: "自定义提示内容",
     width: "fit-content",
+    showAfter: 500,
   },
   form?.defaultPopoverAttrs
 );

@@ -24,8 +24,8 @@
       @change="handleChange"
       ref="queryFormRef"
     >
-      <template #custom="{ field, form }">
-        <slot :name="field.prop" :field="field" :form="form" />
+      <template #custom="{ field }">
+        <slot :name="field.prop" :field="field" />
       </template>
     </QueryForm>
     <div class="middle" :class="size" v-if="$slots.middle">
@@ -110,15 +110,27 @@ import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.v
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import { omitAttrs, printLog, propsJoinChar, rangeJoinChar, showMessage, typeOf, emptyVals, defaultReqMap, defaultResMap } from "@/core/utils";
+import {
+  omitAttrs,
+  printLog,
+  propsJoinChar,
+  rangeJoinChar,
+  showMessage,
+  typeOf,
+  emptyVals,
+  defaultReqMap,
+  defaultResMap,
+  showConfirmMessage,
+} from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
 import Pagination from "./_components/Pagination.vue";
+import { getQueryFieldValue } from "./_utils";
+import { ExportCfg } from "./_types";
+import { defaultCommonSize, defaultPagination, judgeIsInDialog, splitPropsParams } from "@/core/utils";
+import { batchBtnNames, getExportRows } from "@/core/components/crud/BaseCrud";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
-import { splitPropsParams } from "@/core/utils";
-import { handleClickExtraBtns, getQueryFieldValue } from "./_utils";
-import { batchBtnNames } from "@/core/components/crud/BaseCrud";
-import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, ClosePopupInject, BaseDataType } from "@/core/_types";
+import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, BaseDataType } from "@/core/_types";
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
@@ -126,16 +138,14 @@ import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "
 import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
-import { ExportCfg } from "./_types";
 import { TableAttrs } from "@/core/components/table/_types";
-import { defaultCommonSize, defaultPagination, judgeIsInDialog } from "@/core/utils";
 import { filterBtnsByAuth } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
 import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
+import cssVars from "@/assets/styles/_var.module.scss";
 import _ from "lodash";
-import { useAttrs } from "vue";
 
-const { merge, cloneDeep, snakeCase } = _;
+const { merge, cloneDeep, upperFirst } = _;
 const $slots = defineSlots<{
   default: () => void; // 默认插槽
   middle?: () => void; // 中间插槽
@@ -211,7 +221,6 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
-const $attrs = useAttrs();
 const { extraParams = {}, pagination } = props;
 const baseCrudRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
@@ -246,6 +255,7 @@ const newExtraBtns = computed<BtnItem[]>(() => {
       if (attrs) {
         const byTotalDisabled = !handleClickType || name === "export";
         attrs.disabled = byTotalDisabled ? !pageInfo.total : !seledRows.value.length;
+        // attrs.disabled && console.log(attrs.disabled, btnObj.name, "attrs.disabled------------");
       }
     }
     if (disabled) attrs!.disabled = disabled;
@@ -254,28 +264,32 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   return filterBtnsByAuth(btns, filterByAuth);
 });
 
-function filterCycle(cols: TableCol[] = []) {
-  return cols
-    .filter(it => !!it)
-    .map((originCol: any) => {
-      let { tpl, ...col } = originCol;
-      const { type } = col;
-      if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-      if (tpl) {
-        const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
-        col = merge(tplData, col);
-      }
-      const { children } = col as TableColAttrs;
-      if (children?.length) (col as TableColAttrs).children = filterCycle(children);
-      return col;
-    });
-}
+setTimeout(() => {
+  console.log(newExtraBtns.value, "dddd---------newExtraBtns");
+}, 3000);
 
+/**
+ * 获取标准的表格列数据
+ */
+function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
+  const filterCols = cols.filter(it => !!it);
+  return filterCols.map((originCol: any) => {
+    let { tpl, ...col } = originCol;
+    const { type } = col;
+    if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+    if (tpl) {
+      const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
+      col = merge(tplData, col);
+    }
+    const { children } = col as TableColAttrs;
+    if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
+    return col;
+  });
+}
 // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失
-const originCols = computed<TableColAttrs[]>(() => filterCycle(props.cols) as TableColAttrs[]);
+const originCols = computed<TableColAttrs[]>(() => getStandardCols(props.cols) as TableColAttrs[]);
 const newCols = ref<TableColAttrs[]>(toRaw(originCols.value));
 const dragSortable = computed<boolean>(() => !!newCols.value.find(col => col.type === "sort"));
-
 // 当额外参数改变时，发起请求
 watch(
   () => props.extraParams,
@@ -362,27 +376,66 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       loading.value = false;
     });
 }
-
+// 显示确认弹窗（渲染html字符串）
+function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit, e }) {
+  const { name = "", text, attrs } = btnObj;
+  const colorType = attrs?.type || "primary";
+  const colorKey = `color${upperFirst(colorType)}`;
+  const color = cssVars[colorKey];
+  const style = `style="color:${color};"`;
+  const len = isSeledAll ? total : seledRows.length;
+  const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
+  showConfirmMessage(hintTips, colorType).then(() => {
+    let exportRows: any[] = [];
+    if (name === "export") {
+      const _newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
+      exportRows = getExportRows(_newCols, seledRows);
+    }
+    $emit("extraBtns", name, next, { selectedKeys: seledKeys, selectedRows: seledRows, exportRows }, e);
+  });
+}
 // 点击额外的按钮
 function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Event) {
-  const { exportCfg, importCfg, tableAttrs } = props;
+  const { name = "", text, handleClickType } = btnObj;
+  if (!handleClickType || !batchBtnNames.includes(name)) {
+    return $emit("extraBtns", name, next, { selectedKeys: [], selectedRows: [], exportRows: [] }, e);
+  }
+  const { total } = pageInfo;
+  const cols = newCols.value;
+  const { exportCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
-  const { text } = btnObj;
-  handleClickExtraBtns({
+  const seledKeys = seledRows.value.map((it: CommonObj) => {
+    const key = typeof rowKey === "string" ? rowKey : rowKey?.();
+    return it[key];
+  });
+  if (name !== "export") {
+    return showConfirmHtmlBox({
+      btnObj,
+      seledRows,
+      seledKeys,
+      cols,
+      total,
+      next,
+      e,
+      $emit,
+      isSeledAll: seledRows.value.length === total,
+    });
+  }
+  const isOverLimit = exportCfg?.limit ? seledRows.value.length > exportCfg.limit : false;
+  if (isOverLimit) {
+    const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
+    return showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
+  }
+  showConfirmHtmlBox({
     btnObj,
-    cols: newCols.value,
-    seledRows: seledRows.value,
-    seledKeys: seledRows.value.map((it: CommonObj) => {
-      const key = typeof rowKey === "string" ? rowKey : rowKey?.();
-      return it[key];
-    }),
-    total: pageInfo.total,
-    exportCfg,
+    seledRows,
+    seledKeys,
+    cols,
+    total,
+    next,
     e,
     $emit,
-    next: () => next(text, undefined, refreshList),
-    openPopup,
-    importCfg,
+    isSeledAll: seledRows.value.length === 0 || seledRows.value.length === total,
   });
 }
 

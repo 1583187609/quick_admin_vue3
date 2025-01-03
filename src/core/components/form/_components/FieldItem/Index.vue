@@ -14,7 +14,6 @@
     <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs, formItemAttrs.quickAttrs?.popover)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
       <QuestionPopover :popover="formItemAttrs.quickAttrs?.popover" v-if="formItemAttrs.quickAttrs?.popover" />
-      <!-- 冒号（：）等 -->
       <template v-if="labelSuffix">{{ labelSuffix }}</template>
     </template>
     <template v-if="formItemAttrs.quickAttrs?.before">
@@ -26,27 +25,34 @@
     <slot name="custom" :field="formItemAttrs" v-if="formItemAttrs.type === 'slot'">
       <div class="color-danger">【自定义】{{ `${formItemAttrs.label}（${formItemAttrs.prop})` }}</div>
     </slot>
-    <FormItem
-      v-model="modelVal"
-      :is="formItemAttrs.type"
-      :class="flexClass"
-      :field="formItemAttrs"
-      @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
-      @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
-      @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
-      v-if="getIsEl(formItemAttrs.type)"
-    />
-    <component
-      v-model="modelVal"
-      :is="formItemAttrs.type"
-      :class="flexClass"
-      :field="formItemAttrs"
-      @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
-      @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
-      @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
-      v-else-if="getIsBase(formItemAttrs.type)"
-    />
-    <template v-else>{{ throwTplError(`不存在此类型：${formItemAttrs.type}`) }}</template>
+    <template v-else>
+      <template v-if="formItemAttrs.quickAttrs?.pureText || pureText">
+        {{ getOptionValue(formItemAttrs, modelVal).value }}
+      </template>
+      <template v-else>
+        <FormItem
+          v-model="modelVal"
+          :is="formItemAttrs.type"
+          :class="flexClass"
+          :field="formItemAttrs"
+          @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
+          @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
+          @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
+          v-if="getIsEl(formItemAttrs.type)"
+        />
+        <component
+          v-model="modelVal"
+          :is="formItemAttrs.type"
+          :class="flexClass"
+          :field="formItemAttrs"
+          @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
+          @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
+          @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
+          v-else-if="getIsBase(formItemAttrs.type)"
+        />
+        <template v-else>{{ throwTplError(`不存在此类型：${formItemAttrs.type}`) }}</template>
+      </template>
+    </template>
     <template v-if="formItemAttrs.quickAttrs?.after">
       <div class="ml-h" v-if="typeof formItemAttrs.quickAttrs.after === 'string'">{{ formItemAttrs.quickAttrs.after }}</div>
       <BaseRender :renderData="formItemAttrs.quickAttrs.after" v-else />
@@ -56,16 +62,28 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { defaultFormItemType, getFormItemSlots, deleteAttrs, throwTplError, defaultCommonSize } from "@/core/utils";
+import {
+  defaultFormItemType,
+  getFormItemSlots,
+  deleteAttrs,
+  throwTplError,
+  defaultCommonSize,
+  getTextFromOpts,
+  rangeJoinChar,
+  emptyStr,
+  emptyVals,
+} from "@/core/utils";
 import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultFormItemTplsMap, getStandAttrsFromTpl } from ".";
-import { useFormAttrs } from "@/hooks";
+import { useFormAttrs, useDict } from "@/hooks";
 import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
 import _ from "lodash";
+import { typeOf } from "#/mock/utils";
+import { DictName } from "@/dict/_types";
 
 const { merge } = _;
 const props = withDefaults(
@@ -92,7 +110,8 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
 const $attrs = useAttrs();
-const { labelSuffix } = useFormAttrs({ ...props, ...$attrs });
+const { getOpts } = useDict();
+const { labelSuffix, pureText } = useFormAttrs({ ...props, ...$attrs });
 const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
@@ -173,6 +192,55 @@ function mergeRules(rules: FormItemRule[] = []) {
 //     { min: 20, message: "最小20" },
 //   ])
 // );
+// 获取标准下拉项
+function getStandardOptions(opts): OptionItem[] {
+  if (!opts) return [];
+  const t = typeOf(opts);
+  if (t === "String") return getOpts(opts as DictName);
+  if (t === "Array") return opts;
+  throw new Error(`暂未处理此种options的类型：${t}`);
+}
+//获取表单键值对的值
+function getOptionValue(field: FormFieldAttrs, val: any) {
+  const { type = defaultFormItemType, label, attrs = {}, quickAttrs = {} } = field;
+  const stanOpts = getStandardOptions(attrs.options);
+  if (["select", "radio-group"].includes(type)) {
+    val = stanOpts?.find(it => it.value === val)?.label;
+  } else if (type.includes("Time") || type.includes("date")) {
+    const { format } = merge({}, defaultFieldAttrs[type]?.attrs, attrs);
+    const isArr = typeOf(val) === "Array";
+    const joinStr = ` ${rangeJoinChar} `;
+    if (quickAttrs?.pureText || pureText) {
+      val = isArr ? val.join(joinStr) : val;
+    } else {
+      val = isArr ? val.map((it: any) => it.format(format)).join(joinStr) : val?.format(format);
+    }
+  } else if (type === "checkbox-group") {
+    val = stanOpts
+      ?.filter((it: OptionItem) => val.includes(it.value))
+      ?.map((it: OptionItem) => it.label)
+      .join("，");
+  } else if (type === "input-number") {
+    const { after = "" } = quickAttrs;
+    if (val) val = val + after;
+  } else if (type === "switch") {
+    const { activeText = "是", inactiveText = "否", activeValue } = attrs;
+    val = activeValue === val ? activeText : inactiveText;
+  } else if (type === "checkbox") {
+    // val = val ? "是" : "否";
+    val = stanOpts.find(it => it.value === val)?.label;
+  } else if (type === "cascader") {
+    val = getTextFromOpts(stanOpts, val);
+  } else if (type === "BaseNumberRange") {
+    val = val?.join(rangeJoinChar);
+  } else if (type === "slot") {
+    val = emptyStr;
+  } else {
+    new Error(`暂未处理此种类型：${type}`);
+  }
+  if (emptyVals.includes(val)) val = emptyStr;
+  return { label, value: val };
+}
 defineExpose({});
 </script>
 <style lang="scss" scoped>

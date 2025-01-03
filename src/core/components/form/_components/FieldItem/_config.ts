@@ -4,7 +4,7 @@ import { getExportData, rangeJoinChar, regexp } from "@/core/utils";
 import config from "@/config";
 import _ from "lodash";
 
-const { snakeCase } = _;
+const { snakeCase, cloneDeep } = _;
 const formCfg = config?.form;
 
 //日期快捷方式
@@ -472,7 +472,7 @@ export const defaultFormItemTplsMap = {
 export function getStandAttrsFromTpl(tpl, tplMap = defaultFormItemTplsMap.common) {
   let tplInfo = tplMap[tpl];
   if (!tplInfo) throw new Error(`不存在该模板：${tpl}`);
-  tplInfo = JSON.parse(JSON.stringify(tplInfo));
+  tplInfo = cloneDeep(tplInfo);
   if (!tplInfo.prop) tplInfo.prop = snakeCase(tpl.slice(2));
   tplInfo.tpl = tpl;
   return tplInfo;

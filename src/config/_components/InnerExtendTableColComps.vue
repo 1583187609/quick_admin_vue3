@@ -3,7 +3,7 @@
   此组件后续可能会移除
 -->
 <template>
-  <FormItem v-model="newRow[col.prop]" :is="col.type" :prop="col.prop" v-bind="col.attrs" @change="handleChange" />
+  <FormItem v-model="newRow[col.prop]" :is="col.type" :field="col" @change="handleChange" @blur="handleBlur" @focus="handleFocus" />
   <!-- <template v-if="col.type === 'switch'">
     <el-switch
       :modelValue="newRow[col.prop]"
@@ -52,6 +52,12 @@ const newRow = computed({
 
 function handleChange(val: any) {
   console.log(val, "val-change------------");
+}
+function handleBlur(val: any) {
+  console.log(val, "val-blur------------");
+}
+function handleFocus(val: any) {
+  console.log(val, "val-focus------------");
 }
 
 // 处理switch的change事件

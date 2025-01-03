@@ -7,4 +7,5 @@ export * from "./_utils";
 const customBtsMap = config?.BaseBtn?.btnsMap;
 
 export const btnsMap = getExportData(btns, customBtsMap, "merge");
+// export const btnsMap = btns;
 export const btnNames = Object.keys(btnsMap);

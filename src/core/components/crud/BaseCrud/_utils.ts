@@ -1,30 +1,17 @@
 import { BtnItem, BaseBtnType, BtnsMap } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { CommonObj, OptionItem, StrNum } from "@/core/_types";
-import cssVars from "@/assets/styles/_var.module.scss";
-import {
-  rangeJoinChar,
-  typeOf,
-  getLabelFromOptionsByAllValues,
-  getLabelFromOptionsByLastValue,
-  defaultFormItemType,
-  showMessage,
-  showConfirmMessage,
-} from "@/core/utils";
+import { rangeJoinChar, typeOf, getLabelFromOptionsByAllValues, getLabelFromOptionsByLastValue, defaultFormItemType } from "@/core/utils";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
-import { HandleClickExtraBtnsProps } from "./_types";
-import { batchBtnNames } from ".";
 import _ from "lodash";
-
-const { upperFirst } = _;
 
 export interface ExtraBtnRestArgs {
   selectedKeys: string[];
   selectedRows: CommonObj[];
   exportRows: string[][];
 }
-
+const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function getExportRows(cols: TableColAttrs[] = [], rows: CommonObj[] = []): string[][] {
   const exportRows: string[][] = [];
   const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
@@ -40,43 +27,6 @@ export function getExportRows(cols: TableColAttrs[] = [], rows: CommonObj[] = []
     exportRows.push(list);
   });
   return exportRows;
-}
-
-// 显示确认弹窗（渲染html字符串）
-export function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit, e }) {
-  const { name = "", text, attrs } = btnObj;
-  const colorType = attrs?.type || "primary";
-  const colorKey = `color${upperFirst(colorType)}`;
-  const color = cssVars[colorKey];
-  const style = `style="color:${color};"`;
-  const len = isSeledAll ? total : seledRows.length;
-  const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
-  showConfirmMessage(hintTips, colorType).then(() => {
-    let exportRows: any[] = [];
-    if (name === "export") {
-      const newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
-      exportRows = getExportRows(newCols, seledRows);
-    }
-    $emit("extraBtns", name, next, { selectedKeys: seledKeys, selectedRows: seledRows, exportRows }, e);
-  });
-}
-
-// "index", "selection", "sort", "operate", "id", "create", "update", "remark", "custom", "switch", "BaseTag", "BaseImg", "BaseText", "BaseCopy", "UserInfo"
-const allowList = [undefined, "index", "id", "create", "update", "remark"];
-export function handleClickExtraBtns({ btnObj, cols = [], seledRows, seledKeys, total, exportCfg, e, $emit, next }: HandleClickExtraBtnsProps) {
-  const { name = "", text, handleClickType } = btnObj;
-  if (!handleClickType || !batchBtnNames.includes(name)) {
-    return $emit("extraBtns", name, next, { selectedKeys: [], selectedRows: [], exportRows: [] }, e);
-  }
-  if (name !== "export") {
-    return showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, e, $emit, isSeledAll: seledRows.length === total });
-  }
-  const isOverLimit = exportCfg?.limit ? seledRows.length > exportCfg.limit : false;
-  if (isOverLimit) {
-    const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
-    return showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
-  }
-  showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, e, $emit, isSeledAll: seledRows.length === 0 || seledRows.length === total });
 }
 
 /**

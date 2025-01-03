@@ -1,39 +1,24 @@
 <!-- 页面-简介 -->
 <template>
-  <FieldItem
+  <component
     v-model="modelData[field!.prop as string]"
     class="form-item"
     :class="currSize"
+    :is="layoutType === 'flex' ? FieldItem : FieldItemCol"
     :size="currSize"
     :field="field"
+    :colAttrs="layoutType === 'flex' ? undefined : { class: 'query-field-item' }"
     :disabled="field?.quickAttrs?.disabled ?? disabled"
     :readonly="field?.quickAttrs?.readonly ?? readonly"
     :inputDebounce="inputDebounce"
-    v-if="layoutType === 'flex'"
+    @blur="(...args) => $emit('blur', ...args)"
+    @focus="(...args) => $emit('focus', ...args)"
+    @change="(...args) => $emit('change', ...args)"
   >
     <template #custom="{ field: currField }">
       <slot name="custom" :field="currField" />
     </template>
-  </FieldItem>
-  <FieldItemCol
-    v-model="modelData[field!.prop as string]"
-    class="form-item"
-    :class="currSize"
-    :size="currSize"
-    :field="field"
-    :colAttrs="{ class: 'query-field-item' }"
-    :disabled="field?.quickAttrs?.disabled ?? disabled"
-    :readonly="field?.quickAttrs?.readonly ?? readonly"
-    :inputDebounce="inputDebounce"
-    @blur="(val:any, prop:any) => $emit('blur', val, prop)"
-    @focus="(val:any, prop:any) => $emit('focus', val, prop)"
-    @change="(val:any, prop:any) => $emit('change', val, prop)"
-    v-else
-  >
-    <template #custom="{ field: currField }">
-      <slot name="custom" :field="currField" />
-    </template>
-  </FieldItemCol>
+  </component>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
@@ -55,7 +40,7 @@ const props = withDefaults(
     layoutType?: QueryFormItemLayoutType;
   }>(),
   {
-    modelValue: () => ({}),
+    modelValue: () => reactive({}),
     size: defaultCommonSize,
   }
 );
@@ -93,17 +78,4 @@ const modelData = computed<CommonObj>({
     }
   }
 }
-
-// .field-item {
-//   width: 100%;
-//   margin-bottom: 8px !important;
-//   :deep(.el-form-item__label) {
-//     margin-left: $gap-half;
-//     // background: red;
-//   }
-// }
-// :deep(.el-form-item__label) {
-//   margin-left: $gap-half;
-//   // background: red;
-// }
 </style>

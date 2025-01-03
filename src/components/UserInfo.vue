@@ -43,14 +43,13 @@
           <span class="f-0 age">{{ data.age || "0" }}岁</span>
           <BaseTag class="f-0 ml-h mr-a" name="D_MatrimonyStatus" :value="data.single_type" size="small" pureText />
           <BaseTag class="f-0" name="D_AccountStatus" :value="data.account_status" size="small" />
-          <!-- v-if="data.account_status !== 0" -->
         </div>
         <div class="f-sb-c">
           <div class="f-0 item">
             ID：<BaseCopy maxLine="1">{{ data.id }}</BaseCopy>
           </div>
           <div class="f-0 item">
-            学号：<BaseCopy maxLine="1">{{ data.userCode }}</BaseCopy>
+            学号：<BaseCopy maxLine="1">{{ data.user_code }}</BaseCopy>
           </div>
         </div>
         <div class="f-fs-c">

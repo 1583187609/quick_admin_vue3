@@ -20,7 +20,7 @@
           :key="field.key ?? ind"
         >
           <template #custom="{ field: currField }">
-            <slot :name="currField.prop" :field="currField" :form="formData" />
+            <slot :name="currField.prop" :field="currField" />
           </template>
         </FieldItemCol>
       </template>
