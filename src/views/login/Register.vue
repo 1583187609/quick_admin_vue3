@@ -1,5 +1,5 @@
 <template>
-  <BaseForm v-model="modelData" style="width: 450px" :fields="fields" @submit="PostMockUser" submitBtn="注册" />
+  <BaseForm v-model="modelData" style="width: 450px" :fields="fields" :fetch="PostMockUser" submitBtn="注册" />
 </template>
 <script lang="ts" setup>
 import { PostMockUser } from "@/api-mock";

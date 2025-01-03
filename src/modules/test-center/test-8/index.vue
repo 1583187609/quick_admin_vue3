@@ -5,7 +5,7 @@
   <CustomCrud
     v-model="modelData"
     :fields="fields"
-    @submit="getFromUserList"
+    :fetch="GetFromUserList"
     :pageAttrs="{ pageSizes: [5, 10, 15, 20, 25] }"
     :pagination="{ currPage: 1, pageSize: 10 }"
     :showPagination="false"

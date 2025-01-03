@@ -3,7 +3,7 @@
     style="width: 400px"
     :fields="fields"
     v-model="modelData"
-    @submit="GetMockUser"
+    :fetch="GetMockUser"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
     :submitBtn="editEnable ? undefined : ''"
     :resetBtn="editEnable ? undefined : ''"

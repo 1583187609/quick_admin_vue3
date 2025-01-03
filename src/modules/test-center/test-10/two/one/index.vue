@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon" />
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon" />
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

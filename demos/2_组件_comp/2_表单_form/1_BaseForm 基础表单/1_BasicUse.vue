@@ -4,7 +4,7 @@
   设置v-model绑定数据的初始值即可设置默认值
  -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon">
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
     <template #zdy>
       <input placeholder="请输入（这是自定义的输入框）" style="width: 400px; border: 1px solid purple; border-radius: 6px" />
     </template>

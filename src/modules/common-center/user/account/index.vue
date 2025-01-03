@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    @submit="GetMockUser"
+    :fetch="GetMockUser"
     :extraBtns="['add', { name: 'add', text: '新增(url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
     :operateBtns="[
       'edit',

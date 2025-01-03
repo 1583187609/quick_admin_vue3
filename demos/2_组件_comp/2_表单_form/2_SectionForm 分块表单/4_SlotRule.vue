@@ -2,7 +2,7 @@
   section部分有prop属性时，以插槽名称，反之以section的index作为插槽名称
  -->
 <template>
-  <SectionForm v-model="modelData" :sections="sections" @submit="PostMockCommon">
+  <SectionForm v-model="modelData" :sections="sections" :fetch="PostMockCommon">
     <template #zdy1>这是自定义1插槽的内容</template>
     <template #education_info-zdy2>这是自定义2插槽的内容</template>
     <template #other_info>

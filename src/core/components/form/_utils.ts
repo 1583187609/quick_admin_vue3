@@ -3,10 +3,10 @@ import { typeOf, propsJoinChar } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
 import { handleFormInitData } from "@/core/utils";
 import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "./_components/FieldItem";
-import _ from "lodash";
 import { FootBtn, FootBtnAttrs } from "./_components/FooterBtns.vue";
 import { getBtnObj } from "../BaseBtn";
 import { BtnItem, BtnName } from "../BaseBtn/_types";
+import _ from "lodash";
 
 const { merge } = _;
 /**

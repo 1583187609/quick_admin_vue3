@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    @submit="GetMockDepartment"
+    :fetch="GetMockDepartment"
     :extraBtns="['add', 'delete']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"

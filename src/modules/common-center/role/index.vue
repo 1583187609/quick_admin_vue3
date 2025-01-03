@@ -2,7 +2,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    @submit="GetMockRole"
+    :fetch="GetMockRole"
     :extraBtns="['add', 'delete', 'import', 'export']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"

@@ -8,7 +8,7 @@
         :disabled="field?.quickAttrs?.disabled ?? disabled"
         :size="field?.attrs?.size ?? field.size ?? size"
         :labelWidth="field?.labelWidth ?? labelWidth" -->
-      <FieldItemCol v-model="modelData[field.prop as string]" :prefixProp="prefixProp" :field="field" hideLabel />
+      <FieldItemCol v-model="modelData[field.prop as string]" :field="field" :hideLabel="hideLabel" />
     </el-row>
   </template>
 </template>
@@ -23,6 +23,7 @@ const props = withDefaults(
     modelValue: CommonObj;
     prefixProp?: string;
     fields?: FormFieldAttrs[];
+    hideLabel?: boolean;
     // grid?: Grid;
     // size?: CommonSize;
     // readonly?: boolean;
@@ -31,6 +32,7 @@ const props = withDefaults(
     // labelWidth?: string;
   }>(),
   {
+    modelValue: () => reactive({}),
     fields: () => [],
   }
 );

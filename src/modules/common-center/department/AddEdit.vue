@@ -3,7 +3,7 @@
     v-model="modelData"
     style="width: 600px"
     :fields="fields"
-    @submit="id ? PatchMockRole : PostMockRole"
+    :fetch="id ? PatchMockRole : PostMockRole"
     :afterSuccess="() => refreshList?.()"
   >
     <template #menu_auth>

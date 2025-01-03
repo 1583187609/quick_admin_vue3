@@ -3,7 +3,7 @@
     :cols="cols"
     v-model="modelData"
     :fields="fields"
-    @submit="GetMockCommon"
+    :fetch="GetMockCommon"
     :extraBtns="['add']"
     :operateBtns="[
       'edit',

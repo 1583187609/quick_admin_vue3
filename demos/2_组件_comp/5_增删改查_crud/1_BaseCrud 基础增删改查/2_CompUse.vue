@@ -10,7 +10,7 @@
     v-model="modelData"
     :cols="cols"
     :fields="fields"
-    @submit="handleFetch"
+    :fetch="handleFetch"
     :importCfg="testImportCfg"
     :extraBtns="[
       'add',

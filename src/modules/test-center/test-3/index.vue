@@ -84,7 +84,7 @@
       }"
       @extraBtns="onExtraBtns"
       @operateBtns="onOperateBtns"
-      @submit="GetMockCommon"
+      :fetch="GetMockCommon"
       compact
       ref="baseCrudRef"
     >

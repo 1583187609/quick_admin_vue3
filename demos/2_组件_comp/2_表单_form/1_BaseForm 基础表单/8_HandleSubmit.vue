@@ -1,6 +1,6 @@
 <!-- summary 表单提交处理
 @submit 配合loading
-@submit 配合 extraParams
+fetch 配合 extraParams
 -->
 <template>
   <div class="f-sb-fs" style="width: 100%">
@@ -9,7 +9,7 @@
         <el-input v-model="modelData1.zdy" v-bind="inputAttrs" />
       </template>
     </BaseForm>
-    <BaseForm v-model="modelData2" :fields="fields" @submit="PostMockCommon" :extraParams="{ id: 2 }">
+    <BaseForm v-model="modelData2" :fields="fields" :fetch="PostMockCommon" :extraParams="{ id: 2 }">
       <template #zdy>
         <el-input v-model="modelData2.zdy" v-bind="inputAttrs" />
       </template>

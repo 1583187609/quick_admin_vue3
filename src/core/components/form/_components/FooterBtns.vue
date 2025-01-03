@@ -38,6 +38,7 @@ const props = withDefaults(
     disabled?: boolean; // 是否禁用按钮
     params?: any;
     formRef?: any;
+    fetch?: UniteFetchType;
     afterSuccess?: (params: CommonObj, FinallyNext) => void;
     afterFail?: FinallyNext;
     afterReset?: AfterReset;
@@ -49,7 +50,7 @@ const props = withDefaults(
     moreBtns: () => [],
   }
 );
-const $emit = defineEmits(["moreBtns"]);
+const $emit = defineEmits(["moreBtns", "submit"]);
 const $attrs = useAttrs();
 const isLoading = ref(props.loading);
 const newSubmitBtn = getFootBtnAttrs(props.submitBtn, "submit");
@@ -89,12 +90,11 @@ function handleValidate() {
 function handleSubmit(...args) {
   const [tpl, btnObj, next, e] = args;
   handleValidate().then((params: CommonObj) => {
-    const { log, afterSuccess, afterFail } = props;
-    const fetch = $attrs.onSubmit(params, next, e);
-    const isPromise = typeOf(fetch) === "Promise";
-    if (isPromise) isLoading.value = true;
-    fetch
-      ?.then((res: any) => {
+    const { fetch, log, afterSuccess, afterFail } = props;
+    if (!fetch) return $emit("submit", params, next, e);
+    isLoading.value = true;
+    fetch(params)
+      .then((res: any) => {
         log && printLog(res, "res", log);
         if (!afterSuccess) return next();
         afterSuccess(res, next);
@@ -107,8 +107,6 @@ function handleSubmit(...args) {
 }
 //重置表单
 function handleReset(...args) {
-  // 采用此种方式传值，才能监听到是否传入了自定义的 onReset事件，才能跟默认的reset事件区分开
-  if ($attrs.onReset) return $attrs.onReset();
   const { formRef, afterReset } = props;
   formRef?.resetFields();
   afterReset?.(...args);

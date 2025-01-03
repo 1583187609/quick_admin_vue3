@@ -6,7 +6,7 @@
       v-model="modelData"
       :fields="fields"
       :cols="cols"
-      @submit="GetMockCommon"
+      :fetch="GetMockCommon"
       :grid="{ xs: 24, sm: 12, md: 12, lg: 8, xl: 6 }"
       :disabled="false"
       :readonly="true"

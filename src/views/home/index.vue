@@ -8,7 +8,7 @@
           <el-tab-pane :label="item.label" :name="item.value" v-for="(item, ind) in tabs" :key="ind">
             <BaseCrud
               :cols="item.cols"
-              @submit="item.api"
+              :fetch="item.api"
               :tableAttrs="{ size: 'small', maxHeight: 200 }"
               :pageAttrs="{
                 size: 'small',

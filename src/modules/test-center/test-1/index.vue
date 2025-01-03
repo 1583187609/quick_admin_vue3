@@ -4,6 +4,7 @@
     <BaseForm
       v-model="modelData"
       class="three f-2"
+      :fetch="PostMockCommon"
       :fields="fields"
       :size="modelData.widget_size"
       :labelPosition="modelData.label_position"
@@ -25,9 +26,16 @@
       ]"
       @moreBtns="handleMoreBtns"
       @change="handleChange"
-      @submit="PostMockCommon"
     >
-      <!--也可写成 @submit="handleFetch"，处理转换 请求参数 -->
+      <template #inner_obj>
+        <AnyEleList v-model="modelData.inner_obj" :fields="innerObjChildren" hideLabel />
+      </template>
+      <template #inner_arr>
+        <AddDelList v-model="modelData.inner_arr" prefixProp="inner_arr" :fields="innerArrChildren" />
+      </template>
+      <template #auth_ways>
+        <AnyEleList v-model="modelData.auth_ways" :fields="authWaysChildren.slice(...(modelData.cyxslx === 1 ? [0, 2] : [2]))" />
+      </template>
       <template #zdy>
         <input placeholder="请输入（自定义组件示例）" v-model="modelData.zdy" />
       </template>
@@ -38,54 +46,95 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { FormField } from "@/core/components/form/_types";
+import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
 import { CommonObj, OptionItem } from "@/core/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { ElMessage, ElButton } from "element-plus";
 import BaseIcon from "@/core/components/BaseIcon.vue";
 import { handleBtnNext } from "@/utils";
+import { treeData, tempAddressOpts } from "./_data";
 import CustomPopover from "./_components/CustomPopover.vue";
+import AddDelList from "@/core/components/form/_components/AddDelList.vue";
+import AnyEleList from "@/core/components/form/_components/AnyEleList.vue";
 
-const tempAddressOpts: OptionItem[] = [
+const innerObjChildren: FormFieldAttrs[] = [
   {
-    label: "省1",
-    value: "1",
-    children: [
-      {
-        label: "市1-1",
-        value: "1-1",
-        children: [
-          { label: "县1-1-1", value: "1-1-1" },
-          { label: "县1-1-2", value: "1-1-2" },
-        ],
-      },
-      {
-        label: "市1-2",
-        value: "1-2",
-        children: [
-          { label: "县1-2-1", value: "1-2-1" },
-          { label: "县1-2-2", value: "1-2-2" },
-        ],
-      },
-      {
-        label: "市1-3",
-        value: "1-3",
-        children: [
-          { label: "县1-3-1", value: "1-3-1" },
-          { label: "县1-3-2", value: "1-3-2" },
-        ],
-      },
-    ],
+    prop: "one",
+    label: "一",
+    // required: true,
+    labelWidth: "0",
+    quickAttrs: {
+      // grid: 12,
+    },
   },
   {
-    label: "省2",
-    value: "2",
-    children: [
-      { label: "市2-1", value: "2-1" },
-      { label: "市2-2", value: "2-2" },
-      { label: "市2-3", value: "2-3" },
-    ],
+    prop: "two",
+    label: "二",
+    // required: true,
+    labelWidth: "0",
+    quickAttrs: {
+      // grid: 12,
+    },
+  },
+];
+const innerArrChildren: FormFieldAttrs[] = [
+  {
+    prop: "one",
+    label: "一",
+    // required: true,
+    labelWidth: "0",
+    quickAttrs: {
+      grid: 12,
+    },
+  },
+  {
+    prop: "two",
+    label: "二",
+    // required: true,
+    labelWidth: "0",
+    quickAttrs: {
+      grid: 12,
+    },
+  },
+];
+//是否支持： 0否;1=是
+const supportSwitchAttrs: CommonObj = {
+  // activeValue: 1,
+  // inactiveValue: 0,
+  // inlinePrompt: true,
+  activeText: "支持",
+  inactiveText: "不支持",
+  style: "width: 5em",
+};
+const authWaysChildren: FormFieldAttrs[] = [
+  {
+    prop: "isSupportEmail",
+    label: "邮箱认证",
+    type: "switch",
+    labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+  {
+    prop: "isSupportPerson",
+    label: "人工认证",
+    type: "switch",
+    labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+  {
+    prop: "isSupportDingTalk",
+    label: "钉钉认证",
+    type: "switch",
+    labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+  {
+    prop: "isSupportFeiShu",
+    label: "飞书认证",
+    type: "switch",
+    labelWidth: "6em",
+    attrs: supportSwitchAttrs,
   },
 ];
 const tipsList: string[] = [
@@ -97,86 +146,6 @@ const tipsList: string[] = [
   "底部扩展更多按钮，默认均会触发表单校验，可设置validate: false不触发表单校",
 ];
 
-const treeData = [
-  {
-    value: "1",
-    label: "Level one 1",
-    children: [
-      {
-        value: "1-1",
-        label: "Level two 1-1",
-        children: [
-          {
-            value: "1-1-1",
-            label: "Level three 1-1-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "2",
-    label: "Level one 2",
-    children: [
-      {
-        value: "2-1",
-        label: "Level two 2-1",
-        children: [
-          {
-            value: "2-1-1",
-            label: "Level three 2-1-1",
-          },
-        ],
-      },
-      {
-        value: "2-2",
-        label: "Level two 2-2",
-        children: [
-          {
-            value: "2-2-1",
-            label: "Level three 2-2-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "3",
-    label: "Level one 3",
-    children: [
-      {
-        value: "3-1",
-        label: "Level two 3-1",
-        children: [
-          {
-            value: "3-1-1",
-            label: "Level three 3-1-1",
-          },
-        ],
-      },
-      {
-        value: "3-2",
-        label: "Level two 3-2",
-        children: [
-          {
-            value: "3-2-1",
-            label: "Level three 3-2-1",
-          },
-        ],
-      },
-    ],
-  },
-];
-//是否支持： 0否;1=是
-const supportSwitchAttrs: CommonObj = {
-  activeValue: 1,
-  inactiveValue: 0,
-  activeText: "支持",
-  inactiveText: "不支持",
-  inlinePrompt: true,
-  style: "width: 5em",
-};
-
 const modelData = reactive<CommonObj>({
   widget_size: "default",
   label_position: "right",
@@ -184,6 +153,7 @@ const modelData = reactive<CommonObj>({
     one: "嵌套对象必填项一",
     two: "嵌套对象必填项二",
   },
+  inner_arr: [{ one: "1", two: "2" }],
   xm: "张三",
   dhhm: "18483221518",
   mm: "abc123456",
@@ -200,7 +170,6 @@ const modelData = reactive<CommonObj>({
 });
 
 const fields = computed<FormField[]>(() => {
-  const { cyxslx } = modelData;
   return [
     {
       label: "组件尺寸",
@@ -229,53 +198,14 @@ const fields = computed<FormField[]>(() => {
     {
       label: "嵌套（对象）",
       prop: "inner_obj",
+      type: "slot",
       // required: true,
-      children: [
-        {
-          prop: "one",
-          label: "一",
-          required: true,
-          labelWidth: "0",
-          quickAttrs: {
-            // grid: 12,
-          },
-        },
-        {
-          prop: "two",
-          label: "二",
-          required: true,
-          labelWidth: "0",
-          quickAttrs: {
-            // grid: 12,
-          },
-        },
-      ],
     },
     {
       label: "嵌套（数组）",
       prop: "inner_arr",
-      required: true,
-      type: "addDel",
-      children: [
-        {
-          prop: "one",
-          label: "一",
-          required: true,
-          labelWidth: "0",
-          quickAttrs: {
-            grid: 12,
-          },
-        },
-        {
-          prop: "two",
-          label: "二",
-          required: true,
-          labelWidth: "0",
-          quickAttrs: {
-            grid: 12,
-          },
-        },
-      ],
+      type: "slot",
+      // required: true,
     },
     {
       prop: "xm",
@@ -389,7 +319,7 @@ const fields = computed<FormField[]>(() => {
       label: "年龄",
       rules: [{ validator: checkAge, trigger: "blur" }],
       quickAttrs: {
-        tips: "rulesType（限制最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
+        tips: "tpl模板规则（最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
       },
     },
     {
@@ -534,45 +464,46 @@ const fields = computed<FormField[]>(() => {
         popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
       },
     },
-    cyxslx === 1 && {
-      prop: "rzfs",
+    {
+      prop: "auth_ways",
       label: "认证方式",
-      children: [
-        {
-          prop: "isSupportEmail",
-          label: "邮箱认证",
-          type: "switch",
-          labelWidth: "6em",
-          attrs: supportSwitchAttrs,
-        },
-        {
-          prop: "isSupportPerson",
-          label: "人工认证",
-          type: "switch",
-          labelWidth: "6em",
-          attrs: supportSwitchAttrs,
-        },
-      ],
+      type: "slot",
+      // children: [
+      //   {
+      //     prop: "isSupportEmail",
+      //     label: "邮箱认证",
+      //     type: "switch",
+      //     labelWidth: "6em",
+      //     attrs: supportSwitchAttrs,
+      //   },
+      //   {
+      //     prop: "isSupportPerson",
+      //     label: "人工认证",
+      //     type: "switch",
+      //     labelWidth: "6em",
+      //     attrs: supportSwitchAttrs,
+      //   },
+      // ],
     },
-    cyxslx === 2 && {
-      label: "认证方式",
-      children: [
-        {
-          prop: "isSupportDingTalk",
-          label: "钉钉认证",
-          type: "switch",
-          labelWidth: "6em",
-          attrs: supportSwitchAttrs,
-        },
-        {
-          prop: "isSupportFeiShu",
-          label: "飞书认证",
-          type: "switch",
-          labelWidth: "6em",
-          attrs: supportSwitchAttrs,
-        },
-      ],
-    },
+    // cyxslx === 2 && {
+    //   label: "认证方式",
+    //   children: [
+    //     {
+    //       prop: "isSupportDingTalk",
+    //       label: "钉钉认证",
+    //       type: "switch",
+    //       labelWidth: "6em",
+    //       attrs: supportSwitchAttrs,
+    //     },
+    //     {
+    //       prop: "isSupportFeiShu",
+    //       label: "飞书认证",
+    //       type: "switch",
+    //       labelWidth: "6em",
+    //       attrs: supportSwitchAttrs,
+    //     },
+    //   ],
+    // },
   ];
 });
 function handleChange(prop: string, val: any) {

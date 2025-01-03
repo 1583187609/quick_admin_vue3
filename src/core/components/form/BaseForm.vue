@@ -1,6 +1,6 @@
 <!-- summary
   目标：定位为基础（通用）表单，继承并扩展 el-form 的功能，提供快捷属性，实现快速开发。
-  快捷属性：在 quickAttrs 中，例：grid、example、popover、tips、pureText、rulesType、before、after、……
+  快捷属性：在 quickAttrs 中，例：grid、example、popover、tips、pureText、before、after、……
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
@@ -14,9 +14,9 @@
           v-model="formData[field.prop as string]"
           :field="field"
           :formRef="formRef"
-          @blur="$attrs.onBlur"
-          @focus="$attrs.onFocus"
-          @change="$attrs.onChange"
+          @blur="(...args) => $emit('blur', ...args)"
+          @focus="(...args) => $emit('focus', ...args)"
+          @change="(...args) => $emit('change', ...args)"
           v-for="(field, ind) in newFields"
           :key="field.key ?? ind"
         >
@@ -40,12 +40,13 @@
         :log="log"
         :debug="debug"
         :params="params"
+        :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
         :afterReset="afterReset"
         @moreBtns="(...args) => $emit('moreBtns', ...args)"
-        @submit="$attrs.onSubmit"
-        @reset="$attrs.onReset"
+        @submit="(...args) => $emit('submit', ...args)"
+        @reset="(...args) => $emit('reset', ...args)"
         ref="footerBtnsRef"
         v-if="!pureText && footer === true"
       />
@@ -56,7 +57,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { getFootBtnAttrs, handleFields } from "./_utils";
+import { handleFields } from "./_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
@@ -66,13 +67,12 @@ import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_ty
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";
-import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
+import { useFormAttrs } from "@/core/hooks";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
 
 const { merge } = _;
 
-const { closePopup } = usePopup();
 const $slots = defineSlots<{
   header?: () => void; // 顶部插槽
   content?: () => void; // 内容插槽
@@ -110,6 +110,7 @@ const props = withDefaults(
      */
     extraParams?: CommonObj; //额外的参数
     omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的请求参数
+    fetch?: UniteFetchType;
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: FinallyNext; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
@@ -131,7 +132,7 @@ const props = withDefaults(
     ...config?.BaseForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "moreBtns", "submit", "reset", "blur", "focus", "change"]);
 const $attrs = useAttrs();
 useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);

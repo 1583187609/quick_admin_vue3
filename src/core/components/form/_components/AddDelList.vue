@@ -2,8 +2,8 @@
 <template>
   <el-form-item
     style="width: 100%"
-    :style="{ marginBottom: ind < newList.length - 1 ? '18px' : 'none' }"
-    v-for="(item, ind) in newList"
+    :style="{ marginBottom: ind < modelList.length - 1 ? '18px' : 'none' }"
+    v-for="(item, ind) in modelList"
     :key="ind"
   >
     <!-- <el-space> -->
@@ -14,12 +14,12 @@
       :disabled="field?.quickAttrs?.disabled ?? disabled"
       :size="field?.attrs?.size ?? field.size ?? size"
       :labelWidth="field?.labelWidth ?? labelWidth" -->
+      <!-- :ref="el => initRefsList(el, ind)" -->
       <FieldItemCol
-        v-model="newList[ind][field.prop as string]"
+        v-model="modelList[ind][field.prop as string]"
         :prefixProp="`${prefixProp}[${ind}]`"
         :field="field"
         hideLabel
-        :ref="el => initRefsList(el, ind)"
         v-for="(field, fInd) in newFields"
         :key="fInd"
       />
@@ -27,7 +27,7 @@
     <IconBtns
       fontSize="26"
       @click="(type:IconBtnTpl)=>handleAddDel(type,ind)"
-      :tpl="ind < newList.length - 1 ? 'delete' : 'add'"
+      :tpl="ind < modelList.length - 1 ? 'delete' : modelList.length <= 1 ? 'add' : ['delete', 'add']"
     />
     <!-- </el-space> -->
   </el-form-item>
@@ -48,6 +48,7 @@ const props = withDefaults(
     modelValue?: any;
     prefixProp: string;
     fields: FormField[];
+    hideLabel?: boolean;
     // grid?: Grid;
     // size?: CommonSize;
     // readonly?: boolean;
@@ -57,30 +58,30 @@ const props = withDefaults(
     formRef?: any;
   }>(),
   {
-    // prefixProp: "",
+    modelValue: _props => reactive([getAddDelItem(_props.fields)]),
+    hideLabel: true,
     fields: () => [],
   }
 );
-const $emit = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue"]);
 
-const refsList = ref<HTMLElement[]>([]);
-const initRefsList = (el, ind) => {
-  if (el) refsList.value[ind] = el;
-};
+// const refsList = ref<HTMLElement[]>([]);
+// const initRefsList = (el, ind) => {
+//   if (el) refsList.value[ind] = el;
+// };
 const listItem = getAddDelItem(props.fields);
-const newList = computed({
+const modelList = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
 const newFields = ref<FormFieldAttrs[]>([]);
-const formData = reactive<CommonObj>({});
 watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
     const result = handleFields(newVal, $emit, modelValue);
     const { data, fields } = result;
-    merge(formData, data);
+    merge(modelList.value, data);
     newFields.value = fields;
   },
   {
@@ -90,44 +91,33 @@ watch(
 watch(
   () => props.modelValue,
   (newVal, oldVal) => {
-    // 用 isDel 标记是为了处理点击删除时，删除不掉的bug
-    const isDel = newVal.length < Object.keys(formData).length;
-    if (isDel) {
-      Object.keys(formData).forEach(key => delete formData[key]); //是为了清空对象属性，然后重新赋值
-    }
-    merge(formData, newVal);
-  },
-  { immediate: false, deep: true }
-);
-watch(
-  formData,
-  newVal => {
-    merge(props.modelValue, newVal);
+    if (isEqual(newVal, oldVal)) return;
+    merge(modelList.value, newVal);
   },
   { immediate: false, deep: true }
 );
 
-//处理新增/删除按钮的逻辑
+// 处理新增/删除按钮的逻辑
 function handleAddDel(type: IconBtnTpl, ind: number) {
   if (type === "add") {
     const { formRef } = props;
     function handle() {
-      newList.value.push(JSON.parse(JSON.stringify(listItem)));
+      modelList.value.push(JSON.parse(JSON.stringify(listItem)));
       // //让第一个元素聚焦
       // setTimeout(() => {
       //   console.log(refsList.value.at(-1), "让第一个元素聚焦暂未处理-------------");
       // }, 500);
     }
     if (!formRef) return handle();
-    const propsArr = Object.keys(newList.value[0]).map((key: string) => `${props.prefixProp}[${ind}].${key}`);
-    formRef.validateField(propsArr, (isValid, inValidFields: CommonObj) => {
+    const propsArr = Object.keys(modelList.value[0]).map((key: string) => `${props.prefixProp}[${ind}].${key}`);
+    formRef.validate(propsArr, (isValid, inValidFields: CommonObj) => {
       if (isValid) return handle();
       const target = Object.values(inValidFields)[0][0];
       showMessage(target.message, "error");
     });
     return;
   }
-  if (type === "delete") return newList.value.splice(ind, 1);
+  if (type === "delete") return modelList.value.splice(ind, 1);
   throw new Error(`暂不支持${type}类型`);
 }
 </script>

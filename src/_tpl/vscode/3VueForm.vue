@@ -1,6 +1,6 @@
 <!-- 表单描述 -->
 <template>
-  <BaseForm v-model="modalData" :fields="fields" @submit="PostMockCommon">
+  <BaseForm v-model="modalData" :fields="fields" :fetch="PostMockCommon">
     <template #zdy>
       <input v-model="modalData.zdy" />
     </template>

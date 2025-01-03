@@ -8,7 +8,7 @@
 -->
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
-    <BaseForm :fields="fields" @submit="PostMockCommon" />
+    <BaseForm :fields="fields" :fetch="PostMockCommon" />
     <BaseForm :fields="fields" submitBtn="确认" resetBtn="置空" @submit="args => handleSubmit(args, 1)" />
     <BaseForm :fields="fields" submitBtn="add" resetBtn="view" @submit="args => handleSubmit(args, 2)" />
     <BaseForm

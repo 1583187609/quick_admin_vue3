@@ -1,14 +1,6 @@
 <template>
   <el-col class="field-item-col" v-bind="elColAttrs">
-    <FieldItem
-      v-model="newVal"
-      :prefixProp="prefixProp"
-      :field="field"
-      :inputDebounce="inputDebounce"
-      :hideLabel="hideLabel"
-      :formRef="formRef"
-      v-bind="$attrs"
-    >
+    <FieldItem v-model="newVal" :field="field" :inputDebounce="inputDebounce" :hideLabel="hideLabel" :formRef="formRef" v-bind="$attrs">
       <template #custom="scope">
         <slot name="custom" v-bind="scope" />
       </template>
@@ -31,7 +23,6 @@ defineOptions({
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
-    prefixProp?: string; //前置prop属性
     colAttrs?: CommonObj; //el-col的属性
     field: FormFieldAttrs;
     // grid?: Grid;

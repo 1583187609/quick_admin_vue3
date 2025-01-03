@@ -4,7 +4,7 @@
   字典模板（options）：以`D_`开头。可在全局配置文件中配置修改
 -->
 <template>
-  <BaseForm v-model="modelData" :fields="fields" @submit="PostMockCommon">
+  <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon">
     <template #zdy>
       <input placeholder="请输入（这是自定义的输入框）" style="width: 400px; border: 1px solid purple; border-radius: 6px" />
     </template>

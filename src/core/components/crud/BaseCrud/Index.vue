@@ -183,6 +183,7 @@ const props = withDefaults(
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
     reqMap?: ReqMap; // 请求参数的键名映射
     resMap?: ResMap; // 响应参数的键名映射
+    fetch?: UniteFetchType;
     afterSuccess?: (res: any) => void; // 请求成功的回调函数
     afterFail?: (err: any) => void; // 请求成功的回调函数
     /** 下面是待确定项，可以更改名称，可能移除或替换 **/
@@ -326,14 +327,12 @@ function handleChange(changedVals: CommonObj, isInit?: boolean) {
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
   // console.log(trigger, "trigger-------触发getList类型");
-  const { omits, summaryList, afterSuccess, afterFail, log } = props;
+  const { fetch, omits, summaryList, afterSuccess, afterFail, log } = props;
   args = omitAttrs(args, omits);
   if (log === true || log === "req") printLog(args, "req");
-  const fetch = $attrs.onSubmit(args);
-  const isPromise = typeOf(fetch) === "Promise";
-  if (isPromise) loading.value = true;
-  fetch
-    ?.then((res: any) => {
+  loading.value = true;
+  fetch?.(args)
+    .then((res: any) => {
       // if (!res) return console.error("未请求到预期数据，请检查接口是否有误");
       const newList = res[resMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);

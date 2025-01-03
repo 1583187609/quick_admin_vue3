@@ -4,9 +4,9 @@ pureText
 -->
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
-    <BaseForm v-model="modelData1" :fields="fields" @submit="PostMockCommon" />
-    <BaseForm v-model="modelData2" :fields="fields" @submit="PostMockCommon" styleType="cell" />
-    <BaseForm v-model="modelData3" :fields="fields" @submit="PostMockCommon" pureText />
+    <BaseForm v-model="modelData1" :fields="fields" :fetch="PostMockCommon" />
+    <BaseForm v-model="modelData2" :fields="fields" :fetch="PostMockCommon" styleType="cell" />
+    <BaseForm v-model="modelData3" :fields="fields" :fetch="PostMockCommon" pureText />
   </div>
 </template>
 <script lang="ts" setup>

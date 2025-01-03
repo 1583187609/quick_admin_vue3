@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="modelData"
     :fields="fields"
-    @submit="isAdd ? GetAuthRoleList : GetAuthRoleList"
+    :fetch="isAdd ? GetAuthRoleList : GetAuthRoleList"
     :afterSuccess="() => refreshList?.()"
     :extraParams="{ id: data?.id, doRelationFeedbackCompany: isApply ? data!.id : undefined }"
   >

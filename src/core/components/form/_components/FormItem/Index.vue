@@ -33,11 +33,7 @@
       <template v-if="is === 'select'">
         <!-- 分组下拉项 -->
         <template v-if="newFiled.attrs?.options?.find(it => !!it.children)">
-          <el-option-group
-            v-for="(gItem, gInd) in newFiled.attrs?.options"
-            v-bind="deleteAttrs(gItem, ['slots', 'children'])"
-            :key="gInd"
-          >
+          <el-option-group v-for="(gItem, gInd) in newFiled.attrs?.options" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
             <!-- <template #[key]="scope" v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
             <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
               <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
@@ -58,7 +54,7 @@
       </template>
       <template v-else-if="is === 'radio-group'">
         <component
-          :is="`el-radio${$attrs.type ? `-${$attrs.type}` : ''}`"
+          :is="`el-radio${newFiled.attrs?.type ? `-${newFiled.attrs?.type}` : ''}`"
           v-bind="deleteAttrs(opt as OptionItem, ['slots', 'children'])"
           v-for="(opt, ind) in newFiled.attrs?.options"
           :key="ind"
@@ -72,7 +68,7 @@
         <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
         <el-checkbox
           :name="newFiled.prop"
-          v-bind="deleteAttrs(opt, ['slots'])"
+          v-bind="deleteAttrs(opt as OptionItem, ['slots'])"
           v-for="(opt, ind) in newFiled.attrs?.options"
           :key="ind"
         >
@@ -87,16 +83,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { OptionItem } from "@/core/_types";
-import {
-  defaultFormItemType,
-  deleteAttrs,
-  emptyStr,
-  emptyVals,
-  getSlotsMap,
-  getTextFromOpts,
-  rangeJoinChar,
-  typeOf,
-} from "@/core/utils";
+import { defaultFormItemType, deleteAttrs, emptyStr, emptyVals, getSlotsMap, getTextFromOpts, rangeJoinChar, typeOf } from "@/core/utils";
 import { useDict, useFormAttrs } from "@/hooks";
 import { upperFirst } from "lodash";
 import { DictName } from "@/dict/_types";

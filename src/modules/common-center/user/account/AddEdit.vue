@@ -4,7 +4,7 @@
     :style="{ width: pureText ? '350px' : '550px' }"
     :fields="fields"
     :pureText="pureText"
-    @submit="id ? PatchMockUser : PostMockUser"
+    :fetch="id ? PatchMockUser : PostMockUser"
     :afterSuccess="() => refreshList?.()"
   >
     <template #avatar>

@@ -3,7 +3,7 @@
     v-model="modelData"
     style="width: 600px"
     :fields="fields"
-    @submit="data ? PatchMockMenu : PostMockMenu"
+    :fetch="data ? PatchMockMenu : PostMockMenu"
     :afterSuccess="() => refreshList?.()"
     @change="handleChange"
   >

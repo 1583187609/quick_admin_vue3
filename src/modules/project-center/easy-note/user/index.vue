@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    @submit="GetMockUser"
+    :fetch="GetMockUser"
     :extraBtns="[
       'add',
       { name: 'login', text: '登录', attrs: { type: 'primary' } },

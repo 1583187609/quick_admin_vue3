@@ -4,7 +4,7 @@
     style="width: 600px"
     v-model="modelData"
     :fields="fields"
-    @submit="data ? PutUserUpdate : PostMockUser"
+    :fetch="data ? PutUserUpdate : PostMockUser"
     :afterSuccess="() => refreshList?.()"
     :extraParams="data ? { id: data.id } : undefined"
   >

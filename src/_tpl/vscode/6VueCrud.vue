@@ -4,7 +4,7 @@
     v-model="modelData"
     :cols="cols"
     :fields="fields"
-    @submit="GetMockCommon"
+    :fetch="GetMockCommon"
     :extraBtns="['add']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"

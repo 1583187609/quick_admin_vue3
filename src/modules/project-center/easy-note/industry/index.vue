@@ -3,7 +3,7 @@
   <BaseCrud
     :cols="cols"
     :fields="fields"
-    @submit="GetIndustryList"
+    :fetch="GetIndustryList"
     :extraBtns="['add']"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"

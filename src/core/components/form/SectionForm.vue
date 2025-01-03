@@ -37,9 +37,9 @@
                   :formRef="formRef"
                   v-model="formData[sItem.prop][field.prop as string]"
                   v-bind="getLevelsAttrs(field, sItem)"
-                  @blur="$attrs.onBlur"
-                  @focus="$attrs.onFocus"
-                  @change="$attrs.onChange"
+                  @blur="(...args) => $emit('blur', ...args)"
+                  @focus="(...args) => $emit('focus', ...args)"
+                  @change="(...args) => $emit('change', ...args)"
                   v-if="sItem.prop"
                 >
                   <template #custom="scope">
@@ -53,9 +53,9 @@
                   :formRef="formRef"
                   v-model="formData[field.prop as string]"
                   v-bind="getLevelsAttrs(field, sItem)"
-                  @blur="$attrs.onBlur"
-                  @focus="$attrs.onFocus"
-                  @change="$attrs.onChange"
+                  @blur="(...args) => $emit('blur', ...args)"
+                  @focus="(...args) => $emit('focus', ...args)"
+                  @change="(...args) => $emit('change', ...args)"
                   v-else
                 >
                   <template #custom="scope">
@@ -89,9 +89,9 @@
                 v-bind="getLevelsAttrs(field, sItem)"
                 :field="field"
                 :formRef="formRef"
-                @blur="$attrs.onBlur"
-                @focus="$attrs.onFocus"
-                @change="$attrs.onChange"
+                @blur="(...args) => $emit('blur', ...args)"
+                @focus="(...args) => $emit('focus', ...args)"
+                @change="(...args) => $emit('change', ...args)"
                 v-if="sItem.prop"
               >
                 <template #custom="scope">
@@ -103,9 +103,9 @@
                 v-bind="getLevelsAttrs(field, sItem)"
                 :field="field"
                 :formRef="formRef"
-                @blur="$attrs.onBlur"
-                @focus="$attrs.onFocus"
-                @change="$attrs.onChange"
+                @blur="(...args) => $emit('blur', ...args)"
+                @focus="(...args) => $emit('focus', ...args)"
+                @change="(...args) => $emit('change', ...args)"
                 v-else
               >
                 <template #custom="scope">
@@ -130,12 +130,13 @@
         :log="log"
         :debug="debug"
         :params="params"
+        :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
         :afterReset="afterReset"
         @moreBtns="(...args) => $emit('moreBtns', ...args)"
-        @submit="$attrs.onSubmit"
-        @reset="$attrs.onReset"
+        @submit="(...args) => $emit('submit', ...args)"
+        @reset="(...args) => $emit('reset', ...args)"
         ref="footerBtnsRef"
         v-if="!formAttrs.pureText && footer === true"
       />
@@ -204,6 +205,7 @@ const props = withDefaults(
      */
     extraParams?: CommonObj; //额外的参数
     omits?: boolean | BaseDataType[]; //是否剔除掉值为 undefined, null, "" 的参数
+    fetch?: UniteFetchType;
     afterSuccess?: FinallyNext; //fetch请求成功之后的回调方法
     afterFail?: () => void; //fetch请求失败之后的回调方法
     afterReset?: AfterReset; // 重置之后的处理方法
@@ -228,7 +230,7 @@ const props = withDefaults(
     ...config?.SectionForm?.Index,
   }
 );
-const $emit = defineEmits(["update:modelValue", "toggle", "moreBtns"]);
+const $emit = defineEmits(["update:modelValue", "toggle", "moreBtns", "submit", "reset", "blur", "focus", "change"]);
 const $attrs = useAttrs();
 const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);

@@ -5,7 +5,7 @@
     class="field-item"
     :class="{
       'label-h-center': formItemAttrs.quickAttrs?.popover,
-      [`value-v-${formItemAttrs.quickAttrs?.valueAlignContent}`]: true,
+      [`value-v-${formItemAttrs.quickAttrs?.valueAlignContent ?? ''}`]: true,
     }"
     v-bind="deleteAttrs(formItemAttrs, ['attrs', 'quickAttrs', 'slots', 'tpl'])"
     v-else
@@ -31,9 +31,9 @@
       :is="formItemAttrs.type"
       :class="flexClass"
       :field="formItemAttrs"
-      @blur="(val, e) => $attrs.onBlur?.(val, formItemAttrs.prop, e)"
-      @focus="(val, e) => $attrs.onFocus?.(val, formItemAttrs.prop, e)"
-      @change="(val, e) => $attrs.onChange?.(val, formItemAttrs.prop, e)"
+      @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
+      @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
+      @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
       v-if="getIsEl(formItemAttrs.type)"
     />
     <component
@@ -41,9 +41,9 @@
       :is="formItemAttrs.type"
       :class="flexClass"
       :field="formItemAttrs"
-      @blur="(val, e) => $attrs.onBlur?.(val, formItemAttrs.prop, e)"
-      @focus="(val, e) => $attrs.onFocus?.(val, formItemAttrs.prop, e)"
-      @change="(val, e) => $attrs.onChange?.(val, formItemAttrs.prop, e)"
+      @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
+      @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
+      @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
       v-else-if="getIsBase(formItemAttrs.type)"
     />
     <template v-else>{{ throwTplError(`不存在此类型：${formItemAttrs.type}`) }}</template>
@@ -52,23 +52,6 @@
       <BaseRender :renderData="formItemAttrs.quickAttrs.after" v-else />
     </template>
     <div class="notice" v-html="'注：' + formItemAttrs.quickAttrs.tips" v-if="formItemAttrs.quickAttrs?.tips" />
-    <!-- 当有子项表单时 -->
-    <!-- <template v-else>
-      <AddDelList
-        v-model="modelVal"
-        :fields="subFields"
-        :prefixProp="formItemAttrs.prop"
-        :formRef="formRef"
-        v-if="currType === 'addDel'"
-      />
-      <AnyEleList
-        v-model="modelVal"
-        :fields="subFields"
-        :prefixProp="formItemAttrs.prop"
-        v-else-if="currType === 'childrenFields'"
-      />
-      <template v-else>{{ throwTplError(`不存在此子类型：${currType}`) }}</template>
-    </template> -->
   </el-form-item>
 </template>
 <script lang="ts" setup>
@@ -83,10 +66,6 @@ import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
 import _ from "lodash";
-// 下列两个组件不采用按需加载方式，不然控件会出现延迟出现的现象
-// import AddDelList from "../AddDelList.vue";
-// import AnyEleList from "../AnyEleList.vue";
-// import { BaseRenderData } from "@/core/components/BaseRender.vue";
 
 const { merge } = _;
 const props = withDefaults(
@@ -111,7 +90,7 @@ const props = withDefaults(
     // size: defaultCommonSize,
   }
 );
-const $emit = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
 const $attrs = useAttrs();
 const { labelSuffix } = useFormAttrs({ ...props, ...$attrs });
 const modelVal = computed({
@@ -124,9 +103,9 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   if (field.type === "custom") return;
   /*** 合并统一 tempField ***/
   const { tpl, type = defaultFormItemType, rules = [], ...restField } = field;
-  const { rules: defRules = [], ...restDefField } = defaultFieldAttrs[type];
+  const { rules: defRules = [], ...restDefField } = defaultFieldAttrs[type] ?? {};
   const { rules: tplRules = [], ...restTplField } = tpl ? getStandAttrsFromTpl(tpl, formItemTpls) : {};
-  const tempField: FormFieldAttrs = merge(restDefField, restTplField, restField, {
+  const tempField: FormFieldAttrs = merge({}, restDefField, restTplField, restField, {
     type,
     rules: mergeRules([...defRules, ...tplRules, ...rules]),
   });
@@ -137,6 +116,7 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   /*** 处理完善 templateField ***/
   tempField.rules = getRules(tempField);
   if (hideLabel) delete tempField.label;
+  delete tempField.tpl;
   return tempField;
 });
 /**
