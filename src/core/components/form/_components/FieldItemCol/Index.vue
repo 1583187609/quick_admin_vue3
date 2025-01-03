@@ -5,7 +5,7 @@
       :prefixProp="prefixProp"
       :field="field"
       :inputDebounce="inputDebounce"
-      :isChild="isChild"
+      :hideLabel="hideLabel"
       :formRef="formRef"
       v-bind="$attrs"
     >
@@ -41,7 +41,7 @@ const props = withDefaults(
     // readonly?: boolean; //是否只读
     // labelWidth?: string; //label宽度
     inputDebounce?: boolean;
-    isChild?: boolean; //是否是父级children 的子级
+    hideLabel?: boolean; //是否隐藏label
     formRef?: any;
   }>(),
   {}

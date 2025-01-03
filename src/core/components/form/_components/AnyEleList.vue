@@ -8,7 +8,7 @@
         :disabled="field?.quickAttrs?.disabled ?? disabled"
         :size="field?.attrs?.size ?? field.size ?? size"
         :labelWidth="field?.labelWidth ?? labelWidth" -->
-      <FieldItemCol v-model="modelData[field.prop as string]" :prefixProp="prefixProp" :field="field" isChild />
+      <FieldItemCol v-model="modelData[field.prop as string]" :prefixProp="prefixProp" :field="field" hideLabel />
     </el-row>
   </template>
 </template>

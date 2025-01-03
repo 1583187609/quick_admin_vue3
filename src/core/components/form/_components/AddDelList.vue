@@ -18,7 +18,7 @@
         v-model="newList[ind][field.prop as string]"
         :prefixProp="`${prefixProp}[${ind}]`"
         :field="field"
-        isChild
+        hideLabel
         :ref="el => initRefsList(el, ind)"
         v-for="(field, fInd) in newFields"
         :key="fInd"

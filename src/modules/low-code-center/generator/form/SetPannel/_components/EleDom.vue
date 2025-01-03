@@ -1,8 +1,8 @@
 <!-- 页面-简介 -->
 <template>
-  <FormItem v-model="modelData.eleType" elType="radio-group" :subOptions="beforeEleTypeOpts" type="button" />
-  <FormItem elType="input" placeholder="请输入文本内容" v-if="modelData.eleType === 1" />
-  <FormItem elType="select" :subOptions="systemComponentOpts" placeholder="请选择系统组件" v-if="modelData.eleType === 2" />
+  <FormItem v-model="modelData.eleType" is="radio-group" :options="beforeEleTypeOpts" type="button" />
+  <FormItem is="input" placeholder="请输入文本内容" v-if="modelData.eleType === 1" />
+  <FormItem is="select" :options="systemComponentOpts" placeholder="请选择系统组件" v-if="modelData.eleType === 2" />
   <div style="width: 100%" v-else-if="modelData.eleType === 3">暂未处理</div>
 </template>
 <script lang="ts" setup>

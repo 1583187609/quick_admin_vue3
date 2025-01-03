@@ -111,7 +111,6 @@ export interface FormFieldAttrs {
     after?: BaseRenderData; // 字段后面拼接的内容，可以是文本、组件等
     middleFlexGrow?: StrNum; // 中间项的弹性伸缩值，默认1，即：flex-grow: 1,可选值为0~3，为其他值时不会生效。当出现 before 或 after 时，该属性才会生效。
   };
-  children?: FormField[]; //字段子项
   /** el-form-item的 插槽 **/
   slots?: {
     label?: CommonSlots;

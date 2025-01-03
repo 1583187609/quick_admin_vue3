@@ -208,6 +208,8 @@
 158、全局配置
 160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）
 162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
+163、disabled、readonly 属性，不应该放在 quickAttrs 中
+164、支持表单 tips 自定义
 
 ## Demo 功能验证清单
 
@@ -519,6 +521,8 @@
 67、找一种更好的传递上下级 grid、disabled、pureText、readonly 之类属性的方式
 68、当表单项、表格列只有模板属性时，可以简化为写一个字符串（模板名称）
 69、菜单默认为管风琴模式，支持可切换、菜单搜索放在菜单上方搜索处
+70、优化 mergeRules 算法
+71、定义 noGrid 属性进行表单优化（减少 dom 渲染数量）
 
 ### 动画优化相关
 

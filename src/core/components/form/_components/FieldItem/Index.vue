@@ -1,66 +1,57 @@
 <template>
   <!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
-  <BaseRender :renderData="field.renderData ?? throwTplError('缺乏renderData')" v-if="currType === 'custom'" />
+  <BaseRender :renderData="field.renderData ?? throwTplError('缺乏renderData')" v-if="formItemAttrs.type === 'custom'" />
   <el-form-item
     class="field-item"
-    :class="{ 'label-h-center': !!currQuickAttrs?.popover, [`value-v-${currQuickAttrs?.valueAlignContent}`]: true }"
-    v-bind="formItemAttrs"
+    :class="{
+      'label-h-center': formItemAttrs.quickAttrs?.popover,
+      [`value-v-${formItemAttrs.quickAttrs?.valueAlignContent}`]: true,
+    }"
+    v-bind="deleteAttrs(formItemAttrs, ['attrs', 'quickAttrs', 'slots', 'tpl'])"
     v-else
   >
     <!-- el-form-item 的插槽(label、error等) -->
-    <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs, currQuickAttrs?.popover)" :key="key">
+    <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs, formItemAttrs.quickAttrs?.popover)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
-      <QuestionPopover :popover="currQuickAttrs?.popover" v-if="currQuickAttrs?.popover" />
+      <QuestionPopover :popover="formItemAttrs.quickAttrs?.popover" v-if="formItemAttrs.quickAttrs?.popover" />
+      <!-- 冒号（：）等 -->
       <template v-if="labelSuffix">{{ labelSuffix }}</template>
     </template>
-    <template v-if="!subFields.length">
-      <template v-if="newPureText">
-        <slot name="custom" :field="formItemAttrs" v-if="currType === 'slot'" />
-        <template v-else>
-          {{ getOptionValue(formItemAttrs, modelVal).value }}
-        </template>
-      </template>
-      <template v-else>
-        <template v-if="currQuickAttrs?.before">
-          <div class="mr-h" v-if="typeof currQuickAttrs.before === 'string'">
-            {{ currQuickAttrs.before }}
-          </div>
-          <BaseRender :renderData="currQuickAttrs.before" v-else />
-        </template>
-        <slot name="custom" :field="formItemAttrs" v-if="currType === 'slot'">
-          <div class="color-danger">【自定义】{{ `${formItemAttrs.label}（${formItemAttrs.prop})` }}</div>
-        </slot>
-        <FormItem
-          v-model="modelVal"
-          :elType="currType"
-          :name="formItemAttrs.prop"
-          :class="flexClass"
-          :slots="currSlots"
-          :subOptions="currOptions"
-          v-bind="currAttrs"
-          @blur="handleBlur"
-          @focus="handleFocus"
-          @change="handleChange"
-          v-if="getIsEl()"
-        />
-        <component
-          v-model="modelVal"
-          :is="currType"
-          :class="flexClass"
-          v-bind="currAttrs"
-          @blur="handleBlur"
-          @focus="handleFocus"
-          @change="handleChange"
-          v-else-if="getIsBase()"
-        />
-        <template v-else>{{ throwTplError(`不存在此类型：${currType}`) }}</template>
-        <template v-if="currQuickAttrs?.after">
-          <div class="ml-h" v-if="typeof currQuickAttrs.after === 'string'">{{ currQuickAttrs.after }}</div>
-          <BaseRender :renderData="currQuickAttrs.after" v-else />
-        </template>
-      </template>
-      <div class="notice" v-html="'注：' + currQuickAttrs.tips" v-if="currQuickAttrs?.tips" />
+    <template v-if="formItemAttrs.quickAttrs?.before">
+      <div class="mr-h" v-if="typeof formItemAttrs.quickAttrs.before === 'string'">
+        {{ formItemAttrs.quickAttrs.before }}
+      </div>
+      <BaseRender :renderData="formItemAttrs.quickAttrs.before" v-else />
     </template>
+    <slot name="custom" :field="formItemAttrs" v-if="formItemAttrs.type === 'slot'">
+      <div class="color-danger">【自定义】{{ `${formItemAttrs.label}（${formItemAttrs.prop})` }}</div>
+    </slot>
+    <FormItem
+      v-model="modelVal"
+      :is="formItemAttrs.type"
+      :class="flexClass"
+      :field="formItemAttrs"
+      @blur="(val, e) => $attrs.onBlur?.(val, formItemAttrs.prop, e)"
+      @focus="(val, e) => $attrs.onFocus?.(val, formItemAttrs.prop, e)"
+      @change="(val, e) => $attrs.onChange?.(val, formItemAttrs.prop, e)"
+      v-if="getIsEl(formItemAttrs.type)"
+    />
+    <component
+      v-model="modelVal"
+      :is="formItemAttrs.type"
+      :class="flexClass"
+      :field="formItemAttrs"
+      @blur="(val, e) => $attrs.onBlur?.(val, formItemAttrs.prop, e)"
+      @focus="(val, e) => $attrs.onFocus?.(val, formItemAttrs.prop, e)"
+      @change="(val, e) => $attrs.onChange?.(val, formItemAttrs.prop, e)"
+      v-else-if="getIsBase(formItemAttrs.type)"
+    />
+    <template v-else>{{ throwTplError(`不存在此类型：${formItemAttrs.type}`) }}</template>
+    <template v-if="formItemAttrs.quickAttrs?.after">
+      <div class="ml-h" v-if="typeof formItemAttrs.quickAttrs.after === 'string'">{{ formItemAttrs.quickAttrs.after }}</div>
+      <BaseRender :renderData="formItemAttrs.quickAttrs.after" v-else />
+    </template>
+    <div class="notice" v-html="'注：' + formItemAttrs.quickAttrs.tips" v-if="formItemAttrs.quickAttrs?.tips" />
     <!-- 当有子项表单时 -->
     <!-- <template v-else>
       <AddDelList
@@ -82,23 +73,20 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { typeOf, getTextFromOpts, defaultFormItemType, defaultFormChildrenType, emptyStr, getFormItemSlots } from "@/core/utils";
+import { defaultFormItemType, getFormItemSlots, deleteAttrs, throwTplError, defaultCommonSize } from "@/core/utils";
 import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultFormItemTplsMap, getStandAttrsFromTpl } from ".";
-import { rangeJoinChar, emptyVals, throwTplError } from "@/core/utils";
-import { useDict, useFormAttrs } from "@/hooks";
-import { FormItemTplTypes, FormItemType, FormTplType } from "./_types";
-import { defaultCommonSize } from "@/core/utils";
-import { DictName } from "@/dict/_types";
+import { useFormAttrs } from "@/hooks";
+import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
 import _ from "lodash";
 // 下列两个组件不采用按需加载方式，不然控件会出现延迟出现的现象
 // import AddDelList from "../AddDelList.vue";
 // import AnyEleList from "../AnyEleList.vue";
-import { BaseRenderData } from "@/core/components/BaseRender.vue";
+// import { BaseRenderData } from "@/core/components/BaseRender.vue";
 
 const { merge } = _;
 const props = withDefaults(
@@ -112,9 +100,8 @@ const props = withDefaults(
     // readonly?: boolean; //是否只读
     // labelSuffix?: string;
     // labelWidth?: string;
-    prefixProp?: string; //前置prop属性
     inputDebounce?: boolean;
-    isChild?: boolean; //是否是父级children 的子级
+    hideLabel?: boolean; // 是否隐藏label
     formRef?: any;
     tplType?: FormTplType;
   }>(),
@@ -124,110 +111,42 @@ const props = withDefaults(
     // size: defaultCommonSize,
   }
 );
-
-const $emit = defineEmits(["update:modelValue", "change", "blur", "focus"]);
+const $emit = defineEmits(["update:modelValue"]);
 const $attrs = useAttrs();
-const { labelSuffix, pureText } = useFormAttrs({ ...props, ...$attrs });
-const newPureText = ref(pureText);
-let currType = ref<FormItemType>(defaultFormItemType);
-let currSlots: any; // 当前表单控件的插槽
-let currOptions: any;
-let currFormItemSlots: any; // 当前el-form-item的插槽
-let currQuickAttrs: any;
-let currChildren: any;
-let currAttrs: any;
-const { getOpts } = useDict();
+const { labelSuffix } = useFormAttrs({ ...props, ...$attrs });
 const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
-const subFields = ref<FormFieldAttrs[]>([]);
 const formItemTpls = defaultFormItemTplsMap[props.tplType];
 const formItemAttrs = computed<FormFieldAttrs>(() => {
-  const { prefixProp, field: originField, isChild } = props;
-  if (originField.type === "custom") return;
+  const { field, hideLabel } = props;
+  if (field.type === "custom") return;
   /*** 合并统一 tempField ***/
-  let { tpl, ...field } = originField;
-  if (tpl) {
-    const tplData = getStandAttrsFromTpl(tpl, formItemTpls);
-    const { rules: tplRules = [], ...restTplField } = tplData;
-    const { rules = [], ...restField } = field;
-    field = merge({ rules: mergeRules([...tplRules, ...rules]) }, restTplField, restField);
-  }
-  const endType = field.type ?? (field.children?.length ? defaultFormChildrenType : defaultFormItemType);
-  const defField = defaultFieldAttrs[endType];
-  const tempField: FormFieldAttrs = merge({ type: endType }, defField, field);
-  if (defField?.attrs?.getInferredAttrs) {
-    merge(tempField.attrs, defField.attrs.getInferredAttrs(tempField), field.attrs);
+  const { tpl, type = defaultFormItemType, rules = [], ...restField } = field;
+  const { rules: defRules = [], ...restDefField } = defaultFieldAttrs[type];
+  const { rules: tplRules = [], ...restTplField } = tpl ? getStandAttrsFromTpl(tpl, formItemTpls) : {};
+  const tempField: FormFieldAttrs = merge(restDefField, restTplField, restField, {
+    type,
+    rules: mergeRules([...defRules, ...tplRules, ...rules]),
+  });
+  if (restDefField?.attrs?.getInferredAttrs) {
+    merge(tempField.attrs, restDefField.attrs.getInferredAttrs(tempField), field.attrs);
     delete tempField.attrs!.getInferredAttrs;
   }
-  /*** 推断完善 templateField ***/
-  if (tempField.children?.length) {
-    const { children, required } = tempField;
-    subFields.value = children as FormFieldAttrs[];
-    // // 当是 addDel 类型的子项时，如果子项都未设置 required，则默认父级需显示必传红星符号
-    // if (type === "addDel") {
-    //   const someRequired = children.some((item: FormField, ind: number) => {
-    //     const isLast = ind === children.length - 1;
-    //     if (typeof item === "object") return item?.required ?? (isLast ? true : false);
-    //     return false;
-    //   });
-    //   if (someRequired) tempField.required = true;
-    // } else {
-    // 当子项有一个必填项时，父级自动变为必填项
-    if (required === undefined) {
-      const someRequired = children.some((item: FormField) => {
-        if (typeof item === "object") return item?.required ?? false;
-        return false;
-      });
-      if (someRequired) tempField.required = true;
-    }
-    // }
-  }
-  if (prefixProp) tempField.prop = `${prefixProp}.${field.prop}`;
   /*** 处理完善 templateField ***/
   tempField.rules = getRules(tempField);
-  if (tempField.attrs) {
-    const { options } = tempField.attrs;
-    tempField.attrs.placeholder = getPlaceholder(tempField);
-    if (options) {
-      if (typeof options === "string") {
-        const opts = getOpts(options as DictName);
-        tempField.attrs.options = opts;
-        currOptions = opts;
-      } else {
-        currOptions = options;
-      }
-    }
-  }
-  /*** 解析使用 tempField ***/
-  const { attrs, quickAttrs = {}, children, slots, ...restFormItemAttrs } = tempField;
-  currQuickAttrs = quickAttrs;
-  currChildren = children;
-  currFormItemSlots = slots;
-  newPureText.value = quickAttrs.pureText ?? pureText;
-  const { type, labelWidth } = restFormItemAttrs;
-  currType.value = type;
-  if (attrs) {
-    const { slots, ...restAttrs } = attrs;
-    currAttrs = restAttrs;
-    currSlots = slots;
-  }
-  /*** 调整显示 templateField ***/
-  if (isChild && Number(labelWidth) === 0) {
-    delete restFormItemAttrs.label;
-  }
-  delete restFormItemAttrs.tpl;
-  return restFormItemAttrs;
+  if (hideLabel) delete tempField.label;
+  return tempField;
 });
 /**
  * 获取表单校验的rules
- * @param {object[]} rules 不能取 合并之后的tempField上的rules
  */
 function getRules(field: FormFieldAttrs) {
   const { label = "", rules = [], required } = field;
   if (!required || rules.find(it => it.required)) return rules;
-  return [{ required, message: label + "必填" }, ...rules];
+  rules.unshift({ required, message: label + "必填" });
+  return rules;
 }
 // 弹性伸缩类名
 const flexClass = computed(() => {
@@ -236,59 +155,31 @@ const flexClass = computed(() => {
 });
 
 // 判断是否是ElementPlus的控件（待完善）
-function getIsEl() {
-  const code = formItemAttrs.value.type[0].charCodeAt(0);
+function getIsEl(type: FormItemType) {
+  const code = type.charCodeAt(0);
   return code >= 97 && code <= 122;
 }
 // 判断是否是系统的基础组件（待完善）
-function getIsBase() {
-  const code = formItemAttrs.value.type[0].charCodeAt(0);
+function getIsBase(type: FormItemType) {
+  const code = type.charCodeAt(0);
   return code >= 65 && code <= 90;
-}
-
-// 事件处理
-function handleBlur(val: any = "") {
-  $emit("blur", val, formItemAttrs.value.prop);
-}
-function handleFocus(val: any = "") {
-  $emit("focus", val, formItemAttrs.value.prop);
-}
-function handleChange(val: any = "") {
-  $emit("change", val, formItemAttrs.value.prop);
-}
-
-/**
- * 获取 placeholder 文本
- * @param field
- */
-function getPlaceholder(field: FormFieldAttrs) {
-  const { label = "", quickAttrs = {}, attrs = {} } = field;
-  let { placeholder: phr = "" } = attrs;
-  if (phr) phr = phr.replace("${label}", label);
-  const { example } = quickAttrs;
-  if (example) phr += `，例：${example}`;
-  return phr;
 }
 //合并表单校验的rules
 function mergeRules(rules: FormItemRule[] = []) {
   const arr: FormItemRule[] = [];
+  const keys: string[] = ["required", "min", "max", "pattern", "validator"];
   rules.forEach((item: CommonObj) => {
-    const keys: string[] = ["required", "min", "max", "pattern", "validator"];
     const { type } = item;
     const findInd = rules.findIndex((it: CommonObj) => {
       // if (i < ind) return false;
-      let isFind = false;
-      if (type) {
-        isFind = it.type === type;
-      } else {
-        isFind = !!keys.find((k, j) => item[k] !== undefined && it[k] !== undefined);
-      }
-      return isFind;
+      if (type) return it.type === type;
+      return !!keys.find(k => item[k] !== undefined && it[k] !== undefined);
     });
     findInd === -1 ? arr.push(item) : (arr[findInd] = item);
   });
   return arr;
 }
+// 不要删除，用作测试
 // console.log(
 //   "mergeRules----------",
 //   mergeRules([
@@ -302,46 +193,6 @@ function mergeRules(rules: FormItemRule[] = []) {
 //     { min: 20, message: "最小20" },
 //   ])
 // );
-//获取表单键值对的值
-function getOptionValue(field: FormFieldAttrs, val: any) {
-  const { type = defaultFormItemType, label, attrs = {}, quickAttrs = {} } = field;
-  const { options = [] } = attrs;
-  if (["select", "radio-group"].includes(type)) {
-    val = options?.find(it => it.value === val)?.label;
-  } else if (type.includes("Time") || type.includes("date")) {
-    const { format } = merge({}, defaultFieldAttrs[type]?.attrs, attrs);
-    const isArr = typeOf(val) === "Array";
-    const joinStr = ` ${rangeJoinChar} `;
-    if (newPureText.value) {
-      val = isArr ? val.join(joinStr) : val;
-    } else {
-      val = isArr ? val.map((it: any) => it.format(format)).join(joinStr) : val?.format(format);
-    }
-  } else if (type === "checkbox-group") {
-    val = options
-      ?.filter((it: OptionItem) => val.includes(it.value))
-      ?.map((it: OptionItem) => it.label)
-      .join("，");
-  } else if (type === "input-number") {
-    const { after = "" } = quickAttrs;
-    if (val) val = val + after;
-  } else if (type === "switch") {
-    const { activeText = "是", inactiveText = "否", activeValue } = attrs;
-    val = activeValue === val ? activeText : inactiveText;
-  } else if (type === "checkbox") {
-    val = val ? "是" : "否";
-  } else if (type === "cascader") {
-    val = getTextFromOpts(options, val);
-  } else if (type === "BaseNumberRange") {
-    val = val?.join(rangeJoinChar);
-  } else if (type === "slot") {
-    val = emptyStr;
-  } else {
-    new Error(`暂未处理此种类型：${type}`);
-  }
-  if (emptyVals.includes(val)) val = emptyStr;
-  return { label, value: val };
-}
 defineExpose({});
 </script>
 <style lang="scss" scoped>

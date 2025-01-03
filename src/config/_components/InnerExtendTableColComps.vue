@@ -3,7 +3,7 @@
   此组件后续可能会移除
 -->
 <template>
-  <FormItem v-model="newRow[col.prop]" :elType="col.type" v-bind="col.attrs" @change="handleChange" />
+  <FormItem v-model="newRow[col.prop]" :is="col.type" :prop="col.prop" v-bind="col.attrs" @change="handleChange" />
   <!-- <template v-if="col.type === 'switch'">
     <el-switch
       :modelValue="newRow[col.prop]"
