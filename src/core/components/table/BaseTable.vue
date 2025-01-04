@@ -6,9 +6,9 @@
     <Column
       :col="col"
       :size="size"
-      @operateBtns="onOperateBtns"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols.at(-1), (width)=>(newCols.at(-1)!.width=width))"
+      :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props, newCols!.at(-1))"
+      @operateBtns="onOperateBtns"
       v-for="(col, cInd) in newCols"
       :key="cInd"
     >
@@ -36,7 +36,7 @@ import { defaultTableAttrs, operateBtnsEmitName, getHandleCols } from "@/core/co
 import { handleTableSummary } from "@/core/utils";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
-import { getGroupBtnsOfRow } from "./_utils";
+import { getOperateBtns } from "./_utils";
 import { defaultCommonSize } from "@/core/utils";
 import { FilterByAuthFn } from "../crud/BaseCrud/_types";
 

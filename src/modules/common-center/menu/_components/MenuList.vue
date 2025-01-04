@@ -4,7 +4,7 @@
     :fields="fields"
     :fetch="handleFetch"
     :extraBtns="['add', 'delete']"
-    :operateBtns="getOperateBtns"
+    :operateBtns="getOperateColBtns"
     :pagination="false"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
@@ -113,7 +113,7 @@ const cols = ref<TableCol[]>([
   { type: "operate", label: "操作", width: 240 }, //  245 可覆盖操作列的属性设置
 ]);
 // 获取操作栏的按钮
-function getOperateBtns(row: CommonObj) {
+function getOperateColBtns(row: CommonObj) {
   const { children, status } = row;
   const total = getListTotal(children);
   const popconfirm = total ? `确定删除及其子级共 ${total + 1} 条记录吗？` : true;

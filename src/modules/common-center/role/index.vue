@@ -23,9 +23,10 @@ import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
 import { getExportRows } from "@/core/components/crud/BaseCrud/_utils";
+import { FormFieldAttrs } from "@/components/form/_types";
 
 const { openPopup } = usePopup();
-const fields = ref<FormField[]>([
+const fields = ref<FormFieldAttrs[]>([
   {
     prop: "role",
     label: "角色类型",

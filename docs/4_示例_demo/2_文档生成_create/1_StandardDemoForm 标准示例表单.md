@@ -107,7 +107,7 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`currField.prop`|`prop `名称即为 插槽名称|`name, field, form`|
+|`currField.prop`|`prop `名称即为 插槽名称|`name, field`|
 |`defaultTest`|默认插槽|-|
 |`itemTest`|`item`插槽|-|
 

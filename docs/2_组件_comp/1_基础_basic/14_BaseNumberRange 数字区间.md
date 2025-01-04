@@ -39,6 +39,7 @@
 |`input`|-|-|
 |`clear`|-|-|
 |`blur`|-|-|
+|`focus`|-|-|
 
 
 ## 类型声明
@@ -47,7 +48,7 @@
 
 
 ``` ts
-type ValsArr = [StrNum?, StrNum?]; //[StrNumUnd, StrNumUnd]
+type ValsArr = [number?, number?]; //[StrNumUnd, StrNumUnd]
 ```
 
 :::  

@@ -89,20 +89,22 @@ export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: 
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getGroupBtnsOfRow(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
-  const { operateBtns = [], data, operateBtnsAttrs, filterByAuth, disabled, size } = props;
+export function getOperateBtns(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
+  const { operateBtns, data, operateBtnsAttrs, filterByAuth, disabled, size } = props;
+  if (!operateBtns?.length) return []; // 如果没有操作栏按钮，直接返回
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
-  // 如果没有操作栏按钮或者已手动设置操作栏宽度，则无需处理操作栏的宽度，故直接返回
-  if (!operateBtns?.length || operateCol?.width) return filterBtns;
+  // 已手动设置操作栏宽度，则无需处理操作栏的宽度，直接返回
+  if (operateCol?.width) return filterBtns;
   // 如果开启优化，则不会再进行操作栏列宽的计算
   if (isOptimization) {
-    cb?.(100);
+    // cb?.(100);
+    operateCol!.width = 100;
     return filterBtns;
   }
   const width = getOperateColWidth(operateBtnsAttrs, filterBtns, size);
-  const isLastRow = rowInd === data.length - 1;
+  const isLastRow = rowInd > 0 && rowInd === data.length - 1;
   if (!isLastRow) {
     if (operateWidth < width) operateWidth = width;
   } else {
@@ -110,7 +112,9 @@ export function getGroupBtnsOfRow(row: CommonObj, rowInd: number, props: CommonO
     // if (operateWidth < 30) {
     //  operateWidth = getOperateColWidth(operateBtnsAttrs, undefined, size);
     // }
-    cb?.(operateWidth);
+    console.log(operateCol, operateWidth, "width-------------operateWidth");
+    operateCol!.width = operateWidth;
+    // cb?.(operateWidth);
   }
   return filterBtns;
 }

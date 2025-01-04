@@ -20,8 +20,9 @@
       :rowNum="rowNum"
       :afterReset="handleAfterReset"
       v-bind="formAttrs"
-      @submit="handleSearch"
+      @ready="handleReady"
       @change="handleChange"
+      @submit="handleSearch"
       ref="queryFormRef"
     >
       <template #custom="{ field }">
@@ -141,7 +142,7 @@ import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_conf
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
 import { TableAttrs } from "@/core/components/table/_types";
 import { filterBtnsByAuth } from "@/core/components/crud/_utils";
-import { operateBtnsEmitName } from "@/core/components/table";
+import { getColAndLevel, getHandleCols, operateBtnsEmitName } from "@/core/components/table";
 import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
 import cssVars from "@/assets/styles/_var.module.scss";
 import _ from "lodash";
@@ -163,6 +164,7 @@ const props = withDefaults(
     sections?: SectionFormItemAttrs[]; // 分块的表单字段
     extraParams?: CommonObj; // 额外的参数
     changeFetch?: boolean; // 是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
+    immediateFetch?: boolean; // 页面刚准备好时是否发送请求
     inputDebounce?: boolean; // 输入框输入时，是否通过防抖输入，触发搜索
     grid?: Grid; // 栅格配置，同ElementPlus的el-col的属性
     rowNum?: number; // 筛选条件的(表单)展示几行
@@ -204,6 +206,7 @@ const props = withDefaults(
     fields: () => [],
     cols: () => [],
     changeFetch: true,
+    immediateFetch: true,
     size: defaultCommonSize,
     omits: true,
     inputDebounce: true,
@@ -274,25 +277,75 @@ const newExtraBtns = computed<BtnItem[]>(() => {
 /**
  * 获取标准的表格列数据
  */
-function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
+// function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
+//   const filterCols = cols.filter(it => !!it);
+//   return filterCols.map((originCol: any) => {
+//     let { tpl, ...col } = originCol;
+//     const { type } = col;
+//     if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+//     if (tpl) {
+//       const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
+//       col = merge(tplData, col);
+//     }
+//     const { children } = col as TableColAttrs;
+//     if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
+//     return col;
+//   });
+// }
+function getStandardCols(
+  { cols, operateBtns, currPage, pageSize, size }: CommonObj,
+  cb?: (maxLev: number, cols: TableColAttrs[]) => void
+): TableColAttrs[] {
+  let hasOperateCol = false;
+  let maxLevel = 0;
   const filterCols = cols.filter(it => !!it);
-  return filterCols.map((originCol: any) => {
+  const newCols = filterCols.map((originCol: any) => {
     let { tpl, ...col } = originCol;
-    const { type } = col;
+    const { type, children } = col;
     if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
     if (tpl) {
       const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
       col = merge(tplData, col);
     }
-    const { children } = col as TableColAttrs;
-    if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
-    return col;
+    // 将处理过模板的cols再处理下，新增操作列或处理序号列
+    let { col: newCol, level } = getColAndLevel(col, 1, size);
+    const { type: newType } = newCol;
+    if (newType === "operate") {
+      hasOperateCol = true;
+      newCol = { ...defaultTableColTpls.T_Operate, ...newCol };
+    } else if (newType === "index") {
+      if (currPage && pageSize && newCol.index === undefined) {
+        newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
+      }
+    }
+    if (level > maxLevel) maxLevel = level;
+    if (children?.length) (newCol as TableColAttrs).children = getStandardCols({ cols: children, operateBtns, currPage, pageSize, size }, cb);
+    return newCol;
   });
+  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
+  cb?.(maxLevel, newCols);
+  // return newCols.filter(col => col.visible);
+  return newCols;
 }
-// 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失
-const originCols = computed<TableColAttrs[]>(() => getStandardCols(props.cols) as TableColAttrs[]);
-const newCols = ref<TableColAttrs[]>(toRaw(originCols.value));
-const dragSortable = computed<boolean>(() => !!newCols.value.find(col => col.type === "sort"));
+let originCols: TableColAttrs[] = [];
+let dragSortable = false;
+const newCols = ref<TableColAttrs[]>([]);
+watch(
+  () => props.cols,
+  newVal => {
+    const { operateBtns, size } = props;
+    const { currPage, pageSize } = pagination as CommonObj;
+    const _cols = getStandardCols({ cols: newVal, operateBtns, currPage, pageSize, size });
+    // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失，除非不会用到函数类属性
+    originCols = JSON.parse(JSON.stringify(_cols));
+    dragSortable = !!_cols.find(col => col.type === "sort");
+    newCols.value = _cols;
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+);
 // 当额外参数改变时，发起请求
 watch(
   () => props.extraParams,
@@ -323,23 +376,23 @@ function handleCurrChange(val: number) {
   pagination && Object.assign(params, { [currPageKey]: val });
   getList(params, undefined, "currChange");
 }
+// 初始化刚准备好时
+function handleReady() {
+  // merge(params, modelData);
+  Object.assign(initParams, params);
+  props.immediateFetch && getList(params, undefined, "ready");
+}
 /**
  * 处理change事件
  * @param changedVals change变动的表单字段
  * @param isInit 是否是初始化表单数据
  */
-function handleChange(changedVals: CommonObj, isInit?: boolean) {
-  const { changeFetch } = props;
+function handleChange(changedVals: CommonObj) {
+  if (!props.changeFetch) return;
   changedVals = splitPropsParams(changedVals);
-  if (isInit) {
-    merge(params, changedVals);
-    Object.assign(initParams, params);
-  } else {
-    if (!changeFetch) return;
-    // merge(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
-    Object.assign(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined);
-  }
-  getList(params, undefined, isInit ? "init" : "change");
+  // merge(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
+  Object.assign(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined);
+  getList(params, undefined, "change");
 }
 //获取列表数据
 function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGetListType = "expose") {
@@ -411,13 +464,13 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
     return $emit("extraBtns", name, newNext, { selectedKeys: [], selectedRows: [] }, e);
   }
   const { total } = pageInfo;
-  const cols = newCols.value;
   const { exportCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
   const seledKeys = seledRows.value.map((it: CommonObj) => {
     const key = typeof rowKey === "string" ? rowKey : rowKey?.();
     return it[key];
   });
+  const cols = newCols.value;
   if (name !== "export") {
     return showConfirmHtmlBox({
       btnObj,

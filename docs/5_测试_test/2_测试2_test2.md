@@ -19,22 +19,37 @@
 ::: demo 
 /demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/2_CompUse.vue
 :::
+## 插槽用法
+
+&emsp;&emsp;`middle`
+
+::: demo 
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/3_SlotsUse.vue
+:::
 ## 模板用法（非必须）
 
 &emsp;&emsp;表单项模板用法同`BaseForm`、表格列模板用法同`BaseTable`  
 &emsp;&emsp;注：查询表单、新增/编辑表单，使用同样模板名称，呈现样式略有差别。（为了满足不同场景下的需求）
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/3_TplsUse .vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/4_TplsUse .vue
 :::
 ## 按钮规则
 
 &emsp;&emsp;按钮分为两块：额外按钮、操作栏按钮，它们遵循同样的规则。  
 &emsp;&emsp;按钮属性可为：函数、数组  
-&emsp;&emsp;若为数组，数组元素可为：字符串、对象、函数
+&emsp;&emsp;若为数组，数组元素可为：字符串、对象、函数  
+&emsp;&emsp;内置逻辑：删除二次确认（批量/单个）、导入/导出内置逻辑（支持自定义）
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/4_BtnsRule.vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/5_BtnsRule.vue
+:::
+## 内置逻辑（支持自定义）
+
+&emsp;&emsp;内置逻辑：删除二次确认（批量/单个）、导入/导出内置逻辑（支持自定义）
+
+::: demo 
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/6_InnerLogic.vue
 :::
 ## 请求参数&响应数据 处理
 
@@ -43,7 +58,7 @@
 &emsp;&emsp;可统一处理：
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/5_HandleData.vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/7_HandleData.vue
 :::
 ## 多弹出层处理
 
@@ -55,7 +70,7 @@
 &emsp;&emsp;批量删除、批量驳回、批量通过弹窗
 
 ::: demo 
-/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/6_MultiplePopup.vue
+/demos/2_组件_comp/5_增删改查_crud/1_BaseCrud 基础增删改查/8_MultiplePopup.vue
 :::
 
 
@@ -77,6 +92,7 @@
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
 |`importCfg`|导入的下载模板配置|`ImportCfgAttrs`|-|
 |`exportCfg`|导出配置|`ExportCfg`|{ `limit: 10000 `}|
+|`showSetBtn`|-|`boolean`|`true`|
 |`cols`|表格列数据|`TableCol[]`|`[]`|
 |`operateBtns`|操作栏的分组按钮，在表格的操作一栏|`OperateBtnsType`|-|
 |`operateBtnsAttrs`|操作栏按钮的配置|`OperateBtnsAttrs`|-|
@@ -95,6 +111,7 @@
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
 |`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|
+|`fetch`|-|`UniteFetchType`|-|
 |`afterSuccess`|请求成功的回调函数|`() => void`|-|
 |`afterFail`|请求成功的回调函数|`() => void`|-|
 |`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|
@@ -122,7 +139,7 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`field.prop`|-|`name, field, form`|
+|`field.prop`|-|`name, field`|
 |`middle`|中间插槽|-|
 |`content`|内容插槽|`loading, data, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|

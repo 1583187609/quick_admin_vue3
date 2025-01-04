@@ -92,7 +92,7 @@ import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
 import { useEvent, useFormAttrs } from "@/hooks";
-import { handleFields, getGridAttrs } from "@/core/components/form/_utils";
+import { getGridAttrs, getHandleFields } from "@/core/components/form/_utils";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
 import { defaultCommonSize } from "@/core/utils";
@@ -131,10 +131,9 @@ const props = withDefaults(
     ...config?.BaseCrud?._components?.QueryForm,
   }
 );
-const $emit = defineEmits(["update:modelValue", "submit", "change"]);
+const $emit = defineEmits(["update:modelValue", "submit", "change", "ready"]);
 const $attrs = useAttrs();
 useFormAttrs({ ...props, ...$attrs }, undefined, true);
-let isFirst = true;
 const formRef = ref<FormInstance>();
 const colNum = ref(getColNum());
 const isFold = ref(true);
@@ -184,37 +183,40 @@ const formData = computed({
   get: () => props.modelValue,
   set: (val: CommonObj) => $emit("update:modelValue", val),
 });
+let isFirst = true;
 // watch fields 和 watch sections 只能两者选其一执行
 watch(
   () => props.fields,
   (newVal: FormField[]) => {
     if (props.sections?.length) return;
     const { modelValue, grid } = props;
-    const result = handleFields(newVal, undefined, modelValue, { quickAttrs: { grid: getGridAttrs(grid) } }, "query");
+    const result = getHandleFields(newVal, modelValue, { quickAttrs: { grid: getGridAttrs(grid) } }, "query");
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
-    $emit("change", formData.value, isFirst ? !!modelValue : false);
-    isFirst = false;
+    isFirst ? $emit("ready") : (isFirst = false);
+    // $emit("change", formData.value, isFirst ? !!modelValue : false);
+    // isFirst = false;
   },
   { immediate: true, deep: true, once: !!props?.sections?.length }
 );
 watch(
   () => props.sections,
   (newVal: SectionFormItemAttrs[]) => {
-    if (!newVal) return;
+    if (!newVal?.length) return (newSections.value = []);
     const { modelValue } = props;
     newSections.value =
-      newVal?.map((item: SectionFormItemAttrs) => {
-        const { label, fields: secFields } = item;
-        const result = handleFields(secFields, undefined, modelValue, undefined, "query");
+      newVal.map((item: SectionFormItemAttrs) => {
+        const { fields: secFields } = item;
+        const result = getHandleFields(secFields, modelValue, undefined, "query");
         const { data, fields } = result;
         item.fields = fields;
         merge(formData.value, data);
         return item;
       }) ?? [];
-    $emit("change", formData.value, isFirst ? !!modelValue : false);
-    isFirst = false;
+    isFirst ? $emit("ready") : (isFirst = false);
+    // $emit("change", formData.value, isFirst ? !!modelValue : false);
+    // isFirst = false;
   },
   { immediate: true, deep: true, once: !props.sections }
 );

@@ -58,6 +58,7 @@
 |`loading`|提交按钮是否显示加载图标|`boolean`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`omits`|是否剔除掉值为 `undefined, null, "" `的参数|`boolean \| Array`|`true`|
+|`fetch`|-|`UniteFetchType`|-|
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`() => void`|-|
 |`afterReset`|重置之后的处理方法|`AfterReset`|-|
@@ -68,7 +69,12 @@
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
+|`blur`|-|-|
+|`focus`|-|-|
+|`change`|-|-|
 |`moreBtns`|-|-|
+|`submit`|-|-|
+|`reset`|-|-|
 |`update:modelValue`|-|-|
 |`toggle`|-|-|
 

@@ -9,7 +9,7 @@
       :modelValue="newRow[col.prop]"
       v-bind="deleteAttrs(col.attrs, ['onChange'])"
       @change="handleSwitchChange"
-      v-if="quickAttrs?.handleChange"
+      v-if="col.quickAttrs?.handleChange"
     />
     <el-switch v-model="newRow[col.prop]" v-bind="col.attrs" v-else />
   </template>
@@ -34,7 +34,6 @@ const props = withDefaults(
       $index: number; // 行下标
       [key: string]: any;
     };
-    quickAttrs?: CommonObj;
     refreshList?: RefreshListFn;
   }>(),
   {
@@ -51,13 +50,13 @@ const newRow = computed({
 });
 
 function handleChange(val: any) {
-  console.log(val, "val-change------------");
+  console.log(val, props.col.prop, "val-change------------");
 }
 function handleBlur(val: any) {
-  console.log(val, "val-blur------------");
+  console.log(val, props.col.prop, "val-blur------------");
 }
 function handleFocus(val: any) {
-  console.log(val, "val-focus------------");
+  console.log(val, props.col.prop, "val-focus------------");
 }
 
 // 处理switch的change事件
@@ -66,7 +65,8 @@ function handleFocus(val: any) {
 //     isFirst = false;
 //     return;
 //   }
-//   const { col, row, refreshList, quickAttrs } = props;
+//   const { col, row, refreshList } = props;
+//   const {quickAttrs} = col;
 //   const { prop, attrs = {} } = col;
 //   const { activeValue } = attrs;
 //   const { handleChange } = quickAttrs;
@@ -84,7 +84,8 @@ function handleFocus(val: any) {
 //     isFirst = false;
 //     return;
 //   }
-//   const { col, row, refreshList, quickAttrs } = props;
+//   const { col, row, refreshList } = props;
+//   const {quickAttrs} = col;
 //   const { attrs = {}, prop, label = "" } = col;
 //   const { handleBlur } = quickAttrs;
 //   handleBlur?.(val, row, (hint = `${label}修改成功`) => {

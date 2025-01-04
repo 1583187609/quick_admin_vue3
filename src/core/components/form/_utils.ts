@@ -8,7 +8,7 @@ import { getBtnObj } from "../BaseBtn";
 import { BtnItem, BtnName } from "../BaseBtn/_types";
 import _ from "lodash";
 
-const { merge } = _;
+const { merge, snakeCase } = _;
 /**
  * 获取AddDel分组的每个数组项对象数据
  * @param fields 每个组的字段集和
@@ -27,78 +27,139 @@ export function getAddDelItem(fields?: FormField[]) {
  * 是否是合法的字段（同时初始化表单数据）
  * @param formData object 表单数据对象
  * @param field 字段对象属性
- * @param props vue props
+ * @param $emit vue $emit
  * @param model 表单初始值
  * @return boolean 这个字段属性是否合法（是否是对象）
+ */
+// interface ResObj {
+//   data: CommonObj;
+//   fields: FormFieldAttrs[];
+// }
+// export function handleFields(
+//   fields: FormField[] = [],
+//   $emit: any,
+//   modelValue?: CommonObj,
+//   inheritAttrs?: CommonObj,
+//   tplType: FormTplType = "common"
+// ): ResObj {
+//   const resObj: ResObj = {
+//     data: {},
+//     fields: [],
+//   };
+//   fields.forEach((originField: FormField, ind: number) => {
+//     if (typeOf(originField) !== "Object") return null;
+//     let { tpl, ...field } = originField as FormFieldAttrs;
+//     if (tpl) {
+//       const tplData = getStandAttrsFromTpl(tpl, defaultFormItemTplsMap[tplType]);
+//       field = merge(tplData, field);
+//     }
+//     const { type, prop = tpl, children } = field;
+//     const propType = typeOf(prop);
+//     handleFormInitData(field as FormFieldAttrs, modelValue);
+//     if (propType === "String") {
+//       let defVal = modelValue?.[prop as string];
+//       //是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题
+//       if (type === "checkbox" && defVal === undefined) {
+//         defVal = false;
+//       } else if (type === "addDel") {
+//         resObj.data[prop as string] = defVal?.length ? defVal : [getAddDelItem(children)];
+//       } else {
+//         const val = children?.length ? handleFields(children, $emit, defVal, undefined, tplType).data : defVal;
+//         resObj.data[prop as string] = val;
+//         val !== undefined && $emit?.("change", val, prop);
+//       }
+//     } else if (propType === "Array") {
+//       //此处不会有children
+//       const [minProp, maxProp] = prop as [string, string];
+//       const maxVal = modelValue?.[maxProp];
+//       const minVal = modelValue?.[minProp];
+//       const newProp = (prop as string[]).join(propsJoinChar);
+//       const isAllUnd = minVal === undefined && maxVal === undefined;
+//       const val = isAllUnd ? undefined : [minVal, maxVal];
+//       resObj.data[newProp] = val;
+//       (field as FormFieldAttrs).prop = newProp;
+//       val !== undefined && $emit?.("change", val, newProp);
+//     } else if (propType === "Undefined") {
+//       if (!children?.length) throw new Error("不能同时没有设置prop和children属性");
+//       const defVal: CommonObj = {};
+//       const joinProp =
+//         children
+//           ?.map((item: any) => {
+//             const { prop } = item;
+//             defVal[prop] = modelValue?.[prop];
+//             return prop;
+//           })
+//           .join(propsJoinChar) ?? "";
+//       const val = defVal;
+//       (field as FormFieldAttrs).prop = joinProp;
+//       resObj.data[joinProp as string] = val;
+//       Object.keys(val).length && $emit?.("change", val, joinProp);
+//       console.warn("children不能为空数组");
+//     } else {
+//       throw new Error(`暂未处理prop为${propType}类型的值`);
+//     }
+//     if (inheritAttrs) merge(field, inheritAttrs);
+//     resObj.fields.push(field as FormFieldAttrs);
+//   });
+//   return resObj;
+// }
+
+/**
+ * 获取标准的字段
+ */
+function getStandardFieldAttrs(simpleField: any, tplType: FormTplType = "common") {
+  const t = typeOf(simpleField);
+  if (t === "Object") {
+    let { tpl, ...field } = simpleField;
+    if (tpl) field = merge(getStandAttrsFromTpl(tpl, defaultFormItemTplsMap[tplType]), field);
+    return field;
+  }
+  if (t === "String") return getStandardFieldAttrs({ tpl: simpleField }, tplType);
+  throw new Error(`暂未处理此类型：${t}`);
+}
+
+/**
+ * 获取处理后的字段（同时初始化表单数据）
+ * @param formData object 表单数据对象
+ * @param field 字段对象属性
+ * @param model 表单初始值
  */
 interface ResObj {
   data: CommonObj;
   fields: FormFieldAttrs[];
 }
-export function handleFields(
+export function getHandleFields(
   fields: FormField[] = [],
-  props: any,
   modelValue?: CommonObj,
-  inheritAttrs?: CommonObj,
+  overFieldAttrs?: CommonObj,
   tplType: FormTplType = "common"
 ): ResObj {
-  const resObj: ResObj = {
-    data: {},
-    fields: [],
-  };
+  const resObj: ResObj = { data: {}, fields: [] };
   fields.forEach((originField: FormField, ind: number) => {
-    if (typeOf(originField) !== "Object") return null;
-    let { tpl, ...field } = originField as FormFieldAttrs;
-    if (tpl) {
-      const tplData = getStandAttrsFromTpl(tpl, defaultFormItemTplsMap[tplType]);
-      field = merge(tplData, field);
-    }
-    const { type, prop = tpl, children } = field;
-    const propType = typeOf(prop);
+    if (!originField) return;
+    const field = getStandardFieldAttrs(originField, tplType);
+    const { type, prop } = field;
+    const t = typeOf(prop);
     handleFormInitData(field as FormFieldAttrs, modelValue);
-    if (propType === "String") {
-      let defVal = modelValue?.[prop as string];
-      //是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题
-      if (type === "checkbox" && defVal === undefined) {
-        defVal = false;
-      } else if (type === "addDel") {
-        resObj.data[prop as string] = defVal?.length ? defVal : [getAddDelItem(children)];
-      } else {
-        const val = children?.length ? handleFields(children, props, defVal, undefined, tplType).data : defVal;
-        resObj.data[prop as string] = val;
-        val !== undefined && props?.onChange?.(val, prop);
-      }
-    } else if (propType === "Array") {
-      //此处不会有children
+    if (t === "String") {
+      let val = modelValue?.[prop as string];
+      if (type === "checkbox" && val === undefined) val = false; // 是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题
+      resObj.data[prop as string] = val;
+      // val !== undefined && $emit?.("change", val, prop);
+    } else if (t === "Array") {
       const [minProp, maxProp] = prop as [string, string];
       const maxVal = modelValue?.[maxProp];
       const minVal = modelValue?.[minProp];
-      const newProp = (prop as string[]).join(propsJoinChar);
       const isAllUnd = minVal === undefined && maxVal === undefined;
       const val = isAllUnd ? undefined : [minVal, maxVal];
+      const newProp = (prop as string[]).join(propsJoinChar);
       resObj.data[newProp] = val;
       (field as FormFieldAttrs).prop = newProp;
-      val !== undefined && props?.onChange?.(val, newProp);
-    } else if (propType === "Undefined") {
-      if (!children?.length) throw new Error("不能同时没有设置prop和children属性");
-      const defVal: CommonObj = {};
-      const joinProp =
-        children
-          ?.map((item: any) => {
-            const { prop } = item;
-            defVal[prop] = modelValue?.[prop];
-            return prop;
-          })
-          .join(propsJoinChar) ?? "";
-      const val = defVal;
-      (field as FormFieldAttrs).prop = joinProp;
-      resObj.data[joinProp as string] = val;
-      Object.keys(val).length && props?.onChange?.(val, joinProp);
-      console.warn("children不能为空数组");
+      // val !== undefined && $emit?.("change", val, newProp);
     } else {
-      throw new Error(`暂未处理prop为${propType}类型的值`);
+      throw new Error(`暂未处理prop为${t}类型的值`);
     }
-    if (inheritAttrs) merge(field, inheritAttrs);
+    if (overFieldAttrs) merge(field, overFieldAttrs);
     resObj.fields.push(field as FormFieldAttrs);
   });
   return resObj;

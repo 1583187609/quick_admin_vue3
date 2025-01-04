@@ -12,9 +12,7 @@
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs">
-        更多
-      </el-button>
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs"> 更多 </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
@@ -42,7 +40,7 @@ import { sortObjArrByKey, defaultGroupBtnsMaxNum, emptyStr } from "@/core/utils"
 import { BaseBtnType, BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import config from "@/config";
-import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
+import { CommonObj, CommonSize, FinallyNext, NextArgs } from "@/core/_types";
 import { defaultCommonSize } from "@/core/utils";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
@@ -87,10 +85,11 @@ const newBtns = computed(() => {
   dropPopconfirm = !tempBtns.slice(maxNum - 1).some(it => it.popconfirm);
   return tempBtns;
 });
-function handleClick(tpl: BtnName, btnObj: BtnItem, next: FinallyNext, e: Event) {
+function handleClick(...args) {
+  const [tpl, btnObj, next, e] = args as NextArgs;
   const { to } = btnObj;
   if (to) return router.push(to as any);
-  $emit("click", tpl, btnObj, next, e);
+  $emit("click", ...args);
 }
 </script>
 <style lang="scss">

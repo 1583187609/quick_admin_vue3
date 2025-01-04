@@ -550,6 +550,7 @@ const emit = defineEmits<{
 
 1、完善使用说明文档
 2、完善注释语法规则说明
+3、深入完善 vue-docgen-api 功能
 
 ## 八、工程推广相关
 

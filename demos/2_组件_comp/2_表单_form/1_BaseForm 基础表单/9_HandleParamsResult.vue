@@ -1,10 +1,10 @@
 <!-- summary 处理请求参数
-extraParams
 omits
 afterSuccess
 afterFail
 afterReset
-额外参数
+extraParams（额外参数）
+单双prop
 一次性统一处理
 -->
 <template>

@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
-import { handleFields, getAddDelItem } from "@/core/components/form/_utils";
+import { getAddDelItem, getHandleFields } from "@/core/components/form/_utils";
 import { CommonObj, CommonSize } from "@/core/_types";
 import { showMessage } from "@/core/utils";
 import IconBtns, { IconBtnTpl } from "@/core/components/IconBtns.vue";
@@ -45,7 +45,7 @@ import _ from "lodash";
 const { merge, isEqual } = _;
 const props = withDefaults(
   defineProps<{
-    modelValue?: any;
+    modelValue?: CommonObj[];
     prefixProp: string;
     fields: FormField[];
     hideLabel?: boolean;
@@ -63,7 +63,7 @@ const props = withDefaults(
     fields: () => [],
   }
 );
-const $emit = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue", "change"]);
 
 // const refsList = ref<HTMLElement[]>([]);
 // const initRefsList = (el, ind) => {
@@ -75,14 +75,16 @@ const modelList = computed({
   set: (val: any) => $emit("update:modelValue", val),
 });
 const newFields = ref<FormFieldAttrs[]>([]);
+let isFirst = true;
 watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, $emit, modelValue);
+    const result = getHandleFields(newVal, modelValue);
     const { data, fields } = result;
     merge(modelList.value, data);
     newFields.value = fields;
+    isFirst = false;
   },
   {
     immediate: true,

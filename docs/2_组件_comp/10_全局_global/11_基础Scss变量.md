@@ -29,6 +29,7 @@
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
 |`importCfg`|导入的下载模板配置|`ImportCfgAttrs`|-|
 |`exportCfg`|导出配置|`ExportCfg`|{ `limit: 10000 `}|
+|`showSetBtn`|-|`boolean`|`true`|
 |`cols`|表格列数据|`TableCol[]`|`[]`|
 |`operateBtns`|操作栏的分组按钮，在表格的操作一栏|`OperateBtnsType`|-|
 |`operateBtnsAttrs`|操作栏按钮的配置|`OperateBtnsAttrs`|-|
@@ -47,6 +48,7 @@
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
 |`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
 |`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|
+|`fetch`|-|`UniteFetchType`|-|
 |`afterSuccess`|请求成功的回调函数|`() => void`|-|
 |`afterFail`|请求成功的回调函数|`() => void`|-|
 |`summaryList`|汇总请求数据的 `list`|`SummaryListType`|-|
@@ -74,7 +76,7 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`field.prop`|-|`name, field, form`|
+|`field.prop`|-|`name, field`|
 |`middle`|中间插槽|-|
 |`content`|内容插槽|`loading, data, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|

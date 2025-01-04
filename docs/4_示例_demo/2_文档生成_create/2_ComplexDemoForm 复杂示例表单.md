@@ -66,7 +66,7 @@
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`currField.prop`|-|`name, field, form`|
+|`currField.prop`|-|`name, field`|
 |`default`|默认插槽|-|
 |`tempTest`|这是临时写的用作测试的插槽|-|
 

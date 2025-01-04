@@ -1,7 +1,7 @@
 # BaseForm 基础表单
 
 &emsp;&emsp;目标：定位为基础（通用）表单，继承并扩展 `el-form `的功能，提供快捷属性，实现快速开发。  
-&emsp;&emsp;快捷属性：在 `quickAttrs `中，例：`grid`、`example`、`popover`、`tips`、`pureText`、`rulesType`、`before`、`after`、……  
+&emsp;&emsp;快捷属性：在 `quickAttrs `中，例：`grid`、`example`、`popover`、`tips`、`pureText`、`before`、`after`、……  
 &emsp;&emsp;表单样式风格：通用表单、单元格表单、纯文本表单
 ## 基础用法
 
@@ -67,7 +67,7 @@
 :::
 ## 表单提交处理
 
-
+&emsp;&emsp;`fetch `配合 `extraParams`
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/8_HandleSubmit.vue
@@ -121,6 +121,7 @@
 |`loading`|提交请求状态。控制提交按钮是否显示加载图标|`boolean`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`omits`|是否剔除掉值为 `undefined, null, "" `的请求参数|`boolean \| Array`|`true`|
+|`fetch`|-|`UniteFetchType`|-|
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
 |`afterReset`|重置之后的处理方法|`AfterReset`|-|
@@ -131,7 +132,12 @@
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
+|`blur`|-|-|
+|`focus`|-|-|
+|`change`|-|-|
 |`moreBtns`|-|-|
+|`submit`|-|-|
+|`reset`|-|-|
 |`update:modelValue`|-|-|
 
 ### Expose
@@ -148,7 +154,7 @@
 |:---|:---|:---|
 |`header`|顶部插槽|-|
 |`content`|内容插槽|-|
-|`currField.prop`|-|`name, field, form`|
+|`currField.prop`|-|`name, field`|
 |`footer`|底部插槽|-|
 
 

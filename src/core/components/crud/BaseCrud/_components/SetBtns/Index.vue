@@ -54,9 +54,9 @@ const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
+    cols: TableColAttrs[];
+    originCols: TableColAttrs[];
     size?: CommonSize;
-    cols?: TableColAttrs[];
-    originCols?: TableColAttrs[];
     toolBtns?: string[];
     disabled?: boolean;
   }>(),
@@ -91,7 +91,7 @@ function openColSetDrawer() {
       hidden: specialColKeys.includes(type as SpecialTableColType),
       colProp: prop,
       label,
-      visible, // !!newCols.value.find(it => it.prop === prop)
+      visible,
       exportable,
       sortable: !!sortable,
     };

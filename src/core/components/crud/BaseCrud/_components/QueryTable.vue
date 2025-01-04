@@ -15,13 +15,12 @@
       :col="col"
       :size="size"
       :compact="compact"
+      :disabled="disabled"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getGroupBtnsByRow="(row: CommonObj, ind: number) => getGroupBtnsOfRow(row, ind, props, newCols.at(-1), (width)=>(newCols.at(-1)!.width=width))"
+      :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props, cols.at(-1))"
       @operateBtns="onOperateBtns"
-      @update:colAttrs="(colAttrs: TableColAttrs)=>handleUpdateCol(colAttrs, cInd)"
-      :disabled="disabled"
-      v-for="(col, cInd) in newCols"
+      v-for="(col, cInd) in cols"
       :key="cInd"
     >
       <template #custom="{ row, col: c, $index: ind }">
@@ -46,7 +45,7 @@ import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
 import Column, { RefreshListFn, RowBtnInfo } from "@/core/components/table/_components/Column.vue";
 import { defaultTableAttrs, getHandleCols, operateBtnsEmitName } from "@/core/components/table";
 import { TableColAttrs } from "@/core/components/table/_types";
-import { getGroupBtnsOfRow } from "@/core/components/table/_utils";
+import { getOperateBtns } from "@/core/components/table/_utils";
 import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";
 
@@ -87,12 +86,12 @@ const seledRows = ref<CommonObj[]>([]);
  * 55+32+8+16*2+40+3 = 55+40+32+40+3 = 95+75 = 170
  * 216px 170px
  */
-const newCols = reactive<TableColAttrs[]>(
-  getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
-    rowNum += maxLev - 1;
-    $emit("update:cols", cols);
-  })
-);
+// const newCols = reactive<TableColAttrs[]>(
+//   getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
+//     rowNum += maxLev - 1;
+//     $emit("update:cols", cols);
+//   })
+// );
 
 const newAttrs = computed(() => {
   const { showSummary, summaryMethod } = props;
@@ -112,9 +111,6 @@ const newAttrs = computed(() => {
 function onOperateBtns(btnObj: BtnItem, { row, col, $index }: RowBtnInfo, next: FinallyNext, e: Event) {
   $emit(operateBtnsEmitName, btnObj, { $index, ...row }, next, e);
 }
-function handleUpdateCol(colAttrs: TableColAttrs, ind: number) {
-  Object.assign(newCols[ind], colAttrs);
-}
 //当选择项发生变化时会触发该事件
 function handleSelectionChange(rows: CommonObj[]) {
   seledRows.value = rows;
@@ -127,25 +123,28 @@ function handleSelectionChange(rows: CommonObj[]) {
  * @link 参考：https://blog.csdn.net/qq_26018335/article/details/127348107
  */
 defineExpose({
-  //全不选
-  clearSelection() {
-    return tableRef?.value?.clearSelection();
+  tableRef() {
+    return tableRef.value;
   },
-  //全选
-  allSelection() {
-    return tableRef?.value?.toggleAllSelection();
-  },
-  //反选
-  invertSelection() {
-    // console.log(
-    //   tableRef.value.getSelectionRows(),
-    //   "点击反选按钮-暴露出来的-----------------"
-    // );
-    seledRows?.value?.forEach((row, ind) => {
-      tableRef?.value?.toggleRowSelection(row, false);
-    });
-  },
-  ...tableRef.value,
+  // //全不选
+  // clearSelection() {
+  //   return tableRef?.value?.clearSelection();
+  // },
+  // //全选
+  // allSelection() {
+  //   return tableRef?.value?.toggleAllSelection();
+  // },
+  // //反选
+  // invertSelection() {
+  //   // console.log(
+  //   //   tableRef.value.getSelectionRows(),
+  //   //   "点击反选按钮-暴露出来的-----------------"
+  //   // );
+  //   seledRows?.value?.forEach((row, ind) => {
+  //     tableRef?.value?.toggleRowSelection(row, false);
+  //   });
+  // },
+  // ...tableRef.value,
 });
 </script>
 <style lang="scss" scoped>

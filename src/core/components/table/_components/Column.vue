@@ -4,14 +4,14 @@
 { width?: string | number; minWidth?: string | number; type?: string;  showOverflowTooltip?: boolean | Partial<Pick<ElTooltipProps, "placement" | ... 7 more ... | "showArrow">>; ... 35 more ...; style?: unknown; }
 -->
 <template>
-  <template v-if="newCol.visible">
-    <el-table-column v-bind="bindAttrs" v-if="newCol.type && ['index', 'selection'].includes(newCol.type)" />
+  <template v-if="visible">
+    <el-table-column v-bind="bindAttrs" v-if="type && ['index', 'selection'].includes(type)" />
     <template v-else>
-      <el-table-column v-bind="bindAttrs" v-if="newCol.children?.length">
-        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(newCol, currPopover)" :key="key">
+      <el-table-column v-bind="bindAttrs" v-if="children?.length">
+        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
-            <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
+            <QuestionPopover :popover="quickAttrs?.popover" :size="size" v-if="quickAttrs?.popover" />
           </template>
         </template>
         <Column
@@ -19,9 +19,9 @@
           :size="size"
           :refreshList="refreshList"
           :operateBtnsAttrs="operateBtnsAttrs"
-          :getGroupBtnsByRow="getGroupBtnsByRow"
+          :getBtns="getBtns"
           :disabled="disabled"
-          v-for="(subCol, subInd) in (newCol?.children as TableColAttrs[])"
+          v-for="(subCol, subInd) in (children as TableColAttrs[])"
           :key="subInd"
         >
           <template #custom="scope">
@@ -30,51 +30,47 @@
         </Column>
       </el-table-column>
       <el-table-column v-bind="bindAttrs" v-else>
-        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(newCol, currPopover)" :key="key">
+        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
-            <QuestionPopover :popover="currPopover" :size="size" v-if="currPopover" />
+            <QuestionPopover :popover="quickAttrs?.popover" :size="size" v-if="quickAttrs?.popover" />
             <MarkIcon v-if="getShowMark(scope)" />
           </template>
         </template>
         <template #default="{ row, column, $index }">
-          <slot v-bind="{ row, column, $index, col: newCol }" v-if="!newCol.type">
+          <slot v-bind="{ row, column, $index, col }" v-if="!type">
             <!-- 下面拆成两段写是为了formatter属性生效，在#default插槽中时，element-plus 的 formatter不会生效 -->
-            <BaseRender :renderData="newCol.formatter(row, column, row[newCol.prop as string], $index)" v-if="newCol.formatter" />
-            <template v-else>{{ renderValue(row[newCol.prop as string]) }}</template>
+            <BaseRender :renderData="formatter(row, column, row[prop as string], $index)" v-if="formatter" />
+            <template v-else>{{ renderValue(row[prop as string]) }}</template>
           </slot>
           <template v-else>
             <!-- 拖动排序列 -->
-            <el-icon size="1.2em" v-if="newCol.type === 'sort'"><Sort /></el-icon>
-            <BaseTag :value="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseTag'" />
-            <BaseImg :src="row[newCol.prop as string]" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseImg'" />
-            <BaseText v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseText'">
-              {{ renderValue(row[newCol.prop as string]) }}
+            <el-icon size="1.2em" v-if="type === 'sort'"><Sort /></el-icon>
+            <BaseTag :value="row[prop as string]" v-bind="attrs" v-else-if="type === 'BaseTag'" />
+            <BaseImg :src="row[prop as string]" v-bind="attrs" v-else-if="type === 'BaseImg'" />
+            <BaseText v-bind="attrs" v-else-if="type === 'BaseText'">
+              {{ renderValue(row[prop as string]) }}
             </BaseText>
-            <BaseCopy :data="row" v-bind="newCol.attrs" v-else-if="newCol.type === 'BaseCopy'">
-              {{ row[newCol.prop as string] }}
+            <BaseCopy :data="row" v-bind="attrs" v-else-if="type === 'BaseCopy'">
+              {{ row[prop as string] }}
             </BaseCopy>
             <!-- 自定义列 -->
-            <slot name="custom" v-bind="{ row, column, $index, col: newCol }" v-else-if="newCol.type === 'slot'" />
+            <slot name="custom" v-bind="{ row, column, $index, col }" v-else-if="type === 'slot'" />
             <!-- 创建和修改列 -->
-            <OperatorTime :prop="newCol.prop!" :data="row" v-else-if="newCol.type === 'OperatorTime'" />
+            <OperatorTime :prop="prop!" :data="row" v-else-if="type === 'OperatorTime'" />
             <!-- 操作栏按钮列 -->
             <OperateBtns
               :size="size"
               :row="{ ...row, $index }"
-              :btns="getGroupBtnsByRow(row, $index)"
+              :btns="getBtns(row, $index)"
               v-bind="operateBtnsAttrs"
-              @click="(...args) => handleClickGroupBtns(args, { row, col: newCol, $index })"
-              v-else-if="newCol.type === 'operate'"
+              @click="(...args) => handleClickGroupBtns(args, { row, col, $index })"
+              v-else-if="type === 'operate'"
             />
             <!-- 内嵌自定义表单列，例：UserInfo -->
-            <InsertCustomTableColComps
-              :col="newCol"
-              :row="{ ...row, $index }"
-              v-else-if="getIsInnerComponent(newCol.type as InsertTableColCompsType)"
-            />
+            <InsertCustomTableColComps :col="col" :row="{ ...row, $index }" v-else-if="getIsInnerComponent(type as InsertTableColCompsType)" />
             <!-- 内嵌表单控件列 -->
-            <InnerExtendTableColComps :col="newCol" :row="{ ...row, $index }" :quickAttrs="currQuickAttrs" :refreshList="refreshList" v-else />
+            <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-else />
           </template>
         </template>
       </el-table-column>
@@ -83,19 +79,18 @@
 </template>
 <script lang="ts" setup>
 import { propsJoinChar, deleteAttrs, renderValue, getTableColumnSlots, defaultCommonSize, isOptimization } from "@/core/utils";
-import { BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
+import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import OperateBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import InsertCustomTableColComps, { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
-import { CommonObj, FinallyNext, PopoverType, CommonSize } from "@/core/_types";
+import { CommonObj, CommonSize, NextArgs } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
 import OperatorTime from "./OperatorTime.vue";
 import { Sort } from "@element-plus/icons-vue";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import MarkIcon from "@/core/components/MarkIcon.vue";
-
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {
   row: CommonObj;
@@ -110,43 +105,31 @@ const props = withDefaults(
     compact?: boolean; //是否紧凑
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
-    getGroupBtnsByRow: (row: CommonObj, rowInd: number) => BtnItem[];
+    getBtns: (row: CommonObj, rowInd: number) => BtnItem[];
   }>(),
-  Object.assign(
-    {
-      size: defaultCommonSize,
-    },
-    config?.BaseCrud?._components?.Column
-  )
+  {
+    size: defaultCommonSize,
+    ...config?.BaseCrud?._components?.Column,
+  }
 );
-const $emit = defineEmits([operateBtnsEmitName, "update:colAttrs"]);
-let currPopover: PopoverType;
-let currQuickAttrs: any;
-
-const newCol = getNewCol(props.col);
-const bindAttrs = deleteAttrs(newCol, ["children", "slots"]);
+const $emit = defineEmits([operateBtnsEmitName]);
+const { type, prop, formatter, visible, children, attrs, quickAttrs } = toRefs(props.col);
+const bindAttrs = deleteAttrs(props.col, ["children", "slots", "quickAttrs"]);
 
 // 判断是否是内嵌的组件（外部扩展）
 function getIsInnerComponent(type: InsertTableColCompsType) {
   const code = type.charCodeAt(0);
   return code >= 65 && code <= 90; // 大写字母
 }
-// 获取新的列配置数据
-function getNewCol(col: TableColAttrs) {
-  currPopover = col.quickAttrs?.popover;
-  currQuickAttrs = col.quickAttrs;
-  delete col.quickAttrs; //popover属性只能绑定在 el-popover上，不然会触发 ElementPlus 的警告
-  return col;
-}
-function handleClickGroupBtns(args: [BtnName, BtnItem, FinallyNext, Event], data: { row: CommonObj; col: TableColAttrs; $index: number }) {
+function handleClickGroupBtns(args: NextArgs, data: { row: CommonObj; col: TableColAttrs; $index: number }) {
   const [tpl, btnObj, next, e] = args;
-  $emit("operateBtns", btnObj, data, next, e);
+  $emit(operateBtnsEmitName, btnObj, data, next, e);
 }
 
 // 是否标记（显示）未联调图标
 function getShowMark(scope: CommonObj, markWidth = 20) {
   if (!getIsNoHandle(scope)) return false;
-  // const { minWidth, width } = newCol;
+  // const { minWidth, width } = props.col;
   // const obj: TableColAttrs = {};
   // if (minWidth !== undefined) {
   //   obj.minWidth = Number(minWidth) + markWidth;
@@ -162,7 +145,7 @@ function getShowMark(scope: CommonObj, markWidth = 20) {
 function getIsNoHandle(scope: CommonObj) {
   if (isOptimization) return false;
   const { _self } = scope;
-  const { type, prop } = newCol;
+  const { prop, type } = props.col;
   if ((prop as string).startsWith("$") || type === "slot") return false;
   if (!_self.data?.length) return false;
   const row = _self.data[0];

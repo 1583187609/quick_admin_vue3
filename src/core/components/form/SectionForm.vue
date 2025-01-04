@@ -129,7 +129,7 @@
         :omits="omits"
         :log="log"
         :debug="debug"
-        :params="params"
+        :params="merge({}, formData, extraParams)"
         :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
@@ -147,13 +147,13 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { typeOf, isProd, showMessage } from "@/core/utils";
-import { getFootBtnAttrs, handleFields } from "./_utils";
+import { typeOf } from "@/core/utils";
+import { getHandleFields } from "./_utils";
 import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
 import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
-import { BaseDataType, ClosePopupType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
+import { BaseDataType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
@@ -241,7 +241,7 @@ const formData = computed({
   get: () => props.modelValue,
   set: (val: CommonObj) => $emit("update:modelValue", val),
 });
-const params = computed(() => merge({}, formData.value, props.extraParams));
+// let isFirst = true;
 watch(
   () => props.sections,
   newVals => {
@@ -251,11 +251,9 @@ watch(
       const { type, prop, fields } = secItem as SectionFormItemAttrs;
       if (typeOf(prop) !== "Undefined") {
         const defVal = modelValue?.[prop as string];
-        formData.value[prop as string] = type === "slot" ? defVal : handleFields(fields, $attrs, defVal).data;
+        formData.value[prop as string] = type === "slot" ? defVal : getHandleFields(fields, defVal).data;
       } else {
-        const result = handleFields(fields, $attrs, modelValue);
-        const { fields: _fields } = result;
-        const { data } = result;
+        const { fields: _fields, data } = getHandleFields(fields, modelValue);
         merge(formData.value, data);
         (secItem as SectionFormItemAttrs).fields = _fields;
       }

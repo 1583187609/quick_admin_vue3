@@ -42,7 +42,7 @@
         :omits="omits"
         :log="log"
         :debug="debug"
-        :params="params"
+        :params="merge({}, formData, extraParams)"
         :fetch="fetch"
         :afterSuccess="afterSuccess"
         :afterFail="afterFail"
@@ -60,7 +60,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { handleFields } from "./_utils";
+import { getHandleFields } from "./_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
@@ -145,13 +145,11 @@ const formData = computed({
   get: () => props.modelValue,
   set: (val: CommonObj) => $emit("update:modelValue", val),
 });
-const params = computed(() => merge({}, formData.value, props.extraParams));
+// let isFirst = true;
 watch(
   () => props.fields,
   newVal => {
-    const { modelValue } = props;
-    const result = handleFields(newVal, props, modelValue);
-    const { data, fields } = result;
+    const { data, fields } = getHandleFields(newVal, props.modelValue);
     newFields.value = fields;
     merge(formData.value, data);
   },

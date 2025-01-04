@@ -285,9 +285,9 @@ export function getFormItemSlots(field: any, popover: any = ""): CommonObj {
  * 获取el-table-column 的插槽
  * @param col
  */
-export function getTableColumnSlots(col: any, popover: any = ""): CommonObj {
-  const { label, slots } = col;
-  if (!popover) return slots;
+export function getTableColumnSlots(col: any): CommonObj {
+  const { label, slots, quickAttrs } = col;
+  if (!quickAttrs?.popover) return slots;
   if (!slots) return { header: label };
   return slots;
 }
