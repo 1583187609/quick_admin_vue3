@@ -130,7 +130,7 @@ function handleFetch(params: CommonObj) {
   }
 }
 //处理表单值变化时
-function handleChange(prop: string, val: SceneType) {
+function handleChange(val: SceneType, prop: string) {
   if (prop === "scene") {
     modelData.fromMsg = getReplyMsg(val);
   } else if (prop === "timeDay") {

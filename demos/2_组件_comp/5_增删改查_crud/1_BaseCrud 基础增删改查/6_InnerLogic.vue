@@ -1,6 +1,5 @@
-<!-- summary 基础用法
-  基础表单项、表格列
-  查询条件可分块或不分块
+<!-- summary 内置逻辑（支持自定义）
+  内置逻辑：删除二次确认（批量/单个）、导入/导出内置逻辑（支持自定义）
 -->
 <template>
   <BaseCrud
@@ -8,17 +7,20 @@
     :cols="cols"
     :fields="fields"
     :fetch="GetMockUser"
-    :extraBtns="['add', { name: 'add', text: '新增（url)', to: '/common-center/user/detail' }, , 'delete', 'import', 'export']"
+    :extraBtns="[
+      'add',
+      'delete',
+      isUseCustom
+        ? [
+            { name: 'import', handleClickType: '' },
+            { name: 'export', handleClickType: '' },
+          ]
+        : ['import', 'export'],
+    ]"
     :operateBtns="[
       'edit',
-      {
-        name: 'edit',
-        text: '编辑（url)',
-        to: (row: CommonObj) => `/common-center/user/detail?id=${row.id}`,
-      },
       'delete',
       (row: CommonObj) => (row?.status === 1 ? 'forbid' : 'enable'),
-      'view',
     ]"
     :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
@@ -43,6 +45,7 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 
+const isUseCustom = ref(false);
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },
@@ -89,6 +92,19 @@ const cols: TableCol[] = [
   { prop: "role_text", label: "角色类型", minWidth: 100 },
   { prop: "status", label: "状态", type: "BaseTag" },
 ];
+//点击列表上方的额外的按钮
+function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
+  const { selectedKeys } = restArgs;
+  handleBtnNext(
+    {
+      add: () => handleAddEdit(null, next),
+      delete: () => handleDelete(selectedKeys, next),
+      import: () => handleImport(selectedKeys, next),
+      export: () => handleExport(selectedKeys, next),
+    },
+    name
+  );
+}
 //点击操作栏的分组按钮
 function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
   handleBtnNext(
@@ -97,18 +113,6 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
       delete: () => handleDelete([row.id], next),
       forbid: () => handleToggleStatus(row, next),
       enable: () => handleToggleStatus(row, next),
-    },
-    name
-  );
-}
-//点击列表上方的额外的按钮
-function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
-  const { selectedKeys } = restArgs;
-  handleBtnNext(
-    {
-      add: () => handleAddEdit(null, next),
-      delete: () => handleDelete(selectedKeys, next),
-      export: () => handleExport(selectedKeys, next),
     },
     name
   );
@@ -124,6 +128,11 @@ function handleDelete(ids: string[], next: FinallyNext) {
   DeleteMockUser({ ids }).then((res: any) => {
     next();
   });
+}
+//导入
+function handleImport(ids: string[], next: FinallyNext) {
+  console.log("执行了导入----------");
+  GetMockUser({ exports: true }).then((res: any) => next());
 }
 //导出
 function handleExport(ids: string[], next: FinallyNext) {

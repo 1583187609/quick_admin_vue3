@@ -1,6 +1,6 @@
 <!-- 表单配置生成文件 -->
 <template>
-  <div class="f-sb-s page-view">
+  <div class="f-sb-s q-page-view">
     <FilePannel v-model="currMenuInfo" defaultValue="199-1-1-2-1-1" class="pannel f-0" style="width: 300px" />
     <PreviewPannel
       class="pannel f-1"

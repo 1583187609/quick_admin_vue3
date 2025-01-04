@@ -210,6 +210,7 @@
 162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
 163、disabled、readonly 属性，不应该放在 quickAttrs 中
 164、支持表单 tips 自定义
+165、批量导出多级表头中的数据
 
 ## Demo 功能验证清单
 

@@ -1,6 +1,6 @@
 <!-- 文件说明-模板文件 -->
 <template>
-  <div class="page-view four f-fs-s-c">
+  <div class="q-page-view four f-fs-s-c">
     <el-tabs class="f-0" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane v-bind="tItem" v-for="(tItem, tInd) in tabs" :key="tInd"></el-tab-pane>
     </el-tabs>

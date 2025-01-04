@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div class="page-view two f-sb-s">
+  <div class="q-page-view two f-sb-s">
     <SectionForm class="f-2" v-model="modelData" :fetch="handleFetch" :sections="sections">
       <template #head-right-0>这是标题右侧的插槽</template>
       <template #zdy>

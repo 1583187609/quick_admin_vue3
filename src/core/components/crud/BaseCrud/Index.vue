@@ -43,7 +43,7 @@
         v-if="newExtraBtns.length"
       />
       <SetBtns
-        v-model="newCols"
+        v-model:cols="newCols"
         :originCols="originCols"
         class="f-0"
         :class="newExtraBtns.length ? ' ml-o' : ' ml-a'"
@@ -121,6 +121,7 @@ import {
   defaultReqMap,
   defaultResMap,
   showConfirmMessage,
+  exportExcel,
 } from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
@@ -207,6 +208,7 @@ const props = withDefaults(
     omits: true,
     inputDebounce: true,
     showPagination: true,
+    showSetBtn: true,
     pagination: () => defaultPagination,
     reqMap: () => defaultReqMap,
     resMap: () => defaultResMap,
@@ -214,7 +216,6 @@ const props = withDefaults(
     compact: (_props: CommonObj) => _props.grid.xl < 6,
     filterByAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
-    showSetBtn: true,
     formAttrs: () => defaultFormAttrs,
     tableAttrs: () => defaultTableAttrs,
     ...config?.BaseCrud?.Index,
@@ -249,24 +250,26 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   const { extraBtns = [], disabled, filterByAuth } = props;
   const btns = extraBtns.map((btn: BaseBtnType) => {
     const btnObj: BtnItem = getBtnObj(btn);
+    if (disabled) {
+      if (btnObj.attrs) {
+        btnObj.attrs.disabled = disabled;
+      } else {
+        btnObj.attrs = { disabled };
+      }
+      return btnObj;
+    }
     const { name, attrs, handleClickType } = btnObj;
     if (batchBtnNames?.includes(name as string)) {
       btnObj.popconfirm = false;
       if (attrs) {
         const byTotalDisabled = !handleClickType || name === "export";
         attrs.disabled = byTotalDisabled ? !pageInfo.total : !seledRows.value.length;
-        // attrs.disabled && console.log(attrs.disabled, btnObj.name, "attrs.disabled------------");
       }
     }
-    if (disabled) attrs!.disabled = disabled;
     return btnObj;
   });
   return filterBtnsByAuth(btns, filterByAuth);
 });
-
-setTimeout(() => {
-  console.log(newExtraBtns.value, "dddd---------newExtraBtns");
-}, 3000);
 
 /**
  * 获取标准的表格列数据
@@ -299,7 +302,7 @@ watch(
   },
   { deep: true }
 );
-// 点击搜索
+// 搜索
 function handleSearch(data: CommonObj) {
   pagination && Object.assign(params, { [currPageKey]: 1 });
   getList(params, undefined, "search");
@@ -378,7 +381,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
 }
 // 显示确认弹窗（渲染html字符串）
 function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit, e }) {
-  const { name = "", text, attrs } = btnObj;
+  const { name = "", text, attrs, handleClickType } = btnObj;
   const colorType = attrs?.type || "primary";
   const colorKey = `color${upperFirst(colorType)}`;
   const color = cssVars[colorKey];
@@ -386,19 +389,26 @@ function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, i
   const len = isSeledAll ? total : seledRows.length;
   const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
   showConfirmMessage(hintTips, colorType).then(() => {
-    let exportRows: any[] = [];
-    if (name === "export") {
+    if (name === "export" && handleClickType === "common") {
       const _newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
-      exportRows = getExportRows(_newCols, seledRows);
+      return exportExcel(getExportRows(_newCols, seledRows));
     }
-    $emit("extraBtns", name, next, { selectedKeys: seledKeys, selectedRows: seledRows, exportRows }, e);
+    $emit("extraBtns", name, next, { selectedKeys: seledKeys, selectedRows: seledRows }, e);
   });
+}
+// 获取带刷新功能的新next回调函数
+function getRefreshNext(next: FinallyNext) {
+  return (hint?: string, closeType?: ClosePopupType, cb?: () => void, isRefreshList = true) => {
+    next(hint, closeType, cb);
+    isRefreshList && refreshList();
+  };
 }
 // 点击额外的按钮
 function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Event) {
+  const newNext = getRefreshNext(next);
   const { name = "", text, handleClickType } = btnObj;
   if (!handleClickType || !batchBtnNames.includes(name)) {
-    return $emit("extraBtns", name, next, { selectedKeys: [], selectedRows: [], exportRows: [] }, e);
+    return $emit("extraBtns", name, newNext, { selectedKeys: [], selectedRows: [] }, e);
   }
   const { total } = pageInfo;
   const cols = newCols.value;
@@ -411,16 +421,17 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
   if (name !== "export") {
     return showConfirmHtmlBox({
       btnObj,
-      seledRows,
+      seledRows: seledRows.value,
       seledKeys,
       cols,
       total,
-      next,
+      next: newNext,
       e,
       $emit,
       isSeledAll: seledRows.value.length === total,
     });
   }
+  // 导出逻辑
   const isOverLimit = exportCfg?.limit ? seledRows.value.length > exportCfg.limit : false;
   if (isOverLimit) {
     const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
@@ -428,11 +439,11 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
   }
   showConfirmHtmlBox({
     btnObj,
-    seledRows,
+    seledRows: seledRows.value,
     seledKeys,
     cols,
     total,
-    next,
+    next: newNext,
     e,
     $emit,
     isSeledAll: seledRows.value.length === 0 || seledRows.value.length === total,
@@ -440,12 +451,9 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
 }
 
 // 点击操作栏按钮
-function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, isRefreshList: boolean = true) {
+function onOperateBtns(btnObj: BtnItem, row: CommonObj, next: FinallyNext, e: Event) {
   const { name } = btnObj;
-  $emit(operateBtnsEmitName, name, row, (hint?: string, closeType?: ClosePopupType, cb?: () => void) => {
-    next(hint, closeType, cb);
-    isRefreshList && refreshList();
-  });
+  $emit(operateBtnsEmitName, name, row, getRefreshNext(next), e);
 }
 
 // 处理多选改变时

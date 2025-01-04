@@ -59,7 +59,11 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
       const { disabled, code } = it;
       //感觉没必要加上 && getUserInfo().type===code，但暂时先这么写，后面再思考
       if (disabled && getUserInfo()?.type === code) {
-        attrs ? (attrs.disabled = true) : (btnObj.attrs = { disabled: true });
+        if (attrs) {
+          attrs.disabled = true;
+        } else {
+          btnObj.attrs = { disabled: true };
+        }
       }
       return code;
     });
@@ -67,10 +71,11 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
   if (popconfirm) {
     btnObj.popconfirm = getPopconfirmAttrs(popconfirm, btnObj as BtnItem);
   }
-  const { icon } = attrs || {};
-  if (icon && typeOf(icon) === "String") {
-    const currIcon = Icons[icon as keyof typeof Icons];
-    attrs ? (attrs.icon = currIcon) : (btnObj.attrs = { icon: currIcon });
+  if (attrs) {
+    const { icon } = attrs;
+    if (icon && typeOf(icon) === "String") {
+      attrs.icon = Icons[icon as keyof typeof Icons];
+    }
   }
   if (baseBtnAttrs) {
     const { attrs, ...rest } = baseBtnAttrs;
@@ -82,5 +87,51 @@ export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [k
       }
     }
   }
+  if (btnObj.handleClickType === undefined) {
+    btnObj.handleClickType = "common";
+  }
   return btnObj;
 }
+
+// export function getBtnObjOld(btn: BaseBtnType, row?: CommonObj): BtnItem {
+//   const t = typeOf(btn);
+//   // const $slots = useSlots();
+//   let btnObj: BtnItem = { name: "" };
+//   if (t === "String") {
+//     const targetBtn = btnsMap[btn as BtnName] || Object.assign({}, btnsMap.empty, { text: btn });
+//     //icon 经过 JSON.parse(JSON.stringify())之后，重新渲染时会报错，故做此处理
+//     const { icon } = targetBtn.attrs || {};
+//     btnObj = JSON.parse(JSON.stringify(targetBtn));
+//     btnObj!.attrs!.icon = icon;
+//   } else if (t === "Object") {
+//     const { name } = btn as BtnItem;
+//     btnObj = merge({}, btnsMap[name as string], btn);
+//     if (btnObj.text === undefined) {
+//       // btnObj.text = $slots.default?.()?.[0]?.children as string;
+//       btnObj.text = "空按钮";
+//     }
+//   } else if (t === "Function") {
+//     btnObj = getBtnObj((btn as BtnFn)(row as CommonObj), row);
+//   }
+//   const { auth, attrs, popconfirm } = btnObj;
+//   if (auth?.length) {
+//     btnObj.auth = auth.map((it: FilterAuthItem) => {
+//       if (typeof it !== "object") return it;
+//       const { disabled, code } = it;
+//       //感觉没必要加上 && getUserInfo().type===code，但暂时先这么写，后面再思考
+//       if (disabled && getUserInfo().type === code) {
+//         attrs ? (attrs.disabled = true) : (btnObj.attrs = { disabled: true });
+//       }
+//       return code;
+//     });
+//   }
+//   if (popconfirm) {
+//     btnObj.popconfirm = getPopconfirmAttrs(popconfirm, btnObj as BtnItem);
+//   }
+//   const { icon } = attrs || {};
+//   if (icon && typeOf(icon) === "String") {
+//     const currIcon = Icons[icon as keyof typeof Icons];
+//     attrs ? (attrs.icon = currIcon) : (btnObj.attrs = { icon: currIcon });
+//   }
+//   return btnObj;
+// }

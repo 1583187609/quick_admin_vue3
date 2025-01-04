@@ -44,7 +44,7 @@ const cols: TableCol[] = [
 ];
 //点击列表上方的额外按钮
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
-  const { selectedKeys, exportRows } = restArgs;
+  const { selectedKeys } = restArgs;
   handleBtnNext(
     {
       add: () => handleAddEdit(null, next),

@@ -103,7 +103,7 @@ import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
-import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
+import { handleRegionParams, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
@@ -375,12 +375,10 @@ const cols: TableCol[] = [
   },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
-  const { exportRows } = restArgs;
   handleBtnNext(
     {
       add: () => handleAddEdit(null, next),
       import: () => handleImport(),
-      export: () => exportExcel(exportRows),
       // dialog: () => openPopup("这是一个dialog列表示例", SimpleList),
       // drawer: () => openPopup("这是一个drawer表单示例", SimpleForm, "drawer"),
     },

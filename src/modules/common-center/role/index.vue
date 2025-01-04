@@ -1,9 +1,10 @@
+<!-- export 按钮中 的handleClickType设为''，可以自定义导出逻辑 -->
 <template>
   <BaseCrud
     :cols="cols"
     :fields="fields"
     :fetch="GetMockRole"
-    :extraBtns="['add', 'delete', 'import', 'export']"
+    :extraBtns="['add', 'delete', 'import', { name: 'export', handleClickType: undefined }]"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
@@ -17,7 +18,7 @@ import { FormField } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
-import { exportExcel, handleBtnNext } from "@/utils";
+import { exportExcel, handleBtnNext, showConfirmMessage } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
@@ -46,14 +47,13 @@ const cols = ref<TableColAttrs[]>([
 ]);
 //点击列表上方的额外按钮
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
-  const { selectedKeys, exportRows } = restArgs;
+  const { selectedKeys } = restArgs;
   handleBtnNext(
     {
       add: () => handleAddEdit(null, next),
       delete: () => handleDelete(selectedKeys, next),
       import: () => handleImport(next),
-      // export: () => exportExcel(exportRows),
-      export: () => handleExport(next),
+      export: () => handleExport(next), // 当handleClickType设为''生效
     },
     name
   );
@@ -89,10 +89,11 @@ function handleImport(next: FinallyNext) {
 }
 // 导出
 function handleExport(next: FinallyNext) {
-  GetMockRole({ exports: true }).then((res: CommonObj[]) => {
-    const exportRows = getExportRows(cols.value, res);
-    exportExcel(exportRows);
-    next();
+  showConfirmMessage("确认导出吗？", "warning", "自定义导出逻辑示例").then(() => {
+    GetMockRole({ exports: true }).then((res: CommonObj[]) => {
+      exportExcel(getExportRows(cols.value, res));
+      next();
+    });
   });
 }
 </script>

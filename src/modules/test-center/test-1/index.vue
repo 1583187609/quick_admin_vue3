@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div class="page-view one f-sb-s f-1">
+  <div class="q-page-view one f-sb-s f-1">
     <BaseForm
       v-model="modelData"
       class="three f-2"
@@ -36,8 +36,8 @@
       <template #auth_ways>
         <AnyEleList v-model="modelData.auth_ways" :fields="authWaysChildren.slice(...(modelData.cyxslx === 1 ? [0, 2] : [2]))" />
       </template>
-      <template #zdy>
-        <input placeholder="请输入（自定义组件示例）" v-model="modelData.zdy" />
+      <template #custom_item>
+        <input placeholder="请输入（自定义组件示例）" v-model="modelData.custom_item" />
       </template>
     </BaseForm>
     <ul class="f-1 ml-t tips-list">
@@ -154,26 +154,26 @@ const modelData = reactive<CommonObj>({
     two: "嵌套对象必填项二",
   },
   inner_arr: [{ one: "1", two: "2" }],
-  xm: "张三",
-  dhhm: "18483221518",
-  mm: "abc123456",
-  xb: 1,
-  rq: ["2023-04-02", "2023-04-07"],
-  cyxslx: 1,
-  bpzs2: 1,
-  ly: [1, 2],
-  cyfs: 2,
-  nzcyzj_min: 1,
-  nzcyzj_max: 2,
-  zdy: [10, 20],
-  // jzw: true,
+  user_name: "张三",
+  phone: "18483221518",
+  password: "abc123456",
+  gender: 1,
+  time: ["2023-04-02", "2023-04-07"],
+  diff_type: 1,
+  row_show_2: 1,
+  channel_source: [1, 2],
+  join_ways: 2,
+  num_min: 1,
+  num_max: 2,
+  custom_item: [10, 20],
+  // is_remember: true,
 });
 
 const fields = computed<FormField[]>(() => {
   return [
     {
-      label: "组件尺寸",
       prop: "widget_size",
+      label: "组件尺寸",
       type: "radio-group",
       attrs: {
         options: [
@@ -184,8 +184,8 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      label: "标签所处位置",
       prop: "label_position",
+      label: "标签所处位置",
       type: "radio-group",
       attrs: {
         options: [
@@ -196,19 +196,19 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      label: "嵌套（对象）",
       prop: "inner_obj",
+      label: "嵌套（对象）",
       type: "slot",
       // required: true,
     },
     {
-      label: "嵌套（数组）",
       prop: "inner_arr",
+      label: "嵌套（数组）",
       type: "slot",
       // required: true,
     },
     {
-      prop: "xm",
+      prop: "user_name",
       label: "姓名",
       required: true,
       quickAttrs: {
@@ -219,7 +219,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "xb",
+      prop: "gender",
       label: "性别",
       type: "select",
       attrs: {
@@ -236,7 +236,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "fl",
+      prop: "tree_select",
       label: "树形选择器",
       type: "tree-select",
       attrs: {
@@ -245,7 +245,7 @@ const fields = computed<FormField[]>(() => {
     },
     {
       tpl: "T_Identity",
-      prop: "sfzh",
+      prop: "identity",
       label: "身份证号",
       quickAttrs: {
         tips: "popover设置弹出层提示；设置valid，内置身份证、密码等校验；添加example属性，拼接在placeholder后面，作为输入示例",
@@ -255,7 +255,7 @@ const fields = computed<FormField[]>(() => {
     },
     {
       tpl: "T_Phone",
-      prop: "dhhm",
+      prop: "phone",
       label: "电话号码",
       attrs: {
         placeholder: "电话号码（这是自定义的placeholder）",
@@ -269,7 +269,7 @@ const fields = computed<FormField[]>(() => {
     },
     {
       tpl: "T_Password",
-      prop: "mm",
+      prop: "password",
       label: "密码",
       attrs: {
         slots: {
@@ -284,7 +284,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "rq",
+      prop: "time",
       label: "日期(单prop)",
       type: "date-picker",
       quickAttrs: {
@@ -292,7 +292,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: ["rq_s", "rq_e"],
+      prop: ["start_time", "end_time"],
       label: "日期(双prop)",
       type: "date-picker",
       quickAttrs: {
@@ -300,7 +300,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "csrq",
+      prop: "birthday",
       label: "出生日期",
       type: "date-picker",
       attrs: {
@@ -315,7 +315,7 @@ const fields = computed<FormField[]>(() => {
     },
     {
       tpl: "T_Age",
-      prop: "nl",
+      prop: "age",
       label: "年龄",
       rules: [{ validator: checkAge, trigger: "blur" }],
       quickAttrs: {
@@ -323,7 +323,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "sg",
+      prop: "height",
       label: "身高",
       type: "slider",
       attrs: {
@@ -332,7 +332,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "sfqy",
+      prop: "status",
       label: "是否启用",
       type: "switch",
       attrs: {},
@@ -341,7 +341,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "ly",
+      prop: "channel_source",
       label: "渠道来源",
       type: "checkbox-group",
       attrs: {
@@ -353,7 +353,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "jzw",
+      prop: "is_remember",
       label: "是否记住我",
       type: "checkbox",
       attrs: {
@@ -367,7 +367,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "ssq",
+      prop: "region",
       label: "省市区",
       type: "cascader",
       attrs: {
@@ -375,7 +375,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "cyfs",
+      prop: "join_ways",
       label: "参与方式",
       labelWidth: "15em",
       type: "radio-group",
@@ -392,7 +392,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "bpzs1",
+      prop: "row_show_1",
       label: "并排展示1",
       quickAttrs: {
         grid: 12,
@@ -403,7 +403,7 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "bpzs2",
+      prop: "row_show_2",
       label: "并排展示2",
       type: "select",
       attrs: {
@@ -419,38 +419,38 @@ const fields = computed<FormField[]>(() => {
       },
     },
     {
-      prop: "bz",
+      prop: "remark",
       label: "备注",
       attrs: {
         type: "textarea",
       },
     },
     {
-      prop: ["nzcyzj_min", "nzcyzj_max"],
+      prop: ["num_min", "num_max"],
       label: "内置常用组件",
       type: "BaseNumberRange",
     },
     {
-      prop: "sctp",
+      prop: "img",
       label: "上传图片",
-      // required: true,
       type: "BaseUpload",
+      // required: true,
     },
     {
-      prop: "zdy",
+      prop: "custom_item",
       label: "自定义组件",
       type: "slot",
       quickAttrs: {
-        tips: "设置type:'custom'通过插槽加入自定义组件，并通过v-model绑定表单值",
+        tips: "设置type:'slot'通过插槽加入自定义组件，并通过v-model绑定表单值",
       },
     },
     {
-      prop: "kmsj",
+      prop: "open_time",
       label: "开幕时间",
       type: "time-picker",
     },
     {
-      prop: "cyxslx",
+      prop: "diff_type",
       label: "差异显示类型",
       type: "radio-group",
       attrs: {
@@ -468,45 +468,11 @@ const fields = computed<FormField[]>(() => {
       prop: "auth_ways",
       label: "认证方式",
       type: "slot",
-      // children: [
-      //   {
-      //     prop: "isSupportEmail",
-      //     label: "邮箱认证",
-      //     type: "switch",
-      //     labelWidth: "6em",
-      //     attrs: supportSwitchAttrs,
-      //   },
-      //   {
-      //     prop: "isSupportPerson",
-      //     label: "人工认证",
-      //     type: "switch",
-      //     labelWidth: "6em",
-      //     attrs: supportSwitchAttrs,
-      //   },
-      // ],
     },
-    // cyxslx === 2 && {
-    //   label: "认证方式",
-    //   children: [
-    //     {
-    //       prop: "isSupportDingTalk",
-    //       label: "钉钉认证",
-    //       type: "switch",
-    //       labelWidth: "6em",
-    //       attrs: supportSwitchAttrs,
-    //     },
-    //     {
-    //       prop: "isSupportFeiShu",
-    //       label: "飞书认证",
-    //       type: "switch",
-    //       labelWidth: "6em",
-    //       attrs: supportSwitchAttrs,
-    //     },
-    //   ],
-    // },
   ];
 });
-function handleChange(prop: string, val: any) {
+function handleChange(val: any, prop: string) {
+  console.log(val, prop, "prop------------------");
   if (prop === "cyxslx") {
     modelData.cyxslx = val;
   }

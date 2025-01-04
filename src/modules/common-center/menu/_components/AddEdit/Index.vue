@@ -208,7 +208,7 @@ function getInfo(id?: StrNum) {
     Object.assign(modelData, res);
   });
 }
-function handleChange(prop: string, val: any) {
+function handleChange(val: any, prop: string) {
   if (prop === "component_path") {
     if (!modelData.menu_path) modelData.menu_path = val.replace(".vue", "");
   }

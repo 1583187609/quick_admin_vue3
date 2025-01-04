@@ -1,6 +1,6 @@
 <!-- 基础组件 -->
 <template>
-  <div class="page-view">
+  <div class="q-page-view">
     <el-tabs tab-position="left" style="height: 200px" class="demo-tabs">
       <el-tab-pane :label="item.name" v-for="(item, key) in demoMap" :key="key">
         <BaseRender :renderData="item.comp" />

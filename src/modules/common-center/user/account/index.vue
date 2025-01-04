@@ -28,9 +28,9 @@ import { FormField } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
-import { exportExcel, handleBtnNext } from "@/utils";
+import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { ExtraBtnRestArgs, getExportRows } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
@@ -104,7 +104,6 @@ function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArg
     {
       add: () => handleAddEdit(null, next),
       delete: () => handleDelete(selectedKeys, next),
-      export: () => handleExport(selectedKeys, next),
     },
     name
   );
@@ -120,14 +119,6 @@ function handleView(row: CommonObj) {
 //批量删除
 function handleDelete(ids: string[], next: FinallyNext) {
   DeleteMockUser({ ids }).then((res: any) => {
-    next();
-  });
-}
-//导出
-function handleExport(ids: string[], next: FinallyNext) {
-  GetMockUser({ exports: true }).then((res: any) => {
-    const exportRows = getExportRows(cols, res);
-    exportExcel(exportRows, "用户列表");
     next();
   });
 }

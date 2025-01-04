@@ -1,6 +1,6 @@
 <!-- 开发页面&组件 -->
 <template>
-  <div class="dev-valid page-view f-fs-s-c">
+  <div class="dev-valid q-page-view f-fs-s-c">
     <el-form-item label="模块" class="f-0">
       <el-select v-model="currModule" placeholder="请选择模块" clearable @change="getData" style="width: 220px">
         <el-option v-bind="opt" v-for="(opt, ind) in moduleOpts" :key="ind" />

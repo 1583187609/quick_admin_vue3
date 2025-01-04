@@ -49,31 +49,29 @@ const toolsMap: CommonObj = {
   },
 };
 
-const $emit = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:cols"]);
 const openPopup = inject<OpenPopupInject>("openPopup");
 const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     size?: CommonSize;
-    modelValue?: TableColAttrs[];
+    cols?: TableColAttrs[];
     originCols?: TableColAttrs[];
     toolBtns?: string[];
     disabled?: boolean;
   }>(),
-  Object.assign(
-    {
-      modelValue: () => [],
-      originCols: () => [],
-      size: defaultCommonSize,
-      toolBtns: () => ["print", "set"], // "set" "print",
-    },
-    config?.BaseCrud?._components?.SetBtns
-  )
+  {
+    cols: () => [],
+    originCols: () => [],
+    size: defaultCommonSize,
+    toolBtns: () => ["print", "set"], // "set" "print",
+    ...config?.BaseCrud?._components?.SetBtns,
+  }
 );
 
-const cols = computed<TableColAttrs[]>({
-  get: () => props.modelValue,
-  set: (val: TableColAttrs[]) => $emit("update:modelValue", val),
+const newCols = computed<TableColAttrs[]>({
+  get: () => props.cols,
+  set: (val: TableColAttrs[]) => $emit("update:cols", val),
 });
 const newToolBtns = computed(() => props.toolBtns.map(btn => toolsMap[btn]).filter(it => it.show));
 
@@ -87,13 +85,13 @@ function onToolBtn(name: ToolBtnName) {
 // 打开列设置弹窗
 function openColSetDrawer() {
   const { size } = props;
-  const rows = cols.value.map(item => {
+  const rows = newCols.value.map(item => {
     const { prop, label, type, sortable = false, visible, exportable } = item;
     return {
       hidden: specialColKeys.includes(type as SpecialTableColType),
       colProp: prop,
       label,
-      visible, // !!cols.value.find(it => it.prop === prop)
+      visible, // !!newCols.value.find(it => it.prop === prop)
       exportable,
       sortable: !!sortable,
     };
@@ -115,7 +113,7 @@ function openColSetDrawer() {
 }
 
 function handleChange({ type, isTrue, rowInd }: SetTableChangeParams) {
-  const currRow = cols.value[rowInd];
+  const currRow = newCols.value[rowInd];
   currRow[type] = isTrue;
   if (type === "sortable") {
     const { width } = currRow;
@@ -128,7 +126,7 @@ function handleSubmit() {
 }
 //点击重置按钮
 function handleReset() {
-  cols.value = JSON.parse(JSON.stringify(props.originCols));
+  newCols.value = JSON.parse(JSON.stringify(props.originCols));
 }
 </script>
 <style lang="scss" scoped>

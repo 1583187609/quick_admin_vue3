@@ -47,17 +47,17 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * 显示确认提示框
  * @param htmlStr 提示的文本内容
  * @param type 提示框类型
- * @param lightWords 高亮文字
  * @param {string} title 标题
+ * @param lightWords 高亮文字
  * @returns {Promise}
  */
-export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", lightWords: string[] = [], title = "温馨提示") {
+export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", title = "温馨提示", lightWords: string[] = []) {
   const typeMap = { danger: "error" };
   const colorType = type;
-  const colorKey = `color${upperFirst(colorType)}`;
-  const color = cssVars[colorKey];
-  const style = `style="color:${color};"`;
-  const lightStr = `<b ${style}>${0}</b>`;
+  // const colorKey = `color${upperFirst(colorType)}`;
+  // const color = cssVars[colorKey];
+  // const style = `style="color:${color};"`;
+  // const lightStr = `<b ${style}>${0}</b>`;
   return new Promise((resolve, reject) => {
     ElMessageBox.confirm(htmlStr, title, {
       type: typeMap[type] ?? type,

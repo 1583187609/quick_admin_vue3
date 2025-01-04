@@ -33,7 +33,7 @@
 :fields="fields"
 -->
 <template>
-  <div class="page-view three f-sb-s">
+  <div class="q-page-view three f-sb-s">
     <BaseCrud
       class="f-3"
       v-model="modelData"
@@ -138,7 +138,7 @@ import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { useRoute, useRouter } from "vue-router";
 import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
-import { handleRegionParams, exportExcel, handleBtnNext } from "@/utils";
+import { handleBtnNext } from "@/utils";
 import SimpleList from "./SimpleList/Index.vue";
 import SimpleForm from "./SimpleForm/Index.vue";
 import CustomColHead from "./_components/CustomColHead.vue";
@@ -712,12 +712,12 @@ const cols: TableCol[] = [
   },
 ];
 function onExtraBtns(name: BtnName, next: FinallyNext, restArgs: ExtraBtnRestArgs) {
-  const { exportRows } = restArgs;
+  const { selectedKeys } = restArgs;
   handleBtnNext(
     {
       add: () => handleAddEdit(null, next),
+      delete: () => DeleteMockCommon({ ids: selectedKeys }).then(() => next()),
       import: () => handleImport(),
-      export: () => exportExcel(exportRows),
       dialog: () => openPopup("这是一个dialog列表示例", SimpleList),
       drawer: () => openPopup("这是一个drawer表单示例", SimpleForm, "drawer"),
     },

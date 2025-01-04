@@ -168,7 +168,7 @@ function getDefaultModel(set: CommonObj) {
     unique_opened: set.menu.uniqueOpened,
   };
 }
-function handleChange(prop: string, val: any) {
+function handleChange(val: any, prop: string) {
   if (prop === "widget_size") {
     setStore.updateSet("layout", { size: val });
   } else if (prop === "language") {

@@ -38,7 +38,7 @@ import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 // import AddEdit from "./AddEdit.vue";
-import { exportExcel, handleBtnNext } from "@/utils";
+import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";

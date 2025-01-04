@@ -4,253 +4,231 @@ import cssVars from "@/assets/styles/_var.module.scss";
 
 const { colorDanger, colorSuccess, colorWarning } = cssVars;
 
-function deepFreeze(obj) {
-  return obj;
-  // const propNames = Object.getOwnPropertyNames(obj);
-  // propNames.forEach(item => {
-  //   const prop = obj[item];
-  //   if (prop instanceof Object && prop !== null) {
-  //     deepFreeze(prop);
-  //   }
-  // });
-  // return Object.freeze(obj);
-}
-
-export default deepFreeze(
-  {
-    add: {
-      name: "add",
-      text: "新增",
-      // auth: [0,1,2],
-      // to: undefined,
-      // handleClickType: undefined,
-      order: 0,
-      attrs: {
-        type: "success",
-        icon: "CirclePlus",
-      },
+export default {
+  add: {
+    name: "add",
+    text: "新增",
+    // auth: [0,1,2],
+    // to: undefined,
+    // handleClickType: undefined,
+    order: 0,
+    attrs: {
+      type: "success",
+      icon: "CirclePlus",
     },
-    edit: {
-      name: "edit",
-      text: "编辑",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 1,
-      attrs: {
-        type: "success",
-        icon: "Edit",
-      },
+  },
+  edit: {
+    name: "edit",
+    text: "编辑",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 1,
+    attrs: {
+      type: "success",
+      icon: "Edit",
     },
-    delete: {
-      name: "delete",
-      text: "删除",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 2,
-      attrs: {
-        type: "danger",
-        icon: "Delete",
-      },
-      popconfirm: {
-        icon: WarningFilled,
-        iconColor: colorDanger,
-        confirmButtonType: "danger",
-      },
+  },
+  delete: {
+    name: "delete",
+    text: "删除",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 2,
+    attrs: {
+      type: "danger",
+      icon: "Delete",
     },
-    pass: {
-      name: "pass",
-      text: "通过",
-      // auth: [0,1,2],
-      // to: undefined,
-      order: 3,
-      validateForm: true,
-      attrs: {
-        type: "success",
-        icon: "Checked",
-      },
-      popconfirm: {
-        icon: "CircleCheck",
-        iconColor: colorSuccess,
-        confirmButtonType: "success",
-      },
+    popconfirm: {
+      icon: WarningFilled,
+      iconColor: colorDanger,
+      confirmButtonType: "danger",
     },
-    reject: {
-      name: "reject",
-      text: "驳回",
-      // auth: [0,1,2],
-      // to: undefined,
-      order: 4,
-      validateForm: true,
-      attrs: {
-        type: "danger",
-        icon: "Failed",
-      },
-      popconfirm: {
-        icon: "CircleClose",
-        iconColor: colorDanger,
-        confirmButtonType: "danger",
-      },
+  },
+  pass: {
+    name: "pass",
+    text: "通过",
+    // auth: [0,1,2],
+    // to: undefined,
+    order: 3,
+    validateForm: true,
+    attrs: {
+      type: "success",
+      icon: "Checked",
     },
-    repeal: {
-      name: "repeal",
-      text: "撤销",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 5,
-      attrs: {
-        type: "warning",
-        icon: "TopLeft",
-      },
+    popconfirm: {
+      icon: "CircleCheck",
+      iconColor: colorSuccess,
+      confirmButtonType: "success",
     },
-    import: {
-      name: "import",
-      text: "导入",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      handleClickType: "common",
-      order: 6,
-      attrs: {
-        type: "primary",
-        icon: "Top",
-      },
+  },
+  reject: {
+    name: "reject",
+    text: "驳回",
+    // auth: [0,1,2],
+    // to: undefined,
+    order: 4,
+    validateForm: true,
+    attrs: {
+      type: "danger",
+      icon: "Failed",
     },
-    export: {
-      name: "export",
-      text: "导出",
-      // auth: [],
-      // to: undefined,
-      order: 7,
-      handleClickType: "common",
-      attrs: {
-        type: "primary",
-        icon: "Bottom",
-      },
-      popconfirm: true,
+    popconfirm: {
+      icon: "CircleClose",
+      iconColor: colorDanger,
+      confirmButtonType: "danger",
     },
-    upload: {
-      name: "upload",
-      text: "上传",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 8,
-      attrs: {
-        type: "primary",
-        icon: "Upload",
-      },
+  },
+  repeal: {
+    name: "repeal",
+    text: "撤销",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 5,
+    attrs: {
+      type: "warning",
+      icon: "TopLeft",
     },
-    download: {
-      name: "download",
-      text: "下载",
-      // auth: [],
-      // to: undefined,
-      order: 9,
-      attrs: {
-        type: "primary",
-        icon: "Download",
-      },
+  },
+  import: {
+    name: "import",
+    text: "导入",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    handleClickType: "common",
+    order: 6,
+    attrs: {
+      type: "primary",
+      icon: "Top",
     },
-    enable: {
-      name: "enable",
-      text: "启用",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 10,
-      attrs: {
-        type: "success",
-        icon: "CircleCheck",
-      },
-      popconfirm: {
-        iconColor: colorSuccess,
-        confirmButtonType: "success",
-      },
+  },
+  export: {
+    name: "export",
+    text: "导出",
+    // auth: [],
+    // to: undefined,
+    order: 7,
+    handleClickType: "common",
+    attrs: {
+      type: "primary",
+      icon: "Bottom",
     },
-    forbid: {
-      name: "forbid",
-      text: "禁用",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 11,
-      attrs: {
-        type: "warning",
-        icon: "Remove",
-      },
-      popconfirm: {
-        iconColor: colorWarning,
-        confirmButtonType: "warning",
-      },
+    popconfirm: true,
+  },
+  upload: {
+    name: "upload",
+    text: "上传",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 8,
+    attrs: {
+      type: "primary",
+      icon: "Upload",
     },
-    audit: {
-      name: "audit",
-      text: "审核",
-      // auth: [0, 1, 2],
-      // to: undefined,
-      order: 20,
-      attrs: {
-        type: "success",
-        icon: "Edit",
-      },
+  },
+  download: {
+    name: "download",
+    text: "下载",
+    // auth: [],
+    // to: undefined,
+    order: 9,
+    attrs: {
+      type: "primary",
+      icon: "Download",
     },
-    view: {
-      name: "view",
-      text: "详情", //查看
-      // auth: [],
-      // to: undefined,
-      order: 21,
-      attrs: {
-        type: "info",
-        icon: "View",
-      },
+  },
+  enable: {
+    name: "enable",
+    text: "启用",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 10,
+    attrs: {
+      type: "success",
+      icon: "CircleCheck",
     },
-    submit: {
-      name: "submit",
-      text: "提交",
-      // auth: [],
-      // to: undefined,
-      order: 40,
-      attrs: {
-        type: "primary",
-        icon: "Promotion",
-      },
+    popconfirm: {
+      iconColor: colorSuccess,
+      confirmButtonType: "success",
     },
-    reset: {
-      name: "reset",
-      text: "重置",
-      // auth: [0],
-      // to: undefined,
-      order: 41,
-      attrs: {
-        icon: "RefreshLeft",
-      },
+  },
+  forbid: {
+    name: "forbid",
+    text: "禁用",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 11,
+    attrs: {
+      type: "warning",
+      icon: "Remove",
     },
-    log: {
-      name: "log",
-      text: "日志",
-      // auth: [],
-      // to: undefined,
-      order: 42,
-      attrs: {
-        type: "primary",
-        icon: "Tickets",
-      },
+    popconfirm: {
+      iconColor: colorWarning,
+      confirmButtonType: "warning",
     },
-    link: {
-      name: "link",
-      text: "前往",
-      // auth: [],
-      // to: undefined,
-      order: 50,
-      attrs: {
-        type: "info",
-        icon: "Link",
-      },
+  },
+  audit: {
+    name: "audit",
+    text: "审核",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 20,
+    attrs: {
+      type: "success",
+      icon: "Edit",
     },
-  }
-  // {
-  //   prop: {
-  //     value: "value",
-  //     writable: false, // 不允许写入
-  //     configurable: false, // 不能再次配置
-  //     enumerable: true, // 可枚举
-  //   },
-  // }
-) as CommonObj;
+  },
+  view: {
+    name: "view",
+    text: "详情", //查看
+    // auth: [],
+    // to: undefined,
+    order: 21,
+    attrs: {
+      type: "info",
+      icon: "View",
+    },
+  },
+  submit: {
+    name: "submit",
+    text: "提交",
+    // auth: [],
+    // to: undefined,
+    order: 40,
+    attrs: {
+      type: "primary",
+      icon: "Promotion",
+    },
+  },
+  reset: {
+    name: "reset",
+    text: "重置",
+    // auth: [0],
+    // to: undefined,
+    order: 41,
+    attrs: {
+      icon: "RefreshLeft",
+    },
+  },
+  log: {
+    name: "log",
+    text: "日志",
+    // auth: [],
+    // to: undefined,
+    order: 42,
+    attrs: {
+      type: "primary",
+      icon: "Tickets",
+    },
+  },
+  link: {
+    name: "link",
+    text: "前往",
+    // auth: [],
+    // to: undefined,
+    order: 50,
+    attrs: {
+      type: "info",
+      icon: "Link",
+    },
+  },
+} as CommonObj;

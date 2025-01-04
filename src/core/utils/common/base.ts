@@ -282,11 +282,7 @@ export function getCompNameByRoute(route: CommonObj): string {
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(
-  sysData: any,
-  customData?: any,
-  mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign"
-) {
+export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean", "undefined"].includes(typeof sysData); //如果是基础数据类型
@@ -418,4 +414,20 @@ export function throwTplError(msg: string) {
 export function getWholeUrl(url = "./img.png") {
   // return new URL(`./dir/${name}.png`, import.meta.url).href; // 支持字符串模板
   return new URL(url, import.meta.url).href;
+}
+
+/**
+ * 冻结对象，只可读，不可写入
+ * @param obj 要处理的对象或数组
+ * @returns
+ */
+export function deepFreeze(obj) {
+  const propNames = Object.getOwnPropertyNames(obj);
+  propNames.forEach(item => {
+    const prop = obj[item];
+    if (prop instanceof Object && prop !== null) {
+      deepFreeze(prop);
+    }
+  });
+  return Object.freeze(obj);
 }

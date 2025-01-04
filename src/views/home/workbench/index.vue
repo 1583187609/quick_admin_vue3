@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div class="page-view">
+  <div class="q-page-view">
     <div class="f-sb-c pannels">
       <DataPannel class="f-1 item" v-for="(item, ind) in pannels" :key="ind" />
     </div>
