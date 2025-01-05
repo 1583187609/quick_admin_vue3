@@ -24,7 +24,6 @@ export interface FootBtnAttrs {
   // 不提供按钮的其他属性了，因为样式统一的话，原则上不允许随意更改统一的样式了
 }
 export type FootBtn = FootBtnAttrs | string;
-
 // const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{

@@ -12,7 +12,7 @@
   </SectionForm>
 </template>
 <script lang="ts" setup>
-import { FormField, SectionFormItem } from "@/core/components/form/_types";
+import { FormField, FormFieldAttrs, SectionFormItem } from "@/core/components/form/_types";
 import { PostMockCommon, PatchMockCommon } from "@/api-mock";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
@@ -20,6 +20,22 @@ const yesNoSwitchAttrs = {
   activeText: "是",
   inactiveText: "否",
 };
+const validRulesChildren: FormFieldAttrs[] = [
+  {
+    prop: "type",
+    label: "类型",
+    labelWidth: "0",
+    type: "select",
+    attrs: {
+      options: [
+        { label: "必填", value: 1 },
+        { label: "最小值", value: 2 },
+        { label: "最大值", value: 3 },
+      ],
+    },
+  },
+  { prop: "message", labelWidth: "0", label: "提示文案" },
+];
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -93,23 +109,10 @@ const sections = computed<SectionFormItem[]>(() => {
         {
           prop: "rules",
           label: "校验规则",
-          type: "addDel",
-          children: [
-            {
-              prop: "type",
-              label: "类型",
-              labelWidth: "0",
-              type: "select",
-              attrs: {
-                options: [
-                  { label: "必填", value: 1 },
-                  { label: "最小值", value: 2 },
-                  { label: "最大值", value: 3 },
-                ],
-              },
-            },
-            { prop: "message", labelWidth: "0", label: "提示文案" },
-          ],
+          type: "BaseAddDelList",
+          attrs: {
+            fields: validRulesChildren,
+          },
           quickAttrs: {
             grid: 24,
           },

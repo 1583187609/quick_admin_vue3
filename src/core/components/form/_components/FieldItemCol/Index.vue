@@ -1,6 +1,14 @@
 <template>
   <el-col class="field-item-col" v-bind="elColAttrs">
-    <FieldItem v-model="newVal" :field="field" :inputDebounce="inputDebounce" :hideLabel="hideLabel" :formRef="formRef" v-bind="$attrs">
+    <FieldItem
+      v-model="newVal"
+      :prefixProp="prefixProp"
+      :field="field"
+      :inputDebounce="inputDebounce"
+      :hideLabel="hideLabel"
+      :formRef="formRef"
+      v-bind="formAttrs"
+    >
       <template #custom="scope">
         <slot name="custom" v-bind="scope" />
       </template>
@@ -25,6 +33,7 @@ const props = withDefaults(
     modelValue?: any;
     colAttrs?: CommonObj; //el-col的属性
     field: FormFieldAttrs;
+    prefixProp?: string;
     // grid?: Grid;
     // size?: CommonSize;
     // pureText?: boolean; //是否展示纯文本

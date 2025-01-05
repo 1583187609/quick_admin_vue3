@@ -34,53 +34,12 @@ const fields = [
   {
     label: "嵌套（对象）",
     prop: "inner_obj",
-    // required: true,
-    children: [
-      {
-        prop: "one",
-        label: "一",
-        required: true,
-        labelWidth: "0",
-        quickAttrs: {
-          // grid: 12,
-        },
-      },
-      {
-        prop: "two",
-        label: "二",
-        required: true,
-        labelWidth: "0",
-        quickAttrs: {
-          // grid: 12,
-        },
-      },
-    ],
+    required: true,
   },
   {
     label: "嵌套（数组）",
     prop: "inner_arr",
     required: true,
-    type: "addDel",
-    children: [
-      {
-        prop: "one",
-        label: "一",
-        required: true,
-        labelWidth: "0",
-        quickAttrs: {
-          grid: 12,
-        },
-      },
-      {
-        prop: "two",
-        label: "二",
-        required: true,
-        labelWidth: "0",
-        quickAttrs: {
-          grid: 12,
-        },
-      },
-    ],
   },
 ];
 </script>

@@ -209,8 +209,10 @@
 160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）
 162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
 163、disabled、readonly 属性，不应该放在 quickAttrs 中
-164、支持表单 tips 自定义
+~~164、支持表单 tips 自定义~~
 165、批量导出多级表头中的数据
+~~166、删除 addDel、childrenFields 类型~~
+167、处理重置 BaseAddDelList 不会变为一项的问题
 
 ## Demo 功能验证清单
 
@@ -252,7 +254,7 @@
 34、处理 BaseCrud 中的表单的创建时间区间的 props，考虑要不要用 quickAttrs 来传递属性 rangeProps: [minProp, maxProp]（待确定）
 33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）
 34、SectionForm 换用 BaseSection 验证功能
-35、完善 AddDelList、AnyEleList、AddDelTag 组件功能
+35、完善 AddDelList、AnyEleList、AddDelTags 组件功能
 36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证
 37、完善`InnerExtendTableColComps`组件
 
@@ -266,6 +268,7 @@
 1、采用`git submodule`方式维护 mock 和基础方法（待定）
 141、将 SectionForm 改为 BaseSectionForm（待确定）
 143、考虑整合 sass 并加入 css 变量
+144、采用 pnpm 下载的包可能存在问题，比如 WangEditor 的 css 文件找不到
 
 ## TS 类型处理
 
@@ -317,7 +320,8 @@
 
 ## 未来功能清单
 
-59、写 Gis 示例
+1、写 Gis 示例
+2、扩展 BaseForm 中的非嵌套对象功能（页面：`test-center/test-1`）
 
 ## 二、优化清单
 
@@ -485,6 +489,7 @@
 79、处理菜单管理页（`system/menu`）栈溢出问题：`Maximum call stack size exceeded`
 80、刷新页面，菜单未展开对应的菜单项，`common-center/menu/automate` 可复现
 81、动态菜单全选后，删除按钮仍是禁用状态：`/common-center/menu/dynamic`
+82、`T_Phone`的电话号码，正则校验无效 bug 处理
 
 ## 四、Vue 极致优化清单
 
@@ -508,7 +513,7 @@
 52、关注`resolveComponent`、`mergeProps` api
 53、Ts 相关的定义`PropType `
 70、配置 VsCode 的列表页、新增编辑页 的快速代码片段，并放到：`EditorConfig.md`文件里（vuePage、vueComponent、vueForm、vueSectionForm、vueTable、vueCrud、vueAddEdit），先在`src/_code-tpl` 中完善代码片段。
-30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦  
+30、BaseForm 中 addDel 类型的组件，点击右侧加号之后，默认让第一个元素聚焦
 15、测试 3 页面选择多标签时，自动根据宽度，控制是否显示+1 图标  
 37、每次打开或新进入一个表单时，默认让第一个表单项聚焦
 38、完善 isOptimization 优化内容的撰写
@@ -524,6 +529,7 @@
 69、菜单默认为管风琴模式，支持可切换、菜单搜索放在菜单上方搜索处
 70、优化 mergeRules 算法
 71、定义 noGrid 属性进行表单优化（减少 dom 渲染数量）
+72、表单项的宽度不设置 style="width:100%"。只有查询表单中才这样设置
 
 ### 动画优化相关
 

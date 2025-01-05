@@ -2,9 +2,9 @@
 <template>
   <component
     v-model="modelData[field!.prop as string]"
+    :is="layoutType === 'flex' ? FieldItem : FieldItemCol"
     class="form-item"
     :class="currSize"
-    :is="layoutType === 'flex' ? FieldItem : FieldItemCol"
     :size="currSize"
     :field="field"
     :colAttrs="layoutType === 'flex' ? undefined : { class: 'query-field-item' }"

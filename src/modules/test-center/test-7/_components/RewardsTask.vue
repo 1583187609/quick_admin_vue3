@@ -8,7 +8,7 @@
       <div class="item">奖励明细</div>
       <div class="item">领取方式</div>
     </div>
-    <SectionForm :sections="sections" v-model="modelData" class="rewards-task f-1"></SectionForm>
+    <SectionForm v-model="modelData" :sections="sections" class="rewards-task f-1"></SectionForm>
   </div>
 </template>
 <script lang="ts" setup>
@@ -39,7 +39,7 @@ const modelData = reactive<CommonObj>({
   gzgzh: { zt: 0, jllx: 2, jlmx: 60, lqfs: 2 },
   bdsjh: { zt: 0, jllx: 2, jlmx: 60, lqfs: 2 },
 });
-const childrenFields: FormField[] = [
+const addDelChildrenFields: FormField[] = [
   {
     prop: "zt",
     label: "状态",
@@ -80,42 +80,121 @@ const sections: SectionFormItem[] = [
     // prop: "kpi_1",
     title: "KPI1 - 提升自己",
     fields: [
-      { prop: "wszl", label: "完善资料", children: childrenFields },
-      { prop: "scszzp", label: "上传3张照片", children: childrenFields },
-      { prop: "scyyjs", label: "上传语音介绍", children: childrenFields },
-      { prop: "bcxqah", label: "补充兴趣爱好", children: childrenFields },
-      { prop: "bclxx", label: "补充理想型", children: childrenFields },
-      { prop: "wcsfrz", label: "完成身份认证", children: childrenFields },
+      {
+        prop: "wszl",
+        label: "完善资料",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "scszzp",
+        label: "上传3张照片",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "scyyjs",
+        label: "上传语音介绍",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "bcxqah",
+        label: "补充兴趣爱好",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "bclxx",
+        label: "补充理想型",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "wcsfrz",
+        label: "完成身份认证",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
     ],
   },
   {
     // prop: "kpi_2",
     title: "KPI2 - 结识新朋友",
     fields: [
-      { prop: "jsycsfk", label: "解锁一次身份卡", children: childrenFields },
-      { prop: "fsyccjxh", label: "发送一次超级喜欢", children: childrenFields },
-      { prop: "dcycxhxh", label: "达成一次相互喜欢", children: childrenFields },
+      {
+        prop: "jsycsfk",
+        label: "解锁一次身份卡",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "fsyccjxh",
+        label: "发送一次超级喜欢",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "dcycxhxh",
+        label: "达成一次相互喜欢",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
     ],
   },
   {
     // prop: "kpi_3",
     title: "KPI3 - 探索新功能",
     fields: [
-      { prop: "bc", label: "补充[颜值描述]", children: childrenFields },
+      {
+        prop: "bc",
+        label: "补充[颜值描述]",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
       {
         prop: "sdqjsyckp",
         label: "单身圈解锁一次卡片",
-        children: childrenFields,
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
       },
       {
         prop: "dsqoyywlx",
         label: "单身圈偶遇一位老乡",
-        children: childrenFields,
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
       },
       {
         prop: "dsqoyywxy",
         label: "单身圈偶遇一位校友",
-        children: childrenFields,
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
       },
     ],
   },
@@ -123,8 +202,22 @@ const sections: SectionFormItem[] = [
     // prop: "kpi_4",
     title: "KPI4 - 加速脱单",
     fields: [
-      { prop: "gzgzh", label: "关注公众号", children: childrenFields },
-      { prop: "bdsjh", label: "绑定手机号", children: childrenFields },
+      {
+        prop: "gzgzh",
+        label: "关注公众号",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+      {
+        prop: "bdsjh",
+        label: "绑定手机号",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
     ],
   },
 ];

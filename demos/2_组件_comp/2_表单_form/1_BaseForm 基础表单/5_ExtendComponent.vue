@@ -1,6 +1,6 @@
 <!-- summary 扩展的组件
-  系统内置组件：BaseImg, BaseUpload, BaseNumberRange, …
-  外部内嵌组件：UserInfo（后面再考虑是否加入，先直接用插槽吧）
+  系统内置组件：BaseImg, BaseUpload, BaseNumberRange, BaseAddDelList、BaseAnyEleList …
+  外部内嵌组件：UserInfo、AddDelTags（后面再考虑是否加入，先直接用插槽吧）
   使用插槽，设置 type 为 slot
 -->
 <template>

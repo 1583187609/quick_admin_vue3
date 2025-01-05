@@ -1,6 +1,6 @@
 <!-- 组件-可编辑的标签 -->
 <template>
-  <div class="add-del-tag f-fs-fs-w">
+  <div class="add-del-tags f-fs-fs-w">
     <el-tag class="m-2" @close="handleDel(item, ind)" v-for="(item, ind) in tags" :key="item" closable>{{ item }} </el-tag>
     <template v-if="tags.length < maxNum">
       <el-input
@@ -26,18 +26,18 @@ import { Plus } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
 import { showMessage } from "@/core/utils";
 
+const { formItem } = useFormItem();
 const props = withDefaults(
   defineProps<{
     modelValue?: string[];
-    maxNum?: number; //最大个数
+    maxNum?: number; // 最大个数
   }>(),
   {
-    maxNum: 10,
+    maxNum: 3,
     modelValue: () => [],
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
-const { formItem } = useFormItem();
 const inpRef = ref();
 const inpVal = ref("");
 const tags = ref<string[]>(props.modelValue);

@@ -1,16 +1,14 @@
 <!-- 任意元素的字段列表 -->
 <template>
-  <template v-for="(field, ind) in fields" :key="ind">
-    <el-row :gutter="16">
-      <!-- :grid="field?.quickAttrs?.grid ?? grid"
+  <el-row :gutter="16" v-for="(field, ind) in fields" :key="ind">
+    <!-- :grid="field?.quickAttrs?.grid ?? grid"
         :readonly="field?.quickAttrs?.readonly ?? readonly"
         :pureText="field?.quickAttrs?.pureText ?? pureText"
         :disabled="field?.quickAttrs?.disabled ?? disabled"
         :size="field?.attrs?.size ?? field.size ?? size"
         :labelWidth="field?.labelWidth ?? labelWidth" -->
-      <FieldItemCol v-model="modelData[field.prop as string]" :field="field" :hideLabel="hideLabel" />
-    </el-row>
-  </template>
+    <FieldItemCol v-model="modelData[field.prop as string]" :prefixProp="prefixProp" :field="field" :hideLabel="hideLabel" v-bind="$attrs" />
+  </el-row>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
@@ -18,10 +16,13 @@ import { CommonObj, CommonSize } from "@/core/_types";
 import { Grid, FormFieldAttrs } from "./FieldItem/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
 const props = withDefaults(
   defineProps<{
     modelValue: CommonObj;
-    prefixProp?: string;
+    prefixProp: string;
     fields?: FormFieldAttrs[];
     hideLabel?: boolean;
     // grid?: Grid;

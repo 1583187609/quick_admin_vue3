@@ -4,10 +4,10 @@
     <SectionForm class="f-2" v-model="modelData" :fetch="handleFetch" :sections="sections">
       <template #head-right-0>这是标题右侧的插槽</template>
       <template #zdy>
-        <el-input placeholder="这是自定义组件" v-model="modelData.zdy" clearable />
+        <input placeholder="这是自定义组件" v-model="modelData.zdy" style="border: 1px solid purple" />
       </template>
-      <template #bjnr>
-        <BaseEditor v-model="modelData.bjnr" />
+      <template #edit_content>
+        <BaseEditor v-model="modelData.edit_content" />
       </template>
     </SectionForm>
     <ul class="f-1 ml-o tips-list">
@@ -16,11 +16,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { SectionFormItem } from "@/core/components/form/_types";
+import { FormFieldAttrs, SectionFormItem } from "@/core/components/form/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { CommonObj } from "@/core/_types";
 import { PostMockCommon } from "@/api-mock";
 import IconBtns from "@/core/components/IconBtns.vue";
+import { showMessage } from "@/utils";
 
 const tipsList: string[] = ["section块之间span属性功能完善", "label宽度根据各个section块决定"];
 //是否支持： 0否;1=是
@@ -32,12 +33,42 @@ const supportSwitchAttrs: CommonObj = {
   inlinePrompt: true,
   style: "width: 5em",
 };
+const authWaysChildrenFields: FormFieldAttrs[] = [
+  {
+    prop: "isSupportEmail",
+    label: "邮箱认证",
+    type: "switch",
+    // labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+  {
+    prop: "isSupportPerson",
+    label: "人工认证",
+    type: "switch",
+    // labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+  {
+    prop: "isSupportDingTalk",
+    label: "钉钉认证",
+    type: "switch",
+    // labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+  {
+    prop: "isSupportFeiShu",
+    label: "飞书认证",
+    type: "switch",
+    // labelWidth: "6em",
+    attrs: supportSwitchAttrs,
+  },
+];
 const modelData = reactive<CommonObj>({
-  nl: 24,
-  cyxslx: 1,
+  age: 24,
+  diff_type: 1,
 });
 const sections = computed<SectionFormItem[]>(() => {
-  const { cyxslx } = modelData;
+  const { diff_type } = modelData;
   return [
     {
       // prop: "jcxx",
@@ -46,11 +77,11 @@ const sections = computed<SectionFormItem[]>(() => {
       popover: "纯文本展示",
       fields: [
         {
-          prop: "xm",
+          prop: "user_name",
           label: "姓名",
         },
         {
-          prop: "xb",
+          prop: "gender",
           label: "性别",
           type: "select",
           attrs: {
@@ -62,7 +93,7 @@ const sections = computed<SectionFormItem[]>(() => {
         },
         {
           tpl: "T_Age",
-          prop: "nl",
+          prop: "age",
           label: "年龄",
           type: "input-number",
           labelWidth: "4em",
@@ -72,7 +103,7 @@ const sections = computed<SectionFormItem[]>(() => {
         },
         {
           tpl: "T_Price",
-          prop: "jg",
+          prop: "price",
           label: "价格",
           labelWidth: "4em",
           quickAttrs: {
@@ -81,7 +112,7 @@ const sections = computed<SectionFormItem[]>(() => {
         },
         {
           tpl: "T_Phone",
-          prop: "dhhm",
+          prop: "phone",
           label: "电话",
           labelWidth: "4em",
           quickAttrs: {
@@ -89,7 +120,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
-          prop: "dz",
+          prop: "address",
           label: "地址",
           type: "cascader",
           attrs: {
@@ -97,7 +128,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
-          prop: "hz",
+          prop: "after_fix",
           label: "后缀",
           // attrs: {
           //   style: "50%",
@@ -105,11 +136,19 @@ const sections = computed<SectionFormItem[]>(() => {
           quickAttrs: {
             // before: "第",
             // after: h(IconBtns, { tpl: "add" }),
-            after: [IconBtns, { tpl: "add" }],
+            after: [
+              IconBtns,
+              {
+                tpl: "add",
+                onClick(name: string) {
+                  showMessage(`点击了${name}按钮`, "info");
+                },
+              },
+            ],
           },
         },
         {
-          prop: "bz",
+          prop: "remark",
           label: "备注",
           quickAttrs: {
             grid: 24,
@@ -178,7 +217,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
-          prop: "cyxslx",
+          prop: "diff_type",
           label: "差异显示类型",
           type: "radio-group",
           attrs: {
@@ -192,47 +231,16 @@ const sections = computed<SectionFormItem[]>(() => {
             popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
           },
         },
-        cyxslx === 1 && {
-          prop: "rzfs",
+        {
+          prop: "auth_ways",
           label: "认证方式",
-          children: [
-            {
-              prop: "isSupportEmail",
-              label: "邮箱认证",
-              type: "switch",
-              labelWidth: "6em",
-              attrs: supportSwitchAttrs,
-            },
-            {
-              prop: "isSupportPerson",
-              label: "人工认证",
-              type: "switch",
-              labelWidth: "6em",
-              attrs: supportSwitchAttrs,
-            },
-          ],
-        },
-        cyxslx === 2 && {
-          label: "认证方式",
-          children: [
-            {
-              prop: "isSupportDingTalk",
-              label: "钉钉认证",
-              type: "switch",
-              labelWidth: "6em",
-              attrs: supportSwitchAttrs,
-            },
-            {
-              prop: "isSupportFeiShu",
-              label: "飞书认证",
-              type: "switch",
-              labelWidth: "6em",
-              attrs: supportSwitchAttrs,
-            },
-          ],
+          type: "BaseAnyEleList",
+          attrs: {
+            fields: authWaysChildrenFields.slice(...(diff_type === 1 ? [0, 2] : [2])),
+          },
         },
         {
-          prop: "bjnr",
+          prop: "edit_content",
           label: "编辑内容",
           type: "slot",
           rules: [{ maxlength: 10, message: "不能超过10个字符", trigger: "change" }],
@@ -241,7 +249,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
         },
         {
-          prop: "bz",
+          prop: "remark",
           label: "备注",
           attrs: {
             type: "textarea",

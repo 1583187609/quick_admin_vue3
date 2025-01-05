@@ -277,22 +277,22 @@ const newExtraBtns = computed<BtnItem[]>(() => {
 /**
  * 获取标准的表格列数据
  */
-// function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
-//   const filterCols = cols.filter(it => !!it);
-//   return filterCols.map((originCol: any) => {
-//     let { tpl, ...col } = originCol;
-//     const { type } = col;
-//     if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-//     if (tpl) {
-//       const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
-//       col = merge(tplData, col);
-//     }
-//     const { children } = col as TableColAttrs;
-//     if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
-//     return col;
-//   });
-// }
-function getStandardCols(
+function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
+  const filterCols = cols.filter(it => !!it);
+  return filterCols.map((originCol: any) => {
+    let { tpl, ...col } = originCol;
+    const { type } = col;
+    if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+    if (tpl) {
+      const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
+      col = merge(tplData, col);
+    }
+    const { children } = col as TableColAttrs;
+    if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
+    return col;
+  });
+}
+function getStandardColsNew(
   { cols, operateBtns, currPage, pageSize, size }: CommonObj,
   cb?: (maxLev: number, cols: TableColAttrs[]) => void
 ): TableColAttrs[] {
@@ -319,7 +319,7 @@ function getStandardCols(
       }
     }
     if (level > maxLevel) maxLevel = level;
-    if (children?.length) (newCol as TableColAttrs).children = getStandardCols({ cols: children, operateBtns, currPage, pageSize, size }, cb);
+    if (children?.length) (newCol as TableColAttrs).children = getStandardColsNew({ cols: children, operateBtns, currPage, pageSize, size }, cb);
     return newCol;
   });
   if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
@@ -333,9 +333,10 @@ const newCols = ref<TableColAttrs[]>([]);
 watch(
   () => props.cols,
   newVal => {
-    const { operateBtns, size } = props;
-    const { currPage, pageSize } = pagination as CommonObj;
-    const _cols = getStandardCols({ cols: newVal, operateBtns, currPage, pageSize, size });
+    // const { operateBtns, size } = props;
+    // const { currPage, pageSize } = pagination as CommonObj;
+    // const _cols = getStandardColsNew({ cols: newVal, operateBtns, currPage, pageSize, size });
+    const _cols = getStandardCols(newVal);
     // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失，除非不会用到函数类属性
     originCols = JSON.parse(JSON.stringify(_cols));
     dragSortable = !!_cols.find(col => col.type === "sort");
@@ -378,7 +379,7 @@ function handleCurrChange(val: number) {
 }
 // 初始化刚准备好时
 function handleReady() {
-  // merge(params, modelData);
+  merge(params, modelData.value);
   Object.assign(initParams, params);
   props.immediateFetch && getList(params, undefined, "ready");
 }

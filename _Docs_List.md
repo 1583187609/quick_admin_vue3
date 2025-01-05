@@ -35,7 +35,7 @@
 # 组件优化事项
 
 1、TagImg
-2、AddDelTag
+2、AddDelTags
 3、BaseAudio
 3、BaseVideo
 4、BaseCopy 图标换用 DocumentCopy

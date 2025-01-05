@@ -1,6 +1,8 @@
 <template>
   <!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
-  <BaseRender :renderData="field.renderData ?? throwTplError('缺乏renderData')" v-if="formItemAttrs.type === 'custom'" />
+  <div class="mb-18" v-bind="formItemAttrs.attrs" v-if="formItemAttrs.type === 'custom'">
+    <BaseRender :renderData="formItemAttrs.renderData ?? throwTplError('缺乏renderData')" />
+  </div>
   <el-form-item
     class="field-item"
     :class="{
@@ -8,6 +10,7 @@
       [`value-v-${formItemAttrs.quickAttrs?.valueAlignContent ?? ''}`]: true,
     }"
     v-bind="deleteAttrs(formItemAttrs, ['attrs', 'quickAttrs', 'slots', 'tpl'])"
+    :prop="prefixProp ? `${prefixProp}.${formItemAttrs.prop}` : formItemAttrs.prop"
     v-else
   >
     <!-- el-form-item 的插槽(label、error等) -->
@@ -44,7 +47,8 @@
           v-model="modelVal"
           :is="formItemAttrs.type"
           :class="flexClass"
-          :field="formItemAttrs"
+          :prefixProp="['BaseAnyEleList', 'BaseAddDelList'].includes(formItemAttrs.type) ? formItemAttrs.prop : undefined"
+          v-bind="formItemAttrs.attrs"
           @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
           @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
           @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
@@ -57,7 +61,10 @@
       <div class="ml-h" v-if="typeof formItemAttrs.quickAttrs.after === 'string'">{{ formItemAttrs.quickAttrs.after }}</div>
       <BaseRender :renderData="formItemAttrs.quickAttrs.after" v-else />
     </template>
-    <div class="notice" v-html="'注：' + formItemAttrs.quickAttrs.tips" v-if="formItemAttrs.quickAttrs?.tips" />
+    <template v-if="formItemAttrs.quickAttrs?.tips">
+      <div class="notice" v-html="'注：' + formItemAttrs.quickAttrs.tips" v-if="typeof formItemAttrs.quickAttrs.tips === 'string'" />
+      <BaseRender :renderData="formItemAttrs.quickAttrs.tips" v-else />
+    </template>
   </el-form-item>
 </template>
 <script lang="ts" setup>
@@ -90,6 +97,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: any;
     field: FormFieldAttrs;
+    prefixProp?: string;
     // grid?: Grid;
     // size?: CommonSize;
     // pureText?: boolean; //是否展示纯文本
@@ -119,7 +127,7 @@ const modelVal = computed({
 const formItemTpls = defaultFormItemTplsMap[props.tplType];
 const formItemAttrs = computed<FormFieldAttrs>(() => {
   const { field, hideLabel } = props;
-  if (field.type === "custom") return;
+  if (field.type === "custom") return field;
   /*** 合并统一 tempField ***/
   const { tpl, type = defaultFormItemType, rules = [], ...restField } = field;
   const { rules: defRules = [], ...restDefField } = defaultFieldAttrs[type] ?? {};

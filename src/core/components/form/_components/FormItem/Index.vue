@@ -74,9 +74,10 @@
 import { computed } from "vue";
 import { OptionItem } from "@/core/_types";
 import { defaultFormItemType, deleteAttrs, getSlotsMap, typeOf } from "@/core/utils";
-import { useDict } from "@/hooks";
+import { useDict, useFormAttrs } from "@/hooks";
 import { DictName } from "@/dict/_types";
 import { FormFieldAttrs } from "../FieldItem/_types";
+import { useAttrs } from "vue";
 // import _ from "lodash";
 
 // import { useFormItem } from "element-plus";
@@ -96,6 +97,8 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
+const $attrs = useAttrs();
+// const formAttrs = useFormAttrs({ ...props, ...$attrs });
 const { getOpts } = useDict();
 const modelVal = computed({
   get: () => props.modelValue,
@@ -103,7 +106,6 @@ const modelVal = computed({
 });
 const newFiled = computed<FormFieldAttrs>(() => {
   const { field } = props;
-  if (!field) console.log(props, "props-----------");
   const { attrs } = field;
   const placeholder = getPlaceholder(field);
   if (attrs) {

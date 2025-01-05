@@ -4,10 +4,13 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { SectionFormItem } from "@/core/components/form/_types";
+import { FormFieldAttrs, SectionFormItem } from "@/core/components/form/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { CommonObj } from "@/core/_types";
-import { FormField } from "@/core/components/form/_types";
+const addDelChildrenFields: FormFieldAttrs[] = [
+  { prop: "user_type", label: "嘉宾类型", type: "select" },
+  { prop: "ratio", label: "占比", type: "input-number" },
+];
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;
@@ -17,29 +20,52 @@ const props = withDefaults(
   }
 );
 const modelData = reactive<CommonObj>({
-  xyh: [{ jblx: undefined, zb: undefined }],
-  yzjb: [{ jblx: undefined, zb: undefined }],
-  ptyh: [{ jblx: undefined, zb: undefined }],
+  new_user: [{ user_type: undefined, ratio: undefined }],
+  quality_user: [{ user_type: undefined, ratio: undefined }],
+  common_user: [{ user_type: undefined, ratio: undefined }],
 });
-const childrenFields: FormField[] = [
-  { prop: "jblx", label: "嘉宾类型", type: "select" },
-  { prop: "zb", label: "占比", type: "input-number" },
-];
 const sections: SectionFormItem[] = [
   {
-    // prop: "xyh",
+    // prop: "new_user",
     title: "新用户",
-    fields: [{ prop: "xyh", label: "新用户", type: "addDel", children: childrenFields }],
+    fields: [
+      {
+        prop: "new_user",
+        label: "新用户",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+    ],
   },
   {
-    // prop: "yzjb",
+    // prop: "quality_user",
     title: "优质嘉宾",
-    fields: [{ prop: "yzjb", label: "优质嘉宾", type: "addDel", children: childrenFields }],
+    fields: [
+      {
+        prop: "quality_user",
+        label: "优质嘉宾",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+    ],
   },
   {
-    // prop: "ptyh",
+    // prop: "common_user",
     title: "普通用户",
-    fields: [{ prop: "ptyh", label: "普通用户", type: "addDel", children: childrenFields }],
+    fields: [
+      {
+        prop: "common_user",
+        label: "普通用户",
+        type: "BaseAddDelList",
+        attrs: {
+          fields: addDelChildrenFields,
+        },
+      },
+    ],
   },
 ];
 </script>

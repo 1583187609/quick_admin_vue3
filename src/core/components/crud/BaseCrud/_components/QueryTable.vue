@@ -18,9 +18,9 @@
       :disabled="disabled"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props, cols.at(-1))"
+      :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props, newCols.at(-1))"
       @operateBtns="onOperateBtns"
-      v-for="(col, cInd) in cols"
+      v-for="(col, cInd) in newCols"
       :key="cInd"
     >
       <template #custom="{ row, col: c, $index: ind }">
@@ -86,12 +86,12 @@ const seledRows = ref<CommonObj[]>([]);
  * 55+32+8+16*2+40+3 = 55+40+32+40+3 = 95+75 = 170
  * 216px 170px
  */
-// const newCols = reactive<TableColAttrs[]>(
-//   getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
-//     rowNum += maxLev - 1;
-//     $emit("update:cols", cols);
-//   })
-// );
+const newCols = reactive<TableColAttrs[]>(
+  getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
+    rowNum += maxLev - 1;
+    $emit("update:cols", cols);
+  })
+);
 
 const newAttrs = computed(() => {
   const { showSummary, summaryMethod } = props;

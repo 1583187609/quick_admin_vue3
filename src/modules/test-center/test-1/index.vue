@@ -27,18 +27,13 @@
       @moreBtns="handleMoreBtns"
       @change="handleChange"
     >
-      <template #inner_obj>
-        <AnyEleList v-model="modelData.inner_obj" :fields="innerObjChildren" hideLabel />
+      <template #inner_tags>
+        <AddDelTags v-model="modelData.inner_tags" />
       </template>
-      <template #inner_arr>
-        <AddDelList v-model="modelData.inner_arr" prefixProp="inner_arr" :fields="innerArrChildren" />
+      <template #custom_slot>
+        <input placeholder="请输入（自定义组件示例）" v-model="modelData.custom_slot" />
       </template>
-      <template #auth_ways>
-        <AnyEleList v-model="modelData.auth_ways" :fields="authWaysChildren.slice(...(modelData.cyxslx === 1 ? [0, 2] : [2]))" />
-      </template>
-      <template #custom_item>
-        <input placeholder="请输入（自定义组件示例）" v-model="modelData.custom_item" />
-      </template>
+      <template #custom_item> 完全自定义内容（不会渲染el-form-item） </template>
     </BaseForm>
     <ul class="f-1 ml-t tips-list">
       <li class="item" v-for="(item, ind) in tipsList" :key="ind">{{ ind + 1 }}、{{ item }}</li>
@@ -48,21 +43,20 @@
 <script lang="ts" setup>
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { PostMockCommon } from "@/api-mock";
-import { CommonObj, OptionItem } from "@/core/_types";
+import { CommonObj } from "@/core/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { ElMessage, ElButton } from "element-plus";
 import BaseIcon from "@/core/components/BaseIcon.vue";
 import { handleBtnNext } from "@/utils";
 import { treeData, tempAddressOpts } from "./_data";
 import CustomPopover from "./_components/CustomPopover.vue";
-import AddDelList from "@/core/components/form/_components/AddDelList.vue";
-import AnyEleList from "@/core/components/form/_components/AnyEleList.vue";
+import AddDelTags from "@/core/components/form/_components/AddDelTags.vue";
 
 const innerObjChildren: FormFieldAttrs[] = [
   {
     prop: "one",
     label: "一",
-    // required: true,
+    required: true,
     labelWidth: "0",
     quickAttrs: {
       // grid: 12,
@@ -71,7 +65,7 @@ const innerObjChildren: FormFieldAttrs[] = [
   {
     prop: "two",
     label: "二",
-    // required: true,
+    required: true,
     labelWidth: "0",
     quickAttrs: {
       // grid: 12,
@@ -82,7 +76,7 @@ const innerArrChildren: FormFieldAttrs[] = [
   {
     prop: "one",
     label: "一",
-    // required: true,
+    required: true,
     labelWidth: "0",
     quickAttrs: {
       grid: 12,
@@ -91,7 +85,7 @@ const innerArrChildren: FormFieldAttrs[] = [
   {
     prop: "two",
     label: "二",
-    // required: true,
+    required: true,
     labelWidth: "0",
     quickAttrs: {
       grid: 12,
@@ -165,11 +159,11 @@ const modelData = reactive<CommonObj>({
   join_ways: 2,
   num_min: 1,
   num_max: 2,
-  custom_item: [10, 20],
   // is_remember: true,
 });
 
 const fields = computed<FormField[]>(() => {
+  const { diff_type } = modelData;
   return [
     {
       prop: "widget_size",
@@ -198,14 +192,31 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "inner_obj",
       label: "嵌套（对象）",
-      type: "slot",
-      // required: true,
+      type: "BaseAnyEleList",
+      // type: 'slot',
+      required: true,
+      attrs: {
+        fields: innerObjChildren,
+        hideLabel: true,
+      },
     },
     {
       prop: "inner_arr",
       label: "嵌套（数组）",
+      type: "BaseAddDelList",
+      // type: 'slot',
+      required: true,
+      attrs: {
+        fields: innerArrChildren,
+      },
+    },
+    {
+      prop: "inner_tags",
+      label: "标签",
       type: "slot",
-      // required: true,
+      quickAttrs: {
+        tips: "最多添加3个标签",
+      },
     },
     {
       prop: "user_name",
@@ -232,7 +243,11 @@ const fields = computed<FormField[]>(() => {
         // popover: h("div", { style: "color:red" }, "这是内容"), // 暂时不要用h函数写，会报错
         // popover: ["div", { style: "color:red" }, "这是内容"],
         popover: CustomPopover, // [CustomPopover],
-        tips: "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）",
+        tips: [
+          "div",
+          { style: "color:red" },
+          "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）；传入自定义tips，通过BaseRender渲染",
+        ],
       },
     },
     {
@@ -241,6 +256,9 @@ const fields = computed<FormField[]>(() => {
       type: "tree-select",
       attrs: {
         data: treeData,
+      },
+      quickAttrs: {
+        tips: '<span style="color:blue;">支持html字符串渲染 <b>tips</b> 文本内容</span>',
       },
     },
     {
@@ -257,6 +275,7 @@ const fields = computed<FormField[]>(() => {
       tpl: "T_Phone",
       prop: "phone",
       label: "电话号码",
+      // required: true,
       attrs: {
         placeholder: "电话号码（这是自定义的placeholder）",
         slots: {
@@ -429,6 +448,9 @@ const fields = computed<FormField[]>(() => {
       prop: ["num_min", "num_max"],
       label: "内置常用组件",
       type: "BaseNumberRange",
+      quickAttrs: {
+        popover: "内置常用组件BaseNumberRange",
+      },
     },
     {
       prop: "img",
@@ -437,11 +459,19 @@ const fields = computed<FormField[]>(() => {
       // required: true,
     },
     {
-      prop: "custom_item",
+      prop: "custom_slot",
       label: "自定义组件",
       type: "slot",
       quickAttrs: {
-        tips: "设置type:'slot'通过插槽加入自定义组件，并通过v-model绑定表单值",
+        tips: "只会自定义表单控件（被el-form-item包裹），设置type:'slot'，通过插槽加入",
+      },
+    },
+    {
+      type: "custom",
+      renderData: "这是完全自定义的表单项（不被el-form-item包裹）。设置type:'custom'，然后通过插槽加入",
+      // renderData: ["div", { style: "color:green" }, "这是完全自定义的表单项（不被el-form-item包裹）。设置type:'custom'，然后通过插槽加入"],
+      attrs: {
+        style: "font-weight:bolder;font-size:16px",
       },
     },
     {
@@ -467,14 +497,16 @@ const fields = computed<FormField[]>(() => {
     {
       prop: "auth_ways",
       label: "认证方式",
-      type: "slot",
+      type: "BaseAnyEleList",
+      attrs: {
+        fields: authWaysChildren.slice(...(diff_type === 1 ? [0, 2] : [2])),
+      },
     },
   ];
 });
 function handleChange(val: any, prop: string) {
-  console.log(val, prop, "prop------------------");
-  if (prop === "cyxslx") {
-    modelData.cyxslx = val;
+  if (prop === "diff_type") {
+    modelData.diff_type = val;
   }
 }
 const checkAge = (rule: any, value: any, callback: any) => {

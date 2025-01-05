@@ -61,8 +61,6 @@ export function getAddDelItem(fields?: FormField[]) {
 //       //是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题
 //       if (type === "checkbox" && defVal === undefined) {
 //         defVal = false;
-//       } else if (type === "addDel") {
-//         resObj.data[prop as string] = defVal?.length ? defVal : [getAddDelItem(children)];
 //       } else {
 //         const val = children?.length ? handleFields(children, $emit, defVal, undefined, tplType).data : defVal;
 //         resObj.data[prop as string] = val;
@@ -135,7 +133,7 @@ export function getHandleFields(
   tplType: FormTplType = "common"
 ): ResObj {
   const resObj: ResObj = { data: {}, fields: [] };
-  fields.forEach((originField: FormField, ind: number) => {
+  fields.forEach((originField: FormField) => {
     if (!originField) return;
     const field = getStandardFieldAttrs(originField, tplType);
     const { type, prop } = field;
@@ -157,7 +155,7 @@ export function getHandleFields(
       (field as FormFieldAttrs).prop = newProp;
       // val !== undefined && $emit?.("change", val, newProp);
     } else {
-      throw new Error(`暂未处理prop为${t}类型的值`);
+      if (type !== "custom") throw new Error(`暂未处理prop为${t}类型的值`);
     }
     if (overFieldAttrs) merge(field, overFieldAttrs);
     resObj.fields.push(field as FormFieldAttrs);

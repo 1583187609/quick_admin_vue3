@@ -13,7 +13,7 @@
       <BaseUpload v-model="modelData.logoUrl" />
     </template>
     <template #emailSuffix>
-      <AddDelTag v-model="modelData.emailSuffix" />
+      <AddDelTags v-model="modelData.emailSuffix" />
     </template>
   </BaseForm>
 </template>
@@ -21,7 +21,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { GetAuthRoleList } from "@/api-mock";
-import AddDelTag from "@/core/components/form/_components/AddDelTag.vue";
+import AddDelTags from "@/core/components/form/_components/AddDelTags.vue";
 import { CommonObj, FinallyNext, OptionItem, StrNum } from "@/core/_types";
 
 //是否支持： 0否;1=是

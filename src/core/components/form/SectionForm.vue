@@ -241,7 +241,6 @@ const formData = computed({
   get: () => props.modelValue,
   set: (val: CommonObj) => $emit("update:modelValue", val),
 });
-// let isFirst = true;
 watch(
   () => props.sections,
   newVals => {
@@ -279,16 +278,16 @@ function toggleFold(e: any, ind: number) {
       foldStatusList.value[i] = ind !== i;
     });
   }
-  $emit("toggle", ind);
+  $emit("toggle", ind, !foldStatusList.value[ind]);
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
   const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
-    readonly = sItem.readonly ?? formAttrs.readonly,
-    pureText = sItem?.pureText ?? formAttrs.pureText,
-    disabled = sItem.disabled ?? formAttrs.disabled,
+    readonly = sItem.readonly || formAttrs.readonly,
+    pureText = sItem?.pureText || formAttrs.pureText,
+    disabled = sItem.disabled || formAttrs.disabled,
   } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }

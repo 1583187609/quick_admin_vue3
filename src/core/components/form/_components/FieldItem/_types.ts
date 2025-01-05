@@ -21,10 +21,6 @@ export type ElFormItemType =
   | "slider"
   | "time-picker"
   | "time-select";
-// 子类分组
-export type FormChildrenType =
-  | "childrenFields" //默认
-  | "addDel"; //新增删除分组
 export type SystemFormItemType =
   // 其他
   | "slot"
@@ -32,9 +28,11 @@ export type SystemFormItemType =
   // 内置系统组件
   | "BaseNumberRange"
   | "BaseEditor"
-  | "BaseUpload";
+  | "BaseUpload"
+  | "BaseAddDelList"
+  | "BaseAnyEleList";
 
-export type FormItemType = ElFormItemType | SystemFormItemType | FormChildrenType;
+export type FormItemType = ElFormItemType | SystemFormItemType;
 
 export interface RowAttrs {
   gutter?: number;

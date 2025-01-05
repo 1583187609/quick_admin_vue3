@@ -23,9 +23,7 @@ export type FormItemType =
   | "time-select"
   | "BaseNumberRange"
   | "BaseUpload"
-  | "BaseEditor"
-  | "childrenFields" //子字段分组
-  | "addDel"; //新增删除分组
+  | "BaseEditor";
 export interface PopoverAttrs {
   trigger?: "click" | "focus" | "hover" | "contextmenu";
   placement?:

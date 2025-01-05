@@ -70,6 +70,28 @@ export const defaultDateRangeShortcuts = getExportData(
   "alert"
 );
 
+const defaultTime = [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)]; // 当选择同一天时，会以[2024-09-03 00:00:00, 2024-09-03 23:59:59]查询
+const rangeMap: CommonObj = {
+  daterange: {
+    text: "日期",
+    attrs: {
+      shortcuts: defaultDateRangeShortcuts,
+      defaultTime, // 范围选择时选中日期所使用的当日内具体时刻
+      // defaultValue: [], //选择器打开时默认显示的时间
+    },
+  },
+  datetimerange: {
+    text: "时间",
+    attrs: {
+      defaultTime,
+    },
+  },
+  monthrange: {
+    text: "月份",
+    attrs: {},
+  },
+};
+
 //覆盖重写el-form-item 的默认属性值
 export const defaultFieldAttrs: CommonObj = getExportData(
   {
@@ -110,14 +132,14 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     "tree-select": {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
     },
     cascader: {
       attrs: {
-        style: { width: "100%" },
+        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
@@ -139,33 +161,29 @@ export const defaultFieldAttrs: CommonObj = getExportData(
           if (format?.includes(" ")) newAttrs.type = "datetimerange";
           const newType = newAttrs.type ?? type;
           if (!newType.endsWith("range")) return newAttrs;
-          const defaultTime = [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)]; // 当选择同一天时，会以[2024-09-03 00:00:00, 2024-09-03 23:59:59]查询
-          const rangeMap: CommonObj = {
-            daterange: {
-              text: "日期",
-              attrs: {
-                shortcuts: defaultDateRangeShortcuts,
-                defaultTime, // 范围选择时选中日期所使用的当日内具体时刻
-                // defaultValue: [], //选择器打开时默认显示的时间
-              },
-            },
-            datetimerange: {
-              text: "时间",
-              attrs: {
-                defaultTime,
-              },
-            },
-            monthrange: {
-              text: "月份",
-              attrs: {},
-            },
-          };
           const { text, attrs: selfAttrs } = rangeMap[newType];
           newAttrs.startPlaceholder = `开始${text}`;
           newAttrs.endPlaceholder = `结束${text}`;
           Object.assign(newAttrs, selfAttrs);
           return newAttrs;
         },
+      },
+    },
+    "time-picker": {
+      attrs: {
+        // style: { width: "100%" },
+        format: "HH:mm:ss", //显示在输入框中的格式
+        valueFormat: "HH:mm:ss", //绑定值的格式。 不指定则绑定值为 Date 对象
+        placeholder: "请选择${label}",
+        rangeSeparator: rangeJoinChar,
+        clearable: true,
+      },
+    },
+    "time-select": {
+      attrs: {
+        // style: { width: "100%" },
+        placeholder: "请选择${label}",
+        clearable: true,
       },
     },
     switch: {
@@ -239,21 +257,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         // },
       },
     },
-    "time-picker": {
-      attrs: {
-        // style: { width: "100%" },
-        placeholder: "请选择${label}",
-        rangeSeparator: rangeJoinChar,
-        clearable: true,
-      },
-    },
-    "time-select": {
-      attrs: {
-        // style: { width: "100%" },
-        placeholder: "请选择${label}",
-        clearable: true,
-      },
-    },
     BaseNumberRange: {
       attrs: {
         // style: { width: "100%" },
@@ -272,18 +275,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
   },
   formCfg?.defaultFieldAttrs
 );
-
-// 基础通用的表单项模板（在查询表单、新增/编辑表单中均通用）
-const baseFormItemTpls: CommonObj = getExportData({
-  // id
-  T_Id: {
-    prop: "id",
-    label: "ID",
-    attrs: {
-      maxlength: 10,
-    },
-  },
-});
 
 /**
  * 获取表单的表单项模板

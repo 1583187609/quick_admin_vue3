@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { CommonObj, OptionItem } from "@/core/_types";
-import { FormField } from "@/core/components/form/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 const userOpts: OptionItem[] = [
   { label: "喜欢我的", value: 1 },
   { label: "优质嘉宾", value: 2 },
@@ -13,13 +13,13 @@ const userOpts: OptionItem[] = [
   { label: "普通用户", value: 4 },
 ];
 const modelData = reactive<CommonObj>({
-  xyh: [{ jblx: undefined, zb: undefined }],
-  yzjb: [{ jblx: undefined, zb: undefined }],
-  ptyh: [{ jblx: undefined, zb: undefined }],
+  new_user: [{ user_type: undefined, ratio: undefined }],
+  quality_user: [{ user_type: undefined, ratio: undefined }],
+  common_user: [{ user_type: undefined, ratio: undefined }],
 });
-const childrenFields: FormField[] = [
+const addDelChildrenFields: FormFieldAttrs[] = [
   {
-    prop: "jblx",
+    prop: "user_type",
     label: "嘉宾类型",
     type: "select",
     required: false,
@@ -27,26 +27,32 @@ const childrenFields: FormField[] = [
       options: userOpts,
     },
   },
-  { prop: "zb", label: "占比", type: "input-number" },
+  { prop: "ratio", label: "占比", type: "input-number" },
 ];
-const fields: FormField[] = [
+const fields: FormFieldAttrs[] = [
   {
-    prop: "xyh",
+    prop: "new_user",
     label: "新用户",
-    type: "addDel",
-    children: childrenFields,
+    type: "BaseAddDelList",
+    attrs: {
+      fields: addDelChildrenFields,
+    },
   },
   {
-    prop: "yzjb",
+    prop: "quality_user",
     label: "优质嘉宾",
-    type: "addDel",
-    children: childrenFields,
+    type: "BaseAddDelList",
+    attrs: {
+      fields: addDelChildrenFields,
+    },
   },
   {
-    prop: "ptyh",
+    prop: "common_user",
     label: "普通用户",
-    type: "addDel",
-    children: childrenFields,
+    type: "BaseAddDelList",
+    attrs: {
+      fields: addDelChildrenFields,
+    },
   },
 ];
 </script>
