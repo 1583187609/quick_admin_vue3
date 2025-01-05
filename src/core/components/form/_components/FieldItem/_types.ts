@@ -82,7 +82,7 @@ export interface FormFieldAttrs {
   /** 下面是 el-form-item 的属性 **/
   class?: any; //el-form-item 的class属性
   style?: any; //el-form-item 的style属性
-  prop: string | [string, string]; //属性名
+  prop?: string | [string, string]; //属性名，存在模板时，可以不写
   label?: string;
   size?: CommonSize;
   required?: boolean; //是否必填

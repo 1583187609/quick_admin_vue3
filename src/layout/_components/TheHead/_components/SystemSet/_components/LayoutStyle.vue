@@ -82,11 +82,12 @@ function handleSelected(val: LayoutType) {
 </script>
 <style lang="scss" scoped>
 @use "sass:color";
-$ratio: 0.06;
-$height: $header-height * $ratio;
-$width: $asider-width * $ratio;
-$nav-width: $main-menu-width * $ratio;
 .layout-style {
+  --ratio: 0.06;
+  $ratio: 0.06;
+  $height: calc(var(--header-height) * var(--ratio));
+  $width: calc(var(--asider-width) * var(--ratio));
+  $nav-width: calc(var(--main-menu-width) * var(--ratio));
   .item {
     padding: $gap-qtr;
     margin: 0 $gap-half;
@@ -105,10 +106,12 @@ $nav-width: $main-menu-width * $ratio;
         background: $color-primary;
       }
       &.side {
+        // background: color-mix(in srgb, var(--color-primary) 65%, #ffffff, 35%);
         background: color.mix($color-primary, #ffffff, 65%);
       }
       &.main {
         border-radius: 2px;
+        // background: color-mix(in srgb, var(--color-primary) 15%, #ffffff, 85%);
         background: color.mix($color-primary, #ffffff, 15%);
       }
     }

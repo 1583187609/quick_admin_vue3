@@ -315,7 +315,7 @@ function getFormItemTpls(type: FormTplType = "common") {
       label: "创建时间",
       type: "date-picker",
       attrs: {
-        type: isQuery ? undefined : "datetime",
+        type: isQuery ? "datetimerange" : "datetime",
       },
     },
     /***** 表单校验类 *****/

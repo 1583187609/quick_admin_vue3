@@ -37,20 +37,8 @@
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip
-          v-bind="tooltipAttrs"
-          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
-          v-if="screenfull.isEnabled"
-        >
-          <el-button
-            id="fullscreen"
-            @click="toggleFullscreen"
-            :icon="isFull ? Aim : FullScreen"
-            type="primary"
-            class="item"
-            plain
-            circle
-          ></el-button>
+        <el-tooltip v-bind="tooltipAttrs" :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)" v-if="screenfull.isEnabled">
+          <el-button id="fullscreen" @click="toggleFullscreen" :icon="isFull ? Aim : FullScreen" type="primary" class="item" plain circle></el-button>
         </el-tooltip>
       </div>
       <!-- 用户信息 -->
@@ -283,25 +271,25 @@ function startGuide() {
   border-bottom: none;
 }
 .header {
-  color: $nav-text-color-light;
+  color: var(--nav-text-color-light);
   font-size: 16px;
-  height: $header-height;
+  height: var(--header-height);
   &.dark {
-    background: $nav-bg-dark;
+    background: var(--nav-bg-dark);
   }
   &.light {
-    background: $nav-bg-light;
+    background: var(--nav-bg-light);
   }
   .fold-btn {
     cursor: pointer;
     margin-left: $gap;
     &.dark {
-      color: $color-text-heavy;
+      color: var(--color-text-heavy);
     }
     &.light {
     }
     &:hover {
-      color: $color-primary;
+      color: var(--color-primary);
     }
   }
 }
@@ -309,7 +297,7 @@ function startGuide() {
   cursor: pointer;
   padding: 0 $gap;
   font-size: normal;
-  font-size: $font-size-heavyer;
+  font-size: var(--font-size-heavyer);
 }
 .menu-nav {
   max-width: calc(100vw - 340px);
@@ -326,7 +314,7 @@ function startGuide() {
   }
 }
 .user-info {
-  margin-left: $gap-two;
+  margin-left: var(--gap-two);
   margin-right: $gap;
   .nickname {
     font-size: 14px;
@@ -345,7 +333,7 @@ function startGuide() {
   }
 }
 .breadcrumb-box {
-  height: $gap-two;
+  height: var(--gap-two);
   padding: 0 $gap-qtr;
 }
 </style>

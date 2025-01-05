@@ -109,17 +109,19 @@ provide("reloadView", reloadView);
   color: $nav-text-color-light;
   background: $nav-bg-dark-heavy;
   .logo {
-    height: $header-height;
+    height: var(--header-height);
   }
   .list {
     overflow: auto;
     padding-bottom: 4em;
     .item {
-      $bg-darker: color.mix($nav-bg-dark-heavy, #000000, 50%);
-      $bg-darkest: color.mix($nav-bg-dark-heavy, #000000, 0.01%);
+      // $bg-darker: color.mix($nav-bg-dark-heavy, #000000, 50%);
+      // $bg-darkest: color.mix($nav-bg-dark-heavy, #000000, 0.01%);
+      $bg-darker: color-mix(in srgb, var(--nav-bg-dark-heavy) 50%, #000000 50%);
+      $bg-darkest: color-mix(in srgb, var(--nav-bg-dark-heavy) 0.01%, #000000 99.99%);
       cursor: pointer;
       padding: $gap-half $gap-qtr;
-      width: $main-menu-width;
+      width: var(--main-menu-width);
       .tooltip-label {
         margin-top: $gap-qtr;
         font-size: $font-size-lighter;

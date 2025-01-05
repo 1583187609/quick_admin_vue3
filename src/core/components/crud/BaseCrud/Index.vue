@@ -7,7 +7,6 @@
     <QueryForm
       v-model="modelData"
       class="f-0"
-      :class="size"
       :disabled="disabled"
       :readonly="readonly"
       :fields="fields"
@@ -16,7 +15,6 @@
       :inputDebounce="inputDebounce"
       :grid="grid"
       :compact="compact"
-      :size="size"
       :rowNum="rowNum"
       :afterReset="handleAfterReset"
       v-bind="formAttrs"
@@ -29,7 +27,7 @@
         <slot :name="field.prop" :field="field" />
       </template>
     </QueryForm>
-    <div class="middle" :class="size" v-if="$slots.middle">
+    <div class="middle" v-if="$slots.middle">
       <slot name="middle" />
     </div>
     <div class="f-fs-fs">
@@ -39,7 +37,6 @@
         :totalAmount="pageInfo.total"
         :btns="newExtraBtns"
         :disabled="disabled"
-        :size="size"
         @click="onExtraBtns"
         v-if="newExtraBtns.length"
       />
@@ -49,7 +46,6 @@
         class="f-0"
         :class="newExtraBtns.length ? ' ml-o' : ' ml-a'"
         :disabled="disabled"
-        :size="size"
         v-if="showSetBtn"
       />
     </div>
@@ -292,41 +288,41 @@ function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
     return col;
   });
 }
-function getStandardColsNew(
-  { cols, operateBtns, currPage, pageSize, size }: CommonObj,
-  cb?: (maxLev: number, cols: TableColAttrs[]) => void
-): TableColAttrs[] {
-  let hasOperateCol = false;
-  let maxLevel = 0;
-  const filterCols = cols.filter(it => !!it);
-  const newCols = filterCols.map((originCol: any) => {
-    let { tpl, ...col } = originCol;
-    const { type, children } = col;
-    if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-    if (tpl) {
-      const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
-      col = merge(tplData, col);
-    }
-    // 将处理过模板的cols再处理下，新增操作列或处理序号列
-    let { col: newCol, level } = getColAndLevel(col, 1, size);
-    const { type: newType } = newCol;
-    if (newType === "operate") {
-      hasOperateCol = true;
-      newCol = { ...defaultTableColTpls.T_Operate, ...newCol };
-    } else if (newType === "index") {
-      if (currPage && pageSize && newCol.index === undefined) {
-        newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
-      }
-    }
-    if (level > maxLevel) maxLevel = level;
-    if (children?.length) (newCol as TableColAttrs).children = getStandardColsNew({ cols: children, operateBtns, currPage, pageSize, size }, cb);
-    return newCol;
-  });
-  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
-  cb?.(maxLevel, newCols);
-  // return newCols.filter(col => col.visible);
-  return newCols;
-}
+// function getStandardColsNew(
+//   { cols, operateBtns, currPage, pageSize, size }: CommonObj,
+//   cb?: (maxLev: number, cols: TableColAttrs[]) => void
+// ): TableColAttrs[] {
+//   let hasOperateCol = false;
+//   let maxLevel = 0;
+//   const filterCols = cols.filter(it => !!it);
+//   const newCols = filterCols.map((originCol: any) => {
+//     let { tpl, ...col } = originCol;
+//     const { type, children } = col;
+//     if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+//     if (tpl) {
+//       const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
+//       col = merge(tplData, col);
+//     }
+//     // 将处理过模板的cols再处理下，新增操作列或处理序号列
+//     let { col: newCol, level } = getColAndLevel(col, 1, size);
+//     const { type: newType } = newCol;
+//     if (newType === "operate") {
+//       hasOperateCol = true;
+//       newCol = { ...defaultTableColTpls.T_Operate, ...newCol };
+//     } else if (newType === "index") {
+//       if (currPage && pageSize && newCol.index === undefined) {
+//         newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
+//       }
+//     }
+//     if (level > maxLevel) maxLevel = level;
+//     if (children?.length) (newCol as TableColAttrs).children = getStandardColsNew({ cols: children, operateBtns, currPage, pageSize, size }, cb);
+//     return newCol;
+//   });
+//   if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
+//   cb?.(maxLevel, newCols);
+//   // return newCols.filter(col => col.visible);
+//   return newCols;
+// }
 let originCols: TableColAttrs[] = [];
 let dragSortable = false;
 const newCols = ref<TableColAttrs[]>([]);
@@ -604,15 +600,7 @@ defineExpose({
   width: 100%;
   .query-form,
   .middle {
-    &.large {
-      margin-bottom: $gap-large;
-    }
-    &.default {
-      margin-bottom: $gap-default;
-    }
-    &.small {
-      margin-bottom: $gap-small;
-    }
+    margin-bottom: var(--gap-half);
   }
 }
 </style>

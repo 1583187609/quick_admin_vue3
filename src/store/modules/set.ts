@@ -1,7 +1,7 @@
 import { computed, reactive, ref, watch } from "vue";
 import { defineStore } from "pinia";
 import { CommonObj, ShowCodes } from "@/core/_types";
-import { checkObjKeyError, defaultWidgetSize, showMessage, storage } from "@/utils";
+import { checkObjKeyError, defaultCommonSize, showMessage, storage } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 
 export type LayoutType = "vertical" | "classics" | "horizontal" | "columns";
@@ -41,7 +41,7 @@ export const defaultSet: DefaultSet = {
   //布局
   layout: {
     type: "columns",
-    size: defaultWidgetSize,
+    size: defaultCommonSize,
   },
   //语言
   language: {

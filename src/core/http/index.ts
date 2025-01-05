@@ -7,7 +7,9 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequ
 import { typeOf, isDev, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
 import { GetRequired } from "@/core/_types";
+
 let source: CancelTokenSource = axios.CancelToken.source();
+const enableMock = true; // 是否启用mock
 
 // 可选的自定义请求配置
 export interface CustomRequestConfig {
@@ -122,9 +124,9 @@ function fetch<T = any>(
 ): Promise<T> {
   method = method.toLowerCase();
   const cfg: NewAxiosRequestConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
-  const { isStringify = method === "get" } = customCfg;
+  const { isStringify } = customCfg;
   if (method === "get") {
-    if (isStringify) {
+    if (isStringify || enableMock) {
       // 将数组或对象字符串序列化
       for (const key in data) {
         const val = data[key];

@@ -69,7 +69,7 @@ export const baseTableColTypes: CommonObj = getExportData(
       prop: "$operate",
       label: "操作",
       type: "operate",
-      // minWidth: 250,
+      width: 220, // 按三个按钮计算的宽度（每个按钮均有图标，按钮文字均为两个字符）
       fixed: "right",
     },
     /*** 系统内置组件列 ***/

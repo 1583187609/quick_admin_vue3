@@ -1,9 +1,8 @@
 <template>
-  <div class="operate-btns table-operate-col" :class="[vertical ? 'f-c-c-c' : 'f-c-c', size]">
+  <div class="operate-btns table-operate-col" :class="[vertical ? 'f-c-c-c' : 'f-c-c']">
     <BaseBtn
       :tpl="btn"
       :data="row"
-      :size="size"
       class="btn"
       :class="[vertical ? 'vertical' : '']"
       v-bind="defaultBtnAttrs"
@@ -12,19 +11,11 @@
       :key="ind"
     />
     <el-dropdown :trigger="dropPopconfirm ? 'hover' : 'click'" :hide-on-click="dropPopconfirm" v-if="isOver">
-      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" :size="size" v-bind="defaultBtnAttrs"> 更多 </el-button>
+      <el-button class="more btn" :class="{ vertical }" :icon="ArrowDown" type="primary" v-bind="defaultBtnAttrs"> 更多 </el-button>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(btn, ind) in newBtns.slice(maxNum - 1)" :key="ind">
-            <BaseBtn
-              :tpl="btn"
-              :data="row"
-              :size="size"
-              class="btn"
-              :class="[vertical ? 'vertical' : '']"
-              v-bind="defaultBtnAttrs"
-              @click="handleClick"
-            />
+            <BaseBtn :tpl="btn" :data="row" class="btn" :class="[vertical ? 'vertical' : '']" v-bind="defaultBtnAttrs" @click="handleClick" />
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -37,11 +28,10 @@ import { computed } from "vue";
 import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { sortObjArrByKey, defaultGroupBtnsMaxNum, emptyStr } from "@/core/utils";
-import { BaseBtnType, BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
+import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import config from "@/config";
-import { CommonObj, CommonSize, FinallyNext, NextArgs } from "@/core/_types";
-import { defaultCommonSize } from "@/core/utils";
+import { CommonObj, NextArgs } from "@/core/_types";
 
 export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]);
 export interface OperateBtnsAttrs {
@@ -51,7 +41,6 @@ export interface OperateBtnsAttrs {
   small?: boolean; //是否小型
 }
 const defaultBtnAttrs = {
-  // size: "large",
   plain: true,
   text: true,
   // style: "padding: 0",
@@ -61,14 +50,12 @@ const props = withDefaults(
   defineProps<{
     btns?: BaseBtnType[];
     row?: CommonObj;
-    size?: CommonSize;
     maxNum?: number;
     vertical?: boolean;
     compact?: boolean;
     small?: boolean;
   }>(),
   {
-    size: defaultCommonSize,
     btns: () => [],
     maxNum: defaultGroupBtnsMaxNum,
     ...config?.BaseCrud?._components?.OperateBtns,
@@ -100,43 +87,15 @@ function handleClick(...args) {
       margin-left: 0 !important;
     }
   }
-  &.large {
-    .el-button {
-      + .el-button {
-        margin-left: $gap-large;
-      }
-    }
-    .btn {
-      padding: $gap-large;
-      &.more {
-        margin-left: $gap-large;
-      }
+  .el-button {
+    + .el-button {
+      margin-left: var(--gap-half);
     }
   }
-  &.default {
-    .el-button {
-      + .el-button {
-        margin-left: $gap-default;
-      }
-    }
-    .btn {
-      padding: $gap-default;
-      &.more {
-        margin-left: $gap-default;
-      }
-    }
-  }
-  &.small {
-    .el-button {
-      + .el-button {
-        margin-left: $gap-small;
-      }
-    }
-    .btn {
-      padding: $gap-small;
-      &.more {
-        margin-left: $gap-small;
-      }
+  .btn {
+    padding: var(--gap-half);
+    &.more {
+      margin-left: var(--gap-half);
     }
   }
 }

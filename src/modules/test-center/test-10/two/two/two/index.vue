@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div>测试10-2-2-2</div>
+  <div class="test-page q-page-view">测试10-2-2-2</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
@@ -30,4 +30,8 @@ importFile(paths).then((res: any) => console.log(res.default.name));
 //   console.log(file, "file-----------");
 // });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.test-page {
+  // padding: $gap-temp;
+}
+</style>

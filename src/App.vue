@@ -1,11 +1,14 @@
 <template>
-  <BasicPopup>
-    <RouterView />
-    <!-- 使用水印 -->
-    <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
-  </BasicPopup>
+  <BasicSkins>
+    <BasicPopup>
+      <RouterView />
+      <!-- 使用水印 -->
+      <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
+    </BasicPopup>
+  </BasicSkins>
 </template>
 <script lang="ts" setup>
+import BasicSkins from "@/core/components/BasicSkins/Index.vue";
 import BasicPopup from "@/core/components/BasicPopup/Index.vue";
 //后续添加的
 import { ref, watch } from "vue";

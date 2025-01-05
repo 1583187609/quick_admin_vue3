@@ -61,10 +61,10 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
  * @param baseBtnAttrs
  * @returns []
  */
-export function getTempGroupBtnsOfRow(row: CommonObj, rowInd: number, operateBtns?: BaseBtnType, baseBtnAttrs?: BtnsMap) {
+export function getStandardGroupBtns(row: CommonObj, rowInd: number, operateBtns?: BaseBtnType, baseBtnAttrs?: BtnsMap, isStand = false) {
   if (!operateBtns) return [];
   const isFn = typeOf(operateBtns) === "Function";
   const btns = isFn ? (operateBtns as any)(row, rowInd) : operateBtns;
-  const tempBtns = btns?.map((btn: BaseBtnType) => getBtnObj(btn, row, baseBtnAttrs))?.filter((it: BtnItem) => !!it.name);
-  return tempBtns ?? [];
+  if (!btns?.length) return [];
+  return btns.map((btn: BaseBtnType) => getBtnObj(btn, row, baseBtnAttrs))?.filter((it: BtnItem) => !!it.name);
 }

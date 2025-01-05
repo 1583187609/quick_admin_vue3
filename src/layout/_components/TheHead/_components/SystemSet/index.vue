@@ -13,13 +13,10 @@
     <template #layout_type>
       <LayoutStyle v-model="modelData.layout_type" />
     </template>
-    <template #theme_color>
-      <el-color-picker :predefine="colorList" @change="handleColorChange" v-model="modelData.theme_color" disabled />
-    </template>
   </SectionForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, inject } from "vue";
 import { useI18n } from "vue-i18n";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { CommonObj, OptionItem } from "@/core/_types";
@@ -30,6 +27,7 @@ import cssVars from "@/assets/styles/_var.module.scss";
 import { defaultSet } from "@/store/modules/set";
 import { useSetStore } from "@/store";
 
+const setSkin = inject<any>("setSkin");
 const i18n = useI18n();
 const { tm: $t } = i18n;
 const showHideSwitchAttrs = {
@@ -40,7 +38,7 @@ const showHideSwitchAttrs = {
 const colorList = [cssVars.colorPrimary, "#daa96e", "#0c819f", "#409eff", "#27ae60", "#ff5c93", "#e74c3c", "#fd726d", "#f39c12", "#9b59b6"];
 const sizeOpts: OptionItem[] = [
   { label: "大型", value: "large" },
-  { label: "中等", value: "medium" },
+  { label: "默认", value: "default" },
   { label: "小型", value: "small" },
   { label: "迷你", value: "mini" },
 ];
@@ -65,7 +63,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           type: "radio-group",
           attrs: {
             options: sizeOpts,
-            disabled: true,
+            // disabled: true,
           },
         },
         {
@@ -127,7 +125,15 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
     {
       title: $t("sysSet.theme.title"),
       fields: [
-        { prop: "theme_color", label: $t("sysSet.theme.themeColor.label"), type: "slot" },
+        {
+          prop: "theme_color",
+          label: $t("sysSet.theme.themeColor.label"),
+          type: "color-picker",
+          attrs: {
+            predefine: colorList,
+            disabled: true,
+          },
+        },
         {
           prop: "dark_mode",
           label: $t("sysSet.theme.darkMode.label"),
@@ -171,6 +177,7 @@ function getDefaultModel(set: CommonObj) {
 function handleChange(val: any, prop: string) {
   if (prop === "widget_size") {
     setStore.updateSet("layout", { size: val });
+    setSkin("orange", val);
   } else if (prop === "language") {
     i18n.locale.value = val;
     setStore.updateSet("language", { type: val });
@@ -184,14 +191,13 @@ function handleChange(val: any, prop: string) {
     setStore.updateSet("pageTags", { showIcon: val });
   } else if (prop === "footer") {
     setStore.updateSet("footer", { show: val });
+  } else if (prop === "theme_color") {
+    setStore.updateSet("theme", { themeColor: val });
   } else if (prop === "dark_mode") {
     setStore.updateSet("theme", { darkMode: val });
   } else if (prop === "unique_opened") {
     setStore.updateSet("menu", { uniqueOpened: val });
   }
-}
-function handleColorChange(val: string) {
-  setStore.updateSet("theme", { color: val });
 }
 function handleReset() {
   Object.assign(modelData, defaultModel);

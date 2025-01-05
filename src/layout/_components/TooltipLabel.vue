@@ -28,6 +28,6 @@ function handleMouseenter() {
 </script>
 <style lang="scss" scoped>
 .tooltip-label {
-  font-size: 12px;
+  // font-size: 12px;
 }
 </style>

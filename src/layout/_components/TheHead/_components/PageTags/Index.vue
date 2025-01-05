@@ -262,12 +262,12 @@ function addToRoutes(data: PageTagItemType) {
 </script>
 <style lang="scss" scoped>
 .page-tags {
-  height: $page-tags-height;
+  height: var(--page-tags-height);
   box-shadow: $shadow-main;
   background: #fff;
   .btn {
     color: $color-text-main;
-    height: $page-tags-height;
+    height: var(--page-tags-height);
     flex-basis: 30px;
     font-weight: bolder;
     &:hover {

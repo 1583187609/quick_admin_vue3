@@ -53,28 +53,13 @@ const modelData = computed<CommonObj>({
 </script>
 <style lang="scss">
 .form-item {
-  margin-bottom: $gap-half;
+  margin-bottom: var(--gap-half);
 }
 .query-field-item {
   .form-item {
-    margin-bottom: 0px;
-    &.large {
-      margin-bottom: $gap-large;
-      .el-form-item__label {
-        margin-left: $gap-large;
-      }
-    }
-    &.default {
-      margin-bottom: $gap-default;
-      .el-form-item__label {
-        margin-left: $gap-default;
-      }
-    }
-    &.small {
-      margin-bottom: $gap-small;
-      .el-form-item__label {
-        margin-left: $gap-small;
-      }
+    margin-bottom: var(--gap-half);
+    .el-form-item__label {
+      margin-left: var(--gap-half);
     }
   }
 }

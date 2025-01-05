@@ -22,10 +22,10 @@ const router = useRouter();
 </script>
 <style lang="scss" scoped>
 .asider {
-  color: $nav-text-color-light;
-  width: $asider-width;
+  color: var(--nav-text-color-light);
+  width: var(--asider-width);
   height: 100vh;
-  background: $nav-bg-dark;
+  background: var(--nav-bg-dark);
   &.fold {
     width: auto;
   }
@@ -34,7 +34,7 @@ const router = useRouter();
     padding: 0 $gap;
     font-size: 16px;
     font-weight: 500;
-    height: $header-height;
+    height: var(--header-height);
   }
 }
 </style>

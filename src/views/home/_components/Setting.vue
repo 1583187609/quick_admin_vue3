@@ -53,7 +53,7 @@ function handleClick(ind: number) {
   $size: 72px;
   right: $size * -0.45;
   // left: calc(100vw - 40px);
-  top: $header-height + $page-tags-height;
+  top: calc(var(--header-height) + var(--page-tags-height));
   z-index: 100;
   .icon {
     height: $size;

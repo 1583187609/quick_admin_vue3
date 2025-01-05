@@ -23,7 +23,7 @@
   }else if(rowInd % 3===1){
     return [{name: 'edit', text: '修改', order: 1000}, 'reject','delete','download','pass']
   }else if(rowInd % 3===2){
-    return [{name: 'zdy',text: '自定义按钮',attrs: { type: 'primary', icon: 'ElemeFilled' }}]
+    return [{name: 'custom_btn',text: '自定义按钮',attrs: { type: 'primary', icon: 'ElemeFilled' }}]
   }
 }"
 // 下方的 extraBtns 同 operateBtns 的规则
@@ -39,8 +39,7 @@
       v-model="modelData"
       :cols="cols"
       :fields="fields"
-      :sections="sections"
-      :importCfg="testImportCfg"
+      :sections="showFieldsBySection ? sections : undefined"
       :extraBtns="[
         'add',
         'delete',
@@ -67,7 +66,7 @@
           attrs: { icon: 'Link' },
         },
         {
-          name: 'zdy',
+          name: 'custom_btn',
           text: '自定义按钮',
           attrs: { type: 'primary', icon: ElemeFilled },
         },
@@ -85,10 +84,21 @@
       @extraBtns="onExtraBtns"
       @operateBtns="onOperateBtns"
       :fetch="GetMockCommon"
+      :key="showFieldsBySection"
       compact
       ref="baseCrudRef"
     >
-      <template #zdy>【这是自定义的搜索项】</template>
+      <template #custom_form_item>【这是自定义的搜索项】</template>
+      <template #middle>
+        <div class="f-sb-c">
+          <div class="ml-r">此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）</div>
+          <el-form-item label="查询条件是否分块展示" style="margin-bottom: 0">
+            <el-radio-group v-model="showFieldsBySection">
+              <el-radio v-bind="opt" v-for="(opt, ind) in getOpts('D_YesNoStatus')" :key="ind"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </div>
+      </template>
       <template #info_complete_children="{ row }">
         <InfoSteps :data="row" />
       </template>
@@ -133,7 +143,7 @@ import { TableCol, TableColAttrs } from "@/core/components/table/_types";
 import AddEdit from "./AddEdit.vue";
 import InfoSteps from "@/components/InfoSteps.vue";
 import AuthInfo from "@/components/AuthInfo.vue";
-import { usePopup, useSelectOpts } from "@/hooks";
+import { useDict, usePopup, useSelectOpts } from "@/hooks";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { useRoute, useRouter } from "vue-router";
@@ -146,31 +156,18 @@ import CustomPopover from "./_components/CustomPopover.vue";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 
-const tempRow = {
-  xm: "李四",
-  xb: 2,
-  nl: 26,
-  dhhm: "18483221518",
-  jgnr: "这是警告内容",
-};
-const testImportCfg = {
-  name: "测试导出的自定义下载模板",
-  cols: [
-    { prop: "userName", label: "用户姓名" },
-    { prop: "phone", label: "电话号码" },
-    { prop: "labelName", label: "标签名称" },
-  ],
-};
+const { getOpts } = useDict();
 const { openPopup } = usePopup();
 const route = useRoute();
 const router = useRouter();
 const baseCrudRef = ref<any>(null);
+const showFieldsBySection = ref(0); // 查询条件是否按分块显示
 const { type } = route.query;
 const isSimple = type === "simple";
 const { getSearchOpts } = useSelectOpts();
 //默认搜索值
 const modelData = reactive<CommonObj>({
-  xm: "张三",
+  user_name: "张三",
   multi_tag: [0],
   date_range_def_val: ["2023-08-19", "2023-08-27"],
   num_range_def_val: [10, 20],
@@ -178,11 +175,11 @@ const modelData = reactive<CommonObj>({
 //搜索表单
 const fields: FormFieldAttrs[] = [
   {
-    prop: "xm",
+    prop: "user_name",
     label: "姓名",
   },
   {
-    prop: "qyzt",
+    prop: "status",
     label: "启用状态",
     type: "select",
     attrs: {
@@ -190,7 +187,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "qqxl",
+    prop: "text_opts",
     label: "文本下拉",
     type: "select",
     attrs: {
@@ -207,7 +204,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "hsxl",
+    prop: "function_opts",
     label: "函数下拉",
     type: "select",
     attrs: {
@@ -215,7 +212,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "promxl",
+    prop: "promise_opts",
     label: "Promise下拉",
     type: "select",
     attrs: {
@@ -223,7 +220,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "qqxl",
+    prop: "fetch_opts",
     label: "请求下拉",
     type: "select",
     attrs: {
@@ -231,7 +228,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "ybhsxl",
+    prop: "async_function_opts",
     label: "异步函数下拉",
     type: "select",
     attrs: {
@@ -253,7 +250,7 @@ const fields: FormFieldAttrs[] = [
     },
   }),
   {
-    prop: "localCascader",
+    prop: "local_cascader",
     label: "写死级联",
     type: "cascader",
     attrs: {
@@ -270,7 +267,7 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "tree",
+    prop: "tree_opts",
     label: "树形下拉",
     type: "tree-select",
     attrs: {
@@ -308,7 +305,7 @@ const fields: FormFieldAttrs[] = [
     type: "date-picker",
   },
   {
-    prop: "zdy",
+    prop: "custom_form_item",
     label: "自定义",
     type: "slot",
     quickAttrs: {
@@ -738,7 +735,6 @@ function onOperateBtns(name: BtnName, row: CommonObj, next: FinallyNext) {
 }
 //新增/编辑
 async function handleAddEdit(row: CommonObj | null, next: FinallyNext) {
-  if (row) row = tempRow;
   openPopup(
     `${row ? "编辑" : "新增"}`,
     [AddEdit, { data: row, refreshList: next }]

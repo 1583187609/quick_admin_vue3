@@ -50,6 +50,7 @@ const props = withDefaults(
     auth?: number[]; // 权限
     popconfirm?: boolean | PopconfirmAttrs;
     isDebounce?: boolean; // 是否对点击做防抖处理
+    isStand?: boolean; // 是否是标准的按钮属性对象，如果是，则不用再次处理了（用作性能优化场景）
     /**
      * 功能扩展属性
      */
@@ -82,7 +83,10 @@ const $emit = defineEmits<{
   click: [BtnName, EndBtnItem, FinallyNext, Event];
   change: [BtnName, any, FinallyNext, Event]; // 第二个参数any是导入文件时候的 change 事件接收到的数据
 }>();
-const newBtn = computed<EndBtnItem>(() => getBtnObj(props.tpl, undefined, { attrs: $attrs }));
+const newBtn = computed<EndBtnItem>(() => {
+  const { isStand, tpl } = props;
+  return isStand ? tpl : getBtnObj(tpl, undefined, { attrs: $attrs });
+});
 // 处理点击事件
 function handleClick(e: Event) {
   const { name, to, text, handleClickType: clickType } = newBtn.value;

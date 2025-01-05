@@ -1,8 +1,8 @@
 <!-- 设置按钮 -->
 <template>
-  <div class="set-btns" :class="size">
+  <div class="set-btns">
     <el-tooltip :content="btn.title" v-bind="defaultTooltipAttrs" v-for="(btn, ind) in newToolBtns" :key="ind">
-      <el-button :size="size" :disabled="disabled" @click="onToolBtn(btn.name)" v-bind="btn.attrs" />
+      <el-button :disabled="disabled" @click="onToolBtn(btn.name)" v-bind="btn.attrs" />
     </el-tooltip>
   </div>
 </template>
@@ -56,14 +56,12 @@ const props = withDefaults(
   defineProps<{
     cols: TableColAttrs[];
     originCols: TableColAttrs[];
-    size?: CommonSize;
     toolBtns?: string[];
     disabled?: boolean;
   }>(),
   {
     cols: () => [],
     originCols: () => [],
-    size: defaultCommonSize,
     toolBtns: () => ["print", "set"], // "set" "print",
     ...config?.BaseCrud?._components?.SetBtns,
   }
@@ -84,7 +82,6 @@ function onToolBtn(name: ToolBtnName) {
 }
 // 打开列设置弹窗
 function openColSetDrawer() {
-  const { size } = props;
   const rows = newCols.value.map(item => {
     const { prop, label, type, sortable = false, visible, exportable } = item;
     return {
@@ -102,7 +99,6 @@ function openColSetDrawer() {
       SetTable,
       {
         rows,
-        size,
         onChange: handleChange,
         onSubmit: handleSubmit,
         onReset: handleReset,
@@ -131,14 +127,6 @@ function handleReset() {
 </script>
 <style lang="scss" scoped>
 .set-btns {
-  &.large {
-    margin-bottom: $gap-large;
-  }
-  &.default {
-    margin-bottom: $gap-default;
-  }
-  &.small {
-    margin-bottom: $gap-small;
-  }
+  margin-bottom: var(--gap-half);
 }
 </style>

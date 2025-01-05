@@ -14,7 +14,7 @@ import { TableCol, TableColAttrs } from "@/core/components/table/_types";
 import { defaultColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
-import { getTempGroupBtnsOfRow } from "@/core/components/crud/BaseCrud";
+import { getStandardGroupBtns } from "@/core/components/crud/BaseCrud";
 import { SpecialTableColType } from "@/core/components/table/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { filterBtnsByAuth } from "@/core/components/crud/_utils";
@@ -25,7 +25,7 @@ const { merge } = _;
 export const operateBtnsEmitName = "operateBtns";
 
 //获取操作栏的宽度
-const { gapLarge, gapDefault, gapSmall } = cssVars;
+const { gapLarge = "8px", gapDefault = "6px", gapSmall = "4px" } = cssVars;
 const sizeMap = {
   large: {
     fontSize: 14,
@@ -83,7 +83,7 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
 //获取每一行的分组按钮
 export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: CommonObj) {
   const { operateBtns, filterByAuth } = props;
-  const tempBtns = getTempGroupBtnsOfRow(row, $rowInd, operateBtns);
+  const tempBtns = getStandardGroupBtns(row, $rowInd, operateBtns);
   return filterBtnsByAuth(tempBtns, filterByAuth);
 }
 
@@ -93,7 +93,7 @@ export function getOperateBtns(row: CommonObj, rowInd: number, props: CommonObj,
   const { operateBtns, data, operateBtnsAttrs, filterByAuth, disabled, size } = props;
   if (!operateBtns?.length) return []; // 如果没有操作栏按钮，直接返回
   const btnAttrs = { attrs: { disabled } };
-  const tempBtns = getTempGroupBtnsOfRow(row, rowInd, operateBtns, btnAttrs);
+  const tempBtns = getStandardGroupBtns(row, rowInd, operateBtns, btnAttrs);
   const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
   // 已手动设置操作栏宽度，则无需处理操作栏的宽度，直接返回
   if (operateCol?.width) return filterBtns;

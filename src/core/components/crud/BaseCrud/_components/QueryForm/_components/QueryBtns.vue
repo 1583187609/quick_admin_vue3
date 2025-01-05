@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <el-col class="query-btns f-fe-fs ml-a" :class="{ compact, [size]: true }">
+  <el-col class="query-btns f-fe-fs ml-a">
     <el-button type="primary" :icon="Search" v-debounce.immediate="() => $emit('submit')" :disabled="loading" :loading="loading">
       {{ $t("base.button.search") }}
     </el-button>
@@ -17,9 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { RefreshLeft } from "@element-plus/icons-vue";
-import { defaultCommonSize } from "@/core/utils";
-import { CommonSize } from "@/core/_types";
-import { Loading, Search, ArrowDown } from "@element-plus/icons-vue";
+import { Search, ArrowDown } from "@element-plus/icons-vue";
 
 const props = withDefaults(
   defineProps<{
@@ -27,11 +25,9 @@ const props = withDefaults(
     loading?: boolean;
     showFoldBtn?: boolean;
     compact?: boolean;
-    size?: CommonSize;
   }>(),
   {
     isFold: true,
-    size: defaultCommonSize,
   }
 );
 const $emit = defineEmits(["submit", "reset", "fold"]);
@@ -39,31 +35,11 @@ const $emit = defineEmits(["submit", "reset", "fold"]);
 <style lang="scss">
 .query-btns {
   display: flex;
-  &.large {
-    margin-bottom: $gap-large;
-    .el-button {
-      padding: 0 $gap-large;
-      + .el-button {
-        margin-left: $gap-large;
-      }
-    }
-  }
-  &.default {
-    margin-bottom: $gap-default;
-    .el-button {
-      padding: 0 $gap-default;
-      + .el-button {
-        margin-left: $gap-default;
-      }
-    }
-  }
-  &.small {
-    margin-bottom: $gap-small;
-    .el-button {
-      padding: 0 $gap-small;
-      + .el-button {
-        margin-left: $gap-small;
-      }
+  margin-bottom: var(--gap-half);
+  .el-button {
+    padding: 0 var(--gap-half);
+    + .el-button {
+      margin-left: var(--gap-half);
     }
   }
   // &.compact {

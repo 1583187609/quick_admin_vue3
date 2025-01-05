@@ -2,112 +2,6 @@
 @use "./_var.scss";
 @use "./_animation.scss";
 
-/**
-* 基础css变量
-*/
-:root {
-  /* dialog 相关 */
-  --dialog-top: $dialog-top;
-
-  /* layout相关 */
-  --nav-bg-dark-heavy: $nav-bg-dark-heavy;
-  --nav-bg-dark: $nav-bg-dark;
-  --nav-bg-light: $nav-bg-light;
-  --nav-text-color-light: $nav-text-color-light;
-  --nav-text-color-dark: $nav-text-color-dark;
-  --header-height: $header-height;
-  --asider-width: $asider-width;
-  --main-menu-width: $main-menu-width;
-
-  /* 间距相关 */
-  --gap-qtr: $gap-qtr;
-  --gap-half: $gap-half;
-  --gap: $gap;
-  --gap-one-half: $gap-one-half;
-  --gap-two: $gap-two;
-
-  /* 主题颜色 */
-  --color-primary: $color-primary;
-  --color-danger: $color-danger;
-  --color-info: $color-info;
-  --color-success: $color-success;
-  --color-warning: $color-warning;
-
-  /* 文字颜色 */
-  --color-text-heavyer: $color-text-heavyer;
-  --color-text-heavy: $color-text-heavy;
-  --color-text-main: $color-text-main;
-  --color-text-light: $color-text-light;
-  --color-text-lighter: $color-text-lighter;
-
-  /* 背景颜色 */
-  --color-bg-heavyest: $color-bg-heavyest;
-  --color-bg-heavyer: $color-bg-heavyer;
-  --color-bg-heavy: $color-bg-heavy;
-  --color-bg-main: $color-bg-main;
-  --color-bg-light: $color-bg-light;
-  --color-bg-lighter: $color-bg-lighter;
-  --color-bg-white: $color-bg-white;
-
-  /* 边框颜色 */
-  --color-border-heavyer: $color-border-heavyer;
-  --color-border-heavy: $color-border-heavy;
-  --color-border-main: $color-border-main;
-  --color-border-light: $color-border-light;
-  --color-border-lighter: $color-border-lighter;
-
-  /* 边框简写 */
-  --border-heavyer: $border-heavyer;
-  --border-heavy: $border-heavy;
-  --border-main: $border-main;
-  --border-light: $border-light;
-  --border-lighter: $border-lighter;
-
-  /* 边框圆角 */
-  --radius-heavyer: $radius-heavyer;
-  --radius-heavy: $radius-heavy;
-  --radius-main: $radius-main;
-  --radius-light: $radius-light;
-  --radius-lighter: $radius-lighter;
-
-  /* 盒子高度 */
-  --height-heavyester: $height-heavyester;
-  --height-heavyest: $height-heavyest;
-  --height-heavyer: $height-heavyer;
-  --height-heavy: $height-heavy;
-  --height-main: $height-main;
-  --height-light: $height-light;
-  --height-lighter: $height-lighter;
-  --height-lightest: $height-lightest;
-  --height-lightester: $height-lightester;
-
-  /* 文本行高 */
-  --line-height-heavyest: $line-height-heavyest;
-  --line-height-heavyer: $line-height-heavyer;
-  --line-height-heavy: $line-height-heavy;
-  --line-height-main: $line-height-main;
-  --line-height-light: $line-height-light;
-  --line-height-lighter: $line-height-lighter;
-  --line-height-lightest: $line-height-lightest;
-
-  /* 字体大小 */
-  --font-size-heavyester: $font-size-heavyester;
-  --font-size-heavyest: $font-size-heavyest;
-  --font-size-heavyer: $font-size-heavyer;
-  --font-size-heavy: $font-size-heavy;
-  --font-size-main: $font-size-main;
-  --font-size-light: $font-size-light;
-  --font-size-lighter: $font-size-lighter;
-
-  /* 盒子阴影 */
-  --shadow-heavy: $shadow-heavy;
-  --shadow-main: $shadow-main;
-  --shadow-light: $shadow-light;
-
-  /* 动画过渡 */
-  --transition-time-main: $transition-time-main;
-}
-
 /*
 * 重置样式
 * 1、使用阿里 reset.css
@@ -431,12 +325,12 @@ $flexDirection: (
   c: column,
   // r: row,
   // rr: row-reverse,
-  // cr: column-reverse,,,,,
+  // cr: column-reverse,,,,,,,,
 );
 $flexWrap: (
   w: wrap,
   // n: nowrap,
-  // wr: wrap-reverse,,,,,
+  // wr: wrap-reverse,,,,,,,,
 );
 //下面的太多了，且用的少，故不生成
 // $alignContent: (

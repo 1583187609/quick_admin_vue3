@@ -78,14 +78,6 @@ import { useDict, useFormAttrs } from "@/hooks";
 import { DictName } from "@/dict/_types";
 import { FormFieldAttrs } from "../FieldItem/_types";
 import { useAttrs } from "vue";
-// import _ from "lodash";
-
-// import { useFormItem } from "element-plus";
-// const { formItem } = useFormItem();
-// console.log(formItem, "formItem?.readonly,-------------");
-// const { label, labelWidth, size, rules, prop } = formItem;
-
-// const { merge } = _;
 const props = withDefaults(
   defineProps<{
     modelValue?: any;

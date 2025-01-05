@@ -1,43 +1,37 @@
 <template>
   <div class="extra-btns f-fs-fs-w">
-    <BaseBtn :tpl="btn" class="btn-item" :class="size" @click="(...args) => $emit('click', ...args)" v-for="(btn, ind) in newBtns" :key="ind" />
+    <BaseBtn :tpl="btn" isStand @click="(...args) => $emit('click', ...args)" v-for="(btn, ind) in newBtns" :key="ind" />
   </div>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
 import { sortObjArrByKey } from "@/core/utils";
-import { BaseBtnType } from "@/core/components/BaseBtn/_types";
+import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import config from "@/config";
-import { CommonSize } from "@/core/_types";
-import { defaultCommonSize } from "@/core/utils";
 
 const props = withDefaults(
   defineProps<{
-    size?: CommonSize;
     btns?: BaseBtnType[];
+    isStand?: boolean;
   }>(),
-  Object.assign(
-    {
-      size: defaultCommonSize,
-      btns: () => [],
-    },
-    config?.BaseCrud?._components?.ExtraBtns
-  )
+  {
+    btns: () => [],
+    isStand: true,
+    ...config?.BaseCrud?._components?.ExtraBtns,
+  }
 );
 const $emit = defineEmits(["click"]);
-const newBtns = computed(() => sortObjArrByKey(props.btns.map(btn => getBtnObj(btn))));
+const newBtns = computed(() => {
+  const { isStand, btns } = props;
+  return sortObjArrByKey(isStand ? (btns as BtnItem[]) : btns.map(btn => getBtnObj(btn)));
+});
 </script>
 <style lang="scss" scoped>
-.btn-item {
-  &.large {
-    margin-bottom: $gap-large;
-  }
-  &.default {
-    margin-bottom: $gap-default;
-  }
-  &.small {
-    margin-bottom: $gap-small;
-  }
+.extra-btns {
+  padding-bottom: var(--gap-half);
+}
+.base-btn {
+  margin-bottom: var(--gap-half);
 }
 </style>

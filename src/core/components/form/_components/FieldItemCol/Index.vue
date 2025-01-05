@@ -7,7 +7,7 @@
       :inputDebounce="inputDebounce"
       :hideLabel="hideLabel"
       :formRef="formRef"
-      v-bind="formAttrs"
+      v-bind="$attrs"
     >
       <template #custom="scope">
         <slot name="custom" v-bind="scope" />

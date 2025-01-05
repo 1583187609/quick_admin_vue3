@@ -1,0 +1,42 @@
+/** 公共属性 **/
+:root {
+  /* 动画过渡 */
+  --transition-time-main: $transition-time-main;
+}
+// 语法示例
+.css-var-demo {
+  width: calc(var(--base-size) * 5); // 乘法
+  // 下列的sass写法和css原生写法是等价的
+  // $bg-darker: color.mix($nav-bg-dark-heavy, #000000, 50%);
+  // $bg-darkest: color.mix($nav-bg-dark-heavy, #000000, 0.01%);
+  // 矩形颜色空间。srgb、srgb-linear、lab、oklab、xyz、xyz-d50、xyz-d65。
+  // 极性颜色空间 。hsl、hwb、lch、oklch。
+  // $bg-darker: color-mix(in srgb, var(--nav-bg-dark-heavy) 100%, #000000 50%);
+  // $bg-darkest: color-mix(in srgb, var(--nav-bg-dark-heavy) 100%, #000000 0.01%);
+}
+
+// :root {
+//   --padding-base: 10px;
+//   --padding-multiplier-2x: 2;
+//   --padding-multiplier-3x: 3;
+// }
+
+// .element-2x-padding {
+//   padding: calc(var(--padding-base) * var(--padding-multiplier-2x));
+// }
+
+// .element-3x-padding {
+//   padding: calc(var(--padding-base) * var(--padding-multiplier-3x));
+// }
+
+// window.onload = function() {
+//   var basePadding = 10; // px
+//   var multiplier2x = 2;
+//   var multiplier3x = 3;
+//   var element = document.querySelector('.element-2x-padding');
+//   element.style.setProperty('--computed-padding', basePadding * multiplier2x + 'px');
+//   element.style.padding = 'var(--computed-padding)';
+//   var element = document.querySelector('.element-3x-padding');
+//   element.style.setProperty('--computed-padding', basePadding * multiplier3x + 'px');
+//   element.style.padding = 'var(--computed-padding)';
+// }

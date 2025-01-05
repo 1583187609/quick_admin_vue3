@@ -1,7 +1,6 @@
 <template>
   <el-form
     class="query-form"
-    :class="{ compact, [size]: true }"
     :model="formData"
     v-bind="defaultFormAttrs"
     @keyup.enter="handleSubmit"
@@ -39,7 +38,6 @@
               </template>
             </QueryFields>
             <QueryBtns
-              :size="size"
               :compact="compact"
               :loading="loading"
               :isFold="isFold"
@@ -66,7 +64,6 @@
           </template>
         </QueryFields>
         <QueryBtns
-          :size="size"
           :compact="compact"
           :loading="loading"
           :isFold="isFold"
@@ -289,15 +286,7 @@ defineExpose({
   border-radius: $radius-main;
   background: #fff;
   @include shadow-main();
-  &.large {
-    padding: $gap-large $gap-large 0 0;
-  }
-  &.default {
-    padding: $gap-default $gap-default 0 0;
-  }
-  &.small {
-    padding: $gap-small $gap-small 0 0;
-  }
+  padding: var(--gap-half) var(--gap-half) 0 0;
   // //是否是紧凑型
   // &.compact {
   //   :deep(.el-form-item__label) {
