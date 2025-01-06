@@ -15,7 +15,6 @@ const config = {
     defaultType: "dialog",
   },
   form: {
-    emptyTime: "1000-01-01 00:00:00",
     defaultFormItemType: "input",
     // defaultDateShortcuts: [],
     // defaultDateRangeShortcuts: [],
@@ -105,8 +104,8 @@ const config = {
       //   has_more: "hasMore",
       //   records: "list",
       // }),
-      filterByAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
-      // filterByAuth: (auth: number[]) => true,
+      handleAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
+      // handleAuth: (auth: number[]) => true,
       //跟下面的size  small 搭配使用
       // grid: () => ({
       //   xs: 12,

@@ -38,7 +38,7 @@ import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getOperateBtns } from "./_utils";
 import { defaultCommonSize } from "@/core/utils";
-import { FilterByAuthFn } from "../crud/BaseCrud/_types";
+import { HandleButtonAuth } from "../crud/BaseCrud/_types";
 
 const props = withDefaults(
   defineProps<{
@@ -54,7 +54,7 @@ const props = withDefaults(
      */
     showSummary?: boolean; // 是否显示汇总行
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
-    filterBtnsByAuth?: (btns: BtnItem[], filterByAuth?: FilterByAuthFn) => BtnItem[];
+    filterBtnsByAuth?: (btns: BtnItem[], handleAuth?: HandleButtonAuth) => BtnItem[];
     /**
      * 操作栏属性
      */

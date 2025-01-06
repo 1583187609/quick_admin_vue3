@@ -1,14 +1,13 @@
 import { FormField, FormFieldAttrs, FormTplType, Grid } from "@/core/components/form/_types";
 import { typeOf, propsJoinChar } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
-import { handleFormInitData } from "@/core/utils";
 import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "./_components/FieldItem";
-import { FootBtn, FootBtnAttrs } from "./_components/FooterBtns.vue";
+import { FootBtn } from "./_components/FooterBtns.vue";
 import { getBtnObj } from "../BaseBtn";
 import { BtnItem, BtnName } from "../BaseBtn/_types";
 import _ from "lodash";
 
-const { merge, snakeCase } = _;
+const { merge } = _;
 /**
  * 获取AddDel分组的每个数组项对象数据
  * @param fields 每个组的字段集和
@@ -55,7 +54,6 @@ export function getAddDelItem(fields?: FormField[]) {
 //     }
 //     const { type, prop = tpl, children } = field;
 //     const propType = typeOf(prop);
-//     handleFormInitData(field as FormFieldAttrs, modelValue);
 //     if (propType === "String") {
 //       let defVal = modelValue?.[prop as string];
 //       //是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题
@@ -138,7 +136,6 @@ export function getHandleFields(
     const field = getStandardFieldAttrs(originField, tplType);
     const { type, prop } = field;
     const t = typeOf(prop);
-    handleFormInitData(field as FormFieldAttrs, modelValue);
     if (t === "String") {
       let val = modelValue?.[prop as string];
       if (type === "checkbox" && val === undefined) val = false; // 是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题

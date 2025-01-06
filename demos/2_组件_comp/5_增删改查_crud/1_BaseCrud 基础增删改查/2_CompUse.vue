@@ -1,5 +1,5 @@
 <!-- summary 组件用法
-  内置组件：BaseTag、BaseImg、BaseText、BaseCopy、OperatorTime
+  内置组件：BaseTag、BaseImg、BaseText、BaseCopy、UserTime
   内嵌组件：UserInfo
   表单控件：el-input，el-switch等，并对el-switch，el-select等做了特殊处理
 -->

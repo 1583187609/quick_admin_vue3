@@ -73,12 +73,6 @@ export const baseTableColTypes: CommonObj = getExportData(
       fixed: "right",
     },
     /*** 系统内置组件列 ***/
-    // 操作人/操作时间
-    T_OperatorTime: {
-      prop: "operator_time",
-      label: "操作人/时间", // 含创建/更新两种类型（或更多其他类型）
-      type: "OperatorTime",
-    },
     //是否启用状态
     T_BaseTag: {
       prop: "status",
@@ -177,17 +171,25 @@ export const defaultTableColTpls: CommonObj = {
   // dateTime: { minWidth: 160 },
   //创建人/创建列
   T_Create: {
-    prop: ["create_user", "create_time"],
+    prop: "create_time",
     label: "创建时间",
     minWidth: 160,
-    type: "OperatorTime",
+    type: "UserTime",
+    attrs: {
+      userProp: "create_user",
+      timeProp: "create_time",
+    },
   },
   //修改人/修改时间列
   T_Update: {
-    prop: ["update_user", "update_time"],
+    prop: "update_time",
     label: "修改时间",
     minWidth: 160,
-    type: "OperatorTime",
+    type: "UserTime",
+    attrs: {
+      userProp: "update_user",
+      timeProp: "update_time",
+    },
   },
   // 备注列
   T_Remark: {

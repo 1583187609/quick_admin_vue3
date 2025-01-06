@@ -8,7 +8,7 @@
     <el-table-column v-bind="bindAttrs" v-if="type && ['index', 'selection'].includes(type)" />
     <template v-else>
       <el-table-column v-bind="bindAttrs" v-if="children?.length">
-        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(col)" :key="key">
+        <template #[key]="scope" v-for="(val, key) in getTableColSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
             <QuestionPopover :popover="quickAttrs?.popover" :size="size" v-if="quickAttrs?.popover" />
@@ -30,7 +30,7 @@
         </Column>
       </el-table-column>
       <el-table-column v-bind="bindAttrs" v-else>
-        <template #[key]="scope" v-for="(val, key) in getTableColumnSlots(col)" :key="key">
+        <template #[key]="scope" v-for="(val, key) in getTableColSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
             <QuestionPopover :popover="quickAttrs?.popover" :size="size" v-if="quickAttrs?.popover" />
@@ -56,8 +56,8 @@
             </BaseCopy>
             <!-- 自定义列 -->
             <slot name="custom" v-bind="{ row, column, $index, col }" v-else-if="type === 'slot'" />
-            <!-- 创建和修改列 -->
-            <OperatorTime :prop="prop!" :data="row" v-else-if="type === 'OperatorTime'" />
+            <!-- 用户时间列（例：创建时间、修改时间） -->
+            <UserTime :prop="prop" :data="row" v-bind="attrs" v-else-if="type === 'UserTime'" />
             <!-- 操作栏按钮列 -->
             <OperateBtns
               :size="size"
@@ -68,7 +68,11 @@
               v-else-if="type === 'operate'"
             />
             <!-- 内嵌自定义表单列，例：UserInfo -->
-            <InsertCustomTableColComps :col="col" :row="{ ...row, $index }" v-else-if="getIsInnerComponent(type as InsertTableColCompsType)" />
+            <InsertCustomTableColComps
+              :col="col"
+              :row="{ ...row, $index }"
+              v-else-if="getIsInnerComponent(type as InsertTableColCompsType)"
+            />
             <!-- 内嵌表单控件列 -->
             <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-else />
           </template>
@@ -78,7 +82,7 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { propsJoinChar, deleteAttrs, renderValue, getTableColumnSlots, defaultCommonSize, isOptimization } from "@/core/utils";
+import { propsJoinChar, deleteAttrs, renderValue, getTableColSlots, defaultCommonSize, isOptimization } from "@/core/utils";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import OperateBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
@@ -87,7 +91,7 @@ import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColCo
 import config from "@/config";
 import { CommonObj, CommonSize, NextArgs } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
-import OperatorTime from "./OperatorTime.vue";
+import UserTime from "./UserTime.vue";
 import { Sort } from "@element-plus/icons-vue";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import MarkIcon from "@/core/components/MarkIcon.vue";

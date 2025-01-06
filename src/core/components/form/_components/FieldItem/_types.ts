@@ -92,6 +92,8 @@ export interface FormFieldAttrs {
   attrs?: {
     options?: DictName | OptionItem[]; //select、cascader等的options属性
     placeholder?: string;
+    disabled?: boolean; // 是否禁用
+    readonly?: boolean; // 是否只读
     fetchSuggestions?: (queryStr: string, cb: any) => void; //autocomplete 时候的参数
     slots?: CommonSlots; // 各个控件的插槽
     [key: string]: any;
@@ -103,8 +105,6 @@ export interface FormFieldAttrs {
     example?: string; // 示例，写在placeholder中的示例文本
     popover?: PopoverType; // ElementPlus 的 popover组件
     pureText?: boolean; // 是否纯文本展示
-    disabled?: boolean; // 是否禁用
-    readonly?: boolean; // 是否只读
     before?: BaseRenderData; // 字段前面拼接的内容，可以是文本、组件等
     after?: BaseRenderData; // 字段后面拼接的内容，可以是文本、组件等
     middleFlexGrow?: StrNum; // 中间项的弹性伸缩值，默认1，即：flex-grow: 1,可选值为0~3，为其他值时不会生效。当出现 before 或 after 时，该属性才会生效。

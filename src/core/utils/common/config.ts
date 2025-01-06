@@ -21,10 +21,12 @@ export const defaultPopupType = getExportData("dialog", popup?.defaultType); // 
 export const defaultHomePath = getExportData("/", homePath); // 首页路径
 export const defaultWidgetSize = getExportData("medium", widgetSize); // 控件大小
 export const defaultCommonSize = "default"; // getExportData("default", form?.defaultCommonSize);
+export const defaultTableColDateFormat = "YYYY-MM-DD HH:mm:ss"; // 表格列的日期格式
+// export const defaultFormItemDateFormat = "YYYY-MM-DD"; // 表单项的日期格式
+// export const defaultFormItemDateValueFormat = "YYYY-MM-DD"; // 表单项的日期值的格式（作为参数传递时）
 export const defaultPagination = { currPage: 1, pageSize: 20 };
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
-export const emptyTime = getExportData("", form?.emptyTime, "alert"); //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
 
 export const defaultReqMap: ReqMap = {
   curr_page: "curr_page",
@@ -89,7 +91,6 @@ export const defaultDrawerAttrs = {
 //   defaultCommonSize: getExportData("default", form?.defaultCommonSize),
 //   defaultGroupBtnsMaxNum: getExportData(3, table?.defaultGroupBtnsMaxNum),
 //   defaultFormItemType: getExportData("input", form?.defaultFormItemType),
-//   emptyTime: getExportData("", form?.emptyTime, "alert"), //本应该为空的默认时间（当出现此值时，说明此时间应该为空）
 
 //   defaultReqMap: {
 //     curr_page: "curr_page",

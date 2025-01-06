@@ -5,6 +5,7 @@ afterFail
 afterReset
 extraParams（额外参数）
 单双prop
+format为true或为字符串（YYYY-MM-DD HH:mm:ss）或为标准的 formatter 函数
 一次性统一处理
 -->
 <template>

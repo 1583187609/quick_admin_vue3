@@ -28,7 +28,7 @@ export interface CrudProps {
   // omits?: boolean; //是否剔除掉undefined, ''的属性值
   // changeFetch?: boolean; //是否onChang之后就发送请求（仅限于Select类组件，不含Input类组件）
   // inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
-  // filterByAuth?: FilterByAuthFn;
+  // handleAuth?: HandleButtonAuth;
   // grid?: Grid;
   // compact?: boolean; //表单项之间排列是否紧凑点
   // size?: CommonSize;

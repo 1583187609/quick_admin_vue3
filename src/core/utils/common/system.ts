@@ -5,7 +5,7 @@
 import { ThemeColorType, emptyStr, needParam, typeOf } from "@/core/utils";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import { CommonObj, GetRequired, OptionItem, StrNum } from "@/core/_types";
-import { emptyVals, emptyTime } from "@/utils";
+import { emptyVals } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -101,29 +101,6 @@ export function getTimeAgo(time: any = needParam()) {
   const m = Math.floor(time / 60);
   if (m > 0) return `${m}分钟前`;
   return "刚刚";
-}
-
-/**
- * 处理平台默认值问题 Form echo data
- * @param {FormFieldAttrs} field 要处理的字段
- * @param {CommonObj} modelValue 字段值
- * @tips 后端的数据库日期必须有一个默认值，回显的时候会显示这个默认值，因为数据量较多，改动较大，所以由前端统一处理
- */
-export function handleFormInitData(field: FormFieldAttrs, modelValue?: CommonObj) {
-  if (!modelValue || emptyVals.includes(emptyTime)) return;
-  const { type, prop } = field;
-  const propType = typeOf(prop);
-  if (type?.includes("date")) {
-    if (propType === "String") {
-      if (modelValue[prop as string] === emptyTime) modelValue[prop as string] = "";
-      return;
-    }
-    if (propType === "Array") {
-      (prop as string[]).forEach((key: string) => {
-        if (modelValue[key] === emptyTime) modelValue[key] = "";
-      });
-    }
-  }
 }
 
 /**

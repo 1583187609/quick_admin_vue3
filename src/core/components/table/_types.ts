@@ -62,7 +62,6 @@ export type TableColTplTypes =
   | "T_BaseImg"
   | "T_BaseText"
   | "T_BaseCopy"
-  | "T_OperatorTime"
   | "T_Operate"
   | "T_Id"
   | "T_Remark"
@@ -79,7 +78,7 @@ export type TableColType =
   | "BaseImg"
   | "BaseText"
   | "BaseCopy"
-  | "OperatorTime" // "create" "update"
+  | "UserTime" // 可用于创建时间、修改时间列
   | "slot"
   | "operate"
   | InsertTabColFormType
@@ -88,12 +87,17 @@ export type TableColType =
 // export type TableIndexType = boolean | number | ((rowInd: number) => number);
 // export type TableSelectableType = boolean | ((row: any, rowInd: number) => boolean);
 // export type TableDragSortType = boolean; // | UniteFetchType;
-
+export type FormatterFn = (
+  row: CommonObj,
+  column?: TableColumnCtx<any>,
+  cellValue?: any,
+  index?: number
+) => string | VNode<RendererNode, RendererElement, { [key: string]: any }>;
 // 基础表格
 export interface TableColAttrs {
   tpl?: TableColTplTypes; // 模板类型
   type?: TableColType; // 列类型
-  prop?: string | [string, string];
+  prop?: string;
   label?: string;
   width?: StrNum;
   minWidth?: StrNum;
@@ -105,14 +109,9 @@ export interface TableColAttrs {
   sortable?: boolean | "custom"; //是否启用排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
   exportable?: boolean; // 是否可导出
   visible?: boolean; // 是否可见
-  formatter?: (
-    row: CommonObj,
-    column?: TableColumnCtx<any>,
-    cellValue?: any,
-    index?: number
-  ) => string | VNode<RendererNode, RendererElement, { [key: string]: any }>;
+  formatter?: BaseDataType | FormatterFn; // el-table-column 的 formatter 函数，并扩展了日期格式功能（默认为YYYY-MM-DD HH:mm:ss，true 即等同于默认值）
   children?: TableCol[];
-  attrs?: CommonObj; //该列所用组件的props属性
+  attrs?: CommonObj; // 该列组件所用的属性(attrs)
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
     popover?: PopoverType;

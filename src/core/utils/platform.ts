@@ -11,7 +11,6 @@ import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/core/_types";
 import { PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { HArgs, RenderVue } from "@/core/components/BaseRender.vue";
-// import { getBtnObj } from "../components/BaseBtn";
 import _ from "lodash";
 
 const { upperFirst } = _;
@@ -51,7 +50,12 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param lightWords 高亮文字
  * @returns {Promise}
  */
-export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", title = "温馨提示", lightWords: string[] = []) {
+export function showConfirmMessage(
+  htmlStr: string,
+  type: ThemeColorType = "warning",
+  title = "温馨提示",
+  lightWords: string[] = []
+) {
   const typeMap = { danger: "error" };
   const colorType = type;
   // const colorKey = `color${upperFirst(colorType)}`;
@@ -244,13 +248,17 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(
+  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
+  width = "200px"
+): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover))
+      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
@@ -290,10 +298,15 @@ export function getFormItemSlots(field: any): CommonObj {
  * 获取el-table-column 的插槽
  * @param col
  */
-export function getTableColumnSlots(col: any): CommonObj {
+// export function getTableColSlots(col: any): CommonObj {
+//   const { label, slots, quickAttrs } = col;
+//   if (!quickAttrs?.popover) return slots;
+//   if (!slots) return { header: label };
+//   return slots;
+// }
+export function getTableColSlots(col: any): CommonObj {
   const { label, slots, quickAttrs } = col;
-  if (!quickAttrs?.popover) return slots;
-  if (!slots) return { header: label };
+  if (quickAttrs?.popover) return { header: label };
   return slots;
 }
 
@@ -382,28 +395,3 @@ export function isRenderData(ele: any) {
   if (t === "Object" && (ele.setup || isVNode(ele))) return true;
   return false;
 }
-
-/***
- * 是否是可直接被BaseRender.vue渲染的元素
- */
-// export function isBaseBtn(data: any) {
-//   if (!data) return false;
-//   const t = typeOf(data);
-//   if (t === "String") return [getBtnObj(data)];
-//   if (t === "Array") {
-//     const btns = data.map(it => getBtnObj(it));
-//     return btns.find(it => !it) ? false : btns;
-//   }
-// }
-
-/**
- * 获取自定义渲染的元素
- * @param {any} data
- * @returns
- */
-// export function getCustomRender(data: any) {
-//   const t = typeOf(data);
-//   if (t === "Array") return data.length <= 3 ? h(...data) : undefined;
-//   if (t === "Object") return data.setup || isVNode(data);
-//   return undefined;
-// }

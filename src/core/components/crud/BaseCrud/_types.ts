@@ -4,28 +4,17 @@ import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 
 export type FilterAuthItem = number | { code: number; disabled: boolean }; //disabled: 默认false
-export type FilterByAuthFn = (auth: number[]) => boolean;
-export type TriggerGetListType = "ready" | "extraParams" | "reset" | "search" | "sizeChange" | "currChange" | "change" | "expose" | "refresh";
-
-/**
- * 处理点击额外按钮
- */
-export interface HandleClickExtraBtnsProps {
-  btnObj: BtnItem;
-  cols?: TableColAttrs[];
-  seledRows: CommonObj[];
-  seledKeys: StrNum[];
-  total: number;
-  exportCfg?: {
-    limit: number; //一次性导出数据的上限条数
-  };
-  e: Event;
-  $emit: any;
-  refreshList?: any;
-  next: any;
-  openPopup?: any;
-  importCfg?: ImportCfgAttrs;
-}
+export type HandleButtonAuth = (auth: number[]) => boolean;
+export type TriggerGetListType =
+  | "ready"
+  | "extraParams"
+  | "reset"
+  | "search"
+  | "sizeChange"
+  | "currChange"
+  | "change"
+  | "expose"
+  | "refresh";
 
 // 键值对类型（只含label、value两个属性）
 export interface KeyValItem {

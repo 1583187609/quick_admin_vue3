@@ -2,7 +2,6 @@ import { CommonObj, CommonSize, StrNum } from "@/core/_types";
 import {
   typeOf,
   propsJoinChar,
-  emptyTime,
   renderValue,
   defaultGroupBtnsMaxNum,
   getChinaCharLength,
@@ -82,19 +81,25 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
 
 //获取每一行的分组按钮
 export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: CommonObj) {
-  const { operateBtns, filterByAuth } = props;
+  const { operateBtns, handleAuth } = props;
   const tempBtns = getStandardGroupBtns(row, $rowInd, operateBtns);
-  return filterBtnsByAuth(tempBtns, filterByAuth);
+  return filterBtnsByAuth(tempBtns, handleAuth);
 }
 
 let operateWidth = 0; //操作栏的宽度
 // 获取每一行的分组按钮
-export function getOperateBtns(row: CommonObj, rowInd: number, props: CommonObj, operateCol?: TableColAttrs, cb?: (width: StrNum) => void) {
-  const { operateBtns, data, operateBtnsAttrs, filterByAuth, disabled, size } = props;
+export function getOperateBtns(
+  row: CommonObj,
+  rowInd: number,
+  props: CommonObj,
+  operateCol?: TableColAttrs,
+  cb?: (width: StrNum) => void
+) {
+  const { operateBtns, data, operateBtnsAttrs, handleAuth, disabled, size } = props;
   if (!operateBtns?.length) return []; // 如果没有操作栏按钮，直接返回
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getStandardGroupBtns(row, rowInd, operateBtns, btnAttrs);
-  const filterBtns = filterBtnsByAuth?.(tempBtns, filterByAuth) ?? tempBtns;
+  const filterBtns = filterBtnsByAuth?.(tempBtns, handleAuth) ?? tempBtns;
   // 已手动设置操作栏宽度，则无需处理操作栏的宽度，直接返回
   if (operateCol?.width) return filterBtns;
   // 如果开启优化，则不会再进行操作栏列宽的计算
@@ -155,7 +160,7 @@ function getSysInferredAttrs(col: TableColAttrs) {
       if (type !== "custom") {
         colAttrs.formatter = (row: CommonObj) => {
           const val = isMultiProps ? flatPropsValue(row, prop as string) : row[prop as string];
-          return renderValue(emptyTime === val ? undefined : val);
+          return renderValue(val);
         };
       }
     }

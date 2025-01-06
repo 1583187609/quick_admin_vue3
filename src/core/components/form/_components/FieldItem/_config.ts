@@ -1,6 +1,7 @@
 import { CommonObj } from "@/core/_types";
 import { FormFieldAttrs, FormTplType } from "@/core/components/form/_types";
 import { getExportData, rangeJoinChar, regexp } from "@/core/utils";
+// import { defaultFormItemDateFormat, defaultFormItemDateValueFormat } from "@/core/utils";
 import config from "@/config";
 import _ from "lodash";
 
@@ -149,8 +150,8 @@ export const defaultFieldAttrs: CommonObj = getExportData(
         // style: { width: "100%" },
         type: "daterange", // 'year' | 'years' |'month' | 'months' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'| 'yearrange'
         rangeSeparator: rangeJoinChar,
-        format: "YYYY-MM-DD", //显示在输入框中的格式
-        valueFormat: "YYYY-MM-DD", //绑定值的格式。 不指定则绑定值为 Date 对象
+        format: "YYYY-MM-DD", // 显示在输入框中的格式。后续决定是否使用变量： defaultFormItemDateFormat
+        valueFormat: "YYYY-MM-DD", // 绑定值的格式。不指定则绑定值为 Date 对象。后续决定是否使用变量： defaultFormItemDateValueFormat
         placeholder: "请选择${label}",
         clearable: true,
         getInferredAttrs(field: FormFieldAttrs) {

@@ -24,7 +24,6 @@ export interface BaseComponentsConfig {
   };
   // 表单配置
   form?: {
-    emptyTime?: StrNum; //本应该为空的默认时间（当出现此值时，说明此时间应等同为空字符串）,
     defaultFormItemType?: FormItemType; //默认的表单项的类型
     defaultDateShortcuts?: { text: string; value: Date | (() => Date) }[];
     defaultDateRangeShortcuts?: { text: string; value: Date | (() => Date) }[];

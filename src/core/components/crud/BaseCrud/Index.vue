@@ -100,7 +100,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed, onMounted, inject } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
-import { TableCol, TableColAttrs } from "@/core/components/table/_types";
+import { FormatterFn, TableCol, TableColAttrs } from "@/core/components/table/_types";
 import ExtraBtns from "./_components/ExtraBtns.vue";
 import SetBtns from "./_components/SetBtns/Index.vue";
 import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.vue";
@@ -119,6 +119,7 @@ import {
   defaultResMap,
   showConfirmMessage,
   exportExcel,
+  defaultTableColDateFormat,
 } from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
@@ -132,7 +133,7 @@ import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
-import { KeyValItem, ReqMap, ResMap, TriggerGetListType, FilterByAuthFn } from "@/core/components/crud/BaseCrud/_types";
+import { KeyValItem, ReqMap, ResMap, TriggerGetListType, HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";
 import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
@@ -142,6 +143,7 @@ import { getColAndLevel, getHandleCols, operateBtnsEmitName } from "@/core/compo
 import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
 import cssVars from "@/assets/styles/_var.module.scss";
 import _ from "lodash";
+import dayjs from "dayjs";
 
 const { merge, cloneDeep, upperFirst } = _;
 const $slots = defineSlots<{
@@ -174,7 +176,7 @@ const props = withDefaults(
     cols?: TableCol[]; //表格列数据
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
     operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
-    filterByAuth?: FilterByAuthFn; // 按钮权限处理逻辑
+    handleAuth?: HandleButtonAuth; // 按钮权限处理逻辑
     tableAttrs?: TableAttrs; // el-table 的属性配置
     /** 分页设置 **/
     pageAttrs?: CommonObj; // 分页配置
@@ -213,7 +215,7 @@ const props = withDefaults(
     resMap: () => defaultResMap,
     grid: () => defaultGridAttrs,
     compact: (_props: CommonObj) => _props.grid.xl < 6,
-    filterByAuth: (auth: number[]) => true,
+    handleAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
     formAttrs: () => defaultFormAttrs,
     tableAttrs: () => defaultTableAttrs,
@@ -246,7 +248,7 @@ const modelData = computed({
 //请求参数
 let params: CommonObj = cloneDeep(initParams);
 const newExtraBtns = computed<BtnItem[]>(() => {
-  const { extraBtns = [], disabled, filterByAuth } = props;
+  const { extraBtns = [], disabled, handleAuth } = props;
   const btns = extraBtns.map((btn: BaseBtnType) => {
     const btnObj: BtnItem = getBtnObj(btn);
     if (disabled) {
@@ -267,8 +269,23 @@ const newExtraBtns = computed<BtnItem[]>(() => {
     }
     return btnObj;
   });
-  return filterBtnsByAuth(btns, filterByAuth);
+  return filterBtnsByAuth(btns, handleAuth);
 });
+
+/**
+ * 获取 el-table-column 的标准 formatter 函数（目前只针对日期列进行格式化处理，后续再扩展）
+ * @param {any} formatter 日期格式化(目前只处理了 true 和字符串类型)
+ */
+function getStandardFormatter(formatter: any): FormatterFn {
+  let t = typeOf(formatter);
+  if (t === "Boolean") {
+    formatter = defaultTableColDateFormat;
+    t = "String";
+  }
+  if (t === "String") return (row: CommonObj, column?: TableColumnCtx<any>) => dayjs(row[column.prop]).format(formatter);
+  if (t === "Function") return formatter;
+  throw new Error(`暂未处理此类型：${t}`);
+}
 
 /**
  * 获取标准的表格列数据
@@ -283,47 +300,12 @@ function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
       const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
       col = merge(tplData, col);
     }
-    const { children } = col as TableColAttrs;
+    const { children, formatter } = col as TableColAttrs;
+    if (formatter) col.formatter = getStandardFormatter(formatter);
     if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
     return col;
   });
 }
-// function getStandardColsNew(
-//   { cols, operateBtns, currPage, pageSize, size }: CommonObj,
-//   cb?: (maxLev: number, cols: TableColAttrs[]) => void
-// ): TableColAttrs[] {
-//   let hasOperateCol = false;
-//   let maxLevel = 0;
-//   const filterCols = cols.filter(it => !!it);
-//   const newCols = filterCols.map((originCol: any) => {
-//     let { tpl, ...col } = originCol;
-//     const { type, children } = col;
-//     if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-//     if (tpl) {
-//       const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
-//       col = merge(tplData, col);
-//     }
-//     // 将处理过模板的cols再处理下，新增操作列或处理序号列
-//     let { col: newCol, level } = getColAndLevel(col, 1, size);
-//     const { type: newType } = newCol;
-//     if (newType === "operate") {
-//       hasOperateCol = true;
-//       newCol = { ...defaultTableColTpls.T_Operate, ...newCol };
-//     } else if (newType === "index") {
-//       if (currPage && pageSize && newCol.index === undefined) {
-//         newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
-//       }
-//     }
-//     if (level > maxLevel) maxLevel = level;
-//     if (children?.length) (newCol as TableColAttrs).children = getStandardColsNew({ cols: children, operateBtns, currPage, pageSize, size }, cb);
-//     return newCol;
-//   });
-//   if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
-//   cb?.(maxLevel, newCols);
-//   // return newCols.filter(col => col.visible);
-//   return newCols;
-// }
-let originCols: TableColAttrs[] = [];
 let dragSortable = false;
 const newCols = ref<TableColAttrs[]>([]);
 watch(

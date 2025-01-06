@@ -155,6 +155,15 @@
 ~~153、将公共 Css 加上前缀~~
 ~~159、将 BaseForm、BaseCrud 中的 onSubmit、onSearch 与 fetch 合并下，共用同一个属性，去掉 fetch 属性（待定）~~
 ~~161、将 modules 中的文件夹、文件进行统计，放入文件分析中~~
+~~164、支持表单 tips 自定义~~
+~~166、删除 addDel、childrenFields 类型~~
+~~170、后端返回的日期进行统一格式化处理~~
+~~171、取消表格创建时间、更新时间列，改用 type: UserTime~~
+~~172、更名`filterByAuth`为 `handleAuth`~~
+~~145、将表格列的 type 支持传入任意组件~~
+~~146、将对表单的字段处理，分别放在 FormItem、FieldItem、FieldItemCol 中~~
+~~152、将 formItem 的子项拆分出来（不应该放入里面，会导致组件变得臃肿庞大）~~
+~~136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -167,7 +176,7 @@
 94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 99、完善图片上传 BaseUpload 组件
 104、最好去掉 BaseCrud 中的 showPagination 属性（需要权衡下）
-106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并
+~~106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并（不能合并会导致，文档插件不能正常解析出 ts）~~
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
@@ -182,20 +191,16 @@
 123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
 127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
-136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入
 135、完善 importFileFromPaths 方法
-136、完善 BaseCountTo 方法
-137、增加演示功能模块
-138、按新划分菜单模块进行菜单重组
+~~136、完善 BaseCountTo 方法~~
+~~137、增加演示功能模块~~
+~~138、按新划分菜单模块进行菜单重组~~
 140、处理导入逻辑（完善功能）
 141、爬取 ElementPlus 官网中的表格属性数据
 142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
 143、整理 menuTree 组件
-145、将表格列的 type 支持传入任意组件
-146、将对表单的字段处理，分别放在 FormItem、FieldItem、FieldItemCol 中
 147、完善低码中心的配置 JSON 生成页面的逻辑
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
-152、将 formItem 的子项拆分出来（不应该放入里面，会导致组件变得臃肿庞大）
 154、全局控件大小增加 mini 选项
 155、完善用户端全局设置
 
@@ -204,26 +209,26 @@
 - 主题切换
 
 156、将各个组件的属性实现继承
-157、在弹窗属性中实现 v-model 的写法
+157、在弹窗属性中实现 v-model 的写法（试试 vModel 应该可以使功能正常）
 158、全局配置
-160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）
+~~160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）~~
 162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
-163、disabled、readonly 属性，不应该放在 quickAttrs 中
-~~164、支持表单 tips 自定义~~
+~~163、disabled、readonly 属性，不应该放在 quickAttrs 中~~
 165、批量导出多级表头中的数据
-~~166、删除 addDel、childrenFields 类型~~
 167、处理重置 BaseAddDelList 不会变为一项的问题
+168、options 后跟一个异步函数，直接获取到 optinos 数据
+169、将学校、公司下拉项转成`T_`模板写法
 
 ## Demo 功能验证清单
 
 ~~18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）~~
 ~~22、table 的 cols、rows 属性考虑要不要改名称~~
 
-1、BaseIcon 的默认值
+~~1、BaseIcon 的默认值~~
 2、BaseBtn 的默认值（用新增按钮），验证继承的`el-button`属性是否生效（重点关注 icon 传入字符串或组件时是否渲染正常，不考虑支持直接传入字符串（考虑性能，跟 el-button 保持一致就好））  
 3、验证按钮权限的 auth 功能是否正常，重点关注 auth 为函数状态时的表现  
-4、移除 BaseCopy、BaseText 的 text 属性，采用直接传入 slot 的方式  
-5、注意验证 BaeCopy 传入 html 字符串时候的表现情况  
+~~4、移除 BaseCopy、BaseText 的 text 属性，采用直接传入 slot 的方式~~  
+~~5、注意验证 BaeCopy 传入 html 字符串时候的表现情况~~  
 6、完善所有基础组件的描述类信息  
 7、验证 BaseImg 的 iconSize 属性大小是否满足 UI 美观要求  
 8、验证 BaseNumberRange 在 BaseCrud 的传参情况，和默认值情况  
@@ -234,7 +239,7 @@
 13、BaseImg 的图片大小属性是否正常
 14、级联`C_Region`不生效
 15、验证 BaseEditor 是否能在表单中正常展示
-16、将 childrenFields、addDel 抽离出去
+~~16、将 childrenFields、addDel 抽离出去~~
 17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常
 19、BaseForm 的 pureText 属性未生效
 20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本
@@ -247,14 +252,14 @@
 26、处理每个页面中的...配置，应该提取到某个全局公共处（考虑性能，用户体验，采用懒加载，少混合处理的模式实现）
 27、考虑合并 StepForm 中 formAttrs 属性和 stepAttrs 属性
 28、处理字段类型为 custom 的情况（不被包裹在 el-form-item 中）。并考虑传入字段的方式，对象 OR 可被 BaseRender 渲染的数据信息或者`{type: 'custom',renderData:''}`更倾向于最后一种
-29、统一 SectionForm 的 title 为 label 名称（待确定）
+29、统一 SectionForm 的 title 为 label 属性名称（待确定）
 30、验证有 props、无 props、整体插槽内容是否生效
 31、BaseTable 提供 fetch、params 等参数，不分页(待确定)
 32、将各个 Demo 示例用空文件占好位置（罗列好组件要包含的内容，方便随时查漏补缺），用`待完善示意`
-34、处理 BaseCrud 中的表单的创建时间区间的 props，考虑要不要用 quickAttrs 来传递属性 rangeProps: [minProp, maxProp]（待确定）
-33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）
-34、SectionForm 换用 BaseSection 验证功能
-35、完善 AddDelList、AnyEleList、AddDelTags 组件功能
+~~34、处理 BaseCrud 中的表单的创建时间区间的 props，考虑要不要用 quickAttrs 来传递属性 rangeProps: [minProp, maxProp]（待确定）~~
+~~33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）~~
+~~34、SectionForm 换用 BaseSection 验证功能~~
+~~35、完善 AddDelList、AnyEleList、AddDelTags 组件功能~~
 36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证
 37、完善`InnerExtendTableColComps`组件
 
@@ -267,8 +272,8 @@
 
 1、采用`git submodule`方式维护 mock 和基础方法（待定）
 141、将 SectionForm 改为 BaseSectionForm（待确定）
-143、考虑整合 sass 并加入 css 变量
-144、采用 pnpm 下载的包可能存在问题，比如 WangEditor 的 css 文件找不到
+~~143、考虑整合 sass 并加入 css 变量~~
+~~144、采用 pnpm 下载的包可能存在问题，比如 WangEditor 的 css 文件找不到~~
 
 ## TS 类型处理
 
@@ -312,6 +317,7 @@
 
 1、让 docs 主题色跟 admin 主题色保持一致
 2、处理左侧和顶部菜单高亮不生效的问题
+3、视情况将 BaseTable、BaseCrud 的公共 props 属性合并（不能合并会导致，文档插件不能正常解析出 ts）
 
 ## Npm 包清单
 

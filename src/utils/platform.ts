@@ -3,7 +3,7 @@
  ********************************************************/
 
 import { CommonObj } from "@/core/_types";
-import { typeOf, emptyTime, storage, isProd, emptyStr } from "@/utils";
+import { typeOf } from "@/utils";
 import dayjs from "dayjs";
 
 // 获取认证方式
@@ -45,12 +45,4 @@ export function handleRegionParams(args: CommonObj, keys: string[]) {
     }
   });
   return args;
-}
-
-/**
- * 处理时间：后端的时间为 1000-01-01 00:00:00 时，实际上是空值
- * @tips 提取出来是为了方便后续集中处理，可能还有其他处理操作，或更简便的处理方式
- */
-export function handleDateTime(row: CommonObj, key: string) {
-  return row[key] === emptyTime ? emptyStr : row[key];
 }
