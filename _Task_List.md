@@ -164,6 +164,18 @@
 ~~146、将对表单的字段处理，分别放在 FormItem、FieldItem、FieldItemCol 中~~
 ~~152、将 formItem 的子项拆分出来（不应该放入里面，会导致组件变得臃肿庞大）~~
 ~~136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入~~
+~~104、最好去掉 BaseCrud 中的 showPagination 属性（需要权衡下）（不能去掉）~~
+~~106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并（不能合并会导致，文档插件不能正常解析出 ts）~~
+~~136、完善 BaseCountTo 方法~~
+~~137、增加演示功能模块~~
+~~138、按新划分菜单模块进行菜单重组~~
+~~156、将各个组件的属性实现继承~~
+~~160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）~~
+~~163、disabled、readonly 属性，不应该放在 quickAttrs 中~~
+~~113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法~~
+~~120、表格列宽默认宽度为：label 的字符数+1~~
+~~123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况~~
+~~169、将学校、公司下拉项转成`T_`模板写法~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -173,51 +185,29 @@
 76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供
-94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
 99、完善图片上传 BaseUpload 组件
-104、最好去掉 BaseCrud 中的 showPagination 属性（需要权衡下）
-~~106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并（不能合并会导致，文档插件不能正常解析出 ts）~~
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
 110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
-113、仔细思考 BaseCrud、BaseForm 等应该暴露哪些方法
-114、将 docs、demos 文件夹放入.vitepress 中
 118、qrcode 支持传入 url（即外部传入的图片）
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
-120、表格列宽默认宽度为：label 的字符数+1
 121、处理打包后，页面空白的问题
 122、查询条件支持弹性布局（待完善）
-123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况
 127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
-135、完善 importFileFromPaths 方法
-~~136、完善 BaseCountTo 方法~~
-~~137、增加演示功能模块~~
-~~138、按新划分菜单模块进行菜单重组~~
 140、处理导入逻辑（完善功能）
-141、爬取 ElementPlus 官网中的表格属性数据
-142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
 143、整理 menuTree 组件
-147、完善低码中心的配置 JSON 生成页面的逻辑
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 154、全局控件大小增加 mini 选项
-155、完善用户端全局设置
-
-- 国际化
-- 控件大小
-- 主题切换
-
-156、将各个组件的属性实现继承
+155、完善用户端全局设置：国际化、控件大小、主题切换
 157、在弹窗属性中实现 v-model 的写法（试试 vModel 应该可以使功能正常）
-158、全局配置
-~~160、合并并移除 afterSuccess、afterFail、afterReset 等 api（待定）~~
+158、重新提取并整理，全局配置（尽量不要使用合并对象的方式，考虑完善 importFileFromPaths 方法）
 162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
-~~163、disabled、readonly 属性，不应该放在 quickAttrs 中~~
 165、批量导出多级表头中的数据
 167、处理重置 BaseAddDelList 不会变为一项的问题
 168、options 后跟一个异步函数，直接获取到 optinos 数据
-169、将学校、公司下拉项转成`T_`模板写法
+170、使用 `useModelData` 进行双向绑定
 
 ## Demo 功能验证清单
 
@@ -312,12 +302,14 @@
 69、增加编辑表单时页面离开提醒
 116、新增虚拟列表组件
 117、打开文件&预览通用组件（打开并预览 pdf）
+147、完善低码中心的配置 JSON 生成页面的逻辑
 
 ## Docs 功能清单
 
 1、让 docs 主题色跟 admin 主题色保持一致
 2、处理左侧和顶部菜单高亮不生效的问题
 3、视情况将 BaseTable、BaseCrud 的公共 props 属性合并（不能合并会导致，文档插件不能正常解析出 ts）
+114、将 docs、demos 文件夹放入.vitepress 中
 
 ## Npm 包清单
 
@@ -328,6 +320,9 @@
 
 1、写 Gis 示例
 2、扩展 BaseForm 中的非嵌套对象功能（页面：`test-center/test-1`）
+94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
+142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
+141、爬取 ElementPlus 官网中的表格属性数据，从而完善低码平台的控件属性设置
 
 ## 二、优化清单
 

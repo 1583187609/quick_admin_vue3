@@ -2,7 +2,14 @@
   将字段分区块展示。继承并扩展了基础表单（BaseForm），提供了展开/折叠，多级属性设置覆盖等功能。
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" v-bind="defaultFormAttrs" :class="styleType" :model="formData" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    v-bind="defaultFormAttrs"
+    :class="styleType"
+    :model="formData"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <!-- <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -282,7 +289,10 @@ function toggleFold(e: any, ind: number) {
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = field.size ?? sItem.size ?? formAttrs.size, labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth } = attrs;
+  const {
+    size = field.size ?? sItem.size ?? formAttrs.size,
+    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
+  } = attrs;
   const {
     grid = sItem.grid ?? formAttrs.grid,
     readonly = sItem.readonly || formAttrs.readonly,
@@ -297,12 +307,8 @@ function handleEnter() {
 }
 defineExpose({
   formRef,
-  validate() {
-    return footerBtnsRef.value.validate();
-  },
-  reset() {
-    footerBtnsRef.value.reset();
-  },
+  validate: () => footerBtnsRef.value.validate(),
+  reset: () => footerBtnsRef.value.reset(),
 });
 </script>
 <style lang="scss">

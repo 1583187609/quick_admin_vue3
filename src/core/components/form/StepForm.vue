@@ -3,7 +3,13 @@
 -->
 <template>
   <div class="step-form f-sb-fs">
-    <el-steps class="steps f-0" :direction="direction" :active="currStep" v-bind="{ ...defaultStepsAttrs, ...stepAttrs }">
+    <el-steps
+      class="steps f-0"
+      :direction="direction"
+      :active="currStep"
+      v-bind="{ ...defaultStepsAttrs, ...stepAttrs }"
+      ref="stepsRef"
+    >
       <el-step v-bind="step" v-for="(step, ind) in steps" :key="ind" />
     </el-steps>
     <SectionForm
@@ -64,13 +70,13 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["change", "blur", "focus"]);
 const sectionFormRef = ref<any>(null);
+const stepsRef = ref<any>(null);
 const steps = computed<StepItemAttrs[]>(() => {
-  return props.sections
-    .filter(it => !!it)
-    .map(item => {
-      const { title, description } = item as SectionFormItemAttrs;
-      return { title, description };
-    });
+  const sections = props.sections.filter(it => !!it);
+  return sections.map(item => {
+    const { title, description } = item as SectionFormItemAttrs;
+    return { title, description };
+  });
 });
 const currStep = ref(1); // 当前激活的步骤
 function getIsFind(item: FormField, byKey: string) {
@@ -91,7 +97,8 @@ function handleFocus(val: any, prop: any) {
   $emit("focus", val, prop);
 }
 defineExpose({
-  sectionFormRef,
+  stepsRef,
+  formRef: sectionFormRef,
 });
 </script>
 <style lang="scss" scoped>

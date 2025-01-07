@@ -27,15 +27,25 @@ const config = {
     customSpecialCol: {
       //创建列
       // T_Create: {
-      //   prop: ["create_user", "create_time"],
+      //   prop: "create_time",
       //   label: "创建时间",
       //   minWidth: 170,
+      //   type: 'UserTime',
+      //   attrs:{
+      //     userProp: 'create_user',
+      //     timeProp: 'create_time'
+      //   }
       // },
       // //修改列
       // T_Update: {
-      //   prop: ["update_user", "update_time"],
+      //   prop: "update_time",
       //   label: "修改时间",
       //   minWidth: 170,
+      //   type: 'UserTime',
+      //   attrs:{
+      //     userProp: 'update_user',
+      //     timeProp: 'update_time'
+      //   }
       // },
       // //switch开关
       // T_Switch: {

@@ -2,7 +2,7 @@
   目标：基础增删改查的扩展，每一项元素的呈现样式可以自定义。
 -->
 <template>
-  <BaseCrud class="custom-crud" :summaryList="summaryList" :showPagination="!summaryList" ref="crudRef">
+  <BaseCrud class="custom-crud" :summaryList="summaryList" :pagination="!summaryList" ref="crudRef">
     <template #content="{ loading, params, rows, total, hasMore }">
       <LoadMore
         class="f-1"

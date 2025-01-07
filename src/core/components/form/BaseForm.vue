@@ -4,7 +4,14 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
     <template v-else>
@@ -145,7 +152,6 @@ const formData = computed({
   get: () => props.modelValue,
   set: (val: CommonObj) => $emit("update:modelValue", val),
 });
-// let isFirst = true;
 watch(
   () => props.fields,
   newVal => {

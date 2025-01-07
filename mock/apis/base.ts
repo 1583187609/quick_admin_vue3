@@ -3,22 +3,26 @@ import { CommonObj } from "@/core/_types";
 import allData from "../data";
 
 export default toViteMockApi({
-  // 获取下拉项
+  // 获取下拉项：目前只支持学校(school)、公司(company)
   "GET /mock/options": (req: CommonObj) => {
     const params = getRequestParams(req);
-    const { name = "school", label, value } = params;
-    const target = allData[name];
-    if (!target) throw new Error(`不存在该下拉项：${name}`);
-    const list = target.list.filter((it: CommonObj) => it.label.includes(label));
+    const { type = "school", name } = params;
+    const target = allData[type];
+    if (!target) return responseData({ code: -1, msg: `不存在该下拉项：${type}` });
+    const list = target.list.filter((it: CommonObj) => {
+      const isId = !isNaN(Number(name));
+      if (isId) return it.value == name;
+      return it.label.includes(name);
+    });
     return responseData({ data: list });
   },
   // 获取级联
   "GET /mock/cascader": (req: CommonObj) => {
     const params = getRequestParams(req);
-    const { name = "region", value } = params;
+    const { name = "region" } = params;
     const target = allData[name];
-    if (!target) throw new Error(`不存在该级联：${name}`);
-    const list = target.list.filter((it: CommonObj) => true);
+    if (!target) return responseData({ code: -1, msg: `不存在该级联：${name}` });
+    const list = target.list;
     return responseData({ data: list });
   },
 });

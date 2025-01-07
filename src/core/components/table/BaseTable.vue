@@ -54,7 +54,7 @@ const props = withDefaults(
      */
     showSummary?: boolean; // 是否显示汇总行
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
-    filterBtnsByAuth?: (btns: BtnItem[], handleAuth?: HandleButtonAuth) => BtnItem[];
+    getHandleAuthBtns?: (btns: BtnItem[], handleAuth?: HandleButtonAuth) => BtnItem[];
     /**
      * 操作栏属性
      */

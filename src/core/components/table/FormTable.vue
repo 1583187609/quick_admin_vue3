@@ -79,8 +79,8 @@ const fields = computed(() => {
 
 // 暴露属性方法
 defineExpose({
-  baseFormRef,
-  baseTableRef,
+  formRef: baseFormRef,
+  tableRef: baseTableRef,
 });
 </script>
 <style lang="scss" scoped>

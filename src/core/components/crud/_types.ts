@@ -17,7 +17,6 @@ export interface CrudProps {
   // operateBtns?: OperateBtnsType; //分组按钮，在表格的操作一栏
   // reqMap?: ReqMap; //请求参数的键名映射
   // resMap?: ResMap; //响应参数的键名映射
-  // showPagination?: boolean;
   // summaryList?: SummaryListType; //汇总请求数据的 list
   // exportCfg?: {
   //   limit: number; //一次性导出数据的上限条数

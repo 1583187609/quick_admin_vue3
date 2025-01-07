@@ -16,7 +16,7 @@ import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtn
 import { getStandardGroupBtns } from "@/core/components/crud/BaseCrud";
 import { SpecialTableColType } from "@/core/components/table/_types";
 import cssVars from "@/assets/styles/_var.module.scss";
-import { filterBtnsByAuth } from "@/core/components/crud/_utils";
+import { getHandleAuthBtns } from "@/core/components/crud/_utils";
 import _ from "lodash";
 
 const { merge } = _;
@@ -83,7 +83,7 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
 export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: CommonObj) {
   const { operateBtns, handleAuth } = props;
   const tempBtns = getStandardGroupBtns(row, $rowInd, operateBtns);
-  return filterBtnsByAuth(tempBtns, handleAuth);
+  return getHandleAuthBtns(tempBtns, handleAuth);
 }
 
 let operateWidth = 0; //操作栏的宽度
@@ -99,7 +99,7 @@ export function getOperateBtns(
   if (!operateBtns?.length) return []; // 如果没有操作栏按钮，直接返回
   const btnAttrs = { attrs: { disabled } };
   const tempBtns = getStandardGroupBtns(row, rowInd, operateBtns, btnAttrs);
-  const filterBtns = filterBtnsByAuth?.(tempBtns, handleAuth) ?? tempBtns;
+  const filterBtns = getHandleAuthBtns?.(tempBtns, handleAuth) ?? tempBtns;
   // 已手动设置操作栏宽度，则无需处理操作栏的宽度，直接返回
   if (operateCol?.width) return filterBtns;
   // 如果开启优化，则不会再进行操作栏列宽的计算

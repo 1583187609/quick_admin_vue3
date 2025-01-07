@@ -93,7 +93,7 @@
       v-bind="pageAttrs"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrChange"
-      v-if="pagination && showPagination"
+      v-if="showPagination && pagination"
     />
   </div>
 </template>
@@ -138,8 +138,8 @@ import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
 import { TableAttrs } from "@/core/components/table/_types";
-import { filterBtnsByAuth } from "@/core/components/crud/_utils";
-import { getColAndLevel, getHandleCols, operateBtnsEmitName } from "@/core/components/table";
+import { getHandleAuthBtns } from "@/core/components/crud/_utils";
+import { operateBtnsEmitName } from "@/core/components/table";
 import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
 import cssVars from "@/assets/styles/_var.module.scss";
 import _ from "lodash";
@@ -180,7 +180,7 @@ const props = withDefaults(
     tableAttrs?: TableAttrs; // el-table 的属性配置
     /** 分页设置 **/
     pageAttrs?: CommonObj; // 分页配置
-    pagination?: false | TablePaginationAttrs; //是否分页
+    pagination?: TablePaginationAttrs; //是否分页
     showPagination?: boolean; // 是否显示分页
     /** 整体控制 **/
     omits?: boolean | BaseDataType[]; // 是否剔除掉null, undefined, ""的属性值
@@ -208,12 +208,12 @@ const props = withDefaults(
     size: defaultCommonSize,
     omits: true,
     inputDebounce: true,
-    showPagination: true,
     showSetBtn: true,
-    pagination: () => defaultPagination,
-    reqMap: () => defaultReqMap,
-    resMap: () => defaultResMap,
-    grid: () => defaultGridAttrs,
+    showPagination: true,
+    // pagination: () => ({ ...defaultPagination }),
+    // reqMap: () => ({ ...defaultReqMap }),
+    // resMap: () => ({ ...defaultResMap }),
+    grid: () => ({ ...defaultGridAttrs }),
     compact: (_props: CommonObj) => _props.grid.xl < 6,
     handleAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
@@ -223,19 +223,16 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
-const { extraParams = {}, pagination } = props;
 const baseCrudRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
 const queryTableRef = ref<any>(null);
-const reqMap = props.reqMap as GetRequired<ReqMap>;
-const resMap = props.resMap as GetRequired<ResMap>;
-const currPageKey = reqMap.curr_page as string;
-const pageSizeKey = reqMap.page_size as string;
-const initPageInfo = pagination ? { [currPageKey]: pagination.currPage, [pageSizeKey]: pagination.pageSize } : {};
-const initParams = {
-  ...initPageInfo,
-  ...extraParams,
-};
+const { extraParams = {} } = props;
+const pagination = { ...defaultPagination, ...props.pagination };
+const reqMap = { ...defaultReqMap, ...props.reqMap } as GetRequired<ReqMap>;
+const resMap = { ...defaultResMap, ...props.resMap } as GetRequired<ResMap>;
+const { curr_page: currPageKey, page_size: pageSizeKey } = reqMap;
+const initPageInfo = { [currPageKey]: pagination.currPage, [pageSizeKey]: pagination.pageSize };
+const initParams = { ...initPageInfo, ...extraParams };
 const currPageInfo = reactive<CommonObj>(cloneDeep(initPageInfo));
 const pageInfo = reactive<CommonObj>({ total: 0, hasMore: true });
 const loading = ref(false);
@@ -269,9 +266,8 @@ const newExtraBtns = computed<BtnItem[]>(() => {
     }
     return btnObj;
   });
-  return filterBtnsByAuth(btns, handleAuth);
+  return getHandleAuthBtns(btns, handleAuth);
 });
-
 /**
  * 获取 el-table-column 的标准 formatter 函数（目前只针对日期列进行格式化处理，后续再扩展）
  * @param {any} formatter 日期格式化(目前只处理了 true 和字符串类型)
@@ -286,7 +282,6 @@ function getStandardFormatter(formatter: any): FormatterFn {
   if (t === "Function") return formatter;
   throw new Error(`暂未处理此类型：${t}`);
 }
-
 /**
  * 获取标准的表格列数据
  */
@@ -306,14 +301,19 @@ function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
     return col;
   });
 }
+let originCols: TableColAttrs[] = [];
 let dragSortable = false;
 const newCols = ref<TableColAttrs[]>([]);
 watch(
   () => props.cols,
   newVal => {
-    // const { operateBtns, size } = props;
-    // const { currPage, pageSize } = pagination as CommonObj;
-    // const _cols = getStandardColsNew({ cols: newVal, operateBtns, currPage, pageSize, size });
+    // const _cols = getStandardColsNew({
+    //   cols: newVal,
+    //   operateBtns: props.props,
+    //   currPage: pagination[currPageKey],
+    //   pageSize: pagination[currPageKey],
+    //   size: props.size,
+    // });
     const _cols = getStandardCols(newVal);
     // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失，除非不会用到函数类属性
     originCols = JSON.parse(JSON.stringify(_cols));
@@ -457,10 +457,10 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
       seledKeys,
       cols,
       total,
-      next: newNext,
       e,
-      $emit,
       isSeledAll: seledRows.value.length === total,
+      next: newNext,
+      $emit,
     });
   }
   // 导出逻辑
@@ -475,10 +475,10 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
     seledKeys,
     cols,
     total,
-    next: newNext,
     e,
-    $emit,
     isSeledAll: seledRows.value.length === 0 || seledRows.value.length === total,
+    next: newNext,
+    $emit,
   });
 }
 
@@ -529,51 +529,45 @@ onMounted(() => {
 });
 
 defineExpose({
-  refreshList,
+  formRef: queryFormRef,
+  tableRef: queryTableRef,
   getList,
-  getQueryParams(omits = props.omits) {
-    return omitAttrs(params, omits);
-  },
+  refreshList,
+  // 获取查询参数
+  getQueryParams: omits => omitAttrs(params, omits),
+  // 获取查询字段
   getQueryFields(excludeKeys = [currPageKey, pageSizeKey]) {
     const queryFields: KeyValItem[] = [];
     const rangeKeys: string[] = [];
     const propFields = queryFormRef.value.getFields() as FormFieldAttrs[];
     propFields.forEach((it: FormFieldAttrs) => {
-      if (it.prop?.includes(propsJoinChar)) {
-        rangeKeys.push(it.prop as string);
-      }
+      if (it.prop?.includes(propsJoinChar)) rangeKeys.push(it.prop as string);
     }) as unknown as FormFieldAttrs[];
     for (const prop in params) {
-      if (excludeKeys && !excludeKeys.includes(prop)) {
-        const target = propFields.find((it: FormFieldAttrs) => it.prop === prop);
-        if (target) {
-          const val = params[prop];
-          const canPush = !emptyVals.includes(val) && (typeOf(val) !== "Array" || val.some((it: StrNum) => it !== ""));
-          if (canPush) {
-            queryFields.push({
-              label: target.label,
-              value: getQueryFieldValue(target, val),
-            });
-          }
-        }
-      }
+      if (excludeKeys?.length && excludeKeys.includes(prop)) continue;
+      const target = propFields.find((it: FormFieldAttrs) => it.prop === prop);
+      if (!target) continue;
+      const val = params[prop];
+      const canPush = !emptyVals.includes(val) && (typeOf(val) !== "Array" || val.some((it: StrNum) => it !== ""));
+      if (!canPush) continue;
+      queryFields.push({
+        label: target.label,
+        value: getQueryFieldValue(target, val),
+      });
     }
     rangeKeys.forEach(prop => {
       const [minKey, maxKey] = prop.split(propsJoinChar);
       const minVal = params[minKey];
       const maxVal = params[maxKey];
       const target = propFields.find((it: FormFieldAttrs) => it.prop!.includes(prop));
-      if (target && (minVal || maxVal)) {
-        queryFields.push({
-          label: target.label,
-          value: [minVal, maxVal].join(rangeJoinChar),
-        });
-      }
+      if (!target || (!minVal && !maxVal)) return;
+      queryFields.push({
+        label: target.label,
+        value: [minVal, maxVal].join(rangeJoinChar),
+      });
     });
     return queryFields;
   },
-  // ...queryFormRef.value,
-  // ...queryTableRef.value,
 });
 </script>
 <style lang="scss" scoped>

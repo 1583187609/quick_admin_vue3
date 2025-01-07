@@ -10,9 +10,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useCommonPopup } from "@/hooks";
+import { useOpenCommonPopup } from "@/hooks";
 
-const openCommonPopup = useCommonPopup();
+const openCommonPopup = useOpenCommonPopup();
 </script>
 <style lang="scss" scoped>
 .el-button {

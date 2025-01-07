@@ -24,7 +24,7 @@ export const defaultCommonSize = "default"; // getExportData("default", form?.de
 export const defaultTableColDateFormat = "YYYY-MM-DD HH:mm:ss"; // 表格列的日期格式
 // export const defaultFormItemDateFormat = "YYYY-MM-DD"; // 表单项的日期格式
 // export const defaultFormItemDateValueFormat = "YYYY-MM-DD"; // 表单项的日期值的格式（作为参数传递时）
-export const defaultPagination = { currPage: 1, pageSize: 20 };
+export const defaultPagination = { currPage: 1, pageSize: 20, show: true };
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
 

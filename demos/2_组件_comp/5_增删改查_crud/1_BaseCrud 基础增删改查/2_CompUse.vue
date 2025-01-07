@@ -321,8 +321,6 @@ const cols: TableCol[] = [
       popover: `只设置 {prop: "sj"}，不设置 {type: "create"}。会根据 label 中带时间二字，自动确定该列的宽度`,
     },
   },
-  // ...(isSimple
-  //   ? [
   {
     type: "create",
     label: "创建时间 [create]",
@@ -330,8 +328,6 @@ const cols: TableCol[] = [
       popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
     },
   } as TableColAttrs,
-  //   ]
-  // : [
   {
     type: "update",
     prop: "update_time",
@@ -340,12 +336,6 @@ const cols: TableCol[] = [
       popover: `设置 {type: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
     },
   } as TableColAttrs,
-  // ]),
-  // {
-  //   prop: ["creator", "create_time"],
-  //   label: "创建时间（内置、双prop）",
-  //   type: "create",
-  // },
   {
     prop: "status",
     label: "启/禁用",

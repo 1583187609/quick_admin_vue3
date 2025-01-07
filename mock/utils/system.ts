@@ -207,5 +207,6 @@ export interface ResponseData {
 }
 export function responseData(res: ResponseData = { code: 0, msg: "成功", data: null }): ResponseData {
   const { code = 0, msg = "成功", data = null } = res;
-  return { code, msg, data };
+  const newData = typeof data === "object" && data !== null ? JSON.parse(JSON.stringify(data)) : data;
+  return { code, msg, data: newData };
 }

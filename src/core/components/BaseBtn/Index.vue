@@ -5,7 +5,7 @@
   <el-popconfirm @confirm="handleClickDebounce" width="fit-content" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
     <template #reference>
       <el-button class="base-btn" v-bind="newBtn.attrs" :disabled="loading || newBtn?.attrs?.disabled" :loading="loading">
-        <slot>{{ emptyVals.includes(newBtn?.text) ? "" : newBtn?.text }}</slot>
+        <slot>{{ newBtn?.text ?? "" }}</slot>
       </el-button>
     </template>
   </el-popconfirm>
@@ -17,14 +17,14 @@
     @click="handleClickDebounce"
     v-else
   >
-    <slot>{{ emptyVals.includes(newBtn?.text) ? "" : newBtn?.text }}</slot>
+    <slot>{{ newBtn?.text ?? "" }}</slot>
   </el-button>
 </template>
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, useAttrs } from "vue";
-import { getBtnObj } from "@/core/components/BaseBtn";
-import { debounce, emptyVals } from "@/core/utils";
 import { useRouter } from "vue-router";
+import { debounce } from "@/core/utils";
+import { getBtnObj } from "@/core/components/BaseBtn";
 import { CommonObj, FinallyNext, PopconfirmAttrs, RouteTo } from "@/core/_types";
 import { BaseBtnType, BtnHandleClickType, EndBtnItem, BtnName } from "./_types";
 import { useNextCallback, usePopup } from "@/hooks";
