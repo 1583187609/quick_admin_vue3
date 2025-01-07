@@ -176,6 +176,9 @@
 ~~120、表格列宽默认宽度为：label 的字符数+1~~
 ~~123、Crud 的 next 回调函数处理由编辑页面返回到列表页面的刷新列表情况~~
 ~~169、将学校、公司下拉项转成`T_`模板写法~~
+~~90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供~~
+~~127、将公司下拉项组件合并到 BaseOption 中~~
+~~168、options 后跟一个异步函数，直接获取到 options 数据~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -184,7 +187,6 @@
 64、封装 TreeCrud 组件（自行拼装即可）
 76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
-90、对于常见的请求下拉项（自定义下拉项文案等）采用 tpl 方式提供
 99、完善图片上传 BaseUpload 组件
 82、字典管理是否用 localStorage 存储异步请求的数据，用配置进行管理决定（自测逻辑是否无误）。
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
@@ -194,7 +196,6 @@
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 121、处理打包后，页面空白的问题
 122、查询条件支持弹性布局（待完善）
-127、将公司下拉项组件合并到 BaseOption 中
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
 140、处理导入逻辑（完善功能）
 143、整理 menuTree 组件
@@ -206,8 +207,8 @@
 162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
 165、批量导出多级表头中的数据
 167、处理重置 BaseAddDelList 不会变为一项的问题
-168、options 后跟一个异步函数，直接获取到 optinos 数据
-170、使用 `useModelData` 进行双向绑定
+171、完善`watch isSimple` 引起的死循环问题，复现地址：`test-center/test-3`
+172、完善`Suspense`
 
 ## Demo 功能验证清单
 
@@ -374,10 +375,11 @@
 ~~35、处理测试专用 BaseCrud 中，label 为自定义组件时，控制台提示 `using `shallowRef`instead of`ref`` 警告的问题~~
 ~~4、处理 Echarts 警告：DEPRECATED: label.emphasis has been changed to emphasis.label since 4.0~~
 ~~134、换用富文本编辑器（quill），编辑器推荐参考地址：https://cloud.tencent.com/developer/article/1975072（位置现状，不改动）~~
+~~16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式，将 compact 改成 mini）；~~
+~~17、将 Echarts 的配置纳入到 config 中~~  
+~~18、将 WangEditor 的配置纳入到 config 中~~
+~~69、将 FieldItem 组件中的 AddDelList、AnyEleList 组件用插槽的方式载入~~
 
-16、完善 small 之后的 compact 的样式及统一调整（compact 应该提取成公共配置，而不是采用参数传递方式，将 compact 改成 mini）；  
-17、将 Echarts 的配置纳入到 config 中  
-18、将 WangEditor 的配置纳入到 config 中  
 34、通过外链打开新标签页面时，没有页签图标显示  
 37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、
 38、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑  
@@ -405,8 +407,8 @@
 66、使用`vue-draggle-plus`替换 sortable.js
 67、测试验证所有文件都通过 index 文件统一导出带来的性能影响
 68、在 http 请求封装中全局捕获异常并统一处理：使得实际开发中不用 try catch
-69、将 FieldItem 组件中的 AddDelList、AnyEleList 组件用插槽的方式载入
 70、完善下载模板 mock 接口
+71、使用 `useModelData` 进行双向绑定
 
 ## 三、Bug 清单
 

@@ -1,4 +1,4 @@
-import base from "./user";
+import base from "./base";
 import users from "./user";
 
 import { createRestfulApis } from "../create";

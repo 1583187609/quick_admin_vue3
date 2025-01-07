@@ -1,8 +1,7 @@
 import { GetMockCascader } from "@/api-mock";
 import { CommonObj } from "@/core/_types";
-import { lazyFetch } from "..";
 
 export default {
   // 省市区级联
-  C_Region: lazyFetch(GetMockCascader),
+  C_Region: await GetMockCascader(),
 } as CommonObj;

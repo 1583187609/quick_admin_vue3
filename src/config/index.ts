@@ -125,7 +125,6 @@ const config = {
       //   xl: 3,
       // }),
       // size: isSmall ? "small" : undefined,
-      // compact: (_props: CommonObj) => _props.grid.xl < 6,
     },
     // _components: {
     //   ExtraBtns: undefined,

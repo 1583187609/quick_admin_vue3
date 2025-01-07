@@ -73,7 +73,7 @@ const fields: FormFieldAttrs[] = [
     label: "请求下拉",
     type: "select",
     attrs: {
-      options: "TestFetchLazy",
+      options: "D_TestFetchLazy",
     },
   },
   {

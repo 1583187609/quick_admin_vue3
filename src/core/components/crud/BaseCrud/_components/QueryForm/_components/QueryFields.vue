@@ -4,9 +4,8 @@
     v-model="modelData[field!.prop as string]"
     :is="layoutType === 'flex' ? FieldItem : FieldItemCol"
     class="form-item"
-    :class="currSize"
     :size="currSize"
-    :field="field"
+    :field="getHandleField(field)"
     :colAttrs="layoutType === 'flex' ? undefined : { class: 'query-field-item' }"
     :disabled="field?.quickAttrs?.disabled ?? disabled"
     :readonly="field?.quickAttrs?.readonly ?? readonly"
@@ -50,6 +49,14 @@ const modelData = computed<CommonObj>({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
+function getHandleField(field: FormFieldAttrs) {
+  if (field.attrs) {
+    field.attrs.style = "width:100%";
+  } else {
+    field.attrs = { style: "width:100%" };
+  }
+  return field;
+}
 </script>
 <style lang="scss">
 .form-item {

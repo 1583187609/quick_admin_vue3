@@ -38,7 +38,6 @@
               </template>
             </QueryFields>
             <QueryBtns
-              :compact="compact"
               :loading="loading"
               :isFold="isFold"
               :showFoldBtn="showFoldBtn"
@@ -64,7 +63,6 @@
           </template>
         </QueryFields>
         <QueryBtns
-          :compact="compact"
           :loading="loading"
           :isFold="isFold"
           :showFoldBtn="showFoldBtn"
@@ -112,7 +110,6 @@ const props = withDefaults(
     extraParams?: CommonObj; //额外的参数
     inputDebounce?: boolean;
     grid: Grid;
-    compact?: boolean; //是否是紧凑的
     showWhenNoFields?: boolean; //没有字段时是否不显示表单内容
     sectionFoldable?: boolean;
     layoutType?: QueryFormItemLayoutType; // 表单项的布局方式：弹性布局、grid布局
@@ -184,16 +181,17 @@ let isFirst = true;
 // watch fields 和 watch sections 只能两者选其一执行
 watch(
   () => props.fields,
-  (newVal: FormField[]) => {
+  (newVal: FormField[], oldVal: FormField[]) => {
     if (props.sections?.length) return;
     const { modelValue, grid } = props;
     const result = getHandleFields(newVal, modelValue, { quickAttrs: { grid: getGridAttrs(grid) } }, "query");
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);
-    isFirst ? $emit("ready") : (isFirst = false);
-    // $emit("change", formData.value, isFirst ? !!modelValue : false);
-    // isFirst = false;
+    if (isFirst) {
+      $emit("ready");
+      isFirst = false;
+    }
   },
   { immediate: true, deep: true, once: !!props?.sections?.length }
 );
@@ -211,9 +209,10 @@ watch(
         merge(formData.value, data);
         return item;
       }) ?? [];
-    isFirst ? $emit("ready") : (isFirst = false);
-    // $emit("change", formData.value, isFirst ? !!modelValue : false);
-    // isFirst = false;
+    if (isFirst) {
+      $emit("ready");
+      isFirst = false;
+    }
   },
   { immediate: true, deep: true, once: !props.sections }
 );

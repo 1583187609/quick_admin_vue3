@@ -84,18 +84,20 @@
       @extraBtns="onExtraBtns"
       @operateBtns="onOperateBtns"
       :fetch="GetMockCommon"
-      :key="showFieldsBySection"
-      compact
+      :key="`${showFieldsBySection}-${isSimple}`"
       ref="baseCrudRef"
     >
       <template #custom_form_item>【这是自定义的搜索项】</template>
       <template #middle>
         <div class="f-sb-c">
-          <div class="ml-r">
-            此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）
-          </div>
-          <el-form-item label="查询条件是否分块展示" style="margin-bottom: 0">
+          <div class="ml-r">此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）</div>
+          <el-form-item class="f-0" label="是否分块展示查询条件" style="margin-bottom: 0">
             <el-radio-group v-model="showFieldsBySection">
+              <el-radio v-bind="opt" v-for="(opt, ind) in getOpts('D_YesNoStatus')" :key="ind"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item class="f-0" label="是否简化展示表格列" style="margin-bottom: 0">
+            <el-radio-group v-model="isSimple" disabled>
               <el-radio v-bind="opt" v-for="(opt, ind) in getOpts('D_YesNoStatus')" :key="ind"></el-radio>
             </el-radio-group>
           </el-form-item>
@@ -163,9 +165,8 @@ const { openPopup } = usePopup();
 const route = useRoute();
 const router = useRouter();
 const baseCrudRef = ref<any>(null);
-const showFieldsBySection = ref(0); // 查询条件是否按分块显示
-const { type } = route.query;
-const isSimple = type === "simple";
+const showFieldsBySection = ref(0); // 查询条件是否按分块显示 0否 1是
+const isSimple = ref(0); // 0否 1是
 const { getSearchOpts } = useSelectOpts();
 //默认搜索值
 const modelData = reactive<CommonObj>({
@@ -193,7 +194,7 @@ const fields: FormFieldAttrs[] = [
     label: "文本下拉",
     type: "select",
     attrs: {
-      options: "TestText",
+      options: "D_TestText",
     },
   },
   {
@@ -210,7 +211,7 @@ const fields: FormFieldAttrs[] = [
     label: "函数下拉",
     type: "select",
     attrs: {
-      options: "TestFunction",
+      options: "D_TestFunction",
     },
   },
   {
@@ -218,7 +219,7 @@ const fields: FormFieldAttrs[] = [
     label: "Promise下拉",
     type: "select",
     attrs: {
-      options: "TestPromise",
+      options: "D_TestPromise",
     },
   },
   {
@@ -226,7 +227,13 @@ const fields: FormFieldAttrs[] = [
     label: "请求下拉",
     type: "select",
     attrs: {
-      options: "TestFetch",
+      options: "D_TestFetch",
+      // options: await GetMockCommon().then((res: CommonObj) => {
+      //   const list = res.records.slice(0, 3);
+      //   return list.map((item: string, ind: number) => {
+      //     return { label: "按需请求（无attrs)" + ind, value: ind };
+      //   });
+      // }),
     },
   },
   {
@@ -234,7 +241,7 @@ const fields: FormFieldAttrs[] = [
     label: "异步函数下拉",
     type: "select",
     attrs: {
-      options: "TestFetchLazy",
+      options: "D_TestFetchLazy",
     },
   },
   getSearchOpts("school", {
@@ -256,7 +263,7 @@ const fields: FormFieldAttrs[] = [
     label: "写死级联",
     type: "cascader",
     attrs: {
-      options: "TestCascader",
+      options: "D_TestCascader",
     },
   },
   {
@@ -273,7 +280,7 @@ const fields: FormFieldAttrs[] = [
     label: "树形下拉",
     type: "tree-select",
     attrs: {
-      options: "TestTree",
+      options: "D_TestTree",
     },
   },
   {
@@ -333,7 +340,7 @@ const cols: TableCol[] = [
     children: [
       {
         tpl: "T_UserInfo",
-        // prop: "user_data", // 默认值为 user_data
+        // prop: "user_data", //T_UserInfo 中的默认值为 user_data
         label: "用户信息",
         quickAttrs: {
           popover: {
@@ -343,11 +350,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "单个项目的常用组件，采用内嵌至系统的方式。",
-                      "预设了列宽，prop等属性",
-                      "可通过attrs传入UserInfo组件的props属性",
-                    ],
+                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -356,11 +359,11 @@ const cols: TableCol[] = [
           },
         },
         attrs: {
-          simple: isSimple,
+          simple: !!isSimple.value,
         },
       },
       //注意观察下面的关于是否显示的多种写法
-      !isSimple && {
+      !isSimple.value && {
         prop: "info_complete_children",
         label: "资料完善状态",
         width: 170,
@@ -462,11 +465,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击整个文本域进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -496,11 +495,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击文本跳转页面，点击图标进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -540,7 +535,7 @@ const cols: TableCol[] = [
           header: h(CustomColHead),
         },
       },
-      isSimple
+      isSimple.value
         ? {
             prop: "is_proxy",
             label: "标签(自定义，simple可见)",
@@ -578,7 +573,7 @@ const cols: TableCol[] = [
         width: 150,
         tpl: "T_BaseTag",
         attrs: {
-          name: "TestFetchLazy",
+          name: "D_TestFetchLazy",
         },
         quickAttrs: {
           popover: {
@@ -654,17 +649,33 @@ const cols: TableCol[] = [
     prop: "timeCols",
     label: "时间列",
     children: [
-      !isSimple && {
-        prop: "register_time",
+      !isSimple.value && {
+        prop: "create_time",
         label: "注册时间",
+        // formatter: true,
+        formatter: "YYYY/MM/DD HH:mm:ss",
         quickAttrs: {
-          popover: `只设置 {prop: "sj"}，不设置 {type: "create"}。会根据 label 中带时间二字，自动确定该列的宽度`,
+          popover: {
+            title: "时间处理",
+            slots: {
+              default: h(CustomPopover, {
+                sections: [
+                  {
+                    name: "描述",
+                    desc: [
+                      "不设置 tpl 属性。会根据 label 中带时间二字，自动确定该列的宽度；",
+                      "增强了日期的formatter处理，可传入true（会转成默认日期格式）或日期格式字符串，例：YYYY/MM/DD HH:mm:ss，也可传入函数（element-plus本身就支持）",
+                    ],
+                  },
+                ],
+              }),
+            },
+          },
         },
       },
       {
         tpl: "T_Create",
         label: "创建时间",
-        formatter: true,
         quickAttrs: {
           popover: `只设置 {tpl: "T_Create"}，便会默认区创建时间、创建人两个字段的 prop `,
         },
@@ -673,7 +684,6 @@ const cols: TableCol[] = [
         tpl: "T_Update",
         prop: "update_time",
         label: "修改时间",
-        formatter: "YYYY/MM/DD HH:mm:ss",
         quickAttrs: {
           popover: `设置 {tpl: "T_Update", prop: "update_time"}，只会显示 update_time 属性的值`,
         },

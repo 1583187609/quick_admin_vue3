@@ -68,11 +68,7 @@
               v-else-if="type === 'operate'"
             />
             <!-- 内嵌自定义表单列，例：UserInfo -->
-            <InsertCustomTableColComps
-              :col="col"
-              :row="{ ...row, $index }"
-              v-else-if="getIsInnerComponent(type as InsertTableColCompsType)"
-            />
+            <InsertCustomTableColComps :col="col" :row="{ ...row, $index }" v-else-if="getIsInnerComponent(type as InsertTableColCompsType)" />
             <!-- 内嵌表单控件列 -->
             <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-else />
           </template>
@@ -106,7 +102,6 @@ const props = withDefaults(
     col: TableColAttrs;
     size?: CommonSize;
     disabled?: boolean;
-    compact?: boolean; //是否紧凑
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
     getBtns: (row: CommonObj, rowInd: number) => BtnItem[];

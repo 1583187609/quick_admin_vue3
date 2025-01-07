@@ -1,10 +1,10 @@
 // 获取下拉项 select 的 options
 import { ref, computed, nextTick } from "vue";
-// import CompanyOption from "./_components/CompanyOption.vue";
 import { GetMockOptions } from "@/api-mock";
 import { CommonObj, OptionItem, StrNum } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import BaseOption from "@/core/components/BaseOption.vue";
+import { typeOf } from "@/utils";
 
 export type SelectSearchType = "school" | "company";
 
@@ -32,7 +32,6 @@ const typeMap: CommonObj = {
         label: full_name,
         value: id,
         short_name,
-        // slots: [CompanyOption, { full_name, short_name }],
         slots: [BaseOption, { rightKey: "short_name" }],
       };
     },
@@ -44,13 +43,9 @@ export default () => {
    * 获取输入并搜索的下拉项
    * @tips 作为 "school" | "company" 两个搜索下拉项的整合
    */
-  function getSearchOpts(
-    type: SelectSearchType,
-    fieldAttrs: FormFieldAttrs,
-    name?: string,
-    changeCb?: (val: StrNum, row: CommonObj) => void
-  ) {
+  function getSearchOpts(type: SelectSearchType, fieldAttrs: FormFieldAttrs, name?: string, changeCb?: (val: StrNum, row: CommonObj) => void) {
     if (!typeMap[type]) throw new Error(`不存在type为${type}的类型`);
+    let allOpts: CommonObj[] = [];
     const { fetchApi, defaultField, handleItem, reqNameKey = "name", resValKey = "id", extraParams } = typeMap[type];
     const loading = ref<boolean>(false);
     const resList = ref<CommonObj[]>([]);
@@ -59,10 +54,14 @@ export default () => {
 
     // 获取学校/公司的下拉项，可输入搜索
     function fetchOpts(val = "", isFocus = false) {
-      if (!val && !isFocus) return; // 为了规避当确定选择项后，会再次触发remoteMethod方法，导致opts的选项发生变化，影响其他逻辑
+      if (!val) {
+        if (allOpts.length) return (resList.value = allOpts); // 优化网络请求（减少网络请求次数）
+        if (!isFocus) return; // 为了规避当确定选择项后，会再次触发remoteMethod方法，导致opts的选项发生变化，影响其他逻辑
+      }
       loading.value = !!val;
       fetchApi({ [reqNameKey]: val, ...extraParams })
         .then((res: CommonObj[]) => {
+          if (!allOpts.length && !val) allOpts = res || [];
           resList.value = res || [];
         })
         .finally(() => {

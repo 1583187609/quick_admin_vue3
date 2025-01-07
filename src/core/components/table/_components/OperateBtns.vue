@@ -37,7 +37,6 @@ export type OperateBtnsType = BaseBtnType[] | ((row: CommonObj) => BaseBtnType[]
 export interface OperateBtnsAttrs {
   vertical?: boolean;
   maxNum?: number;
-  compact?: boolean; //是否紧凑型
   small?: boolean; //是否小型
 }
 const defaultBtnAttrs = {
@@ -52,7 +51,6 @@ const props = withDefaults(
     row?: CommonObj;
     maxNum?: number;
     vertical?: boolean;
-    compact?: boolean;
     small?: boolean;
   }>(),
   {

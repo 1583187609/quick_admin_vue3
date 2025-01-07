@@ -29,7 +29,6 @@ export interface CrudProps {
   // inputDebounce?: boolean; //输入框输入时，是否通过防抖输入，触发搜索
   // handleAuth?: HandleButtonAuth;
   // grid?: Grid;
-  // compact?: boolean; //表单项之间排列是否紧凑点
   // size?: CommonSize;
   // rowNum?: number; //筛选条件的表单展示几行
 }

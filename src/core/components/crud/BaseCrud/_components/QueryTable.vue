@@ -14,7 +14,6 @@
     <Column
       :col="col"
       :size="size"
-      :compact="compact"
       :disabled="disabled"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
@@ -54,7 +53,6 @@ const props = withDefaults(
     cols: TableColAttrs[]; //表头
     data: CommonObj[]; //表格行数据
     size?: CommonSize;
-    compact?: boolean; //是否紧凑
     operateBtns?: OperateBtnsType;
     operateBtnsAttrs?: OperateBtnsAttrs;
     disabled?: boolean;

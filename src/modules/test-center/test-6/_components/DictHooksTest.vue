@@ -20,35 +20,35 @@ const records = {
 const modelData = reactive({});
 const fields = [
   {
-    prop: "TestText",
+    prop: "D_TestText",
     label: "文本类型",
     type: "select",
     attrs: {
-      options: "TestText",
+      options: "D_TestText",
     },
   },
   {
-    prop: "TestObj",
+    prop: "D_TestObj",
     label: "对象类型",
     type: "select",
     attrs: {
-      options: "TestObj",
+      options: "D_TestObj",
     },
   },
   {
-    prop: "TestTree",
+    prop: "D_TestTree",
     label: "数组类型（树）",
     type: "tree-select",
     attrs: {
-      options: "TestTree",
+      options: "D_TestTree",
     },
   },
   {
-    prop: "TestCascader",
+    prop: "D_TestCascader",
     label: "数组类型（级联）",
     type: "cascader",
     attrs: {
-      options: "TestCascader",
+      options: "D_TestCascader",
     },
   },
   {
@@ -60,35 +60,35 @@ const fields = [
     },
   },
   {
-    prop: "TestFunction",
+    prop: "D_TestFunction",
     label: "函数类型",
     type: "select",
     attrs: {
-      options: "TestFunction",
+      options: "D_TestFunction",
     },
   },
   {
-    prop: "TestPromise",
+    prop: "D_TestPromise",
     label: "Promise类型",
     type: "select",
     attrs: {
-      options: "TestPromise",
+      options: "D_TestPromise",
     },
   },
   {
-    prop: "TestFetch",
+    prop: "D_TestFetch",
     label: "直接请求",
     type: "select",
     attrs: {
-      options: "TestFetch",
+      options: "D_TestFetch",
     },
   },
   {
-    prop: "TestFetchLazy",
+    prop: "D_TestFetchLazy",
     label: "按需请求",
     type: "select",
     attrs: {
-      options: "TestFetchLazy",
+      options: "D_TestFetchLazy",
     },
   },
   {

@@ -24,7 +24,6 @@ const props = withDefaults(
     isFold?: boolean;
     loading?: boolean;
     showFoldBtn?: boolean;
-    compact?: boolean;
   }>(),
   {
     isFold: true,

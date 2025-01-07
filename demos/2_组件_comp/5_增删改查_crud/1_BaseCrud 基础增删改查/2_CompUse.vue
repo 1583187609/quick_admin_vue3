@@ -60,7 +60,6 @@
     :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    compact
     selection
   >
     <template #zdy>【这是自定义的搜索项】</template>
@@ -157,7 +156,7 @@ const fields: FormFieldAttrs[] = [
     label: "请求下拉",
     type: "select",
     attrs: {
-      options: "TestFetchLazy",
+      options: "D_TestFetchLazy",
     },
   },
   {

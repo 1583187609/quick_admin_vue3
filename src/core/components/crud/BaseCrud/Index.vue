@@ -14,7 +14,6 @@
       :loading="loading"
       :inputDebounce="inputDebounce"
       :grid="grid"
-      :compact="compact"
       :rowNum="rowNum"
       :afterReset="handleAfterReset"
       v-bind="formAttrs"
@@ -61,7 +60,6 @@
     />
     <QueryTable
       v-model:cols="newCols"
-      :compact="compact"
       :loading="loading"
       :data="newRows"
       :total="pageInfo.total"
@@ -153,7 +151,6 @@ const $slots = defineSlots<{
   "[formItem]": () => void; // 表单项插槽
   "[colItem]": () => void; // 表格列插槽
 }>();
-const openPopup = inject<OpenPopupInject>("openPopup");
 const props = withDefaults(
   defineProps<{
     /** 顶部表单 **/
@@ -184,7 +181,6 @@ const props = withDefaults(
     showPagination?: boolean; // 是否显示分页
     /** 整体控制 **/
     omits?: boolean | BaseDataType[]; // 是否剔除掉null, undefined, ""的属性值
-    compact?: boolean; // 表单项、表格列之间排列是否紧凑点
     size?: CommonSize; // 整体的控件大小
     readonly?: boolean; // 是否只读
     disabled?: boolean; // 是否禁用
@@ -214,7 +210,6 @@ const props = withDefaults(
     // reqMap: () => ({ ...defaultReqMap }),
     // resMap: () => ({ ...defaultResMap }),
     grid: () => ({ ...defaultGridAttrs }),
-    compact: (_props: CommonObj) => _props.grid.xl < 6,
     handleAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
     formAttrs: () => defaultFormAttrs,
@@ -278,7 +273,7 @@ function getStandardFormatter(formatter: any): FormatterFn {
     formatter = defaultTableColDateFormat;
     t = "String";
   }
-  if (t === "String") return (row: CommonObj, column?: TableColumnCtx<any>) => dayjs(row[column.prop]).format(formatter);
+  if (t === "String") return (row: CommonObj, column?: TableColumnCtx<any>) => dayjs(row[column.property]).format(formatter);
   if (t === "Function") return formatter;
   throw new Error(`暂未处理此类型：${t}`);
 }

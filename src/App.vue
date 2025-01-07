@@ -1,7 +1,9 @@
 <template>
   <BasicSkins>
     <BasicPopup>
-      <RouterView />
+      <Suspense>
+        <RouterView />
+      </Suspense>
       <!-- 使用水印 -->
       <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
     </BasicPopup>

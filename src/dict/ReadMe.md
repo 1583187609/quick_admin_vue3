@@ -82,7 +82,7 @@ export default {
 
 ```js
   // 文本类型：值-字符串
-  TestText: {
+  D_TestText: {
     1: '文本1',
     2: '文本2',
   },
@@ -102,14 +102,14 @@ export default {
     },
   },
   // 函数类型：值-函数
-  TestFunction() {
+  D_TestFunction() {
     return {
       1: '函数1',
       2: '函数2',
     };
   },
   // 按需（懒）加载请求（不带attrs）
-  TestFetch: lazyFetch(
+  D_TestFetch: lazyFetch(
     () =>
       new Promise((resolve) => {
         resolve(
@@ -120,7 +120,7 @@ export default {
       }),
   ),
   // 按需（懒）加载请求（带attrs）
-  TestFetchLazy: lazyFetch(() =>
+  D_TestFetchLazy: lazyFetch(() =>
     GetMockCommon().then((res: CommonObj) => {
       const list = res.records.slice(0, 3);
       const obj: CommonObj = {};

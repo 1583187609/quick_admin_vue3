@@ -344,12 +344,12 @@ const tempTreeOpts = [
 
 export default {
   // 文本类型
-  TestText: {
+  D_TestText: {
     1: "文本1",
     2: "文本2",
   },
   // 对象类型
-  TestObj: {
+  D_TestObj: {
     1: {
       text: "对象1",
     },
@@ -361,45 +361,69 @@ export default {
     },
   },
   // 写死的级联
-  TestCascader: tempCascaderOpts,
+  D_TestCascader: tempCascaderOpts,
   // 写死的树
-  TestTree: tempTreeOpts,
+  D_TestTree: tempTreeOpts,
   // 函数类型
-  TestFunction() {
+  D_TestFunction() {
     return {
       1: "函数1",
       2: "函数2",
     };
   },
   // Promise 类型
-  TestPromise: lazyFetch(
-    () =>
-      new Promise(resolve => {
-        resolve({
-          1: "Promise1",
-          2: "Promise2",
-        });
-      })
-  ),
+  D_TestPromise: await new Promise(resolve => {
+    resolve({
+      1: "Promise1",
+      2: "Promise2",
+    });
+  }),
   // 按需（懒）加载请求（不带attrs）
-  TestFetch: lazyFetch(() =>
-    GetMockCommon().then((res: CommonObj) => {
-      const list = res.records.slice(0, 3);
-      return list.map((item: string, ind: number) => {
-        return { label: "按需请求（无attrs)" + ind, value: ind };
-      });
-    })
-  ),
+  D_TestFetch: await GetMockCommon().then((res: CommonObj) => {
+    const list = res.records.slice(0, 5);
+    return list.map((item: string, ind: number) => {
+      return { label: "按需请求（无attrs)" + ind, value: ind };
+    });
+  }),
   // 按需（懒）加载请求（带attrs）
-  TestFetchLazy: lazyFetch(() =>
-    GetMockCommon().then((res: CommonObj) => {
-      const list = res.records.slice(0, 3);
-      const obj: CommonObj = {};
-      const typeMap = { 0: "primary", 1: "danger", 2: "info" };
-      list.forEach((item: string, ind: number) => {
-        obj[ind] = { text: `按需请求${ind + 1}`, attrs: { type: typeMap[ind] } };
-      });
-      return obj;
-    })
-  ),
+  D_TestFetchLazy: await GetMockCommon().then((res: CommonObj) => {
+    const list = res.records.slice(0, 10);
+    const obj: CommonObj = {};
+    const typeMap = { 0: "primary", 1: "danger", 2: "info" };
+    list.forEach((item: string, ind: number) => {
+      obj[ind] = { text: `按需请求（带attrs)${ind + 1}`, attrs: { type: typeMap[ind % 3] } };
+    });
+    return obj;
+  }),
+  // // Promise 类型
+  // D_TestPromise: lazyFetch(
+  //   () =>
+  //     new Promise(resolve => {
+  //       resolve({
+  //         1: "Promise1",
+  //         2: "Promise2",
+  //       });
+  //     })
+  // ),
+  // // 按需（懒）加载请求（不带attrs）
+  // D_TestFetch: lazyFetch(() =>
+  //   GetMockCommon().then((res: CommonObj) => {
+  //     const list = res.records.slice(0, 3);
+  //     return list.map((item: string, ind: number) => {
+  //       return { label: "按需请求（无attrs)" + ind, value: ind };
+  //     });
+  //   })
+  // ),
+  // // 按需（懒）加载请求（带attrs）
+  // D_TestFetchLazy: lazyFetch(() =>
+  //   GetMockCommon().then((res: CommonObj) => {
+  //     const list = res.records.slice(0, 3);
+  //     const obj: CommonObj = {};
+  //     const typeMap = { 0: "primary", 1: "danger", 2: "info" };
+  //     list.forEach((item: string, ind: number) => {
+  //       obj[ind] = { text: `按需请求${ind + 1}`, attrs: { type: typeMap[ind] } };
+  //     });
+  //     return obj;
+  //   })
+  // ),
 };

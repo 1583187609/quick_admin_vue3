@@ -98,11 +98,16 @@ const modelVal = computed({
 });
 const newFiled = computed<FormFieldAttrs>(() => {
   const { field } = props;
-  const { attrs } = field;
+  const { attrs, type } = field;
   const placeholder = getPlaceholder(field);
   if (attrs) {
-    const { options } = attrs;
-    if (options) field.attrs!.options = getStandardOptions(options);
+    const { options, data } = attrs;
+    // 兼容处理 tree-select的下拉属性和其他属性名称不一致的问题
+    if (type === "tree-select") {
+      if (data ?? options) field.attrs!.data = getStandardOptions(data ?? options);
+    } else {
+      if (options) field.attrs!.options = getStandardOptions(options);
+    }
     field.attrs!.placeholder = placeholder;
   } else {
     field.attrs = { placeholder };
