@@ -118,6 +118,7 @@ import {
   showConfirmMessage,
   exportExcel,
   defaultTableColDateFormat,
+  enableTpl,
 } from "@/core/utils";
 import config from "@/config";
 import Sortable from "sortablejs";
@@ -138,7 +139,7 @@ import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/
 import { TableAttrs } from "@/core/components/table/_types";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
-import { getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
+import { getStandardTplInfo } from "@/core/components/form/_components/FieldItem";
 import cssVars from "@/assets/styles/_var.module.scss";
 import _ from "lodash";
 import dayjs from "dayjs";
@@ -284,11 +285,13 @@ function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
   const filterCols = cols.filter(it => !!it);
   return filterCols.map((originCol: any) => {
     let { tpl, ...col } = originCol;
-    const { type } = col;
-    if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-    if (tpl) {
-      const tplData = getStandAttrsFromTpl(tpl, defaultTableColTpls);
-      col = merge(tplData, col);
+    if (enableTpl) {
+      const { type } = col;
+      if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+      if (tpl) {
+        const tplData = getStandardTplInfo(tpl, defaultTableColTpls);
+        col = merge(tplData, col);
+      }
     }
     const { children, formatter } = col as TableColAttrs;
     if (formatter) col.formatter = getStandardFormatter(formatter);

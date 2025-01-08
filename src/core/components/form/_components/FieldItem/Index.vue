@@ -83,7 +83,7 @@ import {
 import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
-import { defaultFieldAttrs, defaultFormItemTplsMap, getStandAttrsFromTpl } from ".";
+import { defaultFieldAttrs, defaultFormItemTplsMap, getStandardTplInfo } from ".";
 import { useFormAttrs, useDict } from "@/hooks";
 import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
@@ -131,7 +131,7 @@ const formItemAttrs = computed<FormFieldAttrs>(() => {
   /*** 合并统一 tempField ***/
   const { tpl, type = defaultFormItemType, rules = [], ...restField } = field;
   const { rules: defRules = [], ...restDefField } = defaultFieldAttrs[type] ?? {};
-  const { rules: tplRules = [], ...restTplField } = tpl ? getStandAttrsFromTpl(tpl, formItemTpls) : {};
+  const { rules: tplRules = [], ...restTplField } = tpl ? getStandardTplInfo(tpl, formItemTpls) : {};
   const tempField: FormFieldAttrs = merge({}, restDefField, restTplField, restField, {
     type,
     rules: mergeRules([...defRules, ...tplRules, ...rules]),

@@ -10,7 +10,7 @@
 只需在源码中写好注释，即可通过 node 命令生成说明文档，大大降低了了说明文档的维护难度。
 
 5、谨记：遵循 json 嵌套跟随 dom 嵌套的原则（记住这点方便快速上手）
-6、还额外整合了如下几个实用工具库（提效）：storage（封装了 localStorage、sessionStorage、cookie 的存取）、弹性布局基础类、easy api
+6、还额外沉淀了如下几个实用工具库（提效）：storage（封装了 localStorage、sessionStorage、cookie 的存取）、弹性布局基础类、easy api、easy mock、quick docs、爬虫工具
 
 ## 待定清单
 

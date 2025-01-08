@@ -10,6 +10,7 @@ import { CommonObj } from "@/core/_types";
 const { table, form, homePath, widgetSize, popup } = config;
 
 export const isOptimization = false; // 是否开启优化。若为true，则会避免计算较复杂的逻辑，同时也会少一些良好的开发体验
+export const enableTpl = true; // 是否启用模板
 
 export const emptyStr = "-"; // 空位占位符
 export const rangeJoinChar = "~"; //日期、数字范围区间的连接符号

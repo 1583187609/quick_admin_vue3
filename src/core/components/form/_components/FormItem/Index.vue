@@ -136,7 +136,7 @@ function getStandardOptions(opts): OptionItem[] {
 }
 // 事件处理
 function handleEvent(name: "blur" | "focus" | "change", e: any) {
-  const val = e.target?.value ?? e;
+  const val = e?.target?.value ?? e;
   $emit(name, val, e);
 }
 </script>

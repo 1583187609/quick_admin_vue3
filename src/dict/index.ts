@@ -14,6 +14,7 @@ export function lazyFetch(promiseFn) {
 
 /**
  * 数据映射集合（包含select，cascader 的下拉项，还有 tree 的数据）
+ * @notice 支持文本、数组、对象、Promise、批量请求的下拉项
  */
 
 export default {

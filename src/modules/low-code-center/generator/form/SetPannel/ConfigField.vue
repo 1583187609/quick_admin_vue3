@@ -11,7 +11,7 @@ import { ref, computed } from "vue";
 import { getWidgetAttrsFields } from "./_config";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { CommonObj } from "@/vite-env";
-import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "@/core/components/form/_components/FieldItem";
+import { defaultFormItemTplsMap, getStandardTplInfo } from "@/core/components/form/_components/FieldItem";
 import { OptionItem } from "@/core/_types";
 import BaseOption from "@/core/components/BaseOption.vue";
 import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
@@ -57,7 +57,7 @@ const modelData = computed<FormFieldAttrs>({
     if (!tpl) {
       return getFieldWithPrefix({ ...defaultValue, ...props.modelValue });
     }
-    const tplInfo = getStandAttrsFromTpl(tpl, defaultFormItemTplsMap.common);
+    const tplInfo = getStandardTplInfo(tpl, defaultFormItemTplsMap.common);
     const originData = { ...defaultValue, ...tplInfo, ...restInfo };
     const { type, attrs } = originData;
     defaultValueWidgetAttrs.value = { type, attrs };

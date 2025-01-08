@@ -10,7 +10,7 @@ export default await GetMockCommon().then((res: any) => {
   list.map((item, ind) => {
     const name = `D_BatchInsert_${ind}`;
     const opts = Array(3).fill("");
-    dictMap[name] = opts.map((it, i) => ({ label: `批量插入${ind}_${i}`, value: i }));
+    dictMap[name] = opts.map((it, i) => ({ label: `批量请求下拉${ind}_选项${i}`, value: i }));
   });
   return dictMap;
 });

@@ -348,6 +348,11 @@ export default {
     1: "文本1",
     2: "文本2",
   },
+  // 数组类型
+  D_TestArray: [
+    { value: 1, label: "数组1" },
+    { value: 2, label: "数组2" },
+  ],
   // 对象类型
   D_TestObj: {
     1: {
@@ -381,10 +386,20 @@ export default {
   // 按需（懒）加载请求（不带attrs）
   D_TestFetch: await GetMockCommon().then((res: CommonObj) => {
     const list = res.records.slice(0, 5);
+    console.log(list, "请求下拉--------");
     return list.map((item: string, ind: number) => {
       return { label: "按需请求（无attrs)" + ind, value: ind };
     });
   }),
+  // D_TestFetch: () => {
+  //   return GetMockCommon().then((res: CommonObj) => {
+  //     const list = res.records.slice(0, 5);
+  //     console.log(list, "请求下拉--------");
+  //     return list.map((item: string, ind: number) => {
+  //       return { label: "按需请求（无attrs)" + ind, value: ind };
+  //     });
+  //   });
+  // },
   // 按需（懒）加载请求（带attrs）
   D_TestFetchLazy: await GetMockCommon().then((res: CommonObj) => {
     const list = res.records.slice(0, 10);

@@ -1,7 +1,7 @@
 import { FormField, FormFieldAttrs, FormTplType, Grid } from "@/core/components/form/_types";
-import { typeOf, propsJoinChar } from "@/core/utils";
+import { typeOf, propsJoinChar, enableTpl } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
-import { defaultFormItemTplsMap, getStandAttrsFromTpl } from "./_components/FieldItem";
+import { defaultFormItemTplsMap, getStandardTplInfo } from "./_components/FieldItem";
 import { FootBtn } from "./_components/FooterBtns.vue";
 import { getBtnObj } from "../BaseBtn";
 import { BtnItem, BtnName } from "../BaseBtn/_types";
@@ -49,7 +49,7 @@ export function getAddDelItem(fields?: FormField[]) {
 //     if (typeOf(originField) !== "Object") return null;
 //     let { tpl, ...field } = originField as FormFieldAttrs;
 //     if (tpl) {
-//       const tplData = getStandAttrsFromTpl(tpl, defaultFormItemTplsMap[tplType]);
+//       const tplData = getStandardTplInfo(tpl, defaultFormItemTplsMap[tplType]);
 //       field = merge(tplData, field);
 //     }
 //     const { type, prop = tpl, children } = field;
@@ -107,7 +107,7 @@ function getStandardFieldAttrs(simpleField: any, tplType: FormTplType = "common"
   const t = typeOf(simpleField);
   if (t === "Object") {
     let { tpl, ...field } = simpleField;
-    if (tpl) field = merge(getStandAttrsFromTpl(tpl, defaultFormItemTplsMap[tplType]), field);
+    if (tpl) field = merge(getStandardTplInfo(tpl, defaultFormItemTplsMap[tplType]), field);
     return field;
   }
   if (t === "String") return getStandardFieldAttrs({ tpl: simpleField }, tplType);
@@ -133,7 +133,8 @@ export function getHandleFields(
   const resObj: ResObj = { data: {}, fields: [] };
   fields.forEach((originField: FormField) => {
     if (!originField) return;
-    const field = getStandardFieldAttrs(originField, tplType);
+    // 如果不启用模板，只可能是对象
+    const field = enableTpl ? getStandardFieldAttrs(originField, tplType) : originField;
     const { type, prop } = field;
     const t = typeOf(prop);
     if (t === "String") {

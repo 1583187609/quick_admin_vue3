@@ -90,9 +90,7 @@
       <template #custom_form_item>【这是自定义的搜索项】</template>
       <template #middle>
         <div class="f-sb-c">
-          <div class="ml-r">
-            此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）
-          </div>
+          <div class="ml-r">此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）</div>
           <el-form-item class="f-0" label="是否分块展示查询条件" style="margin-bottom: 0">
             <el-radio-group v-model="showFieldsBySection">
               <el-radio v-bind="opt" v-for="(opt, ind) in getOpts('D_YesNoStatus')" :key="ind"></el-radio>
@@ -208,6 +206,30 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
+    prop: "text_opts",
+    label: "文本下拉",
+    type: "select",
+    attrs: {
+      options: "D_TestText",
+    },
+  },
+  {
+    prop: "arr_opts",
+    label: "数组下拉",
+    type: "select",
+    attrs: {
+      options: "D_TestArray",
+    },
+  },
+  {
+    prop: "obj_opts",
+    label: "对象下拉",
+    type: "select",
+    attrs: {
+      options: "D_TestObj",
+    },
+  },
+  {
     prop: "function_opts",
     label: "函数下拉",
     type: "select",
@@ -229,12 +251,6 @@ const fields: FormFieldAttrs[] = [
     type: "select",
     attrs: {
       options: "D_TestFetch",
-      // options: await GetMockCommon().then((res: CommonObj) => {
-      //   const list = res.records.slice(0, 3);
-      //   return list.map((item: string, ind: number) => {
-      //     return { label: "按需请求（无attrs)" + ind, value: ind };
-      //   });
-      // }),
     },
   },
   {
@@ -245,18 +261,37 @@ const fields: FormFieldAttrs[] = [
       options: "D_TestFetchLazy",
     },
   },
+  {
+    prop: "batch_opts_1",
+    label: "批量下拉1",
+    type: "select",
+    attrs: {
+      options: "D_BatchInsert_1",
+    },
+    quickAttrs: {
+      popover: "通过接口一次性请求很多下拉项",
+    },
+  },
+  {
+    prop: "batch_opts_2",
+    label: "批量下拉2",
+    type: "select",
+    attrs: {
+      options: "D_BatchInsert_2",
+    },
+  },
   getSearchOpts("school", {
     prop: "schoolId",
     label: "学校",
     quickAttrs: {
-      popover: "采用hooks封装复杂逻辑",
+      popover: "hooks远程搜索下拉",
     },
   }),
   getSearchOpts("company", {
     prop: "companyId",
     label: "公司",
     quickAttrs: {
-      popover: "hooks封装且自定义选择下拉项",
+      popover: "hooks远程搜索下拉，并自定义el-option样式",
     },
   }),
   {
@@ -351,11 +386,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "单个项目的常用组件，采用内嵌至系统的方式。",
-                      "预设了列宽，prop等属性",
-                      "可通过attrs传入UserInfo组件的props属性",
-                    ],
+                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -470,11 +501,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击整个文本域进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -504,11 +531,7 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击文本跳转页面，点击图标进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],

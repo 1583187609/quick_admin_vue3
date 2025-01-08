@@ -456,12 +456,12 @@ export const defaultFormItemTplsMap = {
 };
 
 /**
- * 获取模块对应的数据信息
+ * 获取获取标准的模块数据信息（处理表单项和表格列的模板）
  * @param {string} tpl 模板名称
  * @param {object} tplMap 模板映射
  * @returns {object}
  */
-export function getStandAttrsFromTpl(tpl, tplMap = defaultFormItemTplsMap.common) {
+export function getStandardTplInfo(tpl, tplMap = defaultFormItemTplsMap.common) {
   let tplInfo = tplMap[tpl];
   if (!tplInfo) throw new Error(`不存在该模板：${tpl}`);
   tplInfo = cloneDeep(tplInfo);

@@ -1,18 +1,7 @@
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import {
-  emptyVals,
-  setStorage,
-  getStorage,
-  typeOf,
-  storage,
-  StorageType,
-  showMessage,
-  getTextFromOptions,
-  emptyStr,
-  needParam,
-} from "@/utils";
+import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage, getTextFromOptions, emptyStr, needParam } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/core/_types";
 import dayjs from "dayjs";
 import { GetMockCommon } from "@/api-mock";
@@ -58,9 +47,15 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
       if (commonMap[name]) return;
       const data = (currMap as Function)();
       const t = typeOf(data);
-      if (t !== "Object") throw new Error(`暂未处理函数返回的此种类型：${t}`);
-      commonMap[name] = data;
-      return;
+      if (t === "Promise" || t === "Object") {
+        // if (t === "Object") {
+        commonMap[name] = data;
+        // } else {
+        //   throw new Error(`待完善此类型：${t}`);
+        // }
+        return;
+      }
+      throw new Error(`暂未处理函数返回的此种类型：${t}`);
     });
     insertMap();
   }
@@ -168,12 +163,7 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @param {object} propsMap  属性名label、value等的映射
    * @param {string} emptyChar  为空时的占位符号
    */
-  function getText(
-    name: DictName | CommonObj = needParam(),
-    code: StrNum | StrNum[],
-    propsMap?: CommonObj,
-    emptyChar = emptyStr
-  ): string {
+  function getText(name: DictName | CommonObj = needParam(), code: StrNum | StrNum[], propsMap?: CommonObj, emptyChar = emptyStr): string {
     if (emptyVals.includes(code as any)) return emptyChar;
     const currMap = typeof name === "string" ? getMap(name) : name;
     if (!currMap) return emptyChar; // throw new Error(`未找到${name}的映射`);
