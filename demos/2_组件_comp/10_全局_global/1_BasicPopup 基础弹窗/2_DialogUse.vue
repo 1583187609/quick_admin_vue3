@@ -15,10 +15,9 @@
             onConfirm() {
               ElMessage.info('点击了确认按钮');
             },
+            footer: 'confirm',
           },
-          '弹窗内容',
-          'dialog',
-          'confirm'
+          '弹窗内容'
         )
       "
       type="warning"

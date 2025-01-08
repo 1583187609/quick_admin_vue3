@@ -32,7 +32,6 @@ const props = withDefaults(
   {
     modelValue: false,
     title: "查看详情",
-    footer: "",
   }
 );
 const $emit = defineEmits(["update:modelValue"]);

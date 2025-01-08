@@ -10,10 +10,9 @@
               beforeClose: handleBeforeClose,
               // onCancel: () => ElMessage.info('点击了取消按钮'),
               // onConfirm: () => ElMessage.info('点击了确认按钮'),
+              footer: 'confirm',
             },
-            Test,
-            'dialog',
-            'confirm'
+            Test
           )
         "
         type="primary"
@@ -34,10 +33,9 @@
               onConfirm() {
                 ElMessage.info('点击了确认按钮');
               },
+              footer: 'confirm',
             },
-            '弹窗内容',
-            'dialog',
-            'confirm'
+            '弹窗内容'
           )
         "
         type="warning"
@@ -86,11 +84,11 @@
 <script lang="ts" setup>
 import { ElMessage } from "element-plus";
 import Test from "./Test.vue";
-import { useOpenCommonPopup, usePopup } from "@/hooks";
+import { useOpenGlobalPopup, usePopup } from "@/hooks";
 
 const { openPopup, closePopup } = usePopup();
 
-const openCommonPopup = useOpenCommonPopup();
+const openCommonPopup = useOpenGlobalPopup();
 function handleBeforeClose(cb) {
   openPopup(
     {
@@ -99,10 +97,9 @@ function handleBeforeClose(cb) {
         closePopup();
         cb();
       },
+      footer: "confirm",
     },
-    "确认关闭吗？",
-    "dialog",
-    "confirm"
+    "确认关闭吗？"
   );
 }
 </script>

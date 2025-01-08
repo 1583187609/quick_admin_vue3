@@ -90,7 +90,9 @@
       <template #custom_form_item>【这是自定义的搜索项】</template>
       <template #middle>
         <div class="f-sb-c">
-          <div class="ml-r">此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）</div>
+          <div class="ml-r">
+            此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）
+          </div>
           <el-form-item class="f-0" label="是否分块展示查询条件" style="margin-bottom: 0">
             <el-radio-group v-model="showFieldsBySection">
               <el-radio v-bind="opt" v-for="(opt, ind) in getOpts('D_YesNoStatus')" :key="ind"></el-radio>
@@ -150,7 +152,7 @@ import AuthInfo from "@/components/AuthInfo.vue";
 import { useDict, usePopup, useSelectOpts } from "@/hooks";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { ElemeFilled, Postcard } from "@element-plus/icons-vue";
 import { handleBtnNext } from "@/utils";
 import SimpleList from "./SimpleList/Index.vue";
@@ -162,7 +164,6 @@ import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
 
 const { getOpts } = useDict();
 const { openPopup } = usePopup();
-const route = useRoute();
 const router = useRouter();
 const baseCrudRef = ref<any>(null);
 const showFieldsBySection = ref(0); // 查询条件是否按分块显示 0否 1是
@@ -350,7 +351,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
+                    desc: [
+                      "单个项目的常用组件，采用内嵌至系统的方式。",
+                      "预设了列宽，prop等属性",
+                      "可通过attrs传入UserInfo组件的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -465,7 +470,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击整个文本域进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -495,7 +504,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击文本跳转页面，点击图标进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],

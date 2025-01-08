@@ -7,7 +7,7 @@
     <el-button @click="openPopup(['div', {}, '抽屉标题（自定义渲染）'], '抽屉内容', 'drawer')" type="info"
       >打开抽屉（自定义header）</el-button
     >
-    <el-button @click="openPopup('抽屉', '抽屉内容', 'drawer', 'alert')" type="info"
+    <el-button @click="openPopup({ title: '抽屉', footer: 'alert' }, '抽屉内容', 'drawer')" type="info"
       >打开抽屉（自定义footer，传'alert'）</el-button
     >
     <el-button

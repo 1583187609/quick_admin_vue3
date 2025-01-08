@@ -76,7 +76,7 @@ const newToolBtns = computed(() => props.toolBtns.map(btn => toolsMap[btn]).filt
 function onToolBtn(name: ToolBtnName) {
   const map = {
     set: () => openColSetDrawer(),
-    print: () => openPopup("打印设置", SetPrint, "dialog"),
+    print: () => openPopup("打印设置", SetPrint),
   };
   map[name]?.();
 }

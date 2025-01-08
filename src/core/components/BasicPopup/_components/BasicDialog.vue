@@ -41,7 +41,6 @@ const props = withDefaults(
   {
     modelValue: false,
     title: "温馨提示",
-    footer: "confirm",
   }
 );
 const $emit = defineEmits(["update:modelValue"]);

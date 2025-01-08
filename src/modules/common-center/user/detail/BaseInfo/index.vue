@@ -3,7 +3,10 @@
   <!-- 图片审核 -->
   <BaseSection class="imgs" title="图片审核" bodyClass="f-fs-s p-o">
     <template #head-right>
-      <el-button @click="openPopup('处理用户', '这是处理用户弹窗中的内容', 'confirm')" type="primary" style="margin-left: auto"
+      <el-button
+        @click="openPopup({ title: '处理用户', footer: 'confirm' }, '这是处理用户弹窗中的内容')"
+        type="primary"
+        style="margin-left: auto"
         >处理用户</el-button
       >
       <el-popconfirm title="确定注销当前用户吗？" width="220" @confirm="showMessage('注销成功')">
@@ -24,7 +27,7 @@
           type="success"
           style="width: 5em"
           size="small"
-          @click="openPopup(null, '是否要重新比对人脸？', 'dialog', 'confirm')"
+          @click="openPopup({ footer: 'confirm' }, '是否要重新比对人脸？')"
         >
           比对人脸
         </el-button>
@@ -494,10 +497,9 @@ function handleReject(rejected: boolean) {
             closePopup("dialog");
           });
         },
+        footer: "confirm",
       },
-      `确定${rejected ? "取消" : ""}驳回？`,
-      "dialog",
-      "confirm"
+      `确定${rejected ? "取消" : ""}驳回？`
     );
   } else {
     openPopup("头像驳回", RejectAvatar);

@@ -11,12 +11,11 @@
           {
             title: '温馨提示',
             beforeClose: handleBeforeClose,
+            footer: 'confirm',
             // onCancel: () => ElMessage.info('点击了取消按钮'),
             // onConfirm: () => ElMessage.info('点击了确认按钮'),
           },
-          '这是弹窗内容',
-          'dialog',
-          'confirm'
+          '这是弹窗内容'
         )
       "
       type="primary"
@@ -47,10 +46,9 @@ function handleBeforeClose(cb) {
         closePopup();
         cb();
       },
+      footer: "confirm",
     },
-    "确认关闭吗？",
-    "dialog",
-    "confirm"
+    "确认关闭吗？"
   );
 }
 </script>

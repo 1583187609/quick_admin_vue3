@@ -1,19 +1,20 @@
 import { BaseRenderData, BaseRenderComponentType } from "../BaseRender.vue";
+import { FootBtnsType } from "./_components/FootBtns.vue";
 
 export type PopupType = "drawer" | "dialog"; //弹窗类型
 export type DialogId = `dialog-${number}`; //id必须大于等于0，示例："dialog-1"
 export type DrawerId = `drawer-${number}`; //id必须大于等于0，示例："drawer-1"
-export type FootRenderData = false | BaseRenderData;
+export type FootRenderData = FootBtnsType | BaseRenderData;
 export interface DialogPopup {
   id: number;
   name: "dialog";
   show: boolean;
   attrs: {
     title?: string | BaseRenderComponentType;
+    footer?: FootRenderData; //底部按钮
     [key: string]: any;
   };
   body: BaseRenderData;
-  foot?: FootRenderData; //底部按钮或自定义元素
   createAt: number; //创建时间戳
 }
 export type DirectionType = "rtl" | "ltr" | "ttb" | "btt";
@@ -24,10 +25,10 @@ export interface DrawerPopup {
   attrs: {
     title?: string | BaseRenderComponentType;
     direction?: DirectionType;
+    footer?: FootRenderData; //底部按钮
     [key: string]: any;
   };
   body: BaseRenderData;
-  foot?: FootRenderData; //底部按钮或自定义元素
   createAt: number; //创建时间戳
 }
 export interface DrawerHeadAttrs {

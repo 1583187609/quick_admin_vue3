@@ -18,8 +18,9 @@ const props = withDefaults(
   }>(),
   {}
 );
+const $emit = defineEmits(["delete"]);
 function handleStop() {
-  openPopup("温馨提示", "确定删除吗？", "dialog", "confirm");
+  openPopup({ title: "温馨提示", footer: "confirm", onConfirm: () => $emit("delete") }, "确定删除吗？");
 }
 </script>
 <style lang="scss" scoped>

@@ -5,23 +5,11 @@
 <template>
   <slot />
   <!-- 对话框 -->
-  <BasicDialog
-    v-model="dialog.show"
-    :footer="dialog.foot"
-    v-bind="dialog.attrs"
-    v-for="(dialog, ind) in dialogs"
-    :key="'dialog-' + ind"
-  >
+  <BasicDialog v-model="dialog.show" v-bind="dialog.attrs" v-for="(dialog, ind) in dialogs" :key="'dialog-' + ind">
     <BaseRender :renderData="dialog.body" />
   </BasicDialog>
   <!-- 抽屉 -->
-  <BasicDrawer
-    v-model="drawer.show"
-    :footer="drawer.foot"
-    v-bind="drawer.attrs"
-    v-for="(drawer, ind) in drawers"
-    :key="'drawer-' + ind"
-  >
+  <BasicDrawer v-model="drawer.show" v-bind="drawer.attrs" v-for="(drawer, ind) in drawers" :key="'drawer-' + ind">
     <BaseRender :renderData="drawer.body" />
   </BasicDrawer>
 </template>
@@ -61,15 +49,7 @@ const drawers = reactive<DrawerPopup[]>([]);
  */
 function getIsPopupObj(popup: CommonObj) {
   if (Object.keys(popup).length > 7) return false;
-  return (
-    "id" in popup &&
-    "name" in popup &&
-    "show" in popup &&
-    "attrs" in popup &&
-    "body" in popup &&
-    // "foot" in popup &&
-    "createAt" in popup
-  );
+  return "id" in popup && "name" in popup && "show" in popup && "attrs" in popup && "body" in popup && "createAt" in popup;
 }
 
 /**
@@ -83,7 +63,7 @@ function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: Commo
 /**
  * 对话框 dialog
  */
-function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foot: FootRenderData = "") {
+function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData) {
   if (dialogTimer) return showMessage("您的操作太频繁了", "warning");
   const t = typeOf(head);
   if (t === "String") {
@@ -102,7 +82,6 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData, foo
       show: true,
       attrs: getPopupAttrs(head, `dialog-${id}`, defaultDialogAttrs),
       body,
-      foot,
       createAt: Date.now(),
     })
   );
@@ -130,7 +109,7 @@ function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}
 /**
  * 抽屉 drawer
  */
-function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData, foot: FootRenderData = false) {
+function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
   if (drawerTimer) return showMessage("您的操作太频繁了", "warning");
   const t = typeOf(head);
   if (t === "String") {
@@ -149,7 +128,6 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData, foo
       show: true,
       attrs: getPopupAttrs(head, `drawer-${id}`, defaultDrawerAttrs),
       body,
-      foot,
       createAt: Date.now(),
     })
   );
@@ -180,8 +158,7 @@ function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}
 function openPopup(
   head: DrawerHeadTypes | DialogHeadTypes | DialogId | DrawerId,
   body?: BaseRenderData,
-  type: PopupType | FootRenderData = defaultPopupType,
-  foot: FootRenderData = false
+  type: PopupType | FootRenderData = defaultPopupType
 ) {
   if (typeof head === "string") {
     const isDiaId = head.startsWith("dialog-") && !body;
@@ -189,13 +166,8 @@ function openPopup(
     const isDraId = head.startsWith("drawer-") && !body;
     if (isDraId) return openDrawer(head);
   }
-  const isPopupType = type === "dialog" || type === "drawer";
-  if (!isPopupType) {
-    foot = type;
-    type = defaultPopupType;
-  }
-  if (type === "dialog") return openDialog(head, body, foot);
-  if (type === "drawer") return openDrawer(head, body, foot);
+  if (type === "dialog") return openDialog(head, body);
+  if (type === "drawer") return openDrawer(head, body);
   throw new Error(`暂不支持此类型弹窗：${type}`);
 }
 

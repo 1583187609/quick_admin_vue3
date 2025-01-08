@@ -1,6 +1,6 @@
 import { GetMockCommon } from "@/api-mock";
 import { CommonObj } from "@/core/_types";
-import { lazyFetch } from "..";
+// import { lazyFetch } from "..";
 
 const tempCascaderOpts = [
   {

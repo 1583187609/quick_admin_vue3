@@ -1,5 +1,6 @@
 import test from "./modules/test";
 import base from "./modules/base";
+import batch from "./modules/batch";
 import other from "./modules/other";
 import system from "./modules/system";
 import global from "./modules/global";
@@ -18,6 +19,7 @@ export function lazyFetch(promiseFn) {
 export default {
   ...test,
   ...base,
+  ...batch,
   ...other,
   ...system,
   ...global,
