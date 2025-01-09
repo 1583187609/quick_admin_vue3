@@ -376,14 +376,15 @@ export default {
       2: "函数2",
     };
   },
-  // Promise 类型
-  D_TestPromise: new Promise(resolve => {
-    // 可以返回数组
+  // Promise 类型（返回数组）
+  D_TestPromiseArray: new Promise(resolve => {
     resolve([
       { value: 1, label: "数组Promise1" },
       { value: 2, label: "数组Promise2" },
     ]);
-    // 也可以返回对象
+  }),
+  // Promise 类型（返回对象）
+  D_TestPromiseObject: new Promise(resolve => {
     resolve({
       1: "对象Promise1",
       2: "对象Promise2",

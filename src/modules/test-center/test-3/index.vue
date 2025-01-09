@@ -238,11 +238,25 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "promise_opts",
-    label: "Promise下拉",
+    prop: "promise_opts_arr",
+    label: "Promise下拉数组",
     type: "select",
     attrs: {
-      options: "D_TestPromise",
+      options: "D_TestPromiseArray",
+    },
+    quickAttrs: {
+      popover: "Promise返回一个数组",
+    },
+  },
+  {
+    prop: "promise_opts_obj",
+    label: "Promise下拉对象",
+    type: "select",
+    attrs: {
+      options: "D_TestPromiseObject",
+    },
+    quickAttrs: {
+      popover: "Promise返回一个对象",
     },
   },
   {
