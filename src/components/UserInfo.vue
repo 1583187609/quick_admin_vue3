@@ -32,7 +32,7 @@
             <BaseTag class="education" name="D_AuthCase" value="2">学历</BaseTag>
           </template>
           <div>
-            {{ getText("D_EducationType", data.school_certificate_level) || "-" }}
+            {{ getText("D_EducationType", data.school_certificate_level ?? 0) || "-" }}
           </div>
         </el-popover>
       </div>
@@ -54,7 +54,7 @@
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            学历：<b>{{ getText("D_EducationType", data.school_certificate_level) || "-" }}</b>
+            学历：<b>{{ getText("D_EducationType", data.school_certificate_level ?? 0) || "-" }}</b>
           </div>
           <div class="item f-0">
             学校：<b>{{ data.school_name || "-" }}</b>
@@ -70,10 +70,10 @@
         </div>
         <div class="f-fs-c">
           <div class="item f-0">
-            现居地：<b>{{ getText("C_Region", data.live_city) || "-" }}</b>
+            现居地：<b>{{ getText("C_Region", data.live_city ?? 0) || "-" }}</b>
           </div>
           <div class="item f-0">
-            家乡：<b>{{ getText("C_Region", data.city) || "-" }}</b>
+            家乡：<b>{{ getText("C_Region", data.city ?? 0) || "-" }}</b>
           </div>
         </div>
       </div>

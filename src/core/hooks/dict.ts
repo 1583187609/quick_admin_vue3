@@ -1,20 +1,7 @@
-import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import {
-  emptyVals,
-  setStorage,
-  getStorage,
-  typeOf,
-  storage,
-  StorageType,
-  showMessage,
-  getTextFromOptions,
-  emptyStr,
-  needParam,
-} from "@/utils";
+import { getStorage, typeOf, storage, StorageType, getTextFromOptions, emptyStr, needParam } from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/core/_types";
-import dayjs from "dayjs";
 import { GetMockCommon } from "@/api-mock";
 
 export type DictObj = CommonObj;
@@ -32,16 +19,15 @@ function getIsExpired() {
   const expiredDate = storage.getItem("dictExpiredDate");
   return !expiredDate || Date.now() > new Date(expiredDate).getTime() + autoExpiredTimes;
 }
-
 /**
  * 获取有效期内存储的字典数据
  * @param {DictName} name 字典名称
  * @param {boolean} enable 是否启用存储进行缓存数据
  * @returns
  */
-function getStorageDictData(name: DictName, storageType: StorageType) {
+function getStorageDictData(name: DictName) {
   if (!enableStorage || getIsExpired()) return;
-  return getStorage(`dict.${name}`, storageType);
+  return getStorage(`dict.${name}`, storageType as StorageType);
 }
 
 // 获取下拉项的文本（只可能是select）
@@ -59,108 +45,20 @@ function getCascaderText(list: OptionItem[] = needParam(), codes: StrNum[] = nee
  * @notice 后续完善本地缓存字典逻辑（只针对异步的进行缓存，更新时机为登录后或手动刷新、或循环监听刷新）
  * @param {string[]} initDictNames 处于性能优化的目的，只初始化指定名称的字典
  */
-// const lazyProxyLoaded: CommonObj = {}; //{[name]: true || undefined}
-// const catchDictMap = new WeakMap();
 export default () => {
-  const initDictNames = Object.keys(dictData);
-  const asyncNames: DictName[] = []; // 懒加载请求的下拉项字典名称
-  // const insertNames: DictName[] = storage.getItem("insertDictNames") ?? []; //批量插入的下拉项
-  // const commonMap: CommonObj = {}; //普通映射
-  // const proxyMap = reactive<CommonObj>({}); //代理映射
-
-  // initMap();
-
-  /**
-   * 初始化字典映射
-   */
-  // function initMap() {
-  //   initDictNames.forEach((name: DictName) => {
-  //     const currMap = dictData[name];
-  //     if (!currMap) throw new Error(`未找到字典映射：${name}`);
-  //     if (["Object", "Array"].includes(typeOf(currMap))) return (commonMap[name] = currMap);
-  //     // 懒加载的下拉项
-  //     if ((currMap as Function).name === "lazy") return asyncNames.push(name);
-  //     // 需要普通函数进行处理的下拉项
-  //     if (commonMap[name]) return;
-  //     const data = (currMap as Function)();
-  //     const t = typeOf(data);
-  //     if (t === "Promise" || t === "Object") {
-  //       // if (t === "Object") {
-  //       commonMap[name] = data;
-  //       // } else {
-  //       //   throw new Error(`待完善此类型：${t}`);
-  //       // }
-  //       return;
-  //     }
-  //     throw new Error(`暂未处理函数返回的此种类型：${t}`);
-  //   });
-  //   insertMap();
-  // }
-
-  /**
-   * 插入通过接口一次性请求得到的字典map
-   * @notice 初次加载时，是一定要批量插入的（不用按需插入）
-   * @notice 批量插入逻辑待完善
-   */
-  // async function insertMap() {
-  //   if (insertNames.length && !getIsExpired()) {
-  //     return insertNames.forEach((name: DictName) => {
-  //       proxyMap[name] = getStorage(`dict.${name}`, storageType as StorageType);
-  //     });
-  //   }
-  //   return await GetMockCommon().then((res: any) => {
-  //     const list = res.records.slice(0, 3);
-  //     const inserted = insertNames.length > 0; // 是否已经插入过names
-  //     list.map((item, ind) => {
-  //       const name = "TestInsert_" + ind;
-  //       !inserted && insertNames.push(name as DictName);
-  //       const opts = Array(3)
-  //         .fill("")
-  //         .map((it, i) => ({ label: `批量插入${ind}_${i}`, value: i }));
-  //       proxyMap[name] = opts;
-  //       storageType && setStorage(`dict.${name}`, opts, storageType);
-  //     });
-  //     storage.setItem("insertDictNames", insertNames);
-  //   });
-  // }
-
-  /**
-   * 处理需计算的的字典映射（非对象、数组类型）
-   * @param {DictName} name 字典名称
-   * @returns
-   */
-  async function handleCalculateMap(name: DictName) {
-    // const currMap = dictData[name];
-    // if (!currMap) throw new Error(`未找到字典映射：${name}`);
-    // // if (lazyProxyLoaded[name]) return; //如果加载过，便不再进行加载
-    // // lazyProxyLoaded[name] = true;
-    // if (storageType) {
-    //   const data = getStorageDictData(name); // 获取本地存储的字典数据
-    //   if (data) return (proxyMap[name] = data);
-    // }
-    // return await (currMap as Function)()().then(res => {
-    //   proxyMap[name] = res;
-    //   storageType && setStorage(`dict.${name}`, res, storageType);
-    //   return res;
-    // });
+  // 初始化批量下拉
+  initBatch();
+  function initBatch() {
+    GetMockCommon().then((res: any) => {
+      const list = res.records.slice(0, 3);
+      list.map((item, ind) => {
+        const name = `D_BatchInsert_${ind}`;
+        const opts = Array(3).fill("");
+        dictData[name] = opts.map((it, i) => ({ label: `批量请求下拉${ind}_选项${i}`, value: i }));
+      });
+      return dictData;
+    });
   }
-
-  /**
-   * 更新存储中的字典数据
-   * @param {DictName | DictName[]} names 字典映射名称
-   */
-  // async function updateStorageDict(names: DictName | DictName[] = asyncNames) {
-  async function updateStorageDict(names: DictName | DictName[] = []) {
-    // if (!storageType) return showMessage("未开启本地存储，故无需执行更新操作", "warning");
-    // if (typeof names === "string") names = [names];
-    // await Promise.all(names.map(async (name: DictName) => await setMap(name)));
-    // await insertMap();
-    // // 如果是全量刷新存储在storage中的字典数据，则需要更新刷新时间
-    // if (names === asyncNames) {
-    //   storage.setItem("dictExpiredDate", dayjs(Date.now() + autoExpiredTimes).format("YYYY-MM-DD HH:mm:ss"));
-    // }
-  }
-
   /**
    * 设置字典映射
    * @param {DictName} name 字典索引名称
@@ -173,13 +71,12 @@ export default () => {
     //   setStorage(`dict.${name}`, val, storageType as StorageType);
     // }
   }
-
   /**
    * 获取tagMap
    * @param {DictName} name 映射map的名称
    * @returns 如果为对象，则是下拉项，如果为数组，则是树形数据或级联数据
    */
-  function getMap(name: DictName | DictObj): DictObj | OptionItem[] | Function | Promise<any> {
+  function getMap(name: DictName | DictObj | Promise<any>): DictObj | OptionItem[] | Function | Promise<any> {
     const t = typeOf(name);
     if (t === "Object") return name as DictObj;
     if (t === "String") {
@@ -187,6 +84,7 @@ export default () => {
       if (!currMap) throw new Error(`不存在该字典：${name}`);
       return currMap;
     }
+    if (t === "Promise") return name as Promise<any>;
     throw new Error(`暂不支持此类型：${t}`);
   }
 
@@ -218,19 +116,13 @@ export default () => {
     if (t === "Function") return getText((currMap as Function)(), code, emptyChar, level + 1);
     throw new Error(`暂未处理类型：${t}`);
   }
-
   /**
    * 获取字典下拉项
    * @param {DictName} name 字典名称
    * @param {string[]} includeKeys  过滤时要包含的keys
    * @param {boolean} isExclude  是否排除掉要包含的keys
    */
-  function getOpts(
-    name: DictName | DictObj,
-    includeKeys?: StrNum[],
-    isExclude?: boolean,
-    level = 0
-  ): OptionItem[] | Promise<any> {
+  function getOpts(name: DictName | DictObj, includeKeys?: StrNum[], isExclude?: boolean, level = 0): OptionItem[] | Promise<any> {
     const currMap = getMap(name);
     const t = typeOf(currMap);
     if (isAfterCalRes(t, level)) setMap(name as DictName, currMap);
@@ -273,13 +165,11 @@ export default () => {
     // }
     // throw new Error(`传参类型错误：${type}`);
   }
-
   return {
     getMap,
     setMap,
     getText,
     getOpts,
     getNames,
-    updateStorageDict,
   };
 };

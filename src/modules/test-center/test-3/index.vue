@@ -247,18 +247,24 @@ const fields: FormFieldAttrs[] = [
   },
   {
     prop: "fetch_opts",
-    label: "请求下拉",
+    label: "直接请求下拉",
     type: "select",
     attrs: {
       options: "D_TestFetch",
     },
+    quickAttrs: {
+      popover: "系统刚初始化时，就会发送请求",
+    },
   },
   {
     prop: "async_function_opts",
-    label: "异步函数下拉",
+    label: "按需请求下拉",
     type: "select",
     attrs: {
       options: "D_TestFetchLazy",
+    },
+    quickAttrs: {
+      popover: "当用到字典数据时才会发送请求",
     },
   },
   {

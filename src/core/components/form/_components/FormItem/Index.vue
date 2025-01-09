@@ -4,32 +4,32 @@
   <component
     v-model="modelVal"
     :is="`el-${is}`"
-    v-bind="newFiled.attrs"
+    v-bind="newFiled?.attrs"
     @blur="(e:any) => handleEvent('blur', e)"
     @focus="(e:any) => handleEvent('focus', e)"
     @change="(e:any) => handleEvent('change', e)"
     v-if="is === 'cascader'"
   >
-    <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled.attrs?.slots)" :key="key">
+    <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled?.attrs?.slots)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
     </template>
   </component>
   <component
     v-model="modelVal"
     :is="`el-${is}`"
-    v-bind="newFiled.attrs"
+    v-bind="newFiled?.attrs"
     @blur="(e:any) => handleEvent('blur', e)"
     @focus="(e:any) => handleEvent('focus', e)"
     @change="(e:any) => handleEvent('change', e)"
     v-else
   >
-    <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled.attrs?.slots)" :key="key">
+    <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled?.attrs?.slots)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
     </template>
     <template v-if="is === 'select'">
       <!-- 分组下拉项 -->
-      <template v-if="newFiled.attrs?.options?.find(it => !!it.children)">
-        <el-option-group v-for="(gItem, gInd) in newFiled.attrs?.options" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
+      <template v-if="newFiled?.attrs?.options?.find(it => !!it.children)">
+        <el-option-group v-for="(gItem, gInd) in newFiled?.attrs?.options" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
           <!-- <template #[key]="scope" v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
           <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
             <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
@@ -41,7 +41,7 @@
       </template>
       <!-- 不分组下拉项 -->
       <template v-else>
-        <el-option v-bind="deleteAttrs(opt  as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled.attrs?.options" :key="ind">
+        <el-option v-bind="deleteAttrs(opt  as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled?.attrs?.options" :key="ind">
           <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
             <BaseRender :renderData="val" :scope="scope" :option="opt" />
           </template>
@@ -50,9 +50,9 @@
     </template>
     <template v-else-if="is === 'radio-group'">
       <component
-        :is="`el-radio${newFiled.attrs?.type ? `-${newFiled.attrs?.type}` : ''}`"
+        :is="`el-radio${newFiled?.attrs?.type ? `-${newFiled?.attrs?.type}` : ''}`"
         v-bind="deleteAttrs(opt as OptionItem, ['slots', 'children'])"
-        v-for="(opt, ind) in newFiled.attrs?.options"
+        v-for="(opt, ind) in newFiled?.attrs?.options"
         :key="ind"
       >
         <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
@@ -62,7 +62,7 @@
     </template>
     <template v-else-if="is === 'checkbox-group'">
       <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-      <el-checkbox :name="newFiled.prop" v-bind="deleteAttrs(opt as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled.attrs?.options" :key="ind">
+      <el-checkbox :name="newFiled.prop" v-bind="deleteAttrs(opt as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled?.attrs?.options" :key="ind">
         <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
           <BaseRender :renderData="val" :scope="scope" :option="opt" />
         </template>
@@ -78,6 +78,7 @@ import { useDict, useFormAttrs } from "@/hooks";
 import { DictName } from "@/dict/_types";
 import { FormFieldAttrs } from "../FieldItem/_types";
 import { useAttrs } from "vue";
+import { asyncComputed } from "@vueuse/core";
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
@@ -89,14 +90,14 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
-const $attrs = useAttrs();
+// const $attrs = useAttrs();
 // const formAttrs = useFormAttrs({ ...props, ...$attrs });
 const { getOpts } = useDict();
 const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
-const newFiled = computed<FormFieldAttrs>(() => {
+const newFiled = asyncComputed<FormFieldAttrs>(async () => {
   const { field } = props;
   const { attrs, type } = field;
   const placeholder = getPlaceholder(field);
@@ -104,9 +105,9 @@ const newFiled = computed<FormFieldAttrs>(() => {
     const { options, data } = attrs;
     // 兼容处理 tree-select的下拉属性和其他属性名称不一致的问题
     if (type === "tree-select") {
-      if (data ?? options) field.attrs!.data = getStandardOptions(data ?? options);
+      if (data ?? options) field.attrs!.data = await getStandardOptions(data ?? options);
     } else {
-      if (options) field.attrs!.options = getStandardOptions(options);
+      if (options) field.attrs!.options = await getStandardOptions(options);
     }
     field.attrs!.placeholder = placeholder;
   } else {
@@ -127,10 +128,15 @@ function getPlaceholder(field: FormFieldAttrs) {
   return phr;
 }
 // 获取标准下拉项
-function getStandardOptions(opts): OptionItem[] {
+async function getStandardOptions(opts): Promise<OptionItem[]> {
   if (!opts) return [];
   const t = typeOf(opts);
-  if (t === "String") return getOpts(opts as DictName);
+  if (t === "String") {
+    const newOpts = await getOpts(opts as DictName);
+    const nt = typeOf(newOpts);
+    if (nt === "Array") return newOpts;
+    return await getOpts(newOpts as DictName);
+  }
   if (t === "Array") return opts;
   throw new Error(`暂未处理此种options的类型：${t}`);
 }
