@@ -1,14 +1,28 @@
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage, getTextFromOptions, emptyStr, needParam } from "@/utils";
+import {
+  emptyVals,
+  setStorage,
+  getStorage,
+  typeOf,
+  storage,
+  StorageType,
+  showMessage,
+  getTextFromOptions,
+  emptyStr,
+  needParam,
+} from "@/utils";
 import { CommonObj, StrNum, OptionItem } from "@/core/_types";
 import dayjs from "dayjs";
 import { GetMockCommon } from "@/api-mock";
 
+export type DictObj = CommonObj;
+
 // 配置项，启用本地存储类型、存储自动过期时间（过期后，会重新请求更新存储数据）
 const storageType: "" | StorageType = "local"; //存储方式，可选值： '', local、session、cookie
 const autoExpiredTimes = 1000 * 10; // 自动过期时间。启用本地存储类型且自动过期后，会重新发起请求更新本地存储。默认为：10秒
+const enableStorage = false; // 是否启用本地缓存
 
 /**
  * 判断是否过期
@@ -20,83 +34,95 @@ function getIsExpired() {
 }
 
 /**
+ * 获取有效期内存储的字典数据
+ * @param {DictName} name 字典名称
+ * @param {boolean} enable 是否启用存储进行缓存数据
+ * @returns
+ */
+function getStorageDictData(name: DictName, storageType: StorageType) {
+  if (!enableStorage || getIsExpired()) return;
+  return getStorage(`dict.${name}`, storageType);
+}
+
+// 获取下拉项的文本（只可能是select）
+function getSelectText(map: DictObj = needParam(), code: StrNum = needParam(), emptyChar = emptyStr) {
+  return map[code]?.text || emptyChar;
+}
+// 获取数组的文本，包含：select、cascader、tree
+function getCascaderText(list: OptionItem[] = needParam(), codes: StrNum[] = needParam(), emptyChar = emptyStr) {
+  if (!list?.length) return emptyChar;
+  return getTextFromOptions(list as OptionItem[], codes, undefined, emptyChar);
+}
+
+/**
  * 字典映射处理hooks
  * @notice 后续完善本地缓存字典逻辑（只针对异步的进行缓存，更新时机为登录后或手动刷新、或循环监听刷新）
  * @param {string[]} initDictNames 处于性能优化的目的，只初始化指定名称的字典
  */
-const lazyProxyLoaded: CommonObj = {}; //{[name]: true || undefined}
-export default (initDictNames = Object.keys(dictData) as DictName[]) => {
-  const lazyNames: DictName[] = []; //懒加载请求的下拉项
-  const insertNames: DictName[] = storage.getItem("insertDictNames") ?? []; //批量插入的下拉项
-  const commonMap: CommonObj = {}; //普通映射
-  const proxyMap = reactive<CommonObj>({}); //代理映射
+// const lazyProxyLoaded: CommonObj = {}; //{[name]: true || undefined}
+// const catchDictMap = new WeakMap();
+export default () => {
+  const initDictNames = Object.keys(dictData);
+  const asyncNames: DictName[] = []; // 懒加载请求的下拉项字典名称
+  // const insertNames: DictName[] = storage.getItem("insertDictNames") ?? []; //批量插入的下拉项
+  // const commonMap: CommonObj = {}; //普通映射
+  // const proxyMap = reactive<CommonObj>({}); //代理映射
 
-  initMap();
+  // initMap();
 
   /**
    * 初始化字典映射
    */
-  function initMap() {
-    initDictNames.forEach((name: DictName) => {
-      const currMap = dictData[name];
-      if (!currMap) throw new Error(`未找到字典映射：${name}`);
-      if (["Object", "Array"].includes(typeOf(currMap))) return (commonMap[name] = currMap);
-      // 懒加载的下拉项
-      if ((currMap as Function).name === "lazy") return lazyNames.push(name);
-      // 需要普通函数进行处理的下拉项
-      if (commonMap[name]) return;
-      const data = (currMap as Function)();
-      const t = typeOf(data);
-      if (t === "Promise" || t === "Object") {
-        // if (t === "Object") {
-        commonMap[name] = data;
-        // } else {
-        //   throw new Error(`待完善此类型：${t}`);
-        // }
-        return;
-      }
-      throw new Error(`暂未处理函数返回的此种类型：${t}`);
-    });
-    insertMap();
-  }
+  // function initMap() {
+  //   initDictNames.forEach((name: DictName) => {
+  //     const currMap = dictData[name];
+  //     if (!currMap) throw new Error(`未找到字典映射：${name}`);
+  //     if (["Object", "Array"].includes(typeOf(currMap))) return (commonMap[name] = currMap);
+  //     // 懒加载的下拉项
+  //     if ((currMap as Function).name === "lazy") return asyncNames.push(name);
+  //     // 需要普通函数进行处理的下拉项
+  //     if (commonMap[name]) return;
+  //     const data = (currMap as Function)();
+  //     const t = typeOf(data);
+  //     if (t === "Promise" || t === "Object") {
+  //       // if (t === "Object") {
+  //       commonMap[name] = data;
+  //       // } else {
+  //       //   throw new Error(`待完善此类型：${t}`);
+  //       // }
+  //       return;
+  //     }
+  //     throw new Error(`暂未处理函数返回的此种类型：${t}`);
+  //   });
+  //   insertMap();
+  // }
 
   /**
    * 插入通过接口一次性请求得到的字典map
    * @notice 初次加载时，是一定要批量插入的（不用按需插入）
    * @notice 批量插入逻辑待完善
    */
-  async function insertMap() {
-    if (insertNames.length && !getIsExpired()) {
-      return insertNames.forEach((name: DictName) => {
-        proxyMap[name] = getStorage(`dict.${name}`, storageType as StorageType);
-      });
-    }
-    return await GetMockCommon().then((res: any) => {
-      const list = res.records.slice(0, 3);
-      const inserted = insertNames.length > 0; // 是否已经插入过names
-      list.map((item, ind) => {
-        const name = "TestInsert_" + ind;
-        !inserted && insertNames.push(name as DictName);
-        const opts = Array(3)
-          .fill("")
-          .map((it, i) => ({ label: `批量插入${ind}_${i}`, value: i }));
-        proxyMap[name] = opts;
-        storageType && setStorage(`dict.${name}`, opts, storageType);
-      });
-      storage.setItem("insertDictNames", insertNames);
-    });
-  }
-
-  /**
-   * 获取有效期内存储的数据
-   * @param {DictName} name 字典名称
-   * @returns
-   */
-  function getValidStorageData(name: DictName): null | CommonObj {
-    if (!getIsExpired()) return getStorage(`dict.${name}`, storageType as StorageType);
-    updateStorageDict(); //过期之后全量更新字典
-    return null;
-  }
+  // async function insertMap() {
+  //   if (insertNames.length && !getIsExpired()) {
+  //     return insertNames.forEach((name: DictName) => {
+  //       proxyMap[name] = getStorage(`dict.${name}`, storageType as StorageType);
+  //     });
+  //   }
+  //   return await GetMockCommon().then((res: any) => {
+  //     const list = res.records.slice(0, 3);
+  //     const inserted = insertNames.length > 0; // 是否已经插入过names
+  //     list.map((item, ind) => {
+  //       const name = "TestInsert_" + ind;
+  //       !inserted && insertNames.push(name as DictName);
+  //       const opts = Array(3)
+  //         .fill("")
+  //         .map((it, i) => ({ label: `批量插入${ind}_${i}`, value: i }));
+  //       proxyMap[name] = opts;
+  //       storageType && setStorage(`dict.${name}`, opts, storageType);
+  //     });
+  //     storage.setItem("insertDictNames", insertNames);
+  //   });
+  // }
 
   /**
    * 处理需计算的的字典映射（非对象、数组类型）
@@ -104,34 +130,35 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @returns
    */
   async function handleCalculateMap(name: DictName) {
-    const currMap = dictData[name];
-    if (!currMap) throw new Error(`未找到字典映射：${name}`);
-    if (lazyProxyLoaded[name]) return; //如果加载过，便不再进行加载
-    lazyProxyLoaded[name] = true;
-    if (storageType) {
-      const data = getValidStorageData(name); // 获取本地存储数据
-      if (data) return (proxyMap[name] = data);
-    }
-    return await (currMap as Function)()().then(res => {
-      proxyMap[name] = res;
-      storageType && setStorage(`dict.${name}`, res, storageType);
-      return res;
-    });
+    // const currMap = dictData[name];
+    // if (!currMap) throw new Error(`未找到字典映射：${name}`);
+    // // if (lazyProxyLoaded[name]) return; //如果加载过，便不再进行加载
+    // // lazyProxyLoaded[name] = true;
+    // if (storageType) {
+    //   const data = getStorageDictData(name); // 获取本地存储的字典数据
+    //   if (data) return (proxyMap[name] = data);
+    // }
+    // return await (currMap as Function)()().then(res => {
+    //   proxyMap[name] = res;
+    //   storageType && setStorage(`dict.${name}`, res, storageType);
+    //   return res;
+    // });
   }
 
   /**
    * 更新存储中的字典数据
    * @param {DictName | DictName[]} names 字典映射名称
    */
-  async function updateStorageDict(names: DictName | DictName[] = lazyNames) {
-    if (!storageType) return showMessage("未开启本地存储，故无需执行更新操作", "warning");
-    if (typeof names === "string") names = [names];
-    await Promise.all(names.map(async (name: DictName) => await setMap(name)));
-    await insertMap();
-    // 如果是全量刷新存储在storage中的字典数据，则需要更新刷新时间
-    if (names === lazyNames) {
-      storage.setItem("dictExpiredDate", dayjs(Date.now() + autoExpiredTimes).format("YYYY-MM-DD HH:mm:ss"));
-    }
+  // async function updateStorageDict(names: DictName | DictName[] = asyncNames) {
+  async function updateStorageDict(names: DictName | DictName[] = []) {
+    // if (!storageType) return showMessage("未开启本地存储，故无需执行更新操作", "warning");
+    // if (typeof names === "string") names = [names];
+    // await Promise.all(names.map(async (name: DictName) => await setMap(name)));
+    // await insertMap();
+    // // 如果是全量刷新存储在storage中的字典数据，则需要更新刷新时间
+    // if (names === asyncNames) {
+    //   storage.setItem("dictExpiredDate", dayjs(Date.now() + autoExpiredTimes).format("YYYY-MM-DD HH:mm:ss"));
+    // }
   }
 
   /**
@@ -139,44 +166,56 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @param {DictName} name 字典索引名称
    * @returns
    */
-  async function setMap(name: DictName) {
-    const currMap = dictData[name];
-    if (!currMap) throw new Error(`未找到字典映射：${name}`);
-    if (!lazyNames.includes(name)) throw new Error(`无需设置此种类型：${typeOf(currMap)}`);
-    return await handleCalculateMap(name);
+  function setMap(name: DictName, val: any) {
+    dictData[name] = val;
+    // const isAsync = [""].includes("test");
+    // if (enableStorage && isAsync) {
+    //   setStorage(`dict.${name}`, val, storageType as StorageType);
+    // }
   }
 
   /**
    * 获取tagMap
    * @param {DictName} name 映射map的名称
+   * @returns 如果为对象，则是下拉项，如果为数组，则是树形数据或级联数据
    */
-  function getMap(name: DictName) {
-    const currMap = proxyMap[name] ?? commonMap[name];
-    if (!currMap) handleCalculateMap(name);
-    return currMap;
+  function getMap(name: DictName | DictObj): DictObj | OptionItem[] | Function | Promise<any> {
+    const t = typeOf(name);
+    if (t === "Object") return name as DictObj;
+    if (t === "String") {
+      const currMap = dictData[name as string];
+      if (!currMap) throw new Error(`不存在该字典：${name}`);
+      return currMap;
+    }
+    throw new Error(`暂不支持此类型：${t}`);
   }
 
+  // 是否是经过计算之后得到的最简类型（如果是，需要设置下，进行缓存，避免后面再进行运算）
+  function isAfterCalRes(t, level) {
+    if (!level) return false;
+    return ["Object", "Array", "Promise"].includes(t);
+  }
   /**
-   * 获取字典文本内容
+   * 获取字典文本内容（下拉项或级联的文本内容）
    * @param {string|object} name  字典名称(object是提供给特殊的自定义对象使用的)
    * @param {string} code  字典中的code值
    * @param {object} propsMap  属性名label、value等的映射
    * @param {string} emptyChar  为空时的占位符号
+   * @notice （不提供 propsMap?: CommonObj，应该由某个方法统一转成标准级联数据结构）
    */
-  function getText(name: DictName | CommonObj = needParam(), code: StrNum | StrNum[], propsMap?: CommonObj, emptyChar = emptyStr): string {
-    if (emptyVals.includes(code as any)) return emptyChar;
-    const currMap = typeof name === "string" ? getMap(name) : name;
-    if (!currMap) return emptyChar; // throw new Error(`未找到${name}的映射`);
-    if (typeOf(code) === "Array") return getTextFromOptions(currMap, code as StrNum[], propsMap, emptyChar);
-    const val = currMap[code as StrNum];
+  function getText(
+    name: DictName | DictObj = needParam(),
+    code: StrNum | StrNum[] = needParam(),
+    emptyChar = emptyStr,
+    level = 0
+  ): string | Promise<any> {
+    const currMap = getMap(name);
     const t = typeOf(currMap);
-    // 说明是select
-    if (t === "Object") {
-      const textStr = typeof val === "string" ? val : val?.text;
-      return emptyVals.includes(textStr) ? emptyChar : textStr;
-    }
-    // 说明是select、cascader、tree
-    if (t === "Array") return getTextFromOptions(currMap, code as StrNum, propsMap, emptyChar);
+    if (isAfterCalRes(t, level)) setMap(name as DictName, currMap);
+    if (t === "Object") return getSelectText(currMap, code as StrNum, emptyChar);
+    if (t === "Array") return getCascaderText(currMap as OptionItem[], code as StrNum[], emptyChar);
+    if (t === "Promise") return currMap as Promise<any>;
+    if (t === "Function") return getText((currMap as Function)(), code, emptyChar, level + 1);
     throw new Error(`暂未处理类型：${t}`);
   }
 
@@ -186,13 +225,19 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @param {string[]} includeKeys  过滤时要包含的keys
    * @param {boolean} isExclude  是否排除掉要包含的keys
    */
-  function getOpts(name: DictName, includeKeys?: StrNum[], isExclude?: boolean): OptionItem[] {
+  function getOpts(
+    name: DictName | DictObj,
+    includeKeys?: StrNum[],
+    isExclude?: boolean,
+    level = 0
+  ): OptionItem[] | Promise<any> {
     const currMap = getMap(name);
     const t = typeOf(currMap);
-    if (t === "Array") return currMap as OptionItem[]; // 说明是select、cascader、tree的数据
-    if (t === "Undefined") return currMap; // 说明是懒加载函数请求到的数据
+    if (isAfterCalRes(t, level)) setMap(name as DictName, currMap);
+    // 说明是select、cascader、tree的数据
+    if (t === "Array") return currMap as OptionItem[];
+    // 说明是select
     if (t === "Object") {
-      // 说明是select
       const opts: OptionItem[] = [];
       for (const key in currMap) {
         const val = isNaN(Number(key)) ? key : Number(key);
@@ -207,25 +252,26 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
       }
       return opts;
     }
+    if (t === "Promise") return currMap as Promise<any>;
+    if (t === "Function") return getOpts((currMap as Function)(), includeKeys, isExclude, level + 1);
     throw new Error(`暂未处理此种类型：${t}`);
   }
-
   /**
    * 获取字典名称
    * @param name 名称
    * @returns 数组或数组映射对象
    */
   function getNames(type?: "lazy" | "common") {
-    if (!type) return initDictNames;
-    if (type === "lazy") return lazyNames;
-    if (type === "common") {
-      const names: DictName[] = [];
-      initDictNames.forEach((name: DictName) => {
-        if (!lazyNames.includes(name)) names.push(name);
-      });
-      return names;
-    }
-    throw new Error(`传参类型错误：${type}`);
+    // if (!type) return initDictNames;
+    // if (type === "lazy") return asyncNames;
+    // if (type === "common") {
+    //   const names: DictName[] = [];
+    //   initDictNames.forEach((name: DictName) => {
+    //     if (!asyncNames.includes(name)) names.push(name);
+    //   });
+    //   return names;
+    // }
+    // throw new Error(`传参类型错误：${type}`);
   }
 
   return {

@@ -1,9 +1,9 @@
 import test from "./modules/test";
 import base from "./modules/base";
-import batch from "./modules/batch";
 import other from "./modules/other";
 import system from "./modules/system";
 import global from "./modules/global";
+// import batch from "./modules/batch";
 
 // 懒加载请求
 export function lazyFetch(promiseFn) {
@@ -12,16 +12,27 @@ export function lazyFetch(promiseFn) {
   return lazy;
 }
 
+// export const originDictMap = {
+//   ...test,
+//   ...base,
+//   // ...batch,
+//   ...other,
+//   ...system,
+//   ...global,
+// };
+
 /**
  * 数据映射集合（包含select，cascader 的下拉项，还有 tree 的数据）
  * @notice 支持文本、数组、对象、Promise、批量请求的下拉项
  */
 
-export default {
+const dictMap = {
   ...test,
   ...base,
-  ...batch,
   ...other,
   ...system,
   ...global,
+  // ...batch,
 };
+
+export default dictMap;
