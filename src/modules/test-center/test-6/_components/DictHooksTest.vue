@@ -68,11 +68,11 @@ const fields = [
     },
   },
   {
-    prop: "D_TestPromise",
+    prop: "D_TestPromiseArray",
     label: "Promise类型",
     type: "select",
     attrs: {
-      options: "D_TestPromise",
+      options: "D_TestPromiseArray",
     },
   },
   {

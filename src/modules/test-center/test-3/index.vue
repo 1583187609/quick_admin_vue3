@@ -238,27 +238,47 @@ const fields: FormFieldAttrs[] = [
     },
   },
   {
-    prop: "promise_opts",
-    label: "Promise下拉",
+    prop: "promise_opts_arr",
+    label: "Promise下拉数组",
     type: "select",
     attrs: {
-      options: "D_TestPromise",
+      options: "D_TestPromiseArray",
+    },
+    quickAttrs: {
+      popover: "Promise返回一个数组",
+    },
+  },
+  {
+    prop: "promise_opts_obj",
+    label: "Promise下拉对象",
+    type: "select",
+    attrs: {
+      options: "D_TestPromiseObject",
+    },
+    quickAttrs: {
+      popover: "Promise返回一个对象",
     },
   },
   {
     prop: "fetch_opts",
-    label: "请求下拉",
+    label: "直接请求下拉",
     type: "select",
     attrs: {
       options: "D_TestFetch",
     },
+    quickAttrs: {
+      popover: "系统刚初始化时，就会发送请求",
+    },
   },
   {
     prop: "async_function_opts",
-    label: "异步函数下拉",
+    label: "按需请求下拉",
     type: "select",
     attrs: {
       options: "D_TestFetchLazy",
+    },
+    quickAttrs: {
+      popover: "当用到字典数据时才会发送请求",
     },
   },
   {

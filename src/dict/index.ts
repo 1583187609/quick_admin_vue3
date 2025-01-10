@@ -3,7 +3,6 @@ import base from "./modules/base";
 import other from "./modules/other";
 import system from "./modules/system";
 import global from "./modules/global";
-// import batch from "./modules/batch";
 
 // 懒加载请求
 export function lazyFetch(promiseFn) {
@@ -32,7 +31,6 @@ const dictMap = {
   ...other,
   ...system,
   ...global,
-  // ...batch,
 };
 
 export default dictMap;
