@@ -1,6 +1,6 @@
 import { computed, reactive, ref, watch } from "vue";
 import { defineStore } from "pinia";
-import { CommonObj, LayoutSize, ShowCodes, ThemeName } from "@/core/_types";
+import { CommonObj, CommonSize, ShowCodes, ThemeName } from "@/core/_types";
 import { checkObjKeyError, defaultCommonSize, defaultThemeName, showMessage, storage } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 
@@ -9,7 +9,7 @@ export type SetName = keyof typeof defaultSet;
 export type LanguageTypes = "zh" | "en";
 export interface LayoutAttrs {
   type: LayoutType;
-  size: LayoutSize;
+  size: CommonSize;
 }
 interface DefaultSet {
   layout: LayoutAttrs;

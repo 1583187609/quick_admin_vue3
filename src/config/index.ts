@@ -1,6 +1,6 @@
 import { BaseComponentsConfig } from "./_types";
 import { TableColAttrs } from "@/core/components/table/_types";
-import { getUserInfo, storage } from "@/utils";
+import { defaultCommonSize, getUserInfo, storage } from "@/utils";
 
 // const isSmall = true;
 // 应该从@/utils取isProd的值，但是会报错
@@ -87,8 +87,14 @@ const config = {
         // minWidth: 280, // 450/280
         fixed: "left",
         getInferredAttrs(col: TableColAttrs) {
+          const simple = col?.attrs?.simple;
+          const widthMap = {
+            large: simple ? 280 : 520,
+            default: simple ? 230 : 450,
+            small: simple ? 170 : 410,
+          };
           return {
-            width: col?.attrs?.simple ? 232 : 450,
+            width: widthMap[defaultCommonSize],
           };
         },
       },

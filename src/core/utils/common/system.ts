@@ -50,12 +50,7 @@ export function importExcel(
  * @param {Function} callback 回调函数
  * @link 参考链接 https://www.jianshu.com/p/f9ba3dd3cd4f
  */
-export function exportExcel(
-  data: string[][] = [],
-  fileName = dayjs().format("YYYYMMDD"),
-  sheetName = "表1",
-  callback?: () => void
-) {
+export function exportExcel(data: string[][] = [], fileName = dayjs().format("YYYYMMDD"), sheetName = "表1", callback?: () => void) {
   const wb = xlsx.utils.book_new(); // 创建workbook
   // 创建sheet
   // const ws = xlsx.utils.aoa_to_sheet(data);
@@ -145,12 +140,7 @@ export const getImgUrl = (path: string): string => {
  * @param {OptionPropsMap} propsMap props映射
  * @param {string} emptyChar 空字符串
  */
-export function getLabelFromOptionsByLastValue(
-  options: CommonObj[],
-  val: StrNum,
-  propsMap?: OptionPropsMap,
-  emptyChar = emptyStr
-) {
+export function getLabelFromOptionsByLastValue(options: CommonObj[], val: StrNum, propsMap?: OptionPropsMap, emptyChar = emptyStr) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   let target: CommonObj | undefined;
   function getLabel(opts: CommonObj[]): boolean {
@@ -210,7 +200,7 @@ export function getLabelFromOptionsByAllValues(
 export function getTextFromOptions(options: CommonObj[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = emptyStr) {
   if (emptyVals.includes(val as any)) return char;
   const t = typeOf(val);
-  if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char);
+  if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char, "");
   if (["String", "Number"].includes(t)) return getLabelFromOptionsByLastValue(options, val as StrNum, propsMap, char);
   throw new Error(`暂未处理此种情况：${t}`);
 }

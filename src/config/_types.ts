@@ -1,13 +1,13 @@
 import { PopupType } from "@/core/components/BasicPopup/_types";
 import { FormItemType } from "@/core/components/form/_types";
-import { CommonObj, CommonSize, LayoutSize } from "@/core/_types";
+import { CommonObj, CommonSize } from "@/core/_types";
 
 //配置合并的策略
 export type ConfigMergeStrategy = false | "merge" | "assign" | "alert" | "auto";
 
 //基础组件的配置
 export interface BaseComponentsConfig {
-  widgetSize?: LayoutSize; //控件大小
+  widgetSize?: CommonSize; //控件大小
   homePath?: string; //首页地址
   /**
    * 对于系统内置的对象数据，采用的合并方式

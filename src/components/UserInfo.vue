@@ -45,34 +45,34 @@
           <BaseTag class="f-0" name="D_AccountStatus" :value="data.account_status" size="small" />
         </div>
         <div class="f-sb-c">
-          <div class="f-0 item">
+          <div class="item">
             ID：<BaseCopy maxLine="1">{{ data.id }}</BaseCopy>
           </div>
-          <div class="f-0 item">
+          <div class="item">
             学号：<BaseCopy maxLine="1">{{ data.user_code }}</BaseCopy>
           </div>
         </div>
-        <div class="f-fs-c">
-          <div class="item f-0">
+        <div class="f-sb-c">
+          <div class="item">
             学历：<b>{{ getText("D_EducationType", data.school_certificate_level ?? 0) || "-" }}</b>
           </div>
-          <div class="item f-0">
+          <div class="item q-line-1">
             学校：<b>{{ data.school_name || "-" }}</b>
           </div>
         </div>
-        <div class="f-fs-fs">
-          <div class="item f-0">
+        <div class="f-sb-fs">
+          <div class="item q-line-1">
             职业：<b>{{ data.job_name || "-" }}</b>
           </div>
-          <div class="item f-0">
+          <div class="item">
             收入：<b>{{ data.income_type_name || "-" }}</b>
           </div>
         </div>
-        <div class="f-fs-c">
-          <div class="item f-0">
+        <div class="f-sb-c">
+          <div class="item q-line-1">
             现居地：<b>{{ getText("C_Region", data.live_city ?? 0) || "-" }}</b>
           </div>
-          <div class="item f-0">
+          <div class="item q-line-1">
             家乡：<b>{{ getText("C_Region", data.city ?? 0) || "-" }}</b>
           </div>
         </div>
@@ -159,8 +159,9 @@ function toUserDetail() {
   font-size: 13px;
 }
 .item {
-  &:not(:last-child) {
-    margin-right: 1em;
+  flex-basis: 50%;
+  &:first-child {
+    margin-right: 0.1em;
   }
 }
 </style>

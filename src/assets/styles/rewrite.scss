@@ -37,6 +37,10 @@
 // .el-table__header-wrapper tr th.el-table-fixed-column--right {
 //   background: $thead-bg;
 // }
+.el-button + .el-button {
+  margin-left: $gap-half;
+}
+
 .el-table {
   .el-table__cell.sort-cell {
     cursor: move;

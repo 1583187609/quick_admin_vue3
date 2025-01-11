@@ -34,7 +34,6 @@ export interface CommonObj {
 }
 export type RouteTo = string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric;
 export type CommonSize = "large" | "default" | "small"; //按钮、表单、表格等的通用大小
-export type LayoutSize = CommonSize | "mini";
 export type ThemeName = "red" | "orange" | "yellow" | "green" | "blue" | "indigo" | "purple";
 export type CommonSlots = string | BaseRenderComponentType | { [key: string]: string | BaseRenderComponentType };
 export type ShowCodes = 0 | 1; //0 false  1 true

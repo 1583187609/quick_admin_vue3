@@ -7,7 +7,7 @@
       :col="col"
       :size="size"
       :operateBtnsAttrs="operateBtnsAttrs"
-      :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props, newCols!.at(-1))"
+      :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props)"
       @operateBtns="onOperateBtns"
       v-for="(col, cInd) in newCols"
       :key="cInd"

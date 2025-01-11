@@ -2,11 +2,7 @@
   目标：给图片提供带 bar 提示语的功能
 -->
 <template>
-  <div
-    :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }"
-    class="tag-img f-c-c"
-    :class="{ 'hover-move': hoverMove }"
-  >
+  <div :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }" class="tag-img f-c-c" :class="{ 'hover-move': hoverMove }">
     <el-tag class="f-c-c top-bar" v-bind="topTip.attrs" v-if="topTag">
       {{ topTip.text }}
     </el-tag>
@@ -64,10 +60,6 @@ const sizeMap: CommonObj = {
     bottom: 0, // 0
     height: 22,
   },
-  // mini: {
-  //   bottom: 0,
-  //   height: 20,
-  // },
 };
 const props = withDefaults(
   defineProps<{

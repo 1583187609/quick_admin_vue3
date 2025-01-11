@@ -2,7 +2,7 @@ import { CommonObj } from "../_types";
 import { defaultFieldAttrs } from "@/core/components/form/_components/FieldItem";
 import { SpecialTableColType, TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
 import { TableColAttrs } from "@/core/components/table/_types";
-import { getExportData } from "@/utils";
+import { defaultCommonSize, getExportData } from "@/utils";
 import config from "@/config";
 
 //el-table 的属性，除了（data）
@@ -35,7 +35,11 @@ export const specialColKeys: SpecialTableColType[] = ["index", "sort", "selectio
  * 基础的表格列类型（同时也是模板）
  * @notice 特点：模板名称（tpl的值）跟类型名称（type的值）一致
  */
-
+const operateColWidthMap = {
+  large: 250,
+  default: 210,
+  small: 170,
+};
 export const baseTableColTypes: CommonObj = getExportData(
   {
     /*** 系统内置基础列 ***/
@@ -69,7 +73,7 @@ export const baseTableColTypes: CommonObj = getExportData(
       prop: "$operate",
       label: "操作",
       type: "operate",
-      width: 220, // 按三个按钮计算的宽度（每个按钮均有图标，按钮文字均为两个字符）
+      width: operateColWidthMap[defaultCommonSize], // 按三个按钮计算的宽度（每个按钮均有图标，按钮文字均为两个字符）
       fixed: "right",
     },
     /*** 系统内置组件列 ***/

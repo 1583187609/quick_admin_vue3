@@ -17,7 +17,6 @@ export default {
         large: "Large",
         default: "Medium",
         small: "Small",
-        mini: "Mini",
       },
     },
     langType: {

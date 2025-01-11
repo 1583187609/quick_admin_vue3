@@ -10,10 +10,10 @@ $nav-bg-light: var(--nav-bg-light);
 $nav-text-color-light: var(--nav-text-color-light);
 $nav-text-color-dark: var(--nav-text-color-dark);
 
-$header-height: var(--header-height); // large:60px default:56px small:52px mini:48px
-$asider-width: var(--asider-width); // large:220px default:200px small:180px mini:160px
-$main-menu-width: var(--main-menu-width); // large:80px default:70px small:60px mini:50px
-$page-tags-height: var(--page-tags-height); // large:44px default:40px small:36px mini:32px
+$header-height: var(--header-height); // large:60px default:56px small:52px
+$asider-width: var(--asider-width); // large:220px default:200px small:180px
+$main-menu-width: var(--main-menu-width); // large:80px default:70px small:60px
+$page-tags-height: var(--page-tags-height); // large:44px default:40px small:36px
 
 // 间距相关
 // $gap-qtr: 4px;
@@ -83,7 +83,6 @@ $height-light: var(--height-light);
 $size-large: var(--size-large);
 $size-default: var(--size-default);
 $size-small: var(--size-small);
-$size-mini: var(--size-mini);
 
 //字体大小
 $font-size-heavyest: var(--font-size-heavyest);

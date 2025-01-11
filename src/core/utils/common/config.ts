@@ -20,7 +20,7 @@ export const defaultRefreshDictExpired = 24 * 60 * 60 * 1000; //刷新字典的�
 
 export const defaultPopupType = getExportData("dialog", popup?.defaultType); // 弹窗类型
 export const defaultHomePath = getExportData("/", homePath); // 首页路径
-export const defaultCommonSize = getExportData("default", widgetSize); // 控件大小
+export const defaultCommonSize = getExportData("small", widgetSize); // 控件大小
 export const defaultThemeName = "orange";
 export const defaultTableColDateFormat = "YYYY-MM-DD HH:mm:ss"; // 表格列的日期格式
 // export const defaultFormItemDateFormat = "YYYY-MM-DD"; // 表单项的日期格式

@@ -25,7 +25,7 @@ $breakpoints: (
     // "warning": ("base": #e6a23c),
     // "danger": ("base": #f56c6c),
     // "error": ("base": #f56c6c),
-    // "info": ("base": #909399),,,,,,,
+    // "info": ("base": #909399),,,,
   ),
 
   $text-color: (
@@ -50,7 +50,7 @@ $breakpoints: (
     // 'extra-light': #fafcff,
     // 'dark': #ebedf0,
     // 'darker': #e6e8eb,
-    // 'blank': #ffffff,,,,,,,
+    // 'blank': #ffffff,,,
   ),
   // // Background
   // $bg-color:
@@ -63,9 +63,9 @@ $breakpoints: (
   $border-radius:
     (
       "base": $radius-main,
-      "small": $radius-light,
+      "small": $radius-lighter,
       // 'round': 20px,
-      // 'circle': 100%,,,,,,,,
+      // 'circle': 100%,,,,,
     ),
   // // Box-shadow
   $box-shadow:
@@ -147,7 +147,7 @@ $breakpoints: (
       // "checked-input-border-color": getCssVar("color-primary"),
       // "checked-bg-color": getCssVar("color-primary"),
       // "checked-icon-color": getCssVar("color", "white"),
-      // "input-border-color-hover": getCssVar("color-primary"),,,,,,,
+      // "input-border-color-hover": getCssVar("color-primary"),,,,
     ),
   // $checkbox-button:
   //   (
@@ -180,7 +180,7 @@ $breakpoints: (
       // 'input-bg-color': getCssVar('fill-color', 'blank'),
       // 'input-border': getCssVar('border'),
       // 'input-border-color': getCssVar('border-color'),
-      // 'input-border-color-hover': getCssVar('color-primary'),,,,,,,,
+      // 'input-border-color-hover': getCssVar('color-primary'),,,,,
     ),
   // $radio-height: ($common-component-size, $radio-height);
   // $radio-button:
@@ -237,7 +237,7 @@ $breakpoints: (
       // 'disabled-color': getCssVar('text-color-placeholder'),
       "height": $height-light,
       // 'hover-background': getCssVar('fill-color', 'light'),
-      // 'selected-text-color': getCssVar('color-primary'),,,,,,,
+      // 'selected-text-color': getCssVar('color-primary'),,,,
     ),
   $select-group: (
     // 'text-color': getCssVar('color-info'),
@@ -318,7 +318,7 @@ $breakpoints: (
       // "padding": $gap-half-qtr $gap,
       "close-size": $font-size-heavy,
       // 'close-icon-color': getCssVar('text-color-placeholder'),
-      // 'close-hover-color': getCssVar('text-color-secondary'),,,,,,,,,,
+      // 'close-hover-color': getCssVar('text-color-secondary'),,,,,,,
     ),
   // // Notification
   // // css3 var in packages/theme-chalk/src/notification.scss
@@ -342,7 +342,7 @@ $breakpoints: (
       "title-font-size": $font-size-heavy,
       // 'title-color': getCssVar('text-color-primary'),
       // 'close-color': getCssVar('text-color-secondary'),
-      // 'close-hover-color': getCssVar('text-color-regular'),,,,,,,,,
+      // 'close-hover-color': getCssVar('text-color-regular'),,,,,,
     ),
   // // Input
   // // css3 var in packages/theme-chalk/src/input.scss
@@ -386,9 +386,9 @@ $breakpoints: (
   //   ),
   $input-padding-horizontal:
     (
-      "large": $gap,
-      // "default": $gap-half-qtr,
-      "small": $gap-half,
+      "large": 12px,
+      "default": 8px,
+      "small": 4px,
     ),
   // // Cascader
   // // css3 var in packages/theme-chalk/src/cascader.scss
@@ -492,17 +492,18 @@ $breakpoints: (
   //     'default': getCssVar('border-radius', 'base'),
   //     'small': calc(#{getCssVar('border-radius', 'base')} - 1px),
   //   ),
-  $button-padding-vertical:
+  // $button-padding-vertical:
+  //   (
+  //     "large": 6px,
+  //     "default": 4px,
+  //     "small": 2px,
+  //   ),
+  $button-padding-horizontal:
     (
-      "large": $gap,
-      // "default": $gap-half-qtr,
-      "small": $gap-half,
+      "large": 16px,
+      "default": 12px,
+      "small": 6px,
     ),
-  $button-padding-horizontal: (
-    "large": $gap,
-    // "default": $gap-half-qtr,
-    "small": $gap-half,
-  ),
   // // Switch
   // // css3 var in packages/theme-chalk/src/switch.scss
   // $switch:
@@ -550,7 +551,7 @@ $breakpoints: (
       "font-size": $font-size-light,
       // 'color': getCssVar('text-color-secondary'),
       // 'active-color': getCssVar('color-primary'),
-      // 'marker-bg-color': getCssVar('color-primary'),,,,,,,,,
+      // 'marker-bg-color': getCssVar('color-primary'),,,,,,
     ),
   // // Segmented
   // // css3 var in packages/theme-chalk/src/segmented.scss
@@ -720,7 +721,7 @@ $breakpoints: (
   $tag-height: (
     "large": $size-default,
     "default": $size-small,
-    "small": $size-mini,
+    // "small": $size-small,
   ),
   // $tag-padding:
   //   (

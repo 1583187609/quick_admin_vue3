@@ -17,7 +17,6 @@ export default {
         large: "大型",
         default: "中等",
         small: "小型",
-        mini: "迷你",
       },
     },
     langType: {

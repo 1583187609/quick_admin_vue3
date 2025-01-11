@@ -7,19 +7,19 @@
 </template>
 <script lang="ts" setup>
 // 主题换肤，参照：https://blog.csdn.net/gaotlantis/article/details/139931309
-import { provide, reactive, watch, computed } from "vue";
-import { LayoutSize, ThemeName } from "@/core/_types";
+import { provide } from "vue";
+import { CommonSize, ThemeName } from "@/core/_types";
 import { defaultSet } from "@/store/modules/set";
 const props = withDefaults(
   defineProps<{
     theme?: ThemeName;
-    size?: LayoutSize;
+    size?: CommonSize;
   }>(),
   {}
 );
-const elementPlusVar = getComputedStyle(document.documentElement).getPropertyValue("--el-color-primary").trim();
-console.log(elementPlusVar, "elementPlusVar-----------");
-function setSkin(theme: ThemeName = defaultSet.theme.name, size: LayoutSize = defaultSet.layout.size) {
+// const elementPlusVar = getComputedStyle(document.documentElement).getPropertyValue("--el-color-primary").trim();
+// console.log(elementPlusVar, "elementPlusVar-----------");
+function setSkin(theme: ThemeName = defaultSet.theme.name, size: CommonSize = defaultSet.layout.size) {
   document.documentElement.setAttribute("theme", theme);
   document.documentElement.setAttribute("size", size);
 }

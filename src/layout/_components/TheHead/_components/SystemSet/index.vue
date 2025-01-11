@@ -42,7 +42,6 @@ const sizeOpts: OptionItem[] = [
   { label: "大型", value: "large" },
   { label: "默认", value: "default" },
   { label: "小型", value: "small" },
-  { label: "迷你", value: "mini" },
 ];
 const languageOpts: OptionItem[] = [
   { label: "简体中文", value: "zh" },
