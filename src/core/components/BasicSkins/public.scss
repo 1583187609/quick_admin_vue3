@@ -2,6 +2,11 @@
 :root {
   /* 动画过渡 */
   --transition-time-main: $transition-time-main;
+  /* 组件大小的高度 */
+  --size-large: 40px;
+  --size-default: 32px;
+  --size-small: 24px;
+  --size-mini: 20px;
 }
 // 语法示例
 .css-var-demo {
@@ -40,3 +45,11 @@
 //   element.style.setProperty('--computed-padding', basePadding * multiplier3x + 'px');
 //   element.style.padding = 'var(--computed-padding)';
 // }
+
+// // document.documentElement 是全局变量时
+// const el = document.documentElement
+// // const el = document.getElementById('xxx')
+// // 获取 css 变量
+// getComputedStyle(el).getPropertyValue(`--el-color-primary`)
+// // 设置 css 变量
+// el.style.setProperty('--el-color-primary', 'red')

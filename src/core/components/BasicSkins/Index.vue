@@ -8,18 +8,18 @@
 <script lang="ts" setup>
 // 主题换肤，参照：https://blog.csdn.net/gaotlantis/article/details/139931309
 import { provide, reactive, watch, computed } from "vue";
-import { CommonSize, ThemeColor } from "@/core/_types";
+import { LayoutSize, ThemeName } from "@/core/_types";
+import { defaultSet } from "@/store/modules/set";
 const props = withDefaults(
   defineProps<{
-    theme?: ThemeColor;
-    size?: CommonSize;
+    theme?: ThemeName;
+    size?: LayoutSize;
   }>(),
-  {
-    theme: "orange",
-    size: "default",
-  }
+  {}
 );
-function setSkin(theme: ThemeColor = "orange", size: CommonSize = "default") {
+const elementPlusVar = getComputedStyle(document.documentElement).getPropertyValue("--el-color-primary").trim();
+console.log(elementPlusVar, "elementPlusVar-----------");
+function setSkin(theme: ThemeName = defaultSet.theme.name, size: LayoutSize = defaultSet.layout.size) {
   document.documentElement.setAttribute("theme", theme);
   document.documentElement.setAttribute("size", size);
 }
@@ -30,6 +30,7 @@ provide("setSkin", setSkin);
 @import "./public.scss";
 @import "./size.scss";
 @import "./theme.scss";
+@import "./element.scss";
 .skin-demo {
   font-size: var(--gap-two);
 }

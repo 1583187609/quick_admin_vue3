@@ -4,14 +4,15 @@
   --dialog-top: 2vh;
 
   /* layout相关 */
-  --header-height: 60px;
-  --asider-width: 220px;
-  --main-menu-width: 80px;
-  --page-tags-height: 44px;
+  --header-height: 60px; // 4em;
+  --asider-width: 220px; // 14em;
+  --main-menu-width: 80px; // 4.5em;
+  --page-tags-height: 44px; // 44px;
 
   /* 间距相关 */
   --gap-qtr: 4px;
   --gap-half: 8px;
+  --gap-half-qtr: 12px;
   --gap: 16px;
   --gap-one-half: 24px;
   --gap-two: 32px;
@@ -24,7 +25,9 @@
   --radius-lighter: 4px;
 
   /* 盒子高度 */
+  --height-heavy: 48px;
   --height-main: 44px;
+  --height-light: 40px;
 
   /* 字体大小 */
   --font-size-heavyest: 22px;
@@ -38,6 +41,7 @@
   --shadow-heavy: 0 4px 8px rgba(0, 0, 0, 0.24), 0 0 10px rgba(0, 0, 0, 0.08);
   --shadow-main: 0 4px 6px rgba(0, 0, 0, 0.12), 0 0 8px rgba(0, 0, 0, 0.04);
   --shadow-light: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+  --shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
 }
 
 :root[size="default"] {
@@ -45,14 +49,15 @@
   --dialog-top: 2vh;
 
   /* layout相关 */
-  --header-height: 56px; // large:60px default:56px small:52px mini:48px
-  --asider-width: 200px; // large:220px default:200px small:180px mini:160px
-  --main-menu-width: 70px; // large:80px default:70px small:60px mini:50px
-  --page-tags-height: 40px; // large:44px default:40px small:36px mini:32px
+  --header-height: 52px;
+  --asider-width: 190px;
+  --main-menu-width: 70px;
+  --page-tags-height: 38px;
 
   /* 间距相关 */
   --gap-qtr: 3px;
   --gap-half: 6px;
+  --gap-half-qtr: 8px;
   --gap: 12px;
   --gap-one-half: 16px;
   --gap-two: 24px;
@@ -65,7 +70,9 @@
   --radius-lighter: 2px;
 
   /* 盒子高度 */
+  --height-heavy: 44px;
   --height-main: 40px;
+  --height-light: 36px;
 
   /* 字体大小 */
   --font-size-heavyest: 20px;
@@ -79,6 +86,7 @@
   --shadow-heavy: 0 2px 6px rgba(0, 0, 0, 0.24), 0 0 8px rgba(0, 0, 0, 0.08);
   --shadow-main: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   --shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  --shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
 }
 
 :root[size="small"] {
@@ -86,79 +94,87 @@
   --dialog-top: 2vh;
 
   /* layout相关 */
-  --header-height: 52px;
-  --asider-width: 180px;
+  --header-height: 44px;
+  --asider-width: 160px;
   --main-menu-width: 60px;
-  --page-tags-height: 36px;
+  --page-tags-height: 30px;
 
   /* 间距相关 */
   --gap-qtr: 2px;
   --gap-half: 4px;
+  --gap-half-qtr: 6px;
   --gap: 8px;
   --gap-one-half: 12px;
   --gap-two: 16px;
 
   /* 边框圆角 */
-  --radius-heavyer: 8px;
-  --radius-heavy: 6px;
-  --radius-main: 4px;
-  --radius-light: 3px;
+  --radius-heavyer: 10px;
+  --radius-heavy: 8px;
+  --radius-main: 6px;
+  --radius-light: 4px;
   --radius-lighter: 2px;
 
   /* 盒子高度 */
+  --height-heavy: 40px;
   --height-main: 36px;
+  --height-light: 32px;
 
   /* 字体大小 */
-  --font-size-heavyest: 18px;
-  --font-size-heavyer: 16px;
-  --font-size-heavy: 15px;
-  --font-size-main: 14px;
-  --font-size-light: 13px;
+  --font-size-heavyest: 15px;
+  --font-size-heavyer: 14px;
+  --font-size-heavy: 13px;
+  --font-size-main: 12px;
+  --font-size-light: 12px;
   --font-size-lighter: 12px;
 
   /* 盒子阴影 */
-  --shadow-heavy: 0 2px 4px rgba(0, 0, 0, 0.24), 0 0 6px rgba(0, 0, 0, 0.08);
-  --shadow-main: 0 1px 2px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.04);
-  --shadow-light: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  --shadow-heavy: 0 2px 4px rgba(0, 0, 0, 0.24), 0 0 6px rgba(0, 0, 0, 0.08); // 0px 16px 48px 16px rgba(0, 0, 0, 0.08), 0px 12px 32px rgba(0, 0, 0, 0.12), 0px 8px 16px -8px rgba(0, 0, 0, 0.16),
+  --shadow-main: 0 1px 2px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.04); //  0px 12px 32px 4px rgba(0, 0, 0, 0.04), 0px 8px 20px rgba(0, 0, 0, 0.08),
+  --shadow-light: 0 2px 10px 0 rgba(0, 0, 0, 0.1); // 0px 0px 12px rgba(0, 0, 0, 0.12)
+  --shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
 }
 
-:root[size="mini"] {
-  /* dialog 相关 */
-  --dialog-top: 2vh;
+// :root[size="mini"] {
+//   /* dialog 相关 */
+//   --dialog-top: 2vh;
 
-  /* layout相关 */
-  --header-height: 48px;
-  --asider-width: 160px;
-  --main-menu-width: 50px;
-  --page-tags-height: 32px;
+//   /* layout相关 */
+//   --header-height: 4em; // 48px;
+//   --asider-width: 14em; // 160px;
+//   --main-menu-width: 4.5em; // 50px;
+//   --page-tags-height: 32px;
 
-  /* 间距相关 */
-  --gap-qtr: 1px;
-  --gap-half: 2px;
-  --gap: 4px;
-  --gap-one-half: 6px;
-  --gap-two: 8px;
+//   /* 间距相关 */
+//   --gap-qtr: 1px;
+//   --gap-half: 2px;
+//   --gap-half-qtr: 3px;
+//   --gap: 4px;
+//   --gap-one-half: 6px;
+//   --gap-two: 8px;
 
-  /* 边框圆角 */
-  --radius-heavyer: 6px;
-  --radius-heavy: 4px;
-  --radius-main: 3px;
-  --radius-light: 2px;
-  --radius-lighter: 1px;
+//   /* 边框圆角 */
+//   --radius-heavyer: 6px;
+//   --radius-heavy: 4px;
+//   --radius-main: 3px;
+//   --radius-light: 2px;
+//   --radius-lighter: 1px;
 
-  /* 盒子高度 */
-  --height-main: 32px;
+//   /* 盒子高度 */
+//   --height-heavy: 36px;
+//   --height-main: 32px;
+//   --height-light: 28px;
 
-  /* 字体大小 */
-  --font-size-heavyest: 16px;
-  --font-size-heavyer: 15px;
-  --font-size-heavy: 14px;
-  --font-size-main: 13px;
-  --font-size-light: 12px;
-  --font-size-lighter: 11px;
+//   /* 字体大小 */
+//   --font-size-heavyest: 15px;
+//   --font-size-heavyer: 14px;
+//   --font-size-heavy: 13px;
+//   --font-size-main: 12px;
+//   --font-size-light: 12px;
+//   --font-size-lighter: 12px;
 
-  /* 盒子阴影 */
-  --shadow-heavy: 0 1px 4px rgba(0, 0, 0, 0.24), 0 0 6px rgba(0, 0, 0, 0.08);
-  --shadow-main: 0 1px 2px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.04);
-  --shadow-light: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-}
+//   /* 盒子阴影 */
+//   --shadow-heavy: 0 1px 4px rgba(0, 0, 0, 0.24), 0 0 6px rgba(0, 0, 0, 0.08);
+//   --shadow-main: 0 1px 2px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.04);
+//   --shadow-light: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+//   --shadow-lighter: 0px 0px 6px rgba(0, 0, 0, 0.12);
+// }

@@ -31,6 +31,8 @@ const setSkin = inject<any>("setSkin");
 const i18n = useI18n();
 const { tm: $t } = i18n;
 const showHideSwitchAttrs = {
+  activeValue: 1,
+  inactiveValue: 0,
   activeText: "显示",
   inactiveText: "隐藏",
 };
@@ -126,14 +128,38 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
       title: $t("sysSet.theme.title"),
       fields: [
         {
-          prop: "theme_color",
-          label: $t("sysSet.theme.themeColor.label"),
-          type: "color-picker",
+          prop: "custom_theme",
+          label: "自定义主题",
+          type: "switch",
           attrs: {
-            predefine: colorList,
-            disabled: true,
+            activeValue: 1,
+            inactiveValue: 0,
+            activeText: "是",
+            inactiveText: "否",
           },
         },
+        ...(modelData.custom_theme
+          ? [
+              {
+                prop: "theme_color",
+                label: $t("sysSet.theme.themeColor.label"),
+                type: "color-picker",
+                attrs: {
+                  predefine: colorList,
+                  disabled: true,
+                },
+              },
+            ]
+          : [
+              {
+                prop: "theme_name",
+                label: $t("sysSet.theme.themeName.label"),
+                type: "select",
+                attrs: {
+                  options: "D_ThemeName",
+                },
+              },
+            ]),
         {
           prop: "dark_mode",
           label: $t("sysSet.theme.darkMode.label"),
@@ -160,6 +186,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
   ];
 });
 function getDefaultModel(set: CommonObj) {
+  console.log(set, "set------------");
   return {
     layout_type: set.layout.type,
     widget_size: set.layout.size,
@@ -170,6 +197,7 @@ function getDefaultModel(set: CommonObj) {
     page_tag_icon: set.pageTags.showIcon,
     footer: set.footer.show,
     theme_color: set.theme.color,
+    theme_name: set.theme.name,
     dark_mode: set.theme.darkMode,
     unique_opened: set.menu.uniqueOpened,
   };
@@ -192,7 +220,10 @@ function handleChange(val: any, prop: string) {
   } else if (prop === "footer") {
     setStore.updateSet("footer", { show: val });
   } else if (prop === "theme_color") {
-    setStore.updateSet("theme", { themeColor: val });
+    setStore.updateSet("theme", { color: val });
+  } else if (prop === "theme_name") {
+    setStore.updateSet("theme", { name: val });
+    setSkin(val);
   } else if (prop === "dark_mode") {
     setStore.updateSet("theme", { darkMode: val });
   } else if (prop === "unique_opened") {

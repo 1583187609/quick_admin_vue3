@@ -1,51 +1,86 @@
-// @use "./_var.scss" as *;
+/* Element Chalk Variables */
+@use "sass:math";
+@use "sass:map";
+@use "sass:color";
 
+$sm: 768px !default;
+$md: 992px !default;
+$lg: 1200px !default;
+$xl: 1920px !default;
+$breakpoints: (
+  "xs": "(max-width: #{$sm - 1})",
+  "sm": "(min-width: #{$sm})",
+  "md": "(min-width: #{$md})",
+  "lg": "(min-width: #{$lg})",
+  "xl": "(min-width: #{$xl})",
+) !default;
+// $gap-half-qtr: 12px;
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
   $colors: (
-    // 'white': #ffffff,
-    // 'black': #000000,
-    "primary": ("base": $color-primary),
-    // 'success': (
-    //   'base': #67c23a,
-    // ),
-    // 'warning': (
-    //   'base': #e6a23c,
-    // ),
-    // 'danger': (
-    //   'base': #f56c6c,
-    // ),
-    // 'error': (
-    //   'base': #f56c6c,
-    // ),
-    // 'info': (
-    //   'base': #909399,
-    // ),,,,,,,,,
+    // "white": #ffffff,
+    // "black": #000000,
+    // 因为ElementPlus 底层用到了 color.mix 运算，所以不能够直接使用 $color-primary 变量
+    "primary": ("base": #ff8000),
+    // "success": ("base": #67c23a),
+    // "warning": ("base": #e6a23c),
+    // "danger": ("base": #f56c6c),
+    // "error": ("base": #f56c6c),
+    // "info": ("base": #909399),,,,,,,
   ),
+
   $text-color: (
     "primary": $color-text-heavy,
     "regular": $color-text-main,
     "secondary": $color-text-light,
-    // "placeholder": $color-text-lighter,
+    "placeholder": $color-text-lighter,
+    "disabled": $color-text-lightest,
   ),
   $border-color: (
-    "base": $color-border-main,
+    "": $color-border-main,
     "light": $color-border-light,
     "lighter": $color-border-lighter,
     // 'extra-light': #f2f6fc,
+    "dark": $color-border-heavy,
+    "darker": $color-border-heavyer,
   ),
-  $border-radius: (
-    "base": $radius-main,
-    "small": $radius-lighter,
-    // 'round': 20px,
-    // 'circle': 100%,,,,,,,,,
+  $fill-color: (
+    // '': #f0f2f5,
+    "light": $color-bg-lighter,
+    // 'lighter': #fafafa,
+    // 'extra-light': #fafcff,
+    // 'dark': #ebedf0,
+    // 'darker': #e6e8eb,
+    // 'blank': #ffffff,,,,,,,
   ),
-  // $box-shadow:(
-  //   'base': (
-  //     0 2px 4px rgba(0, 0, 0, 0.12),
-  //     0 0 6px rgba(0, 0, 0, 0.04),
+  // // Background
+  // $bg-color:
+  //   (
+  //     '': #ffffff,
+  //     'page': #f2f3f5,
+  //     'overlay': #ffffff,
   //   ),
-  //   'light': 0 2px 12px 0 rgba(0, 0, 0, 0.1),
-  // ),
+  // // Border
+  $border-radius:
+    (
+      "base": $radius-main,
+      "small": $radius-light,
+      // 'round': 20px,
+      // 'circle': 100%,,,,,,,,
+    ),
+  // // Box-shadow
+  $box-shadow:
+    (
+      "": $shadow-main,
+      "light": $shadow-light,
+      "lighter": $shadow-lighter,
+      "dark": $shadow-heavy,
+    ),
+  // // Typography
+  // $font-family:
+  //   (
+  //     '':
+  //       "'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif"
+  //   ),
   $font-size:
     (
       "extra-large": $font-size-heavyest,
@@ -55,597 +90,1016 @@
       "small": $font-size-light,
       "extra-small": $font-size-lighter,
     ),
-  // $disabled: (
-  //   'bg-color': var(--el-bg-color),
-  //   'text-color': var(--el-text-color-placeholder),
-  //   'border-color': var(--el-border-color-light),
-  // ),
-  // $common-component-size: (
-  //   'large': 40px,
-  //   'default': 32px,
-  //   'small': 24px,
-  // ),
+  // // zIndex
+  // $z-index:
+  //   (
+  //     'normal': 1,
+  //     'top': 1000,
+  //     'popper': 2000,
+  //   ),
+  // // Disable default
+  // $disabled:
+  //   (
+  //     'bg-color': getCssVar('fill-color', 'light'),
+  //     'text-color': getCssVar('text-color', 'placeholder'),
+  //     'border-color': getCssVar('border-color', 'light'),
+  //   ),
+  // $common-component-size:
+  //   (
+  //     "large": 40px,
+  //     "default": 32px,
+  //     "small": 24px,
+  //   ),
+  // // overlay
+  // $overlay-color:
+  //   (
+  //     '': rgba(0, 0, 0, 0.8),
+  //     'light': rgba(0, 0, 0, 0.7),
+  //     'lighter': rgba(0, 0, 0, 0.5),
+  //   ),
+  // // mask
+  // $mask-color:
+  //   (
+  //     '': rgba(255, 255, 255, 0.9),
+  //     'extra-light': rgba(255, 255, 255, 0.3),
+  //   ),
+  // // Components
+  // // ---
+  // // Checkbox
+  // // css3 var in packages/theme-chalk/src/checkbox.scss
   $checkbox:
     (
       "font-size": $font-size-main,
-      // 'font-weight': var(--el-font-weight-primary),
-      // 'text-color': var(--el-text-color-regular),
+      // "font-weight": getCssVar("font-weight-primary"),
+      // "text-color": getCssVar("text-color-regular"),
+      // "input-height": $font-size-main,
+      // "input-width": $font-size-main,
+      "border-radius": $radius-lighter,
+      // "bg-color": getCssVar("fill-color", "blank"),
+      // "input-border": getCssVar("border"),
+      // "disabled-border-color": getCssVar("border-color"),
+      // "disabled-input-fill": getCssVar("fill-color", "light"),
+      // "disabled-icon-color": getCssVar("text-color-placeholder"),
+      // "disabled-checked-input-fill": getCssVar("border-color-extra-light"),
+      // "disabled-checked-input-border-color": getCssVar("border-color"),
+      // "disabled-checked-icon-color": getCssVar("text-color-placeholder"),
+      // "checked-text-color": getCssVar("color-primary"),
+      // "checked-input-border-color": getCssVar("color-primary"),
+      // "checked-bg-color": getCssVar("color-primary"),
+      // "checked-icon-color": getCssVar("color", "white"),
+      // "input-border-color-hover": getCssVar("color-primary"),,,,,,,
+    ),
+  // $checkbox-button:
+  //   (
+  //     'checked-bg-color': getCssVar('color-primary'),
+  //     'checked-text-color': getCssVar('color-white'),
+  //     'checked-border-color': getCssVar('color-primary'),
+  //   ),
+  // $checkbox-bordered-padding-left:
+  //   (
+  //     'large': 12px,
+  //     'default': 10px,
+  //     'small': 8px,
+  //   ),
+  // $checkbox-bordered-padding-right:
+  //   (
+  //     'large': 20px,
+  //     'default': 16px,
+  //     'small': 12px,
+  //   ),
+  // // Radio
+  // /// fontSize||Font|1
+  $radio:
+    (
+      // 'font-size': getCssVar('font-size-base'),
+      // 'text-color': getCssVar('text-color-regular'),
+      // 'font-weight': getCssVar('font-weight-primary'),
       "input-height": $font-size-main,
       "input-width": $font-size-main,
-      // 'border-radius': $radius-main,
-      // 'bg-color': var(--el-color-white),
-      // 'input-border': var(--el-border-base),
-      // 'disabled-border-color': var(--el-border-color-base),
-      // 'disabled-input-fill': #edf2fc,
-      // 'disabled-icon-color': var(--el-text-color-placeholder),
-      // 'disabled-checked-input-fill': var(--el-border-color-extra-light),
-      // 'disabled-checked-input-border-color': var(--el-border-color-base),
-      // 'disabled-checked-icon-color': var(--el-text-color-placeholder),
-      // 'checked-text-color': var(--el-color-primary),
-      // 'checked-input-border-color': var(--el-color-primary),
-      // 'checked-bg-color': var(--el-color-primary),
-      // 'checked-icon-color': var(--el-fill-base),
-      // 'input-border-color-hover': var(--el-color-primary),,,,,,,,,
+      // 'input-border-radius': getCssVar('border-radius-circle'),
+      // 'input-bg-color': getCssVar('fill-color', 'blank'),
+      // 'input-border': getCssVar('border'),
+      // 'input-border-color': getCssVar('border-color'),
+      // 'input-border-color-hover': getCssVar('color-primary'),,,,,,,,
     ),
-  // $checkbox-button: (
-  //   'checked-bg-color': var(--el-color-primary),
-  //   'checked-text-color': var(--el-color-white),
-  //   'checked-border-color': var(--el-color-primary),
-  // ),
-  $checkbox-bordered-padding-left:
+  // $radio-height: ($common-component-size, $radio-height);
+  // $radio-button:
+  //   (
+  //     'checked-bg-color': getCssVar('color-primary'),
+  //     'checked-text-color': getCssVar('color-white'),
+  //     'checked-border-color': getCssVar('color-primary'),
+  //     'disabled-checked-fill': getCssVar('border-color-extra-light'),
+  //   ),
+  // $radio-disabled:
+  //   (
+  //     'input-border-color': getCssVar('disabled-border-color'),
+  //     'input-fill': getCssVar('disabled-bg-color'),
+  //     'icon-color': getCssVar('disabled-bg-color'),
+  //     'checked-input-border-color': getCssVar('disabled-border-color'),
+  //     'checked-input-fill': getCssVar('disabled-bg-color'),
+  //     'checked-icon-color': getCssVar('text-color-placeholder'),
+  //   ),
+  // $radio-checked:
+  //   (
+  //     'text-color': getCssVar('color-primary'),
+  //     'input-border-color': getCssVar('color-primary'),
+  //     'icon-color': getCssVar('color-primary'),
+  //   ),
+  // $radio-bordered-input-height:
+  //   (
+  //     'large': 14px,
+  //     'default': 12px,
+  //     'small': 12px,
+  //   ),
+  // $radio-bordered-input-width:
+  //   (
+  //     'large': 14px,
+  //     'default': 12px,
+  //     'small': 12px,
+  //   ),
+  // // Select
+  // $select:
+  //   (
+  //     // 'border-color-hover': getCssVar('border-color-hover'),
+  //     // 'disabled-color': getCssVar('disabled-text-color'),
+  //     // 'disabled-border': getCssVar('disabled-border-color'),
+  //     // 'font-size': getCssVar('font-size-base'),
+  //     // 'close-hover-color': getCssVar('text-color-secondary'),
+  //     // 'input-color': getCssVar('text-color-placeholder'),
+  //     // 'multiple-input-color': getCssVar('text-color-regular'),
+  //     // 'input-focus-border-color': getCssVar('color-primary'),
+  //     // 'input-font-size': $font-size-main,
+  //     // 'width': 100%,,
+  //   ),
+  $select-option:
     (
-      "large": $gap-half * 1.5,
+      // 'text-color': getCssVar('text-color-regular'),
+      // 'disabled-color': getCssVar('text-color-placeholder'),
+      "height": $height-light,
+      // 'hover-background': getCssVar('fill-color', 'light'),
+      // 'selected-text-color': getCssVar('color-primary'),,,,,,,
+    ),
+  $select-group: (
+    // 'text-color': getCssVar('color-info'),
+    "height": $height-light,
+    "font-size": $font-size-light,
+  ),
+  $select-dropdown: (
+    // 'bg-color': getCssVar('bg-color', 'overlay'),
+    // 'shadow': getCssVar('box-shadow-light'),
+    // 'empty-color': getCssVar('text-color-secondary'),
+    // 'max-height': 274px,
+    "padding": $gap-half 0,
+    "empty-padding": $gap 0,
+    "header-padding": $gap,
+    "footer-padding": $gap,
+    // 'border': 1px solid getCssVar('border-color-light'),,
+  ),
+  // $select-wrapper-padding:
+  //   (
+  //     'large': 8px 16px,
+  //     'default': 4px 12px,
+  //     'small': 2px 8px,
+  //   ),
+  // $select-near-margin-left:
+  //   (
+  //     'large': -8px,
+  //     'default': -8px,
+  //     'small': -6px,
+  //   ),
+  $select-item-gap:
+    (
+      "large": $gap-half,
       "default": $gap-half,
       "small": $gap-qtr,
     ),
-  $checkbox-bordered-padding-right: (
-    "large": $gap-one-half,
-    "default": $gap,
-    "small": $gap-half,
-  ),
-  $radio: (
-    "font-size": $font-size-main,
-    // 'text-color': var(--el-text-color-regular),
-    // 'font-weight': var(--el-font-weight-primary),
-    "input-height": $font-size-main,
-    "input-width": $font-size-main,
-    // "input-border-radius": $radius-light,
-    // 'input-bg-color': var(--el-color-white),
-    // 'input-border': var(--el-border-base),
-    // 'input-border-color': var(--el-border-color-base),
-    // 'input-border-color-hover': var(--el-color-primary),,,,,,,,,
-  ),
-  // $radio-button: (
-  //   'checked-bg-color': var(--el-color-primary),
-  //   'checked-text-color': var(--el-color-white),
-  //   'checked-border-color': var(--el-color-primary),
-  //   'disabled-checked-fill': var(--el-border-color-extra-light),
-  // ),
-  // $radio-disabled: (
-  //   'input-border-color': var(--el-disabled-border-color),
-  //   'input-fill': var(--el-disabled-bg-color),
-  //   'icon-color': var(--el-disabled-bg-color),
-  //   'checked-input-border-color': var(--el-disabled-border-color),
-  //   'checked-input-fill': var(--el-disabled-bg-color),
-  //   'checked-icon-color': var(--el-text-color-placeholder),
-  // ),
-  // $radio-checked: (
-  //   'text-color': var(--el-color-primary),
-  //   'input-border-color': var(--el-color-primary),
-  //   'icon-color': var(--el-color-primary),
-  // ),
-  $radio-bordered-input-height:
+  // // the same height of el-tag
+  // $select-item-height:
+  //   (
+  //     'large': 24px,
+  //     'default': 24px,
+  //     'small': 20px,
+  //   ),
+  // // Alert
+  // // css3 var in packages/theme-chalk/src/alert.scss
+  $alert:
     (
-      "large": $font-size-heavy,
-      "default": $font-size-main,
-      "small": $font-size-lighter,
+      "padding": $gap-half $gap,
+      // 'border-radius-base': getCssVar('border-radius-base'),
+      "title-font-size": $font-size-main,
+      "title-with-description-font-size": $font-size-heavy,
+      "description-font-size": $font-size-main,
+      "close-font-size": $font-size-heavy,
+      "close-customed-font-size": $font-size-main,
+      "icon-size": $font-size-heavy,
+      // "icon-large-size": 28px,
     ),
-  $radio-bordered-input-width: (
-    "large": $font-size-heavy,
-    "default": $font-size-main,
-    "small": $font-size-lighter,
-  ),
-  $select: (
-    // 'border-color-hover': var(--el-border-color-hover),
-    // 'disabled-border': var(--el-disabled-border-color),
-    "font-size": $font-size-main,
-    // 'close-hover-color': var(--el-text-color-secondary),
-    // 'input-color': var(--el-text-color-placeholder),
-    // 'multiple-input-color': var(--el-text-color-regular),
-    // 'input-focus-border-color': var(--el-color-primary),
-    "input-font-size": $font-size-main,
-  ),
-  // $select-option: (
-  // 'text-color': var(--el-text-color-regular),
-  // 'disabled-color': var(--el-text-color-placeholder),
-  // 'height': 34px,
-  // 'hover-background': var(--el-bg-color),
-  // 'selected-text-color': var(--el-color-primary),
-  // ),
-  // $select-group: (
-  //   'text-color': var(--el-color-info),
-  //   'height': 30px,
-  //   'font-size': 12px,
-  // ),
-  $select-dropdown:
+  // // MessageBox
+  // // css3 var in packages/theme-chalk/src/message-box.scss
+  $messagebox:
     (
-      // 'bg-color': var(--el-color-white),
-      // 'shadow': var(--el-box-shadow-light),
-      // 'empty-color': var(--el-text-color-secondary),
-      // 'max-height': 274px,
-      "padding": $gap-qtr 0,
-      "empty-padding": $gap-half 0,
-      // 'border': 1px solid var(--el-border-color-light),
+      // 'title-color': getCssVar('text-color-primary'),
+      // 'width': 420px,
+      "border-radius": $radius-main,
+      // 'box-shadow': getCssVar('box-shadow'),
+      // 'font-size': getCssVar('font-size-large'),
+      // 'content-font-size': getCssVar('font-size-base'),
+      // 'content-color': getCssVar('text-color-regular'),
+      "error-font-size": $font-size-light,
+      "padding-primary": $gap,
+      // 'font-line-height': getCssVar('font-line-height-primary'),,
     ),
-  $alert: (
-    "padding": $gap-half $gap,
-    "border-radius-base": $radius-main,
-    "title-font-size": $font-size-main,
-    "description-font-size": $font-size-lighter,
-    "close-font-size": $font-size-lighter,
-    "close-customed-font-size": $font-size-main,
-    "icon-size": $font-size-heavy,
-    // 'icon-large-size': 28px,
-  ),
-  $messagebox: (
-    // 'title-color': var(--el-text-color-primary),
-    // 'width': 420px,
-    "border-radius": $radius-main,
-    // 'font-size': var(--el-font-size-large),
-    // 'content-font-size': var(--el-font-size-base),
-    // 'content-color': var(--el-text-color-regular),
-    // 'error-font-size': 12px,
-    "padding-primary": $gap,
-  ),
-  $message: (
-    // 'min-width': 380px,
-    // 'bg-color': #edf2fc,
-    "padding": $gap $gap $gap $gap-one-half,
-    "close-size": $font-size-heavy,
-    // 'close-icon-color': var(--el-text-color-placeholder),
-    // 'close-hover-color': var(--el-text-color-secondary),,,,,,,,,
-  ),
-  $notification: (
-    // 'width': 330px,
-    "padding": $gap $gap-one-half $gap $gap,
-    "radius": $radius-main,
-    // 'shadow': var(--el-box-shadow-light),
-    // 'border-color': var(--el-border-color-lighter),
-    // 'icon-size': 24px,
-    // 'close-font-size':
-    //   var(--el-message-close-size, map.get($message, 'close-size')),
-    "group-margin-left": $gap,
-    "group-margin-right": $gap-half,
-    // 'content-font-size': var(--el-font-size-base),
-    // 'content-color': var(--el-text-color-regular),
-    "title-font-size": $font-size-heavy,
-    // 'title-color': var(--el-text-color-primary),
-    // 'close-color': var(--el-text-color-secondary),
-    // 'close-hover-color': var(--el-text-color-regular),,,,,,,,,
-  ),
-  $input: (
-    // 'text-color': var(--el-text-color-regular),
-    // 'border': var(--el-border-base),
-    // 'border-color': var(--el-border-color-base),
-    "border-radius": $radius-light,
-    // 'bg-color': var(--el-color-white),
-    // 'icon-color': var(--el-text-color-placeholder),
-    // "placeholder-color": #ddd,
-    // var(--el-text-color-placeholder),
-    // 'hover-border': var(--el-border-color-hover),
-    // 'clear-hover-color': var(--el-text-color-secondary),
-    // 'focus-border': var(--el-color-primary),,,,,,,,,
-  ),
-  // $input-disabled: (
-  //   'fill': var(--el-disabled-bg-color),
-  //   'border': var(--el-disabled-border-color),
-  //   'text-color': var(--el-disabled-text-color),
-  //   'placeholder-color': var(--el-text-color-placeholder),
-  // ),
-  $input-font-size:
+  // // Message
+  // // css3 var in packages/theme-chalk/src/message.scss
+  $message:
     (
-      "large": $font-size-heavy,
-      "default": $font-size-main,
-      "small": $font-size-lighter,
+      // 'bg-color': getCssVar('color', 'info', 'light-9'),
+      // 'border-color': getCssVar('border-color-lighter'),
+      // "padding": $gap-half-qtr $gap,
+      "close-size": $font-size-heavy,
+      // 'close-icon-color': getCssVar('text-color-placeholder'),
+      // 'close-hover-color': getCssVar('text-color-secondary'),,,,,,,,,,
     ),
-  // $input-number-width: (
-  //   'large': 180px,
-  //   'default': 150px,
-  //   'small': 120px,
-  // ),
+  // // Notification
+  // // css3 var in packages/theme-chalk/src/notification.scss
+  $notification:
+    (
+      // 'width': 330px,
+      // 'padding': 14px 26px 14px 13px,
+      "radius": $radius-heavy,
+      // 'shadow': getCssVar('box-shadow-light'),
+      // 'border-color': getCssVar('border-color-lighter'),
+      // 'icon-size': 24px,
+      // 'close-font-size':
+      //   var(
+      //     #{getCssVarName('message-close-size')},
+      //     map.get($message, 'close-size')
+      //   ),
+      // 'group-margin-left': 13px,
+      "group-margin-right": $gap-half,
+      // 'content-font-size': getCssVar('font-size-base'),
+      // 'content-color': getCssVar('text-color-regular'),
+      "title-font-size": $font-size-heavy,
+      // 'title-color': getCssVar('text-color-primary'),
+      // 'close-color': getCssVar('text-color-secondary'),
+      // 'close-hover-color': getCssVar('text-color-regular'),,,,,,,,,
+    ),
+  // // Input
+  // // css3 var in packages/theme-chalk/src/input.scss
+  // $input:
+  //   (
+  //     'text-color': getCssVar('text-color-regular'),
+  //     'border': getCssVar('border'),
+  //     'hover-border': getCssVar('border-color-hover'),
+  //     'focus-border': getCssVar('color-primary'),
+  //     'transparent-border': 0 0 0 1px transparent inset,
+  //     'border-color': getCssVar('border-color'),
+  //     'border-radius': getCssVar('border-radius-base'),
+  //     'bg-color': getCssVar('fill-color', 'blank'),
+  //     'icon-color': getCssVar('text-color-placeholder'),
+  //     'placeholder-color': getCssVar('text-color-placeholder'),
+  //     'hover-border-color': getCssVar('border-color-hover'),
+  //     'clear-hover-color': getCssVar('text-color-secondary'),
+  //     'focus-border-color': getCssVar('color-primary'),
+  //     'width': 100%,
+  //   ),
+  // $input-disabled:
+  //   (
+  //     'fill': getCssVar('disabled-bg-color'),
+  //     'border': getCssVar('disabled-border-color'),
+  //     'text-color': getCssVar('disabled-text-color'),
+  //     'placeholder-color': getCssVar('text-color-placeholder'),
+  //   ),
+  // $input-font-size:
+  //   (
+  //     'large': 14px,
+  //     'default': 14px,
+  //     'small': 12px,
+  //   ),
+  // $input-height: $common-component-size, $input-height);
+  // $input-line-height: $common-component-size, $input-line-height);
+  // $input-number-width:
+  //   (
+  //     'large': 180px,
+  //     'default': 150px,
+  //     'small': 120px,
+  //   ),
   $input-padding-horizontal:
     (
-      "large": $gap-half * 1.5,
-      "default": $gap-half,
-      "small": $gap-qtr,
+      "large": $gap,
+      // "default": $gap-half-qtr,
+      "small": $gap-half,
     ),
-  $cascader: (
-    // 'menu-text-color': var(--el-text-color-regular),
-    // 'menu-selected-text-color': var(--el-color-primary),
-    // 'menu-fill': var(--el-fill-base),
-    "menu-font-size": $font-size-main,
-    "menu-radius": $radius-main,
-    // 'menu-border': solid 1px var(--el-border-color-light),
-    // 'menu-shadow': var(--el-box-shadow-light),
-    // 'node-background-hover': var(--el-bg-color),
-    // 'node-color-disabled': var(--el-text-color-placeholder),
-    // 'color-empty': var(--el-text-color-placeholder),
-    // 'tag-background': #f0f2f5,,,,,,,,,
-  ),
-  // $button: (
-  //   'font-weight': var(--el-font-weight-primary),
-  //   'border-color': var(--el-border-color-base),
-  //   'bg-color': var(--el-color-white),
-  //   'text-color': var(--el-text-color-regular),
-  //   'disabled-text-color': var(--el-disabled-text-color),
-  //   'disabled-bg-color': var(--el-color-white),
-  //   'disabled-border-color': var(--el-border-color-light),
-  //   'divide-border-color': rgba($color-white, 0.5),
-  //   'hover-text-color': var(--el-color-primary),
-  //   'hover-bg-color': var(--el-color-primary-light-9),
-  //   'hover-border-color': var(--el-color-primary-light-7),
-  //   'active-text-color': var(--el-button-hover-text-color),
-  //   'active-border-color': var(--el-color-primary),
-  //   'active-bg-color': var(--el-button-hover-bg-color),
-  // ),
-  // $button-font-size: (
-  //   'large': var(--el-font-size-base, map.get($font-size, 'base')),
-  //   'default': var(--el-font-size-base, map.get($font-size, 'base')),
-  //   'small': 12px,
-  // ),
-  $button-border-radius:
+  // // Cascader
+  // // css3 var in packages/theme-chalk/src/cascader.scss
+  // $cascader:
+  //   (
+  //     'menu-text-color': getCssVar('text-color-regular'),
+  //     'menu-selected-text-color': getCssVar('color-primary'),
+  //     'menu-fill': getCssVar('bg-color', 'overlay'),
+  //     'menu-font-size': getCssVar('font-size-base'),
+  //     'menu-radius': getCssVar('border-radius-base'),
+  //     'menu-border': solid 1px getCssVar('border-color-light'),
+  //     'menu-shadow': getCssVar('box-shadow-light'),
+  //     'node-background-hover': getCssVar('fill-color', 'light'),
+  //     'node-color-disabled': getCssVar('text-color-placeholder'),
+  //     'color-empty': getCssVar('text-color-placeholder'),
+  //     'tag-background': getCssVar('fill-color'),
+  //   ),
+  // $cascader-item-gap:
+  //   (
+  //     'large': 6px,
+  //     'default': 6px,
+  //     'small': 4px,
+  //   ),
+  // $cascader-wrapper-padding:
+  //   (
+  //     'large': 8px,
+  //     'default': 4px,
+  //     'small': 2px,
+  //   ),
+  // $cascader-item-height:
+  //   (
+  //     'large': 24px,
+  //     'default': 24px,
+  //     'small': 20px,
+  //   ),
+  // $cascader-search-input-margin-left:
+  //   (
+  //     'large': 7px,
+  //     'default': 7px,
+  //     'small': 5px,
+  //   ),
+  // //statistic
+  // // css3 var in packages/theme-chalk/src/statistic.scss
+  // $statistic:
+  //   (
+  //     'title-font-weight': 400,
+  //     'title-font-size': getCssVar('font-size', 'extra-small'),
+  //     'title-color': getCssVar('text-color', 'regular'),
+  //     'content-font-weight': 400,
+  //     'content-font-size': getCssVar('font-size', 'extra-large'),
+  //     'content-color': getCssVar('text-color', 'primary'),
+  //   ),
+  // // Button
+  // // css3 var in packages/theme-chalk/src/button.scss
+  // $button:
+  //   (
+  //     'font-weight': getCssVar('font-weight-primary'),
+  //     'border-color': getCssVar('border-color'),
+  //     'bg-color': getCssVar('fill-color', 'blank'),
+  //     'text-color': getCssVar('text-color', 'regular'),
+  //     'disabled-text-color': getCssVar('disabled-text-color'),
+  //     'disabled-bg-color': getCssVar('fill-color', 'blank'),
+  //     'disabled-border-color': getCssVar('border-color-light'),
+  //     'divide-border-color': rgba($color-white, 0.5),
+  //     'hover-text-color': getCssVar('color-primary'),
+  //     'hover-bg-color': getCssVar('color-primary', 'light-9'),
+  //     'hover-border-color': getCssVar('color-primary-light-7'),
+  //     'active-text-color': getCssVar('button-hover-text-color'),
+  //     'active-border-color': getCssVar('color-primary'),
+  //     'active-bg-color': getCssVar('button', 'hover-bg-color'),
+  //     'outline-color': getCssVar('color-primary', 'light-5'),
+  //     'hover-link-text-color': getCssVar('text-color', 'secondary'),
+  //     'active-color': getCssVar('text-color', 'primary'),
+  //   ),
+  // // need mix, so do not use css var
+  // $button-hover-tint-percent: 20%;
+  // $button-active-shade-percent: 10%;
+  // @each $type in $types {
+  //   $button-border-color:
+  //     (
+  //       $type: map.get($colors, $type, 'base'),
+  //     ),
+  //     $button-border-color
+  //   ) !global;
+  //   $button-bg-color:
+  //     (
+  //       $type: map.get($colors, $type, 'base'),
+  //     ),
+  //     $button-bg-color
+  //   ) !global;
+  // }
+  // $button-font-size:
+  //   (
+  //     'large': getCssVar('font-size', 'base'),
+  //     'default': getCssVar('font-size', 'base'),
+  //     'small': 12px,
+  //   ),
+  // $button-border-radius:
+  //   (
+  //     'large': getCssVar('border-radius', 'base'),
+  //     'default': getCssVar('border-radius', 'base'),
+  //     'small': calc(#{getCssVar('border-radius', 'base')} - 1px),
+  //   ),
+  $button-padding-vertical:
     (
-      "large": $radius-heavyer,
-      "default": $radius-main,
-      "small": $radius-lighter,
+      "large": $gap,
+      // "default": $gap-half-qtr,
+      "small": $gap-half,
     ),
-  $button-padding-vertical: (
-    "large": $gap-half * 1.5,
-    "default": $gap-half,
-    "small": $gap-qtr,
-  ),
   $button-padding-horizontal: (
-    "large": $gap * 1.5,
-    "default": $gap,
-    "small": $gap-qtr,
+    "large": $gap,
+    // "default": $gap-half-qtr,
+    "small": $gap-half,
   ),
-  $switch: (
-    // 'on-color': var(--el-color-primary),
-    // 'off-color': var(--el-border-color-base),
-    // 'core-border-radius': 10px,
-    // 'width': 40px,
-    // 'height': 20px,
-    "button-size": $font-size-heavy,
-  ),
-  $dialog: (
-    // 'width': 50%,
-    // 'margin-top': 15vh,
-    // 'bg-color': var(--el-color-white),
-    // 'box-shadow': 0 1px 3px rgba(0, 0, 0, 0.3),
-    // 'title-font-size': var(--el-font-size-large),
-    "content-font-size": $font-size-main,
-    // 'font-line-height': var(--el-font-line-height-primary),
-    "padding-primary": $gap,
-  ),
-  // $table: (
-  //   'border-color': var(--el-border-color-lighter),
-  //   'border': 1px solid var(--el-table-border-color),
-  //   'text-color': var(--el-text-color-regular),
-  //   'header-text-color': var(--el-text-color-secondary),
-  //   'row-hover-bg-color': var(--el-bg-color),
-  //   'current-row-bg-color': var(--el-color-primary-light-9),
-  //   'header-bg-color': $color-gradient-dark,
-  //   'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
-  //   'bg-color': var(--el-color-white),
-  //   'tr-bg-color': var(--el-color-white),
-  //   'expanded-cell-bg-color': var(--el-color-white),
-  // ),
-  $table-font-size:
+  // // Switch
+  // // css3 var in packages/theme-chalk/src/switch.scss
+  // $switch:
+  //   (
+  //     'on-color': getCssVar('color-primary'),
+  //     'off-color': getCssVar('border-color'),
+  //   ),
+  // // Dialog
+  // // css3 var in packages/theme-chalk/src/dialog.scss
+  $dialog:
     (
-      // 'large': var(--el-font-size-base, map.get($font-size, 'base')),
-      "default": $font-size-main,
-      "small": $font-size-lighter,
+      // 'width': 50%,
+      // 'margin-top': 15vh,
+      // 'bg-color': getCssVar('bg-color'),
+      // 'box-shadow': getCssVar('box-shadow'),
+      // 'title-font-size': getCssVar('font-size-large'),
+      "content-font-size": $font-size-main,
+      // 'font-line-height': getCssVar('font-line-height-primary'),
+      "padding-primary": $gap,
+      // 'border-radius': getCssVar('border-radius-base'),
     ),
-  $table-padding: (
-    "large": 10px 0,
-    "default": 6px 0,
-    "small": 2px 0,
-  ),
+  // // Tour
+  // // css3 var in packages/theme-chalk/src/tour.scss
+  $tour:
+    (
+      // 'width': 520px,
+      // "padding-primary": $gap-half-qtr,
+      // 'font-line-height': getCssVar('font-line-height-primary'),
+      "title-font-size": $font-size-heavy,
+      // 'title-text-color': getCssVar('text-color-primary'),
+      // 'title-font-weight': 400,
+      // 'close-color': getCssVar('color-info'),
+      "font-size": $font-size-main,
+      // 'color': getCssVar('text-color-primary'),
+      // 'bg-color': getCssVar('bg-color'),
+      "border-radius": $radius-light,
+    ),
+  // // Anchor
+  // // css3 var in packages/theme-chalk/src/anchor.scss
+  $anchor:
+    (
+      // 'bg-color': getCssVar('bg-color'),
+      "padding-indent": $font-size-main,
+      "line-height": 1.4,
+      "font-size": $font-size-light,
+      // 'color': getCssVar('text-color-secondary'),
+      // 'active-color': getCssVar('color-primary'),
+      // 'marker-bg-color': getCssVar('color-primary'),,,,,,,,,
+    ),
+  // // Segmented
+  // // css3 var in packages/theme-chalk/src/segmented.scss
+  // $segmented:
+  //   (
+  //     'color': getCssVar('text-color', 'regular'),
+  //     'bg-color': getCssVar('fill-color', 'light'),
+  //     'padding': 2px,
+  //     'item-selected-color': getCssVar('color-white'),
+  //     'item-selected-bg-color': getCssVar('color-primary'),
+  //     'item-selected-disabled-bg-color': getCssVar('color-primary', 'light-5'),
+  //     'item-hover-color': getCssVar('text-color', 'primary'),
+  //     'item-hover-bg-color': getCssVar('fill-color', 'dark'),
+  //     'item-active-bg-color': getCssVar('fill-color', 'darker'),
+  //     'item-disabled-color': getCssVar('text-color', 'placeholder'),
+  //   ),
+  // // Mention
+  // // css3 var in packages/theme-chalk/src/mention.scss
+  // $mention:
+  //   (
+  //     'font-size': getCssVar('font-size-base'),
+  //     'bg-color': getCssVar('bg-color', 'overlay'),
+  //     'shadow': getCssVar('box-shadow-light'),
+  //     'border': 1px solid getCssVar('border-color-light'),
+  //     'option-color': getCssVar('text-color-regular'),
+  //     'option-height': 34px,
+  //     'option-min-width': 100px,
+  //     'option-hover-background': getCssVar('fill-color', 'light'),
+  //     'option-selected-color': getCssVar('color-primary'),
+  //     'option-disabled-color': getCssVar('text-color-placeholder'),
+  //     'option-loading-color': getCssVar('text-color-secondary'),
+  //     'option-loading-padding': 10px 0,
+  //     'max-height': 174px,
+  //     'padding': 6px 0,
+  //     'header-padding': 10px,
+  //     'footer-padding': 10px,
+  //   ),
+  // // InputTag
+  // // css3 var in packages/theme-chalk/src/input-tag.scss
+  // $input-tag:
+  //   (
+  //     'border-color-hover': getCssVar('border-color-hover'),
+  //     'disabled-color': getCssVar('disabled-text-color'),
+  //     'disabled-border': getCssVar('disabled-border-color'),
+  //     'font-size': getCssVar('font-size-base'),
+  //     'close-hover-color': getCssVar('text-color-secondary'),
+  //     'text-color': getCssVar('text-color-regular'),
+  //     'input-focus-border-color': getCssVar('color-primary'),
+  //     'width': 100%,
+  //   ),
+  // $input-tag-padding:
+  //   (
+  //     'large': 8px,
+  //     'default': 4px,
+  //     'small': 2px,
+  //   ),
+  // $input-tag-inner-padding:
+  //   (
+  //     'large': 8px,
+  //     'default': 8px,
+  //     'small': 6px,
+  //   ),
+  // $input-tag-gap:
+  //   (
+  //     'large': 6px,
+  //     'default': 6px,
+  //     'small': 4px,
+  //   ),
+  // // Table
+  // // css3 var in packages/theme-chalk/src/table.scss
+  // $table:
+  //   (
+  //     'border-color': getCssVar('border-color-lighter'),
+  //     'border': 1px solid getCssVar('table-border-color'),
+  //     'text-color': getCssVar('text-color-regular'),
+  //     'header-text-color': getCssVar('text-color-secondary'),
+  //     'row-hover-bg-color': getCssVar('fill-color', 'light'),
+  //     'current-row-bg-color': getCssVar('color-primary-light-9'),
+  //     'header-bg-color': getCssVar('bg-color'),
+  //     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
+  //     'bg-color': getCssVar('fill-color', 'blank'),
+  //     'tr-bg-color': getCssVar('bg-color'),
+  //     'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
+  //     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
+  //     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
+  //     'index': getCssVar('index-normal'),
+  //   ),
+  // $table-font-size:
+  //   (
+  //     'large': getCssVar('font-size', 'base'),
+  //     'default': getCssVar('font-size', 'base'),
+  //     'small': getCssVar('font-size', 'extra-small'),
+  //   ),
+  $table-padding:
+    (
+      // "large": $gap-half-qtr 0,
+      "default": $gap-half 0,
+      "small": $gap-qtr 0,
+    ),
   $table-cell-padding: (
-    "large": 0 $gap-half * 1.5,
-    "default": 0 $gap-half,
-    "small": 0 $gap-qtr,
+    "large": 0 $gap,
+    // "default": 0 $gap-half-qtr,
+    "small": 0 $gap-half,
   ),
-  $pagination: (
-    "font-size": $font-size-main,
-    // 'bg-color': var(--el-color-white),
-    // 'text-color': var(--el-text-color-primary),
-    "border-radius": $radius-main,
-    // 'button-color': var(--el-text-color-primary),
-    // 'button-width': 32px,
-    // 'button-height': 32px,
-    // 'button-disabled-color': var(--el-text-color-placeholder),
-    // 'button-disabled-bg-color': var(--el-color-white),
-    // 'hover-color': var(--el-color-primary),
-    // 'height-extra-small': 24px,
-    // 'line-height-extra-small': var(--el-pagination-height-extra-small),,,,,,,,,
-  ),
-  // $popup: (
-  //   'modal-bg-color': var(--el-color-black),
-  //   'modal-opacity': 0.5,
-  // ),
+  // // Pagination
+  // // css3 var in packages/theme-chalk/src/pagination.scss
+  // $pagination:
+  //   (
+  //     'font-size': 14px,
+  //     'bg-color': getCssVar('fill-color', 'blank'),
+  //     'text-color': getCssVar('text-color-primary'),
+  //     'border-radius': 2px,
+  //     'button-color': getCssVar('text-color-primary'),
+  //     'button-width': 32px,
+  //     'button-height': 32px,
+  //     'button-disabled-color': getCssVar('text-color-placeholder'),
+  //     'button-disabled-bg-color': getCssVar('fill-color', 'blank'),
+  //     'button-bg-color': getCssVar('fill-color'),
+  //     'hover-color': getCssVar('color-primary'),
+  //     'font-size-small': 12px,
+  //     'button-width-small': 24px,
+  //     'button-height-small': 24px,
+  //     'button-width-large': 40px,
+  //     'button-height-large': 40px,
+  //     'item-gap': 16px,
+  //   ),
+  // // Popup
+  // // css3 var in packages/theme-chalk/src/popup.scss
+  // $popup:
+  //   (
+  //     'modal-bg-color': getCssVar('color-black'),
+  //     'modal-opacity': 0.5,
+  //   ),
+  // // Popover
+  // // css3 var in packages/theme-chalk/src/popover.scss
   $popover:
     (
-      // 'bg-color': var(--el-color-white),
-      "font-size": $font-size-main,
-      // 'border-color': var(--el-border-color-lighter),
-      "padding": $gap,
+      // 'bg-color': getCssVar('bg-color', 'overlay'),
+      // 'font-size': getCssVar('font-size-base'),
+      // 'border-color': getCssVar('border-color-lighter'),
+      // "padding": $gap-half-qtr,
       "padding-large": $gap,
-      "title-font-size": $font-size-heavy,
-      // 'title-text-color': var(--el-text-color-primary),
+      "title-font-size": $font-size-main,
+      // 'title-text-color': getCssVar('text-color-primary'),
+      "border-radius": $radius-light,
+    ),
+  // // popper
+  // // Pay attention to the difference between 'popper' and 'popover'
+  // $popper:
+  //   (
+  //     'border-radius': var(#{getCssVarName('popover-border-radius')}, 4px),
+  //   ),
+  // // skeleton
+  // $skeleton:
+  //   (
+  //     'color': getCssVar('fill-color'),
+  //     'to-color': getCssVar('fill-color', 'darker'),
+  //   ),
+  // // Tag
+  // // css3 var in packages/theme-chalk/src/tag.scss
+  $tag:
+    (
+      "font-size": $font-size-light,
+      "border-radius": $radius-light,
+      // 'border-radius-rounded': 9999px,
+    ),
+  $tag-height: (
+    "large": $size-default,
+    "default": $size-small,
+    "small": $size-mini,
+  ),
+  // $tag-padding:
+  //   (
+  //     'large': 12px,
+  //     'default': 10px,
+  //     'small': 8px,
+  //   ),
+  // $tag-icon-size:
+  //   (
+  //     'large': 16px,
+  //     'default': 14px,
+  //     'small': 12px,
+  //   ),
+  // // Text
+  // // css3 var in packages/theme-chalk/src/text.scss
+  // $text:
+  //   (
+  //     'font-size': getCssVar('font-size', 'base'),
+  //     'color': getCssVar('text-color', 'regular'),
+  //   ),
+  // $text-font-size:
+  //   (
+  //     'large': getCssVar('font-size', 'medium'),
+  //     'default': getCssVar('font-size', 'base'),
+  //     'small': getCssVar('font-size', 'extra-small'),
+  //   ),
+  // // Tree
+  // // css3 var in packages/theme-chalk/src/tree.scss
+  // $tree:
+  //   (
+  //     'node-content-height': 26px,
+  //     'node-hover-bg-color': getCssVar('fill-color', 'light'),
+  //     'text-color': getCssVar('text-color-regular'),
+  //     'expand-icon-color': getCssVar('text-color-placeholder'),
+  //   ),
+  // // Dropdown
+  // $dropdown:
+  //   (
+  //     'menu-box-shadow': getCssVar('box-shadow-light'),
+  //     'menuItem-hover-fill': getCssVar('color-primary-light-9'),
+  //     'menuItem-hover-color': getCssVar('color-primary'),
+  //     'menu-index': 10,
+  //   ),
+  // // drawer
+  // $drawer:
+  //   (
+  //     'bg-color':
+  //       var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
+  //     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
+  //   ),
+  // // Badge
+  // // css3 var in packages/theme-chalk/src/badge.scss
+  // $badge:
+  //   (
+  //     'bg-color': getCssVar('color-danger'),
+  //     'radius': 10px,
+  //     'font-size': 12px,
+  //     'padding': 6px,
+  //     'size': 18px,
+  //   ),
+  // // Card
+  $card:
+    (
+      // 'border-color': getCssVar('border-color', 'light'),
       "border-radius": $radius-main,
+      "padding": $gap,
+      // 'bg-color': getCssVar('fill-color', 'blank'),
     ),
-  $popper: (
-    "border-radius": var(--el-popover-border-radius, $radius-main),
-  ),
-  $skeleton: (
-    "color": #f2f2f2,
-    "to-color": #e6e6e6,
-  ),
-  $tag: (
-    "font-size": $font-size-lighter,
-    "border-radius": $radius-light,
-  ),
-  // $tag-height:(
-  //   'large': 32px,
-  //   'default': 24px,
-  //   'small': 20px,
-  // ),
-  $tag-padding:
-    (
-      "large": $gap-half * 1.5,
-      "default": $gap-half,
-      "small": $gap-qtr,
-    ),
-  $tag-icon-size: (
-    "large": $font-size-heavy,
-    "default": $font-size-main,
-    "small": $font-size-lighter,
-  ),
-  // $tree: (
-  //   'node-hover-bg-color': var(--el-bg-color),
-  //   'text-color': var(--el-text-color-regular),
-  //   'expand-icon-color': var(--el-text-color-placeholder),
-  // ),
-  // $dropdown: (
-  //   'menu-box-shadow': var(--el-box-shadow-light),
-  //   'menuItem-hover-fill': var(--el-color-primary-light-9),
-  //   'menuItem-hover-color': var(--el-color-primary-light-2),
-  //   'menu-index': 10,
-  // ),
-  $drawer:
-    (
-      // 'bg-color': var(--el-dialog-bg-color, var(--el-color-white)),
-      "padding-primary": var(--el-dialog-padding-primary, $gap),
-    ),
-  $badge: (
-    // 'bg-color': var(--el-color-danger),
-    "radius": $radius-heavy,
-    "font-size": $font-size-lighter,
-    "padding": $gap-qtr,
-    "size": $font-size-heavyer,
-  ),
-  $card: (
-    // 'border-color':
-    //   var(--el-border-color-light, map.get($border-color, 'lighter')),
-    "border-radius": $radius-main,
-    "padding": $gap,
-    // 'bg-color': var(--el-color-white),
-  ),
-  // $dark-card: (
-  //   'bg-color': var(--el-color-black),
-  // ),
-  // $slider: (
-  //   'main-bg-color': var(--el-color-primary),
-  //   'runway-bg-color': var(--el-border-color-light),
-  //   'stop-bg-color': var(--el-color-white),
-  //   'disable-color': var(--el-text-color-placeholder),
-  //   'border-radius': 3px,
-  //   'height': 6px,
-  //   'button-size': 20px,
-  //   'button-wrapper-size': 36px,
-  //   'button-wrapper-offset': -15px,
-  // ),
+  // // Slider
+  // // css3 var in packages/theme-chalk/src/slider.scss
+  // $slider:
+  //   (
+  //     'main-bg-color': getCssVar('color-primary'),
+  //     'runway-bg-color': getCssVar('border-color-light'),
+  //     'stop-bg-color': getCssVar('color-white'),
+  //     'disabled-color': getCssVar('text-color-placeholder'),
+  //     'border-radius': 3px,
+  //     'height': 6px,
+  //     'button-size': 20px,
+  //     'button-wrapper-size': 36px,
+  //     'button-wrapper-offset': -15px,
+  //   ),
+  // // Menu
+  // // css3 var in packages/theme-chalk/src/menu.scss
   $menu:
     (
-      // 'active-color': var(--el-color-primary),
-      // 'text-color': var(--el-text-color-primary),
-      // 'hover-text-color': var(--el-text-color-primary),
-      // 'bg-color': var(--el-color-white),
-      // 'hover-bg-color': var(--el-color-primary-light-9),
-      "item-height": $height-main,
-      // 'item-font-size': var(--el-font-size-base),
-      // 'item-hover-fill': var(--el-color-primary-light-9),
-      // 'border-color': #e6e6e6,,,,,,,,,
+      // "active-color": getCssVar("color-primary"),
+      // "text-color": getCssVar("text-color-primary"),
+      // "hover-text-color": getCssVar("color-primary"),
+      // "bg-color": getCssVar("fill-color", "blank"),
+      // "hover-bg-color": getCssVar("color-primary-light-9"),
+      "item-height": $height-heavy,
+      // "sub-item-height": calc(#{getCssVar("menu-item-height")} - 6px),
+      // "horizontal-height": 60px,
+      // "horizontal-sub-item-height": 36px,
+      "item-font-size": $font-size-main,
+      // "item-hover-fill": getCssVar("color-primary-light-9"),
+      // "border-color": getCssVar("border-color"),
+      "base-level-padding": $gap,
+      "level-padding": $gap,
+      "icon-width": 1em,
     ),
-  $rate: (
-    // 'height': 20px,
-    "font-size": $font-size-main,
-    "icon-size": $font-size-heavyer,
-    // 'icon-margin': 6px,
-    // 'icon-color': var(--el-text-color-placeholder),
-    // 'void-color': #c6d1de,
-    // 'star-color': #f7ba2a,
-    // 'disable-void-color': #eff2f7,
-    // 'text-color': #1f2d3d,,,,,,,,,
-  ),
-  // $datepicker:(
-  //   'text-color': var(--el-text-color-regular),
-  //   'off-text-color': var(--el-text-color-placeholder),
-  //   'header-text-color': var(--el-text-color-regular),
-  //   'icon-color': var(--el-text-color-primary),
-  //   'border-color': var(--el-disabled-border-color),
-  //   'inner-border-color': var(--el-border-color-light),
-  //   'inrange-bg-color': var(--el-border-color-extra-light),
-  //   'inrange-hover-bg-color': var(--el-border-color-extra-light),
-  //   'active-color': var(--el-color-primary),
-  //   'hover-text-color': var(--el-color-primary),
-  // ),
-  // $date-editor: (
-  //   'width': 220px,
-  //   'monthrange-width': 300px,
-  //   'daterange-width': 350px,
-  //   'datetimerange-width': 400px,
-  // ),
-  // $loading: (
-  //   'spinner-size': 42px,
-  //   'fullscreen-spinner-size': 50px,
-  // ),
-  // $scrollbar: (
-  //   'opacity': 0.3,
-  //   'bg-color': var(--el-text-color-secondary),
-  //   'hover-opacity': 0.5,
-  //   'hover-bg-color': var(--el-text-color-secondary),
-  // ),
-  $carousel:
-    (
-      "arrow-font-size": $font-size-main,
-      "arrow-size": $height-main,
-      // 'arrow-background': rgba(31, 45, 61, 0.11),
-      // 'arrow-hover-background': rgba(31, 45, 61, 0.23),
-      // 'indicator-width': 30px,
-      // 'indicator-height': 2px,
-      // 'indicator-padding-horizontal': 4px,
-      // 'indicator-padding-vertical': 12px,
-      // 'indicator-out-color': var(--el-border-color-hover),,,,,,,,,
-    ),
-  $collapse: (
-    // 'border-color': var(--el-border-color-lighter),
-    "header-height": $height-main,
-    // 'header-bg-color': var(--el-color-white),
-    // 'header-text-color': var(--el-text-color-primary),
-    "header-font-size": $font-size-main,
-    // 'content-bg-color': var(--el-color-white),
-    "content-font-size": $font-size-main,
-    // 'content-text-color': var(--el-text-color-primary),
-  ),
-  $transfer: (
-    // 'border-color': var(--el-border-color-lighter),
-    "border-radius": $radius-main,
-    // 'panel-width': 200px,
-    // 'panel-header-height': 40px,
-    // 'panel-header-bg-color': var(--el-bg-color),
-    // 'panel-footer-height': 40px,
-    // 'panel-body-height': 278px,
-    // 'item-height': 30px,
-    // 'filter-height': 32px,,,,,,,,,
-  ),
-  $timeline: (
-    "node-size-normal": $font-size-lighter,
-    "node-size-large": $font-size-main,
-    // 'node-color': var(--el-border-color-light),
-  ),
-  // $backtop: (
-  //   'bg-color': var(--el-color-white),
-  //   'text-color': var(--el-color-primary),
-  //   'hover-bg-color': var(--el-border-color-extra-light),
-  // ),
-  $link:
-    (
-      "font-size": $font-size-main,
-      // 'font-weight': var(--el-font-weight-primary),
-      // 'default-text-color': var(--el-text-color-regular),
-      // 'default-active-color': var(--el-color-primary),
-      // 'disabled-text-color': var(--el-text-color-placeholder),,,,,,,,,
-    ),
-  // $calendar: (
-  //   'border': var(--el-table-border, 1px solid var(--el-border-color-lighter)),
-  //   'header-border-bottom': var(--el-calendar-border),
-  //   'selected-bg-color': #f2f8fe,
-  //   'cell-width': 85px,
-  // ),
-  $form:
-    (
-      "label-font-size": $font-size-main,
-    ),
-  $avatar: (
-    // 'text-color': #fff,
-    // 'bg-color': #c0c4cc,
-    "text-size": $font-size-main,
-    "icon-size": $font-size-heavyer,
-    "border-radius": $radius-main,
-  ),
-  // $avatar-size: (
-  //   'large': 56px,
-  //   'default': 40px,
-  //   'small': 24px,
-  // ),
-  $empty:
-    (
-      "padding": $gap-two 0,
-      // 'image-width': 160px,
-      "description-margin-top": $gap,
-      "bottom-margin-top": $gap,
-      "fill-color-0": var(--el-color-white),
-      "fill-color-1": #ebebec,
-      "fill-color-2": #e7e8ea,
-      "fill-color-3": #e6e7eb,
-      "fill-color-4": #dddee2,
-      "fill-color-5": #dcdde1,
-      "fill-color-6": #d8dade,
-      "fill-color-7": #d4d6d8,
-      "fill-color-8": #cfd2d8,
-      "fill-color-9": #c4c6cd,
-    ),
-  // $descriptions:(
-  //   'table-border': 1px solid var(--el-border-color-lighter),
-  //   'item-bordered-label-background': #f5f7fa,
-  // ),
-  $result:
-    (
-      // 'padding': 40px 30px,
-      // 'icon-font-size': 64px,
-      "title-font-size": $font-size-heavyest,
-      "title-margin-top": $gap,
-      "subtitle-margin-top": $gap-half,
-      "extra-margin-top": $gap-one-half,
-    ),
-  // $transition: (
-  //   'all': all var(--el-transition-duration)
-  //     var(--el-transition-function-ease-in-out-bezier),
-  //   'fade': opacity var(--el-transition-duration)
-  //     var(--el-transition-function-fast-bezier),
-  //   'md-fade': (
-  //     transform var(--el-transition-duration)
-  //       var(--el-transition-function-fast-bezier),
-  //     opacity var(--el-transition-duration)
-  //       var(--el-transition-function-fast-bezier),
+  // // Rate
+  // $rate:
+  //   (
+  //     "height": 20px,
+  //     "font-size": getCssVar("font-size-base"),
+  //     "icon-size": 18px,
+  //     "icon-margin": 6px,
+  //     // seems not be used, to be removed
+  //     // 'icon-color': getCssVar('text-color-placeholder),
+  //     "void-color": getCssVar("border-color", "darker"),
+  //     "fill-color": #f7ba2a,
+  //     "disabled-void-color": getCssVar("fill-color"),
+  //     "text-color": getCssVar("text-color", "primary"),
   //   ),
-  //   'fade-linear': opacity var(--el-transition-duration-fast) linear,
-  //   'border': border-color var(--el-transition-duration-fast)
-  //     var(--el-transition-function-ease-in-out-bezier),
-  //   'color': color var(--el-transition-duration-fast)
-  //     var(--el-transition-function-ease-in-out-bezier),
-  // ),
-  // $transition-duration: (
-  //   'default': 0.3s,
-  //   'fast': 0.2s,
-  // ),
-  // $transition-function: (
-  //   'ease-in-out-bezier': cubic-bezier(0.645, 0.045, 0.355, 1),
-  //   'fast-bezier': cubic-bezier(0.23, 1, 0.32, 1),
-  // ),
+  // // DatePicker
+  // // css3 var packages/theme-chalk/src/date-picker/var.scss
+  // $datepicker:
+  //   (
+  //     'text-color': getCssVar('text-color-regular'),
+  //     'off-text-color': getCssVar('text-color-placeholder'),
+  //     'header-text-color': getCssVar('text-color-regular'),
+  //     'icon-color': getCssVar('text-color-primary'),
+  //     'border-color': getCssVar('disabled-border-color'),
+  //     'inner-border-color': getCssVar('border-color-light'),
+  //     'inrange-bg-color': getCssVar('border-color-extra-light'),
+  //     'inrange-hover-bg-color': getCssVar('border-color-extra-light'),
+  //     'active-color': getCssVar('color-primary'),
+  //     'hover-text-color': getCssVar('color-primary'),
+  //   ),
+  // $date-editor:
+  //   (
+  //     'width': 220px,
+  //     'monthrange-width': 300px,
+  //     'daterange-width': 350px,
+  //     'datetimerange-width': 400px,
+  //   ),
+  // // Loading
+  // // css3 var in packages/theme-chalk/src/loading.scss
+  // $loading:
+  //   (
+  //     'spinner-size': 42px,
+  //     'fullscreen-spinner-size': 50px,
+  //   ),
+  // // Scrollbar
+  // // css3 var in packages/theme-chalk/src/scrollbar.scss
+  // $scrollbar:
+  //   (
+  //     'opacity': 0.3,
+  //     'bg-color': getCssVar('text-color-secondary'),
+  //     'hover-opacity': 0.5,
+  //     'hover-bg-color': getCssVar('text-color-secondary'),
+  //   ),
+  // // Carousel
+  // // css3 var in packages/theme-chalk/src/carousel.scss
+  // $carousel:
+  //   (
+  //     'arrow-font-size': 12px,
+  //     'arrow-size': 36px,
+  //     'arrow-background': rgba(31, 45, 61, 0.11),
+  //     'arrow-hover-background': rgba(31, 45, 61, 0.23),
+  //     'indicator-width': 30px,
+  //     'indicator-height': 2px,
+  //     'indicator-padding-horizontal': 4px,
+  //     'indicator-padding-vertical': 12px,
+  //     'indicator-out-color': getCssVar('border-color-hover'),
+  //   ),
+  // // Collapse
+  // // css3 var in packages/theme-chalk/src/collapse.scss
+  $collapse:
+    (
+      // 'border-color': getCssVar('border-color-lighter'),
+      "header-height": $height-main,
+      // 'header-bg-color': getCssVar('fill-color', 'blank'),
+      // 'header-text-color': getCssVar('text-color-primary'),
+      "header-font-size": $font-size-main,
+      // 'content-bg-color': getCssVar('fill-color', 'blank'),
+      "content-font-size": $font-size-main,
+      // 'content-text-color': getCssVar('text-color-primary'),
+    ),
+  // // Transfer
+  // // css3 var in packages/theme-chalk/src/transfer.scss
+  $transfer:
+    (
+      // 'border-color': getCssVar('border-color-lighter'),
+      // 'border-radius': getCssVar('border-radius-base'),
+      // 'panel-width': 200px,
+      "panel-header-height": $height-main,
+      // 'panel-header-bg-color': getCssVar('fill-color', 'light'),
+      "panel-footer-height": $height-main,
+      // 'panel-body-height': 278px,
+      // 'item-height': 30px,
+      "filter-height": $size-default,
+    ),
+  // // Timeline
+  // // css3 var in packages/theme-chalk/src/timeline-item.scss
+  // $timeline:
+  //   (
+  //     'node-size-normal': 12px,
+  //     'node-size-large': 14px,
+  //     'node-color': getCssVar('border-color-light'),
+  //   ),
+  // // Tabs
+  // // css3 var in packages/theme-chalk/src/tabs.scss
+  $tabs:
+    (
+      "header-height": $height-main,
+    ),
+  // // Backtop
+  // // css3 var in packages/theme-chalk/src/backtop.scss
+  // $backtop:
+  //   (
+  //     'bg-color': getCssVar('bg-color', 'overlay'),
+  //     'text-color': getCssVar('color-primary'),
+  //     'hover-bg-color': getCssVar('border-color-extra-light'),
+  //   ),
+  // // Link
+  // // css3 var in packages/theme-chalk/src/link.scss
+  // $link:
+  //   (
+  //     'font-size': getCssVar('font-size-base'),
+  //     'font-weight': getCssVar('font-weight-primary'),
+  //     'text-color': getCssVar('text-color-regular'),
+  //     'hover-text-color': getCssVar('color-primary'),
+  //     'disabled-text-color': getCssVar('text-color-placeholder'),
+  //   ),
+  // @each $type in $types {
+  //   $link-text-color:
+  //     $link-text-color,
+  //     (
+  //       $type: map.get($colors, $type, 'base'),
+  //     )
+  //   ) !global;
+  // }
+  // // Calendar
+  // // css3 var in packages/theme-chalk/src/calendar.scss
+  // $calendar:
+  //   (
+  //     'border':
+  //       var(
+  //         #{getCssVarName('table-border')},
+  //         1px solid #{getCssVar('border-color-lighter')}
+  //       ),
+  //     'header-border-bottom': getCssVar('calendar-border'),
+  //     'selected-bg-color': getCssVar('color', 'primary', 'light-9'),
+  //     'cell-width': 85px,
+  //   ),
+  // // Form
+  // // css3 var in packages/theme-chalk/src/form.scss
+  // $form:
+  //   (
+  //     'label-font-size': getCssVar('font-size-base'),
+  //     'inline-content-width': 220px,
+  //   ),
+  // // Avatar
+  // // css3 var in packages/theme-chalk/src/avatar.scss
+  // $avatar:
+  //   (
+  //     'text-color': getCssVar('color-white'),
+  //     'bg-color': getCssVar('text-color', 'disabled'),
+  //     'text-size': 14px,
+  //     'icon-size': 18px,
+  //     'border-radius': getCssVar('border-radius-base'),
+  //   ),
+  // $avatar-size:
+  //   (
+  //     'large': 56px,
+  //     'default': 40px,
+  //     'small': 24px,
+  //   ),
+  // // Empty
+  // // css3 var in packages/theme-chalk/src/empty.scss
+  // $empty:
+  //   (
+  //     'padding': 40px 0,
+  //     'image-width': 160px,
+  //     'description-margin-top': 20px,
+  //     'bottom-margin-top': 20px,
+  //     'fill-color-0': getCssVar('color-white'),
+  //     'fill-color-1': #fcfcfd,
+  //     'fill-color-2': #f8f9fb,
+  //     'fill-color-3': #f7f8fc,
+  //     'fill-color-4': #eeeff3,
+  //     'fill-color-5': #edeef2,
+  //     'fill-color-6': #e9ebef,
+  //     'fill-color-7': #e5e7e9,
+  //     'fill-color-8': #e0e3e9,
+  //     'fill-color-9': #d5d7de,
+  //   ),
+  // // Descriptions
+  // // css3 var in packages/theme-chalk/src/descriptions.scss
+  // $descriptions:
+  //   (
+  //     'table-border': 1px solid getCssVar('border-color-lighter'),
+  //     'item-bordered-label-background': getCssVar('fill-color', 'light'),
+  //   ),
+  // // Result
+  // // css3 var in packages/theme-chalk/src/result.scss
+  // $result:
+  //   (
+  //     'padding': 40px 30px,
+  //     'icon-font-size': 64px,
+  //     'title-font-size': 20px,
+  //     'title-margin-top': 20px,
+  //     'subtitle-margin-top': 10px,
+  //     'extra-margin-top': 30px,
+  //   ),
+  // // Upload
+  // // css3 var in packages/theme-chalk/src/upload.scss
+  $upload:
+    (
+      "dragger-padding-horizontal": $gap-two,
+      // "dragger-padding-vertical": $gap-half-qtr,
+    ),
+  // // transition
+  // $transition:
+  //   (
+  //     'all': all getCssVar('transition-duration')
+  //       getCssVar('transition-function-ease-in-out-bezier'),
+  //     'fade': opacity getCssVar('transition-duration')
+  //       getCssVar('transition-function-fast-bezier'),
+  //     'md-fade': (
+  //       transform getCssVar('transition-duration')
+  //         getCssVar('transition-function-fast-bezier'),
+  //       opacity getCssVar('transition-duration')
+  //         getCssVar('transition-function-fast-bezier'),
+  //     ),
+  //     'fade-linear': opacity getCssVar('transition-duration-fast') linear,
+  //     'border': border-color getCssVar('transition-duration-fast')
+  //       getCssVar('transition-function-ease-in-out-bezier'),
+  //     'box-shadow': box-shadow getCssVar('transition-duration-fast')
+  //       getCssVar('transition-function-ease-in-out-bezier'),
+  //     'color': color getCssVar('transition-duration-fast')
+  //       getCssVar('transition-function-ease-in-out-bezier'),
+  //   ),
+  $transition-duration:
+    (
+      "": $transition-time-main,
+      // 'fast': 0.2s,
+    ),
+  // $transition-function:
+  //   (
+  //     'ease-in-out-bezier': cubic-bezier(0.645, 0.045, 0.355, 1),
+  //     'fast-bezier': cubic-bezier(0.23, 1, 0.32, 1),
+  //   ),
+  // // header
   $header:
     (
       "padding": 0 $gap,
-      // 'height': 60px,
+      // "height": 60px,
     ),
-  $main: (
-    "padding": $gap,
-  ),
-  $footer: (
-    "padding": 0 $gap,
-    // 'height': 60px,
-  )
+  // // main
+  $main:
+    (
+      "padding": $gap,
+    ),
+  // // footer
+  $footer:
+    (
+      "padding": 0 $gap,
+      // "height": 60px,
+    ),
+  // // Break-point
+  $breakpoints-spec:
+    (
+      "xs-only": "(max-width: #{$sm - 1})",
+      "sm-and-up": "(min-width: #{$sm})",
+      "sm-only": "(min-width: #{$sm}) and (max-width: #{$md - 1})",
+      "sm-and-down": "(max-width: #{$md - 1})",
+      "md-and-up": "(min-width: #{$md})",
+      "md-only": "(min-width: #{$md}) and (max-width: #{$lg - 1})",
+      "md-and-down": "(max-width: #{$lg - 1})",
+      "lg-and-up": "(min-width: #{$lg})",
+      "lg-only": "(min-width: #{$lg}) and (max-width: #{$xl - 1})",
+      "lg-and-down": "(max-width: #{$xl - 1})",
+      "xl-only": "(min-width: #{$xl})",
+    )
+    !default
 );
+
 @use "element-plus/theme-chalk/src/index.scss" as *;

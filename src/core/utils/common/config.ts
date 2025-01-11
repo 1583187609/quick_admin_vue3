@@ -20,8 +20,8 @@ export const defaultRefreshDictExpired = 24 * 60 * 60 * 1000; //刷新字典的�
 
 export const defaultPopupType = getExportData("dialog", popup?.defaultType); // 弹窗类型
 export const defaultHomePath = getExportData("/", homePath); // 首页路径
-export const defaultWidgetSize = getExportData("medium", widgetSize); // 控件大小
-export const defaultCommonSize = "default"; // getExportData("default", form?.defaultCommonSize);
+export const defaultCommonSize = getExportData("default", widgetSize); // 控件大小
+export const defaultThemeName = "orange";
 export const defaultTableColDateFormat = "YYYY-MM-DD HH:mm:ss"; // 表格列的日期格式
 // export const defaultFormItemDateFormat = "YYYY-MM-DD"; // 表单项的日期格式
 // export const defaultFormItemDateValueFormat = "YYYY-MM-DD"; // 表单项的日期值的格式（作为参数传递时）
@@ -88,7 +88,6 @@ export const defaultDrawerAttrs = {
 //   defaultRefreshDictExpired: 24 * 60 * 60 * 1000, //刷新字典的时间
 
 //   defaultHomePath: getExportData("/", homePath), //首页路径
-//   defaultWidgetSize: getExportData("medium", widgetSize), //控件大小
 //   defaultCommonSize: getExportData("default", form?.defaultCommonSize),
 //   defaultGroupBtnsMaxNum: getExportData(3, table?.defaultGroupBtnsMaxNum),
 //   defaultFormItemType: getExportData("input", form?.defaultFormItemType),

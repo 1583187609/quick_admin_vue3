@@ -9,13 +9,13 @@
         @confirm="handleClick(tpl)"
       >
         <template #reference>
-          <el-button :size="size" text :type="tpl.type">
-            <template #icon><BaseIcon :name="tpl.icon" /></template>
+          <el-button text :type="tpl.type">
+            <template #icon><BaseIcon :name="tpl.icon" size="1.8em" /></template>
           </el-button>
         </template>
       </el-popconfirm>
-      <el-button :size="size" text :type="tpl.type" @click="handleClick(tpl, $event)" v-else>
-        <template #icon><BaseIcon :name="tpl.icon" /></template>
+      <el-button text :type="tpl.type" @click="handleClick(tpl, $event)" v-else>
+        <template #icon><BaseIcon :name="tpl.icon" size="1.8em" /></template>
       </el-button>
     </template>
   </div>
@@ -34,13 +34,10 @@ const { closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     tpl?: IconBtnTpl | IconBtnTpl[];
-    fontSize?: StrNum;
-    size?: CommonSize;
     gap?: string;
     stop?: boolean; // 是否阻止冒泡
   }>(),
   {
-    fontSize: "1.6em",
     tpl: "add",
     gap: "0",
   }
@@ -62,15 +59,6 @@ function handleClick(tplInfo: CommonObj, e?: Event) {
 .icon-btns {
   .el-button {
     width: 1em;
-    font-size: v-bind(toCssVal(fontSize));
-    & + .el-button {
-      margin-left: v-bind(toCssVal(gap));
-    }
   }
-  // .base-icon {
-  //   &:not(:first-child) {
-  //     margin-left: 0.25em;
-  //   }
-  // }
 }
 </style>

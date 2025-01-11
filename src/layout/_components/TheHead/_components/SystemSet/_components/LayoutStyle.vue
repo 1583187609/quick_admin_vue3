@@ -106,13 +106,13 @@ function handleSelected(val: LayoutType) {
         background: $color-primary;
       }
       &.side {
-        // background: color-mix(in srgb, var(--color-primary) 65%, #ffffff, 35%);
-        background: color.mix($color-primary, #ffffff, 65%);
+        background: color-mix(in srgb, var(--color-primary) 65%, #ffffff, 35%);
+        // background: color.mix($color-primary, #ffffff, 65%);
       }
       &.main {
         border-radius: 2px;
-        // background: color-mix(in srgb, var(--color-primary) 15%, #ffffff, 85%);
-        background: color.mix($color-primary, #ffffff, 15%);
+        background: color-mix(in srgb, var(--color-primary) 15%, #ffffff, 85%);
+        // background: color.mix($color-primary, #ffffff, 15%);
       }
     }
     &.columns {

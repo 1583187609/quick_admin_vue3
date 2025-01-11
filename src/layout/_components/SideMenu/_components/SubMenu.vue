@@ -2,7 +2,7 @@
   <template v-for="(item, ind) in data" :key="ind">
     <el-sub-menu :index="item.path" v-if="item.children?.length">
       <template #title>
-        <BaseIcon size="1.4em" :name="item.icon" v-if="item.icon" />
+        <BaseIcon size="1em" :name="item.icon" v-if="item.icon" />
         <TooltipLabel :label="item.label" />
       </template>
       <SubMenu :data="item.children" v-if="item.children?.length" />
@@ -10,7 +10,7 @@
     <template v-else>
       <el-menu-item @click="handleClick(item)" :index="item.path" :disabled="item.disabled" v-if="item.type !== 2">
         <template #title>
-          <BaseIcon size="1.4em" :name="item.icon" v-if="item.icon" />
+          <BaseIcon size="1em" :name="item.icon" v-if="item.icon" />
           <TooltipLabel :label="item.label" />
         </template>
       </el-menu-item>

@@ -132,4 +132,8 @@ function handleAddDel(type: IconBtnTpl, ind: number) {
   throw new Error(`暂不支持此类型：${type}`);
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon-btns {
+  margin-left: 0.6em;
+}
+</style>

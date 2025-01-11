@@ -13,7 +13,7 @@
             v-for="(item, ind) in menuStore.allMenus"
             :key="ind"
           >
-            <BaseIcon size="20" :name="item.icon" />
+            <BaseIcon size="1.6em" :name="item.icon" />
             <TooltipLabel :label="item.label" />
           </li>
         </ul>
@@ -47,7 +47,6 @@ import { useMenuStore, useKeepAliveStore, useSetStore } from "@/store";
 import TooltipLabel from "@/layout/_components/TooltipLabel.vue";
 import { useDict } from "@/hooks";
 
-const { updateStorageDict } = useDict();
 const keepAliveStore = useKeepAliveStore();
 const menuStore = useMenuStore();
 const setStore = useSetStore();
@@ -124,7 +123,7 @@ provide("reloadView", reloadView);
       width: var(--main-menu-width);
       .tooltip-label {
         margin-top: $gap-qtr;
-        font-size: $font-size-lighter;
+        font-size: $font-size-light;
       }
       &:hover {
         background: $bg-darker;

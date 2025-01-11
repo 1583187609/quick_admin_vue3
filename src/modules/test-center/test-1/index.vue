@@ -245,10 +245,16 @@ const fields = computed<FormField[]>(() => {
         popover: CustomPopover, // [CustomPopover],
         tips: [
           "div",
-          { style: "color:red" },
+          { style: "color:red;line-height:1.4;margin-top:0.5em;" },
           "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）；传入自定义tips，通过BaseRender渲染",
         ],
       },
+    },
+    {
+      prop: "rate",
+      label: "评分",
+      type: "rate",
+      attrs: {},
     },
     {
       prop: "tree_select",

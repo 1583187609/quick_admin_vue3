@@ -1,11 +1,10 @@
 import { computed, reactive, ref, watch } from "vue";
 import { defineStore } from "pinia";
-import { CommonObj, ShowCodes } from "@/core/_types";
-import { checkObjKeyError, defaultCommonSize, showMessage, storage } from "@/utils";
+import { CommonObj, LayoutSize, ShowCodes, ThemeName } from "@/core/_types";
+import { checkObjKeyError, defaultCommonSize, defaultThemeName, showMessage, storage } from "@/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 
 export type LayoutType = "vertical" | "classics" | "horizontal" | "columns";
-export type LayoutSize = "large" | "medium" | "small" | "mini";
 export type SetName = keyof typeof defaultSet;
 export type LanguageTypes = "zh" | "en";
 export interface LayoutAttrs {
@@ -32,7 +31,8 @@ interface DefaultSet {
     show: ShowCodes;
   };
   theme: {
-    color: string;
+    name: ThemeName; // 主题名称
+    // color?: string; // 主题颜色
     darkMode: ShowCodes;
   };
 }
@@ -59,7 +59,8 @@ export const defaultSet: DefaultSet = {
   footer: { show: 0 },
   //主题
   theme: {
-    color: cssVars.colorPrimary,
+    name: defaultThemeName,
+    // color: cssVars.colorPrimary as ThemeName,
     darkMode: 0,
   },
 };

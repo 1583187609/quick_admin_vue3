@@ -9,7 +9,7 @@
       <!-- 折叠按钮 -->
       <el-icon
         id="collapse-icon"
-        size="1.5em"
+        size="1.6em"
         class="f-0 fold-btn"
         :class="setStore.layout.type === 'vertical' ? 'dark' : 'light'"
         @click="menuStore.isCollapse = !menuStore.isCollapse"
@@ -37,20 +37,8 @@
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip
-          v-bind="tooltipAttrs"
-          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
-          v-if="screenfull.isEnabled"
-        >
-          <el-button
-            id="fullscreen"
-            @click="toggleFullscreen"
-            :icon="isFull ? Aim : FullScreen"
-            type="primary"
-            class="item"
-            plain
-            circle
-          ></el-button>
+        <el-tooltip v-bind="tooltipAttrs" :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)" v-if="screenfull.isEnabled">
+          <el-button id="fullscreen" @click="toggleFullscreen" :icon="isFull ? Aim : FullScreen" type="primary" class="item" plain circle></el-button>
         </el-tooltip>
       </div>
       <!-- 用户信息 -->
@@ -61,7 +49,7 @@
         </div>
         <el-dropdown ref="dropdownRef">
           <span class="el-dropdown-link">
-            <BaseAvatar :src="user?.avatar" size="40" :preview="false" round />
+            <BaseAvatar :src="user?.avatar" size="3em" :preview="false" round />
           </span>
           <template #dropdown>
             <el-dropdown-menu>
@@ -322,16 +310,16 @@ function startGuide() {
     }
   }
   .item {
-    margin-left: $gap;
+    margin-left: $font-size-main;
   }
 }
 .user-info {
   margin-left: var(--gap-two);
   margin-right: $gap;
   .nickname {
-    font-size: 14px;
+    font-size: $font-size-main;
     font-weight: 500;
-    margin-bottom: 2px;
+    margin-bottom: $gap-qtr;
   }
   .version {
     color: $color-primary;

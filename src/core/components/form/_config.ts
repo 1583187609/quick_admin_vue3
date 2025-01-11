@@ -1,3 +1,4 @@
+import { CommonSize } from "@/core/_types";
 import { FormAttrs, GridAttrs } from "./_types";
 
 //覆盖重写 el-form 的默认属性值
@@ -8,13 +9,12 @@ export const defaultFormAttrs: FormAttrs = {
   //statusIcon: true, //是否显示校验的状态图标
 };
 
-// 仅供参考
-// const gridMap = {
-//   default: { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 },
-//   small: { xs: 12, sm: 12, md: 8, lg: 6, xl: 4 },
-// };
 // 栅格的属性，同ElementPlus的el-col的属性
-export const defaultGridAttrs: GridAttrs = { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 };
+export const defaultGridAttrs: { [key in CommonSize]: GridAttrs } = {
+  large: { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 },
+  default: { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 },
+  small: { xs: 12, sm: 12, md: 8, lg: 6, xl: 4 },
+};
 
 export const iconBtnsMap = {
   add: {

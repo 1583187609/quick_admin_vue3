@@ -1,21 +1,25 @@
 <template>
-  <BasicSkins>
-    <BasicPopup>
-      <Suspense>
-        <RouterView />
-      </Suspense>
-      <!-- 使用水印 -->
-      <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
-    </BasicPopup>
-  </BasicSkins>
+  <el-config-provider :size="defaultCommonSize" :locale="zhCn">
+    <!-- :z-index="3000" -->
+    <BasicSkins>
+      <BasicPopup>
+        <Suspense>
+          <RouterView />
+        </Suspense>
+        <!-- 使用水印 -->
+        <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
+      </BasicPopup>
+    </BasicSkins>
+  </el-config-provider>
 </template>
 <script lang="ts" setup>
+import { ref, watch } from "vue";
 import BasicSkins from "@/core/components/BasicSkins/Index.vue";
 import BasicPopup from "@/core/components/BasicPopup/Index.vue";
-//后续添加的
-import { ref, watch } from "vue";
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import WaterMark from "@/core/components/WaterMark.vue";
 import { useRoute } from "vue-router";
+import { defaultCommonSize } from "@/utils";
 
 const { VITE_APP_NAME } = import.meta.env;
 const route = useRoute();

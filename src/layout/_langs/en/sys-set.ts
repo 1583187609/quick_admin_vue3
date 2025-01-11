@@ -15,7 +15,7 @@ export default {
       label: "Widget Size",
       options: {
         large: "Large",
-        medium: "Medium",
+        default: "Medium",
         small: "Small",
         mini: "Mini",
       },
@@ -42,6 +42,9 @@ export default {
   },
   theme: {
     title: "Theme Setting",
+    themeName: {
+      label: "Theme Name",
+    },
     themeColor: {
       label: "Theme Color",
     },

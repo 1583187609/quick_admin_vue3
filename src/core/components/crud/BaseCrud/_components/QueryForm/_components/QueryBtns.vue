@@ -35,15 +35,10 @@ const $emit = defineEmits(["submit", "reset", "fold"]);
 .query-btns {
   display: flex;
   margin-bottom: var(--gap-half);
-  .el-button {
-    padding: 0 var(--gap-half);
-    + .el-button {
-      margin-left: var(--gap-half);
-    }
-  }
-  // &.compact {
-  //   .el-button {
-  //     padding: 0 $gap-half;
+  // .el-button {
+  //   padding: 0 var(--gap-half);
+  //   + .el-button {
+  //     margin-left: var(--gap-half);
   //   }
   // }
 }

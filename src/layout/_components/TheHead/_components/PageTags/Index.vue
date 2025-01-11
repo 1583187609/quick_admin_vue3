@@ -290,7 +290,7 @@ function addToRoutes(data: PageTagItemType) {
       position: relative;
       box-sizing: border-box;
       white-space: nowrap;
-      height: 24px;
+      // height: 24px;
       overflow: scroll;
       scroll-behavior: smooth;
     }

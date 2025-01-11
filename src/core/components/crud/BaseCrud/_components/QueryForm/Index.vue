@@ -122,7 +122,7 @@ const props = withDefaults(
     fields: () => [],
     modelValue: () => reactive({}),
     sectionFoldable: true,
-    ...config?.BaseCrud?._components?.QueryForm,
+    // ...config?.BaseCrud?._components?.QueryForm,
   }
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "ready"]);
@@ -131,9 +131,9 @@ useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const formRef = ref<FormInstance>();
 const colNum = ref(getColNum());
 const isFold = ref(true);
-const sectionFolds = reactive(
+const sectionFolds = reactive<boolean[]>(
   props?.sections?.map(it => {
-    if (it?.fields?.length <= colNum.value) return;
+    if (it?.fields?.length ?? 0 <= colNum.value) return false;
     return false;
   }) ?? []
 );

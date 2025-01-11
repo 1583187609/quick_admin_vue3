@@ -8,11 +8,11 @@
     :default-active="route.path"
     :default-openeds="defaultOpeneds"
     :unique-opened="!!setStore.menu.uniqueOpened"
-    @click="handleClick"
     :router="false"
+    @click="handleClick"
   >
     <SubMenu :data="menusData" v-if="menusData?.length" />
-    <BaseEmpty description="无" size="32" v-else />
+    <BaseEmpty description="无" size="40" v-else />
   </el-menu>
 </template>
 
@@ -53,5 +53,8 @@ function handleClick() {
 .side-menu {
   overflow: auto;
   border-right: none;
+  // :deep(.el-menu--collapse) {
+  //   width: 70px;
+  // }
 }
 </style>

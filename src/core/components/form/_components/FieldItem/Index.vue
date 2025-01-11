@@ -88,9 +88,9 @@ import { useFormAttrs, useDict } from "@/hooks";
 import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
-import _ from "lodash";
 import { typeOf } from "#/mock/utils";
 import { DictName } from "@/dict/_types";
+import _ from "lodash";
 
 const { merge } = _;
 const props = withDefaults(
@@ -204,7 +204,13 @@ function mergeRules(rules: FormItemRule[] = []) {
 function getStandardOptions(opts): OptionItem[] {
   if (!opts) return [];
   const t = typeOf(opts);
-  if (t === "String") return getOpts(opts as DictName);
+  if (t === "String") {
+    const newOpts = getOpts(opts as DictName);
+    const nt = typeOf(newOpts);
+    if (nt === "Array") return newOpts as OptionItem[];
+    throw new Error(`暂未处理此类型：${nt}`);
+    // return getOpts(opts);
+  }
   if (t === "Array") return opts;
   throw new Error(`暂未处理此种options的类型：${t}`);
 }
@@ -286,11 +292,12 @@ defineExpose({});
   }
 }
 .notice {
-  color: $color-text-light;
+  color: $color-text-lighter;
   font-weight: 500;
-  line-height: 2;
+  margin-top: $gap-half;
+  line-height: 1.4;
   width: 100%;
-  font-size: $font-size-lighter;
+  font-size: $font-size-light;
   :deep(a) {
     text-decoration: underline;
     &:hover {

@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import ElementPlus from "element-plus";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import baseComponents from "@/core/components";
 import router from "@/router";
 import store from "@/store";
@@ -25,11 +24,7 @@ app.config.errorHandler = handleError;
 //   userInfo: null,
 // });
 app.mixin(mixin);
-app.use(ElementPlus, {
-  locale: zhCn,
-  // size: "small",
-  // zIndex: 3000,
-});
+app.use(ElementPlus);
 app.use(baseComponents); //全局注册基础组件
 app.use(I18n);
 app.use(store);

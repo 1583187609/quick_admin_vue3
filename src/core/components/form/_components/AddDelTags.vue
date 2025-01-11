@@ -4,19 +4,18 @@
     <el-tag class="m-2" @close="handleDel(item, ind)" v-for="(item, ind) in tags" :key="item" closable>{{ item }} </el-tag>
     <template v-if="tags.length < maxNum">
       <el-input
+        v-model="inpVal"
+        v-focus
         class="inp m-2"
-        size="small"
         closable
         placeholder="请输入"
         autofocus
         clearable
-        v-model="inpVal"
         @blur="handleAdd"
-        v-focus
         ref="inpRef"
         v-if="showInp"
       />
-      <el-button class="m-2" :icon="Plus" size="small" type="primary" plain @click="showInp = true" v-else> </el-button>
+      <el-button class="btn" :icon="Plus" type="primary" plain @click="showInp = true" v-else />
     </template>
   </div>
 </template>
@@ -24,17 +23,20 @@
 import { ref, watch, nextTick } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
-import { showMessage } from "@/core/utils";
+import { defaultCommonSize, showMessage } from "@/core/utils";
+import { CommonSize } from "@/core/_types";
 
 const { formItem } = useFormItem();
+// formItem.size // default
 const props = withDefaults(
   defineProps<{
     modelValue?: string[];
     maxNum?: number; // 最大个数
+    size?: CommonSize; // element官方的bug（不能识别el-form上的size），故需要手动传递
   }>(),
   {
     maxNum: 3,
-    modelValue: () => [],
+    modelValue: () => reactive([]),
   }
 );
 const $emit = defineEmits(["update:modelValue"]);
@@ -72,5 +74,11 @@ function handleAdd() {
 <style lang="scss" scoped>
 .inp {
   width: 6em;
+}
+.btn {
+  // width: 2em;
+  &:not(:last-child) {
+    margin-right: $gap-qtr;
+  }
 }
 </style>

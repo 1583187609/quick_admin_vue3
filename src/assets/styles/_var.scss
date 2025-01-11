@@ -22,14 +22,15 @@ $page-tags-height: var(--page-tags-height); // large:44px default:40px small:36p
 // $gap-one-half: 24px;
 // $gap-two: 32px;
 $gap-qtr: var(--gap-qtr);
-$gap-half: 6px;
-$gap: 12px;
+$gap-half: var(--gap-half);
+$gap-half-qtr: var(--gap-half-qtr);
+$gap: var(--gap);
 $gap-one-half: var(--gap-one-half);
 $gap-two: var(--gap-two);
 
 // 主题颜色
-$color-primary: #ff8000;
-// $color-primary: var(--color-primary);
+// $color-primary: #ff8000; // 因为ElementPlus 底层用到了 color.mix 运算，所以不能够直接使用 $color-primary 变量
+$color-primary: var(--color-primary);
 $color-danger: var(--color-danger);
 $color-info: var(--color-info);
 $color-success: var(--color-success);
@@ -41,6 +42,7 @@ $color-text-heavy: var(--color-text-heavy);
 $color-text-main: var(--color-text-main); // 最接近的网页安全色 #141414
 $color-text-light: var(--color-text-light);
 $color-text-lighter: var(--color-text-lighter);
+$color-text-lightest: var(--color-text-lightest); // 禁用、placeholder的颜色
 
 // 背景颜色
 $color-bg-heavyest: var(--color-bg-heavyest); // color.mix($color-primary, #ffffff, 30%);
@@ -73,7 +75,15 @@ $radius-light: var(--radius-light);
 $radius-lighter: var(--radius-lighter);
 
 // 盒子高度
+$height-heavy: var(--height-heavy);
 $height-main: var(--height-main);
+$height-light: var(--height-light);
+
+/* 组件大小的高度 */
+$size-large: var(--size-large);
+$size-default: var(--size-default);
+$size-small: var(--size-small);
+$size-mini: var(--size-mini);
 
 //字体大小
 $font-size-heavyest: var(--font-size-heavyest);
@@ -87,6 +97,7 @@ $font-size-lighter: var(--font-size-lighter);
 $shadow-heavy: var(--shadow-heavy);
 $shadow-main: var(--shadow-main);
 $shadow-light: var(--shadow-light);
+$shadow-lighter: var(--shadow-lighter);
 
 // 动画过渡
 $transition-time-main: 0.3s;

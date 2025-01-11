@@ -1,7 +1,7 @@
 <template>
   <div class="asider f-sb-s-c" :class="{ fold: menuStore.isCollapse }">
     <h1 @click="router.push(defaultHomePath)" class="h1 f-0 f-c-c">
-      <div class="q-line-1">
+      <div class="title q-line-1">
         {{ menuStore.isCollapse ? VITE_APP_NAME.charAt(0) : VITE_APP_NAME }}
       </div>
     </h1>
@@ -32,9 +32,12 @@ const router = useRouter();
   .h1 {
     cursor: pointer;
     padding: 0 $gap;
-    font-size: 16px;
     font-weight: 500;
+    font-size: $font-size-main;
     height: var(--header-height);
+    .title {
+      font-size: $font-size-heavy;
+    }
   }
 }
 </style>

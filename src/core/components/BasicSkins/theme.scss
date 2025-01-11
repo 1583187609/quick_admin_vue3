@@ -1,4 +1,11 @@
 /** 主题颜色 **/
+
+// 炙烈红
+:root[theme="red"] {
+  --color-primary: red;
+}
+
+// 流光橙
 :root[theme="orange"] {
   /* layout相关 */
   --nav-bg-dark-heavy: #141414;
@@ -6,37 +13,33 @@
   --nav-bg-light: #ffffff;
   --nav-text-color-light: #bbb;
   --nav-text-color-dark: #222;
-
   /* 主题颜色 */
   --color-primary: #ff8000;
   --color-danger: #f56c6c;
   --color-info: #909399;
   --color-success: #67c23a;
   --color-warning: #e6a23c;
-
   /* 文字颜色 */
   --color-text-heavyer: #000;
   --color-text-heavy: #333;
   --color-text-main: #666;
   --color-text-light: #999;
-  --color-text-lighter: #ccc;
-
+  --color-text-lighter: #b0b0b0;
+  --color-text-lightest: #c0c4cc;
   /* 背景颜色 */
-  --color-bg-heavyest: color-mix(in srgb, var(--color-primary), #ffffff, 30%);
-  --color-bg-heavyer: color-mix(in srgb, var(--color-primary), #ffffff, 25%);
-  --color-bg-heavy: color-mix(in srgb, var(--color-primary), #ffffff, 20%);
-  --color-bg-main: color-mix(in srgb, var(--color-primary), #ffffff, 15%);
-  --color-bg-light: color-mix(in srgb, var(--color-primary), #ffffff, 10%);
-  --color-bg-lighter: color-mix(in srgb, var(--color-primary), #ffffff, 5%);
+  --color-bg-heavyest: color-mix(in srgb, var(--color-primary) 30%, #ffffff 70%);
+  --color-bg-heavyer: color-mix(in srgb, var(--color-primary) 25%, #ffffff 75%);
+  --color-bg-heavy: color-mix(in srgb, var(--color-primary) 20%, #ffffff 80%);
+  --color-bg-main: color-mix(in srgb, var(--color-primary) 15%, #ffffff 85%);
+  --color-bg-light: color-mix(in srgb, var(--color-primary) 10%, #ffffff 90%);
+  --color-bg-lighter: color-mix(in srgb, var(--color-primary) 5%, #ffffff 95%);
   --color-bg-white: #f5f5f5;
-
   /* 边框颜色 */
-  --color-border-heavyer: #bbbbbb;
-  --color-border-heavy: #d2d2d2;
-  --color-border-main: #eeeeee; // #dcdfe;
-  --color-border-light: #e3e3e3;
-  --color-border-lighter: #eeeeee;
-
+  --color-border-heavyer: #bbbbbb; // #cdd0d6
+  --color-border-heavy: #d2d2d2; // #d4d7de
+  --color-border-main: #eeeeee; // #dcdfe6;
+  --color-border-light: #e3e3e3; // #e4e7ed
+  --color-border-lighter: #eeeeee; // #ebeef5
   /* 边框简写 */
   --border-heavyer: 1px solid var(--color-border-heavyer);
   --border-heavy: 1px solid var(--color-border-heavy);
@@ -45,10 +48,54 @@
   --border-lighter: 1px solid var(--color-border-lighter);
 }
 
+// 唯美黄
+:root[theme="yellow"] {
+  --color-primary: yellow;
+}
+
+// 清晰绿
+:root[theme="green"] {
+  --color-primary: green;
+}
+
+// 淡雅蓝
 :root[theme="blue"] {
   --color-primary: blue;
 }
 
-:root[theme="green"] {
-  --color-primary: green;
+// 深幽靛
+:root[theme="indigo"] {
+  --color-primary: indigo;
+}
+
+// 梦幻紫
+:root[theme="purple"] {
+  --color-primary: purple;
+}
+
+/** VIP三种 **/
+// 至尊金
+:root[theme="golden"] {
+  --color-primary: golden;
+}
+
+// 元气粉色
+:root[theme="pink"] {
+  --color-primary: pink;
+}
+
+// 神圣棕
+:root[theme="brown"] {
+  --color-primary: brown;
+}
+
+/** 黑白两种 **/
+// 暗夜黑
+:root[theme="black"] {
+  --color-primary: black;
+}
+
+// 浅月白
+:root[theme="white"] {
+  --color-primary: white;
 }

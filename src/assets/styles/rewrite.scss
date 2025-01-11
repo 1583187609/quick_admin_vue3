@@ -7,40 +7,34 @@
 }
 
 // 菜单（menu)
-.el-menu-item.is-active {
-  color: $color-primary;
-}
-.el-menu--horizontal > .el-menu-item.is-active {
-  color: $color-primary !important;
-  border-bottom: 2px solid $color-primary;
-}
+// .el-menu-item.is-active {
+//   color: $color-primary;
+// }
+// .el-menu--horizontal > .el-menu-item.is-active {
+//   color: $color-primary !important;
+//   border-bottom: 2px solid $color-primary;
+// }
 
 //表格（form)
-$thead-bg: $color-bg-light;
-.el-table th.el-table__cell {
-  background: $thead-bg;
-}
-.el-table.is-scrolling-none th.el-table-fixed-column--left,
-.el-table.is-scrolling-none th.el-table-fixed-column--right {
-  background: $thead-bg;
-}
-.el-table__header-wrapper tr th.el-table-fixed-column--right {
-  background: $thead-bg;
-}
-.el-table.is-scrolling-left th.el-table-fixed-column--left {
-  background: $thead-bg;
-}
-.el-table.is-scrolling-right th.el-table-fixed-column--right {
-  background: $thead-bg;
-}
-.el-table__header-wrapper tr th.el-table-fixed-column--left,
-.el-table__header-wrapper tr th.el-table-fixed-column--right {
-  background: $thead-bg;
-}
-// .el-table.is-scrolling-middle .el-table-fixed-column--left.is-last-column.el-table__cell {
+// $thead-bg: $color-bg-light;
+// .el-table th.el-table__cell {
 //   background: $thead-bg;
 // }
-// .el-table.is-scrolling-right .el-table-fixed-column--left.is-last-column.el-table__cell {
+// .el-table.is-scrolling-none th.el-table-fixed-column--left,
+// .el-table.is-scrolling-none th.el-table-fixed-column--right {
+//   background: $thead-bg;
+// }
+// .el-table__header-wrapper tr th.el-table-fixed-column--right {
+//   background: $thead-bg;
+// }
+// .el-table.is-scrolling-left th.el-table-fixed-column--left {
+//   background: $thead-bg;
+// }
+// .el-table.is-scrolling-right th.el-table-fixed-column--right {
+//   background: $thead-bg;
+// }
+// .el-table__header-wrapper tr th.el-table-fixed-column--left,
+// .el-table__header-wrapper tr th.el-table-fixed-column--right {
 //   background: $thead-bg;
 // }
 .el-table {

@@ -71,4 +71,84 @@ export default {
       },
     },
   },
+  // 主题名称
+  D_ThemeName: {
+    red: {
+      text: "炙烈红",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    orange: {
+      text: "流光橙",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    yellow: {
+      text: "唯美黄",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    green: {
+      text: "清新绿",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    blue: {
+      text: "淡雅蓝",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    indigo: {
+      text: "深幽靛",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    purple: {
+      text: "梦幻紫",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+  },
 };
