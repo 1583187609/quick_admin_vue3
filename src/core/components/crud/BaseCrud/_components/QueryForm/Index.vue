@@ -86,10 +86,10 @@ import { CommonObj, CommonSize } from "@/core/_types";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
-import { useEvent, useFormAttrs } from "@/hooks";
+import { useEvent } from "@/hooks";
 import { getGridAttrs, getHandleFields } from "@/core/components/form/_utils";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
-import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
+import { defaultFormAttrs } from "@/core/components/form";
 import { defaultCommonSize } from "@/core/utils";
 import { AfterReset } from "@/core/components/form/_components/FooterBtns.vue";
 import _ from "lodash";
@@ -126,8 +126,6 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "ready"]);
-const $attrs = useAttrs();
-useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const formRef = ref<FormInstance>();
 const colNum = ref(getColNum());
 const isFold = ref(true);
@@ -234,7 +232,7 @@ function getQueryFieldsAttrs(field, sItem?) {
   const { size, disabled, readonly, inputDebounce, layoutType, grid } = props;
   const obj: CommonObj = { field, size, disabled, readonly, layoutType, inputDebounce };
   if (layoutType === "grid") {
-    obj.grid = getGridAttrs(sItem?.grid ?? field?.quickAttrs?.grid ?? grid);
+    obj.grid = getGridAttrs(field?.quickAttrs?.grid ?? grid);
   } else if (layoutType === "flex") {
     Object.assign(obj, { class: "f-1", style: { maxWidth: "350px", min: "300px" } }); // `${100 / 5}%`
   } else {

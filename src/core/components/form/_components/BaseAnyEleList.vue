@@ -2,9 +2,9 @@
 <template>
   <el-row :gutter="16" v-for="(field, ind) in fields" :key="ind">
     <!-- :grid="field?.quickAttrs?.grid ?? grid"
-        :readonly="field?.quickAttrs?.readonly ?? readonly"
+        :readonly="field?.attrs?.readonly ?? readonly"
         :pureText="field?.quickAttrs?.pureText ?? pureText"
-        :disabled="field?.quickAttrs?.disabled ?? disabled"
+        :disabled="field?.attrs?.disabled ?? disabled"
         :size="field?.attrs?.size ?? field.size ?? size"
         :labelWidth="field?.labelWidth ?? labelWidth" -->
     <FieldItemCol v-model="modelData[field.prop as string]" :prefixProp="prefixProp" :field="field" :hideLabel="hideLabel" v-bind="$attrs" />

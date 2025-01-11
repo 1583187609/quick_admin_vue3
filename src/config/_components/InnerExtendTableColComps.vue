@@ -22,7 +22,6 @@ import { CommonObj, StrNum } from "@/core/_types";
 import { RefreshListFn } from "@/core/components/table/_components/Column.vue";
 import FormItem from "@/core/components/form/_components/FormItem/Index.vue";
 import { ElFormItemType } from "@/core/components/form/_components/FormItem/_types";
-import { useFormAttrs } from "@/hooks";
 
 export type InsertTabColFormType = ElFormItemType;
 
@@ -42,8 +41,6 @@ const props = withDefaults(
 );
 
 const $emit = defineEmits(["update:row"]);
-const $attrs = useAttrs();
-useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const newRow = computed({
   get: () => props.row,
   set: (val: any) => $emit("update:row", val),

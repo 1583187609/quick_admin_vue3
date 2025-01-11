@@ -10,9 +10,9 @@
     <!-- <el-space> -->
     <el-row v-bind="rowAttrs">
       <!-- :grid="field?.quickAttrs?.grid ?? grid"
-      :readonly="field?.quickAttrs?.readonly ?? readonly"
+      :readonly="field?.attrs?.readonly ?? readonly"
       :pureText="field?.quickAttrs?.pureText ?? pureText"
-      :disabled="field?.quickAttrs?.disabled ?? disabled"
+      :disabled="field?.attrs?.disabled ?? disabled"
       :size="field?.attrs?.size ?? field.size ?? size"
       :labelWidth="field?.labelWidth ?? labelWidth" -->
       <!-- :ref="el => initRefsList(el, ind)" -->

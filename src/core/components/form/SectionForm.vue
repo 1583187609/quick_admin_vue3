@@ -2,14 +2,7 @@
   将字段分区块展示。继承并扩展了基础表单（BaseForm），提供了展开/折叠，多级属性设置覆盖等功能。
 -->
 <template>
-  <el-form
-    class="section-form f-fs-s-c"
-    v-bind="defaultFormAttrs"
-    :class="styleType"
-    :model="formData"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="section-form f-fs-s-c" v-bind="defaultFormAttrs" :class="styleType" :model="formData" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <!-- <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -145,7 +138,7 @@
         @submit="(...args) => $emit('submit', ...args)"
         @reset="(...args) => $emit('reset', ...args)"
         ref="footerBtnsRef"
-        v-if="!formAttrs.pureText && footer === true"
+        v-if="!$attrs.pureText && footer === true"
       />
     </slot>
   </el-form>
@@ -159,7 +152,7 @@ import { getHandleFields } from "./_utils";
 import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
-import { defaultFormAttrs, FormLevelsAttrs } from "@/core/components/form";
+import { defaultFormAttrs } from "@/core/components/form";
 import { BaseDataType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
@@ -168,7 +161,7 @@ import { defaultCommonSize } from "@/core/utils";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
 import config from "@/config";
-import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
+import { useNextCallback, usePopup } from "@/core/hooks";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
 
@@ -239,7 +232,6 @@ const props = withDefaults(
 );
 const $emit = defineEmits(["update:modelValue", "toggle", "moreBtns", "submit", "reset", "blur", "focus", "change"]);
 const $attrs = useAttrs();
-const formAttrs = useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
 const foldStatusList = ref<boolean[]>(getInitFolds(props.defaultExpands));
 const formRef = ref<FormInstance>();
@@ -289,16 +281,8 @@ function toggleFold(e: any, ind: number) {
 }
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const {
-    size = field.size ?? sItem.size ?? formAttrs.size,
-    labelWidth = field?.labelWidth ?? sItem.labelWidth ?? formAttrs.labelWidth,
-  } = attrs;
-  const {
-    grid = sItem.grid ?? formAttrs.grid,
-    readonly = sItem.readonly || formAttrs.readonly,
-    pureText = sItem?.pureText || formAttrs.pureText,
-    disabled = sItem.disabled || formAttrs.disabled,
-  } = quickAttrs;
+  const { size = attrs?.size ?? $attrs.size, labelWidth = field?.labelWidth ?? $attrs.labelWidth } = attrs;
+  const { grid = quickAttrs?.grid ?? $attrs.grid, readonly = $attrs.readonly, pureText = $attrs.pureText, disabled = attrs.disabled } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }
 //处理表单的enter时间

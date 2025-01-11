@@ -84,7 +84,7 @@ import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
 import { defaultFieldAttrs, defaultFormItemTplsMap, getStandardTplInfo } from ".";
-import { useFormAttrs, useDict } from "@/hooks";
+import { useDict } from "@/hooks";
 import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
@@ -100,10 +100,10 @@ const props = withDefaults(
     prefixProp?: string;
     // grid?: Grid;
     // size?: CommonSize;
-    // pureText?: boolean; //是否展示纯文本
+    pureText?: boolean; //是否展示纯文本
     // disabled?: boolean; //是否禁用
     // readonly?: boolean; //是否只读
-    // labelSuffix?: string;
+    labelSuffix?: string;
     // labelWidth?: string;
     inputDebounce?: boolean;
     hideLabel?: boolean; // 是否隐藏label
@@ -117,9 +117,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
-const $attrs = useAttrs();
 const { getOpts } = useDict();
-const { labelSuffix, pureText } = useFormAttrs({ ...props, ...$attrs });
 const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),

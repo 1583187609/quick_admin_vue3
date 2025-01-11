@@ -1,10 +1,7 @@
 <!-- 疑问浮框 -->
 <template>
   <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-    <BaseRender
-      :renderData="(popoverAttrs as PopoverSlots).slots?.default"
-      v-if="(popoverAttrs as PopoverSlots).slots?.default"
-    />
+    <BaseRender :renderData="(popoverAttrs as PopoverSlots).slots?.default" v-if="(popoverAttrs as PopoverSlots).slots?.default" />
     <template #reference>
       <el-icon :color="cssVars[`color${upperFirst(type)}`]" class="icon f-0" :class="[newSize]" v-bind="$attrs">
         <QuestionFilled />
@@ -19,7 +16,6 @@ import { defaultCommonSize, getPopoverAttrs, ThemeColorType } from "@/core/utils
 import cssVars from "@/assets/styles/_var.module.scss";
 import { QuestionFilled } from "@element-plus/icons-vue";
 import _ from "lodash";
-import { FormLevelsAttrs } from "./form";
 
 defineOptions({
   inheritAttrs: false,
@@ -38,7 +34,7 @@ const props = withDefaults(
   }
 );
 const popoverAttrs = computed(() => getPopoverAttrs(props.popover));
-const newSize = computed(() => props.size ?? inject(FormLevelsAttrs)?.size ?? defaultCommonSize);
+const newSize = computed(() => props.size ?? defaultCommonSize);
 </script>
 <style lang="scss" scoped>
 .icon {

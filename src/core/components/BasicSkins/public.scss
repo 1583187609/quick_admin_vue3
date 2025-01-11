@@ -6,6 +6,7 @@
   --size-large: 40px;
   --size-default: 32px;
   --size-small: 24px;
+  --disabled-bg: #f5f7fa;
 }
 // 语法示例
 .css-var-demo {
@@ -18,37 +19,3 @@
   // $bg-darker: color-mix(in srgb, var(--nav-bg-dark-heavy) 100%, #000000 50%);
   // $bg-darkest: color-mix(in srgb, var(--nav-bg-dark-heavy) 100%, #000000 0.01%);
 }
-
-// :root {
-//   --padding-base: 10px;
-//   --padding-multiplier-2x: 2;
-//   --padding-multiplier-3x: 3;
-// }
-
-// .element-2x-padding {
-//   padding: calc(var(--padding-base) * var(--padding-multiplier-2x));
-// }
-
-// .element-3x-padding {
-//   padding: calc(var(--padding-base) * var(--padding-multiplier-3x));
-// }
-
-// window.onload = function() {
-//   var basePadding = 10; // px
-//   var multiplier2x = 2;
-//   var multiplier3x = 3;
-//   var element = document.querySelector('.element-2x-padding');
-//   element.style.setProperty('--computed-padding', basePadding * multiplier2x + 'px');
-//   element.style.padding = 'var(--computed-padding)';
-//   var element = document.querySelector('.element-3x-padding');
-//   element.style.setProperty('--computed-padding', basePadding * multiplier3x + 'px');
-//   element.style.padding = 'var(--computed-padding)';
-// }
-
-// // document.documentElement 是全局变量时
-// const el = document.documentElement
-// // const el = document.getElementById('xxx')
-// // 获取 css 变量
-// getComputedStyle(el).getPropertyValue(`--el-color-primary`)
-// // 设置 css 变量
-// el.style.setProperty('--el-color-primary', 'red')

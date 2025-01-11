@@ -130,6 +130,7 @@ export default {
     },
     indigo: {
       text: "深幽靛",
+      disabled: true,
       // attrs: {
       //   color: "#81B337",
       //   style: {
@@ -141,6 +142,17 @@ export default {
     },
     purple: {
       text: "梦幻紫",
+      // attrs: {
+      //   color: "#81B337",
+      //   style: {
+      //     color: "#81B337",
+      //     border: "1px solid #81B337",
+      //     background: "#E2F2D0",
+      //   },
+      // },
+    },
+    pink: {
+      text: "樱语粉",
       // attrs: {
       //   color: "#81B337",
       //   style: {

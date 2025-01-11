@@ -73,12 +73,15 @@ const sections = computed<SectionFormItem[]>(() => {
     {
       // prop: "jcxx",
       title: "基础信息",
-      // pureText: true,
-      popover: "纯文本展示",
+      popover: "纯文本展示和禁用展示",
       fields: [
         {
           prop: "user_name",
           label: "姓名",
+          quickAttrs: {
+            grid: 8,
+            pureText: true,
+          },
         },
         {
           prop: "gender",
@@ -88,7 +91,8 @@ const sections = computed<SectionFormItem[]>(() => {
             options: "D_Gender",
           },
           quickAttrs: {
-            grid: 5,
+            grid: 8,
+            pureText: true,
           },
         },
         {
@@ -98,7 +102,8 @@ const sections = computed<SectionFormItem[]>(() => {
           type: "input-number",
           labelWidth: "4em",
           quickAttrs: {
-            grid: 5,
+            grid: 8,
+            pureText: true,
           },
         },
         {
@@ -106,8 +111,11 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "price",
           label: "价格",
           labelWidth: "4em",
+          attrs: {
+            disabled: true,
+          },
           quickAttrs: {
-            grid: 5,
+            grid: 12,
           },
         },
         {
@@ -115,8 +123,36 @@ const sections = computed<SectionFormItem[]>(() => {
           prop: "phone",
           label: "电话",
           labelWidth: "4em",
+          attrs: {
+            disabled: true,
+          },
           quickAttrs: {
-            grid: 9,
+            grid: 12,
+          },
+        },
+      ],
+    },
+    {
+      prop: "debf",
+      title: "第二部分",
+      popover: "属性嵌套，数据会挂载在debf属性下",
+      fields: [
+        {
+          tpl: "T_Identity",
+          prop: "sfzh",
+          label: "身份证号",
+          quickAttrs: {
+            grid: 12,
+          },
+        },
+        {
+          prop: "zsbh",
+          label: "证书证号",
+          quickAttrs: {
+            grid: 12,
+          },
+          attrs: {
+            maxlength: 11,
           },
         },
         {
@@ -155,32 +191,6 @@ const sections = computed<SectionFormItem[]>(() => {
           },
           attrs: {
             type: "textarea",
-          },
-        },
-      ],
-    },
-    {
-      // prop: "debf",
-      title: "第二部分",
-      popover: "属性继承（例：disabled）",
-      disabled: true,
-      fields: [
-        {
-          tpl: "T_Identity",
-          prop: "sfzh",
-          label: "身份证号",
-          quickAttrs: {
-            grid: 12,
-          },
-        },
-        {
-          prop: "zsbh",
-          label: "证书证号",
-          quickAttrs: {
-            grid: 12,
-          },
-          attrs: {
-            maxlength: 11,
           },
         },
       ],

@@ -82,7 +82,7 @@ function toggleFold(e) {
         content: "";
         display: block;
         height: 1em;
-        width: 6px;
+        width: 0.375em;
         border-radius: 3px;
         margin-right: $gap-half;
         background: $color-primary;

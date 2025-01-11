@@ -18,14 +18,8 @@ export interface SectionFormItemAttrs {
   title: string;
   type?: SectionFormItemType;
   fold?: boolean; // 是否折叠
-  grid?: Grid; // 栅格（会影响当前块的所有子级）
   fields?: FormField[];
   description?: string; // 步骤条的描述文字
-  pureText?: boolean; // 是否是纯文本（会影响当前块的所有子级）
-  readonly?: boolean; // 是否只读（会影响当前块的所有子级）
-  disabled?: boolean; // 是否禁用（会影响当前块的所有子级）
-  size?: CommonSize; // 控件大小（会影响当前块的所有子级）
   popover?: string | PopoverAttrs; // popover气泡
-  labelWidth?: StrNum; // label宽度（会影响当前块的所有子级）
 }
 export type SectionFormItem = BaseDataType | SectionFormItemAttrs;

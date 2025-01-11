@@ -1,9 +1,6 @@
 <!-- 主题换肤 -->
 <template>
-  <!-- <div>
-    <div class="skin-demo">东风快递司法局卡</div> -->
   <slot />
-  <!-- </div> -->
 </template>
 <script lang="ts" setup>
 // 主题换肤，参照：https://blog.csdn.net/gaotlantis/article/details/139931309

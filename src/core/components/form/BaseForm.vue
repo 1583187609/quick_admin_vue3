@@ -4,14 +4,7 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form
-    class="base-form f-fs-s-c f-1"
-    :class="styleType"
-    :model="formData"
-    v-bind="defaultFormAttrs"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
     <template v-else>
@@ -77,7 +70,6 @@ import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_ty
 import { FormStyleType } from "./_types";
 import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";
-import { useFormAttrs } from "@/core/hooks";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
 
@@ -143,8 +135,6 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "moreBtns", "submit", "reset", "blur", "focus", "change"]);
-const $attrs = useAttrs();
-useFormAttrs({ ...props, ...$attrs }, undefined, true);
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);
