@@ -34,7 +34,6 @@
               <template v-for="(field, ind) in sItem.fields" :key="field?.key ?? ind">
                 <FieldItemCol
                   :field="field"
-                  :formRef="formRef"
                   v-model="formData[sItem.prop][field.prop as string]"
                   v-bind="getLevelsAttrs(field, sItem)"
                   @blur="(...args) => $emit('blur', ...args)"
@@ -50,7 +49,6 @@
                 </FieldItemCol>
                 <FieldItemCol
                   :field="field"
-                  :formRef="formRef"
                   v-model="formData[field.prop as string]"
                   v-bind="getLevelsAttrs(field, sItem)"
                   @blur="(...args) => $emit('blur', ...args)"
@@ -88,7 +86,6 @@
                 v-model="formData[sItem.prop][field.prop as string]"
                 v-bind="getLevelsAttrs(field, sItem)"
                 :field="field"
-                :formRef="formRef"
                 @blur="(...args) => $emit('blur', ...args)"
                 @focus="(...args) => $emit('focus', ...args)"
                 @change="(...args) => $emit('change', ...args)"
@@ -102,7 +99,6 @@
                 v-model="formData[field.prop as string]"
                 v-bind="getLevelsAttrs(field, sItem)"
                 :field="field"
-                :formRef="formRef"
                 @blur="(...args) => $emit('blur', ...args)"
                 @focus="(...args) => $emit('focus', ...args)"
                 @change="(...args) => $emit('change', ...args)"

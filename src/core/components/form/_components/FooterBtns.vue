@@ -106,7 +106,7 @@ function handleSubmit(...args) {
 //重置表单
 function handleReset(...args) {
   const { formRef, afterReset } = props;
-  formRef?.resetFields();
+  formRef.resetFields();
   afterReset?.(...args);
 }
 //点击更多按钮时

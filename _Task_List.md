@@ -261,6 +261,7 @@
 
 1、前一个按钮设置了 icon 会影响后一个按钮的 icon，还有其他的 auth 属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
 2、BaseForm pureText 为 true 时，未解析出字典名称对应的文本值
+3、处理 SectionForm 中，带嵌套属性时，重置不生效的 bug，复现页面：`test-center/test-2`
 
 ## 待定事项
 

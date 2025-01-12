@@ -1,14 +1,6 @@
 <template>
   <el-col class="field-item-col" v-bind="elColAttrs">
-    <FieldItem
-      v-model="newVal"
-      :prefixProp="prefixProp"
-      :field="field"
-      :inputDebounce="inputDebounce"
-      :hideLabel="hideLabel"
-      :formRef="formRef"
-      v-bind="$attrs"
-    >
+    <FieldItem v-model="newVal" :prefixProp="prefixProp" :field="field" :inputDebounce="inputDebounce" :hideLabel="hideLabel" v-bind="$attrs">
       <template #custom="scope">
         <slot name="custom" v-bind="scope" />
       </template>
@@ -34,14 +26,10 @@ const props = withDefaults(
     field: FormFieldAttrs;
     prefixProp?: string;
     grid?: Grid;
-    // size?: CommonSize;
     // pureText?: boolean; //是否展示纯文本
-    // disabled?: boolean; //是否禁用
     // readonly?: boolean; //是否只读
-    // labelWidth?: string; //label宽度
     inputDebounce?: boolean;
     hideLabel?: boolean; //是否隐藏label
-    formRef?: any;
   }>(),
   {}
 );

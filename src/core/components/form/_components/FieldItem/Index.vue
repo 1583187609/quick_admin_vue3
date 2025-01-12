@@ -96,7 +96,6 @@ const props = withDefaults(
     // labelWidth?: string;
     inputDebounce?: boolean;
     hideLabel?: boolean; // 是否隐藏label
-    formRef?: any;
     tplType?: FormTplType;
   }>(),
   {
