@@ -85,7 +85,8 @@ function getStandardRule(simple: string | CommonObj): CommonObj | CommonObj[] {
     info = merge({ prop: snakeCase(tpl), remark: Tpl }, defaultMockTpls[Tpl], { prop, remark }); // { tpl: Tpl }
   } else if (t === "Object") {
     const { tpl = "", type, prop = snakeCase(tpl), ...rest } = simple as CommonObj;
-    if (!type) return { type: "custom", customRule: simple }; // 如果没有type，则为自定义
+    // 如果没有type，则为自定义
+    if (!type) return { type: "custom", prop: prop || Object.keys(rest)[0], customRule: simple };
     if (!tpl && !prop) throw new Error(`不能同时tpl和prop未设置`);
     const Tpl = getTplName(tpl);
     info = merge({ prop, type }, defaultMockTpls[Tpl], rest); // { tpl: Tpl }

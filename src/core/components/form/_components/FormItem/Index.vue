@@ -1,74 +1,82 @@
 <!-- 表单控件 -->
 <template>
-  <!-- el-cascader的默认插槽中如果写了v-if之类的条件语句，会导致级联的下拉项的label不会展示，故需要分开处理 -->
-  <component
-    v-model="modelVal"
-    :is="`el-${is}`"
-    v-bind="newFiled?.attrs"
-    @blur="(e:any) => handleEvent('blur', e)"
-    @focus="(e:any) => handleEvent('focus', e)"
-    @change="(e:any) => handleEvent('change', e)"
-    v-if="is === 'cascader'"
-  >
-    <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled?.attrs?.slots)" :key="key">
-      <BaseRender :renderData="val" :scope="scope" />
-    </template>
-  </component>
-  <component
-    v-model="modelVal"
-    :is="`el-${is}`"
-    v-bind="newFiled?.attrs"
-    @blur="(e:any) => handleEvent('blur', e)"
-    @focus="(e:any) => handleEvent('focus', e)"
-    @change="(e:any) => handleEvent('change', e)"
-    v-else
-  >
-    <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled?.attrs?.slots)" :key="key">
-      <BaseRender :renderData="val" :scope="scope" />
-    </template>
-    <template v-if="is === 'select'">
-      <!-- 分组下拉项 -->
-      <template v-if="newFiled?.attrs?.options?.find(it => !!it.children)">
-        <el-option-group v-for="(gItem, gInd) in newFiled?.attrs?.options" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
-          <!-- <template #[key]="scope" v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
-          <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
+  <Suspense>
+    <!-- el-cascader的默认插槽中如果写了v-if之类的条件语句，会导致级联的下拉项的label不会展示，故需要分开处理 -->
+    <component
+      v-model="modelVal"
+      :is="`el-${is}`"
+      v-bind="{ ...$attrs, ...newFiled?.attrs }"
+      @blur="(e:any) => handleEvent('blur', e)"
+      @focus="(e:any) => handleEvent('focus', e)"
+      @change="(e:any) => handleEvent('change', e)"
+      v-if="is === 'cascader'"
+    >
+      <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled?.attrs?.slots)" :key="key">
+        <BaseRender :renderData="val" :scope="scope" />
+      </template>
+    </component>
+    <component
+      v-model="modelVal"
+      :is="`el-${is}`"
+      v-bind="{ ...$attrs, ...newFiled?.attrs }"
+      @blur="(e:any) => handleEvent('blur', e)"
+      @focus="(e:any) => handleEvent('focus', e)"
+      @change="(e:any) => handleEvent('change', e)"
+      v-else
+    >
+      <template #[key]="scope" v-for="(val, key) in getSlotsMap(newFiled?.attrs?.slots)" :key="key">
+        <BaseRender :renderData="val" :scope="scope" />
+      </template>
+      <template v-if="is === 'select'">
+        <!-- 分组下拉项 -->
+        <template v-if="newFiled?.attrs?.options?.find(it => !!it.children)">
+          <el-option-group v-for="(gItem, gInd) in newFiled?.attrs?.options" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
+            <!-- <template #[key]="scope" v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
+            <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
+              <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
+                <BaseRender :renderData="val" :scope="scope" :option="opt" />
+              </template>
+            </el-option>
+            <!-- </template> -->
+          </el-option-group>
+        </template>
+        <!-- 不分组下拉项 -->
+        <template v-else>
+          <el-option v-bind="deleteAttrs(opt  as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled?.attrs?.options" :key="ind">
             <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
               <BaseRender :renderData="val" :scope="scope" :option="opt" />
             </template>
           </el-option>
-          <!-- </template> -->
-        </el-option-group>
+        </template>
       </template>
-      <!-- 不分组下拉项 -->
-      <template v-else>
-        <el-option v-bind="deleteAttrs(opt  as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled?.attrs?.options" :key="ind">
-          <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
+      <template v-else-if="is === 'radio-group'">
+        <component
+          :is="`el-radio${newFiled?.attrs?.type ? `-${newFiled?.attrs?.type}` : ''}`"
+          v-bind="deleteAttrs(opt as OptionItem, ['slots', 'children'])"
+          v-for="(opt, ind) in newFiled?.attrs?.options"
+          :key="ind"
+        >
+          <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
             <BaseRender :renderData="val" :scope="scope" :option="opt" />
           </template>
-        </el-option>
+        </component>
       </template>
-    </template>
-    <template v-else-if="is === 'radio-group'">
-      <component
-        :is="`el-radio${newFiled?.attrs?.type ? `-${newFiled?.attrs?.type}` : ''}`"
-        v-bind="deleteAttrs(opt as OptionItem, ['slots', 'children'])"
-        v-for="(opt, ind) in newFiled?.attrs?.options"
-        :key="ind"
-      >
-        <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
-          <BaseRender :renderData="val" :scope="scope" :option="opt" />
-        </template>
-      </component>
-    </template>
-    <template v-else-if="is === 'checkbox-group'">
-      <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
-      <el-checkbox :name="newFiled.prop" v-bind="deleteAttrs(opt as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled?.attrs?.options" :key="ind">
-        <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
-          <BaseRender :renderData="val" :scope="scope" :option="opt" />
-        </template>
-      </el-checkbox>
-    </template>
-  </component>
+      <template v-else-if="is === 'checkbox-group'">
+        <!-- 这个表单控件需要特殊处理，不能直接使用v-bind="opt" -->
+        <el-checkbox
+          :name="newFiled?.prop"
+          v-bind="deleteAttrs(opt as OptionItem, ['slots'])"
+          v-for="(opt, ind) in newFiled?.attrs?.options"
+          :key="ind"
+        >
+          <template #[key]="scope" v-for="(val, key) in getSlotsMap(opt?.slots)" :key="key">
+            <BaseRender :renderData="val" :scope="scope" :option="opt" />
+          </template>
+        </el-checkbox>
+      </template>
+    </component>
+    <template #fallback>玩命加载中……</template>
+  </Suspense>
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
@@ -78,6 +86,7 @@ import { useDict } from "@/hooks";
 import { DictName } from "@/dict/_types";
 import { FormFieldAttrs } from "../FieldItem/_types";
 import { asyncComputed } from "@vueuse/core";
+defineOptions({ inheritAttrs: false });
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
@@ -88,7 +97,7 @@ const props = withDefaults(
     is: defaultFormItemType,
   }
 );
-const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
+const $emit = defineEmits(["update:modelValue", "update:field", "blur", "focus", "change"]);
 const { getOpts } = useDict();
 const modelVal = computed({
   get: () => props.modelValue,
@@ -110,6 +119,7 @@ const newFiled = asyncComputed<FormFieldAttrs>(async () => {
   } else {
     field.attrs = { placeholder };
   }
+  $emit("update:field", field);
   return field;
 });
 /**

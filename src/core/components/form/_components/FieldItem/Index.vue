@@ -1,5 +1,5 @@
+<!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
 <template>
-  <!-- 没有被el-form-item包裹的的空行，用作插入一些按钮或其他内容 -->
   <div class="mb-18" v-bind="formItemAttrs.attrs" v-if="formItemAttrs.type === 'custom'">
     <BaseRender :renderData="formItemAttrs.renderData ?? throwTplError('缺乏renderData')" />
   </div>
@@ -14,7 +14,7 @@
     v-else
   >
     <!-- el-form-item 的插槽(label、error等) -->
-    <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs, formItemAttrs.quickAttrs?.popover)" :key="key">
+    <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
       <QuestionPopover :popover="formItemAttrs.quickAttrs?.popover" v-if="formItemAttrs.quickAttrs?.popover" />
       <template v-if="labelSuffix">{{ labelSuffix }}</template>
@@ -83,7 +83,7 @@ import {
 import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
-import { defaultFieldAttrs, defaultFormItemTplsMap, getStandardTplInfo } from ".";
+import { defaultFieldAttrs, defaultFormItemTplsMap, getStandardTplInfo } from "./_config";
 import { useDict } from "@/hooks";
 import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";

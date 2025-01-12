@@ -1,6 +1,6 @@
-<!-- 工作台 -->
+<!-- 高颜值工作台 -->
 <template>
-  <div class="">工作台（计划出多个模板）</div>
+  <div class="">高颜值工作台工作台</div>
 </template>
 <script lang="ts" setup>
 import { CommonObj } from "@/core/_types";

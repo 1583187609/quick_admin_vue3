@@ -2,7 +2,7 @@ import { getCascadeLabel, getDictLabel } from "../dict";
 import { CommonObj, OptionItem } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
-import { deleteAttrs, emptyVals } from "@/utils";
+import { deleteAttrs, emptyVals, isDev } from "@/utils";
 import allData from "../data";
 import { dictTextPropKey } from "./consts";
 
@@ -82,7 +82,7 @@ function getCodeMap(enName: string) {
  * @returns {[strategy, way]}
  * ["match", "equal"]：id,
  * ["match", "blur"]:  string, name, phone
- * ["pick", "same"]：dict,
+ * ["pick", "same"]：dict, ids
  * ["between", "date"]: date
  * 多义性：number（match-equal, between-number)
  * 不可能作为表单字段：address, image
@@ -91,6 +91,7 @@ function getCodeMap(enName: string) {
  */
 
 function getStrategyWay(type, val) {
+  if (type === "id") return ["pick", "same"];
   if (["createTime", "updateTime"].includes(type)) type = "date";
   else if (["createUser", "updateUser"].includes(type)) type = "name";
   if (["string", "name", "phone"].includes(type)) return ["match", "blur"];
@@ -105,6 +106,12 @@ function getStrategyWay(type, val) {
     throw new Error(`暂未处理此类型：${t}`);
   }
   if (type === "cascader") return ["cascader", "equal"];
+  // 以下是推断逻辑
+  if (type === "custom") {
+    const tv = typeOf(val);
+    if (tv === "Array") return getStrategyWay(isNaN(Number(val[0])) ? "date" : "number", val);
+    throw new Error(`暂未处理此推断类型：${tv}`);
+  }
   return ["match", "equal"];
 }
 /**
@@ -136,7 +143,7 @@ export function getFilterRules(enName: string, params: CommonObj) {
   if (!target) throw new Error(`不存在该表：${enName}`);
   const keys = Object.keys(params);
   if (!keys.length) return;
-  const ruleMap: CommonObj = {};
+  let ruleMap: CommonObj | undefined;
   const { rules = [] } = target;
   keys.forEach(key => {
     const val = params[key];
@@ -148,9 +155,16 @@ export function getFilterRules(enName: string, params: CommonObj) {
       if (isFind) byKey = key.slice(0, -1);
       return isFind;
     });
-    if (!targetRule) return;
+    if (!targetRule) {
+      isDev && console.warn(`dev：不存在该字段，会导致查询该条件无效：${key}`);
+      return;
+    }
     const [strategy, way] = getStrategyWay(targetRule.type, val);
-    ruleMap[key] = [strategy, way, byKey];
+    if (!ruleMap) {
+      ruleMap = { [key]: [strategy, way, byKey] };
+    } else {
+      ruleMap[key] = [strategy, way, byKey];
+    }
   });
   return ruleMap;
 }
@@ -163,6 +177,7 @@ export function getFilterRules(enName: string, params: CommonObj) {
  * @returns
  */
 function getIsValid(params: CommonObj, row: CommonObj, filterRules: CommonObj) {
+  if (!filterRules) return true;
   const keys = Object.keys(params);
   return keys.every(key => {
     const val = params[key];
@@ -259,6 +274,7 @@ export function getListTotal(tree: CommonObj[] = [], total = 0) {
  * @returns
  */
 export function getListByIds(tree: CommonObj[] = [], ids: number[] = [], deleteChildren = true, propsMap?: CommonObj) {
+  console.log(tree, ids, "ids-------------");
   if (!tree?.length || !ids?.length) return [];
   const { id: idKey = "id", children: childrenKey = "children" } = propsMap ?? {};
   const list: CommonObj[] = [];

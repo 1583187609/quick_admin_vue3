@@ -3,9 +3,7 @@
     <!-- :z-index="3000" -->
     <BasicSkins>
       <BasicPopup>
-        <Suspense>
-          <RouterView />
-        </Suspense>
+        <RouterView />
         <!-- 使用水印 -->
         <WaterMark :text="VITE_APP_NAME" v-if="showWaterMask" />
       </BasicPopup>

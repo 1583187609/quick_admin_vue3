@@ -1,4 +1,5 @@
 {
-  "title": "组件示例",
-  "icon": "Position"
+  "title": "基础组件",
+  "icon": "Position",
+  "order": 1
 }

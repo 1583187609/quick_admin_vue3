@@ -339,7 +339,7 @@ export function sortObjArrByKey(arr: CommonObj[] = [], type: SortType = "asc", k
   if (!arr?.length || !key) return arr;
   const keys = key.split(".");
   arr.sort((a: CommonObj, b: CommonObj) => {
-    sortObjArrByKey(a.children, type, key);
+    a?.children?.length && sortObjArrByKey(a.children, type, key);
     let aVal: any = a;
     let bVal: any = b;
     keys.find(k => {

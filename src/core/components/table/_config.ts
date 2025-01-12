@@ -1,5 +1,5 @@
 import { CommonObj } from "../_types";
-import { defaultFieldAttrs } from "@/core/components/form/_components/FieldItem";
+import { defaultFieldAttrs } from "@/core/components/form/_components/FieldItem/_config";
 import { SpecialTableColType, TableAttrs, TableColumnAttrs, TablePaginationAttrs } from "./_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { defaultCommonSize, getExportData } from "@/utils";

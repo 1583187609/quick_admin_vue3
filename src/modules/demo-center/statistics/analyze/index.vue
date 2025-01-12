@@ -1,7 +1,7 @@
 <template>
   <BaseCrud
-    :cols="cols"
     v-model="modelData"
+    :cols="cols"
     :fields="fields"
     :fetch="GetMockCommon"
     :extraBtns="['add']"
@@ -38,7 +38,7 @@ import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
-const modelData = reactive<CommonObj>({ age: [20, 30] });
+const modelData = reactive<CommonObj>({ age: [10, 30] });
 const fields = ref<FormField[]>([
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },

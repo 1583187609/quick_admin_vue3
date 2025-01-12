@@ -15,13 +15,24 @@ import _ from "lodash";
 
 const { upperFirst } = _;
 
-export const themeMap = {
-  primary: cssVars.colorPrimary,
-  success: cssVars.colorSuccess,
-  danger: cssVars.colorDanger,
-  warning: cssVars.colorWarning,
-  info: cssVars.colorInfo,
-};
+let themeMap: CommonObj | null = null;
+function getColor(varStr = "") {
+  const isStr = varStr[0] === "#";
+  if (isStr) return varStr;
+  const name = varStr.slice(4, -1); // 去除掉var和括号字符
+  return getComputedStyle(document.documentElement).getPropertyValue(name);
+}
+function getThemeColorMap() {
+  if (themeMap) return themeMap;
+  themeMap = {
+    primary: getColor(cssVars.colorPrimary),
+    success: getColor(cssVars.colorSuccess),
+    danger: getColor(cssVars.colorDanger),
+    warning: getColor(cssVars.colorWarning),
+    info: getColor(cssVars.colorInfo),
+  };
+  return themeMap;
+}
 
 /**
  * 展示message提示信息，默认展示成功通知
@@ -50,12 +61,7 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param lightWords 高亮文字
  * @returns {Promise}
  */
-export function showConfirmMessage(
-  htmlStr: string,
-  type: ThemeColorType = "warning",
-  title = "温馨提示",
-  lightWords: string[] = []
-) {
+export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", title = "温馨提示", lightWords: string[] = []) {
   const typeMap = { danger: "error" };
   const colorType = type;
   // const colorKey = `color${upperFirst(colorType)}`;
@@ -86,24 +92,13 @@ export function showConfirmMessage(
 export type PrintLogType = "req" | "res" | "err" | "log";
 export type ThemeColorType = "primary" | "success" | "danger" | "warning" | "info";
 export function printLog(data: any, type: PrintLogType | ThemeColorType = "req", text: boolean | string = "") {
+  const colorMap = themeMap ?? getThemeColorMap();
   if (["req", "res", "err", "log"].includes(type)) {
     const map: CommonObj = {
-      req: {
-        label: "请求参数",
-        bgColor: cssVars.colorPrimary,
-      },
-      res: {
-        label: "响应数据",
-        bgColor: cssVars.colorSuccess,
-      },
-      err: {
-        label: "错误数据",
-        bgColor: cssVars.colorDanger,
-      },
-      log: {
-        label: "查看数据",
-        bgColor: cssVars.colorInfo,
-      },
+      req: { label: "请求参数", bgColor: colorMap.primary },
+      res: { label: "响应数据", bgColor: colorMap.success },
+      err: { label: "错误数据", bgColor: colorMap.danger },
+      log: { label: "查看数据", bgColor: colorMap.info },
     };
     const { label, bgColor } = map[type];
     console.log(
@@ -112,7 +107,7 @@ export function printLog(data: any, type: PrintLogType | ThemeColorType = "req",
       data
     );
   } else {
-    const bgColor = themeMap[type as ThemeColorType];
+    const bgColor = colorMap[type as ThemeColorType];
     console.log(`%c ${text}：`, `background:${bgColor};color:#fff;line-height:1.4;border-radius:4px;`, data);
   }
 }
@@ -248,17 +243,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;

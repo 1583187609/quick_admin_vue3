@@ -139,7 +139,7 @@ import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/
 import { TableAttrs } from "@/core/components/table/_types";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
-import { getStandardTplInfo } from "@/core/components/form/_components/FieldItem";
+import { getStandardTplInfo } from "@/core/components/form/_components/FieldItem/_config";
 import cssVars from "@/assets/styles/_var.module.scss";
 import _ from "lodash";
 import dayjs from "dayjs";

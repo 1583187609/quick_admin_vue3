@@ -186,6 +186,9 @@
 ~~155、完善用户端全局设置：国际化、控件大小、主题切换~~
 ~~176、完善全局字典缓存逻辑（将处理文本、数组、对象、Promise、批量请求到的字典通过赋值方式，完善字典映射，并将这个方法放在 hooks 中）~~
 ~~174、完善字典缓存逻辑（不要让 hooks 和 store 中的 useDict 重名了）~~
+~~99、完善图片上传 BaseUpload 组件~~
+~~172、完善`Suspense`~~
+~~110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题~~
 
 28、完善滚动触顶触底加载 demo 示例  
 45、尝试借助 yaml 根据文件目录结构自动生成路由  
@@ -194,9 +197,7 @@
 64、封装 TreeCrud 组件（完成拼装好后的示例）
 76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
-99、完善图片上传 BaseUpload 组件
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
-110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题
 111、处理拖动排序不生效的问题
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 121、处理打包后，页面空白的问题
@@ -210,7 +211,6 @@
 165、批量导出多级表头中的数据
 167、处理重置 BaseAddDelList 不会变为一项的问题
 171、完善`watch isSimple` 引起的死循环问题，复现地址：`test-center/test-3`
-172、完善`Suspense`
 173、完善菜单（静态路由还需处理权限情况）、组件、按钮、代码级别的权限控制
 
 ## Demo 功能验证清单
@@ -255,7 +255,7 @@
 ~~34、SectionForm 换用 BaseSection 验证功能~~
 ~~35、完善 AddDelList、AnyEleList、AddDelTags 组件功能~~
 36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证
-37、完善`InnerExtendTableColComps`组件
+~~37、完善`InnerExtendTableColComps`组件~~
 
 ## Demo 功能 Bug 清单
 
@@ -329,6 +329,7 @@
 141、爬取 ElementPlus 官网中的表格属性数据，从而完善低码平台的控件属性设置
 122、查询条件支持弹性布局（待完善）
 123、支持暗黑模式主题（参照：https://zhuanlan.zhihu.com/p/374732644）
+124、BaseCrud 表单控件列完善
 
 ## 二、优化清单
 

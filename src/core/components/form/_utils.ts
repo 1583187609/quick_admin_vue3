@@ -1,7 +1,7 @@
 import { FormField, FormFieldAttrs, FormTplType, Grid } from "@/core/components/form/_types";
 import { typeOf, propsJoinChar, enableTpl } from "@/core/utils";
 import { CommonObj } from "@/core/_types";
-import { defaultFormItemTplsMap, getStandardTplInfo } from "./_components/FieldItem";
+import { defaultFormItemTplsMap, getStandardTplInfo } from "./_components/FieldItem/_config";
 import { FootBtn } from "./_components/FooterBtns.vue";
 import { getBtnObj } from "../BaseBtn";
 import { BtnItem, BtnName } from "../BaseBtn/_types";

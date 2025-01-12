@@ -650,7 +650,7 @@ const cols: TableCol[] = [
       },
     ],
   },
-  {
+  false && {
     prop: "formCols",
     label: "表单控件列",
     children: [
@@ -659,9 +659,10 @@ const cols: TableCol[] = [
         label: "启/禁用",
         type: "switch",
         minWidth: 100,
-        attrs: {},
+        attrs: {
+          onChange: (val: any, row: CommonObj, next: FinallyNext) => PatchMockCommon().then((res: any) => next()),
+        },
         quickAttrs: {
-          handleChange: (val: any, row: CommonObj, next: FinallyNext) => PatchMockCommon().then((res: any) => next()),
           popover: `设置{tpl: "T_Switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
         },
       },
@@ -670,8 +671,8 @@ const cols: TableCol[] = [
         label: "编辑内容",
         type: "input",
         width: 100,
-        quickAttrs: {
-          handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
+        attrs: {
+          onBlur: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
         },
       },
       {
@@ -680,14 +681,8 @@ const cols: TableCol[] = [
         type: "select",
         width: 100,
         attrs: {
-          // options: "D_Gender",
-          options: [
-            { label: "男", value: 1 },
-            { label: "女", value: 2 },
-          ],
-        },
-        quickAttrs: {
-          handleChange: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
+          onChange: (val: any, row: CommonObj, next: FinallyNext) => PatchMockCommon().then((res: any) => next()),
+          options: "D_Gender",
         },
       },
       {
@@ -695,8 +690,8 @@ const cols: TableCol[] = [
         label: "年龄",
         type: "input-number",
         width: 180,
-        quickAttrs: {
-          handleBlur: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
+        attrs: {
+          onChange: (val: string, row: CommonObj, next: FinallyNext) => PatchMockCommon({}).then((res: any) => next()),
         },
       },
     ],

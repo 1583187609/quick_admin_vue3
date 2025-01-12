@@ -69,8 +69,8 @@
             />
             <!-- 内嵌自定义表单列，例：UserInfo -->
             <InsertCustomTableColComps :col="col" :row="{ ...row, $index }" v-else-if="getIsInnerComponent(type as InsertTableColCompsType)" />
-            <!-- 内嵌表单控件列 -->
-            <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-else />
+            <!-- 内嵌表单控件列，例：input -->
+            <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-model="row[col.prop as string]" v-else />
           </template>
         </template>
       </el-table-column>
@@ -124,7 +124,9 @@ function handleClickGroupBtns(args: NextArgs, data: { row: CommonObj; col: Table
   const [tpl, btnObj, next, e] = args;
   $emit(operateBtnsEmitName, btnObj, data, next, e);
 }
-
+function handleUpdateRow(val, row, prop) {
+  row[prop] = val;
+}
 // 是否标记（显示）未联调图标
 function getShowMark(scope: CommonObj, markWidth = 20) {
   if (!getIsNoHandle(scope)) return false;
