@@ -2,10 +2,7 @@
 目标：数字区间组件。
 -->
 <template>
-  <div
-    class="base-number-range el-date-editor el-date-editor--daterange el-input__wrapper el-range-editor"
-    :class="`el-range-editor--${size}`"
-  >
+  <div class="base-number-range el-date-editor el-date-editor--daterange el-input__wrapper el-range-editor" :class="`el-range-editor--${size}`">
     <input
       v-model="modelVals[0]"
       class="el-range-input"
@@ -27,11 +24,7 @@
       @input="handleEvent('input', $event, 1)"
       @change="handleEvent('change', $event, 1)"
     />
-    <el-icon
-      class="el-icon el-input__icon el-range__close-icon"
-      :class="{ hidden: !modelVals?.length }"
-      @click="handleEvent('clear')"
-    >
+    <el-icon class="el-icon el-input__icon el-range__close-icon" :class="{ hidden: !modelVals?.length }" @click="handleEvent('clear')">
       <CircleClose />
     </el-icon>
   </div>
@@ -40,8 +33,8 @@
 import { computed, reactive } from "vue";
 import { useFormItem } from "element-plus";
 import { CircleClose } from "@element-plus/icons-vue";
-import { defaultCommonSize, rangeJoinChar, showMessage } from "@/core/utils";
-import { CommonSize } from "@/core/_types";
+import { rangeJoinChar, showMessage } from "@/core/utils";
+import { useFormAttrs } from "@/hooks";
 
 type ValsArr = [number?, number?]; //[StrNumUnd, StrNumUnd]
 
@@ -51,7 +44,6 @@ const props = withDefaults(
     modelValue?: ValsArr;
     min?: number;
     max?: number;
-    size?: CommonSize;
     precision?: number; // 精度（保留n位小数位数）
     maxlength?: number; // 最大字符长度
     startPlaceholder?: string;
@@ -63,12 +55,12 @@ const props = withDefaults(
     modelValue: () => reactive([]),
     startPlaceholder: "最小值",
     endPlaceholder: "最大值",
-    size: defaultCommonSize,
     rangeSeparator: rangeJoinChar,
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "input", "clear", "blur", "focus"]);
 const modelVals = reactive<ValsArr>(props.modelValue?.map((it, i) => getLimitNum(Number(it), i, false)));
+const { size } = useFormAttrs();
 const maxLength = computed(() => {
   const { min, max, maxlength, precision } = props;
   if (maxlength !== undefined) return maxlength;

@@ -69,17 +69,7 @@
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import {
-  defaultFormItemType,
-  getFormItemSlots,
-  deleteAttrs,
-  throwTplError,
-  defaultCommonSize,
-  getTextFromOpts,
-  rangeJoinChar,
-  emptyStr,
-  emptyVals,
-} from "@/core/utils";
+import { defaultFormItemType, getFormItemSlots, deleteAttrs, throwTplError, getTextFromOpts, rangeJoinChar, emptyStr, emptyVals } from "@/core/utils";
 import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
@@ -99,7 +89,6 @@ const props = withDefaults(
     field: FormFieldAttrs;
     prefixProp?: string;
     // grid?: Grid;
-    // size?: CommonSize;
     pureText?: boolean; //是否展示纯文本
     // disabled?: boolean; //是否禁用
     // readonly?: boolean; //是否只读
@@ -113,7 +102,6 @@ const props = withDefaults(
   {
     tplType: "common",
     // grid: 24,
-    // size: defaultCommonSize,
   }
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);

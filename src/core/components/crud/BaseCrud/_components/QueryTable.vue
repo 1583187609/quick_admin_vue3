@@ -4,7 +4,6 @@
   <el-table
     class="query-table"
     :data="data"
-    :size="size"
     v-loading="loading"
     @selection-change="handleSelectionChange"
     @scroll.capture="handleScroll"
@@ -13,7 +12,6 @@
   >
     <Column
       :col="col"
-      :size="size"
       :disabled="disabled"
       :refreshList="refreshList"
       :operateBtnsAttrs="operateBtnsAttrs"
@@ -45,14 +43,12 @@ import Column, { RefreshListFn, RowBtnInfo } from "@/core/components/table/_comp
 import { defaultTableAttrs, getHandleCols, operateBtnsEmitName } from "@/core/components/table";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { getOperateBtns } from "@/core/components/table/_utils";
-import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";
 
 const props = withDefaults(
   defineProps<{
     cols: TableColAttrs[]; //表头
     data: CommonObj[]; //表格行数据
-    size?: CommonSize;
     operateBtns?: OperateBtnsType;
     operateBtnsAttrs?: OperateBtnsAttrs;
     disabled?: boolean;
@@ -67,7 +63,6 @@ const props = withDefaults(
     {
       cols: () => [],
       data: () => [],
-      size: defaultCommonSize,
       summaryMethod: handleTableSummary,
     },
     config?.BaseCrud?._components?.QueryTable

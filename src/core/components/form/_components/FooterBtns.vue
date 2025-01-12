@@ -3,9 +3,9 @@
 -->
 <template>
   <div class="footer-btns f-c-c f-0 pt-h pb-h">
-    <BaseBtn :tpl="newSubmitBtn" :loading="isLoading" :disabled="disabled" @click="handleSubmit" v-if="newSubmitBtn" />
-    <BaseBtn @click="handleMoreBtns" :tpl="btn" :disabled="disabled" v-for="(btn, ind) in newMoreBtns" :key="ind" />
-    <BaseBtn v-bind="newResetBtn.attrs" :tpl="newResetBtn.name" :disabled="disabled" @click="handleReset" v-if="newResetBtn" />
+    <BaseBtn :tpl="newSubmitBtn" :loading="isLoading" @click="handleSubmit" v-if="newSubmitBtn" />
+    <BaseBtn @click="handleMoreBtns" :tpl="btn" v-for="(btn, ind) in newMoreBtns" :key="ind" />
+    <BaseBtn v-bind="newResetBtn.attrs" :tpl="newResetBtn.name" @click="handleReset" v-if="newResetBtn" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -34,7 +34,6 @@ const props = withDefaults(
     omits?: boolean | BaseDataType[];
     log?: boolean | string;
     debug?: boolean;
-    disabled?: boolean; // 是否禁用按钮
     params?: any;
     formRef?: any;
     fetch?: UniteFetchType;

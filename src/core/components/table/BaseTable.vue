@@ -2,10 +2,9 @@
   目标：定位为基础表格。继承el-table属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性quickAttrs: popover。
 -->
 <template>
-  <el-table v-bind="defaultTableAttrs" v-loading="isLoading" class="base-table" :data="data" :size="size" ref="tableRef">
+  <el-table v-bind="defaultTableAttrs" v-loading="isLoading" class="base-table" :data="data" ref="tableRef">
     <Column
       :col="col"
-      :size="size"
       :operateBtnsAttrs="operateBtnsAttrs"
       :getBtns="(row: CommonObj, ind: number) => getOperateBtns(row, ind, props)"
       @operateBtns="onOperateBtns"
@@ -29,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
+import { CommonObj, FinallyNext } from "@/core/_types";
 import Column, { RowBtnInfo } from "@/core/components/table/_components/Column.vue";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { defaultTableAttrs, operateBtnsEmitName, getHandleCols } from "@/core/components/table";
@@ -37,7 +36,6 @@ import { handleTableSummary } from "@/core/utils";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getOperateBtns } from "./_utils";
-import { defaultCommonSize } from "@/core/utils";
 import { HandleButtonAuth } from "../crud/BaseCrud/_types";
 
 const props = withDefaults(
@@ -47,7 +45,6 @@ const props = withDefaults(
      */
     cols: TableColAttrs[]; // 表头
     data?: CommonObj[]; // 表格行数据
-    size?: CommonSize;
     loading?: boolean; // 是否处于加载中
     /**
      * 处理过的属性
@@ -66,7 +63,6 @@ const props = withDefaults(
     // params?: CommonObj;
   }>(),
   {
-    size: defaultCommonSize,
     cols: () => [],
     data: () => [],
     operateBtns: () => [],

@@ -157,11 +157,10 @@ import { BaseDataType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
-import { defaultCommonSize } from "@/core/utils";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
 import config from "@/config";
-import { useNextCallback, usePopup } from "@/core/hooks";
+import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
 
@@ -185,10 +184,8 @@ const props = withDefaults(
      */
     // labelWidth?: string; //label的宽度
     // grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
-    // size?: CommonSize; //是否禁用
     // 布尔值必须写，不然从$attrs传过来后，会处理成''
     readonly?: boolean; //是否只读
-    disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
     styleType?: FormStyleType;
     /**
@@ -219,7 +216,6 @@ const props = withDefaults(
     modelValue: () => reactive({}),
     bodyClass: "f-fs-fs-w",
     styleType: "common",
-    // size: defaultCommonSize,
     // grid: 24,
     footer: true,
     omits: true,

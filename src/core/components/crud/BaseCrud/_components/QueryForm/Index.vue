@@ -28,7 +28,7 @@
           <div class="sec-fields f-fs-fs-w f-1">
             <QueryFields
               v-model="formData"
-              v-bind="getQueryFieldsAttrs(field, sItem)"
+              v-bind="getQueryFieldsAttrs(field)"
               @change="(val: any, prop: string) => $emit('change', {[prop]: val})"
               v-for="(field, ind) in sItem.fields!.slice(0, sectionFolds[sInd] ? getSectionFoldSliceInd(sInd) : getSliceInd(sInd))"
               :key="ind"
@@ -86,11 +86,10 @@ import { CommonObj, CommonSize } from "@/core/_types";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
 import config from "@/config";
-import { useEvent } from "@/hooks";
+import { useEvent, useFormAttrs } from "@/hooks";
 import { getGridAttrs, getHandleFields } from "@/core/components/form/_utils";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { defaultFormAttrs } from "@/core/components/form";
-import { defaultCommonSize } from "@/core/utils";
 import { AfterReset } from "@/core/components/form/_components/FooterBtns.vue";
 import _ from "lodash";
 
@@ -103,7 +102,6 @@ const props = withDefaults(
     fields: FormField[]; //表单字段项
     sections?: SectionFormItemAttrs[];
     loading?: boolean;
-    size?: CommonSize;
     disabled?: boolean;
     readonly?: boolean;
     rowNum?: number;
@@ -117,7 +115,6 @@ const props = withDefaults(
   }>(),
   {
     layoutType: "grid",
-    size: defaultCommonSize,
     rowNum: 2,
     fields: () => [],
     modelValue: () => reactive({}),
@@ -215,22 +212,19 @@ watch(
   { immediate: true, deep: true, once: !props.sections }
 );
 useEvent("resize", () => (colNum.value = getColNum()), true);
+const { size } = useFormAttrs();
 function getMaxHeight() {
-  const { rowNum, size } = props;
-  const sizeMap = {
-    small: 28,
-    default: 40,
-    large: 50,
-  };
+  const { rowNum } = props;
+  const sizeMap = { small: 28, default: 40, large: 50 };
   const h = sizeMap[size];
   if (!isFold.value) return "35vh";
   const rows = colNum.value > 1 ? rowNum : rowNum + 1;
   return rows * h + "px";
 }
 // 获取QueryFields组件的属性
-function getQueryFieldsAttrs(field, sItem?) {
-  const { size, disabled, readonly, inputDebounce, layoutType, grid } = props;
-  const obj: CommonObj = { field, size, disabled, readonly, layoutType, inputDebounce };
+function getQueryFieldsAttrs(field) {
+  const { disabled, readonly, inputDebounce, layoutType, grid } = props;
+  const obj: CommonObj = { field, disabled, readonly, layoutType, inputDebounce };
   if (layoutType === "grid") {
     obj.grid = getGridAttrs(field?.quickAttrs?.grid ?? grid);
   } else if (layoutType === "flex") {

@@ -37,7 +37,7 @@
         :moreBtns="moreBtns"
         :submitBtn="submitBtn"
         :resetBtn="resetBtn"
-        :disabled="!newFields.length"
+        :disabled="disabled || !newFields.length"
         :formRef="formRef"
         :omits="omits"
         :log="log"
@@ -68,9 +68,9 @@ import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
-import { defaultCommonSize } from "@/core/utils";
 import config from "@/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
+import { useFormAttrs } from "@/hooks";
 import _ from "lodash";
 
 const { merge } = _;
@@ -93,9 +93,7 @@ const props = withDefaults(
      */
     // labelWidth?: string; //label的宽度
     // grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
-    // size?: CommonSize;
     // readonly?: boolean; //是否只读
-    // disabled?: boolean; //是否禁用
     pureText?: boolean; //是否纯文本展示
     styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
     /**
@@ -125,7 +123,6 @@ const props = withDefaults(
   {
     styleType: "common",
     modelValue: () => reactive({}),
-    // size: defaultCommonSize,
     // grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
     footer: true,
     omits: true,
@@ -135,6 +132,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "moreBtns", "submit", "reset", "blur", "focus", "change"]);
+const { disabled } = useFormAttrs();
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);

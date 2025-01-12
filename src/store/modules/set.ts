@@ -1,4 +1,4 @@
-import { computed, reactive, ref, watch } from "vue";
+import { reactive } from "vue";
 import { defineStore } from "pinia";
 import { CommonObj, CommonSize, ShowCodes, ThemeName } from "@/core/_types";
 import { checkObjKeyError, defaultCommonSize, defaultThemeName, showMessage, storage } from "@/utils";
@@ -60,7 +60,7 @@ export const defaultSet: DefaultSet = {
   //主题
   theme: {
     name: defaultThemeName,
-    // color: cssVars.colorPrimary as ThemeName,
+    // color: cssVars.colorPrimary,
     darkMode: 0,
   },
 };

@@ -202,7 +202,6 @@ const props = withDefaults(
     cols: () => [],
     changeFetch: true,
     immediateFetch: true,
-    size: defaultCommonSize,
     omits: true,
     inputDebounce: true,
     showSetBtn: true,

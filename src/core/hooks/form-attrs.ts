@@ -11,7 +11,7 @@ export default () => {
     labelWidth = defaultFormAttrs.labelWidth,
     labelSuffix = defaultFormAttrs.labelSuffix,
     labelPosition = defaultFormAttrs.labelPosition,
-  } = formItem ?? form;
+  } = formItem ?? form ?? {};
   return {
     size,
     disabled,

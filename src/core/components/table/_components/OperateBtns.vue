@@ -80,20 +80,16 @@ function handleClick(...args) {
 <style lang="scss">
 //添加 table-operate-col 类是为了防止全局重复。如果子级按钮是删除，因为包裹了一层el-popconfirm，所以处理透传class会有两种情况，导致删除按钮透传得到的class不会生效
 .operate-btns.table-operate-col {
-  .btn {
-    &.vertical {
-      margin-left: 0 !important;
-    }
-  }
-  .el-button {
-    + .el-button {
-      margin-left: var(--gap-half);
-    }
+  .el-button + .el-button {
+    margin-left: var(--gap-half);
   }
   .btn {
     padding: var(--gap-half);
     &.more {
       margin-left: var(--gap-half);
+    }
+    &.vertical {
+      margin-left: 0 !important;
     }
   }
 }

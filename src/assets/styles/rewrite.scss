@@ -15,32 +15,6 @@
 //   border-bottom: 2px solid $color-primary;
 // }
 
-//表格（form)
-// $thead-bg: $color-bg-light;
-// .el-table th.el-table__cell {
-//   background: $thead-bg;
-// }
-// .el-table.is-scrolling-none th.el-table-fixed-column--left,
-// .el-table.is-scrolling-none th.el-table-fixed-column--right {
-//   background: $thead-bg;
-// }
-// .el-table__header-wrapper tr th.el-table-fixed-column--right {
-//   background: $thead-bg;
-// }
-// .el-table.is-scrolling-left th.el-table-fixed-column--left {
-//   background: $thead-bg;
-// }
-// .el-table.is-scrolling-right th.el-table-fixed-column--right {
-//   background: $thead-bg;
-// }
-// .el-table__header-wrapper tr th.el-table-fixed-column--left,
-// .el-table__header-wrapper tr th.el-table-fixed-column--right {
-//   background: $thead-bg;
-// }
-.el-button + .el-button {
-  margin-left: $gap-half;
-}
-
 .el-table {
   .el-table__cell.sort-cell {
     cursor: move;

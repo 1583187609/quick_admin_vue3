@@ -30,6 +30,9 @@ const newBtns = computed(() => {
 <style lang="scss" scoped>
 .extra-btns {
   padding-bottom: var(--gap-half);
+  .el-button + .el-button {
+    margin-left: $gap-half;
+  }
 }
 .base-btn {
   margin-bottom: var(--gap-half);

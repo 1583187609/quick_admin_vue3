@@ -22,9 +22,7 @@
     </div>
     <div class="mt-o">
       <el-button @click="openPopup('弹窗', '常规弹窗')" type="warning">打开常规弹窗</el-button>
-      <el-button @click="openPopup(['div', {}, '弹窗标题（自定义渲染）'], '弹窗内容')" type="warning"
-        >打开弹窗（自定义header）</el-button
-      >
+      <el-button @click="openPopup(['div', {}, '弹窗标题（自定义渲染）'], '弹窗内容')" type="warning">打开弹窗（自定义header）</el-button>
       <el-button
         @click="
           openPopup(
@@ -43,11 +41,11 @@
       >
       <el-button
         @click="
-          openPopup('弹窗', '弹窗内容', 'dialog', [
-            'div',
-            { style: 'padding:16px 0;text-align:center;background:lightgray;' },
-            '弹窗footer（自定义渲染）',
-          ])
+          openPopup(
+            { title: '弹窗', footer: ['div', { style: 'padding:16px 0;text-align:center;background:lightgray;' }, '弹窗footer（自定义渲染）'] },
+            '弹窗内容',
+            'dialog'
+          )
         "
         type="warning"
         >打开弹窗（自定义footer，传渲染元素）</el-button
@@ -55,19 +53,17 @@
     </div>
     <div class="mt-o">
       <el-button @click="openPopup('抽屉', '常规抽屉', 'drawer')" type="info">打开常规抽屉</el-button>
-      <el-button @click="openPopup(['div', {}, '抽屉标题（自定义渲染）'], '抽屉内容', 'drawer')" type="info"
-        >打开抽屉（自定义header）</el-button
-      >
-      <el-button @click="openPopup('抽屉', '抽屉内容', 'drawer', 'alert')" type="info"
+      <el-button @click="openPopup(['div', {}, '抽屉标题（自定义渲染）'], '抽屉内容', 'drawer')" type="info">打开抽屉（自定义header）</el-button>
+      <el-button @click="openPopup({ title: '抽屉', footer: 'alert' }, '抽屉内容', 'drawer')" type="info"
         >打开抽屉（自定义footer，传'alert'）</el-button
       >
       <el-button
         @click="
-          openPopup('抽屉', '抽屉内容', 'drawer', [
-            'div',
-            { style: 'text-align:center;background:lightgray;' },
-            '抽屉footer（自定义渲染）',
-          ])
+          openPopup(
+            { title: '抽屉', footer: ['div', { style: 'text-align:center;background:lightgray;' }, '抽屉footer（自定义渲染）'] },
+            '抽屉内容',
+            'drawer'
+          )
         "
         type="info"
         >打开抽屉（自定义footer，传渲染元素）</el-button

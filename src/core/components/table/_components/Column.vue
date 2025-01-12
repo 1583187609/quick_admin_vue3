@@ -11,12 +11,11 @@
         <template #[key]="scope" v-for="(val, key) in getTableColSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
-            <QuestionPopover :popover="quickAttrs?.popover" :size="size" v-if="quickAttrs?.popover" />
+            <QuestionPopover :popover="quickAttrs?.popover" v-if="quickAttrs?.popover" />
           </template>
         </template>
         <Column
           :col="subCol"
-          :size="size"
           :refreshList="refreshList"
           :operateBtnsAttrs="operateBtnsAttrs"
           :getBtns="getBtns"
@@ -33,7 +32,7 @@
         <template #[key]="scope" v-for="(val, key) in getTableColSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
-            <QuestionPopover :popover="quickAttrs?.popover" :size="size" v-if="quickAttrs?.popover" />
+            <QuestionPopover :popover="quickAttrs?.popover" v-if="quickAttrs?.popover" />
             <MarkIcon v-if="getShowMark(scope)" />
           </template>
         </template>
@@ -60,7 +59,6 @@
             <UserTime :prop="prop" :data="row" v-bind="attrs" v-else-if="type === 'UserTime'" />
             <!-- 操作栏按钮列 -->
             <OperateBtns
-              :size="size"
               :row="{ ...row, $index }"
               :btns="getBtns(row, $index)"
               v-bind="operateBtnsAttrs"
@@ -78,7 +76,7 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { propsJoinChar, deleteAttrs, renderValue, getTableColSlots, defaultCommonSize, isOptimization } from "@/core/utils";
+import { propsJoinChar, deleteAttrs, renderValue, getTableColSlots, isOptimization } from "@/core/utils";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import OperateBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
@@ -100,14 +98,12 @@ export interface RowBtnInfo {
 const props = withDefaults(
   defineProps<{
     col: TableColAttrs;
-    size?: CommonSize;
     disabled?: boolean;
     refreshList?: RefreshListFn;
     operateBtnsAttrs?: OperateBtnsAttrs;
     getBtns: (row: CommonObj, rowInd: number) => BtnItem[];
   }>(),
   {
-    size: defaultCommonSize,
     ...config?.BaseCrud?._components?.Column,
   }
 );

@@ -23,16 +23,14 @@
 import { ref, watch, nextTick } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
-import { defaultCommonSize, showMessage } from "@/core/utils";
+import { showMessage } from "@/core/utils";
 import { CommonSize } from "@/core/_types";
 
 const { formItem } = useFormItem();
-// formItem.size // default
 const props = withDefaults(
   defineProps<{
     modelValue?: string[];
     maxNum?: number; // 最大个数
-    size?: CommonSize; // element官方的bug（不能识别el-form上的size），故需要手动传递
   }>(),
   {
     maxNum: 3,

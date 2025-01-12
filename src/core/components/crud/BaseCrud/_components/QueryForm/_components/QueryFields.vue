@@ -4,7 +4,6 @@
     v-model="modelData[field!.prop as string]"
     :is="layoutType === 'flex' ? FieldItem : FieldItemCol"
     class="form-item"
-    :size="currSize"
     :field="getHandleField(field)"
     :colAttrs="layoutType === 'flex' ? undefined : { class: 'query-field-item' }"
     :disabled="field?.attrs?.disabled ?? disabled"
@@ -25,14 +24,13 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { CommonObj, CommonSize } from "@/core/_types";
-import { defaultCommonSize } from "@/core/utils";
 import { QueryFormItemLayoutType } from "../Index.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: CommonObj;
     field: FormFieldAttrs;
-    size?: CommonSize;
+    // size?: CommonSize;
     disabled?: boolean;
     readonly?: boolean;
     inputDebounce?: boolean;
@@ -40,11 +38,9 @@ const props = withDefaults(
   }>(),
   {
     modelValue: () => reactive({}),
-    size: defaultCommonSize,
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "blur", "focus"]);
-const currSize = computed(() => props.field?.size ?? props.size);
 const modelData = computed<CommonObj>({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),

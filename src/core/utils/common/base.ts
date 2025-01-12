@@ -42,6 +42,7 @@ export type TypeOfReturn =
   | "Number"
   | "Array"
   | "Object"
+  | "PointerEvent"
   | "Date"
   | "Function"
   | "Promise"

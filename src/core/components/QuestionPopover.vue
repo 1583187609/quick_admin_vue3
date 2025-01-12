@@ -3,7 +3,7 @@
   <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
     <BaseRender :renderData="(popoverAttrs as PopoverSlots).slots?.default" v-if="(popoverAttrs as PopoverSlots).slots?.default" />
     <template #reference>
-      <el-icon :color="cssVars[`color${upperFirst(type)}`]" class="icon f-0" :class="[newSize]" v-bind="$attrs">
+      <el-icon :color="cssVars[`color${upperFirst(type)}`]" class="icon f-0" :class="[size]" v-bind="$attrs">
         <QuestionFilled />
       </el-icon>
     </template>
@@ -11,10 +11,11 @@
 </template>
 <script lang="ts" setup>
 import { computed, useAttrs } from "vue";
-import { CommonSize, PopoverAttrs, PopoverSlots } from "@/core/_types";
-import { defaultCommonSize, getPopoverAttrs, ThemeColorType } from "@/core/utils";
+import { PopoverAttrs, PopoverSlots } from "@/core/_types";
+import { getPopoverAttrs, ThemeColorType } from "@/core/utils";
 import cssVars from "@/assets/styles/_var.module.scss";
 import { QuestionFilled } from "@element-plus/icons-vue";
+import { useFormAttrs } from "@/hooks";
 import _ from "lodash";
 
 defineOptions({
@@ -23,18 +24,17 @@ defineOptions({
 
 const { upperFirst } = _;
 const $attrs = useAttrs();
+const { size } = useFormAttrs();
 const props = withDefaults(
   defineProps<{
     popover?: PopoverAttrs | PopoverSlots | string;
     type?: ThemeColorType;
-    size?: CommonSize;
   }>(),
   {
     type: "info",
   }
 );
 const popoverAttrs = computed(() => getPopoverAttrs(props.popover));
-const newSize = computed(() => props.size ?? defaultCommonSize);
 </script>
 <style lang="scss" scoped>
 .icon {

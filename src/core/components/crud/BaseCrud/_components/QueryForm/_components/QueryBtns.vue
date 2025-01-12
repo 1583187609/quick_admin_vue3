@@ -35,12 +35,9 @@ const $emit = defineEmits(["submit", "reset", "fold"]);
 .query-btns {
   display: flex;
   margin-bottom: var(--gap-half);
-  // .el-button {
-  //   padding: 0 var(--gap-half);
-  //   + .el-button {
-  //     margin-left: var(--gap-half);
-  //   }
-  // }
+  .el-button + .el-button {
+    margin-left: var(--gap-half);
+  }
 }
 .icon-fold {
   transition: transform $transition-time-main;

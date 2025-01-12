@@ -206,13 +206,14 @@ function closePopup(popup: ClosePopupType = 1): void {
     ids.forEach((id: DrawerId | DialogId) => closePopup(id));
     return;
   }
+  if (popup === null || t === "PointerEvent") return closePopup();
   // 排除null、事件对象
   if (t === "Object") {
     if (!getIsPopupObj(popup)) return closePopup();
     const isDialog = popup.name === "dialog";
     return isDialog ? closeDialog(popup) : closeDrawer(popup);
   }
-  throw new Error(`暂未处理此类型${typeof popup}`);
+  throw new Error(`暂未处理此类型：${t}`);
 }
 
 /**
