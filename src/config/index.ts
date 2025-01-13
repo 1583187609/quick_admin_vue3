@@ -120,7 +120,7 @@ const config = {
       //   has_more: "hasMore",
       //   records: "list",
       // }),
-      handleAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
+      // handleAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
       // handleAuth: (auth: number[]) => true,
       //跟下面的size  small 搭配使用
       // grid: () => ({

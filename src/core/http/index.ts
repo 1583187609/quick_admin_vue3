@@ -3,9 +3,16 @@
  */
 
 import qs from "qs";
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenSource,
+} from "axios";
 import { typeOf, isDev, storage } from "@/utils";
-import { showLoading, hideLoading, showToast, getResData, defaultResDataMap } from "./_utils";
+import { showLoading, hideLoading, showToast, getResData, defaultResDataMap, goLogin } from "./_utils";
 import { GetRequired } from "@/core/_types";
 
 let source: CancelTokenSource = axios.CancelToken.source();
@@ -39,7 +46,7 @@ const defaultCustomCfg = {
 
 const statusMap: Record<number, string> = {
   400: "请求失败，请重试",
-  401: "token已过期",
+  401: "token已过期，请重新登录",
   403: "操作无权限",
   404: "资源不存在",
   405: "请求方式错误，请重试",
@@ -94,9 +101,11 @@ service.interceptors.response.use(
     const { status, config } = err;
     const { loadEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
     loadEnable && hideLoading();
+    // 未授权，去登录
     const errMsg = statusMap[status] || "请求失败";
     console.error(`${errMsg}：${config.url}`, err);
     showToast(errMsg);
+    if (status === 401) goLogin();
     return Promise.reject(err);
   }
 );

@@ -37,7 +37,7 @@ import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 import { TableDragSortEndNext } from "@/core/components/table/_types";
 

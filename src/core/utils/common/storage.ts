@@ -13,7 +13,7 @@ const cookieStorage = {
   setItem(key: string, val: any, hours = 24) {
     const date = new Date();
     date.setTime(date.getTime() + hours * 3600 * 1000);
-    document.cookie = key + "=" + val + ";expires=" + date.toUTCString();
+    document.cookie = `${key}=${val};expires=${date.toUTCString()}`;
   },
   getItem(key: string) {
     const arrCookie = document.cookie.split(";");
@@ -30,12 +30,12 @@ const cookieStorage = {
   removeItem(key: string) {
     const date = new Date();
     date.setTime(date.getTime() - 1000);
-    document.cookie = key + "=0; expires =" + date.toUTCString();
+    document.cookie = `${key}=0;expires=${date.toUTCString()}`;
   },
   clear() {
     const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
     if (!keys) return;
-    for (let i = keys.length; i--; ) document.cookie = keys[i] + "=0;expires=" + new Date(0).toUTCString();
+    for (let i = keys.length; i--; ) document.cookie = `${keys[i]}=0;expires=${new Date(0).toUTCString()}`;
   },
 };
 

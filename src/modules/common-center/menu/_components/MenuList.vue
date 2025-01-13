@@ -23,9 +23,8 @@ import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { MenuTreeNode } from "./AddEdit/_components/MenuTree.vue";
 import { emptyStr, handleBtnNext } from "@/utils";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 import { usePopup } from "@/hooks";
 import { getFilterList, getListTotal, getNavsTree } from "#/mock/utils";
 import { autoMenus } from "@/router/routes/auto";
@@ -110,7 +109,7 @@ const cols = ref<TableCol[]>([
         { prop: "update_time", label: "更新时间" },
       ]
     : []),
-  { type: "operate", label: "操作", width: 240 }, //  245 可覆盖操作列的属性设置
+  // { type: "operate", label: "操作", width: 240 }, //  245 可覆盖操作列的属性设置
 ]);
 // 获取操作栏的按钮
 function getOperateColBtns(row: CommonObj) {

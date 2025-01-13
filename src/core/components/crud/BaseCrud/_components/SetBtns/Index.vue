@@ -127,6 +127,6 @@ function handleReset() {
 </script>
 <style lang="scss" scoped>
 .set-btns {
-  margin-bottom: var(--gap-half);
+  margin: var(--gap-half) 0;
 }
 </style>

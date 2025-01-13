@@ -60,10 +60,10 @@ const router = useRouter();
 const route = useRoute();
 const { type = "404", redirectTo } = route.query;
 const code = (props.status ?? type) as StatusType;
-document.title = imgMap[code]?.title ?? "页面错误";
+document.title = imgMap[code]?.title ?? "error";
 function handleTryAgain() {
   if (!redirectTo) return router.go(0);
-  return router.push(redirectTo as string);
+  return router.push(decodeURIComponent(redirectTo as string));
 }
 </script>
 

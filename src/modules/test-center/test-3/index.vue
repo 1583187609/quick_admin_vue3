@@ -158,7 +158,7 @@ import SimpleForm from "./SimpleForm/Index.vue";
 import CustomColHead from "./_components/CustomColHead.vue";
 import CustomPopover from "./_components/CustomPopover.vue";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 
 const { getOpts } = useDict();
 const { openPopup } = usePopup();

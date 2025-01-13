@@ -6,16 +6,20 @@ export default () => {
   const { form, formItem } = useFormItem();
   const {
     size = defaultCommonSize,
-    disabled,
     inline,
+    disabled,
+    // readonly = false,
+    // clearable = true,
     labelWidth = defaultFormAttrs.labelWidth,
     labelSuffix = defaultFormAttrs.labelSuffix,
     labelPosition = defaultFormAttrs.labelPosition,
   } = formItem ?? form ?? {};
   return {
     size,
-    disabled,
     inline,
+    disabled,
+    // readonly,
+    // clearable,
     labelWidth,
     labelSuffix,
     labelPosition,

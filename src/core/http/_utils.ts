@@ -88,3 +88,12 @@ export function getResData(resData = {}, resMap = defaultResDataMap): CommonObj 
   const { code, data, msg, successCode } = resMap;
   return { code: resData[code], data: resData[data], msg: resData[msg], successCode };
 }
+
+/**
+ * 前往登录页
+ */
+export function goLogin() {
+  const { pathname, search } = location;
+  const redirectTo = `${pathname}${search}`; // 解码用 decodeURIComponent
+  location.href = `/login?redirectTo=${encodeURIComponent(redirectTo)}`;
+}

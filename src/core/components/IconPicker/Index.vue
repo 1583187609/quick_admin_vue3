@@ -1,14 +1,13 @@
 <template>
   <div @click="openSelectIcon" class="icon-box f-c-c">
     <template v-if="iconName">
-      <BaseIcon class="q-line-1" style="line-height: 1" size="28" :name="iconName" />
+      <BaseIcon class="q-line-1" style="line-height: 1" size="1.4em" :name="iconName" />
       <span class="ml-h">{{ iconName }}</span>
     </template>
     <span class="placeholder" v-else> 点击选择图标 </span>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
 import { useFormItem } from "element-plus";
 import SelectIcon from "./_components/SelectIcon.vue";
 import { usePopup } from "@/hooks";

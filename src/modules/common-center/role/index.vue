@@ -20,7 +20,7 @@ import { BtnName } from "@/core/components/BaseBtn/_types";
 import AddEdit from "./AddEdit.vue";
 import { exportExcel, handleBtnNext, showConfirmMessage } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 import { usePopup } from "@/hooks";
 import { getExportRows } from "@/core/components/crud/BaseCrud/_utils";
 import { FormFieldAttrs } from "@/components/form/_types";

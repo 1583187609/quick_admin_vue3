@@ -22,6 +22,7 @@ const closeWarn = true; //关闭警告
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
   // const env = loadEnv(mode, process.cwd()); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
+  // console.log(mode, command, "ddddd---------");
   const isVitepress = process.argv[1].includes("vitepress");
   const isProd = mode === "production"; // 原来取值范围是：production, develop, 但配置了env文件后，所以改变了mode的值
   return defineConfig({

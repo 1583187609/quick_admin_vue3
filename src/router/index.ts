@@ -48,7 +48,7 @@ router.beforeEach((to: any, from: any, next) => {
     showMessage(`未登录，请先登录！`, "warning");
     // 跳转时传递参数到登录页面，以便登录后可以跳转到对应页面
     next({
-      path: "/login?redirectTo=" + path,
+      path: `/login?redirectTo=${encodeURIComponent(path)}`,
       replace: true,
     });
   }
@@ -80,7 +80,7 @@ router.onError((err, to) => {
   NProgress.done();
   if (isNotFoundFile) {
     const query: CommonObj = { type: "999" };
-    if (name !== "home") query.redirectTo = path;
+    if (name !== "home") query.redirectTo = encodeURIComponent(path);
     return router.push({ name: "error", query });
   }
   console.error("路由错误", message);

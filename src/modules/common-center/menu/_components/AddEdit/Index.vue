@@ -8,7 +8,7 @@
     @change="handleChange"
   >
     <template #parent_id>
-      <MenuTree :data="menuTree" v-model="modelData.parent_id" />
+      <MenuTree v-model="modelData.parent_id" />
     </template>
     <template #icon="{}">
       <IconPicker v-model="modelData.icon" />
@@ -19,7 +19,7 @@
 import { reactive, computed } from "vue";
 import IconPicker from "@/core/components/IconPicker/Index.vue";
 import { PostMockMenu, PatchMockMenu, GetMockMenu } from "@/api-mock";
-import MenuTree from "./_components/MenuTree.vue";
+import MenuTree from "@/core/components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { defaultIconName } from "@/utils";
 import { useDict } from "@/hooks";
@@ -30,26 +30,21 @@ const props = withDefaults(
   defineProps<{
     type?: MenuListType;
     data?: CommonObj;
-    menuTree?: any[];
     refreshList?: FinallyNext;
   }>(),
   {}
 );
-const modelData = reactive<CommonObj>(
-  Object.assign(
-    {
-      type: 1,
-      order: 1,
-      is_cache: 1,
-      is_link: 0,
-      is_blank_open: 0,
-      is_show: 1,
-      status: 1,
-      icon: defaultIconName,
-    },
-    props.data
-  )
-);
+const modelData = reactive<CommonObj>({
+  type: 1,
+  order: 1,
+  is_cache: 1,
+  is_link: 0,
+  is_blank_open: 0,
+  is_show: 1,
+  status: 1,
+  icon: defaultIconName,
+  ...props.data,
+});
 const fields = computed(() => {
   const menuType = modelData.type;
   return [

@@ -104,7 +104,7 @@ import { useRoute } from "vue-router";
 import { ElemeFilled } from "@element-plus/icons-vue";
 import { handleRegionParams, handleBtnNext } from "@/utils";
 import { Postcard } from "@element-plus/icons-vue";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 import { showMaxHeight, showGridAttrs } from "#/scripts/doc/config";
 import { TableColumnAttrs } from "@/core/components/table/_types";
 import { usePopup } from "@/hooks";

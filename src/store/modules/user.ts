@@ -24,7 +24,7 @@ export type VipLevelValue = 0 | 1 | 2; // 0 | 1 | 2
 export default defineStore("user", () => {
   const router = useRouter();
   const route = useRoute();
-  const { redirectTo = defaultHomePath } = route.query;
+  const { redirectTo = encodeURIComponent(defaultHomePath) } = route.query;
   const vipLevel = ref<VipLevelValue>(0); // vip 等级
   const userInfo = ref<CommonObj | null>(storage.getItem("userInfo"));
   const menuStore = useMenuStore();
@@ -79,7 +79,7 @@ export default defineStore("user", () => {
       storage.setItem("token", user?.token ?? "");
       storage.setItem("allMenus", _navs);
       storage.setItem("loginExpiredDate", dayjs(expired.value).format("YYYY-MM-DD HH:mm:ss"));
-      router.push(redirectTo);
+      router.push(decodeURIComponent(redirectTo as string));
       ElNotification({
         type: "success",
         title: "登录成功",

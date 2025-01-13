@@ -189,11 +189,12 @@
 ~~99、完善图片上传 BaseUpload 组件~~
 ~~172、完善`Suspense`~~
 ~~110、完善扩展的表格列（表单控件），详见：`InnerExtendTableColComps.vue`，处理值编辑不动的问题~~
+~~143、整理 menuTree 组件~~
+~~162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题~~
+~~174、使用`encodeURIComponent`、`decodeURIComponent`进行 url 后面的参数转码、解码处理~~
 
 28、完善滚动触顶触底加载 demo 示例  
-45、尝试借助 yaml 根据文件目录结构自动生成路由  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
-55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721  
 64、封装 TreeCrud 组件（完成拼装好后的示例）
 76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
@@ -203,15 +204,15 @@
 121、处理打包后，页面空白的问题
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
 140、处理导入逻辑（完善功能）
-143、整理 menuTree 组件
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 157、在弹窗属性中实现 v-model 的写法（试试 vModel 应该可以使功能正常）
 158、重新提取并整理，全局配置（尽量不要使用合并对象的方式，考虑完善 importFileFromPaths 方法）
-162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题
 165、批量导出多级表头中的数据
 167、处理重置 BaseAddDelList 不会变为一项的问题
 171、完善`watch isSimple` 引起的死循环问题，复现地址：`test-center/test-3`
 173、完善菜单（静态路由还需处理权限情况）、组件、按钮、代码级别的权限控制
+等升级所有包（vite、element-plus）后再弄
+175、当处于 docs 时，不进行登录校验
 
 ## Demo 功能验证清单
 
@@ -325,12 +326,20 @@
 
 1、写 Gis 示例
 2、扩展 BaseForm 中的非嵌套对象功能（页面：`test-center/test-1`）
-94、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
-142、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
-141、爬取 ElementPlus 官网中的表格属性数据，从而完善低码平台的控件属性设置
-122、查询条件支持弹性布局（待完善）
-123、支持暗黑模式主题（参照：https://zhuanlan.zhihu.com/p/374732644）
-124、BaseCrud 表单控件列完善
+3、用 G6 一类的三方库实现 Quick 的功能点或优势点树形梳理图
+4、让 scripts 中的文件能够解析 ts：参考（需要升级 node 版本到 22.6.0 以上）`https://blog.csdn.net/weixin_44846945/article/details/142204033`
+5、爬取 ElementPlus 官网中的表格属性数据，从而完善低码平台的控件属性设置
+6、查询条件支持弹性布局（待完善）
+7、支持暗黑模式主题（参照：https://zhuanlan.zhihu.com/p/374732644）
+8、BaseCrud 表单控件列完善
+9、完善补齐 FormItem 属性
+10、完善二维码登录
+11、完善多点登录
+12、写单元测试
+13、从 cookie 中获取 token
+14、验证 cookie 存取多个值时的功能是否正常
+45、尝试借助 yaml 根据文件目录结构自动生成路由
+55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721
 
 ## 二、优化清单
 

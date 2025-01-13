@@ -17,7 +17,7 @@ import { FormField } from "@/core/components/form/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { handleBtnNext } from "@/utils";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 import AddEdit from "./AddEdit.vue";
 
 import { usePopup } from "@/hooks";
