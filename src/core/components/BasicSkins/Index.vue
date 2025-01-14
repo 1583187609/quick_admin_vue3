@@ -24,10 +24,10 @@ setSkin(props.theme, props.size);
 provide("setSkin", setSkin);
 </script>
 <style lang="scss">
-@import "./public.scss";
-@import "./size.scss";
-@import "./theme.scss";
-@import "./element.scss";
+@use "./public.scss";
+@use "./size.scss";
+@use "./theme.scss";
+@use "./element.scss";
 .skin-demo {
   font-size: var(--gap-two);
 }

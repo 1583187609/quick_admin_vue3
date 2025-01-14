@@ -3,7 +3,7 @@
 /********************************************************************/
 
 import { getExportData } from "@/core/utils";
-import { ReqMap, ResMap } from "@/core/components/crud/BaseCrud/_types";
+import { ReqResMap } from "@/core/components/crud/BaseCrud/_types";
 import config from "@/config";
 import { CommonObj } from "@/core/_types";
 
@@ -29,11 +29,7 @@ export const defaultPagination = { currPage: 1, pageSize: 20, show: true };
 export const defaultGroupBtnsMaxNum = getExportData(3, table?.defaultGroupBtnsMaxNum);
 export const defaultFormItemType = getExportData("input", form?.defaultFormItemType);
 
-export const defaultReqMap: ReqMap = {
-  curr_page: "curr_page",
-  page_size: "page_size",
-};
-export const defaultResMap: ResMap = {
+export const defaultReqResMap: ReqResMap = {
   curr_page: "curr_page",
   page_size: "page_size",
   total_num: "total_num",
@@ -92,11 +88,7 @@ export const defaultDrawerAttrs = {
 //   defaultGroupBtnsMaxNum: getExportData(3, table?.defaultGroupBtnsMaxNum),
 //   defaultFormItemType: getExportData("input", form?.defaultFormItemType),
 
-//   defaultReqMap: {
-//     curr_page: "curr_page",
-//     page_size: "page_size",
-//   },
-//   defaultResMap: {
+//   defaultReqResMap: {
 //     curr_page: "curr_page",
 //     page_size: "page_size",
 //     total_num: "total_num",

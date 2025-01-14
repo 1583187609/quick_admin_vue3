@@ -32,7 +32,7 @@ export default ({ mode, command }) => {
     //   __VUE_PROD_DEVTOOLS__: !isProd, // 在生产环境中启用/禁用开发者工具支持。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
     //   __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
     // },
-    // logLevel: closeWarn ? "error" : undefined, // 默认为 'info'。调整控制台输出的级别。可选值：'info', 'warn', 'error', 'silent'
+    logLevel: closeWarn ? "error" : undefined, // 默认为 'info'。调整控制台输出的级别。可选值：'info', 'warn', 'error', 'silent'
     // envPrefix: 'VITE_', // 以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。
     // clearScreen: true, // 设为 false 可以避免 Vite 清屏而错过在终端中打印某些关键信息
     // 如部署在 https://<USERNAME>.github.io/ 上，可以省略不设置。 如部署在 https://github.com/<USERNAME>/<REPO>，则设置 base 为 '/<REPO>/'。
@@ -75,7 +75,7 @@ export default ({ mode, command }) => {
       preprocessorOptions: {
         scss: {
           // 暂时消除警告：Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0. More info: https://sass-lang.com/d/legacy-js-api
-          api: closeWarn ? "modern" : undefined,
+          api: "modern-compiler", // 修改api调用方式
           // additionalData: `@import "@/assets/styles/_var.scss";`,
           additionalData: `@use "@/assets/styles/_var.scss" as *;`,
         },

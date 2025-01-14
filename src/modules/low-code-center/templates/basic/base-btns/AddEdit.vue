@@ -13,8 +13,8 @@
 <script lang="ts" setup>
 import { FormField } from "@/core/components/form/_types";
 import { PostMockCommon, PatchMockCommon } from "@/api-mock";
-import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { CommonObj, FinallyNext } from "@/core/_types";
+import { cssVars } from "@/utils";
 
 const authTreeData = [
   {

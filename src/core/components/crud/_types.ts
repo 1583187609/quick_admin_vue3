@@ -15,8 +15,7 @@ export interface CrudProps {
   // immediate?: boolean; //页面刚创建时是否立即发起请求获取数据
   // extraBtns?: BaseBtnType[]; //额外的按钮，在表单下方，表格上方
   // operateBtns?: OperateBtnsType; //分组按钮，在表格的操作一栏
-  // reqMap?: ReqMap; //请求参数的键名映射
-  // resMap?: ResMap; //响应参数的键名映射
+  // reqResMap?: ReqResMap; //请求/响应参数的键名映射
   // summaryList?: SummaryListType; //汇总请求数据的 list
   // exportCfg?: {
   //   limit: number; //一次性导出数据的上限条数

@@ -21,7 +21,7 @@ import SubMenu from "./_components/SubMenu.vue";
 import { CommonObj } from "@/core/_types";
 import { useMenuStore, useSetStore } from "@/store";
 import { useRoute } from "vue-router";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import { ResponseMenuItem, MenuEffect } from "./_types";
 import { computed } from "vue";
 

@@ -23,7 +23,7 @@ import { CommonObj, OptionItem } from "@/core/_types";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import LayoutStyle from "./_components/LayoutStyle.vue";
 import { getIsUpdated } from "@/utils";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import { defaultSet } from "@/store/modules/set";
 import { useSetStore } from "@/store";
 

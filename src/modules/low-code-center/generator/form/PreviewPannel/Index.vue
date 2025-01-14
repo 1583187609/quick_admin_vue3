@@ -27,7 +27,7 @@ import { ref } from "vue";
 import SectionBox from "../_components/SectionBox.vue";
 import SectionForm from "@/core/components/form/SectionForm.vue";
 import { TableCol } from "@/core/components/table/_types";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import { showMessage, showConfirmMessage, getTreeNodesByValue } from "@/utils";
 import { CommonObj } from "@/core/_types";
 import { sysGeneratorTplsNew } from "../FilePannel/_config";

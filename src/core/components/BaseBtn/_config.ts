@@ -1,6 +1,6 @@
 import { CommonObj } from "@/core/_types";
 import { WarningFilled } from "@element-plus/icons-vue";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 
 const { colorDanger, colorSuccess, colorWarning } = cssVars;
 

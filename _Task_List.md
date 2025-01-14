@@ -193,10 +193,8 @@
 ~~162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题~~
 ~~174、使用`encodeURIComponent`、`decodeURIComponent`进行 url 后面的参数转码、解码处理~~
 
-28、完善滚动触顶触底加载 demo 示例  
 50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 64、封装 TreeCrud 组件（完成拼装好后的示例）
-76、请求参数加解密（对登录密码进行处理）  
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
 111、处理拖动排序不生效的问题
@@ -213,6 +211,7 @@
 173、完善菜单（静态路由还需处理权限情况）、组件、按钮、代码级别的权限控制
 等升级所有包（vite、element-plus）后再弄
 175、当处于 docs 时，不进行登录校验
+176、写一个程序监控 main.js 的资源加载情况
 
 ## Demo 功能验证清单
 
@@ -263,6 +262,7 @@
 1、前一个按钮设置了 icon 会影响后一个按钮的 icon，还有其他的 auth 属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
 2、BaseForm pureText 为 true 时，未解析出字典名称对应的文本值
 3、处理 SectionForm 中，带嵌套属性时，重置不生效的 bug，复现页面：`test-center/test-2`
+4、处理打包后顶层不能使用 await 的 bug，参考：`https://www.jianshu.com/p/fb1ad30fd743`
 
 ## 待定事项
 
@@ -340,6 +340,9 @@
 14、验证 cookie 存取多个值时的功能是否正常
 45、尝试借助 yaml 根据文件目录结构自动生成路由
 55、给 Quick Admin 找个合适的图标：在线生成网址：https://www.x-design.com/logo-design/?channel=sllbd336&bd_vid=10705723341415589721
+28、完善滚动触顶触底加载 demo 示例
+76、请求参数加解密（对登录密码进行处理）
+77、减少 import.meta 的出现次数
 
 ## 二、优化清单
 
@@ -632,3 +635,15 @@ const emit = defineEmits<{
 9. 项目中心（project-center）  
    -智慧教育  
    -轻松笔记
+
+## 包版本升级
+
+```
+
+npm update vue@latest
+
+npm install element-plus@latest
+npm install sass@latest sass-loader@latest
+
+npm install vite@latest
+```

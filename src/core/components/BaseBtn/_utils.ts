@@ -1,8 +1,6 @@
 import * as Icons from "@element-plus/icons-vue";
-import { CircleCloseFilled } from "@element-plus/icons-vue";
 import { getSysThemeColor, getUserInfo, typeOf } from "@/core/utils";
 import { btnsMap } from "@/core/components/BaseBtn";
-import cssVars from "@/assets/styles/_var.module.scss";
 import { CommonObj } from "@/core/_types";
 import { BaseBtnType, BtnItem, EndBtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/core/components/crud/BaseCrud/_types";
@@ -35,7 +33,12 @@ export function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem):
  * @param {CommonObj} baseBtnAttrs  额外添加的属性，用来覆盖
  * @param {boolean} isStand 是否是标准的按钮属性
  */
-export function getBtnObj(btn: BaseBtnType, row?: CommonObj, baseBtnAttrs?: { [key: string]: BtnAttrs }, isStand = false): EndBtnItem {
+export function getBtnObj(
+  btn: BaseBtnType,
+  row?: CommonObj,
+  baseBtnAttrs?: { [key: string]: BtnAttrs },
+  isStand = false
+): EndBtnItem {
   const t = typeOf(btn);
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {

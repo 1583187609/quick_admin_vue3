@@ -15,7 +15,7 @@ import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getStandardGroupBtns } from "@/core/components/crud/BaseCrud/_utils";
 import { SpecialTableColType } from "@/core/components/table/_types";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
 import _ from "lodash";
 

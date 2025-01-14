@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { useAttrs } from "vue";
 import { WarningFilled } from "@element-plus/icons-vue";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import { defaultTooltipAttrs } from "@/core/utils";
 import _ from "lodash";
 

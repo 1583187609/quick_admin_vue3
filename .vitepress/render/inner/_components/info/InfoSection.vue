@@ -21,9 +21,7 @@
   </BaseSection>
 </template>
 <script lang="ts" setup>
-import { h } from "vue";
-import { Pointer } from "@element-plus/icons-vue";
-import cssVars from "./_var.module.scss";
+import { cssVars } from "@/utils";
 
 const deepColors = { 1: cssVars.color1, 2: cssVars.color2, 3: cssVars.color3, 4: cssVars.color4, 5: cssVars.color5 };
 const typeOpts = reactive<CommonObj[]>([
@@ -39,7 +37,7 @@ function handleChange(val: any, ind: number) {
 }
 </script>
 <style lang="scss" scoped>
-@import "var.scss";
+@use "var.scss";
 .info-section {
   &:not(:last-child) {
     margin-bottom: $gap;

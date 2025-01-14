@@ -113,8 +113,7 @@ import {
   showMessage,
   typeOf,
   emptyVals,
-  defaultReqMap,
-  defaultResMap,
+  defaultReqResMap,
   showConfirmMessage,
   exportExcel,
   defaultTableColDateFormat,
@@ -133,7 +132,7 @@ import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
-import { KeyValItem, ReqMap, ResMap, TriggerGetListType, HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";
+import { KeyValItem, ReqResMap, TriggerGetListType, HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";
 import { ImportCfgAttrs } from "./_components/CommonImport.vue";
 import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
@@ -141,7 +140,7 @@ import { TableAttrs } from "@/core/components/table/_types";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
 import { getStandardTplInfo } from "@/core/components/form/_components/FieldItem/_config";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import _ from "lodash";
 import dayjs from "dayjs";
 
@@ -190,8 +189,7 @@ const props = withDefaults(
     /** 请求控制 **/
     log?: boolean | "req" | "res"; // 是否打印console.log(data)
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
-    reqMap?: ReqMap; // 请求参数的键名映射
-    resMap?: ResMap; // 响应参数的键名映射
+    reqResMap?: ReqResMap; // 请求/响应参数的键名映射
     fetch?: UniteFetchType;
     afterSuccess?: (res: any) => void; // 请求成功的回调函数
     afterFail?: (err: any) => void; // 请求成功的回调函数
@@ -208,8 +206,7 @@ const props = withDefaults(
     showSetBtn: true,
     showPagination: true,
     // pagination: () => ({ ...defaultPagination }),
-    // reqMap: () => ({ ...defaultReqMap }),
-    // resMap: () => ({ ...defaultResMap }),
+    // reqResMap: () => ({ ...defaultReqResMap }),
     grid: _props => ({ ...defaultGridAttrs[_props.size ?? defaultCommonSize] }),
     handleAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
@@ -224,9 +221,8 @@ const queryFormRef = ref<any>(null);
 const queryTableRef = ref<any>(null);
 const { extraParams = {} } = props;
 const pagination = { ...defaultPagination, ...props.pagination };
-const reqMap = { ...defaultReqMap, ...props.reqMap } as GetRequired<ReqMap>;
-const resMap = { ...defaultResMap, ...props.resMap } as GetRequired<ResMap>;
-const { curr_page: currPageKey, page_size: pageSizeKey } = reqMap;
+const reqResMap = { ...defaultReqResMap, ...props.reqResMap } as GetRequired<ReqResMap>;
+const { curr_page: currPageKey, page_size: pageSizeKey } = reqResMap;
 const initPageInfo = { [currPageKey]: pagination.currPage, [pageSizeKey]: pagination.pageSize };
 const initParams = { ...initPageInfo, ...extraParams };
 const currPageInfo = reactive<CommonObj>(cloneDeep(initPageInfo));
@@ -381,7 +377,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
   fetch?.(args)
     .then((res: any) => {
       // if (!res) return console.error("未请求到预期数据，请检查接口是否有误");
-      const newList = res[resMap.records as string];
+      const newList = res[reqResMap.records as string];
       if (!newList) return console.error("响应数据不是标准的分页数据结构，请传入resMap参数进行转换：", res);
       (log === true || log === "res") && printLog(newList, "res");
       const _currPage = args[currPageKey];
@@ -398,7 +394,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       } else {
         newRows.value = newList;
       }
-      Object.assign(pageInfo, { total: res[resMap.total_num as string], hasMore: res[resMap.has_more as string] });
+      Object.assign(pageInfo, { total: res[reqResMap.total_num as string], hasMore: res[reqResMap.has_more as string] });
       pagination && Object.assign(currPageInfo, { [currPageKey]: _currPage, [pageSizeKey]: args[pageSizeKey] });
       afterSuccess?.(res);
       $emit("rows", newRows.value, args);
