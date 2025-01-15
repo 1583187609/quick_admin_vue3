@@ -192,11 +192,11 @@
 ~~143、整理 menuTree 组件~~
 ~~162、处理自动引入后，ref、reactive 编辑器会报错未引入的 问题~~
 ~~174、使用`encodeURIComponent`、`decodeURIComponent`进行 url 后面的参数转码、解码处理~~
+~~101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题~~
+~~50、打包配置，设置开关，让生产环境不包含 mock 数据文件~~
 
-50、打包配置，设置开关，让生产环境不包含 mock 数据文件  
 64、封装 TreeCrud 组件（完成拼装好后的示例）
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
-101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题
 111、处理拖动排序不生效的问题
 119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 121、处理打包后，页面空白的问题
@@ -209,9 +209,12 @@
 167、处理重置 BaseAddDelList 不会变为一项的问题
 171、完善`watch isSimple` 引起的死循环问题，复现地址：`test-center/test-3`
 173、完善菜单（静态路由还需处理权限情况）、组件、按钮、代码级别的权限控制
-等升级所有包（vite、element-plus）后再弄
-175、当处于 docs 时，不进行登录校验
-176、写一个程序监控 main.js 的资源加载情况
+174、等升级所有包（vite、element-plus）后再弄
+
+- 当处于 docs 时，不进行登录校验
+- 写一个程序监控 main.js 的资源加载情况
+
+177、mockServer 在 dom 渲染完成之前进行加载，避免首屏白屏时间过长
 
 ## Demo 功能验证清单
 

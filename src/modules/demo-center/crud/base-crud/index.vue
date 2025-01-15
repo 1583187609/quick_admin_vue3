@@ -1,6 +1,6 @@
-<!-- 增删改查 -->
+<!-- 基础增删改查 -->
 <template>
-  <div class="">增删改查（计划出多种类型的增删改查）</div>
+  <div class="">基础增删改查</div>
 </template>
 <script lang="ts" setup>
 import { CommonObj } from "@/core/_types";

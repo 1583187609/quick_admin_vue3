@@ -8,6 +8,7 @@ import mixin from "@/core/mixin";
 import I18n from "@/langs";
 import { setupProdMockServer } from "#/mock/mockProdServer";
 import { handleError } from "@/utils";
+import config from "@/config";
 
 import "@/assets/styles/base.scss";
 import "@/assets/styles/element.scss";
@@ -17,7 +18,7 @@ import "@/assets/styles/rewrite.scss";
 // window.log = console.log;
 // window.error = console.error;
 // window.dir = console.dir;
-setupProdMockServer();
+config.mockServer && setupProdMockServer();
 const app = createApp(App);
 app.config.errorHandler = handleError;
 // app.provide("global", {

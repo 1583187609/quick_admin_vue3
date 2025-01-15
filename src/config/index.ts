@@ -10,6 +10,7 @@ const isLog = !isProd;
 
 const config = {
   // homePath: "/home",
+  mockServer: true,
   mergeStrategy: "assign",
   popup: {
     defaultType: "dialog",

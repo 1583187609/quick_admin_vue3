@@ -7,6 +7,7 @@ export type ConfigMergeStrategy = false | "merge" | "assign" | "alert" | "auto";
 
 //基础组件的配置
 export interface BaseComponentsConfig {
+  mockServer?: boolean;
   widgetSize?: CommonSize; //控件大小
   homePath?: string; //首页地址
   /**

@@ -1,6 +1,7 @@
 <!-- summary 基础用法
   基础表单项、表格列
   查询条件可分块或不分块
+  序号列、选择列、排序列
 -->
 <template>
   <BaseCrud
@@ -44,6 +45,9 @@ import { usePopup } from "@/hooks";
 const { openPopup } = usePopup();
 
 const fields = ref<FormField[]>([
+  { tpl: "T_Selection" },
+  { tpl: "T_Index" },
+  { tpl: "T_Sort" },
   { prop: "id", label: "用户ID" },
   { prop: "name", label: "用户姓名" },
   {
