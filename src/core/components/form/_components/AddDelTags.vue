@@ -6,11 +6,13 @@
       <el-input
         v-model="inpVal"
         v-focus
-        class="inp m-2"
+        class="m-2"
+        :style="{ width: maxlength + 3 + 'em' }"
         closable
         placeholder="请输入"
         autofocus
         clearable
+        :maxlength="maxlength"
         @blur="handleAdd"
         ref="inpRef"
         v-if="showInp"
@@ -31,9 +33,11 @@ const props = withDefaults(
   defineProps<{
     modelValue?: string[];
     maxNum?: number; // 最大个数
+    maxlength?: number;
   }>(),
   {
     maxNum: 3,
+    maxlength: 6,
     modelValue: () => reactive([]),
   }
 );
@@ -70,9 +74,6 @@ function handleAdd() {
 }
 </script>
 <style lang="scss" scoped>
-.inp {
-  width: 6em;
-}
 .btn {
   // width: 2em;
   &:not(:last-child) {

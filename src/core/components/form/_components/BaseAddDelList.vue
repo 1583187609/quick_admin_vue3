@@ -91,7 +91,7 @@ watch(
     const { modelValue } = props;
     const result = getHandleFields(newVal, modelValue);
     const { data, fields } = result;
-    merge(modelList.value, data);
+    merge(modelList.value, [data]);
     newFields.value = fields;
     isFirst = false;
   },

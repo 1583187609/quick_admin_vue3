@@ -496,23 +496,13 @@ function refreshList(cb?: () => void) {
 }
 // 拖拽排序
 function handleDragSort(ele = queryTableRef?.value.tableRef?.$el?.querySelector(".el-table__body-wrapper tbody") as HTMLElement) {
-  const { tableAttrs } = props;
-  const { rowKey } = tableAttrs;
-  if (!ele) return;
+  if (!ele) throw new Error(`为找到tbody元素`);
   Sortable.create(ele, {
     handle: ".sort-cell",
     animation: 300,
     onEnd(res: CommonObj) {
       const { newIndex, oldIndex } = res;
-      if (typeof dragSortable.value === "boolean") {
-        $emit("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => {
-          // const removeItem = newRows.value.splice(oldIndex, 1)[0];
-          // newRows.value.splice(newIndex, 0, removeItem);
-          showMessage(tips);
-        });
-      } else {
-        // (dragSortable.value as any)({[rowKey]})
-      }
+      $emit("dargSortEnd", { newIndex, oldIndex }, (tips = "修改排序成功") => showMessage(tips));
     },
   });
 }

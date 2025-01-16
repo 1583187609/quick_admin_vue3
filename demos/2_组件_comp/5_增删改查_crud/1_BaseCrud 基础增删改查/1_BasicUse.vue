@@ -30,7 +30,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { DeleteMockUser, GetMockUser, PatchMockUser } from "@/api-mock";
+import { DeleteMockUser, GetMockUser, PatchMockUser, PostMockCommon } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
@@ -145,7 +145,7 @@ function handleToggleStatus(row: CommonObj, next: FinallyNext) {
 }
 //处理列表排序
 function handleDragSortEnd(data: CommonObj, next: TableDragSortEndNext) {
-  next();
+  PostMockCommon().then(() => next());
 }
 </script>
 <style lang="scss" scoped></style>

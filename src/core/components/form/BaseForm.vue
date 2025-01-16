@@ -4,7 +4,14 @@
   表单样式风格：通用表单、单元格表单、纯文本表单
 -->
 <template>
-  <el-form class="base-form f-fs-s-c f-1" :class="styleType" :model="formData" v-bind="defaultFormAttrs" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="base-form f-fs-s-c f-1"
+    :class="styleType"
+    :model="formData"
+    v-bind="defaultFormAttrs"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <slot name="header" />
     <slot name="content" v-if="$slots.content" />
     <template v-else>
@@ -72,6 +79,7 @@ import config from "@/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import { useFormAttrs } from "@/hooks";
 import _ from "lodash";
+import { omitAttrs } from "@/utils";
 
 const { merge } = _;
 

@@ -116,9 +116,7 @@ function handleSelectionChange(rows: CommonObj[]) {
  * @link 参考：https://blog.csdn.net/qq_26018335/article/details/127348107
  */
 defineExpose({
-  tableRef() {
-    return tableRef.value;
-  },
+  tableRef,
   // //全不选
   // clearSelection() {
   //   return tableRef?.value?.clearSelection();

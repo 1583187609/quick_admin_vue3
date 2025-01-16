@@ -194,19 +194,18 @@
 ~~174、使用`encodeURIComponent`、`decodeURIComponent`进行 url 后面的参数转码、解码处理~~
 ~~101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题~~
 ~~50、打包配置，设置开关，让生产环境不包含 mock 数据文件~~
+~~111、处理拖动排序不生效的问题~~
 
 64、封装 TreeCrud 组件（完成拼装好后的示例）
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
-111、处理拖动排序不生效的问题
-119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 121、处理打包后，页面空白的问题
+167、处理重置 BaseAddDelList 不会变为一项的问题
 128、处理功表单项切换为 tpl 后，重置值，textarea 不生效的问题（prop 为 undefined），还有验证下电话号码、密码等的校验是否生效，并修正
 140、处理导入逻辑（完善功能）
 151、按钮自定义权限方法控制，继续完善扩展更复杂场景的功能
 157、在弹窗属性中实现 v-model 的写法（试试 vModel 应该可以使功能正常）
 158、重新提取并整理，全局配置（尽量不要使用合并对象的方式，考虑完善 importFileFromPaths 方法）
 165、批量导出多级表头中的数据
-167、处理重置 BaseAddDelList 不会变为一项的问题
 171、完善`watch isSimple` 引起的死循环问题，复现地址：`test-center/test-3`
 173、完善菜单（静态路由还需处理权限情况）、组件、按钮、代码级别的权限控制
 174、等升级所有包（vite、element-plus）后再弄
@@ -259,6 +258,7 @@
 ~~35、完善 AddDelList、AnyEleList、AddDelTags 组件功能~~
 36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证
 ~~37、完善`InnerExtendTableColComps`组件~~
+38、表单全局禁用，但允许底部某个按钮不禁用
 
 ## Demo 功能 Bug 清单
 
@@ -346,6 +346,7 @@
 28、完善滚动触顶触底加载 demo 示例
 76、请求参数加解密（对登录密码进行处理）
 77、减少 import.meta 的出现次数
+119、针对多行表头的列设置功能，表格展示时，也用表格合并方式进行展示
 
 ## 二、优化清单
 
@@ -426,7 +427,7 @@
 63、meta 设置进行 SEO 优化
 64、保证打包后的静态资源（图片等）路径正确，使用`getWholeUrl`方法
 65、研究自动部署：完善 `deploy.sh` 文件，参见：`https://www.vitejs.net/guide/static-deploy.html#github-pages`
-66、使用`vue-draggle-plus`替换 sortable.js
+~~66、使用`vue-draggle-plus`替换 sortable.js（暂不替换）~~
 67、测试验证所有文件都通过 index 文件统一导出带来的性能影响
 68、在 http 请求封装中全局捕获异常并统一处理：使得实际开发中不用 try catch
 70、完善下载模板 mock 接口

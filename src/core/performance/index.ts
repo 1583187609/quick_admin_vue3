@@ -63,7 +63,7 @@ export function getPerformanceTiming(): CommonObj | undefined {
 // 计算加载时间
 function getEntryTiming(entry) {
   const t = entry;
-  const times = {};
+  const times: CommonObj = {};
   // 重定向的时间
   times.redirect = t.redirectEnd - t.redirectStart;
   // DNS 查询时间

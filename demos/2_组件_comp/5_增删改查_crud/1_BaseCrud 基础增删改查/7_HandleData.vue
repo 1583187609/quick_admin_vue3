@@ -24,7 +24,6 @@
     :grid="showGridAttrs"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
-    @dargSortEnd="handleDragSortEnd"
   >
   </BaseCrud>
 </template>
@@ -139,10 +138,6 @@ function handleToggleStatus(row: CommonObj, next: FinallyNext) {
   }).then((res: CommonObj) => {
     next();
   });
-}
-//处理列表排序
-function handleDragSortEnd(data: CommonObj, next: TableDragSortEndNext) {
-  next();
 }
 </script>
 <style lang="scss" scoped></style>
