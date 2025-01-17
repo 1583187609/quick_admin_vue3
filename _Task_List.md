@@ -166,7 +166,7 @@
 ~~136、将`BaseCrud`的数组 prop 改为逗号拼接的 prop 传入~~
 ~~104、最好去掉 BaseCrud 中的 showPagination 属性（需要权衡下）（不能去掉）~~
 ~~106、视情况将 BaseTable、BaseCrud 的公共 props 属性合并（不能合并会导致，文档插件不能正常解析出 ts）~~
-~~136、完善 BaseCountTo 方法~~
+~~136、完善 BaseNumber 方法~~
 ~~137、增加演示功能模块~~
 ~~138、按新划分菜单模块进行菜单重组~~
 ~~156、将各个组件的属性实现继承~~
@@ -195,8 +195,8 @@
 ~~101、处理升级 ElementPlus、vue3、vite、vitepress 升级后的启动页面警告问题~~
 ~~50、打包配置，设置开关，让生产环境不包含 mock 数据文件~~
 ~~111、处理拖动排序不生效的问题~~
+~~64、封装 TreeCrud 组件（完成拼装好后的示例）~~
 
-64、封装 TreeCrud 组件（完成拼装好后的示例）
 86、移除 `src/core/components/_test_components` 文件夹（记录下 vue 文件中的写法示例之后就移除）  
 121、处理打包后，页面空白的问题
 167、处理重置 BaseAddDelList 不会变为一项的问题

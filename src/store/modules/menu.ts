@@ -43,7 +43,8 @@ export default defineStore("menu", () => {
     if (ind === -1) isCollapse.value = true;
     if (!toFirst) return;
     const subNavs = allNavs[ind]?.children;
-    isCollapse.value = !subNavs?.length;
+    // isCollapse.value = !subNavs?.length;
+    isCollapse.value = false;
     if (subNavs?.length) toFirstPath(allNavs[ind]);
   }
   //跳转到subMenus的第一个地址

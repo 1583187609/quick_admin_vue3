@@ -1,6 +1,6 @@
-<!-- 多级菜单 -->
+<!-- 菜单1-2 -->
 <template>
-  <div>多级菜单</div>
+  <div>菜单1-2</div>
 </template>
 <script lang="ts" setup>
 import { CommonObj } from "@/core/_types";

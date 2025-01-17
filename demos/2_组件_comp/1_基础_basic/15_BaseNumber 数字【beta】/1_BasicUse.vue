@@ -8,12 +8,12 @@
   <br />
   <BaseNumber :changeValue="riseVal" iconLast>123456</BaseNumber>
   <br />
-  <BaseNumber  transition>123456</BaseNumber>
+  <BaseNumber transition>123456</BaseNumber>
   <br />
-  <BaseNumber  transition>123456</BaseNumber>
+  <BaseNumber transition>123456</BaseNumber>
   <br />
-  <BaseNumber  transition>-123456</BaseNumber>
-  <BaseCountTo/>
+  <BaseNumber transition>-123456</BaseNumber>
+  <BaseNumber />
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";

@@ -1,55 +1,84 @@
-<!-- summary
-目标：数字升降。
--->
 <template>
-  <div class="base-number f-c-c" :class="changeValue && { rise: changeValue > 0, decline: changeValue < 0, last: iconLast }">
-    <template v-if="changeValue">
-      <template v-if="showChar">{{ changeValue > 0 ? "+" : "-" }}</template>
-      <BaseIcon :name="changeValue > 0 ? riseIcon : declineIcon" :class="iconLast ? 'ml-h' : 'mr-h'" v-else />
-      {{ changeValue }}
-    </template>
-    <!-- <CountTo :endValue="+slotValue" v-if="transition && slotValue && !isNaN(+slotValue)"/> -->
-    <span v-if="transition && changeValue && !isNaN(+changeValue)">
-      <slot />
-    </span>
-    <slot v-else />
-  </div>
+  <span class="base-number">{{ renderValue }}</span>
 </template>
-<script lang="ts" setup>
-import { useSlots } from "vue";
 
-// import CountTo from "./CountTo.vue";
+<script setup lang="ts">
+import { computed, nextTick, ref, watch } from "vue";
+import { TransitionPresets, useTransition } from "@vueuse/core";
 
 const props = withDefaults(
   defineProps<{
-    changeValue?: number; // 变化的值
-    riseIcon?: string;
-    declineIcon?: string;
-    iconLast?: boolean;
-    showChar?: boolean; // 是否显示正负符号
-    transition?: boolean; // 是否从0过渡到目标值
+    startValue?: number;
+    value?: number; // 要显示的值（最终值）
+    duration?: number;
+    autoplay?: boolean;
+    decimals?: number;
+    prefix?: string;
+    suffix?: string;
+    separator?: string;
+    decimal?: string;
+    useEasing?: boolean;
+    transition?: keyof typeof TransitionPresets;
   }>(),
   {
-    showChar: false,
-    transition: true,
-    riseIcon: "Top",
-    declineIcon: "Bottom",
+    startValue: 0,
+    value: new Date().getFullYear(),
+    duration: 1500,
+    autoplay: true,
+    decimals: 0,
+    prefix: "",
+    suffix: "",
+    separator: ",",
+    decimal: ".",
+    useEasing: true,
+    transition: "linear",
   }
 );
-// const $slots = useSlots();
-// const slotValue = $slots.default?.()[0]?.children;
-</script>
-<style lang="scss" scoped>
-.base-number {
-  color: $color-info;
-  &.rise {
-    color: $color-danger;
+
+const source = ref(props.startValue);
+
+const transition = computed(() => (props.useEasing ? TransitionPresets[props.transition] : undefined));
+
+const outputValue = useTransition(source, {
+  disabled: false,
+  duration: props.duration,
+  transition: transition.value,
+});
+
+const renderValue = computed(() => formatValue(outputValue.value));
+
+function formatValue(num: number) {
+  const { decimals, decimal, separator, suffix, prefix } = props;
+
+  let number = num.toFixed(decimals);
+  number = String(number);
+
+  const x = number.split(".");
+  let x1 = x[0];
+  const x2 = x.length > 1 ? decimal + x[1] : "";
+  const rgx = /(\d+)(\d{3})/;
+  if (separator) {
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, `$1${separator}$2`);
+    }
   }
-  &.decline {
-    color: $color-success;
-  }
-  &.last {
-    flex-direction: row-reverse;
-  }
+
+  return prefix + x1 + x2 + suffix;
 }
-</style>
+
+async function start() {
+  await nextTick();
+  source.value = props.value;
+}
+
+watch(
+  [() => props.startValue, () => props.value],
+  () => {
+    if (props.autoplay) {
+      start();
+    }
+  },
+  { immediate: true }
+);
+</script>
+<style lang="scss" scoped></style>

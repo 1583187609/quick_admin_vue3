@@ -3,7 +3,7 @@
 -->
 <template>
   <div class="filter-tree f-fs-s-c" :style="style" :class="props.class">
-    <el-input class="f-0" size="small" v-model.trim="filterText" placeholder="请输入搜索词" clearable v-bind="inputAttrs">
+    <el-input class="f-0" size="small" v-model.trim="filterText" placeholder="请输入关键词" clearable v-bind="inputAttrs">
       <template #prepend v-if="options?.length">
         <el-select v-model="selectType" placeholder="请选择" style="width: 6em">
           <el-option v-bind="opt" v-for="(opt, ind) in options" :key="ind" />
