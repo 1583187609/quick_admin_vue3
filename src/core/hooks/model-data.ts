@@ -22,7 +22,7 @@ export default (props: CommonObj, $emit: any, propName = "modelValue", splitDate
           let overTarget: CommonObj = { [key]: val };
           if (splitDateMap?.[key as string]) {
             const [minProp, maxProp] = splitDateMap[key as string];
-            const [minVal, maxVal] = val;
+            const [minVal = "", maxVal = ""] = val || [];
             // Reflect.deleteProperty(target, key);
             // delete target[key];
             overTarget = { [minProp]: minVal, [maxProp]: maxVal };
