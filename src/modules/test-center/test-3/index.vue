@@ -239,7 +239,7 @@ const fields: FormFieldAttrs[] = [
   },
   {
     prop: "promise_opts_arr",
-    label: "Promise下拉数组",
+    label: "Pro下拉数组",
     type: "select",
     attrs: {
       options: "D_TestPromiseArray",
@@ -250,7 +250,7 @@ const fields: FormFieldAttrs[] = [
   },
   {
     prop: "promise_opts_obj",
-    label: "Promise下拉对象",
+    label: "Pro下拉对象",
     type: "select",
     attrs: {
       options: "D_TestPromiseObject",

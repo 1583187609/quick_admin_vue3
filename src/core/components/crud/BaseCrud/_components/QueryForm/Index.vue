@@ -278,27 +278,12 @@ defineExpose({
   background: #fff;
   @include shadow-main();
   padding: var(--gap-half) var(--gap-half) 0 0;
-  // //是否是紧凑型
-  // &.compact {
-  //   :deep(.el-form-item__label) {
-  //     padding: 0 $gap-qtr 0 0;
-  //   }
-  // }
-  // //是否是小型
-  // &.small {
-  //   padding: $gap-qtr $gap-qtr 0 0;
-  //   :deep(.el-form-item__label) {
-  //     padding: 0 2px 0 0;
-  //   }
-  //   //去掉日期组件前面的图标
-  //   :deep(.el-date-editor .el-range__icon) {
-  //     display: none;
-  //   }
-  //   //elementPlus中没有提供对应的scss变量，故在此处写死
-  //   :deep(.el-range-editor.el-input__wrapper) {
-  //     padding: 0 $gap-qtr;
-  //   }
-  // }
+}
+//去掉日期组件前面的图标
+:deep(.el-range-editor--small) {
+  .el-range__icon {
+    display: none;
+  }
 }
 .wrap-box {
   overflow: auto;

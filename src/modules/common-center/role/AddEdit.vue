@@ -7,7 +7,7 @@
     :afterSuccess="() => refreshList?.()"
   >
     <template #menu_auth>
-      <BaseTree v-model="modelData.menu_auth" />
+      <el-tree class="tree" :data="autoMenus" :props="{ value: 'id' }" show-checkbox v-model="modelData.menu_auth" />
     </template>
   </BaseForm>
 </template>
@@ -16,6 +16,8 @@ import { ref, reactive } from "vue";
 import { FormField } from "@/core/components/form/_types";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { PostMockRole, PatchMockRole, GetMockRole } from "@/api-mock";
+import { autoMenus } from "@/router/routes/auto";
+console.log(autoMenus, "autoMenus---");
 
 const props = withDefaults(
   defineProps<{
@@ -41,4 +43,10 @@ function getInfo(id: StrNum) {
   GetMockRole({ id }).then((res: CommonObj) => Object.assign(modelData, res));
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tree {
+  width: 100%;
+  max-height: 500px;
+  overflow: auto;
+}
+</style>

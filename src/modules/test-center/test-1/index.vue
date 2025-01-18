@@ -78,6 +78,7 @@ const innerArrChildren: FormFieldAttrs[] = [
     label: "一",
     required: true,
     labelWidth: "0",
+    // attrs: { style: "width:120px" },
     quickAttrs: {
       grid: 12,
     },
@@ -87,6 +88,7 @@ const innerArrChildren: FormFieldAttrs[] = [
     label: "二",
     required: true,
     labelWidth: "0",
+    // attrs: { style: "width:120px" },
     quickAttrs: {
       grid: 12,
     },
@@ -347,6 +349,7 @@ const fields = computed<FormField[]>(() => {
         tips: "tpl模板规则（最小值、最大值）和自定义校验规则（必须大于18岁）同时使用；设置after属性，往表单项后面添加内容【岁】（可以是文本或组件）",
       },
     },
+    { tpl: "T_Number", quickAttrs: { tips: "输入框类型的数值" } },
     {
       prop: "height",
       label: "身高",

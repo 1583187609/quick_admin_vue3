@@ -13,6 +13,9 @@
     <template #icon="{}">
       <IconPicker v-model="modelData.icon" />
     </template>
+    <!-- <template #comp_slot>
+      <CombinationPath />
+    </template> -->
   </BaseForm>
 </template>
 <script lang="ts" setup>
@@ -24,6 +27,7 @@ import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { defaultIconName } from "@/utils";
 import { useDict } from "@/hooks";
 import { MenuListType } from "../MenuList.vue";
+// import CombinationPath from "./CombinationPath.vue";
 
 const { getText } = useDict();
 const props = withDefaults(
@@ -107,6 +111,7 @@ const fields = computed(() => {
         placeholder: "数值越小，越靠前",
       },
     },
+    // { prop: "comp_slot", label: "组件路径slot", type: "slot" },
     ...(menuType === 1
       ? [
           {
@@ -115,6 +120,7 @@ const fields = computed(() => {
             required: true,
             quickAttrs: {
               popover: "仅输入src/views后面的路径即可",
+              example: "/common-center/menu/index.vue",
             },
           },
           {
@@ -122,7 +128,7 @@ const fields = computed(() => {
             label: "路由地址",
             required: true,
             quickAttrs: {
-              example: "/auth",
+              example: "/common-center/menu",
               tips: "建议跟组件路径保持一致",
             },
           },
@@ -205,7 +211,8 @@ function getInfo(id?: StrNum) {
 }
 function handleChange(val: any, prop: string) {
   if (prop === "component_path") {
-    if (!modelData.menu_path) modelData.menu_path = val.replace(".vue", "");
+    const endInd = val.endsWith("index.vue") ? -10 : -4;
+    modelData.menu_path = val.slice(0, endInd);
   }
 }
 </script>

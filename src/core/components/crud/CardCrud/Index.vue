@@ -57,6 +57,7 @@ import AboutItem from "./_components/AboutItem.vue";
 import FaceItem from "./_components/FaceItem.vue";
 import PhotoItem from "./_components/PhotoItem.vue";
 import { getAvatarRowData } from "./_utils";
+import config from "@/config";
 import { showMessage } from "@/core/utils";
 import { HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";
 import { ClosePopupInject, CommonObj } from "@/core/_types";
@@ -77,6 +78,7 @@ const props = withDefaults(
   }>(),
   {
     type: "avatar-audit",
+    // ...config?.CardCrud?.Index,
   }
 );
 const $emit = defineEmits([operateBtnsEmitName]);

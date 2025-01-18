@@ -18,9 +18,10 @@
       <!-- :ref="el => initRefsList(el, ind)" -->
       <FieldItemCol
         v-model="modelList[ind][field.prop as string]"
+        hideLabel
         :prefixProp="`${prefixProp}[${ind}]`"
         :field="field"
-        hideLabel
+        :grid="field.quickAttrs?.grid"
         v-bind="$attrs"
         v-for="(field, fInd) in newFields"
         :key="fInd"

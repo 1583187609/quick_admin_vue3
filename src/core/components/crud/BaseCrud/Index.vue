@@ -23,7 +23,7 @@
       ref="queryFormRef"
     >
       <template #custom="{ field }">
-        <slot :name="field.prop" :field="field" />
+        <slot :name="field.prop as string" :field="field" />
       </template>
     </QueryForm>
     <div class="middle" v-if="$slots.middle">

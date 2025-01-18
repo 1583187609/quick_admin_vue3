@@ -365,6 +365,15 @@ function getFormItemTpls(type: FormTplType = "common") {
       rules: isQuery ? undefined : [{ pattern: regexp.email, message: "请输入正确的邮箱地址", trigger: "change" }],
     },
     /***** 数值类 *****/
+    T_Number: {
+      label: "数值",
+      type: "input",
+      attrs: {
+        type: "number",
+        // max: 99999,
+        // maxlength: 6,
+      },
+    },
     //年龄
     T_Age: {
       label: "年龄",

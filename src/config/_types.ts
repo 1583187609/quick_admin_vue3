@@ -13,7 +13,7 @@ export interface BaseComponentsConfig {
   /**
    * 对于系统内置的对象数据，采用的合并方式
    * false：不进行合并；
-   * merge：lodash的方法进行合并，深度合并；
+   * merge：lodash 的 merge 方法进行合并，深度合并；
    * assign：JS原生的Object.assign合并，浅合并；
    * alert：有自定义值就完全采用，没用自定义值就采用系统默认；
    * auto：自动采用合并类型
@@ -39,21 +39,18 @@ export interface BaseComponentsConfig {
   table?: {
     defaultGroupBtnsMaxNum?: number; //操作列的按钮最多显示几个
     customSpecialCol?: CommonObj; //自定义的特殊列
+    Column?: CommonObj;
   };
   //BaseCrud组件的属性
   BaseCrud?: {
-    Index?: CommonObj; //BaseCrudProps
-    _components?: {
-      ExtraBtns?: CommonObj;
-      BatchBtns?: CommonObj;
-      OperateBtns?: CommonObj;
-      Pagination?: CommonObj;
-      QueryForm?: CommonObj;
-      Column?: CommonObj;
-      QueryTable?: CommonObj;
-      SetPrint?: CommonObj;
-      SetTable?: CommonObj;
-    };
+    Index?: CommonObj;
+    ExtraBtns?: CommonObj;
+    BatchBtns?: CommonObj;
+    OperateBtns?: CommonObj;
+    Pagination?: CommonObj;
+    QueryForm?: CommonObj;
+    QueryTable?: CommonObj;
+    SetBtn?: CommonObj;
   };
   BaseBtn?: {
     btnsMap?: CommonObj;

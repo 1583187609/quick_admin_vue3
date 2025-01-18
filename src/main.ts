@@ -18,12 +18,10 @@ import "@/assets/styles/rewrite.scss";
 // window.log = console.log;
 // window.error = console.error;
 // window.dir = console.dir;
-config.mockServer && setupProdMockServer();
+
 const app = createApp(App);
 app.config.errorHandler = handleError;
-// app.provide("global", {
-//   userInfo: null,
-// });
+// app.provide("global", { userInfo: null });
 app.mixin(mixin);
 app.use(ElementPlus);
 app.use(baseComponents); //全局注册基础组件
@@ -31,3 +29,4 @@ app.use(I18n);
 app.use(store);
 app.use(router);
 app.mount("#app");
+config.mockServer && setupProdMockServer();

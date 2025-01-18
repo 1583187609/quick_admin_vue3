@@ -63,7 +63,7 @@ const props = withDefaults(
     cols: () => [],
     originCols: () => [],
     toolBtns: () => ["print", "set"], // "set" "print",
-    ...config?.BaseCrud?._components?.SetBtns,
+    ...config?.BaseCrud?.SetBtns,
   }
 );
 

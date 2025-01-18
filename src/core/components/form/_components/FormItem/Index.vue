@@ -3,7 +3,7 @@
   <Suspense>
     <!-- el-cascader的默认插槽中如果写了v-if之类的条件语句，会导致级联的下拉项的label不会展示，故需要分开处理 -->
     <component
-      v-model="modelVal"
+      v-model.trim="modelVal"
       :is="`el-${is}`"
       v-bind="{ ...$attrs, ...newFiled?.attrs }"
       @blur="(e:any) => handleEvent('blur', e)"
@@ -16,7 +16,7 @@
       </template>
     </component>
     <component
-      v-model="modelVal"
+      v-model.trim="modelVal"
       :is="`el-${is}`"
       v-bind="{ ...$attrs, ...newFiled?.attrs }"
       @blur="(e:any) => handleEvent('blur', e)"

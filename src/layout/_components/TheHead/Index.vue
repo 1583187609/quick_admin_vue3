@@ -281,8 +281,8 @@ function startGuide() {
     background: var(--nav-bg-light);
   }
   .fold-btn {
+    padding: 0.1em;
     cursor: pointer;
-    margin-left: $gap;
     &.dark {
       color: var(--color-text-heavy);
     }
