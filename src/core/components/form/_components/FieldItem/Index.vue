@@ -62,18 +62,24 @@
       <BaseRender :renderData="formItemAttrs.quickAttrs.after" v-else />
     </template>
     <template v-if="formItemAttrs.quickAttrs?.tips">
-      <div class="notice" v-html="'注：' + formItemAttrs.quickAttrs.tips" v-if="typeof formItemAttrs.quickAttrs.tips === 'string'" />
+      <div
+        class="notice"
+        v-html="'注：' + formItemAttrs.quickAttrs.tips"
+        v-if="typeof formItemAttrs.quickAttrs.tips === 'string'"
+      />
       <BaseRender :renderData="formItemAttrs.quickAttrs.tips" v-else />
     </template>
   </el-form-item>
 </template>
 <script lang="ts" setup>
 // 表单校验规则参考：https://blog.csdn.net/m0_61083409/article/details/123158056
-import { defaultFormItemType, getFormItemSlots, deleteAttrs, throwTplError, getTextFromOpts, rangeJoinChar, emptyStr, emptyVals } from "@/core/utils";
-import { CommonObj, OptionItem, CommonSize } from "@/core/_types";
+import { emptyVals } from "@/core/consts";
+import { defaultRangeJoinChar, defaultEmptyStr, defaultFormItemType } from "@/core/config";
+import { getFormItemSlots, deleteAttrs, throwTplError, getTextFromOpts, getStandardTplInfo } from "@/core/utils";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import { FormItemRule } from "element-plus";
-import { defaultFieldAttrs, defaultFormItemTplsMap, getStandardTplInfo } from "./_config";
+import { defaultFieldAttrs, defaultFormItemTplsMap } from "./_config";
 import { useDict } from "@/hooks";
 import { FormItemType, FormTplType } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
@@ -208,7 +214,7 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
   } else if (type.includes("Time") || type.includes("date")) {
     const { format } = merge({}, defaultFieldAttrs[type]?.attrs, attrs);
     const isArr = typeOf(val) === "Array";
-    const joinStr = ` ${rangeJoinChar} `;
+    const joinStr = ` ${defaultRangeJoinChar} `;
     if (quickAttrs?.pureText || pureText) {
       val = isArr ? val.join(joinStr) : val;
     } else {
@@ -231,13 +237,13 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
   } else if (type === "cascader") {
     val = getTextFromOpts(stanOpts, val);
   } else if (type === "BaseNumberRange") {
-    val = val?.join(rangeJoinChar);
+    val = val?.join(defaultRangeJoinChar);
   } else if (type === "slot") {
-    val = emptyStr;
+    val = defaultEmptyStr;
   } else {
     new Error(`暂未处理此种类型：${type}`);
   }
-  if (emptyVals.includes(val)) val = emptyStr;
+  if (emptyVals.includes(val)) val = defaultEmptyStr;
   return { label, value: val };
 }
 defineExpose({});

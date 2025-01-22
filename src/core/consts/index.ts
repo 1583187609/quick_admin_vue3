@@ -6,5 +6,4 @@ export const popupCloseAnimationDuration = 300; // 弹出层dialog、drawer关�
 export const propsJoinChar = ","; //双props的连接符号
 export const emptyVals: ["", null, undefined] = ["", null, undefined]; //空值，凡遇此空值，则用“-”进行占位填充。看后期是否要考虑将 "undefined", "null" 这两个加入其中
 
-export const noAuthPaths = ["/login"]; // 不需要授权就能登录的页面
 export const errorPaths = ["/403", "/404", "/500"];

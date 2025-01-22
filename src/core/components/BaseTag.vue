@@ -19,7 +19,8 @@
 import { computed } from "vue";
 import { DictName } from "@/dict/_types";
 import { ClassType, CommonObj, StrNum, StyleType } from "@/core/_types";
-import { emptyStr, emptyVals } from "@/core/utils";
+import { defaultEmptyStr } from "@/core/config";
+import { emptyVals } from "@/core/consts";
 import type { TagProps } from "element-plus";
 import { useDict } from "@/hooks";
 
@@ -46,7 +47,7 @@ const props = withDefaults(
   }>(),
   {
     name: "D_EnableStatus",
-    empty: emptyStr,
+    empty: defaultEmptyStr,
   }
 );
 const tag = computed(() => {

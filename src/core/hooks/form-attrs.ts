@@ -1,5 +1,5 @@
 import { useFormItem } from "element-plus";
-import { defaultCommonSize } from "../utils";
+import { defaultCommonSize } from "@/core/config";
 import { defaultFormAttrs } from "../components/form";
 
 export default () => {

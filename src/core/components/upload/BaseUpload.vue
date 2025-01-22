@@ -34,7 +34,7 @@ import { ref, computed, inject } from "vue";
 import { useFormItem, useFormDisabled } from "element-plus";
 import type { UploadProps } from "element-plus";
 import { showMessage } from "@/core/utils";
-import config from "@/config";
+import config from "@/core/config";
 import { CommonObj } from "@/core/_types";
 import { getFileTips, getErrorTips } from "./_utils";
 import { ImgFitType } from "@/core/components/img/BaseImg.vue";
@@ -55,20 +55,18 @@ const props = withDefaults(
     showFileList?: boolean;
     handleSuccessResponse?: (res: CommonObj, upFile: CommonObj) => Promise<any>;
   }>(),
-  Object.assign(
-    {
-      modelValue: "",
-      action: "#",
-      accept: "image/png,image/jpg,image/jpeg",
-      listType: "picture-card",
-      limit: 1,
-      limitSize: 1024 * 1024 * 10, //10M
-      tips: _props => getFileTips(_props),
-      showFileList: _props => _props.limit > 1,
-      // drag: true,
-    },
-    config?.BaseUpload
-  )
+  {
+    modelValue: "",
+    action: "#",
+    accept: "image/png,image/jpg,image/jpeg",
+    listType: "picture-card",
+    limit: 1,
+    limitSize: 1024 * 1024 * 10, //10M
+    tips: _props => getFileTips(_props),
+    showFileList: _props => _props.limit > 1,
+    // drag: true,
+    ...config?.BaseUpload,
+  }
 );
 const $emit = defineEmits(["update:modelValue", "change"]);
 const openPopup = inject<any>("openPopup");

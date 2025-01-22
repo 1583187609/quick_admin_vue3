@@ -38,7 +38,7 @@
 import { ref } from "vue";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { CommonObj, CommonSize } from "@/core/_types";
-import config from "@/config";
+import config from "@/core/config";
 import { showMessage } from "@/core/utils";
 
 export type SetTableColType = "visible" | "exportable" | "sortable";
@@ -61,12 +61,10 @@ const props = withDefaults(
     rows?: CommonObj[];
     size?: CommonSize;
   }>(),
-  Object.assign(
-    {
-      rows: () => [],
-    },
-    config?.BaseCrud?._components?.SetTable
-  )
+  {
+    rows: () => [],
+    ...config?.BaseCrud?.SetTable,
+  }
 );
 
 const tableKey = ref(Date.now());

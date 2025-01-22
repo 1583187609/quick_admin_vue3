@@ -45,7 +45,13 @@
               @submit="handleSubmit"
               @reset="handleReset"
               v-bind="getGridAttrs(grid)"
-              v-if="newSections.length <= rowNum ? sInd === newSections.length - 1 : isFold ? sInd === rowNum - 1 : sInd === newSections.length - 1"
+              v-if="
+                newSections.length <= rowNum
+                  ? sInd === newSections.length - 1
+                  : isFold
+                  ? sInd === rowNum - 1
+                  : sInd === newSections.length - 1
+              "
             />
           </div>
         </div>
@@ -85,7 +91,7 @@ import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { CommonObj, CommonSize } from "@/core/_types";
 import QueryFields from "./_components/QueryFields.vue";
 import QueryBtns from "./_components/QueryBtns.vue";
-import config from "@/config";
+import config from "@/core/config";
 import { useEvent, useFormAttrs } from "@/hooks";
 import { getGridAttrs, getHandleFields } from "@/core/components/form/_utils";
 import { SectionFormItemAttrs } from "@/core/components/form/_types";
@@ -119,7 +125,7 @@ const props = withDefaults(
     fields: () => [],
     modelValue: () => reactive({}),
     sectionFoldable: true,
-    // ...config?.BaseCrud?._components?.QueryForm,
+    ...config?.BaseCrud?.QueryForm,
   }
 );
 const $emit = defineEmits(["update:modelValue", "submit", "change", "ready"]);

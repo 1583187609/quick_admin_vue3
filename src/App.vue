@@ -17,7 +17,7 @@ import BasicPopup from "@/core/components/BasicPopup/Index.vue";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import WaterMark from "@/core/components/WaterMark.vue";
 import { useRoute } from "vue-router";
-import { defaultCommonSize } from "@/utils";
+import { defaultCommonSize } from "@/core/config";
 
 const { VITE_APP_NAME } = import.meta.env;
 const route = useRoute();

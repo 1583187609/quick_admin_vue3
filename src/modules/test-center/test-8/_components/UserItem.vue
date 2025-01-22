@@ -23,7 +23,7 @@
           "
           class="nickname q-line-1 mr-a"
         >
-          {{ data?.[userDataKey]?.nickname || emptyStr }}
+          {{ data?.[userDataKey]?.nickname || defaultEmptyStr }}
         </b>
         <BaseTag
           name="D_AccountStatus"
@@ -35,7 +35,7 @@
       <div class="f-fs-c tips-info">
         <BaseCopy class="f-0" maxLine="1">{{ data?.[userDataKey]?.id }}</BaseCopy>
         <div class="ml-h mr-h f-1 q-line-1">
-          {{ getText("C_Region", data?.[userDataKey]?.live_city) || emptyStr }}
+          {{ getText("C_Region", data?.[userDataKey]?.live_city) || defaultEmptyStr }}
         </div>
         <div class="f-0">{{ data?.[userDataKey]?.age }}岁</div>
       </div>

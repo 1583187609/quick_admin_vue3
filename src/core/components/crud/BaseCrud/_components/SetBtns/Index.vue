@@ -9,10 +9,9 @@
 <script lang="ts" setup>
 import { inject, computed, defineAsyncComponent } from "vue";
 import { Setting, Printer } from "@element-plus/icons-vue";
-import config from "@/config";
 import { ClosePopupInject, CommonObj, OpenPopupInject } from "@/core/_types";
 import { SpecialTableColType, TableColAttrs } from "@/core/components/table/_types";
-import { defaultTooltipAttrs } from "@/utils";
+import config, { defaultTooltipAttrs } from "@/core/config";
 import { specialColKeys } from "@/core/components/table";
 import type { SetTableChangeParams } from "./_components/SetTable.vue";
 import { useUserStore } from "@/store";

@@ -8,7 +8,7 @@ import { computed } from "vue";
 import { sortObjArrByKey } from "@/core/utils";
 import { BaseBtnType, BtnItem } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import config from "@/config";
+import config from "@/core/config";
 
 const props = withDefaults(
   defineProps<{
@@ -18,7 +18,7 @@ const props = withDefaults(
   {
     btns: () => [],
     isStand: true,
-    ...config?.BaseCrud?._components?.ExtraBtns,
+    ...config?.BaseCrud?.ExtraBtns,
   }
 );
 const $emit = defineEmits(["click"]);

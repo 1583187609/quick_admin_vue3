@@ -43,7 +43,7 @@ import Column, { RefreshListFn, RowBtnInfo } from "@/core/components/table/_comp
 import { defaultTableAttrs, getHandleCols, operateBtnsEmitName } from "@/core/components/table";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { getOperateBtns } from "@/core/components/table/_utils";
-import config from "@/config";
+import config from "@/core/config";
 
 const props = withDefaults(
   defineProps<{
@@ -59,14 +59,12 @@ const props = withDefaults(
     refreshList?: RefreshListFn;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
   }>(),
-  Object.assign(
-    {
-      cols: () => [],
-      data: () => [],
-      summaryMethod: handleTableSummary,
-    },
-    config?.BaseCrud?._components?.QueryTable
-  )
+  {
+    cols: () => [],
+    data: () => [],
+    summaryMethod: handleTableSummary,
+    ...config?.BaseCrud?.QueryTable,
+  }
 );
 const $emit = defineEmits(["update:cols", "selectionChange", operateBtnsEmitName, "change"]);
 const { handleScroll } = useCacheScroll();

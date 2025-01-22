@@ -1,7 +1,18 @@
 import { reactive } from "vue";
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import { emptyVals, setStorage, getStorage, typeOf, storage, StorageType, showMessage, getTextFromOptions, emptyStr, needParam } from "@/utils";
+import {
+  emptyVals,
+  setStorage,
+  getStorage,
+  typeOf,
+  storage,
+  StorageType,
+  showMessage,
+  getTextFromOptions,
+  needParam,
+} from "@/utils";
+import { defaultEmptyStr } from "@/core/config";
 import { CommonObj, StrNum, OptionItem } from "@/core/_types";
 import dayjs from "dayjs";
 import { GetMockCommon } from "@/api-mock";
@@ -156,7 +167,12 @@ export default (initDictNames = Object.keys(dictData) as DictName[]) => {
    * @param {object} propsMap  属性名label、value等的映射
    * @param {string} emptyChar  为空时的占位符号
    */
-  function getText(name: DictName | CommonObj = needParam(), code: StrNum | StrNum[], propsMap?: CommonObj, emptyChar = emptyStr): string {
+  function getText(
+    name: DictName | CommonObj = needParam(),
+    code: StrNum | StrNum[],
+    propsMap?: CommonObj,
+    emptyChar = defaultEmptyStr
+  ): string {
     if (emptyVals.includes(code as any)) return emptyChar;
     const currMap = typeof name === "string" ? getMap(name) : name;
     if (!currMap) return emptyChar; // throw new Error(`未找到${name}的映射`);

@@ -1,16 +1,12 @@
 import { BtnItem, BaseBtnType, BtnsMap } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { CommonObj, OptionItem, StrNum } from "@/core/_types";
-import { rangeJoinChar, typeOf, getLabelFromOptionsByAllValues, getLabelFromOptionsByLastValue, defaultFormItemType } from "@/core/utils";
+import { typeOf, getLabelFromOptionsByAllValues, getLabelFromOptionsByLastValue } from "@/core/utils";
+import { defaultRangeJoinChar, defaultFormItemType } from "@/core/config";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
 import _ from "lodash";
 
-export interface ExtraBtnRestArgs {
-  selectedKeys: string[];
-  selectedRows: CommonObj[];
-  exportRows: string[][];
-}
 const allowList = [undefined, "index", "id", "create", "update", "remark"];
 export function getExportRows(cols: TableColAttrs[] = [], rows: CommonObj[] = []): string[][] {
   const exportRows: string[][] = [];
@@ -49,7 +45,7 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
     return getLabelFromOptionsByLastValue(options as CommonObj[], val as StrNum);
   }
   const isRange = ["BaseNumberRange"].includes(type) || (["date-picker"].includes(type) && attrs?.type.endsWith("range"));
-  if (isRange) return (val as StrNum[])?.join(rangeJoinChar);
+  if (isRange) return (val as StrNum[])?.join(defaultRangeJoinChar);
   return val;
 }
 
@@ -61,7 +57,13 @@ export function getQueryFieldValue(field: FormFieldAttrs, val: StrNum | StrNum[]
  * @param baseBtnAttrs
  * @returns []
  */
-export function getStandardGroupBtns(row: CommonObj, rowInd: number, operateBtns?: BaseBtnType, baseBtnAttrs?: BtnsMap, isStand = false) {
+export function getStandardGroupBtns(
+  row: CommonObj,
+  rowInd: number,
+  operateBtns?: BaseBtnType,
+  baseBtnAttrs?: BtnsMap,
+  isStand = false
+) {
   if (!operateBtns) return [];
   const isFn = typeOf(operateBtns) === "Function";
   const btns = isFn ? (operateBtns as any)(row, rowInd) : operateBtns;

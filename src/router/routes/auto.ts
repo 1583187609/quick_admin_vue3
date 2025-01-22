@@ -1,8 +1,7 @@
 // 自动路由
-import { needParam } from "#/mock/utils";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
-import { defaultIconName, sortObjArrByKey, toCamelCase } from "@/utils";
-import { RouteRecordRaw } from "vue-router";
+import { sortObjArrByKey, toCamelCase } from "@/utils";
+import { defaultIconName } from "@/core/config";
 
 const orderJoinChar = "_"; // order的链接符号
 

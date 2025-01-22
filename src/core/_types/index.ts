@@ -74,8 +74,8 @@ export interface TabItem {
 // let keys: GetOptional<ComplexObject>;
 
 //其他参考
-// export type BtnAllNames = keyof typeof btnsMap;
-// export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
+// export type BtnAllNames = keyof typeof defaultBtns;
+// export type BtnAllNames = keyof InstanceType<typeof defaultBtns>;
 // function handler<T extends object, K extends keyof T>(obj: T, propName: K) {}
 
 export interface User {

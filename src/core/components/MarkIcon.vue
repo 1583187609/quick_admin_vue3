@@ -7,10 +7,9 @@
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { useAttrs } from "vue";
 import { WarningFilled } from "@element-plus/icons-vue";
 import { cssVars } from "@/utils";
-import { defaultTooltipAttrs } from "@/core/utils";
+import { defaultTooltipAttrs } from "@/core/config";
 import _ from "lodash";
 
 export type MarkType = "noDebug";

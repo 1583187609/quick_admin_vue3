@@ -4,14 +4,14 @@
 -->
 <template>
   <div class="base-num" :class="'color-' + (num > 0 ? 'success' : num < 0 ? 'danger' : 'info')">
-    <template v-if="showText">{{ num > 0 ? "收入" : num < 0 ? "支出" : emptyStr }} </template>
+    <template v-if="showText">{{ num > 0 ? "收入" : num < 0 ? "支出" : defaultEmptyStr }} </template>
     <template v-else>
       {{ (num > 0 ? "+" : "") + num }}
     </template>
   </div>
 </template>
 <script lang="ts" setup>
-import { emptyStr } from "@/core/utils";
+import { defaultEmptyStr } from "@/core/config";
 
 const props = withDefaults(
   defineProps<{

@@ -25,8 +25,7 @@ import { TableColStandardAttrs } from "@/core/components/table/_types";
 import { BaseDataType, CommonObj, StrNum } from "@/core/_types";
 import { RefreshListFn } from "@/core/components/table/_components/Column.vue";
 import FormItem from "@/core/components/form/_components/FormItem/Index.vue";
-import { ElFormItemType } from "@/core/components/form/_components/FormItem/_types";
-import { useModelData } from "@/hooks";
+import { ElFormItemType } from "@/core/components/form/_components/FieldItem/_types";
 
 export type InsertTabColFormType = ElFormItemType;
 

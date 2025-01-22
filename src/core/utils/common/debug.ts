@@ -3,7 +3,7 @@
 /********************************************************************/
 
 import { CommonObj } from "@/core/_types";
-import { isDev } from "@/utils";
+import { isDev } from "@/core/consts";
 import { showMessage } from "../platform";
 // import { ElNotification } from "element-plus";
 

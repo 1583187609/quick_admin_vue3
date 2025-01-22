@@ -1,6 +1,7 @@
 import dictData from "@/dict";
 import { DictName } from "@/dict/_types";
-import { getStorage, typeOf, storage, StorageType, getTextFromOptions, emptyStr, needParam } from "@/utils";
+import { getStorage, typeOf, storage, StorageType, getTextFromOptions, needParam } from "@/utils";
+import { defaultEmptyStr } from "@/core/config";
 import { CommonObj, StrNum, OptionItem } from "@/core/_types";
 import { GetMockCommon } from "@/api-mock";
 
@@ -31,11 +32,11 @@ function getStorageDictData(name: DictName) {
 }
 
 // 获取下拉项的文本（只可能是select）
-function getSelectText(map: DictObj = needParam(), code: StrNum = needParam(), emptyChar = emptyStr) {
+function getSelectText(map: DictObj = needParam(), code: StrNum = needParam(), emptyChar = defaultEmptyStr) {
   return map[code]?.text || emptyChar;
 }
 // 获取数组的文本，包含：select、cascader、tree
-function getCascaderText(list: OptionItem[] = needParam(), codes: StrNum[] = needParam(), emptyChar = emptyStr) {
+function getCascaderText(list: OptionItem[] = needParam(), codes: StrNum[] = needParam(), emptyChar = defaultEmptyStr) {
   if (!list?.length) return emptyChar;
   return getTextFromOptions(list as OptionItem[], codes, undefined, emptyChar);
 }
@@ -104,7 +105,7 @@ export default () => {
   function getText(
     name: DictName | DictObj = needParam(),
     code: StrNum | StrNum[] = needParam(),
-    emptyChar = emptyStr,
+    emptyChar = defaultEmptyStr,
     level = 0
   ): string | Promise<any> {
     const currMap = getMap(name);
@@ -122,7 +123,12 @@ export default () => {
    * @param {string[]} includeKeys  过滤时要包含的keys
    * @param {boolean} isExclude  是否排除掉要包含的keys
    */
-  function getOpts(name: DictName | DictObj, includeKeys?: StrNum[], isExclude?: boolean, level = 0): OptionItem[] | Promise<any> {
+  function getOpts(
+    name: DictName | DictObj,
+    includeKeys?: StrNum[],
+    isExclude?: boolean,
+    level = 0
+  ): OptionItem[] | Promise<any> {
     const currMap = getMap(name);
     const t = typeOf(currMap);
     if (isAfterCalRes(t, level)) setMap(name as DictName, currMap);

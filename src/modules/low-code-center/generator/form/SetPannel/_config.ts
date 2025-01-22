@@ -1,6 +1,7 @@
 import { CommonObj, OptionItem } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
-import { defaultFormItemType, sortObjArrByKey, typeOf } from "@/utils";
+import { sortObjArrByKey, typeOf } from "@/utils";
+import { defaultFormItemType } from "@/core/config";
 import _ from "lodash";
 
 const { merge } = _;

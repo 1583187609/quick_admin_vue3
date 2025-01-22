@@ -1,7 +1,8 @@
 import { reactive } from "vue";
 import { defineStore } from "pinia";
 import { CommonObj, CommonSize, ShowCodes, ThemeName } from "@/core/_types";
-import { checkObjKeyError, defaultCommonSize, defaultThemeName, showMessage, storage } from "@/utils";
+import { checkObjKeyError, showMessage, storage } from "@/utils";
+import { defaultCommonSize, defaultLanguage, defaultLayouType, defaultThemeName } from "@/core/config";
 
 export type LayoutType = "vertical" | "classics" | "horizontal" | "columns";
 export type SetName = keyof typeof defaultSet;
@@ -39,12 +40,12 @@ interface DefaultSet {
 export const defaultSet: DefaultSet = {
   //布局
   layout: {
-    type: "columns",
+    type: defaultLayouType,
     size: defaultCommonSize,
   },
   //语言
   language: {
-    type: "zh",
+    type: defaultLanguage,
   },
   //菜单设置
   menu: {

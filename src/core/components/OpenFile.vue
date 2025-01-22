@@ -4,11 +4,11 @@
 -->
 <template>
   <a :href="url" class="open-file" target="_blank" download>
-    <slot>{{ emptyStr }}</slot>
+    <slot>{{ defaultEmptyStr }}</slot>
   </a>
 </template>
 <script lang="ts" setup>
-import { emptyStr } from "@/core/utils";
+import { defaultEmptyStr } from "@/core/config";
 // <a href="https://github.com/progit/progit2-zh/releases/download/2.1.62/progit.pdf"><img width="50px" src="/images/pdf.png"></a>
 const props = withDefaults(
   defineProps<{

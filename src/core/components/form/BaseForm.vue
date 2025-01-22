@@ -75,11 +75,11 @@ import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
-import config from "@/config";
+import config from "@/core/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import { useFormAttrs } from "@/hooks";
 import _ from "lodash";
-import { omitAttrs } from "@/utils";
+import { isDev } from "@/core/consts";
 
 const { merge } = _;
 
@@ -130,6 +130,7 @@ const props = withDefaults(
   }>(),
   {
     styleType: "common",
+    log: isDev,
     modelValue: () => reactive({}),
     // grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
     footer: true,

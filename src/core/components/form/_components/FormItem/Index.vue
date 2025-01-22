@@ -30,7 +30,11 @@
       <template v-if="is === 'select'">
         <!-- 分组下拉项 -->
         <template v-if="newFiled?.attrs?.options?.find(it => !!it.children)">
-          <el-option-group v-for="(gItem, gInd) in newFiled?.attrs?.options" v-bind="deleteAttrs(gItem, ['slots', 'children'])" :key="gInd">
+          <el-option-group
+            v-for="(gItem, gInd) in newFiled?.attrs?.options"
+            v-bind="deleteAttrs(gItem, ['slots', 'children'])"
+            :key="gInd"
+          >
             <!-- <template #[key]="scope" v-for="(val, key) in getSlotsMap((gItem as OptionItem).slots)" :key="key"> -->
             <el-option v-bind="deleteAttrs(opt, ['slots'])" v-for="(opt, ind) in gItem.children" :key="ind">
               <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
@@ -42,7 +46,11 @@
         </template>
         <!-- 不分组下拉项 -->
         <template v-else>
-          <el-option v-bind="deleteAttrs(opt  as OptionItem, ['slots'])" v-for="(opt, ind) in newFiled?.attrs?.options" :key="ind">
+          <el-option
+            v-bind="deleteAttrs(opt  as OptionItem, ['slots'])"
+            v-for="(opt, ind) in newFiled?.attrs?.options"
+            :key="ind"
+          >
             <template #[key]="scope" v-for="(val, key) in getSlotsMap((opt as OptionItem).slots)" :key="key">
               <BaseRender :renderData="val" :scope="scope" :option="opt" />
             </template>
@@ -81,7 +89,8 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { OptionItem } from "@/core/_types";
-import { defaultFormItemType, deleteAttrs, getSlotsMap, typeOf } from "@/core/utils";
+import { deleteAttrs, getSlotsMap, typeOf } from "@/core/utils";
+import { defaultFormItemType } from "@/core/config";
 import { useDict } from "@/hooks";
 import { DictName } from "@/dict/_types";
 import { FormFieldAttrs } from "../FieldItem/_types";

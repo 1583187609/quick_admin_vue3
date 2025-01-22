@@ -2,7 +2,14 @@
   将字段分区块展示。继承并扩展了基础表单（BaseForm），提供了展开/折叠，多级属性设置覆盖等功能。
 -->
 <template>
-  <el-form class="section-form f-fs-s-c" v-bind="defaultFormAttrs" :class="styleType" :model="formData" @keyup.enter="handleEnter" ref="formRef">
+  <el-form
+    class="section-form f-fs-s-c"
+    v-bind="defaultFormAttrs"
+    :class="styleType"
+    :model="formData"
+    @keyup.enter="handleEnter"
+    ref="formRef"
+  >
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <!-- <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
@@ -155,14 +162,13 @@ import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
-import config from "@/config";
-import { useFormAttrs, useNextCallback, usePopup } from "@/core/hooks";
+import config from "@/core/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
+import { isDev } from "@/core/consts";
 
 const { merge } = _;
 
-const { closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     /**
@@ -213,6 +219,7 @@ const props = withDefaults(
     bodyClass: "f-fs-fs-w",
     styleType: "common",
     // grid: 24,
+    log: isDev,
     footer: true,
     omits: true,
     foldable: true,
@@ -274,7 +281,12 @@ function toggleFold(e: any, ind: number) {
 function getLevelsAttrs(field, sItem) {
   const { attrs = {}, quickAttrs = {} } = field;
   const { size = attrs?.size ?? $attrs.size, labelWidth = field?.labelWidth ?? $attrs.labelWidth } = attrs;
-  const { grid = quickAttrs?.grid ?? $attrs.grid, readonly = $attrs.readonly, pureText = $attrs.pureText, disabled = attrs.disabled } = quickAttrs;
+  const {
+    grid = quickAttrs?.grid ?? $attrs.grid,
+    readonly = $attrs.readonly,
+    pureText = $attrs.pureText,
+    disabled = attrs.disabled,
+  } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }
 //处理表单的enter时间

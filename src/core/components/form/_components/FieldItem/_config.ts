@@ -1,78 +1,67 @@
 import { CommonObj } from "@/core/_types";
 import { FormFieldAttrs, FormTplType } from "@/core/components/form/_types";
-import { getExportData, rangeJoinChar, regexp } from "@/core/utils";
-// import { defaultFormItemDateFormat, defaultFormItemDateValueFormat } from "@/core/utils";
+import { defaultRegexp } from "@/core/config";
+import { defaultRangeJoinChar } from "@/core/config";
 import config from "@/config";
-import _ from "lodash";
-
-const { snakeCase, cloneDeep } = _;
-const formCfg = config?.form;
 
 //日期快捷方式
-export const defaultDateShortcuts = getExportData(
-  [
-    {
-      text: "今天",
-      value: new Date(),
-    },
-    {
-      text: "昨天",
-      value: () => {
-        const date = new Date();
-        date.setTime(date.getTime() - 3600 * 1000 * 24);
-        return date;
-      },
-    },
-    {
-      text: "一周内",
-      value: () => {
-        const date = new Date();
-        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        return date;
-      },
-    },
-  ],
-  formCfg?.defaultDateShortcuts,
-  "alert"
-);
+// const defaultDateShortcuts = config.element?.datePicker?.shortcuts?.date ?? [
+//   {
+//     text: "今天",
+//     value: new Date(),
+//   },
+//   {
+//     text: "昨天",
+//     value: () => {
+//       const date = new Date();
+//       date.setTime(date.getTime() - 3600 * 1000 * 24);
+//       return date;
+//     },
+//   },
+//   {
+//     text: "一周内",
+//     value: () => {
+//       const date = new Date();
+//       date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+//       return date;
+//     },
+//   },
+// ];
 
 //日期区间快捷方式
-export const defaultDateRangeShortcuts = getExportData(
-  [
-    {
-      text: "近一周",
-      value: () => {
-        const end = new Date();
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-        return [start, end];
-      },
+const defaultDateRangeShortcuts = config.element?.datePicker?.shortcuts?.dateRange ?? [
+  {
+    text: "近一周",
+    value: () => {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      return [start, end];
     },
-    {
-      text: "近一个月",
-      value: () => {
-        const end = new Date();
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-        return [start, end];
-      },
+  },
+  {
+    text: "近一个月",
+    value: () => {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+      return [start, end];
     },
-    {
-      text: "近三个月",
-      value: () => {
-        const end = new Date();
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-        return [start, end];
-      },
+  },
+  {
+    text: "近三个月",
+    value: () => {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      return [start, end];
     },
-  ],
-  formCfg?.defaultDateRangeShortcuts,
-  "alert"
-);
+  },
+];
 
-const defaultTime = [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)]; // 当选择同一天时，会以[2024-09-03 00:00:00, 2024-09-03 23:59:59]查询
-const rangeMap: CommonObj = {
+// 当选择同一天时，会以[2024-09-03 00:00:00, 2024-09-03 23:59:59]查询
+const defaultTime = config.element?.datePicker?.defaultTime ?? [new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)];
+const dateRangeMap: CommonObj = {
   daterange: {
     text: "日期",
     attrs: {
@@ -84,6 +73,7 @@ const rangeMap: CommonObj = {
   datetimerange: {
     text: "时间",
     attrs: {
+      shortcuts: defaultDateRangeShortcuts,
       defaultTime,
     },
   },
@@ -94,23 +84,17 @@ const rangeMap: CommonObj = {
 };
 
 //覆盖重写el-form-item 的默认属性值
-export const defaultFieldAttrs: CommonObj = getExportData(
+export const defaultFieldAttrs: CommonObj = Object.assign(
   {
     input: {
       attrs: {
         placeholder: "请输入${label}",
-        // maxlength: 30,
         clearable: true,
         showWordLimit: true,
       },
     },
     select: {
       attrs: {
-        // style: {
-        //   // width: "100%",
-        //   minWidth: "150px", // minWidth 在作为表单子项时，是需要设置的，不然宽度会塌陷
-        // },
-        // placeholder: "请选择${label}",
         clearable: true,
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary
         loadingText: "玩命加载中……",
@@ -133,25 +117,22 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     "tree-select": {
       attrs: {
-        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
     },
     cascader: {
       attrs: {
-        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
     },
     "date-picker": {
       attrs: {
-        // style: { width: "100%" },
         type: "daterange", // 'year' | 'years' |'month' | 'months' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'| 'yearrange'
-        rangeSeparator: rangeJoinChar,
-        format: "YYYY-MM-DD", // 显示在输入框中的格式。后续决定是否使用变量： defaultFormItemDateFormat
-        valueFormat: "YYYY-MM-DD", // 绑定值的格式。不指定则绑定值为 Date 对象。后续决定是否使用变量： defaultFormItemDateValueFormat
+        rangeSeparator: defaultRangeJoinChar,
+        format: "YYYY-MM-DD", // 显示在输入框中的格式。
+        valueFormat: "YYYY-MM-DD", // 绑定值的格式。不指定则绑定值为 Date 对象。
         placeholder: "请选择${label}",
         clearable: true,
         getInferredAttrs(field: FormFieldAttrs) {
@@ -162,7 +143,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
           if (format?.includes(" ")) newAttrs.type = "datetimerange";
           const newType = newAttrs.type ?? type;
           if (!newType.endsWith("range")) return newAttrs;
-          const { text, attrs: selfAttrs } = rangeMap[newType];
+          const { text, attrs: selfAttrs } = dateRangeMap[newType];
           newAttrs.startPlaceholder = `开始${text}`;
           newAttrs.endPlaceholder = `结束${text}`;
           Object.assign(newAttrs, selfAttrs);
@@ -172,17 +153,15 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     "time-picker": {
       attrs: {
-        // style: { width: "100%" },
         format: "HH:mm:ss", //显示在输入框中的格式
         valueFormat: "HH:mm:ss", //绑定值的格式。 不指定则绑定值为 Date 对象
         placeholder: "请选择${label}",
-        rangeSeparator: rangeJoinChar,
+        rangeSeparator: defaultRangeJoinChar,
         clearable: true,
       },
     },
     "time-select": {
       attrs: {
-        // style: { width: "100%" },
         placeholder: "请选择${label}",
         clearable: true,
       },
@@ -223,7 +202,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     },
     "input-number": {
       attrs: {
-        // style: { width: "100%" },
         placeholder: "${label}",
         // getInferredAttrs(field: FormFieldAttrs) {
         //   const { style = {} } = field.attrs;
@@ -245,7 +223,6 @@ export const defaultFieldAttrs: CommonObj = getExportData(
     // },
     autocomplete: {
       attrs: {
-        // style: { width: "100%" },
         placeholder: "请输入${label}",
         // maxlength: 30,
         clearable: true,
@@ -259,9 +236,7 @@ export const defaultFieldAttrs: CommonObj = getExportData(
       },
     },
     BaseNumberRange: {
-      attrs: {
-        // style: { width: "100%" },
-      },
+      attrs: {},
     },
     BaseUpload: {
       quickAttrs: {
@@ -269,12 +244,10 @@ export const defaultFieldAttrs: CommonObj = getExportData(
       },
     },
     // BaseEditor: {
-    //   attrs: {
-    //     style: { width: "100%" },
-    //   },
+    //   attrs: { },
     // },
   },
-  formCfg?.defaultFieldAttrs
+  config.tpls?.formItem
 );
 
 /**
@@ -324,7 +297,7 @@ function getFormItemTpls(type: FormTplType = "common") {
     T_Phone: {
       // prop: "phone", // 省略不写，则和键名保持一致
       label: "电话",
-      rules: isQuery ? undefined : [{ pattern: regexp.phone, message: "请输入正确的11位电话号码", trigger: "change" }],
+      rules: isQuery ? undefined : [{ pattern: defaultRegexp.phone, message: "请输入正确的11位电话号码", trigger: "change" }],
       attrs: {
         maxlength: 11,
       },
@@ -337,7 +310,7 @@ function getFormItemTpls(type: FormTplType = "common") {
         : {
             rules: [
               { min: 6, message: "密码长度不能小于6位", trigger: "change" },
-              { pattern: regexp.password, message: "请输入正确的6~16位字母 + 数字组合密码", trigger: "change" },
+              { pattern: defaultRegexp.password, message: "请输入正确的6~16位字母 + 数字组合密码", trigger: "change" },
             ],
             attrs: {
               type: "password",
@@ -353,7 +326,7 @@ function getFormItemTpls(type: FormTplType = "common") {
         ? undefined
         : [
             { min: 15, message: "身份证号长度不能小于15位", trigger: "change" },
-            { pattern: regexp.identity, message: "请输入正确的15~18位身份证号", trigger: "change" },
+            { pattern: defaultRegexp.identity, message: "请输入正确的15~18位身份证号", trigger: "change" },
           ],
       attrs: {
         maxlength: 18,
@@ -362,7 +335,7 @@ function getFormItemTpls(type: FormTplType = "common") {
     //邮箱
     T_Email: {
       label: "邮箱",
-      rules: isQuery ? undefined : [{ pattern: regexp.email, message: "请输入正确的邮箱地址", trigger: "change" }],
+      rules: isQuery ? undefined : [{ pattern: defaultRegexp.email, message: "请输入正确的邮箱地址", trigger: "change" }],
     },
     /***** 数值类 *****/
     T_Number: {
@@ -455,6 +428,7 @@ function getFormItemTpls(type: FormTplType = "common") {
         options: "C_Region",
       },
     },
+    ...config.tpls?.formItem?.(type),
   };
 }
 
@@ -463,18 +437,3 @@ export const defaultFormItemTplsMap = {
   common: getFormItemTpls("common"), // 常规表单（新增/编辑表单、分块表单）表单项字段模板
   query: getFormItemTpls("query"), // 查询表单的表单项模板
 };
-
-/**
- * 获取获取标准的模块数据信息（处理表单项和表格列的模板）
- * @param {string} tpl 模板名称
- * @param {object} tplMap 模板映射
- * @returns {object}
- */
-export function getStandardTplInfo(tpl, tplMap = defaultFormItemTplsMap.common) {
-  let tplInfo = tplMap[tpl];
-  if (!tplInfo) throw new Error(`不存在该模板：${tpl}`);
-  tplInfo = cloneDeep(tplInfo);
-  if (!tplInfo.prop) tplInfo.prop = snakeCase(tpl.slice(2));
-  tplInfo.tpl = tpl;
-  return tplInfo;
-}

@@ -9,9 +9,8 @@
 
 <script lang="ts" setup>
 import * as Icons from "@element-plus/icons-vue";
-import { defaultIconName } from "@/core/utils";
-import { RouteTo, StrNum } from "./_types";
-import { useAttrs } from "vue";
+import { defaultIconName } from "@/core/config";
+import { RouteTo, StrNum } from "@/core/_types";
 import { useRouter } from "vue-router";
 
 export type IconNames = keyof typeof Icons;
@@ -40,7 +39,7 @@ function handleClick(e) {
 .base-icon {
   &.pointer {
     cursor: pointer;
-    &:hover{
+    &:hover {
       color: $color-primary;
     }
   }

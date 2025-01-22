@@ -1,8 +1,7 @@
-import { computed, reactive, ref, watch } from "vue";
-import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
-import { defaultHomePath, storage, toCamelCase } from "@/utils";
+import { storage } from "@/utils";
+import { defaultHomePath } from "@/core/config";
 import { autoMenus } from "@/router/routes/auto";
 export interface RouteItem {
   path: string;

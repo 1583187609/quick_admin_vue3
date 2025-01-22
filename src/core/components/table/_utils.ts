@@ -1,16 +1,9 @@
-import { CommonObj, CommonSize, StrNum } from "@/core/_types";
-import {
-  typeOf,
-  propsJoinChar,
-  renderValue,
-  defaultGroupBtnsMaxNum,
-  getChinaCharLength,
-  defaultCommonSize,
-  isOptimization,
-  emptyStr,
-} from "@/core/utils";
+import { CommonObj, CommonSize } from "@/core/_types";
+import { typeOf, renderValue, getChinaCharLength } from "@/core/utils";
+import { propsJoinChar } from "@/core/consts";
+import { defaultCommonSize, defaultGroupBtnsMaxNum, enableOptimize, defaultEmptyStr } from "@/core/config";
 import { TableCol, TableColAttrs } from "@/core/components/table/_types";
-import { defaultColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
+import { defaultTableColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getStandardGroupBtns } from "@/core/components/crud/BaseCrud/_utils";
@@ -106,7 +99,7 @@ export function flatPropsValue(row: CommonObj, prop: string) {
   let data: CommonObj = row;
   for (const key of keys) {
     data = row[key];
-    if (typeof data === "undefined") return emptyStr;
+    if (typeof data === "undefined") return defaultEmptyStr;
   }
   return data;
 }
@@ -121,7 +114,7 @@ function getSysInferredAttrs(col: TableColAttrs) {
   if (typeof label !== "string") return;
   const colAttrs: TableColAttrs = {};
   // 是否需要处理多级 props
-  const isMultiProps = !isOptimization && prop?.includes(".") && !formatter;
+  const isMultiProps = !enableOptimize && prop?.includes(".") && !formatter;
   if (isMultiProps) colAttrs.formatter = (row: CommonObj) => flatPropsValue(row, prop as string);
   // 如果未设置宽度，则进行推断处理宽度
   const noWidth = !width && !minWidth;
@@ -135,7 +128,7 @@ function getSysInferredAttrs(col: TableColAttrs) {
         };
       }
     }
-    if (!isOptimization) {
+    if (!enableOptimize) {
       if (label?.includes("备注")) Object.assign(colAttrs, defaultTableColTpls.T_Remark);
       // label?.includes("id") && Object.assign(colAttrs, defaultTableColTpls.T_Id);
     }
@@ -155,7 +148,7 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
   // 如果是index、sort、selection、operate几个特殊列
   const isSpecialCol = type && specialColKeys.includes(type as SpecialTableColType);
   const sysInferredAttrs = isSpecialCol ? undefined : getSysInferredAttrs(restCol);
-  const newCol = merge({ visible, exportable }, defaultColumnAttrs, sysInferredAttrs, getInferredAttrs?.(restCol), restCol);
+  const newCol = merge({ visible, exportable }, defaultTableColumnAttrs, sysInferredAttrs, getInferredAttrs?.(restCol), restCol);
   // newCol.width ?? newCol.minWidth ?? (newCol.minWidth = `${newCol.label.length + 1}em`);
   if (isSpecialCol) return { col: newCol, level: 1 };
   if (typeOf(newCol.prop) === "Array") newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);

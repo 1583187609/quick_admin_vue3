@@ -2,13 +2,12 @@
 /*************** 为Base*.vue正常执行逻辑提供的常用的方法 ***************/
 /********************************************************************/
 
-import { regexp, showMessage } from "@/core/utils";
-import _ from "lodash";
-import config from "@/config";
-import type { ConfigMergeStrategy } from "@/config/_types";
+import { showMessage } from "@/core/utils";
+import { defaultRegexp } from "@/core/config";
+import { propsJoinChar, emptyVals } from "@/core/consts";
 import { BaseDataType, CommonObj, StrNum } from "@/core/_types";
 import { BtnName } from "@/core/components/BaseBtn/_types";
-import { propsJoinChar, emptyVals } from "@/utils";
+import _ from "lodash";
 
 const { merge, cloneDeep } = _;
 
@@ -111,7 +110,7 @@ export function toCamelCase(str: string, isBig = false) {
  */
 export const toCssVal = (val: number | string | undefined, unit = "px") => {
   val = String(val);
-  const isOnlyNum = regexp.onlyNum.test(val);
+  const isOnlyNum = defaultRegexp.onlyNum.test(val);
   return isOnlyNum ? val + unit : val;
 };
 
@@ -131,7 +130,7 @@ export function getCssNum(size?: StrNum) {
  * @returns {string}
  */
 export const getCssValUnit = (val: string) => {
-  const res = val.match(regexp.lowerChar);
+  const res = val.match(defaultRegexp.lowerChar);
   return res ? res[0] : "";
 };
 
@@ -279,11 +278,18 @@ export function getCompNameByRoute(route: CommonObj): string {
 }
 
 /**
- * 处理暴露的数据对象
+ * 处理暴露的数据对象（对于系统内置的对象数据，采用的合并方式）
+ * 合并策略
+ * false：不进行合并；
+ * merge：lodash 的 merge 方法进行合并，深度合并；
+ * assign：JS原生的Object.assign合并，浅合并；
+ * alert：有自定义值就完全采用，没用自定义值就采用系统默认；
+ * auto：自动采用合并类型
  *@param {object} sysData 系统数据
  *@param {object} customData 自定义数据
  */
-export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = config?.mergeStrategy ?? "assign") {
+export type ConfigMergeStrategy = false | "merge" | "assign" | "alert" | "auto";
+export function getExportData(sysData: any, customData?: any, mergeType: ConfigMergeStrategy = "assign") {
   if ([null, undefined].includes(customData)) return sysData;
   if (!mergeType) return customData;
   const isBaseData = ["string", "number", "boolean", "undefined"].includes(typeof sysData); //如果是基础数据类型

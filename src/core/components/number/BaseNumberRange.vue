@@ -2,7 +2,10 @@
 目标：数字区间组件。
 -->
 <template>
-  <div class="base-number-range el-date-editor el-date-editor--daterange el-input__wrapper el-range-editor" :class="`el-range-editor--${size}`">
+  <div
+    class="base-number-range el-date-editor el-date-editor--daterange el-input__wrapper el-range-editor"
+    :class="`el-range-editor--${size}`"
+  >
     <input
       v-model="modelVals[0]"
       class="el-range-input"
@@ -24,16 +27,20 @@
       @input="handleEvent('input', $event, 1)"
       @change="handleEvent('change', $event, 1)"
     />
-    <el-icon class="el-icon el-input__icon el-range__close-icon" :class="{ hidden: !modelVals?.length }" @click="handleEvent('clear')">
+    <el-icon
+      class="el-icon el-input__icon el-range__close-icon"
+      :class="{ hidden: !modelVals?.length }"
+      @click="handleEvent('clear')"
+    >
       <CircleClose />
     </el-icon>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, reactive } from "vue";
 import { useFormItem } from "element-plus";
 import { CircleClose } from "@element-plus/icons-vue";
-import { rangeJoinChar, showMessage } from "@/core/utils";
+import { showMessage } from "@/core/utils";
+import { defaultRangeJoinChar } from "@/core/config";
 import { useFormAttrs } from "@/hooks";
 
 type ValsArr = [number?, number?]; //[StrNumUnd, StrNumUnd]
@@ -55,7 +62,7 @@ const props = withDefaults(
     modelValue: () => reactive([]),
     startPlaceholder: "最小值",
     endPlaceholder: "最大值",
-    rangeSeparator: rangeJoinChar,
+    rangeSeparator: defaultRangeJoinChar,
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "input", "clear", "blur", "focus"]);

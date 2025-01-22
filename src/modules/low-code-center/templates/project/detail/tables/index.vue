@@ -10,8 +10,8 @@
     @operateBtns="onOperateBtns"
   >
     <template #table_name="{ row }">
-      <div>{{ row.cn_name || emptyStr }}</div>
-      <div>{{ row.name || emptyStr }}</div>
+      <div>{{ row.cn_name || defaultEmptyStr }}</div>
+      <div>{{ row.name || defaultEmptyStr }}</div>
     </template>
   </BaseCrud>
 </template>
@@ -19,7 +19,8 @@
 import { GetMockUser, DeleteMockUser } from "@/api-mock";
 import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
-import { emptyStr, handleBtnNext } from "@/utils";
+import { handleBtnNext } from "@/utils";
+import { defaultEmptyStr } from "@/core/config";
 import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";

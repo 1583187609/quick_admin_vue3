@@ -25,7 +25,8 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, onMounted } from "vue";
-import { popupCloseAnimationDuration, showMessage, typeOf } from "@/core/utils";
+import { showMessage, typeOf } from "@/core/utils";
+import { popupCloseAnimationDuration } from "@/core/consts";
 import FootBtns, { FootBtnsType } from "./FootBtns.vue";
 import { BaseRenderData } from "@/core/components/BaseRender.vue";
 // import { useEvent } from "@/core/_hooks";

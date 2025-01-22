@@ -92,7 +92,7 @@ import GenderRatio from "./_components/GenderRatio.vue";
 import OverNextMonth from "./_components/OverNextMonth.vue";
 import PlatformSource from "./_components/PlatformSource.vue";
 import RealTimeTourist from "./_components/RealTimeTourist.vue";
-import { defaultHomePath } from "@/utils";
+import { defaultHomePath } from "@/core/config";
 import dayjs from "dayjs";
 
 const router = useRouter();

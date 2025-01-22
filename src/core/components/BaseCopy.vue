@@ -5,9 +5,13 @@
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy || !textStr">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': +maxLine > 0, hover: textStr && !isClickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!textStr || !to">
-        <span @click="handleClick" class="f-1" :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }">
+        <span
+          @click="handleClick"
+          class="f-1"
+          :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }"
+        >
           <slot v-if="textStr">{{ textStr }}</slot>
-          <template v-else>{{ emptyStr }}</template>
+          <template v-else>{{ defaultEmptyStr }}</template>
         </span>
       </el-tooltip>
       <el-tooltip v-bind="tooltipAttrs" :disabled="!isClickIconCopy" v-if="textStr">
@@ -19,11 +23,10 @@
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
+import { showMessage } from "@/utils";
 import { RouteTo, StrNum } from "@/core/_types";
-import { showMessage, defaultTooltipAttrs, emptyStr } from "@/utils";
+import { defaultTooltipAttrs, defaultEmptyStr } from "@/core/config";
 import { DocumentCopy } from "@element-plus/icons-vue";
-import { useAttrs } from "vue";
 
 const tooltipAttrs = {
   ...defaultTooltipAttrs,

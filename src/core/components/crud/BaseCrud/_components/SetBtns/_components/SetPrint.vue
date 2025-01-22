@@ -2,10 +2,11 @@
   <div class="base-print">打印功能待完善，敬请期待</div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch } from "vue";
-import config from "@/config";
+import config from "@/core/config";
 
-const props = withDefaults(defineProps<{}>(), Object.assign({}, config?.BaseCrud?._components?.SetPrint));
+const props = withDefaults(defineProps<{}>(), {
+  ...config?.BaseCrud?.SetPrint,
+});
 </script>
 <style lang="scss" scoped>
 .base-print {

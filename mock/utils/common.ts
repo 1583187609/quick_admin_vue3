@@ -2,7 +2,8 @@ import { getCascadeLabel, getDictLabel } from "../dict";
 import { CommonObj, OptionItem } from "@/core/_types";
 import { typeOf } from "./base";
 import { getBasePath } from "../_platform/_utils";
-import { deleteAttrs, emptyVals, isDev } from "@/utils";
+import { deleteAttrs } from "@/utils";
+import { emptyVals, isDev } from "@/core/consts";
 import allData from "../data";
 import { dictTextPropKey } from "./consts";
 

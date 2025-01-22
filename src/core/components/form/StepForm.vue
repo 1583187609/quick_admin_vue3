@@ -40,7 +40,7 @@
 import { ref, computed } from "vue";
 import { FormField, FormFieldAttrs, SectionFormItem, SectionFormItemAttrs } from "@/core/components/form/_types";
 import SectionForm from "@/core/components/form/SectionForm.vue";
-import { CommonObj } from "../_types";
+import { CommonObj } from "@/core/_types";
 
 export interface StepItemAttrs {
   title: string;

@@ -1,11 +1,11 @@
 import { CommonObj, CommonSize } from "@/core/_types";
-import { btnsMap } from "@/core/components/BaseBtn";
+import { defaultBtns } from "@/core/components/BaseBtn";
 import { PopconfirmAttrs } from "../_types";
 
-export type BtnAllNames = string & keyof typeof btnsMap;
-// export type BtnAllNames = keyof InstanceType<typeof btnsMap>;
+export type BtnAllNames = string & keyof typeof defaultBtns;
+// export type BtnAllNames = keyof InstanceType<typeof defaultBtns>;
 export interface BtnsAllMap {
-  // [key in keyof btnsMap]: BtnItem;
+  // [key in keyof defaultBtns]: BtnItem;
   [key: string]: BtnItem;
 }
 

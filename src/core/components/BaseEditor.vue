@@ -26,8 +26,8 @@ import { IToolbarConfig, IDomEditor } from "@wangeditor/editor";
 import { showMessage } from "@/core/utils";
 import { useFormItem } from "element-plus";
 import { CommonObj } from "@/core/_types";
-import { isProd, storage } from "@/core/utils";
-import { shallowRef } from "vue";
+import { storage } from "@/core/utils";
+import { isProd } from "@/core/consts";
 import "@wangeditor/editor/dist/css/style.css";
 import _ from "lodash";
 

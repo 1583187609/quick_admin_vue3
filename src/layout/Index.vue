@@ -39,13 +39,11 @@
 // 路由动画：http://www.dearweb.cn/qianduan/dw-333.html
 import TheHead from "./_components/TheHead/Index.vue";
 import TheMenu from "./_components/TheMenu.vue";
-import { ref, reactive, nextTick, provide, computed, h } from "vue";
-import { useRouter, useRoute } from "vue-router";
 import logoImg from "@/assets/images/logo.png";
-import { storage, showMessage, getCompNameByRoute, getIsOver, defaultRefreshDictExpired } from "@/utils";
+import { storage, showMessage, getCompNameByRoute } from "@/utils";
+import { defaultDictValidTime } from "@/core/config";
 import { useMenuStore, useKeepAliveStore, useSetStore } from "@/store";
 import TooltipLabel from "@/layout/_components/TooltipLabel.vue";
-import { useDict } from "@/hooks";
 
 const keepAliveStore = useKeepAliveStore();
 const menuStore = useMenuStore();
@@ -91,7 +89,7 @@ function reloadView(hint = "刷新成功") {
 // // 刷新字典数据
 // function refreshDict() {
 //   const lastTime = storage.getItem("lastRefreshDate");
-//   if (!lastTime || new Date(lastTime).getTime() + defaultRefreshDictExpired < Date.now()) {
+//   if (!lastTime || new Date(lastTime).getTime() + defaultDictValidTime < Date.now()) {
 //     updateStorageDict();
 //   }
 // }

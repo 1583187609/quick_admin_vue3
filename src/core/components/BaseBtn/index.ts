@@ -1,11 +1,10 @@
-import config from "@/config";
+import config from "@/core/config";
 import { getExportData } from "@/core/utils";
 import btns from "./_config";
 
 export * from "./_utils";
 
-const customBtsMap = config?.BaseBtn?.btnsMap;
+const customBts = config?.tpls?.baseBtns;
 
-export const btnsMap = getExportData(btns, customBtsMap, "merge");
-// export const btnsMap = btns;
-export const btnNames = Object.keys(btnsMap);
+export const defaultBtns = getExportData(btns, customBts, "merge");
+export const btnNames = Object.keys(defaultBtns);

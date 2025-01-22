@@ -84,6 +84,7 @@
       </template>
     </QueryTable>
     <Pagination
+      class="mt-h f-0"
       v-model:currPage="currPageInfo[currPageKey]"
       v-model:pageSize="currPageInfo[pageSizeKey]"
       :total="pageInfo.total"
@@ -96,7 +97,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, onMounted, inject } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { FormatterFn, TableCol, TableColAttrs } from "@/core/components/table/_types";
 import ExtraBtns from "./_components/ExtraBtns.vue";
@@ -108,41 +108,44 @@ import { getBtnObj } from "@/core/components/BaseBtn";
 import {
   omitAttrs,
   printLog,
-  propsJoinChar,
-  rangeJoinChar,
   showMessage,
   typeOf,
-  emptyVals,
-  defaultReqResMap,
   showConfirmMessage,
   exportExcel,
-  defaultTableColDateFormat,
-  enableTpl,
+  judgeIsInDialog,
+  splitPropsParams,
 } from "@/core/utils";
-import config from "@/config";
+import { emptyVals, isDev, propsJoinChar } from "@/core/consts";
+import config, {
+  enableTpl,
+  defaultRangeJoinChar,
+  defaultReqResMap,
+  defaultTableColDateFormat,
+  defaultCommonSize,
+  defaultPagination,
+} from "@/core/config";
 import Sortable from "sortablejs";
-import Pagination from "./_components/Pagination.vue";
+import Pagination from "@/core/components/table/_components/Pagination.vue";
 import { getQueryFieldValue } from "./_utils";
 import { ExportCfg } from "./_types";
-import { defaultCommonSize, defaultPagination, judgeIsInDialog, splitPropsParams } from "@/core/utils";
 import { batchBtnNames } from "@/core/components/crud/BaseCrud/_config";
 import { getExportRows } from "@/core/components/crud/BaseCrud/_utils";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, BaseDataType } from "@/core/_types";
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
-import { ClosePopupType, OpenPopupInject } from "@/core/components/BasicPopup/_types";
+import { ClosePopupType } from "@/core/components/BasicPopup/_types";
 import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
 import { KeyValItem, ReqResMap, TriggerGetListType, HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";
 import { ImportCfgAttrs } from "./_components/CommonImport.vue";
-import { defaultFormAttrs, defaultGridAttrs } from "@/core/components/form/_config";
+import { defaultFormAttrs, defaultGridAttrsMap } from "@/core/components/form/_config";
 import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
 import { TableAttrs } from "@/core/components/table/_types";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
 import { operateBtnsEmitName } from "@/core/components/table";
-import { getStandardTplInfo } from "@/core/components/form/_components/FieldItem/_config";
+import { getStandardTplInfo } from "@/core/utils";
 import { cssVars } from "@/utils";
-import _ from "lodash";
 import dayjs from "dayjs";
+import _ from "lodash";
 
 const { merge, cloneDeep, upperFirst } = _;
 const $slots = defineSlots<{
@@ -185,7 +188,6 @@ const props = withDefaults(
     size?: CommonSize; // 整体的控件大小
     readonly?: boolean; // 是否只读
     disabled?: boolean; // 是否禁用
-    optimization?: boolean; // 默认为 false。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算
     /** 请求控制 **/
     log?: boolean | "req" | "res"; // 是否打印console.log(data)
     debug?: boolean; // 是否在打印请求数据之后不执行请求的逻辑
@@ -199,6 +201,7 @@ const props = withDefaults(
   {
     fields: () => [],
     cols: () => [],
+    log: isDev,
     changeFetch: true,
     immediateFetch: true,
     omits: true,
@@ -207,7 +210,7 @@ const props = withDefaults(
     showPagination: true,
     // pagination: () => ({ ...defaultPagination }),
     // reqResMap: () => ({ ...defaultReqResMap }),
-    grid: _props => ({ ...defaultGridAttrs[_props.size ?? defaultCommonSize] }),
+    grid: _props => ({ ...defaultGridAttrsMap[_props.size ?? defaultCommonSize] }),
     handleAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
     formAttrs: () => defaultFormAttrs,
@@ -216,6 +219,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "extraBtns", operateBtnsEmitName, "selectionChange", "rows", "dargSortEnd"]);
+let initParams: CommonObj = {}; // 初始化时的参数（即：第一次请求列表后的参数）
 const baseCrudRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
 const queryTableRef = ref<any>(null);
@@ -224,7 +228,6 @@ const pagination = { ...defaultPagination, ...props.pagination };
 const reqResMap = { ...defaultReqResMap, ...props.reqResMap } as GetRequired<ReqResMap>;
 const { curr_page: currPageKey, page_size: pageSizeKey } = reqResMap;
 const initPageInfo = { [currPageKey]: pagination.currPage, [pageSizeKey]: pagination.pageSize };
-const initParams = { ...initPageInfo, ...extraParams };
 const currPageInfo = reactive<CommonObj>(cloneDeep(initPageInfo));
 const pageInfo = reactive<CommonObj>({ total: 0, hasMore: true });
 const loading = ref(false);
@@ -235,7 +238,7 @@ const modelData = computed({
   set: (val: any) => $emit("update:modelValue", val),
 });
 //请求参数
-let params: CommonObj = cloneDeep(initParams);
+let params: CommonObj = { ...initPageInfo, ...extraParams };
 const newExtraBtns = computed<BtnItem[]>(() => {
   const { extraBtns = [], disabled, handleAuth } = props;
   const btns = extraBtns.map((btn: BaseBtnType) => {
@@ -301,13 +304,6 @@ const newCols = ref<TableColAttrs[]>([]);
 watch(
   () => props.cols,
   newVal => {
-    // const _cols = getStandardColsNew({
-    //   cols: newVal,
-    //   operateBtns: props.props,
-    //   currPage: pagination[currPageKey],
-    //   pageSize: pagination[currPageKey],
-    //   size: props.size,
-    // });
     const _cols = getStandardCols(newVal);
     // 不能使用JSON.stringify，因为它会删除函数的键值对，会导致formatter函数丢失，除非不会用到函数类属性
     originCols = JSON.parse(JSON.stringify(_cols));
@@ -352,7 +348,7 @@ function handleCurrChange(val: number) {
 // 初始化刚准备好时
 function handleReady() {
   merge(params, modelData.value);
-  Object.assign(initParams, params);
+  initParams = JSON.parse(JSON.stringify(params));
   props.immediateFetch && getList(params, undefined, "ready");
 }
 /**
@@ -387,7 +383,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
         if (t === "Boolean") {
           newRows.value = _currPage === 1 ? newList : [...oldList, ...newList];
         } else if (t === "Function") {
-          newRows.value = summaryList(_currPage, oldList, newList);
+          newRows.value = (summaryList as Function)(_currPage, oldList, newList);
         } else {
           throw new Error(`暂未处理此种类型：${t}`);
         }
@@ -405,23 +401,6 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
       loading.value = false;
     });
 }
-// 显示确认弹窗（渲染html字符串）
-function showConfirmHtmlBox({ btnObj, seledRows, seledKeys, cols, total, next, isSeledAll, $emit, e }) {
-  const { name = "", text, attrs, handleClickType } = btnObj;
-  const colorType = attrs?.type || "primary";
-  const colorKey = `color${upperFirst(colorType)}`;
-  const color = cssVars[colorKey];
-  const style = `style="color:${color};"`;
-  const len = isSeledAll ? total : seledRows.length;
-  const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
-  showConfirmMessage(hintTips, colorType).then(() => {
-    if (name === "export" && handleClickType === "common") {
-      const _newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
-      return exportExcel(getExportRows(_newCols, seledRows));
-    }
-    $emit("extraBtns", name, next, { selectedKeys: seledKeys, selectedRows: seledRows }, e);
-  });
-}
 // 获取带刷新功能的新next回调函数
 function getRefreshNext(next: FinallyNext) {
   return (hint?: string, closeType?: ClosePopupType, cb?: () => void, isRefreshList = true) => {
@@ -432,7 +411,7 @@ function getRefreshNext(next: FinallyNext) {
 // 点击额外的按钮
 function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Event) {
   const newNext = getRefreshNext(next);
-  const { name = "", text, handleClickType } = btnObj;
+  const { name = "", text, handleClickType, attrs } = btnObj;
   if (!handleClickType || !batchBtnNames.includes(name)) {
     return $emit("extraBtns", name, newNext, { selectedKeys: [], selectedRows: [] }, e);
   }
@@ -444,35 +423,29 @@ function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Eve
     return it[key];
   });
   const cols = newCols.value;
-  if (name !== "export") {
-    return showConfirmHtmlBox({
-      btnObj,
-      seledRows: seledRows.value,
-      seledKeys,
-      cols,
-      total,
-      e,
-      isSeledAll: seledRows.value.length === total,
-      next: newNext,
-      $emit,
+  // 计算出 hintTips 和 colorType
+  const colorType = attrs?.type || "primary";
+  const colorKey = `color${upperFirst(colorType)}`;
+  const color = cssVars[colorKey];
+  const style = `style="color:${color};"`;
+  const isCommonExport = name === "export" && handleClickType === "common";
+  const isSeledAll = seledRows.value.length === total || (isCommonExport ? seledRows.value.length === 0 : false);
+  const len = isSeledAll ? total : seledRows.value.length;
+  const hintTips = `确定 <b ${style}>${text}${isSeledAll ? "全部" : ""}</b> 共 <b ${style}>${len}</b> 条记录吗？`;
+  // 默认的（常用）导出逻辑
+  if (isCommonExport) {
+    const isOverLimit = exportCfg?.limit ? seledRows.value.length > exportCfg.limit : false;
+    if (isOverLimit) {
+      const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
+      return showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
+    }
+    return showConfirmMessage(hintTips, colorType).then(() => {
+      const _newCols = cols.filter((it: TableColAttrs) => !(it as TableColAttrs)?.prop?.startsWith("$"));
+      return exportExcel(getExportRows(_newCols, seledRows.value));
     });
   }
-  // 导出逻辑
-  const isOverLimit = exportCfg?.limit ? seledRows.value.length > exportCfg.limit : false;
-  if (isOverLimit) {
-    const htmlMsg = `单次${text}不能超过 <b>${exportCfg!.limit}</b> 条，请缩小查询范围！`;
-    return showMessage({ message: htmlMsg, dangerouslyUseHTMLString: true }, "warning");
-  }
-  showConfirmHtmlBox({
-    btnObj,
-    seledRows: seledRows.value,
-    seledKeys,
-    cols,
-    total,
-    e,
-    isSeledAll: seledRows.value.length === 0 || seledRows.value.length === total,
-    next: newNext,
-    $emit,
+  showConfirmMessage(hintTips, colorType).then(() => {
+    $emit("extraBtns", name, next, { selectedKeys: seledKeys, selectedRows: seledRows }, e);
   });
 }
 
@@ -547,7 +520,7 @@ defineExpose({
       if (!target || (!minVal && !maxVal)) return;
       queryFields.push({
         label: target.label,
-        value: [minVal, maxVal].join(rangeJoinChar),
+        value: [minVal, maxVal].join(defaultRangeJoinChar),
       });
     });
     return queryFields;

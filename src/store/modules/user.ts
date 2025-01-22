@@ -1,7 +1,8 @@
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { PostMockUserLogin, PostMockUserLogout } from "@/api-mock";
-import { storage, defaultHomePath, defaultIconName, defaultLoginExpired } from "@/utils";
+import { storage } from "@/utils";
+import { defaultHomePath, defaultIconName, defaultLoginValidTime } from "@/core/config";
 import { CommonObj } from "@/core/_types";
 import { ElNotification, dayjs } from "element-plus";
 import { defineStore } from "pinia";
@@ -52,7 +53,7 @@ export default defineStore("user", () => {
       return item;
     });
   }
-  async function handleLoginIn(data: CommonObj, expiration = defaultLoginExpired) {
+  async function handleLoginIn(data: CommonObj, expiration = defaultLoginValidTime) {
     const { remember, ...params } = data;
     if (remember) {
       storage.setItem("rememberAccount", params);

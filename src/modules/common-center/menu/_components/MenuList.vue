@@ -11,7 +11,7 @@
   >
     <template #icon="{ row }">
       <BaseIcon :name="row.icon" size="22" v-if="row.icon" />
-      <template v-else>{{ emptyStr }}</template>
+      <template v-else>{{ defaultEmptyStr }}</template>
     </template>
   </BaseCrud>
 </template>
@@ -23,11 +23,12 @@ import { FormField } from "@/core/components/form/_types";
 import { TableCol } from "@/core/components/table/_types";
 import AddEdit from "./AddEdit/Index.vue";
 import { CommonObj, FinallyNext } from "@/core/_types";
-import { emptyStr, handleBtnNext } from "@/utils";
-import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
+import { handleBtnNext } from "@/utils";
+import { defaultEmptyStr } from "@/core/config";
 import { usePopup } from "@/hooks";
 import { getFilterList, getListTotal, getNavsTree } from "#/mock/utils";
 import { autoMenus } from "@/router/routes/auto";
+import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
 
 export type MenuListType = "automate" | "dynamic";
 

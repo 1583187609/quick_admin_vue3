@@ -2,11 +2,13 @@
 /**************** 系统级别的方法，可能因工程改变而改变 ****************/
 /********************************************************************/
 
-import { ThemeColorType, emptyStr, needParam, typeOf } from "@/core/utils";
+import { emptyVals } from "@/core/consts";
+import { defaultEmptyStr } from "@/core/config";
+import { ThemeColorType, needParam, typeOf } from "@/core/utils";
 import { CommonObj, GetRequired, OptionItem, StrNum } from "@/core/_types";
-import { emptyVals } from "@/utils";
 import { cssVars } from "@/utils";
 import dayjs from "dayjs";
+import { defaultFormItemTplsMap } from "@/core/components/form/_components/FieldItem/_config";
 import _ from "lodash";
 import * as xlsx from "xlsx";
 
@@ -16,7 +18,7 @@ interface OptionPropsMap {
   children?: string;
 }
 
-const { upperFirst, snakeCase } = _;
+const { upperFirst, snakeCase, cloneDeep } = _;
 const defaultOptionPropsMap: GetRequired<OptionPropsMap> = {
   label: "label",
   value: "value",
@@ -148,7 +150,7 @@ export function getLabelFromOptionsByLastValue(
   options: CommonObj[],
   val: StrNum,
   propsMap?: OptionPropsMap,
-  emptyChar = emptyStr
+  emptyChar = defaultEmptyStr
 ) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   let target: CommonObj | undefined;
@@ -180,7 +182,7 @@ export function getLabelFromOptionsByAllValues(
   options: CommonObj[] = [],
   values: StrNum[],
   propsMap?: OptionPropsMap,
-  emptyChar = emptyStr,
+  emptyChar = defaultEmptyStr,
   joinChar = "，"
 ) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
@@ -206,7 +208,12 @@ export function getLabelFromOptionsByAllValues(
  * 获取select、cascader、tree下拉项中的文本
  * @param {OptionPropsMap} propsMap 属性名映射
  */
-export function getTextFromOptions(options: CommonObj[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = emptyStr) {
+export function getTextFromOptions(
+  options: CommonObj[],
+  val: StrNum | StrNum[],
+  propsMap?: OptionPropsMap,
+  char = defaultEmptyStr
+) {
   if (emptyVals.includes(val as any)) return char;
   const t = typeOf(val);
   if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char, "");
@@ -312,4 +319,19 @@ export const getInputLimitNum = (value: any, min?: number, max?: number, fixNum?
  */
 export function getSysThemeColor(type: ThemeColorType) {
   return cssVars["color" + upperFirst(type)];
+}
+
+/**
+ * 获取获取标准的模块数据信息（处理表单项和表格列的模板）
+ * @param {string} tpl 模板名称
+ * @param {object} tplMap 模板映射
+ * @returns {object}
+ */
+export function getStandardTplInfo(tpl, tplMap = defaultFormItemTplsMap.common) {
+  let tplInfo = tplMap[tpl];
+  if (!tplInfo) throw new Error(`不存在该模板：${tpl}`);
+  tplInfo = cloneDeep(tplInfo);
+  if (!tplInfo.prop) tplInfo.prop = snakeCase(tpl.slice(2));
+  tplInfo.tpl = tpl;
+  return tplInfo;
 }

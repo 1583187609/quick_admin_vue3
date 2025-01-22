@@ -1,7 +1,7 @@
 <!-- 组件 - 分页 -->
 <template>
   <el-pagination
-    class="f-c-c mt-h f-0"
+    class="f-c-c"
     v-model:currentPage="newCurrPage"
     v-model:pageSize="newPageSize"
     :total="total"
@@ -12,8 +12,7 @@
   />
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
-import config from "@/config";
+import config from "@/core/config";
 import { defaultPaginationAttrs } from "@/core/components/table";
 
 const props = withDefaults(
@@ -27,7 +26,7 @@ const props = withDefaults(
     pageSize: 10,
     currPage: 1,
     pageSizes: () => [10, 20, 30, 50, 100],
-    ...config?.BaseCrud?._components?.Pagination,
+    ...config?.Pagination,
   }
 );
 const $emit = defineEmits(["update:currPage", "update:pageSize", "update:sizeChange", "update:currentChange"]);

@@ -15,13 +15,14 @@
 </template>
 <script lang="ts" setup>
 import { reactive, shallowReactive, provide, toRaw } from "vue";
-import { defaultPopupType, isRenderData, showMessage, sortObjArrByKey, typeOf } from "@/utils";
+import { isRenderData, showMessage, sortObjArrByKey, typeOf } from "@/utils";
+import { defaultPopupType, defaultDialogAttrs, defaultDrawerAttrs } from "@/core/config";
+import { popupCloseAnimationDuration } from "@/core/consts";
 import { CommonObj, SetTimeout } from "@/core/_types";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
 import BasicDrawer from "./_components/BasicDrawer.vue";
 import { BaseRenderData } from "@/core/components/BaseRender.vue";
-import { popupCloseAnimationDuration, defaultDialogAttrs, defaultDrawerAttrs } from "@/utils";
 import type {
   PopupType,
   DialogId,

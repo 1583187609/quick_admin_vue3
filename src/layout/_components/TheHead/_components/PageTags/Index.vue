@@ -57,17 +57,15 @@
 //获取dom（含v-for中的dom元素）元素参考：https://devpress.csdn.net/viewdesign/643fa7f8986c660f3cf94e6d.html
 //动态清除keep-alive的缓存：https://juejin.cn/post/6844903649517240328
 
-import { ref, watch, onMounted, nextTick, inject } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useEvent } from "@/hooks";
+import { CommonObj } from "@/core/_types";
+import { defaultHomePath } from "@/core/config";
+import { useKeepAliveStore, useSetStore } from "@/store";
+import { storage, copyText, showMessage } from "@/utils";
 import Draggable from "vuedraggable";
 import PageTagItem from "./PageTagItem.vue";
 import { PageTagItemType, MenuItemType } from "./DropMenu.vue";
 import DropMenu from "./DropMenu.vue";
-import { storage, copyText, showMessage } from "@/utils";
-import { CommonObj } from "@/core/_types";
-import { useEvent } from "@/hooks";
-import { defaultHomePath } from "@/utils";
-import { useKeepAliveStore, useSetStore } from "@/store";
 import { DArrowLeft, DArrowRight } from "@element-plus/icons-vue";
 
 const keepAliveStore = useKeepAliveStore();

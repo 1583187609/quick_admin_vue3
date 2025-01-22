@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import { useBaseStore, useKeepAliveStore, useMenuStore, useRouteStore, useUserStore } from "@/store";
-import { defaultHomePath, showMessage, storage } from "@/utils";
+import { showMessage, storage } from "@/utils";
+import { defaultHomePath } from "@/core/config";
 import routes from "./routes";
 import NProgress from "nprogress";
 import { CommonObj } from "@/core/_types";

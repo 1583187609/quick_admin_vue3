@@ -66,9 +66,19 @@
               v-else-if="type === 'operate'"
             />
             <!-- 内嵌自定义表单列，例：UserInfo -->
-            <InsertCustomTableColComps :col="col" :row="{ ...row, $index }" v-else-if="getIsInnerComponent(type as InsertTableColCompsType)" />
+            <InsertCustomTableColComps
+              :col="col"
+              :row="{ ...row, $index }"
+              v-else-if="getIsInnerComponent(type as InsertTableColCompsType)"
+            />
             <!-- 内嵌表单控件列，例：input -->
-            <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-model="row[col.prop as string]" v-else />
+            <InnerExtendTableColComps
+              :col="col"
+              :row="{ ...row, $index }"
+              :refreshList="refreshList"
+              v-model="row[col.prop as string]"
+              v-else
+            />
           </template>
         </template>
       </el-table-column>
@@ -76,14 +86,16 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { propsJoinChar, deleteAttrs, renderValue, getTableColSlots, isOptimization } from "@/core/utils";
+import { deleteAttrs, renderValue, getTableColSlots } from "@/core/utils";
+import { enableOptimize } from "@/core/config";
+import { propsJoinChar } from "@/core/consts";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import OperateBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import InsertCustomTableColComps, { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
 import config from "@/config";
-import { CommonObj, CommonSize, NextArgs } from "@/core/_types";
+import { CommonObj, NextArgs } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
 import UserTime from "./UserTime.vue";
 import { Sort } from "@element-plus/icons-vue";
@@ -103,9 +115,7 @@ const props = withDefaults(
     operateBtnsAttrs?: OperateBtnsAttrs;
     getBtns: (row: CommonObj, rowInd: number) => BtnItem[];
   }>(),
-  {
-    ...config?.BaseCrud?._components?.Column,
-  }
+  {}
 );
 const $emit = defineEmits([operateBtnsEmitName]);
 const { type, prop, formatter, visible, children, attrs, quickAttrs } = toRefs(props.col);
@@ -140,7 +150,7 @@ function getShowMark(scope: CommonObj, markWidth = 20) {
 }
 // 该列是否标记为未联调
 function getIsNoHandle(scope: CommonObj) {
-  if (isOptimization) return false;
+  if (enableOptimize) return false;
   const { _self } = scope;
   const { prop, type } = props.col;
   if ((prop as string).startsWith("$") || type === "slot") return false;

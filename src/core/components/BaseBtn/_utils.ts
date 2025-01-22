@@ -1,6 +1,6 @@
 import * as Icons from "@element-plus/icons-vue";
 import { getSysThemeColor, getUserInfo, typeOf } from "@/core/utils";
-import { btnsMap } from "@/core/components/BaseBtn";
+import { defaultBtns } from "@/core/components/BaseBtn";
 import { CommonObj } from "@/core/_types";
 import { BaseBtnType, BtnItem, EndBtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/core/components/crud/BaseCrud/_types";
@@ -42,7 +42,7 @@ export function getBtnObj(
   const t = typeOf(btn);
   let btnObj: BtnItem = { name: "" };
   if (t === "String") {
-    const targetBtn = btnsMap[btn as BtnName];
+    const targetBtn = defaultBtns[btn as BtnName];
     if (!targetBtn) return { name: btn as string };
     //icon 经过 JSON.parse(JSON.stringify())之后，会删除掉函数等属性，重新渲染时会报错，故做如下处理
     const { icon } = targetBtn.attrs || {};
@@ -51,7 +51,7 @@ export function getBtnObj(
   } else if (t === "Object") {
     if (isStand) return btn as EndBtnItem;
     const { name = needParam() } = btn as BtnItem;
-    btnObj = merge({}, btnsMap[name as string], btn);
+    btnObj = merge({}, defaultBtns[name as string], btn);
   } else if (t === "Function") {
     btnObj = getBtnObj((btn as BtnFn)(row as CommonObj), row);
   }
@@ -101,14 +101,14 @@ export function getBtnObj(
 //   // const $slots = useSlots();
 //   let btnObj: BtnItem = { name: "" };
 //   if (t === "String") {
-//     const targetBtn = btnsMap[btn as BtnName] || Object.assign({}, btnsMap.empty, { text: btn });
+//     const targetBtn = defaultBtns[btn as BtnName] || Object.assign({}, defaultBtns.empty, { text: btn });
 //     //icon 经过 JSON.parse(JSON.stringify())之后，重新渲染时会报错，故做此处理
 //     const { icon } = targetBtn.attrs || {};
 //     btnObj = JSON.parse(JSON.stringify(targetBtn));
 //     btnObj!.attrs!.icon = icon;
 //   } else if (t === "Object") {
 //     const { name } = btn as BtnItem;
-//     btnObj = merge({}, btnsMap[name as string], btn);
+//     btnObj = merge({}, defaultBtns[name as string], btn);
 //     if (btnObj.text === undefined) {
 //       // btnObj.text = $slots.default?.()?.[0]?.children as string;
 //       btnObj.text = "空按钮";

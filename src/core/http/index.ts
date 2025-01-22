@@ -11,7 +11,7 @@ import axios, {
   AxiosResponse,
   CancelTokenSource,
 } from "axios";
-import { typeOf, isDev, storage } from "@/utils";
+import { typeOf, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap, goLogin } from "./_utils";
 import { GetRequired } from "@/core/_types";
 

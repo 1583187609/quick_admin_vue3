@@ -20,12 +20,12 @@ import AddEdit from "./AddEdit.vue";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import { usePopup } from "@/hooks";
-import btnsMap from "@/core/components/BaseBtn/_config";
+import defaultBtns from "@/core/components/BaseBtn/_config";
 import BaseOption from "@/core/components/BaseOption.vue";
 
 const { openPopup } = usePopup();
-const btnTypeOpts = Object.keys(btnsMap).map(it => {
-  const label = btnsMap[it].text;
+const btnTypeOpts = Object.keys(defaultBtns).map(it => {
+  const label = defaultBtns[it].text;
   return { label, value: it, slots: BaseOption };
 });
 const fields: FormField[] = [

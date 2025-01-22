@@ -4,10 +4,10 @@
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { defaultFormItemsTpls, defaultTableColsTpls } from "./_config";
 import { OptionItem } from "@/core/_types";
-import { btnsMap } from "@/core/components/BaseBtn";
+import { defaultBtns } from "@/core/components/BaseBtn";
 import { BtnName } from "@/core/components/BaseBtn/_types";
 import BaseOption from "@/core/components/BaseOption.vue";
 import { FormFieldAttrs } from "@/core/components/form/_types";
@@ -17,8 +17,8 @@ const btnsOpts: OptionItem[] = [
   {
     label: "基础按钮",
     value: 1,
-    children: Object.keys(btnsMap).map((name: BtnName) => {
-      const { text } = btnsMap[name];
+    children: Object.keys(defaultBtns).map((name: BtnName) => {
+      const { text } = defaultBtns[name];
       return { label: text, value: name, slots: BaseOption };
     }),
   },

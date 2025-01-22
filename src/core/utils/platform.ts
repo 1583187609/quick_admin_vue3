@@ -5,7 +5,9 @@
 import { cssVars } from "@/utils";
 import { RendererElement, RendererNode, VNode, h, isVNode, markRaw } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { emptyStr, emptyVals, getChinaCharLength, isDev, storage, typeOf, defaultPopoverAttrs, noAuthPaths } from "@/core/utils";
+import { getChinaCharLength, storage, typeOf } from "@/core/utils";
+import { emptyVals, isDev } from "@/core/consts";
+import { defaultEmptyStr, defaultPopoverAttrs, defaultNoAuthPaths } from "@/core/config";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/core/_types";
@@ -136,7 +138,7 @@ export function devErrorTips(
  * @param color 文本颜色
  */
 export function renderValue(val?: string): string {
-  return emptyVals.includes(val) ? emptyStr : (val as string);
+  return emptyVals.includes(val) ? defaultEmptyStr : (val as string);
 }
 
 /**
@@ -214,10 +216,10 @@ export function handleTableSummary(param: SummaryMethodProps, exceptKeys?: strin
     if (index === 0) return (sums[index] = "合计");
     const values = data.map(item => Number(item[column.property]));
     if (values.every(value => Number.isNaN(value))) {
-      sums[index] = emptyStr; //N/A
+      sums[index] = defaultEmptyStr; //N/A
     } else {
       if (exceptKeys?.includes(column.property)) {
-        sums[index] = emptyStr;
+        sums[index] = defaultEmptyStr;
       } else {
         sums[index] = `${values.reduce((prev, curr) => {
           const value = Number(curr);
@@ -339,7 +341,7 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
 export function getUserInfo(id = ""): CommonObj | null {
   const info = storage.getItem("userInfo");
   const path = location.hash.slice(1);
-  if (!noAuthPaths.some((it: string) => path.startsWith(it)) && !info) {
+  if (!defaultNoAuthPaths.some((it: string) => path.startsWith(it)) && !info) {
     // if (!info) showMessage("检测到未登录异常", "error");
     console.error(`检测到未登录异常，在${location.pathname}：${id}处执行`);
   }

@@ -1,11 +1,12 @@
 <!-- 操作人/操作时间 -->
 <template>
-  <div>{{ renderValue(data[userProp]) }}</div>
+  <div>{{ renderValue(data[userProp ?? ""]) }}</div>
   <div>{{ getTimeStr(renderValue(data[timeProp])) }}</div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/core/types";
-import { emptyStr, renderValue } from "@/core/utils";
+import { CommonObj } from "@/core/_types";
+import { renderValue } from "@/core/utils";
+import { defaultEmptyStr } from "@/core/config";
 import dayjs from "dayjs";
 const props = withDefaults(
   defineProps<{
@@ -20,7 +21,7 @@ const props = withDefaults(
   }
 );
 function getTimeStr(time: any) {
-  if (time === emptyStr) return time;
+  if (time === defaultEmptyStr) return time;
   const { format } = props;
   return format ? dayjs(time).format(format) : time;
 }

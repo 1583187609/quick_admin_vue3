@@ -1,8 +1,10 @@
-import { CommonObj, StrNum } from "@/core/_types";
-import { TableColAttrs } from "@/core/components/table/_types";
-import { BtnItem } from "@/core/components/BaseBtn/_types";
-import { ImportCfgAttrs } from "./_components/CommonImport.vue";
+import { CommonObj } from "@/core/_types";
 
+export interface ExtraBtnRestArgs {
+  selectedKeys: string[];
+  selectedRows: CommonObj[];
+  exportRows: string[][];
+}
 export type FilterAuthItem = number | { code: number; disabled: boolean }; //disabled: 默认false
 export type HandleButtonAuth = (auth: number[]) => boolean;
 export type TriggerGetListType =
