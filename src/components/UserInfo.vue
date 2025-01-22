@@ -1,5 +1,4 @@
 <!-- 组件 - 用户信息 -->
-<!-- :style="{ width: (simple ? 210 : 420) + 'px' }" -->
 <template>
   <div class="user-info f-sb-s" v-if="data">
     <template v-if="simple">
@@ -119,6 +118,7 @@ function toUserDetail() {
 <style lang="scss" scoped>
 .user-info {
   text-align: left;
+  line-height: 1.4em;
 }
 .avatar-box {
   position: relative;
@@ -136,16 +136,16 @@ function toUserDetail() {
   }
 }
 .avatar {
-  height: 120px;
-  width: 120px;
+  height: 8.6em;
+  width: 8.6em;
   border-radius: $radius-light;
   &.simple {
-    height: 70px;
-    width: 70px;
+    height: 5em;
+    width: 5em;
   }
 }
 .nickname {
-  font-size: 15px;
+  font-size: $font-size-main;
   &:hover {
     cursor: pointer;
     color: $color-primary;
@@ -154,9 +154,6 @@ function toUserDetail() {
 }
 .gender {
   margin: 0 $gap-half;
-}
-.age {
-  font-size: 13px;
 }
 .item {
   flex-basis: 50%;

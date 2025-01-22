@@ -3,7 +3,7 @@ import { TableColAttrs } from "@/core/components/table/_types";
 import { getUserInfo, storage } from "@/utils";
 import { defaultCommonSize } from "@/core/config";
 
-// const isProd = import.meta.env.MODE === "prod"; // 应该从@/utils取isProd的值，但是会报错
+// const isProd = process.env.NODE_ENV === "production";
 // const isLog = !isProd;
 
 // 首页地址（默认）

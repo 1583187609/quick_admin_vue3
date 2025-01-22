@@ -480,7 +480,7 @@ const fields = computed<FormField[]>(() => {
       renderData: "这是完全自定义的表单项（不被el-form-item包裹）。设置type:'custom'，然后通过插槽加入",
       // renderData: ["div", { style: "color:green" }, "这是完全自定义的表单项（不被el-form-item包裹）。设置type:'custom'，然后通过插槽加入"],
       attrs: {
-        style: "font-weight:bolder;font-size:16px",
+        style: "font-weight:bolder;font-size:var(--font-size-heavy)",
       },
     },
     {

@@ -148,4 +148,7 @@ const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
     font-size: $font-size-lighter;
   }
 }
+:deep(.el-upload--picture-card) {
+  --el-upload-picture-card-size: 8.6em;
+}
 </style>

@@ -81,16 +81,19 @@
           { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
         }
       }"
+      :pageSizeNum="10"
+      :fetch="GetMockCommon"
       @extraBtns="onExtraBtns"
       @operateBtns="onOperateBtns"
-      :fetch="GetMockCommon"
       :key="`${showFieldsBySection}-${isSimple}`"
       ref="baseCrudRef"
     >
       <template #custom_form_item>【这是自定义的搜索项】</template>
       <template #middle>
         <div class="f-sb-c">
-          <div class="ml-r">此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）</div>
+          <div class="ml-r">
+            此处用作中间插槽（middle）用法示例，也用作查询条件是否按分块显示示例（注意观察查询条件的样式变化）
+          </div>
           <el-form-item class="f-0" label="是否分块展示查询条件" style="margin-bottom: 0">
             <el-radio-group v-model="showFieldsBySection">
               <el-radio v-bind="opt" v-for="(opt, ind) in getOpts('D_YesNoStatus')" :key="ind"></el-radio>
@@ -406,7 +409,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
+                    desc: [
+                      "单个项目的常用组件，采用内嵌至系统的方式。",
+                      "预设了列宽，prop等属性",
+                      "可通过attrs传入UserInfo组件的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -458,7 +465,6 @@ const cols: TableCol[] = [
         prop: "avatar",
         label: "头像",
         tpl: "T_BaseImg",
-        minWidth: 160,
         quickAttrs: {
           // popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
           popover: {
@@ -521,7 +527,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击整个文本域进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -551,7 +561,11 @@ const cols: TableCol[] = [
                 sections: [
                   {
                     name: "描述",
-                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
+                    desc: [
+                      "任意项目的常用组件，采用内置至系统的方式。",
+                      "点击文本跳转页面，点击图标进行复制",
+                      "可通过attrs传入BaseCopy的props属性",
+                    ],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],

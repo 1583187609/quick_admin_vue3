@@ -13,5 +13,6 @@ const props = withDefaults(
     _example_prop: () => ({}),
   }
 );
+console.log(process.env.NODE_ENV, "process.env.NODE_ENV-----");
 </script>
 <style lang="scss" scoped></style>

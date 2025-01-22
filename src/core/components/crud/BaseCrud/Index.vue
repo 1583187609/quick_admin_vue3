@@ -64,11 +64,10 @@
       :data="newRows"
       :total="pageInfo.total"
       :operateBtns="operateBtns"
-      :currPage="pagination ? currPageInfo[currPageKey] : defaultPagination.currPage"
-      :pageSize="pagination ? currPageInfo[pageSizeKey] : defaultPagination.pageSize"
+      :currPage="currPageInfo[currPageKey]"
+      :pageSize="currPageInfo[pageSizeKey]"
       :refreshList="refreshList"
       :disabled="disabled"
-      :size="size"
       :operateBtnsAttrs="operateBtnsAttrs"
       v-bind="tableAttrs"
       @operateBtns="onOperateBtns"
@@ -88,11 +87,9 @@
       v-model:currPage="currPageInfo[currPageKey]"
       v-model:pageSize="currPageInfo[pageSizeKey]"
       :total="pageInfo.total"
-      :size="size"
-      v-bind="pageAttrs"
       @sizeChange="handleSizeChange"
       @currentChange="handleCurrChange"
-      v-if="showPagination && pagination"
+      v-if="pageSizeNum && showPagination"
     />
   </div>
 </template>
@@ -122,7 +119,6 @@ import config, {
   defaultReqResMap,
   defaultTableColDateFormat,
   defaultCommonSize,
-  defaultPagination,
 } from "@/core/config";
 import Sortable from "sortablejs";
 import Pagination from "@/core/components/table/_components/Pagination.vue";
@@ -180,8 +176,7 @@ const props = withDefaults(
     handleAuth?: HandleButtonAuth; // 按钮权限处理逻辑
     tableAttrs?: TableAttrs; // el-table 的属性配置
     /** 分页设置 **/
-    pageAttrs?: CommonObj; // 分页配置
-    pagination?: TablePaginationAttrs; //是否分页
+    pageSizeNum?: number; // 分页大小，如果为0，则不按分页条件查询
     showPagination?: boolean; // 是否显示分页
     /** 整体控制 **/
     omits?: boolean | BaseDataType[]; // 是否剔除掉null, undefined, ""的属性值
@@ -207,8 +202,8 @@ const props = withDefaults(
     omits: true,
     inputDebounce: true,
     showSetBtn: true,
-    showPagination: true,
-    // pagination: () => ({ ...defaultPagination }),
+    pageSizeNum: 20,
+    showPagination: _props => !!_props.pageSizeNum,
     // reqResMap: () => ({ ...defaultReqResMap }),
     grid: _props => ({ ...defaultGridAttrsMap[_props.size ?? defaultCommonSize] }),
     handleAuth: (auth: number[]) => true,
@@ -224,10 +219,9 @@ const baseCrudRef = ref<any>(null);
 const queryFormRef = ref<any>(null);
 const queryTableRef = ref<any>(null);
 const { extraParams = {} } = props;
-const pagination = { ...defaultPagination, ...props.pagination };
 const reqResMap = { ...defaultReqResMap, ...props.reqResMap } as GetRequired<ReqResMap>;
 const { curr_page: currPageKey, page_size: pageSizeKey } = reqResMap;
-const initPageInfo = { [currPageKey]: pagination.currPage, [pageSizeKey]: pagination.pageSize };
+const initPageInfo = { [currPageKey]: 1, [pageSizeKey]: props.pageSizeNum };
 const currPageInfo = reactive<CommonObj>(cloneDeep(initPageInfo));
 const pageInfo = reactive<CommonObj>({ total: 0, hasMore: true });
 const loading = ref(false);
@@ -326,7 +320,7 @@ watch(
 );
 // 搜索
 function handleSearch(data: CommonObj) {
-  pagination && Object.assign(params, { [currPageKey]: 1 });
+  props.pageSizeNum && Object.assign(params, { [currPageKey]: 1 });
   getList(params, undefined, "search");
 }
 // 重置
@@ -337,12 +331,12 @@ function handleAfterReset() {
 }
 // 每页条数变化时
 function handleSizeChange(val: number) {
-  pagination && Object.assign(params, { [currPageKey]: 1, [pageSizeKey]: val });
+  props.pageSizeNum && Object.assign(params, { [currPageKey]: 1, [pageSizeKey]: val });
   getList(params, undefined, "sizeChange");
 }
 // 当前页码变化时
 function handleCurrChange(val: number) {
-  pagination && Object.assign(params, { [currPageKey]: val });
+  props.pageSizeNum && Object.assign(params, { [currPageKey]: val });
   getList(params, undefined, "currChange");
 }
 // 初始化刚准备好时
@@ -359,8 +353,8 @@ function handleReady() {
 function handleChange(changedVals: CommonObj) {
   if (!props.changeFetch) return;
   changedVals = splitPropsParams(changedVals);
-  // merge(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
-  Object.assign(params, changedVals, pagination ? { [currPageKey]: 1 } : undefined);
+  // merge(params, changedVals, props.pageSizeNum ? { [currPageKey]: 1 } : undefined); //用merge合并时，属性值为对象时，不能完成合并，故采用下面的方法进行合并
+  Object.assign(params, changedVals, props.pageSizeNum ? { [currPageKey]: 1 } : undefined);
   getList(params, undefined, "change");
 }
 //获取列表数据
@@ -391,7 +385,7 @@ function getList(args: CommonObj = params, cb?: FinallyNext, trigger: TriggerGet
         newRows.value = newList;
       }
       Object.assign(pageInfo, { total: res[reqResMap.total_num as string], hasMore: res[reqResMap.has_more as string] });
-      pagination && Object.assign(currPageInfo, { [currPageKey]: _currPage, [pageSizeKey]: args[pageSizeKey] });
+      props.pageSizeNum && Object.assign(currPageInfo, { [currPageKey]: _currPage, [pageSizeKey]: args[pageSizeKey] });
       afterSuccess?.(res);
       $emit("rows", newRows.value, args);
       cb?.();

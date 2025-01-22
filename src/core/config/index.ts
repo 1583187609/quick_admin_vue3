@@ -28,7 +28,6 @@ export const defaultTableColDateFormat = date?.format?.tableCol ?? "YYYY-MM-DD H
 
 export const defaultPopupType = popup?.defaultType ?? "dialog"; // 弹窗类型
 
-export const defaultPagination = config.Pagination ?? { currPage: 1, pageSize: 20 };
 export const defaultGroupBtnsMaxNum = config.OperateBtns?.max ?? 3; // 操作按钮最多显示几个按钮（若超出，则会以更多下拉形式呈现按钮）
 
 export const defaultFormItemType = "input";

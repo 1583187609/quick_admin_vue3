@@ -5,19 +5,19 @@
     <div class="f-0 text">
       {{ resData.info?.text || "-" }}
     </div>
-    <BaseIcon class="icon" size="20px" name="CircleCheckFilled" />
+    <BaseIcon class="icon" size="1.5em" name="CircleCheckFilled" />
   </div>
   <div :class="{ success: resData.hasRealName }" class="f-fs-c step-item">
     <div class="f-0 num">2</div>
     <div class="f-0 text" v-if="resData.hasRealName">已实名</div>
     <div class="f-0 text" v-else>未实名</div>
-    <BaseIcon class="icon" size="20px" name="CircleCheckFilled" />
+    <BaseIcon class="icon" size="1.5em" name="CircleCheckFilled" />
   </div>
   <div :class="{ success: resData.hasAuth }" class="f-fs-c step-item">
     <div class="f-0 num">3</div>
     <div class="f-0 text" v-if="resData.hasAuth">已认证</div>
     <div class="f-0 text" v-else>未认证</div>
-    <BaseIcon class="icon" size="20px" name="CircleCheckFilled" />
+    <BaseIcon class="icon" size="1.5em" name="CircleCheckFilled" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -123,12 +123,12 @@ const resData = computed(() => {
   .num {
     margin-right: $gap-qtr;
     color: #fff;
-    font-size: 12px;
+    font-size: $font-size-light;
     font-weight: 500;
     border-radius: 50%;
-    height: 18px;
-    line-height: 18px;
-    width: 18px;
+    height: 1.4em;
+    line-height: 1.4em;
+    width: 1.4em;
     text-align: center;
     background: $color-text-lighter;
   }

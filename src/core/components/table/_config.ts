@@ -35,6 +35,8 @@ export const defaultPaginationAttrs: TablePaginationAttrs = Object.assign(
   {
     // small: true,
     background: true,
+    // defaultPageSize: 20,
+    // defaultCurrentPage: 1,
     layout: "total, sizes, prev, pager, next, jumper",
   },
   config.element?.pagination
@@ -45,6 +47,7 @@ export const defaultPaginationAttrs: TablePaginationAttrs = Object.assign(
  * @notice 特点：模板名称（tpl的值）跟类型名称（type的值）一致
  */
 const defaultOperateColWidthMap = { large: 250, default: 210, small: 170 };
+const defaultBaseImgColWidthMap = { large: 156, default: 136, small: 114 };
 
 const baseTableColTpls: CommonObj = {
   /*** 系统内置基础列 ***/
@@ -95,9 +98,9 @@ const baseTableColTpls: CommonObj = {
     prop: "imgUrl",
     label: "图片",
     type: "BaseImg",
-    minWidth: 136,
+    minWidth: defaultBaseImgColWidthMap[defaultCommonSize],
     attrs: {
-      size: "120",
+      size: "8.6em",
       style: "margin: 0 auto",
     },
   },
