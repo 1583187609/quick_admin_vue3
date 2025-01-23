@@ -1,7 +1,7 @@
 <!-- 组件-可编辑的标签 -->
 <template>
   <div class="add-del-tags f-fs-fs-w">
-    <el-tag class="m-2" @close="handleDel(item, ind)" v-for="(item, ind) in tags" :key="item" closable>{{ item }} </el-tag>
+    <el-tag class="mr-h" @close="handleDel(item, ind)" v-for="(item, ind) in tags" :key="item" closable>{{ item }} </el-tag>
     <template v-if="tags.length < maxNum">
       <el-input
         v-model="inpVal"
@@ -17,16 +17,14 @@
         ref="inpRef"
         v-if="showInp"
       />
-      <el-button class="btn" :icon="Plus" type="primary" plain @click="showInp = true" v-else />
+      <el-button :icon="Plus" type="primary" plain @click="showInp = true" v-else />
     </template>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, watch, nextTick } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
 import { showMessage } from "@/core/utils";
-import { CommonSize } from "@/core/_types";
 
 const { formItem } = useFormItem();
 const props = withDefaults(
@@ -73,11 +71,4 @@ function handleAdd() {
   inpVal.value = "";
 }
 </script>
-<style lang="scss" scoped>
-.btn {
-  // width: 2em;
-  &:not(:last-child) {
-    margin-right: $gap-qtr;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

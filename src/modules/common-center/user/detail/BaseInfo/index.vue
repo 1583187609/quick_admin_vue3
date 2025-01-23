@@ -71,9 +71,16 @@
   <!-- 商业化信息 -->
   <BaseSection class="business-info" title="商业化信息">
     <BaseForm v-model="businessInfoModelData" styleType="cell" pureText :fields="businessInfoFormFields">
-      <template #jbye="{ form }">
-        <el-button @click="openCoinListPopup" :disabled="!form.jbye" type="primary" size="small" style="min-width: 2em" text>
-          {{ form.jbye || 0 }}
+      <template #jbye>
+        <el-button
+          @click="openCoinListPopup"
+          :disabled="!businessInfoModelData.jbye"
+          type="primary"
+          size="small"
+          style="min-width: 2em"
+          text
+        >
+          {{ businessInfoModelData.jbye || 0 }}
         </el-button>
       </template>
     </BaseForm>
@@ -81,7 +88,7 @@
   <!-- 详细信息 -->
   <BaseSection class="detail-info" title="详细信息">
     <template #head-right>
-      <el-tag :type="infoStatusMap['yes'].type" style="margin-right: auto">
+      <el-tag :type="infoStatusMap['yes'].type" class="mr-a ml-h">
         {{ infoStatusMap["yes"].text }}
       </el-tag>
     </template>
@@ -89,15 +96,15 @@
       <template #yyjs>
         <BaseAudio />
       </template>
-      <template #gyw="{ form }">
+      <template #gyw>
         <AboutTitle @submit="openAboutListPopup(1)" />
-        <div>{{ form.gyw }}</div>
+        <div>{{ detailInfoModelData.gyw }}</div>
       </template>
-      <template #wdlxx="{ form }">
+      <template #wdlxx>
         <AboutTitle @submit="openAboutListPopup(2)" type="you" rejected />
-        <div>{{ form.wdlxx }}</div>
+        <div>{{ detailInfoModelData.wdlxx }}</div>
       </template>
-      <template #qghwddf="{ field }">
+      <template #qghwddf>
         <el-tag class="mr-h" v-for="(item, ind) in 3" :key="ind">{{ "北京故宫" + ind }}</el-tag>
       </template>
     </BaseForm>
@@ -155,13 +162,6 @@ const detailInfoModelData = reactive<CommonObj>({
   wdlxx:
     "希望是90后，净身高希望是90后，净身高希望是90后，希望是90后，净身高希望是90后，净身高希望是90后，净身高净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高希望是90后，净身高……",
 });
-const baseInfoColAttrs = {
-  xs: 24, // <768
-  sm: 24, // >=768
-  md: 12, // >=992
-  lg: 8, // >=1200
-  xl: 6, // >=1920
-};
 const baseInfoFormFields: FormFieldAttrs[] = [
   {
     prop: "yhid",
@@ -249,15 +249,25 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     prop: "phcs",
     label: "偏好城市",
     type: "cascader",
+    attrs: {
+      options: "C_Region",
+    },
   },
   {
     prop: "xjd",
     label: "现居地",
     type: "cascader",
+    attrs: {
+      options: "C_Region",
+    },
   },
   {
     prop: "jx",
     label: "家乡",
+    type: "cascader",
+    attrs: {
+      options: "C_Region",
+    },
   },
   {
     prop: "dwcs",
@@ -267,6 +277,9 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     prop: "hjcs",
     label: "户籍城市",
     type: "cascader",
+    attrs: {
+      options: "C_Region",
+    },
   },
   {
     prop: "lyqd",
@@ -280,32 +293,24 @@ const baseInfoFormFields: FormFieldAttrs[] = [
   {
     prop: "zcip",
     label: "注册IP",
-    quickAttrs: {
-      grid: baseInfoColAttrs,
-    },
+    quickAttrs: {},
   },
   {
     prop: "zjdlip",
     label: "最近登录IP",
-    quickAttrs: {
-      grid: baseInfoColAttrs,
-    },
+    quickAttrs: {},
   },
   {
     prop: "zcsj",
     label: "注册时间",
-    quickAttrs: {
-      grid: baseInfoColAttrs,
-    },
+    quickAttrs: {},
   },
   {
     prop: "zjdlsj",
     label: "最近登录时间",
     required: true,
-    attrs: {},
     quickAttrs: {
       popover: "最近登录时间",
-      grid: baseInfoColAttrs,
     },
   },
 ];
@@ -410,6 +415,9 @@ const preferSetFormFields: FormFieldAttrs[] = [
     prop: "ppcs",
     label: "匹配城市",
     type: "cascader",
+    attrs: {
+      options: "C_Region",
+    },
     quickAttrs: {
       grid: 6,
     },
@@ -435,6 +443,10 @@ const preferSetFormFields: FormFieldAttrs[] = [
     prop: "xlyq",
     label: "学历要求",
     type: "select",
+    attrs: {
+      multiple: true,
+      options: "D_EducationType",
+    },
     quickAttrs: {
       grid: 6,
     },
@@ -463,6 +475,9 @@ const preferSetFormFields: FormFieldAttrs[] = [
     prop: "jx",
     label: "家乡",
     type: "cascader",
+    attrs: {
+      options: "C_Region",
+    },
     quickAttrs: {
       grid: 6,
     },
@@ -471,6 +486,9 @@ const preferSetFormFields: FormFieldAttrs[] = [
     prop: "sfsfrz",
     label: "是否身份认证",
     type: "select",
+    attrs: {
+      options: "D_YesNoStatus",
+    },
     quickAttrs: {
       grid: 6,
     },
@@ -522,11 +540,6 @@ function openAboutListPopup(type: number) {
 }
 </script>
 <style lang="scss" scoped>
-.base-section {
-  &:not(:last-child) {
-    margin-bottom: $gap-half;
-  }
-}
 :deep(.img-item) {
   .base-img {
     border-radius: $radius-main;

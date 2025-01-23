@@ -1,20 +1,20 @@
 <!-- 基础树示例 -->
 <template>
   <div class="f-fs-fs">
-    <BaseSection title="空树">
+    <BaseSection :gap="false" title="空树">
       <BaseTree />
     </BaseSection>
-    <BaseSection title="基础树">
+    <BaseSection :gap="false" title="基础树">
       <BaseTree :data="treeData" show-checkbox />
     </BaseSection>
-    <BaseSection title="插槽树">
-      <BaseTree :data="treeData" show-checkbox :slots="[TreeItem, { testProp: 'testProp' }]" style="width: 250px" />
+    <BaseSection :gap="false" title="插槽树">
+      <BaseTree :data="treeData" show-checkbox :slots="[TreeItem, { testProp: 'testProp' }]" />
     </BaseSection>
-    <BaseSection title="懒加载树">
+    <BaseSection :gap="false" title="懒加载树">
       <BaseTree :load="loadNode" :props="treeProps" />
     </BaseSection>
-    <BaseSection title="过滤树">
-      <FilterTree :data="treeData" style="width: 400px" />
+    <BaseSection :gap="false" title="过滤树">
+      <FilterTree :data="treeData" />
     </BaseSection>
   </div>
 </template>

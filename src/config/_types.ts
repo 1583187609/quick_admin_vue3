@@ -2,6 +2,7 @@ import { PopupType } from "@/core/components/BasicPopup/_types";
 import { FormItemType, FormTplType } from "@/core/components/form/_types";
 import { CommonObj, CommonSize, ThemeName } from "@/core/_types";
 import { LanguageTypes, LayoutType } from "@/store/modules/set";
+import { HandleAuthFn } from "@/core/components/BaseBtn/_types";
 
 // 全局配置
 export interface QuickGlobalConfig {
@@ -125,6 +126,7 @@ export interface QuickGlobalConfig {
   // 基础按钮组件
   BaseBtn?: {
     defaultBtns?: CommonObj;
+    handleAuth?: HandleAuthFn;
   };
   // 基础上传组件
   BaseUpload?: CommonObj;

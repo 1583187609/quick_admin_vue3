@@ -36,7 +36,6 @@
   </el-form-item>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
 import { getAddDelItem, getHandleFields } from "@/core/components/form/_utils";
 import { CommonObj, CommonSize } from "@/core/_types";

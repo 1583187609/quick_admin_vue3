@@ -3,7 +3,7 @@
   <div class="page">
     <Setting />
     <div class="row f-sb-s">
-      <BaseSection class="section f-2" title="待办事项" badge="10">
+      <BaseSection :gap="false" class="section f-2" title="待办事项" badge="10">
         <el-tabs v-model="activeName" @tabClick="(tab:any)=>activeName=tab.paneName" type="border-card">
           <el-tab-pane :label="item.label" :name="item.value" v-for="(item, ind) in tabs" :key="ind">
             <BaseCrud
@@ -21,7 +21,7 @@
           </el-tab-pane>
         </el-tabs>
       </BaseSection>
-      <BaseSection class="section f-1" title="消息通知" badge="120">
+      <BaseSection :gap="false" class="section f-1" title="消息通知" badge="120">
         <ul class="notices all-hide-scroll" v-if="20">
           <li class="item f-sb-c" v-for="(item, ind) in 20" :key="ind">
             <div class="f-1">
@@ -33,36 +33,36 @@
       </BaseSection>
     </div>
     <div class="row">
-      <BaseSection class="section f-1" title="通图图表 - 折线图">
+      <BaseSection :gap="false" class="section f-1" title="通图图表 - 折线图">
         <ChartLine :data="chartData.tttb" />
       </BaseSection>
     </div>
     <div class="row f-sb-s">
-      <BaseSection class="section f-1" title="基础万能图 - Chart(带默认配置)">
+      <BaseSection :gap="false" class="section f-1" title="基础万能图 - Chart(带默认配置)">
         <Chart />
       </BaseSection>
-      <BaseSection class="section f-1" title="饼图 - ChartPie">
+      <BaseSection :gap="false" class="section f-1" title="饼图 - ChartPie">
         <ChartPie :data="chartData.bt" />
       </BaseSection>
-      <BaseSection class="section f-1" title="雷达图 - ChartRadar（后续完善）">
+      <BaseSection :gap="false" class="section f-1" title="雷达图 - ChartRadar（后续完善）">
         <ChartRadar />
       </BaseSection>
     </div>
     <div class="row f-sb-s">
-      <BaseSection class="section f-1" title="自定义option - Chart">
+      <BaseSection :gap="false" class="section f-1" title="自定义option - Chart">
         <Chart :option="chartData.zdyopt" />
       </BaseSection>
-      <BaseSection class="section f-1" title="折线图 - ChartLine">
+      <BaseSection :gap="false" class="section f-1" title="折线图 - ChartLine">
         <ChartLine :data="chartData.zxt" />
       </BaseSection>
-      <BaseSection class="section f-1" title="柱状图 - ChartBar（多维度）">
+      <BaseSection :gap="false" class="section f-1" title="柱状图 - ChartBar（多维度）">
         <ChartBar :data="chartData.zztdwd" />
       </BaseSection>
-      <BaseSection class="section f-1" title="柱状图 - ChartBars（多个）">
+      <BaseSection :gap="false" class="section f-1" title="柱状图 - ChartBars（多个）">
         <ChartBars :datas="chartData.zztdg" />
       </BaseSection>
     </div>
-    <BaseSection class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
+    <BaseSection :gap="false" class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
       <MultiCharts :data="chartData.dldt" layout="4x3" log="单例多图" />
     </BaseSection>
   </div>

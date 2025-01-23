@@ -8,8 +8,9 @@
       :data="sysFileTplsTree"
       :slots="[TreeNode, { onAdd: handleAddEdit, onDelete: handleDelete, onEdit: handleAddEdit }]"
       :props="{ class: customNodeClass }"
-      @leafNodeClick="handleLeafNodeClick"
       :filterNodeMethod="handleFilterNodeMethod"
+      :indent="10"
+      @leafNodeClick="handleLeafNodeClick"
     />
   </SectionBox>
 </template>
@@ -115,6 +116,9 @@ function customNodeClass(res: TreeNodeData, node: Node) {
 }
 </script>
 <style lang="scss" scoped>
+.filter-tree {
+  height: 100%;
+}
 :deep(.el-collapse-item__header) {
   padding-left: $gap-half;
 }

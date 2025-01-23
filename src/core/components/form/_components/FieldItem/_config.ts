@@ -99,19 +99,7 @@ export const defaultFieldAttrs: CommonObj = Object.assign(
         tagType: "primary", // 用户标签类型 success/info/warning/danger/primary
         loadingText: "玩命加载中……",
         getInferredAttrs(field: FormFieldAttrs) {
-          const { remote, multiple } = field.attrs || {};
-          let multiAttrs;
-          if (multiple) {
-            multiAttrs = {
-              collapseTags: true,
-              collapseTagsTooltip: true,
-              maxCollapseTags: 2,
-            };
-          }
-          return {
-            placeholder: remote ? "请输入关键字搜索${label}" : "请选择${label}",
-            ...multiAttrs,
-          };
+          return { placeholder: field.attrs?.remote ? "请输入关键字搜索${label}" : "请选择${label}" };
         },
       },
     },
@@ -297,7 +285,7 @@ function getFormItemTpls(type: FormTplType = "common") {
     T_Phone: {
       // prop: "phone", // 省略不写，则和键名保持一致
       label: "电话",
-      rules: isQuery ? undefined : [{ pattern: defaultRegexp.phone, message: "请输入正确的11位电话号码", trigger: "change" }],
+      rules: isQuery ? undefined : [{ pattern: defaultRegexp.phone, message: "请输入11位合法的电话号码" }],
       attrs: {
         maxlength: 11,
       },
@@ -309,8 +297,8 @@ function getFormItemTpls(type: FormTplType = "common") {
         ? { attrs: { maxlength: 16 } }
         : {
             rules: [
-              { min: 6, message: "密码长度不能小于6位", trigger: "change" },
-              { pattern: defaultRegexp.password, message: "请输入正确的6~16位字母 + 数字组合密码", trigger: "change" },
+              { min: 6, message: "密码长度不能小于6位" },
+              { pattern: defaultRegexp.password, message: "请输入正确的6~16位字母 + 数字组合密码" },
             ],
             attrs: {
               type: "password",
@@ -325,8 +313,8 @@ function getFormItemTpls(type: FormTplType = "common") {
       rules: isQuery
         ? undefined
         : [
-            { min: 15, message: "身份证号长度不能小于15位", trigger: "change" },
-            { pattern: defaultRegexp.identity, message: "请输入正确的15~18位身份证号", trigger: "change" },
+            { min: 15, message: "身份证号长度不能小于15位" },
+            { pattern: defaultRegexp.identity, message: "请输入正确的15~18位身份证号" },
           ],
       attrs: {
         maxlength: 18,
@@ -335,12 +323,13 @@ function getFormItemTpls(type: FormTplType = "common") {
     //邮箱
     T_Email: {
       label: "邮箱",
-      rules: isQuery ? undefined : [{ pattern: defaultRegexp.email, message: "请输入正确的邮箱地址", trigger: "change" }],
+      rules: isQuery ? undefined : [{ pattern: defaultRegexp.email, message: "请输入正确的邮箱地址" }],
     },
     /***** 数值类 *****/
     T_Number: {
       label: "数值",
       type: "input",
+      rules: [{ type: "number", message: "必须为数字" }],
       attrs: {
         type: "number",
         // max: 99999,

@@ -1,9 +1,17 @@
-<!-- summary 基础用法 -->
+<!-- 页面-简介 -->
 <template>
-  <div>动态路由</div>
+  <div>页面/菜单权限（待完善）</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
+const props = withDefaults(
+  defineProps<{
+    exampleProp?: CommonObj;
+  }>(),
+  {
+    exampleProp: () => ({}),
+  }
+);
 </script>
 <style lang="scss" scoped></style>

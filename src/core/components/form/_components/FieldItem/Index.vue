@@ -41,18 +41,18 @@
           @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
           @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
           @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
-          v-if="getIsEl(formItemAttrs.type)"
+          v-if="getIsEl(formItemAttrs.type as FormItemType)"
         />
         <component
           v-model="modelVal"
           :is="formItemAttrs.type"
           :class="flexClass"
-          :prefixProp="['BaseAnyEleList', 'BaseAddDelList'].includes(formItemAttrs.type) ? formItemAttrs.prop : undefined"
+          :prefixProp="['BaseAnyEleList', 'BaseAddDelList'].includes(formItemAttrs.type as FormItemType) ? formItemAttrs.prop : undefined"
           v-bind="formItemAttrs.attrs"
           @blur="(val, e) => $emit('blur', val, formItemAttrs.prop, e)"
           @focus="(val, e) => $emit('focus', val, formItemAttrs.prop, e)"
           @change="(val, e) => $emit('change', val, formItemAttrs.prop, e)"
-          v-else-if="getIsBase(formItemAttrs.type)"
+          v-else-if="getIsBase(formItemAttrs.type as FormItemType)"
         />
         <template v-else>{{ throwTplError(`不存在此类型：${formItemAttrs.type}`) }}</template>
       </template>
@@ -77,11 +77,10 @@ import { emptyVals } from "@/core/consts";
 import { defaultRangeJoinChar, defaultEmptyStr, defaultFormItemType } from "@/core/config";
 import { getFormItemSlots, deleteAttrs, throwTplError, getTextFromOpts, getStandardTplInfo } from "@/core/utils";
 import { CommonObj, OptionItem } from "@/core/_types";
-import { Grid, FormField, FormFieldAttrs } from "@/core/components/form/_types";
-import { FormItemRule } from "element-plus";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 import { defaultFieldAttrs, defaultFormItemTplsMap } from "./_config";
 import { useDict } from "@/hooks";
-import { FormItemType, FormTplType } from "./_types";
+import { FormItemType, FormTplType, RuleItem } from "./_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import FormItem from "../FormItem/Index.vue";
 import { typeOf } from "#/mock/utils";
@@ -94,7 +93,6 @@ const props = withDefaults(
     modelValue?: any;
     field: FormFieldAttrs;
     prefixProp?: string;
-    // grid?: Grid;
     pureText?: boolean; //是否展示纯文本
     // disabled?: boolean; //是否禁用
     // readonly?: boolean; //是否只读
@@ -106,7 +104,6 @@ const props = withDefaults(
   }>(),
   {
     tplType: "common",
-    // grid: 24,
   }
 );
 const $emit = defineEmits(["update:modelValue", "blur", "focus", "change"]);
@@ -163,8 +160,8 @@ function getIsBase(type: FormItemType) {
   return code >= 65 && code <= 90;
 }
 //合并表单校验的rules
-function mergeRules(rules: FormItemRule[] = []) {
-  const arr: FormItemRule[] = [];
+function mergeRules(rules: RuleItem[] = []) {
+  const arr: RuleItem[] = [];
   const keys: string[] = ["required", "min", "max", "pattern", "validator"];
   rules.forEach((item: CommonObj) => {
     const { type } = item;
@@ -215,7 +212,7 @@ function getOptionValue(field: FormFieldAttrs, val: any) {
     const { format } = merge({}, defaultFieldAttrs[type]?.attrs, attrs);
     const isArr = typeOf(val) === "Array";
     const joinStr = ` ${defaultRangeJoinChar} `;
-    if (quickAttrs?.pureText || pureText) {
+    if (quickAttrs?.pureText || props.pureText) {
       val = isArr ? val.join(joinStr) : val;
     } else {
       val = isArr ? val.map((it: any) => it.format(format)).join(joinStr) : val?.format(format);

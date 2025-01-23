@@ -78,7 +78,7 @@
           rowInd % 3 === 0 ? 'forbid' : 'enable', { name: 'view', text: '查看', to: `/common-center/user/detail?id=${id}`}]
         }else{
           return ['edit', 'audit', 'reject','delete','download','pass', 'repeal', 'reset', 'log', 
-          { name: 'view', to: {name: 'systemUserDetail', query:{id}}}]
+          { name: 'view', to: {path: '/common-center/user/detail', query:{id}}}]
         }
       }"
       :pageSizeNum="10"

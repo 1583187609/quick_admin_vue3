@@ -4,7 +4,7 @@
       <CustomMsg :data="data" :position="position" />
     </template>
     <template v-else>
-      <BaseAvatar :src="userInfo.avatar" :gender="userInfo.gender" size="40" class="avatar f-0" round />
+      <BaseAvatar :src="userInfo.avatar" :gender="userInfo.gender" size="40" class="avatar f-0" circle />
       <div class="msg-box">
         <template v-if="data.msgType === 'TIMTextElem'">
           {{ data.msgContent.Text }}

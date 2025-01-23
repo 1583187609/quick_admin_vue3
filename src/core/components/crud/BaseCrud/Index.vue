@@ -69,6 +69,7 @@
       :refreshList="refreshList"
       :disabled="disabled"
       :operateBtnsAttrs="operateBtnsAttrs"
+      :handleAuth="handleAuth"
       v-bind="tableAttrs"
       @operateBtns="onOperateBtns"
       @selectionChange="handleSelectionChange"
@@ -95,12 +96,12 @@
 </template>
 <script lang="ts" setup>
 import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
-import { FormatterFn, TableCol, TableColAttrs } from "@/core/components/table/_types";
+import { TableCol, TableColAttrs } from "@/core/components/table/_types";
 import ExtraBtns from "./_components/ExtraBtns.vue";
 import SetBtns from "./_components/SetBtns/Index.vue";
 import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.vue";
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
-import { BaseBtnType, BtnItem, BtnName, EndBtnItem } from "@/core/components/BaseBtn/_types";
+import { BaseBtnType, BtnItem, BtnName, EndBtnItem, HandleAuthFn } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import {
   omitAttrs,
@@ -113,13 +114,7 @@ import {
   splitPropsParams,
 } from "@/core/utils";
 import { emptyVals, isDev, propsJoinChar } from "@/core/consts";
-import config, {
-  enableTpl,
-  defaultRangeJoinChar,
-  defaultReqResMap,
-  defaultTableColDateFormat,
-  defaultCommonSize,
-} from "@/core/config";
+import config, { defaultRangeJoinChar, defaultReqResMap, defaultCommonSize } from "@/core/config";
 import Sortable from "sortablejs";
 import Pagination from "@/core/components/table/_components/Pagination.vue";
 import { getQueryFieldValue } from "./_utils";
@@ -130,18 +125,19 @@ import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_comp
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, BaseDataType } from "@/core/_types";
 import { SectionFormItemAttrs, FormAttrs } from "@/core/components/form/_types";
 import { ClosePopupType } from "@/core/components/BasicPopup/_types";
-import { SummaryListType, TablePaginationAttrs } from "@/core/components/table/_types";
-import { KeyValItem, ReqResMap, TriggerGetListType, HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";
-import { ImportCfgAttrs } from "./_components/CommonImport.vue";
+import { SummaryListType } from "@/core/components/table/_types";
+import { KeyValItem, ReqResMap, TriggerGetListType } from "@/core/components/crud/BaseCrud/_types";
 import { defaultFormAttrs, defaultGridAttrsMap } from "@/core/components/form/_config";
-import { defaultTableAttrs, defaultTableColTpls } from "@/core/components/table/_config";
+import { defaultTableAttrs } from "@/core/components/table/_config";
 import { TableAttrs } from "@/core/components/table/_types";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
-import { operateBtnsEmitName } from "@/core/components/table";
-import { getStandardTplInfo } from "@/core/utils";
+import { getStandardCols, operateBtnsEmitName } from "@/core/components/table";
 import { cssVars } from "@/utils";
-import dayjs from "dayjs";
+import { usePopup } from "@/hooks";
+import { ImportCfgAttrs } from "@/core/components/BaseBtn/_components/CommonImport.vue";
 import _ from "lodash";
+
+const CommonImport = defineAsyncComponent(() => import("@/core/components/BaseBtn/_components/CommonImport.vue"));
 
 const { merge, cloneDeep, upperFirst } = _;
 const $slots = defineSlots<{
@@ -151,6 +147,8 @@ const $slots = defineSlots<{
   "[formItem]": () => void; // 表单项插槽
   "[colItem]": () => void; // 表格列插槽
 }>();
+
+const { openPopup, closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     /** 顶部表单 **/
@@ -173,7 +171,7 @@ const props = withDefaults(
     cols?: TableCol[]; //表格列数据
     operateBtns?: OperateBtnsType; //操作栏的分组按钮，在表格的操作一栏
     operateBtnsAttrs?: OperateBtnsAttrs; // 操作栏按钮的配置
-    handleAuth?: HandleButtonAuth; // 按钮权限处理逻辑
+    handleAuth?: HandleAuthFn; // 按钮权限处理逻辑
     tableAttrs?: TableAttrs; // el-table 的属性配置
     /** 分页设置 **/
     pageSizeNum?: number; // 分页大小，如果为0，则不按分页条件查询
@@ -206,7 +204,6 @@ const props = withDefaults(
     showPagination: _props => !!_props.pageSizeNum,
     // reqResMap: () => ({ ...defaultReqResMap }),
     grid: _props => ({ ...defaultGridAttrsMap[_props.size ?? defaultCommonSize] }),
-    handleAuth: (auth: number[]) => true,
     exportCfg: () => ({ limit: 10000 }),
     formAttrs: () => defaultFormAttrs,
     tableAttrs: () => defaultTableAttrs,
@@ -257,41 +254,6 @@ const newExtraBtns = computed<BtnItem[]>(() => {
   });
   return getHandleAuthBtns(btns, handleAuth);
 });
-/**
- * 获取 el-table-column 的标准 formatter 函数（目前只针对日期列进行格式化处理，后续再扩展）
- * @param {any} formatter 日期格式化(目前只处理了 true 和字符串类型)
- */
-function getStandardFormatter(formatter: any): FormatterFn {
-  let t = typeOf(formatter);
-  if (t === "Boolean") {
-    formatter = defaultTableColDateFormat;
-    t = "String";
-  }
-  if (t === "String") return (row: CommonObj, column?: TableColumnCtx<any>) => dayjs(row[column.property]).format(formatter);
-  if (t === "Function") return formatter;
-  throw new Error(`暂未处理此类型：${t}`);
-}
-/**
- * 获取标准的表格列数据
- */
-function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
-  const filterCols = cols.filter(it => !!it);
-  return filterCols.map((originCol: any) => {
-    let { tpl, ...col } = originCol;
-    if (enableTpl) {
-      const { type } = col;
-      if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
-      if (tpl) {
-        const tplData = getStandardTplInfo(tpl, defaultTableColTpls);
-        col = merge(tplData, col);
-      }
-    }
-    const { children, formatter } = col as TableColAttrs;
-    if (formatter) col.formatter = getStandardFormatter(formatter);
-    if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
-    return col;
-  });
-}
 let originCols: TableColAttrs[] = [];
 let dragSortable = false;
 const newCols = ref<TableColAttrs[]>([]);
@@ -406,9 +368,16 @@ function getRefreshNext(next: FinallyNext) {
 function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Event) {
   const newNext = getRefreshNext(next);
   const { name = "", text, handleClickType, attrs } = btnObj;
+  // 默认的导入文件
+  if (name === "import" && handleClickType) {
+    if (handleClickType !== "common") throw new Error(`暂未提供其他导入组件模板`);
+    return openPopup("导入文件", [CommonImport, props.importCfg]);
+  }
+  // 如果是自定义逻辑或者不是批量处理的按钮
   if (!handleClickType || !batchBtnNames.includes(name)) {
     return $emit("extraBtns", name, newNext, { selectedKeys: [], selectedRows: [] }, e);
   }
+
   const { total } = pageInfo;
   const { exportCfg, tableAttrs } = props;
   const { rowKey } = tableAttrs;
@@ -476,7 +445,7 @@ function handleDragSort(ele = queryTableRef?.value.tableRef?.$el?.querySelector(
 
 onMounted(() => {
   // judgeIsInDialog("basic-dialog");
-  handleDragSort(); // 待完善拖拽排序
+  dragSortable && handleDragSort();
 });
 
 defineExpose({

@@ -49,7 +49,7 @@
         </div>
         <el-dropdown ref="dropdownRef">
           <span class="el-dropdown-link">
-            <BaseAvatar :src="user?.avatar" size="3em" :preview="false" round />
+            <BaseAvatar :src="user?.avatar" size="3em" :preview="false" circle />
           </span>
           <template #dropdown>
             <el-dropdown-menu>

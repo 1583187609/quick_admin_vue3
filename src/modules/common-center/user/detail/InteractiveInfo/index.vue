@@ -107,12 +107,6 @@ const props = withDefaults(
 );
 </script>
 <style lang="scss" scoped>
-.base-section {
-  &:not(:last-child) {
-    margin-bottom: $gap-half;
-  }
-}
-
 .inter-statistics {
   .group {
     padding: $gap 0;

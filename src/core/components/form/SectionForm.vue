@@ -74,10 +74,11 @@
           </el-row>
         </section> -->
         <BaseSection
+          class="section"
           :title="sItem.title"
           :popover="sItem.popover"
           :badgeAttrs="sItem.badgeAttrs"
-          :border="false"
+          :border="styleType === 'cell'"
           foldable
           @toggle="toggleFold($event, sInd)"
           v-for="(sItem, sInd) in newSections"
@@ -141,7 +142,7 @@
         @submit="(...args) => $emit('submit', ...args)"
         @reset="(...args) => $emit('reset', ...args)"
         ref="footerBtnsRef"
-        v-if="!$attrs.pureText && footer === true"
+        v-if="!pureText && footer === true"
       />
     </slot>
   </el-form>
@@ -155,14 +156,14 @@ import { getHandleFields } from "./_utils";
 import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { SectionFormItemAttrs, SectionFormItem } from "@/core/components/form/_types";
-import { defaultFormAttrs } from "@/core/components/form";
+import { defaultFormAttrs, defaultSizeGridMap } from "@/core/components/form";
 import { BaseDataType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
-import config from "@/core/config";
+import config, { defaultCommonSize } from "@/core/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import _ from "lodash";
 import { isDev } from "@/core/consts";
@@ -184,8 +185,8 @@ const props = withDefaults(
     /**
      * 继承属性
      */
-    // labelWidth?: string; //label的宽度
-    // grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
+    labelWidth?: string; //label的宽度
+    grid?: Grid; // 同ElementPlus的el-col的属性，可为数值：1~24
     // 布尔值必须写，不然从$attrs传过来后，会处理成''
     readonly?: boolean; //是否只读
     pureText?: boolean; //是否纯文本展示
@@ -217,8 +218,7 @@ const props = withDefaults(
   {
     modelValue: () => reactive({}),
     bodyClass: "f-fs-fs-w",
-    styleType: "common",
-    // grid: 24,
+    grid: (_props: CommonObj) => (_props.styleType === "cell" ? defaultSizeGridMap[defaultCommonSize] : 24),
     log: isDev,
     footer: true,
     omits: true,
@@ -230,7 +230,6 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "toggle", "moreBtns", "submit", "reset", "blur", "focus", "change"]);
-const $attrs = useAttrs();
 const footerBtnsRef = ref<any>(null);
 const foldStatusList = ref<boolean[]>(getInitFolds(props.defaultExpands));
 const formRef = ref<FormInstance>();
@@ -278,13 +277,13 @@ function toggleFold(e: any, ind: number) {
   }
   $emit("toggle", ind, !foldStatusList.value[ind]);
 }
-function getLevelsAttrs(field, sItem) {
+function getLevelsAttrs(field) {
   const { attrs = {}, quickAttrs = {} } = field;
-  const { size = attrs?.size ?? $attrs.size, labelWidth = field?.labelWidth ?? $attrs.labelWidth } = attrs;
+  const { size = attrs?.size, labelWidth = field?.labelWidth ?? props.labelWidth } = attrs;
   const {
-    grid = quickAttrs?.grid ?? $attrs.grid,
-    readonly = $attrs.readonly,
-    pureText = $attrs.pureText,
+    grid = quickAttrs?.grid ?? props.grid,
+    readonly = props.readonly,
+    pureText = props.pureText,
     disabled = attrs.disabled,
   } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
@@ -305,15 +304,10 @@ $g: 4px; // 2px 4px 6px small default large
 .section-form {
   &.cell {
     .section {
-      outline: $border-main;
-      border: $border-main;
-      border-radius: $radius-main;
-      .head {
-        background: $color-bg-main;
-      }
-      .body {
-        margin: 0;
-        // border-top: 1px solid $color-border-main;
+      .el-row {
+        outline: $border-main;
+        border: $border-main;
+        border-radius: $radius-main;
       }
       .el-form-item__label-wrap {
         border-right: 2px solid $color-border-main;

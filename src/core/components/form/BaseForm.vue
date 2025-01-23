@@ -24,6 +24,8 @@
         <FieldItemCol
           v-model="formData[field.prop as string]"
           :field="field"
+          :pureText="pureText"
+          :grid="grid"
           :formRef="formRef"
           @blur="(...args) => $emit('blur', ...args)"
           @focus="(...args) => $emit('focus', ...args)"
@@ -69,13 +71,13 @@ import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { getHandleFields } from "./_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
-import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
-import { defaultFormAttrs } from "@/core/components/form";
+import { FormField, FormFieldAttrs, Grid } from "@/core/components/form/_types";
+import { defaultFormAttrs, defaultSizeGridMap } from "@/core/components/form";
 import FooterBtns, { AfterReset, FootBtn } from "./_components/FooterBtns.vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
-import { BaseDataType, CommonObj, FinallyNext, UniteFetchType } from "@/core/_types";
+import { BaseDataType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from "@/core/_types";
 import { FormStyleType } from "./_types";
-import config from "@/core/config";
+import config, { defaultCommonSize } from "@/core/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import { useFormAttrs } from "@/hooks";
 import _ from "lodash";
@@ -89,6 +91,7 @@ const $slots = defineSlots<{
   "[fieldItem]": () => void; // 字段Item插槽
   footer?: () => void; // 底部插槽
 }>();
+const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
     /**
@@ -100,10 +103,10 @@ const props = withDefaults(
      * 继承属性
      */
     // labelWidth?: string; //label的宽度
-    // grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
+    grid?: Grid; //同ElementPlus 的 el-col 的属性，也可为数值：1 ~ 24
     // readonly?: boolean; //是否只读
     pureText?: boolean; //是否纯文本展示
-    styleType?: FormStyleType; // 表格样式类型：cell单元格、common常用
+    styleType?: FormStyleType; // 表格样式类型：cell单元格
     /**
      * 底部按钮
      */
@@ -129,14 +132,13 @@ const props = withDefaults(
     debug?: boolean; //是否终止提交，并打印传参
   }>(),
   {
-    styleType: "common",
-    log: isDev,
     modelValue: () => reactive({}),
-    // grid: (_props: CommonObj) => (_props.styleType === "cell" ? 8 : 24),
+    log: isDev,
     footer: true,
     omits: true,
     autoFixedFoot: true,
     fields: () => [],
+    grid: (_props: CommonObj) => (_props.styleType === "cell" ? defaultSizeGridMap[defaultCommonSize] : 24),
     ...config?.BaseForm?.Index,
   }
 );

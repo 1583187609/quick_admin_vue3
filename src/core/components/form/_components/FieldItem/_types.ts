@@ -90,7 +90,7 @@ export interface FormFieldAttrs {
   labelWidth?: string | number; //label文字的宽度
   /** 控件（input、select……）的属性，例：placeholder **/
   attrs?: {
-    options?: DictName | OptionItem[]; //select、cascader等的options属性
+    options?: DictName | OptionItem[] | Promise<OptionItem[]>; //select、cascader等的options属性
     placeholder?: string;
     disabled?: boolean; // 是否禁用
     readonly?: boolean; // 是否只读
@@ -108,6 +108,7 @@ export interface FormFieldAttrs {
     before?: BaseRenderData; // 字段前面拼接的内容，可以是文本、组件等
     after?: BaseRenderData; // 字段后面拼接的内容，可以是文本、组件等
     middleFlexGrow?: StrNum; // 中间项的弹性伸缩值，默认1，即：flex-grow: 1,可选值为0~3，为其他值时不会生效。当出现 before 或 after 时，该属性才会生效。
+    valueAlignContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around";
   };
   /** el-form-item的 插槽 **/
   slots?: {
@@ -124,6 +125,8 @@ export interface StandardFormFieldAttrs extends FormFieldAttrs {
 
 export type FormField = BaseDataType | FormFieldAttrs;
 
+export type TriggerRuleEvent = "change" | "input" | "blur" | "focus";
+
 export interface RuleItem {
   type?: string; // string, number, boolean, method, regexp, integer, float, array, object, enum, date, url, hex, email, any
   required?: boolean;
@@ -134,6 +137,7 @@ export interface RuleItem {
   max?: StrNum;
   len?: any; //type为array, string时，指长度。为number时，指值
   enum?: any; //例：{ type: 'enum', enum: ['admin', 'user', 'guest'] }
+  trigger?: TriggerRuleEvent | TriggerRuleEvent[];
   // Deep Rules 对象的深层规则
   // fields: any; // 对象的属性名，数组的下标
   // defaultField: any; // 应用于对象、数组内的所有成员

@@ -1,7 +1,7 @@
 <!-- 表单配置生成文件 -->
 <template>
   <div class="f-sb-s q-page-view">
-    <FilePannel v-model="currMenuInfo" defaultValue="199-1-1-2-1-1" class="pannel f-0" style="width: 300px" />
+    <FilePannel v-model="currMenuInfo" defaultValue="199-1-1-2-1-1" class="pannel f-0" style="width: 20em" />
     <PreviewPannel
       class="pannel f-1"
       :activeIndex="currFieldInd"
@@ -22,7 +22,7 @@ import PreviewPannel from "./PreviewPannel/Index.vue";
 import { ref, watch } from "vue";
 import { CommonObj } from "@/core/_types";
 import SetPannel, { SetPannelType } from "./SetPannel/Index.vue";
-import { getTreeNodeByValue, showMessage } from "@/utils";
+import { showMessage } from "@/utils";
 import _ from "lodash";
 
 const { merge } = _;

@@ -9,7 +9,7 @@
     <BaseAvatar :gender="2" />
     <BaseAvatar :src="url" to="/" />
     <BaseAvatar :src="url" @click="router.push('/')" />
-    <BaseAvatar :src="url" size="60" round />
+    <BaseAvatar :src="url" size="60" circle />
     <BaseAvatar :src="url" size="60px" />
     <BaseAvatar :src="url" height="60px" width="100px" />
   </div>

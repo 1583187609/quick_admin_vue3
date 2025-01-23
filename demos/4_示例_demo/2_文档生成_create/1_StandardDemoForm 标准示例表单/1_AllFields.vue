@@ -46,7 +46,7 @@ const fields: FormFieldAttrs[] = [
       popover: "当类型错误时，会提示【不存在】文案，并标红",
     },
   },
-  { prop: "zdy", label: "自定义", type: "slot", quickAttrs: { popover: `设置type: "custom"，即可自定义控件` } },
+  { prop: "zdy", label: "自定义", type: "slot", quickAttrs: { popover: `设置type: "slot"，即可自定义控件` } },
 ];
 </script>
 <style lang="scss" scoped></style>

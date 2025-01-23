@@ -1,6 +1,13 @@
 <template>
   <el-col class="field-item-col" v-bind="elColAttrs">
-    <FieldItem v-model="newVal" :prefixProp="prefixProp" :field="field" :inputDebounce="inputDebounce" :hideLabel="hideLabel" v-bind="$attrs">
+    <FieldItem
+      v-model="newVal"
+      :prefixProp="prefixProp"
+      :field="field"
+      :inputDebounce="inputDebounce"
+      :hideLabel="hideLabel"
+      v-bind="$attrs"
+    >
       <template #custom="scope">
         <slot name="custom" v-bind="scope" />
       </template>
@@ -8,8 +15,7 @@
   </el-col>
 </template>
 <script lang="ts" setup>
-import { useAttrs, computed } from "vue";
-import { CommonObj, CommonSize } from "@/core/_types";
+import { CommonObj } from "@/core/_types";
 import { Grid, FormFieldAttrs } from "@/core/components/form/_types";
 import { getElColAttrs } from "@/core/components/form/_utils";
 import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
@@ -34,10 +40,9 @@ const props = withDefaults(
   {}
 );
 const $emit = defineEmits(["update:modelValue"]);
-const $attrs = useAttrs();
 const elColAttrs = computed(() => {
-  const { colAttrs, grid } = props;
-  return getElColAttrs(grid, colAttrs);
+  const { colAttrs, grid, field } = props;
+  return getElColAttrs(field.quickAttrs?.grid ?? grid, colAttrs);
 });
 const newVal = computed({
   get: () => props.modelValue,

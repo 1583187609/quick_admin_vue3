@@ -1,6 +1,7 @@
 <template>
   <el-upload
     class="base-upload"
+    :class="{ circle }"
     v-model:file-list="fileList"
     :accept="accept"
     :before-upload="beforeUpload"
@@ -45,6 +46,7 @@ const props = withDefaults(
     modelValue?: string;
     fit?: ImgFitType; //EpPropMergeType<StringConstructor>
     drag?: boolean; //是否可拖动上传
+    circle?: boolean; //是否圆形展示
     accept?: string; //image/png, image/jpeg
     limitSize?: number; //上传文件的大小限制
     action?: string;
@@ -135,6 +137,11 @@ const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
 
 <style lang="scss" scoped>
 .base-upload {
+  &.circle {
+    :deep(.el-upload--picture-card) {
+      border-radius: 50%;
+    }
+  }
   .icon-add {
     font-size: 2em;
   }

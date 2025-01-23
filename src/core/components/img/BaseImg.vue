@@ -5,7 +5,7 @@
   <el-image
     @click="handleClick"
     class="base-img"
-    :class="{ round, to: !!to, empty: !src }"
+    :class="{ circle, to: !!to, empty: !src }"
     :src="src || emptyImg"
     :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }"
     v-bind="newAttrs"
@@ -20,7 +20,7 @@
     </template>
     <template #error>
       {{ $emit("error") }}
-      <el-image class="base-img" :class="{ round }" :src="errImgSrc" v-bind="defaultImageAttrs" v-if="errImgSrc" />
+      <el-image class="base-img" :class="{ circle }" :src="errImgSrc" v-bind="defaultImageAttrs" v-if="errImgSrc" />
       <div class="err-box f-c-c-c" v-else>
         <el-icon :size="iconSize" name="Picture">
           <Picture />
@@ -61,7 +61,7 @@ const props = withDefaults(
     height?: StrNum;
     to?: RouteTo;
     src?: string;
-    round?: boolean;
+    circle?: boolean;
     stop?: boolean; // 点击图片时，是否阻止冒泡
     preview?: boolean;
     loadTips?: string;
@@ -81,7 +81,7 @@ const props = withDefaults(
 const $emit = defineEmits(["error"]);
 const $attrs = useAttrs();
 const newAttrs = computed<CommonObj>(() => {
-  const { to, src, preview }=props;
+  const { to, src, preview } = props;
   if (to || $attrs.onClick || !src || !preview) return defaultImageAttrs;
   return { ...defaultImageAttrs, previewSrcList: [src] };
 });
@@ -89,7 +89,7 @@ const newAttrs = computed<CommonObj>(() => {
 // 处理点击图片
 function handleClick(e: any) {
   const { to, stop } = props;
-  to && router.push(to) 
+  to && router.push(to);
   if (stop) e.stopImmediatePropagation();
 }
 </script>
@@ -100,7 +100,7 @@ function handleClick(e: any) {
   height: 120px;
   width: 120px;
   border-radius: $radius-main;
-  &.round {
+  &.circle {
     border-radius: 50%;
   }
   &.to {

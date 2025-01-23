@@ -3,7 +3,7 @@ import { tagColorMap } from "./_config";
 import { OptionItem } from "@/core/_types";
 import dict from ".";
 
-export type DictName = keyof typeof dict;
+export type DictName = keyof typeof dict | "C_Region";
 export type TagColorName = keyof typeof tagColorMap;
 // export type DictName = keyof InstanceType<typeof dict>;
 // export type TagColorName = keyof InstanceType<typeof tagColorMap>;

@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, computed, reactive } from "vue";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
-import { BtnItem } from "@/core/components/BaseBtn/_types";
+import { BtnItem, HandleAuthFn } from "@/core/components/BaseBtn/_types";
 import { handleTableSummary } from "@/core/utils";
 import { useCacheScroll } from "@/hooks";
 import { CommonObj, CommonSize, FinallyNext } from "@/core/_types";
@@ -56,6 +56,7 @@ const props = withDefaults(
     showSummary?: boolean; //是否显示汇总行
     currPage: number; //当前分页页码
     pageSize: number; //每页多少条
+    handleAuth?: HandleAuthFn;
     refreshList?: RefreshListFn;
     summaryMethod?: (arg: any) => string[]; //计算汇总的方法
   }>(),
@@ -78,10 +79,14 @@ const seledRows = ref<CommonObj[]>([]);
  * 216px 170px
  */
 const newCols = reactive<TableColAttrs[]>(
-  getHandleCols(props, (maxLev: number, cols: TableColAttrs[]) => {
-    rowNum += maxLev - 1;
-    $emit("update:cols", cols);
-  })
+  getHandleCols(
+    props,
+    (maxLev: number, cols: TableColAttrs[]) => {
+      rowNum += maxLev - 1;
+      $emit("update:cols", cols);
+    },
+    true
+  )
 );
 
 const newAttrs = computed(() => {

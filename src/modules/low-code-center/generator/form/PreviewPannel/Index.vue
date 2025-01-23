@@ -68,7 +68,6 @@ function getHandleFields(fields: FormFieldAttrs[]) {
       it.quickAttrs = { after: after };
     }
     const isLight = !isView.value && props.activeIndex === i; // 是否高亮显示
-    // ;outline:3px solid #3399FF;
     it.style = isLight ? `background:${cssVars.colorBgLight};border-radius:${cssVars.radiusMain};` : undefined;
     return it;
   });

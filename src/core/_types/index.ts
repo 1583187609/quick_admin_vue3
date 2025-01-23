@@ -2,7 +2,7 @@
 /************************** 这里是全局的 ts 类型 ****************************/
 /***************************************************************************/
 
-import { BtnItem, BtnName, ButtonType } from "@/core/components/BaseBtn/_types";
+import { BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
 import { BaseRenderData } from "@/core/components/BaseRender.vue";
 import type { MessageParams, messageType } from "element-plus";
 import { EpPropMergeType } from "element-plus/es/utils";
@@ -10,6 +10,7 @@ import { AxiosResponse } from "axios";
 import { ClosePopupType } from "@/core/components/BasicPopup/_types";
 import { BaseRenderComponentType } from "@/core/components/BaseRender.vue";
 import { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from "vue-router";
+import { ThemeColorType } from "@/utils";
 
 export * from "@/core/components/BasicPopup/_types";
 
@@ -133,7 +134,7 @@ export interface PopconfirmAttrs {
   cancel?: () => void;
   okText?: string;
   cancelText?: string;
-  confirmButtonType?: ButtonType;
+  confirmButtonType?: ThemeColorType;
   disabled?: boolean;
   [key: string]: any;
 }
@@ -171,6 +172,6 @@ export interface PopoverSlots {
 }
 
 // popover的可能传入类型：字符串、引入的vue组件、popover属性对象、
-export type PopoverType = string | undefined | PopoverAttrs | BaseRenderComponentType;
+export type PopoverType = string | undefined | PopoverAttrs | PopoverSlots;
 
 export type HorizontalAlign = "left" | "center" | "right";

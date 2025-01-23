@@ -6,10 +6,4 @@
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 </script>
-<style lang="scss" scoped>
-.base-section {
-  &:not(:last-child) {
-    margin-bottom: $gap;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

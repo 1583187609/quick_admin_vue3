@@ -1,22 +1,18 @@
 <template>
   <BaseForm
+    v-model="modelData"
     style="width: 400px"
     :fields="fields"
-    v-model="modelData"
     :fetch="GetMockUser"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
     :submitBtn="editEnable ? undefined : ''"
     :resetBtn="editEnable ? undefined : ''"
-    @moreBtns="onMoreBtns"
     :key="editEnable"
+    @moreBtns="onMoreBtns"
   >
-    <template #avatar>
-      <BaseAvatar :src="modelData.avatar" size="100" />
-    </template>
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
 import { CommonObj } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
@@ -30,8 +26,10 @@ const fields = computed<FormFieldAttrs[]>(() => {
     {
       prop: "avatar",
       label: "头像",
-      type: editEnable.value ? "BaseUpload" : "custom",
+      type: editEnable.value ? "BaseUpload" : "BaseAvatar",
       attrs: {
+        size: "8.6em",
+        circle: true,
         disabled: !editEnable.value,
       },
     },

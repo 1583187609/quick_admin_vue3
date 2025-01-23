@@ -105,6 +105,7 @@ function getTreeData() {
 </script>
 <style lang="scss" scoped>
 .tree {
+  height: 100%;
   width: 16em;
   border-radius: $radius-main;
   box-shadow: $shadow-main;

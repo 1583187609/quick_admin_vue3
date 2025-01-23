@@ -100,7 +100,7 @@ export default defineStore("user", () => {
       //等一秒后再清空，避免userInfo无值时，有些页面会报错
       setTimeout(() => {
         storage.getKeys().forEach((key: string) => {
-          if (!["rememberAccount", "set", "hasGuide"].includes(key)) storage.removeItem(key);
+          if (!["rememberAccount", "set", "hasGuide", "pageTags"].includes(key)) storage.removeItem(key);
         });
         storage.clear("session"); //清除sessionStorage的数据
         expired.value = Date.now();

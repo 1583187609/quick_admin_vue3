@@ -3,7 +3,7 @@
   <div class="p-h">
     <section class="row section info f-sb-c">
       <div class="mr-a f-fs-s">
-        <BaseAvatar size="5em" round />
+        <BaseAvatar size="5em" circle />
         <div class="f-c-fs-c ml-o">
           <div class="welcome">早安，Soybean, 今天又是充满活力的一天!</div>
           <div class="weather">今日多云转晴，20℃ - 25℃!</div>
@@ -60,10 +60,38 @@ import ChartPie from "@/core/components/chart/ChartPie.vue";
 import { ref, reactive, watch, computed } from "vue";
 
 const pannels: CommonObj[] = [
-  { title: "访问量", icon: "DataAnalysis", value: 725, changeValue: -12, bgColors: ["rgb(236, 71, 134)", "rgb(185, 85, 164)"], unit: "" },
-  { title: "成交额", icon: "Ticket", value: 1026, changeValue: 0, bgColors: ["rgb(134, 94, 192)", "rgb(81, 68, 180)"], unit: "$" },
-  { title: "下载量", icon: "Download", value: 970925, changeValue: 123, bgColors: ["rgb(86, 205, 243)", "rgb(113, 157, 227)"], unit: "" },
-  { title: "成交量", icon: "Histogram", value: 9527, changeValue: 1, bgColors: ["rgb(252, 188, 37)", "rgb(246, 128, 87)"], unit: "" },
+  {
+    title: "访问量",
+    icon: "DataAnalysis",
+    value: 725,
+    changeValue: -12,
+    bgColors: ["rgb(236, 71, 134)", "rgb(185, 85, 164)"],
+    unit: "",
+  },
+  {
+    title: "成交额",
+    icon: "Ticket",
+    value: 1026,
+    changeValue: 0,
+    bgColors: ["rgb(134, 94, 192)", "rgb(81, 68, 180)"],
+    unit: "$",
+  },
+  {
+    title: "下载量",
+    icon: "Download",
+    value: 970925,
+    changeValue: 123,
+    bgColors: ["rgb(86, 205, 243)", "rgb(113, 157, 227)"],
+    unit: "",
+  },
+  {
+    title: "成交量",
+    icon: "Histogram",
+    value: 9527,
+    changeValue: 1,
+    bgColors: ["rgb(252, 188, 37)", "rgb(246, 128, 87)"],
+    unit: "",
+  },
 ];
 const props = withDefaults(
   defineProps<{

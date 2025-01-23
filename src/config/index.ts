@@ -156,19 +156,19 @@ const config = {
     },
     baseBtns: {
       //auth 权限说明 0开发者 1超级管理员 2普通管理员 3超级VIP 4普通VIP 5特殊用户 6普通用户
-      add: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      edit: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      delete: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      pass: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      reject: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      repeal: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      import: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
+      add: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      edit: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      delete: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      pass: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      reject: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      repeal: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      import: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
       export: { auth: [] },
-      upload: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
+      upload: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
       download: { auth: [] },
-      enable: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      forbid: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
-      audit: { auth: [0, 1, 2, { code: 4, disabled: true }, 5] },
+      enable: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      forbid: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
+      audit: { auth: [0, 1, 2, { code: 4, type: "disabled" }, 5] },
       view: { auth: undefined },
       submit: { auth: null },
       reset: { auth: [0, 5] },
@@ -185,42 +185,51 @@ const config = {
   //   max: 3,
   // },
   // 基础增删改查组件
-  // BaseCrud: {
-  //   Index: {
-  //     // immediate: true,
-  //     // changeFetch: true,
-  //     log: isLog,
-  //     // omits: true,
-  //     // inputDebounce: true,
-  //     // exportLimit: 10000,
-  //     // pagination: () => ({ currPage: 1, pageSize: 20 }),
-  //     // reqResMap: {
-  //     //   curr_page: "page",
-  //     //   page_size: "pageSize",
-  //     // },
-  //     // handleAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
-  //     // handleAuth: (auth: number[]) => true,
-  //     //跟下面的size  small 搭配使用
-  //     // grid: () => ({
-  //     //   xs: 12,
-  //     //   sm: 12,
-  //     //   md: 8,
-  //     //   lg: 4,
-  //     //   xl: 3,
-  //     // }),
-  //     // size: isSmall ? "small" : undefined,
-  //   },
-  //   // ExtraBtns: undefined,
-  //   // BatchBtns: undefined,
-  //   // OperateBtns: undefined,
-  //   // Pagination: undefined,
-  //   // QueryForm: {
-  //   //   gridAttrsMap: {},
-  //   // },
-  //   // QueryTable: undefined,
-  //   // SetPrint: undefined,
-  //   // SetTable: undefined,
-  // },
+  BaseCrud: {
+    Index: {
+      // immediate: true,
+      // changeFetch: true,
+      // log: isLog,
+      // omits: true,
+      // inputDebounce: true,
+      // exportLimit: 10000,
+      // pagination: () => ({ currPage: 1, pageSize: 20 }),
+      // reqResMap: {
+      //   curr_page: "page",
+      //   page_size: "pageSize",
+      // },
+      // handleAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
+      handleAuth: (auth: any[]) => {
+        const role = getUserInfo()?.role;
+        let type;
+        const isFind = auth.find(it => {
+          if (typeof it === "number") return it === role;
+          type = it.type;
+          return it.code === role;
+        });
+        return isFind ? type || true : false;
+      },
+      //跟下面的size  small 搭配使用
+      // grid: () => ({
+      //   xs: 12,
+      //   sm: 12,
+      //   md: 8,
+      //   lg: 4,
+      //   xl: 3,
+      // }),
+      // size: isSmall ? "small" : undefined,
+    },
+    // ExtraBtns: undefined,
+    // BatchBtns: undefined,
+    // OperateBtns: undefined,
+    // Pagination: undefined,
+    // QueryForm: {
+    //   gridAttrsMap: {},
+    // },
+    // QueryTable: undefined,
+    // SetPrint: undefined,
+    // SetTable: undefined,
+  },
   // 基础表单组件
   // BaseForm: {
   //   Index: {
@@ -238,7 +247,18 @@ const config = {
   //   name: "ElemeFilled",
   // },
   // 基础按钮组件
-  // BaseBtn: {},
+  BaseBtn: {
+    handleAuth: (auth: any[]) => {
+      const role = getUserInfo()?.role;
+      let type;
+      const isFind = auth.find(it => {
+        if (typeof it === "number") return it === role;
+        type = it.type;
+        return it.code === role;
+      });
+      return isFind ? type || true : false;
+    },
+  },
   // 基础上传组件
   // BaseUpload: {
   //   // size: 100,

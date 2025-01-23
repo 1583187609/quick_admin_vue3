@@ -1,6 +1,7 @@
 import { CommonObj, CommonSize } from "@/core/_types";
 import { defaultBtns } from "@/core/components/BaseBtn";
 import { PopconfirmAttrs } from "../_types";
+import { ThemeColorType } from "@/utils";
 
 export type BtnAllNames = string & keyof typeof defaultBtns;
 // export type BtnAllNames = keyof InstanceType<typeof defaultBtns>;
@@ -19,11 +20,10 @@ export interface BtnCfg {
   popconfirm?: string;
 }
 export type BtnName = BtnAllNames | string; //常用基础按钮或其他自定义按钮
-export type ButtonType = "primary" | "success" | "warning" | "danger" | "info"; //按钮类型。注"text" 已弃用
 export interface BtnAttrs {
   icon?: any;
   text?: boolean;
-  type?: ButtonType;
+  type?: ThemeColorType;
   size?: CommonSize;
   plain?: boolean;
   disabled?: boolean;
@@ -55,6 +55,8 @@ export type BaseBtnType = BtnName | BtnItem | BtnFn;
 export interface BtnsMap {
   [key: BtnName]: BtnAttrs;
 }
+
+export type HandleAuthFn = (auth: (number | { code: number; type?: "disabled" })[]) => boolean | "disabled";
 
 // export interface BtnItemFull extends BtnItem {
 //   popconfirm?: PopconfirmAttrs;

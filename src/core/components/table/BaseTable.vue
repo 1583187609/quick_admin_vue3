@@ -2,7 +2,7 @@
   目标：定位为基础表格。继承el-table属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性quickAttrs: popover。
 -->
 <template>
-  <el-table v-bind="defaultTableAttrs" v-loading="isLoading" class="base-table" :data="data" ref="tableRef">
+  <el-table class="base-table" v-bind="defaultTableAttrs" v-loading="loading" :data="data" ref="tableRef">
     <Column
       :col="col"
       :operateBtnsAttrs="operateBtnsAttrs"
@@ -10,17 +10,7 @@
       @operateBtns="onOperateBtns"
       v-for="(col, cInd) in newCols"
       :key="cInd"
-    >
-      <template #header="scope">
-        <slot name="header" v-bind="scope">{{ scope.column.label }}</slot>
-      </template>
-      <template #default="scope">
-        <slot v-bind="scope">{{ scope.row[scope.col.prop as string] }}</slot>
-      </template>
-      <template #custom="{ row, col: c, $index: ind }">
-        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }" />
-      </template>
-    </Column>
+    />
     <template #empty>
       <BaseEmpty />
     </template>
@@ -57,10 +47,6 @@ const props = withDefaults(
      */
     operateBtns?: BtnItem[];
     operateBtnsAttrs?: OperateBtnsAttrs;
-    /**
-     * 请求属性
-     */
-    // params?: CommonObj;
   }>(),
   {
     cols: () => [],
@@ -72,11 +58,11 @@ const props = withDefaults(
 const $emit = defineEmits([operateBtnsEmitName]);
 
 let rowNum = props.showSummary ? 2 : 1;
-const isLoading = ref(props.loading);
 const tableRef = ref<any>();
 const newCols = reactive<TableColAttrs[]>(
-  getHandleCols(props, (maxLev: number) => {
+  getHandleCols(props, (maxLev: number, cols: any[]) => {
     rowNum += maxLev - 1;
+    // console.log(cols, "cols------------");
   })
 );
 //点击操作栏按钮

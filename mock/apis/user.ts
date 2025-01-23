@@ -28,8 +28,8 @@ export default toViteMockApi({
     let ind = 0;
     allUsers.find((item: CommonObj) => {
       if (roles[ind] === item.role) {
-        const { account, role_text, phone, id, password } = item;
-        accounts.push({ account, role_text, phone, id, password });
+        const { account, role, role_text, phone, id, password } = item;
+        accounts.push({ account, role, role_text, phone, id, password });
         ind++;
       }
       return ind >= roles.length;
@@ -52,9 +52,9 @@ export default toViteMockApi({
   },
   // 登出（推出登录）
   "POST /mock/user/logout": (req: CommonObj) => {
-    const { phone, token } = getRequestParams(req);
-    const target = allUsers.find((it: CommonObj) => it.phone === phone);
-    if (!target) return responseData({ code: 1, msg: "不存在该用户" });
+    // const { phone, token } = getRequestParams(req);
+    // const target = allUsers.find((it: CommonObj) => it.phone === phone);
+    // if (!target) return responseData({ code: 1, msg: "不存在该用户" });
     setSession("userInfo", null);
     return responseData();
   },

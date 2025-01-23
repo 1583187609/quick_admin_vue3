@@ -1,6 +1,6 @@
-import { FormField, Grid } from "@/core/components/form/_components/FieldItem/_types";
-import { BaseDataType, CommonSize, StrNum } from "@/core/_types";
-import { PopoverAttrs } from "../_types";
+import { FormField } from "@/core/components/form/_components/FieldItem/_types";
+import { BaseDataType } from "@/core/_types";
+import { PopoverAttrs } from "@/core/_types";
 
 export * from "@/core/components/form/_components/FieldItem/_types";
 
@@ -10,7 +10,7 @@ export interface FormAttrs {
   [key: string]: any;
 }
 
-export type FormStyleType = "common" | "cell";
+export type FormStyleType = "cell";
 
 export type SectionFormItemType = "slot";
 export interface SectionFormItemAttrs {

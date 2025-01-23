@@ -9,8 +9,8 @@ import { CommonObj, GetRequired, OptionItem, StrNum } from "@/core/_types";
 import { cssVars } from "@/utils";
 import dayjs from "dayjs";
 import { defaultFormItemTplsMap } from "@/core/components/form/_components/FieldItem/_config";
-import _ from "lodash";
 import * as xlsx from "xlsx";
+import _ from "lodash";
 
 interface OptionPropsMap {
   label?: string;
@@ -317,7 +317,8 @@ export const getInputLimitNum = (value: any, min?: number, max?: number, fixNum?
  * @param type 主题色类型
  * @returns {string}
  */
-export function getSysThemeColor(type: ThemeColorType) {
+export function getSysThemeColor(type?: ThemeColorType) {
+  if (!type) return;
   return cssVars["color" + upperFirst(type)];
 }
 

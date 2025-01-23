@@ -155,9 +155,13 @@ export function getHandleFields(
       (field as FormFieldAttrs).prop = newProp;
       // val !== undefined && $emit?.("change", val, newProp);
     } else {
+      // 如果为custom，即自定义整个表单项，含el-form-item，此时不用传入prop
       if (type !== "custom") throw new Error(`暂未处理prop为${t}类型的值`);
     }
     if (overFieldAttrs) merge(field, overFieldAttrs);
+    if (tplType === "query" && field.attrs?.multiple) {
+      field.attrs = Object.assign({ collapseTags: true, collapseTagsTooltip: true, maxCollapseTags: 2 }, field.attrs);
+    }
     resObj.fields.push(field as FormFieldAttrs);
   });
   return resObj;

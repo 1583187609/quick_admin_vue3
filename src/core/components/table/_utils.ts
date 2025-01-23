@@ -1,15 +1,23 @@
 import { CommonObj, CommonSize } from "@/core/_types";
 import { typeOf, renderValue, getChinaCharLength } from "@/core/utils";
 import { propsJoinChar } from "@/core/consts";
-import { defaultCommonSize, defaultGroupBtnsMaxNum, enableOptimize, defaultEmptyStr } from "@/core/config";
-import { TableCol, TableColAttrs } from "@/core/components/table/_types";
+import {
+  defaultCommonSize,
+  defaultGroupBtnsMaxNum,
+  enableOptimize,
+  defaultEmptyStr,
+  defaultTableColDateFormat,
+  enableTpl,
+} from "@/core/config";
+import { FormatterFn, TableCol, TableColAttrs } from "@/core/components/table/_types";
 import { defaultTableColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import { getStandardGroupBtns } from "@/core/components/crud/BaseCrud/_utils";
 import { SpecialTableColType } from "@/core/components/table/_types";
-import { cssVars } from "@/utils";
+import { cssVars, getStandardTplInfo } from "@/utils";
 import { getHandleAuthBtns } from "@/core/components/crud/_utils";
+import dayjs from "dayjs";
 import _ from "lodash";
 
 const { merge } = _;
@@ -51,9 +59,9 @@ function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnI
   if (!btns) return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
   let em = 0; //按钮文字字符数量
   let width = 0;
-  const { vertical, maxNum = defaultGroupBtnsMaxNum } = operateBtnsAttrs as OperateBtnsAttrs;
-  if (btns.length > maxNum) {
-    btns = btns.slice(0, maxNum - 1).concat([{ text: "更多" } as BtnItem]);
+  const { vertical, max = defaultGroupBtnsMaxNum } = operateBtnsAttrs as OperateBtnsAttrs;
+  if (btns.length > max) {
+    btns = btns.slice(0, max - 1).concat([{ text: "更多" } as BtnItem]);
   }
   if (vertical) {
     btns.forEach((item: BtnItem) => {
@@ -121,7 +129,7 @@ function getSysInferredAttrs(col: TableColAttrs) {
   if (noWidth) {
     if (label?.includes("时间")) {
       colAttrs.minWidth = 164;
-      if (type !== "custom") {
+      if (type !== "slot") {
         colAttrs.formatter = (row: CommonObj) => {
           const val = isMultiProps ? flatPropsValue(row, prop as string) : row[prop as string];
           return renderValue(val);
@@ -178,14 +186,52 @@ export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = d
 }
 
 /**
+ * 获取 el-table-column 的标准 formatter 函数（目前只针对日期列进行格式化处理，后续再扩展）
+ * @param {any} formatter 日期格式化(目前只处理了 true 和字符串类型)
+ */
+function getStandardFormatter(formatter: any): FormatterFn {
+  let t = typeOf(formatter);
+  if (t === "Boolean") {
+    formatter = defaultTableColDateFormat;
+    t = "String";
+  }
+  if (t === "String") return (row: CommonObj, column?: TableColumnCtx<any>) => dayjs(row[column.property]).format(formatter);
+  if (t === "Function") return formatter;
+  throw new Error(`暂未处理此类型：${t}`);
+}
+/**
+ * 获取标准的表格列数据
+ */
+export function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
+  const filterCols = cols.filter(it => !!it);
+  return filterCols.map((originCol: any) => {
+    let { tpl, ...col } = originCol;
+    if (enableTpl) {
+      const { type } = col;
+      if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+      if (tpl) {
+        const tplData = getStandardTplInfo(tpl, defaultTableColTpls);
+        col = merge(tplData, col);
+      }
+    }
+    const { children, formatter } = col as TableColAttrs;
+    if (formatter) col.formatter = getStandardFormatter(formatter);
+    if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
+    return col;
+  });
+}
+
+/**
  * 将列处理成标准数据结构的列
  * @param {object} props 传入的属性
  * @returns {object[]} 返回标准数据结构的列
  */
-export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: TableColAttrs[]) => void) {
+export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: TableColAttrs[]) => void, isStandCols = false) {
   let hasOperateCol = false;
   let maxLevel = 0;
-  const { cols = [], operateBtns, currPage, pageSize, size } = props;
+  const { operateBtns, currPage, pageSize, size } = props;
+  let { cols = [] } = props;
+  if (!isStandCols) cols = getStandardCols(cols);
   const newCols = cols.map(col => {
     // if (!col) return col;
     let { col: newCol, level } = getColAndLevel(col, 1, size);

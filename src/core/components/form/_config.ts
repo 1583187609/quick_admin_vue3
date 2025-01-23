@@ -13,11 +13,17 @@ export const defaultFormAttrs: FormAttrs = Object.assign(
   config.element?.form
 );
 
+export const defaultSizeGridMap = {
+  large: { xs: 24, sm: 24, md: 12, lg: 12, xl: 8 },
+  default: { xs: 24, sm: 24, md: 12, lg: 8, xl: 6 },
+  small: { xs: 24, sm: 12, md: 8, lg: 6, xl: 4 },
+};
+
 // 栅格的属性，同ElementPlus的el-col的属性
 export const defaultGridAttrsMap: { [key in CommonSize]: GridAttrs } = Object.assign(
   {
     large: { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 },
-    default: { xs: 24, sm: 12, md: 12, lg: 8, xl: 6 },
+    default: { xs: 24, sm: 12, md: 8, lg: 8, xl: 6 },
     small: { xs: 12, sm: 12, md: 8, lg: 6, xl: 4 },
   },
   config.BaseCrud?.QueryForm?.gridAttrsMap

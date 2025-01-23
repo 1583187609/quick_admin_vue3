@@ -51,6 +51,7 @@ import { handleBtnNext } from "@/utils";
 import { treeData, tempAddressOpts } from "./_data";
 import CustomPopover from "./_components/CustomPopover.vue";
 import AddDelTags from "@/core/components/form/_components/AddDelTags.vue";
+import { defaultCommonSize } from "@/core/config";
 
 const innerObjChildren: FormFieldAttrs[] = [
   {
@@ -143,7 +144,7 @@ const tipsList: string[] = [
 ];
 
 const modelData = reactive<CommonObj>({
-  widget_size: "default",
+  widget_size: defaultCommonSize,
   label_position: "right",
   inner_obj: {
     one: "嵌套对象必填项一",
@@ -453,6 +454,7 @@ const fields = computed<FormField[]>(() => {
         type: "textarea",
       },
     },
+    // { tpl: "T_Remark" }, // 备注也可以像这样用模板进行简写
     {
       prop: ["num_min", "num_max"],
       label: "内置常用组件",

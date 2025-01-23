@@ -2,9 +2,19 @@
 <template>
   <div class="template-hint">
     <div class="desc mb-o" v-if="description">{{ description }}</div>
-    <div class="f-fs-c mb-h">如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。</div>
+    <div class="f-fs-c mb-h">
+      如果没有模板，请<el-button @click="handleDownloadTpl" type="primary" link>点击此处下载模板</el-button>。
+    </div>
     <!-- action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" -->
-    <el-upload class="upload-demo" :on-change="handleFileChange" :auto-upload="false" :show-file-list="false" :accept="accept" multiple drag>
+    <el-upload
+      class="upload-demo"
+      :on-change="handleFileChange"
+      :auto-upload="false"
+      :show-file-list="false"
+      :accept="accept"
+      multiple
+      drag
+    >
       <el-icon size="3em">
         <UploadFilled />
       </el-icon>
@@ -23,6 +33,7 @@ import { CommonObj } from "@/core/_types";
 import { importExcel, exportExcel, showMessage } from "@/core/utils";
 import { ClosePopupInject } from "@/core/components/BasicPopup/_types";
 import { UploadFilled } from "@element-plus/icons-vue";
+import { useNextCallback } from "@/hooks";
 
 export interface ImportTplColsItem {
   prop: string;
@@ -79,7 +90,7 @@ function handleFileChange(file: any, files: any[]) {
       }
       return newObj;
     });
-    $emit("change", arr);
+    $emit("change", arr, useNextCallback("导入", closePopup), e);
   };
 }
 </script>

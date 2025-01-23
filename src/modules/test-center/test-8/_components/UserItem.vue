@@ -6,7 +6,7 @@
         :src="data?.[userDataKey]?.avatar"
         :gender="data?.[userDataKey]?.gender"
         class="avatar"
-        round
+        circle
       />
       <el-tooltip content="已完成身份认证" v-bind="defaultTooltipAttrs" v-if="data?.[userDataKey].authType !== 1">
         <BaseIcon name="SuccessFilled" size="20" class="auth-icon" />

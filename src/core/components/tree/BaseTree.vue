@@ -42,7 +42,6 @@ defineExpose({
 </script>
 <style lang="scss" scoped>
 .base-tree {
-  height: 100%;
   overflow: auto;
   padding-bottom: 100px;
 }

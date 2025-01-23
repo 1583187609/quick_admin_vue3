@@ -94,7 +94,6 @@ import { TableColAttrs } from "@/core/components/table/_types";
 import OperateBtns, { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
 import InsertCustomTableColComps, { InsertTableColCompsType } from "@/config/_components/InsertCustomTableColComps.vue";
 import InnerExtendTableColComps from "@/config/_components/InnerExtendTableColComps.vue";
-import config from "@/config";
 import { CommonObj, NextArgs } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
 import UserTime from "./UserTime.vue";

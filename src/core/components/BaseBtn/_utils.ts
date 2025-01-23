@@ -4,7 +4,7 @@ import { defaultBtns } from "@/core/components/BaseBtn";
 import { CommonObj } from "@/core/_types";
 import { BaseBtnType, BtnItem, EndBtnItem, BtnName, BtnFn, BtnAttrs } from "./_types";
 import { FilterAuthItem } from "@/core/components/crud/BaseCrud/_types";
-import { PopconfirmAttrs, PopconfirmType } from "../_types";
+import { PopconfirmAttrs, PopconfirmType } from "@/core/_types";
 import { needParam } from "@/utils";
 import _ from "lodash";
 
@@ -22,9 +22,9 @@ export function getPopconfirmAttrs(popconfirm: PopconfirmType, btnObj: BtnItem):
   const title = `确认${text}吗？`;
   const t = typeOf(popconfirm);
   if (t === "String") return { title: popconfirm as string, ...btnAttrs };
-  if (t === "Object") return { title, ...btnAttrs, ...popconfirm };
+  if (t === "Object") return { title, ...btnAttrs, ...(popconfirm as PopconfirmAttrs) };
   if (popconfirm === true) return { title, ...btnAttrs };
-  throw new Error(`暂未处理此种情况：${t}`, popconfirm);
+  throw new Error(`暂未处理此种情况：${t}`);
 }
 
 /**

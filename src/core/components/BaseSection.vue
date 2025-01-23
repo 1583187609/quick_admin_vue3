@@ -2,7 +2,7 @@
 目标：内容分块的布局载体。并提供了折叠等功能。
 -->
 <template>
-  <div class="base-section" :class="{ border }">
+  <div class="base-section" :class="{ border, gap }">
     <div class="head f-sb-c" @click="toggleFold">
       <div class="title f-fs-c f-0">
         <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
@@ -20,14 +20,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
 import { ArrowRight } from "@element-plus/icons-vue";
 import QuestionPopover from "@/core/components/QuestionPopover.vue";
-import { CommonObj, PopoverType } from "../_types";
+import { CommonObj, PopoverType } from "@/core/_types";
 
-const defaultBadgeAttrs = {
-  max: 99,
-};
+const defaultBadgeAttrs = { max: 99 };
 const props = withDefaults(
   defineProps<{
     title?: string;
@@ -38,10 +35,12 @@ const props = withDefaults(
     bodyClass?: string;
     bodyMaxHeight?: string;
     defaultFold?: boolean;
+    gap?: boolean;
   }>(),
   {
     title: "未命名标题",
     border: true,
+    gap: true,
     bodyClass: "",
     // foldable: false,
     // defaultFold: false,
@@ -60,6 +59,11 @@ function toggleFold(e) {
 .base-section {
   width: 100%;
   background: #fff;
+  &.gap {
+    &:not(:last-child) {
+      margin-bottom: $gap-half;
+    }
+  }
   &.border {
     border: $border-main;
     border-radius: $radius-main;
@@ -74,8 +78,9 @@ function toggleFold(e) {
   .head {
     padding: $gap-half 0;
     border-bottom: $border-main;
+    background: $color-bg-lighter;
     .title {
-      margin-right: auto;
+      margin-right: $gap-half;
       font-size: $font-size-heavy;
       font-weight: 500;
       &::before {

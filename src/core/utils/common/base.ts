@@ -225,7 +225,7 @@ export function omitAttrs(obj: CommonObj, list: BaseDataType | BaseDataType[] = 
  */
 export function deleteAttrs(obj: CommonObj = {}, keys?: string | string[], clone = true) {
   if (!keys?.length) return obj;
-  const newObj = clone ? JSON.parse(JSON.stringify(obj)) : obj;
+  const newObj = clone ? cloneDeep(obj) : obj;
   if (typeof keys === "string") return delete newObj[keys];
   keys.forEach(key => delete newObj[key]);
   return newObj;

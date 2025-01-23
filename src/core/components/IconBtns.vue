@@ -9,22 +9,21 @@
         @confirm="handleClick(tpl)"
       >
         <template #reference>
-          <el-button text :type="tpl.type">
-            <template #icon><BaseIcon :name="tpl.icon" size="1.8em" /></template>
+          <el-button link :type="tpl.type" circle>
+            <template #icon><BaseIcon :name="tpl.icon" :size="iconSize" /></template>
           </el-button>
         </template>
       </el-popconfirm>
-      <el-button text :type="tpl.type" @click="handleClick(tpl, $event)" v-else>
-        <template #icon><BaseIcon :name="tpl.icon" size="1.8em" /></template>
+      <el-button link :type="tpl.type" circle @click="handleClick(tpl, $event)" v-else>
+        <template #icon><BaseIcon :name="tpl.icon" :size="iconSize" /></template>
       </el-button>
     </template>
   </div>
 </template>
 <script lang="ts" setup>
 import { typeOf } from "@/core/utils";
-import { StrNum, CommonSize, CommonObj } from "@/core/_types";
+import { CommonObj, StrNum } from "@/core/_types";
 import { getPopconfirmAttrs } from "@/core/components/BaseBtn/_utils";
-import { toCssVal } from "@/core/utils";
 import { iconBtnsMap } from "@/core/components/form/_config";
 import { useNextCallback, usePopup } from "@/core/hooks";
 
@@ -36,8 +35,10 @@ const props = withDefaults(
     tpl?: IconBtnTpl | IconBtnTpl[];
     gap?: string;
     stop?: boolean; // 是否阻止冒泡
+    iconSize?: StrNum;
   }>(),
   {
+    iconSize: "1.8em",
     tpl: "add",
     gap: "0",
   }
