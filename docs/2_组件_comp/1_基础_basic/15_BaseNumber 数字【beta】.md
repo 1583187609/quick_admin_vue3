@@ -4,7 +4,6 @@
 本功能处于实验性阶段，谨慎使用！
 :::
 
-&emsp;&emsp;目标：数字升降。
 ## 基础用法
 
 &emsp;&emsp;待完善
@@ -20,15 +19,14 @@
 
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
-|`changeValue`|变化的值|`number`|-|
-|`riseIcon`|-|`string`|`Top`|
-|`declineIcon`|-|`string`|`Bottom`|
-|`iconLast`|-|`boolean`|-|
-|`showChar`|是否显示正负符号|`boolean`|`false`|
-|`transition`|是否从`0`过渡到目标值|`boolean`|`true`|
-
-### Slots
-
-|插槽名|说明|Scope|
-|:---|:---|:---|
-|`default`|-|-|
+|`startValue`|-|`number`|`0`|
+|`value`|要显示的值（最终值）|`number`|`new Date().getFullYear`()|
+|`duration`|-|`number`|`1500`|
+|`autoplay`|-|`boolean`|`true`|
+|`decimals`|-|`number`|`0`|
+|`prefix`|-|`string`||
+|`suffix`|-|`string`||
+|`separator`|-|`string`|,|
+|`decimal`|-|`string`|.|
+|`useEasing`|-|`boolean`|`true`|
+|`transition`|-|`TSTypeOperator`|`linear`|

@@ -34,7 +34,8 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`sectionFormRef`|-|`() => void`|
+|`stepsRef`|-|`() => void`|
+|`formRef`|-|`() => void`|
 
 ### Slots
 
@@ -49,5 +50,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/form/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/form/_types.ts
 :::  

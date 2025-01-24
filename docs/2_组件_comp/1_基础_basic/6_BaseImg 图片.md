@@ -23,7 +23,7 @@
 |`height`|-|`StrNum`|-|
 |`to`|-|`RouteTo`|-|
 |`src`|-|`string`|-|
-|`round`|-|`boolean`|-|
+|`circle`|-|`boolean`|-|
 |`stop`|点击图片时，是否阻止冒泡|`boolean`|-|
 |`preview`|-|`boolean`|`true`|
 |`loadTips`|-|`string`|玩命加载中…|

@@ -1,6 +1,6 @@
 # BaseRender 渲染
 
-&emsp;&emsp;描述：渲染内容元素
+&emsp;&emsp;描述：渲染内容元素，支持渲染`html`字符串
 ## 基础用法
 
 &emsp;&emsp;了解本部分内容，有助于了解后续的插槽自定义内容。本质就是通过`BaseRender`进行解析的。  

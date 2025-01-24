@@ -10,7 +10,7 @@ hero:
     src: /logo.svg
     alt: logo
     width: 160px
-  actions: 
+  actions:
     - theme: brand
       text: 指南
       link: /guide/say
@@ -44,10 +44,9 @@ features:
     title: 丰富组件和hooks、utils
     details: 提供丰富的组件、常用 Hooks、Utils 封装，在一定程度上节省你造轮子的时间
   - icon: 🔨
-    title: 渐进式低代码方案
+    title: 渐进式低码方案
     details: 提供可渐进式使用的七种方案实现低码开发：代码片段、JSON渲染、快捷属性、模板配置、文件生成、工程移植性、一站代码。
   - icon: 🔨
     title: 工程移植性强
     details: 高度统一灵活的配置，支持扩展、覆盖
-
 ---

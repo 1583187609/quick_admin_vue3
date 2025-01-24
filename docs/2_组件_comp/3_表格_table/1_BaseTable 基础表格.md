@@ -54,11 +54,10 @@
 |:---|:---|:---|:---|
 |`cols`|表头|`TableColAttrs[]`|`[]`|
 |`data`|表格行数据|`CommonObj[]`|`[]`|
-|`size`|-|`CommonSize`|`defaultCommonSize`|
 |`loading`|是否处于加载中|`boolean`|-|
 |`showSummary`|是否显示汇总行|`boolean`|-|
 |`summaryMethod`|计算汇总的方法|`() => void`|`handleTableSummary`|
-|`filterBtnsByAuth`|-|`() => void`|-|
+|`getHandleAuthBtns`|-|`() => void`|-|
 |`operateBtns`|操作栏属性|`BtnItem[]`|`[]`|
 |`operateBtnsAttrs`|-|`OperateBtnsAttrs`|-|
 
@@ -68,17 +67,9 @@
 |:---|:---|:---|
 |`tableRef`|-|`() => void`|
 
-### Slots
-
-|插槽名|说明|Scope|
-|:---|:---|:---|
-|`header`|-|-|
-|`default`|-|-|
-|`c.prop`|-|`row, col, $index, name`|
-
 
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/table/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/table/_types.ts
 :::  

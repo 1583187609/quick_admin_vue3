@@ -46,10 +46,11 @@
 |`defaultExpands`|默认展开的块|`number[]`|-|
 |`accordion`|是否手风琴模式|`boolean`|-|
 |`bodyClass`|-|`string`|`f-fs-fs-w`|
+|`labelWidth`|`label`的宽度|`string`|-|
+|`grid`|同`ElementPlus`的`el-col`的属性，可为数值：`1~24`|`Grid`|`_props.styleType === "cell" ? defaultSizeGridMap[defaultCommonSize] : 24`|
 |`readonly`|是否只读|`boolean`|-|
-|`disabled`|是否禁用|`boolean`|-|
 |`pureText`|是否纯文本展示|`boolean`|-|
-|`styleType`|-|`FormStyleType`|`common`|
+|`styleType`|-|`FormStyleType`|-|
 |`footer`|是否显示底部按钮|`boolean \| BaseRenderComponentType`|`true`|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|
 |`submitBtn`|提交按钮的文字|`FootBtn`|-|
@@ -62,7 +63,7 @@
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`() => void`|-|
 |`afterReset`|重置之后的处理方法|`AfterReset`|-|
-|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean \| string`|-|
+|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean \| string`|`isDev`|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 
 ### $emit
@@ -99,5 +100,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/form/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/form/_types.ts
 :::  

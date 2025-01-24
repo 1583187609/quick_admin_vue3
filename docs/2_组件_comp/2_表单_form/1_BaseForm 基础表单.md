@@ -28,36 +28,36 @@
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/3_QuickAttrs.vue
 :::
-## 字段显示与隐藏
+## 显示与隐藏字段
 
 &emsp;&emsp;单个或多个字段的隐藏方式
 
 ::: demo 
-/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/4_ShowHide.vue
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/4_ShowHideField.vue
 :::
 ## 扩展的组件
 
-&emsp;&emsp;系统内置组件：`BaseImg, BaseUpload, BaseNumberRange, `…  
-&emsp;&emsp;外部内嵌组件：`UserInfo`（后面再考虑是否加入，先直接用插槽吧）  
+&emsp;&emsp;系统内置组件：`BaseImg, BaseUpload, BaseNumberRange, BaseAddDelList`、`BaseAnyEleList `…  
+&emsp;&emsp;外部内嵌组件：`UserInfo`、`AddDelTags`（后面再考虑是否加入，先直接用插槽吧）  
 &emsp;&emsp;使用插槽，设置 `type `为 `slot`
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/5_ExtendComponent.vue
 :::
-## 插槽规则
+## JSON插槽规则
 
 &emsp;&emsp;插槽可接受字符串（等价于`default`插槽）、对象（键名即为插槽名，值可为字符串、数组、同/异步引入的`vue`组件，渲染规则见`基础/BaseRender渲染`章节内容）。  
 &emsp;&emsp;`JSON`跟实际`DOM`保持一致嵌套，`slots`也是。下面的示例中，`el-form-item`的插槽在最外层的`slots`中，`el-input`的插槽在`attrs.slots`中  
 &emsp;&emsp;如果想要不被`el-form-item`包裹，`type`应被指定为`custom`，同时设置`renderData`属性
 
 ::: demo 
-/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/6_SlotsRule.vue
+/demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/6_JsonSlotsRule.vue
 :::
 ## 底部按钮
 
 &emsp;&emsp;`submitBtn`：支持传入模板（`save`、`submit`等）、文字（创建、确认）、对象（遵循`BaseBtn`的对象规则），监听事件始终为 `onSubmit`  
 &emsp;&emsp;`resetBtn`：支持传入模板、文字、对象（规则同`submit`），监听事件始终为 `onReset`  
-&emsp;&emsp;`moreBtns`：支出传入数组，数组元素遵循`BaseBtn`的规则，监听事件为：`onMoreBtns(name, params, next, e)`。通过设置`validateForm`为`false`，让点击按钮后不进行表单校验。  
+&emsp;&emsp;`moreBtns`：支出传入数组，数组元素遵循`BaseBtn`的规则，监听事件为：`onMoreBtns(tpl, params, next, e)`。通过设置`validateForm`为`false`，让点击按钮后不进行表单校验。  
 &emsp;&emsp;`footer `默认（提交、重置按钮）和自定义（使用`footer`插槽方式实现）  
 &emsp;&emsp;设置：`autoFixedFoot`，默认为`true`，若为`true`，则底部按钮会自适应固定在底部，若超出，内容区域会出现滚动条  
 &emsp;&emsp;注：要保证最外层表单（`BaseForm`、`SectionForm`）的高度可获得（`height`：`50vh`这种，若百分比高度，如果某一级没有传递百分比，则会导致传递链路整体失效）。
@@ -74,12 +74,13 @@
 :::
 ## 处理请求参数
 
-&emsp;&emsp;`extraParams`  
 &emsp;&emsp;`omits`  
 &emsp;&emsp;`afterSuccess`  
 &emsp;&emsp;`afterFail`  
 &emsp;&emsp;`afterReset`  
-&emsp;&emsp;额外参数  
+&emsp;&emsp;`extraParams`（额外参数）  
+&emsp;&emsp;单双`prop`  
+&emsp;&emsp;`format`为`true`或为字符串（`YYYY-MM-DD HH:mm:ss`）或为标准的 `formatter `函数  
 &emsp;&emsp;一次性统一处理
 
 ::: demo 
@@ -111,8 +112,9 @@
 |:---|:---|:---|:---|
 |`modelValue`|表单数据|`CommonObj`|`reactive({})`|
 |`fields`|表单字段项|`FormField[]`|`[]`|
+|`grid`|同`ElementPlus `的 `el-col `的属性，也可为数值：`1 ~ 24`|`Grid`|`_props.styleType === "cell" ? defaultSizeGridMap[defaultCommonSize] : 24`|
 |`pureText`|是否纯文本展示|`boolean`|-|
-|`styleType`|表格样式类型：`cell`单元格、`common`常用|`FormStyleType`|`common`|
+|`styleType`|表格样式类型：`cell`单元格|`FormStyleType`|-|
 |`footer`|是否显示底部按钮|`boolean \| BaseRenderComponentType`|`true`|
 |`autoFixedFoot`|是否自动固定底部下方按钮（设为`false`时，盒子阴影才不会被遮挡）|`boolean`|`true`|
 |`submitBtn`|提交按钮的文字|`FootBtn`|-|
@@ -125,7 +127,7 @@
 |`afterSuccess`|`fetch`请求成功之后的回调方法|`FinallyNext`|-|
 |`afterFail`|`fetch`请求失败之后的回调方法|`FinallyNext`|-|
 |`afterReset`|重置之后的处理方法|`AfterReset`|-|
-|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean \| string`|-|
+|`log`|是否通过 `console.log `打印输出请求参数和响应参数|`boolean \| string`|`isDev`|
 |`debug`|是否终止提交，并打印传参|`boolean`|-|
 
 ### $emit
@@ -161,5 +163,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/form/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/form/_types.ts
 :::  

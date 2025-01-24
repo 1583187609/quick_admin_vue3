@@ -22,7 +22,7 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`value`|-|`string`||
-|`size`|-|`StrNum`|`200`|
+|`size`|-|`StrNum`|-|
 |`level`|-|`QrcodeLevel`|`M`|
 |`darkColor`|-|`string`|#`000`|
 |`lightColor`|-|`string`|-|

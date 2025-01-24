@@ -23,7 +23,7 @@
 |`value`|-|`StrNum`|-|
 |`pureText`|-|`boolean`|-|
 |`count`|-|`StrNum`|-|
-|`empty`|-|`any`|`emptyStr`|
+|`empty`|-|`any`|`defaultEmptyStr`|
 
 ### Slots
 

@@ -23,12 +23,11 @@
 |`modelValue`|-|`ValsArr`|`reactive([])`|
 |`min`|-|`number`|-|
 |`max`|-|`number`|-|
-|`size`|-|`CommonSize`|`defaultCommonSize`|
 |`precision`|精度（保留`n`位小数位数）|`number`|-|
 |`maxlength`|最大字符长度|`number`|-|
 |`startPlaceholder`|-|`string`|最小值|
 |`endPlaceholder`|-|`string`|最大值|
-|`rangeSeparator`|分隔符|`string`|`rangeJoinChar`|
+|`rangeSeparator`|分隔符|`string`|`defaultRangeJoinChar`|
 
 ### $emit
 

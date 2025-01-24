@@ -38,8 +38,8 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`baseFormRef`|-|`() => void`|
-|`baseTableRef`|-|`() => void`|
+|`formRef`|-|`() => void`|
+|`tableRef`|-|`() => void`|
 
 ### Slots
 
@@ -53,5 +53,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/table/_types.ts
+<<< E:\self\quick_admin_vue3/src/core/components/table/_types.ts
 :::  

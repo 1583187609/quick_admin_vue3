@@ -18,8 +18,9 @@
 |`sections`|分块的表单字段|`SectionFormItemAttrs[]`|-|
 |`extraParams`|额外的参数|`CommonObj`|-|
 |`changeFetch`|是否`onChang`之后就发送请求（仅限于`Select`类组件，不含`Input`类组件）|`boolean`|`true`|
+|`immediateFetch`|页面刚准备好时是否发送请求|`boolean`|`true`|
 |`inputDebounce`|输入框输入时，是否通过防抖输入，触发搜索|`boolean`|`true`|
-|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`Grid`|`defaultGridAttrs`|
+|`grid`|栅格配置，同`ElementPlus`的`el-col`的属性|`Grid`|{ ...`defaultGridAttrsMap[_props.size ?? defaultCommonSize`] }|
 |`rowNum`|筛选条件的(表单)展示几行|`number`|-|
 |`formAttrs`|`el-form `的属性配置|`FormAttrs`|`defaultFormAttrs`|
 |`extraBtns`|额外的按钮，在表单下方，表格上方|`BaseBtnType[]`|-|
@@ -29,21 +30,17 @@
 |`cols`|表格列数据|`TableCol[]`|`[]`|
 |`operateBtns`|操作栏的分组按钮，在表格的操作一栏|`OperateBtnsType`|-|
 |`operateBtnsAttrs`|操作栏按钮的配置|`OperateBtnsAttrs`|-|
-|`filterByAuth`|按钮权限处理逻辑|`FilterByAuthFn`|`true`|
+|`handleAuth`|按钮权限处理逻辑|`HandleAuthFn`|-|
 |`tableAttrs`|`el-table `的属性配置|`TableAttrs`|`defaultTableAttrs`|
-|`pageAttrs`|分页配置|`CommonObj`|-|
-|`pagination`|是否分页|`false \| TablePaginationAttrs`|`defaultPagination`|
-|`showPagination`|是否显示分页|`boolean`|`true`|
+|`pageSizeNum`|分页大小，如果为`0`，则不按分页条件查询|`number`|`20`|
+|`showPagination`|是否显示分页|`boolean`|`!!_props.pageSizeNum`|
 |`omits`|是否剔除掉`null, undefined, ""`的属性值|`boolean \| Array`|`true`|
-|`compact`|表单项、表格列之间排列是否紧凑点|`boolean`|`_props.grid.xl < 6`|
-|`size`|整体的控件大小|`CommonSize`|`defaultCommonSize`|
+|`size`|整体的控件大小|`CommonSize`|-|
 |`readonly`|是否只读|`boolean`|-|
 |`disabled`|是否禁用|`boolean`|-|
-|`optimization`|默认为 `false`。若开启则会规避表格、表单中计算开销较多的逻辑。场景示例：操作栏列宽计算|`boolean`|-|
-|`log`|是否打印`console.log(data)`|`boolean \| "req" \| "res"`|-|
+|`log`|是否打印`console.log(data)`|`boolean \| "req" \| "res"`|`isDev`|
 |`debug`|是否在打印请求数据之后不执行请求的逻辑|`boolean`|-|
-|`reqMap`|请求参数的键名映射|`ReqMap`|`defaultReqMap`|
-|`resMap`|响应参数的键名映射|`ResMap`|`defaultResMap`|
+|`reqResMap`|请求/响应参数的键名映射|`ReqResMap`|-|
 |`fetch`|-|`UniteFetchType`|-|
 |`afterSuccess`|请求成功的回调函数|`() => void`|-|
 |`afterFail`|请求成功的回调函数|`() => void`|-|
@@ -63,16 +60,18 @@
 
 |方法名|说明|类型|
 |:---|:---|:---|
-|`refreshList`|-|`() => void`|
+|`formRef`|-|`() => void`|
+|`tableRef`|-|`() => void`|
 |`getList`|-|`() => void`|
-|`getQueryParams`|-|`() => void`|
-|`getQueryFields`|-|`() => void`|
+|`refreshList`|-|`() => void`|
+|`getQueryParams`|获取查询参数|`() => void`|
+|`getQueryFields`|获取查询字段|`() => void`|
 
 ### Slots
 
 |插槽名|说明|Scope|
 |:---|:---|:---|
-|`field.prop`|-|`name, field`|
+|`field.prop as string`|-|`name, field`|
 |`middle`|中间插槽|-|
 |`content`|内容插槽|`loading, data, total, hasMore, params, onOperateBtns`|
 |`col.prop as string`|-|`row, col, $index, name`|

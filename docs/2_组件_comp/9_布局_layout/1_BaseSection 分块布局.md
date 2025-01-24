@@ -28,6 +28,7 @@
 |`bodyClass`|-|`string`||
 |`bodyMaxHeight`|-|`string`|`90vh`|
 |`defaultFold`|-|`boolean`|-|
+|`gap`|-|`boolean`|`true`|
 
 ### $emit
 
