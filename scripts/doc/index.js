@@ -10,6 +10,7 @@ import test2 from "../../demos/12_测试_test/2_测试2_test2/index.js";
 import { deleteRemainDirOrFile } from "./utils/file/handler.js";
 import { removeDocFile } from "../remove-doc.js";
 import { needParam } from "./utils/base.js";
+import { deleteFolderSync } from "./utils/index.js";
 
 /**
  * 触发热更新写入新文件的方法
@@ -17,29 +18,52 @@ import { needParam } from "./utils/base.js";
  */
 export function hotRun() {}
 
-const testFnMap = {
-  0: test1,
-  1: test2,
-};
+const testFnMap = { 0: test1, 1: test2 };
 
-// function getDocMdDirFiles(dirPath = needParam(), removeSuffix = ".md") {
-//   const isDir = fs.lstatSync(dirPath).isDirectory();
-//   if (!isDir) throw new Error(`路径应该为一个文件夹，当前为：${partPath}`);
-//   const fileNames = fs.readdirSync(dirPath);
-//   if (!removeSuffix) return fileNames;
-//   return fileNames.map(it => it.slice(0, removeSuffix.length * -1));
-// }
+function getDocMdDirFiles(dirPath = needParam(), removeSuffix = ".md") {
+  const isDir = fs.lstatSync(dirPath).isDirectory();
+  if (!isDir) throw new Error(`路径应该为一个文件夹，当前为：${partPath}`);
+  const fileNames = fs.readdirSync(dirPath);
+  if (!removeSuffix) return fileNames;
+  return fileNames.map(it => it.slice(0, removeSuffix.length * -1));
+}
+
+/**
+ * 删除docs中废弃的文件和文件夹
+ * @description 删除因变动demos内部文件夹名称，导致docs中对应的旧md文件成为无用文件的文件或文件夹
+ * @param {string} demoDirPath
+ * @param {string} docsDirPath
+ */
+function deleteDocsAbortFileAndDir(demoDirPath = needParam(), docsDirPath = needParam()) {
+  const demFileNames = getDocMdDirFiles(demoDirPath, "");
+  const docFileNames = getDocMdDirFiles(docsDirPath, "");
+  if (demFileNames.length !== docFileNames.length) {
+    demFileNames.forEach(name => {
+      const findInd = docFileNames.findIndex(n => n === name);
+      findInd !== -1 && docFileNames.splice(findInd, 1);
+    });
+    const removeFileNames = docFileNames.map(name => path.join(docsDirPath, name));
+    removeFileNames.forEach(name => deleteFolderSync(name)); // 删除被抛弃的文件、文件夹
+  }
+}
 
 /***
  * 撰写通用组件文档
  * @param {(comp|demo|test)[]} parts 是否重写组件文档
  */
+const focusDirs = ["2_组件_comp"];
 async function writeComponentDocs(parts = [], createHome = false, readDemoPath = demosPath, writeDocPath = docsPath) {
   if (createHome) writeHomMdDoc();
   const fullDemoPath = path.join(process.cwd(), readDemoPath);
   const partNames = fs.readdirSync(fullDemoPath);
   await Promise.all(
     partNames.map(async partName => {
+      // 先清除，再写入
+      if (focusDirs.includes(partName)) {
+        const demMdDirPath = path.join(process.cwd(), `${readDemoPath}/${partName}`);
+        const docMdDirPath = path.join(process.cwd(), `${writeDocPath}/${partName}`);
+        deleteDocsAbortFileAndDir(demMdDirPath, docMdDirPath);
+      }
       const name = partName.split(splitOrderChar).at(-1);
       if (parts?.length && !parts.includes(name)) return;
       const partPath = path.join(fullDemoPath, partName);
@@ -48,26 +72,17 @@ async function writeComponentDocs(parts = [], createHome = false, readDemoPath =
       const pageNames = fs.readdirSync(partPath);
       await Promise.all(
         pageNames.map(async (pageName, ind) => {
+          // 先清除，再写入
+          if (focusDirs.includes(partName)) {
+            const demMdDirPath = path.join(process.cwd(), `${readDemoPath}/${partName}/${pageName}`);
+            const docMdDirPath = path.join(process.cwd(), `${writeDocPath}/${partName}/${pageName}`);
+            deleteDocsAbortFileAndDir(demMdDirPath, docMdDirPath);
+          }
           if (name === "test") return testFnMap[ind]();
           const pagePath = path.join(partPath, pageName);
           const isDir = fs.lstatSync(pagePath).isDirectory();
           if (!isDir) throw new Error(`暂未处理不是文件夹的情况：${partPath}`);
           const demoFileNames = fs.readdirSync(pagePath).filter(it => !it.startsWith("_"));
-          // // 比对docs和demos的文件目录，删除因变动demos内部文件夹名称，导致docs中对应的旧md文件成为无用文件的文件
-          // const docMdDirPath = path.join(process.cwd(), `${writeDocPath}/${partName}/${pageName}`);
-          // const mdFileNames = getDocMdDirFiles(docMdDirPath);
-          // const removeFileNames = [];
-          // demoFileNames.forEach((fileName, ind) => {
-          //   const findInd = mdFileNames.findIndex(it => it === fileName);
-          //   if (findInd === -1) removeFileNames.push(fileName);
-          //   mdFileNames.splice(findInd, 1);
-          // });
-          // // 删除旧的无用md文件
-          // if (removeFileNames.length) {
-          //   removeFileNames.forEach(name => {
-          //     fs.unlinkSync(`${name}.md`);
-          //   });
-          // }
           await Promise.all(
             demoFileNames.map(async fileName => {
               const mdPath = `${partName}/${pageName}/${fileName}`;

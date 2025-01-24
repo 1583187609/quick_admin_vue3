@@ -74,7 +74,7 @@ export function mkdirsSync(dirname) {
  * 同步递归删除文件、文件夹（如果文件夹为空，会删除文件夹）
  * 注：nodejs不能一次性删除多层目录，需要递归处理
  * @param dirPath 多层目录路径 示例： hello/a/b/c
- * @param isDelSelf 是否删除自身文件夹，及目录路径的最后一级为空文件夹时，是否删除
+ * @param isDelSelf 是否删除自身文件夹，即目录路径的最后一级为空文件夹时，是否删除
  */
 export function deleteFolderSync(dirPath = "", isDelSelf = true) {
   if (fs.existsSync(dirPath)) {
