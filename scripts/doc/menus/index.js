@@ -4,7 +4,16 @@
 
 import fs from "fs";
 import path from "path";
-import { docsPath, indexName, splitOrderChar, excludeNames, isShortPath, getFileName, consoleLog } from "../utils/index.js";
+import {
+  docsPath,
+  indexName,
+  splitOrderChar,
+  excludeNames,
+  isShortPath,
+  getFileName,
+  consoleLog,
+  isDev,
+} from "../utils/index.js";
 
 /**
  * 把字符串和对象排序，如果有数字前缀，则根据数字前缀排序
@@ -170,6 +179,8 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
     const cnName = getFileName(file);
     if (isDir) {
+      const order = Number(file.split("_")[0]) || 0; // 如果是NaN，则为0
+      if (!isDev && order > 10) return; // 如果大于10，则是测试、示例、等模块，不宜呈现在非开发环境
       const paths = getSubPaths(curPath);
       if (isDeep) {
         navs.push({
@@ -179,7 +190,7 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
       } else {
         const items = getItems(paths, dirPath, file);
         const firstLink = getFirstPath(items);
-        const activeMatch = firstLink.split("/")[0] + "/";
+        // const activeMatch = firstLink.split("/")[0] + "/";
         navs.push({
           text: cnName,
           link: firstLink,
@@ -187,7 +198,7 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
         });
       }
     } else {
-      const activeMatch = `${file.split("/")[0]}/`;
+      // const activeMatch = `${file.split("/")[0]}/`;
       navs.push({
         text: cnName,
         link: `${dirPath}/${file}`,
@@ -273,7 +284,7 @@ function getRewrites(sidebar) {
         let reLinks = sliceLink.split("/");
         if (isShortPath) reLinks = link.replace(docsPath, "").slice(1).split("/");
 
-        //示例：'docs/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单.md': 'demo/create/StandardDemoForm.md',
+        //示例：'docs/11_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单.md': 'demo/create/StandardDemoForm.md',
         const reLink = reLinks
           .map(it => {
             let enName = getFileName(it, "en");

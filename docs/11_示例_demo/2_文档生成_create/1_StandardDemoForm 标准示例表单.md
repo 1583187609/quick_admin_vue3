@@ -24,7 +24,7 @@
 &emsp;&emsp;这是第二行描述
 
 ::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/0_TestForm.vue
+/demos/11_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/0_TestForm.vue
 :::
 
 
@@ -36,21 +36,21 @@
 &emsp;&emsp;全部控件类型包含：`ElementPlus`（`input, select`）、内置（`BaseNumberRange`）、自定义扩展（`UserInfo`）三部分。
 
 ::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/1_AllFields.vue
+/demos/11_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/1_AllFields.vue
 :::
 ## 额外属性
 
 &emsp;&emsp;除了`ElementPlus`的属性外，其他的功能属性一律添加在 `quickAttrs `中
 
 ::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
+/demos/11_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/2_ExtraAttrs.vue
 :::
 ## 继承与扩展
 
 &emsp;&emsp;插槽及其他属性功能，完全继承自`ElementPlus`。需谨记 `Dom`嵌套跟`JSON`嵌套保持一致的原则
 
 ::: demo 
-/demos/4_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
+/demos/11_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单/5_ExtendMore.vue
 :::
 
 
@@ -131,5 +131,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\self\quick_admin_vue3/demos/4_示例_demo/2_文档生成_create/_typescript/standard.ts
+<<< E:\self\quick_admin_vue3/demos/11_示例_demo/2_文档生成_create/_typescript/standard.ts
 :::  
