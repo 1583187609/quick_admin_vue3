@@ -2,7 +2,11 @@
   目标：给图片提供带 bar 提示语的功能
 -->
 <template>
-  <div :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }" class="tag-img f-c-c" :class="{ 'hover-move': hoverMove }">
+  <div
+    :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }"
+    class="tag-img f-c-c"
+    :class="{ 'hover-move': hoverMove }"
+  >
     <el-tag class="f-c-c top-bar" v-bind="topTip.attrs" v-if="topTag">
       {{ topTip.text }}
     </el-tag>
@@ -30,7 +34,8 @@
 </template>
 <script lang="ts" setup>
 import { computed, useAttrs } from "vue";
-import { defaultCommonSize, toCssVal } from "@/core/utils";
+import { toCssVal } from "@/core/utils";
+import { defaultCommonSize } from "@/core/config";
 import { TagType } from "@/core/components/BaseTag.vue";
 import { getBarObj } from "@/core/components/crud/CardCrud/_utils";
 import { CommonObj, CommonSize } from "@/core/_types";

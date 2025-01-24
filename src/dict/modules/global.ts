@@ -3,5 +3,5 @@ import { CommonObj } from "@/core/_types";
 
 export default {
   // 省市区级联
-  C_Region: await GetMockCascader(),
+  C_Region: GetMockCascader(),
 } as CommonObj;

@@ -1,4 +1,4 @@
-<!-- summary 插槽规则
+<!-- summary JSON插槽规则
   插槽可接受字符串（等价于default插槽）、对象（键名即为插槽名，值可为字符串、数组、同/异步引入的vue组件，渲染规则见`基础/BaseRender渲染`章节内容）。
   JSON跟实际DOM保持一致嵌套，slots也是。下面的示例中，el-form-item的插槽在最外层的slots中，el-input的插槽在attrs.slots中
   如果想要不被el-form-item包裹，type应被指定为custom，同时设置renderData属性

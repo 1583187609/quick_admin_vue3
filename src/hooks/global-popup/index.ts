@@ -12,6 +12,20 @@ interface PopupAttrs {
  * 全局弹窗映射（支持两种写法：对象、函数）
  */
 export const commonPopupMap: CommonObj = {
+  // 对象示例
+  // AddSku: {
+  //   component: defineAsyncComponent(() => import("@/components/add-sku/index.vue")),
+  //   configMap(props: AddSkuProps) {
+  //     const addSkuTitleMap = { 1: "编辑需预约的商品", 2: "编辑需支付的商品" };
+  //     const { isRaffle, authType = 1 } = props;
+  //     const title = !isRaffle ? "选择参加活动的商品" : addSkuTitleMap[authType] ?? "";
+  //     return {
+  //       popup: { title },
+  //       props,
+  //       // popupType: 'dialog',
+  //     };
+  //   },
+  // },
   ChooseMedia: {
     component: defineAsyncComponent(() => import("./_components/ChooseMedia.vue")),
     // 配置类型
@@ -51,20 +65,6 @@ export const commonPopupMap: CommonObj = {
       },
     },
   },
-  // 对象示例
-  // AddSku: {
-  //   component: defineAsyncComponent(() => import("@/components/add-sku/index.vue")),
-  //   configMap(props: AddSkuProps) {
-  //     const addSkuTitleMap = { 1: "编辑需预约的商品", 2: "编辑需支付的商品" };
-  //     const { isRaffle, authType = 1 } = props;
-  //     const title = !isRaffle ? "选择参加活动的商品" : addSkuTitleMap[authType] ?? "";
-  //     return {
-  //       popup: { title },
-  //       props,
-  //       // popupType: 'dialog',
-  //     };
-  //   },
-  // },
 };
 
 export type GlobalPopupName = keyof typeof commonPopupMap;

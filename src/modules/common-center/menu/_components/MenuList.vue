@@ -42,7 +42,7 @@ const props = withDefaults(
 );
 
 const { openPopup } = usePopup();
-const menuTree = ref<MenuTreeNode[]>([]);
+const menuTree = ref<CommonObj[]>([]);
 const fields = ref<FormField[]>([
   { prop: "name", label: "菜单名称" },
   {
@@ -156,7 +156,7 @@ function handleFetch(data: CommonObj) {
   const { type } = props;
   if (type === "automate") {
     return new Promise(resolve => {
-      const allRecords = getNavsTree(autoMenus) as MenuTreeNode[];
+      const allRecords = getNavsTree(autoMenus) as CommonObj[];
       menuTree.value = allRecords;
       const records = getFilterList(JSON.parse(JSON.stringify(allRecords)), data);
       resolve({ total_num: 10, records, has_next: false });

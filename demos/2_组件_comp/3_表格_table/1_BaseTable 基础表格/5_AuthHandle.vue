@@ -26,7 +26,8 @@ const cols = [
   { prop: "phone", label: "电话", minWidth: 100 },
   { tpl: "T_EnableStatus" },
   { tpl: "T_Remark" },
-  { tpl: "T_CreateUpdate" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
 ];
 
 const rows = [

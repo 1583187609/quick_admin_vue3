@@ -4,9 +4,9 @@ pureText
 -->
 <template>
   <div class="f-sb-fs-w" style="width: 100%">
-    <BaseForm v-model="modelData1" :fields="fields" :fetch="PostMockCommon" />
-    <BaseForm v-model="modelData2" :fields="fields" :fetch="PostMockCommon" styleType="cell" />
-    <BaseForm v-model="modelData3" :fields="fields" :fetch="PostMockCommon" pureText />
+    <BaseForm class="f-1" v-model="modelData1" :fields="fields" :fetch="PostMockCommon" />
+    <BaseForm class="f-2" :grid="12" v-model="modelData2" :fields="fields" :fetch="PostMockCommon" styleType="cell" />
+    <BaseForm class="f-1" v-model="modelData3" :fields="fields" :fetch="PostMockCommon" pureText />
   </div>
 </template>
 <script lang="ts" setup>
@@ -45,7 +45,9 @@ const fields: FormFieldAttrs[] = [
 </script>
 <style lang="scss" scoped>
 .base-form {
-  flex-grow: 0;
-  flex-basis: calc(33% - $gap-two);
+  flex-basis: 1px;
+  &:not(:last-child) {
+    margin-right: $gap-two;
+  }
 }
 </style>

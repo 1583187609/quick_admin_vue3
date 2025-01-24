@@ -5,14 +5,14 @@
   <template v-if="newBtn">
     <el-popconfirm @confirm="handleClickDebounce" width="fit-content" v-bind="newBtn?.popconfirm" v-if="newBtn?.popconfirm">
       <template #reference>
-        <el-button class="base-btn" v-bind="newBtn.attrs" :disabled="loading || newBtn?.attrs?.disabled" :loading="loading">
+        <el-button class="base-btn" v-bind="newBtn?.attrs" :disabled="loading || newBtn?.attrs?.disabled" :loading="loading">
           <slot>{{ newBtn?.text ?? "" }}</slot>
         </el-button>
       </template>
     </el-popconfirm>
     <el-button
       class="base-btn"
-      v-bind="newBtn.attrs"
+      v-bind="newBtn?.attrs"
       :disabled="loading || newBtn?.attrs?.disabled"
       :loading="loading"
       @click="handleClickDebounce"
@@ -21,6 +21,8 @@
       <slot>{{ newBtn?.text ?? "" }}</slot>
     </el-button>
   </template>
+  <!-- 是为了接收父组件传来的class、style属性，然后撑开间距的作用 -->
+  <span class="base-btn" v-else></span>
 </template>
 <script lang="ts" setup>
 import { debounce } from "@/core/utils";
@@ -45,7 +47,7 @@ const props = withDefaults(
     tpl?: BaseBtnType; // 可以不传值
     to?: string | CommonObj | ((row: CommonObj) => string | CommonObj); // 点击按钮时要跳转的页面地址
     order?: number; // 按钮顺序
-    auth?: number[]; // 权限
+    auth?: (number | { code: number; type?: "disabled" })[]; // 权限
     popconfirm?: boolean | PopconfirmAttrs;
     isDebounce?: boolean; // 是否对点击做防抖处理
     isStand?: boolean; // 是否是标准的按钮属性对象，如果是，则不用再次处理了（用作性能优化场景）

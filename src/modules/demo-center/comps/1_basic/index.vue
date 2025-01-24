@@ -20,13 +20,16 @@ const DemoBtn = defineAsyncComponent(() => import("./_components/DemoBtn.vue"));
 // const DemoImg = defineAsyncComponent(() => import("./_components/DemoImg.vue"));
 // const DemoAvatar = defineAsyncComponent(() => import("./_components/DemoAvatar.vue"));
 // const DemoBarImg = defineAsyncComponent(() => import("./_components/DemoBarImg.vue"));
+// const DemoBaseUpload = defineAsyncComponent(() => import("./_components/DemoBaseUpload.vue"));
 // const DemoTag = defineAsyncComponent(() => import("./_components/DemoTag.vue"));
+// const DemoTree = defineAsyncComponent(() => import("./_components/DemoTree.vue")); // 基础树、过滤树
 // const DemoQrcode = defineAsyncComponent(() => import("./_components/DemoQrcode.vue"));
 // const DemoAduio = defineAsyncComponent(() => import("./_components/DemoAduio.vue"));
 // const DemoVideo = defineAsyncComponent(() => import("./_components/DemoVideo.vue"));
 // const DemoNumberRange = defineAsyncComponent(() => import("./_components/DemoNumberRange.vue"));
 // const DemoLiftingNum = defineAsyncComponent(() => import("./_components/DemoLiftingNum.vue"));
 // const DemoTransitionNum = defineAsyncComponent(() => import("./_components/DemoTransitionNum.vue"));
+// const DemoBaseSection = defineAsyncComponent(() => import("./_components/DemoBaseSection.vue"));
 
 const demoMap: CommonObj = {
   icon: { name: "图标", comp: DemoIcon },
@@ -37,13 +40,16 @@ const demoMap: CommonObj = {
   // img: { name: "图片", comp: DemoImg },
   // avatar: { name: "头像", comp: DemoAvatar },
   // statusImg: { name: "状态图片", comp: DemoBarImg },
+  // baseUpload: { name: "上传", comp: DemoBaseUpload },
   // tag: { name: "字典标签", comp: DemoTag },
+  // tree: { name: "树", comp: DemoTree },
   // qrcode: { name: "二维码", comp: DemoQrcode },
   // audio: { name: "音频", comp: DemoAduio },
   // video: { name: "视频", comp: DemoVideo },
   // numberRange: { name: "数字区间", comp: DemoNumberRange },
   // liftingNum: { name: " 数值升降", comp: DemoLiftingNum },
   // transitionNum: { name: "数值过渡", comp: DemoTransitionNum },
+  // baseSection: { name: "布局组件", comp: DemoBaseSection },
 };
 
 const props = withDefaults(

@@ -45,7 +45,7 @@ import { usePopup } from "@/hooks";
 const { openPopup } = usePopup();
 
 const fields = ref<FormField[]>([
-  { tpl: "T_Selection" },
+  { type: "T_Selection" },
   { tpl: "T_Index" },
   { tpl: "T_Sort" },
   { prop: "id", label: "用户ID" },

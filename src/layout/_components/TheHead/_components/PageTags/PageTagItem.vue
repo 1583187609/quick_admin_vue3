@@ -2,7 +2,7 @@
   <el-tag class="route-tag" :effect="active ? 'dark' : 'light'" @contextmenu.prevent="onContextmenu" :closable="closable">
     <div class="f-c-c">
       <BaseIcon class="mr-4" size="1.2em" :name="icon" v-if="icon" />
-      <span class="text q-line-1"><slot /></span>
+      <span class="q-line-1"><slot /></span>
     </div>
   </el-tag>
 </template>
@@ -28,11 +28,9 @@ function onContextmenu(e: Event) {
 .route-tag {
   position: relative;
   cursor: pointer;
+  line-height: 1.4;
   &:not(:last-child) {
     margin-right: $gap-qtr;
-  }
-  .text {
-    // max-width: 8em;
   }
 }
 </style>

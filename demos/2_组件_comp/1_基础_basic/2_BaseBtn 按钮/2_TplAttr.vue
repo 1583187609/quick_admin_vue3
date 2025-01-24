@@ -6,9 +6,11 @@
   <BaseBtn tpl="add" type="success">创建</BaseBtn>
   <BaseBtn :tpl="addTplInfo" />
   <br />
+  <br />
   <BaseBtn tpl="edit" />
   <BaseBtn tpl="edit" type="info" :icon="EditPen" disabled />
   <BaseBtn :tpl="editTplInfo" />
+  <br />
   <br />
   <BaseBtn tpl="import" />
 </template>

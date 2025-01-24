@@ -27,11 +27,12 @@ export default ({ mode, command }) => {
   const isProd = mode === "production"; // 原来取值范围是：production, develop, 但配置了env文件后，所以改变了mode的值
   return defineConfig({
     // assetsInclude: ["**/*.gltf"],
-    // define: {
-    //   __VUE_OPTIONS_API__: true, // 启用/禁用选项式 API 支持。禁用此功能将减小打包结果的体积，但如果第三方库依赖选项式 API，则可能影响兼容性
-    //   __VUE_PROD_DEVTOOLS__: !isProd, // 在生产环境中启用/禁用开发者工具支持。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
-    //   __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
-    // },
+    define: {
+      VITE_IS_DOCS: isVitepress, // 是否是docs文档，留给前端页面做判断用
+      // __VUE_OPTIONS_API__: true, // 启用/禁用选项式 API 支持。禁用此功能将减小打包结果的体积，但如果第三方库依赖选项式 API，则可能影响兼容性
+      // __VUE_PROD_DEVTOOLS__: !isProd, // 在生产环境中启用/禁用开发者工具支持。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
+      // __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
+    },
     logLevel: closeWarn ? "error" : undefined, // 默认为 'info'。调整控制台输出的级别。可选值：'info', 'warn', 'error', 'silent'
     // envPrefix: 'VITE_', // 以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。
     // clearScreen: true, // 设为 false 可以避免 Vite 清屏而错过在终端中打印某些关键信息
@@ -152,6 +153,11 @@ export default ({ mode, command }) => {
     // },
     //vite构建时默认使用Esbuild，打包速度是其他打包工具的十几倍，但是缺点也很明显，不具备操作AST的能力，所以需要通过terser去除console.log
     build: {
+      /**
+       * 默认 'modules'，指支持原生 ES 模块、原生 ESM 动态导入 和 import.meta 的浏览器，等价于：['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14']
+       * 可选：'esnext'（即假设有原生动态导入支持，并只执行最低限度的转译）、'es2020', 'es2015'、一个浏览器版本（例如：chrome58）或是多个目标组成的一个数组等
+       */
+      target: "es2020",
       // outDir: outDirPath,
       outDir: isProd ? "dist" : `dist-${mode}`,
       // assetsDir: "assets", // 指定生成静态资源的存放路径（相对于 build.outDir）。

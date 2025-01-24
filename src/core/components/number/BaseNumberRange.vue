@@ -66,7 +66,7 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["update:modelValue", "change", "input", "clear", "blur", "focus"]);
-const modelVals = reactive<ValsArr>(props.modelValue?.map((it, i) => getLimitNum(Number(it), i, false)));
+const modelVals = reactive<ValsArr>(props.modelValue?.map((it, i) => getLimitNum(Number(it), i, false, false)));
 const { size } = useFormAttrs();
 const maxLength = computed(() => {
   const { min, max, maxlength, precision } = props;
@@ -78,16 +78,22 @@ const maxLength = computed(() => {
 });
 
 // 获取限制最大最小值之后的值
-function getLimitNum(val: number, ind: number, isHandle = true): number {
+function getLimitNum(val: number, ind: number, isHandle = true, isTrigger = true): number {
   const { min, max } = props;
   const currValText = `最${ind === 0 ? "小" : "大"}值`;
   if (min !== undefined && val < min) {
-    if (isHandle) val = min;
-    else showMessage(`${currValText}不能小于${min}，当前为：${val}`, "warning");
+    if (isHandle) {
+      val = min;
+    } else {
+      isTrigger && showMessage(`${currValText}不能小于${min}，当前为：${val}`, "warning");
+    }
   }
   if (max !== undefined && val > max) {
-    if (isHandle) val = max;
-    else showMessage(`${currValText}不能大于${max}，当前为：${val}`, "warning");
+    if (isHandle) {
+      val = max;
+    } else {
+      isTrigger && showMessage(`${currValText}不能大于${max}，当前为：${val}`, "warning");
+    }
   }
   return val;
 }

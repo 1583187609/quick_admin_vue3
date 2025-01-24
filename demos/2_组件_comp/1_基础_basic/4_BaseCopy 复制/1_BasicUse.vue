@@ -13,7 +13,7 @@
     <BaseCopy clickIconCopy>这是待复制内容3（当且仅当点击图标时才复制文本）</BaseCopy>
   </div>
   <div class="mb-h">
-    <BaseCopy to="/">这是待复制内容4（同时满足跳转和复制功能，注意各区域的鼠标样式）</BaseCopy>
+    <BaseCopy to="/login">这是待复制内容4（同时满足跳转和复制功能，注意各区域的鼠标样式）</BaseCopy>
   </div>
   <div class="mb-h">
     <BaseCopy @click="handleClick">这是待复制内容5,（同时满足自定义点击事件和复制功能，注意各区域的鼠标样式）</BaseCopy>

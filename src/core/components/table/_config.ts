@@ -93,9 +93,20 @@ const baseTableColTpls: CommonObj = {
     type: "BaseTag",
     attrs: { name: "D_EnableStatus" },
   },
+  //头像
+  T_Avatar: {
+    prop: "avatar_url",
+    label: "头像",
+    type: "BaseAvatar",
+    // minWidth: defaultBaseImgColWidthMap[defaultCommonSize],
+    attrs: {
+      size: "8.6em",
+      style: "margin: 0 auto",
+    },
+  },
   //图片
   T_BaseImg: {
-    prop: "imgUrl",
+    prop: "img_url",
     label: "图片",
     type: "BaseImg",
     minWidth: defaultBaseImgColWidthMap[defaultCommonSize],

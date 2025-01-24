@@ -1,7 +1,7 @@
 <!-- summary 底部按钮
  submitBtn：支持传入模板（save、submit等）、文字（创建、确认）、对象（遵循BaseBtn的对象规则），监听事件始终为 onSubmit
  resetBtn：支持传入模板、文字、对象（规则同submit），监听事件始终为 onReset
- moreBtns：支出传入数组，数组元素遵循BaseBtn的规则，监听事件为：onMoreBtns(name, params, next, e)。通过设置validateForm为false，让点击按钮后不进行表单校验。
+ moreBtns：支出传入数组，数组元素遵循BaseBtn的规则，监听事件为：onMoreBtns(tpl, params, next, e)。通过设置validateForm为false，让点击按钮后不进行表单校验。
  footer 默认（提交、重置按钮）和自定义（使用footer插槽方式实现）
  设置：autoFixedFoot，默认为true，若为true，则底部按钮会自适应固定在底部，若超出，内容区域会出现滚动条
  注：要保证最外层表单（BaseForm、SectionForm）的高度可获得（height：50vh这种，若百分比高度，如果某一级没有传递百分比，则会导致传递链路整体失效）。
@@ -13,13 +13,13 @@
     <BaseForm :fields="fields" submitBtn="add" resetBtn="view" @submit="args => handleSubmit(args, 2)" />
     <BaseForm
       :fields="fields"
-      :submitBtn="{ name: 'add', text: '创建' }"
-      :resetBtn="{ name: 'view', text: '清空' }"
+      :submitBtn="{ tpl: 'add', text: '创建' }"
+      :resetBtn="{ tpl: 'view', text: '清空' }"
       @submit="args => handleSubmit(args, 2)"
     />
     <BaseForm
       :fields="fields"
-      :moreBtns="['reject', { name: 'forbid', validateForm: false, text: '点击不会触发表单校验' }]"
+      :moreBtns="['reject', { tpl: 'forbid', validateForm: false, text: '点击不会触发表单校验' }]"
       @submit="args => handleSubmit(args, 3)"
       @moreBtns="handleMoreBtns"
     />
@@ -54,12 +54,12 @@ function handleCustomSubmit(params, ind: number) {
   });
 }
 
-function handleMoreBtns(name: BtnName, params: CommonObj) {
+function handleMoreBtns(tpl: BtnName, params: CommonObj) {
   const clickMap: CommonObj = {
     reject: () => ElMessage.info(`点击了驳回按钮，参数为：${JSON.stringify(params)}`),
     forbid: () => ElMessage.info(`点击了禁用按钮，并且未触发表单校验，参数为：${JSON.stringify(params)}`),
   };
-  clickMap[name]?.();
+  clickMap[tpl]?.();
 }
 </script>
 <style lang="scss" scoped>

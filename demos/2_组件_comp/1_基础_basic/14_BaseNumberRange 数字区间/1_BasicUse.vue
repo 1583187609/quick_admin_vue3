@@ -22,4 +22,8 @@ const modelVals2 = reactive<[StrNum?, StrNum?]>([1, 2]);
 const modelVals3 = reactive<[StrNum?, StrNum?]>([-10, 1001]);
 const modelVals4 = reactive<[StrNum?, StrNum?]>([-100, 100]);
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.base-number-range {
+  margin: $gap-half;
+}
+</style>

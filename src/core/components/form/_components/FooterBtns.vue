@@ -9,13 +9,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, watch, computed, useAttrs } from "vue";
 import { BaseBtnType } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
 import { omitAttrs, printLog, splitPropsParams, showMessage } from "@/core/utils";
 import { CommonObj, FinallyNext, UniteFetchType, NextArgs, BaseDataType } from "@/core/_types";
 import { getFootBtnAttrs } from "../_utils";
-import { typeOf } from "#/mock/utils";
 
 export type AfterReset = (...NextArgs) => void;
 export interface FootBtnAttrs {
@@ -24,7 +22,6 @@ export interface FootBtnAttrs {
   // 不提供按钮的其他属性了，因为样式统一的话，原则上不允许随意更改统一的样式了
 }
 export type FootBtn = FootBtnAttrs | string;
-// const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     loading?: boolean;
@@ -49,7 +46,6 @@ const props = withDefaults(
   }
 );
 const $emit = defineEmits(["moreBtns", "submit"]);
-const $attrs = useAttrs();
 const isLoading = ref(props.loading);
 const newSubmitBtn = getFootBtnAttrs(props.submitBtn, "submit");
 const newResetBtn = getFootBtnAttrs(props.resetBtn, "reset");

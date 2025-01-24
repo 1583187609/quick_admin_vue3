@@ -16,7 +16,9 @@
   <br />
   <BaseRender :renderData="AsyncColorsText" />
   <br />
-  <BaseRender :renderData="(h('div', { style: 'color: red' }), 'h函数渲染内容')" />
+  <BaseRender :renderData="(h('div', { style: 'color: green;' }), 'h函数渲染内容')" />
+  <br />
+  <BaseRender renderData="<div style='color:blue;'>html字符串渲染</div>" />
 </template>
 <script lang="ts" setup>
 import { defineAsyncComponent, h } from "vue";

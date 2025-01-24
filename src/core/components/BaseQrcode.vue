@@ -25,13 +25,12 @@ const props = withDefaults(
     value?: string;
     size?: StrNum;
     level?: QrcodeLevel;
-    darkColor: string;
-    lightColor: string;
+    darkColor?: string;
+    lightColor?: string;
     quality?: number;
   }>(),
   {
     value: "",
-    size: 200,
     level: "M",
     darkColor: "#000",
     // lightColor: '#000',
@@ -54,7 +53,7 @@ const createQrCode = (text: string = props.value) => {
     scal: 177,
     color: {
       dark: darkColor, // 二维码背景颜色
-      // light: lightColor // 二维码前景颜色
+      light: lightColor, // 二维码前景颜色
     },
     rendererOpts: {
       quality: 0.9,

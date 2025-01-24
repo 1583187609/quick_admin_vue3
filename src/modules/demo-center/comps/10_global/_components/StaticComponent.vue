@@ -1,4 +1,4 @@
-<!-- 页面-简介 -->
+<!-- 静态组件 -->
 <template>
   <div>
     <div>测试关闭弹窗</div>
@@ -6,10 +6,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, watch, computed } from "vue";
-import { ClosePopupInject, CommonObj } from "@/core/_types";
+import { CommonObj } from "@/core/_types";
+import { usePopup } from "@/hooks";
 
-const closePopup = inject<ClosePopupInject>("closePopup");
+const { closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

@@ -32,7 +32,7 @@ const fields: FormFieldAttrs[] = [
     label: "年龄",
     quickAttrs: {
       grid: 12,
-      before: "岁",
+      after: "岁",
     },
   },
   {

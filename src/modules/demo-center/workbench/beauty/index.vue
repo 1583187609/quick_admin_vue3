@@ -14,9 +14,11 @@
       </div>
       <BaseSection title="总体数据" class="row">
         <template #head-right>
-          <el-button>近一年</el-button>
-          <el-button>近一月</el-button>
-          <el-button>近一周</el-button>
+          <el-radio-group v-model="nearType" class="ml-a">
+            <el-radio-button value="week">近一周</el-radio-button>
+            <el-radio-button value="month">近一月</el-radio-button>
+            <el-radio-button value="year">近一年</el-radio-button>
+          </el-radio-group>
         </template>
         <ChartLine />
       </BaseSection>
@@ -49,19 +51,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import ChartLine from "@/core/components/chart/ChartLine.vue";
 import { TableColAttrs } from "@/core/components/table/_types";
 import ChartBar from "@/core/components/chart/ChartBar.vue";
-const props = withDefaults(
-  defineProps<{
-    _example_prop?: CommonObj;
-  }>(),
-  {
-    _example_prop: () => ({}),
-  }
-);
+
+const nearType = ref("week");
 const cols: TableColAttrs[] = [
   { prop: "id", label: "ID" },
   { prop: "price", label: "价格" },

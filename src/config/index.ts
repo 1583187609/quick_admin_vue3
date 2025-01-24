@@ -2,6 +2,7 @@ import { QuickGlobalConfig } from "./_types";
 import { TableColAttrs } from "@/core/components/table/_types";
 import { getUserInfo, storage } from "@/utils";
 import { defaultCommonSize } from "@/core/config";
+import { isDocs } from "@/core/consts";
 
 // const isProd = process.env.NODE_ENV === "production";
 // const isLog = !isProd;
@@ -29,7 +30,7 @@ const config = {
   // },
   // // 系统设置
   system: {
-    size: "small",
+    size: isDocs ? "small" : "small",
     // emptyStr: "-",
     // rangeJoinChar: "~",
     // // 布局
@@ -204,8 +205,9 @@ const config = {
         let type;
         const isFind = auth.find(it => {
           if (typeof it === "number") return it === role;
-          type = it.type;
-          return it.code === role;
+          const isFind = it.code === role;
+          if (isFind) type = it.type;
+          return isFind;
         });
         return isFind ? type || true : false;
       },
@@ -253,8 +255,9 @@ const config = {
       let type;
       const isFind = auth.find(it => {
         if (typeof it === "number") return it === role;
-        type = it.type;
-        return it.code === role;
+        const isFind = it.code === role;
+        if (isFind) type = it.type;
+        return isFind;
       });
       return isFind ? type || true : false;
     },

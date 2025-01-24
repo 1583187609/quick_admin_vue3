@@ -37,7 +37,7 @@ function handleChange(val: any, ind: number) {
 }
 </script>
 <style lang="scss" scoped>
-@use "var.scss";
+@use "./_var.scss" as *;
 .info-section {
   &:not(:last-child) {
     margin-bottom: $gap;

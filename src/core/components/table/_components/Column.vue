@@ -152,7 +152,7 @@ function getIsNoHandle(scope: CommonObj) {
   if (enableOptimize) return false;
   const { _self } = scope;
   const { prop, type } = props.col;
-  if ((prop as string).startsWith("$") || type === "slot") return false;
+  if (prop?.startsWith("$") || type === "slot") return false;
   if (!_self.data?.length) return false;
   const row = _self.data[0];
   if (prop?.includes(propsJoinChar)) {

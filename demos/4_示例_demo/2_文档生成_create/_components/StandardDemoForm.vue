@@ -62,7 +62,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import { FormInstance } from "element-plus";
-import { handleFields } from "@/core/components/form/_utils";
+import { getHandleFields } from "@/core/components/form/_utils";
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormField, FormFieldAttrs, FieldPropType } from "@/core/components/form/_components/FieldItem/_types";
 import _ from "lodash";
@@ -156,7 +156,7 @@ watch(
   () => props.fields,
   newVal => {
     const { modelValue } = props;
-    const result = handleFields(newVal, $emit, modelValue);
+    const result = getHandleFields(newVal, modelValue);
     const { data, fields } = result;
     newFields.value = fields;
     merge(formData.value, data);

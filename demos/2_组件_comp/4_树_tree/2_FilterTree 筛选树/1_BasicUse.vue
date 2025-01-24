@@ -10,18 +10,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/core/_types";
-const props = withDefaults(
-  defineProps<{
-    exampleProp?: CommonObj;
-  }>(),
-  {
-    exampleProp: () => ({}),
-  }
-);
+import FilterTree from "@/core/components/tree/FilterTree.vue";
 </script>
-<style lang="scss" scoped>
-.base-tree {
-  margin: $gap-half $gap;
-}
-</style>
+<style lang="scss" scoped></style>

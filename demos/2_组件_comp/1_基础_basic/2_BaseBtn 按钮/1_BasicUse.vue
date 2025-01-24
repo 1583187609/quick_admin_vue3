@@ -3,13 +3,13 @@
 -->
 <template>
   <div class="f-fs-c-w">
-    <BaseBtn />
-    <BaseBtn type="success" :icon="CirclePlus">新增</BaseBtn>
-    <BaseBtn type="success" :icon="Edit">编辑</BaseBtn>
-    <BaseBtn type="danger" :icon="Remove">删除</BaseBtn>
-    <BaseBtn type="info" :icon="View">详情</BaseBtn>
-    <BaseBtn type="primary" :icon="Top" @click="openPopup('导入', [CommonImport, {}])">导入</BaseBtn>
-    <BaseBtn type="warning" :icon="Link" @click="router.push('/')" link>前往首页</BaseBtn>
+    <BaseBtn tpl="add" />
+    <BaseBtn tpl="add" type="success" :icon="CirclePlus">新增</BaseBtn>
+    <BaseBtn tpl="add" type="success" :icon="Edit">编辑</BaseBtn>
+    <BaseBtn tpl="add" type="danger" :icon="Remove">删除</BaseBtn>
+    <BaseBtn tpl="add" type="info" :icon="View">详情</BaseBtn>
+    <BaseBtn tpl="add" type="primary" :icon="Top" @click="openPopup('导入', [CommonImport, {}])">导入</BaseBtn>
+    <BaseBtn tpl="add" type="warning" :icon="Link" @click="router.push('/')" link>前往首页</BaseBtn>
   </div>
 </template>
 <script lang="ts" setup>

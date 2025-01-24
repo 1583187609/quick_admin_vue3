@@ -32,8 +32,8 @@ const sections: SectionFormItemAttrs[] = [
       { prop: "identity", label: "身份证号", attrs: { maxlength: 18 } },
       { prop: "address", label: "住址", type: "cascader" },
       { prop: "hobby", label: "兴趣爱好", type: "select" },
-      { prop: "produce", label: "个人简介", type: "BaseEditor" },
-      { prop: "remark", label: "备注", attrs: { type: "textarea" } },
+      { prop: "produce", label: "个人简介", type: "BaseEditor", quickAttrs: { grid: 24 } },
+      { prop: "remark", label: "备注", attrs: { type: "textarea" }, quickAttrs: { grid: 24 } },
     ],
   },
   {

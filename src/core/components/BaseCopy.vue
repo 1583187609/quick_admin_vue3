@@ -4,7 +4,7 @@
 <template>
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy || !textStr">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': +maxLine > 0, hover: textStr && !isClickIconCopy }">
-      <el-tooltip v-bind="tooltipAttrs" content="点击跳转" :disabled="!textStr || !to">
+      <el-tooltip v-bind="tooltipAttrs" :content="toTooltip" :disabled="!textStr || !to">
         <span
           @click="handleClick"
           class="f-1"
@@ -39,12 +39,14 @@ const props = withDefaults(
     stop?: boolean; // 是否阻止点击事件的冒泡
     maxLine?: StrNum; // 最多显示几行，超出文本会显示省略号
     clickIconCopy?: boolean; // 是否只当点击图标时才复制文本
-    tips?: string; // 复制成功之后的提示文案
+    successText?: string; // 复制成功之后的提示文案
+    toTooltip?: string; // 提示跳转的文案
   }>(),
   {
     maxLine: 1,
     clickIconCopy: undefined,
-    tips: "复制成功",
+    successText: "复制成功",
+    toTooltip: "点击跳转",
   }
 );
 
@@ -70,11 +72,11 @@ function handleClick(e) {
   if (stop) e.stopPropagation();
   return router.push(to as RouteTo);
 }
-// 处理点击事件
+// 处理复制逻辑
 function handleCopy(e) {
   if (!textStr.value) return;
   const { tagName, classList } = e.target.parentNode;
-  const { stop, tips } = props;
+  const { stop, successText } = props;
   if (stop) e.stopPropagation();
   const isAtIcon = classList.contains("icon") || tagName === "svg";
   if ($attrs.onClick && !isAtIcon) return $attrs.onClick?.();
@@ -84,7 +86,7 @@ function handleCopy(e) {
   document.body.appendChild(input);
   input.select();
   const copyText = document.execCommand("copy");
-  if (copyText) showMessage(tips, "success");
+  if (copyText) showMessage(successText, "success");
   document.body.removeChild(input);
 }
 </script>

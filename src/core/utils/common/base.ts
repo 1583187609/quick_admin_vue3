@@ -438,3 +438,43 @@ export function deepFreeze(obj) {
   });
   return Object.freeze(obj);
 }
+
+/**
+ * 深度克隆
+ * @param {any} target
+ * @param map
+ * @returns {any}
+ */
+export function deepClone(target, map = new WeakMap()) {
+  // 如果是基本类型或 null，直接返回
+  if (target === null || typeof target !== "object") return target;
+  // 如果是日期对象，返回一个新的日期对象
+  if (target instanceof Date) return new Date(target);
+  // 如果是正则表达式对象，返回一个新的正则表达式对象
+  if (target instanceof RegExp) return new RegExp(target);
+  // 如果是 Map 对象，递归克隆其键值对
+  if (target instanceof Map) {
+    const cloneMap = new Map();
+    target.forEach((value, key) => cloneMap.set(key, deepClone(value, map)));
+    return cloneMap;
+  }
+  // 如果是 Set 对象，递归克隆其值
+  if (target instanceof Set) {
+    const cloneSet = new Set();
+    target.forEach(value => {
+      cloneSet.add(deepClone(value, map));
+    });
+    return cloneSet;
+  }
+  // 如果是数组或普通对象，递归克隆其属性
+  const cloneTarget = Array.isArray(target) ? [] : {};
+  // 使用 WeakMap 解决循环引用问题
+  if (map.has(target)) return map.get(target);
+  map.set(target, cloneTarget);
+  for (const key in target) {
+    if (target.hasOwnProperty(key)) {
+      cloneTarget[key] = deepClone(target[key], map);
+    }
+  }
+  return cloneTarget;
+}

@@ -6,7 +6,7 @@ import { cssVars } from "@/utils";
 import { RendererElement, RendererNode, VNode, h, isVNode, markRaw } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { getChinaCharLength, storage, typeOf } from "@/core/utils";
-import { emptyVals, isDev } from "@/core/consts";
+import { emptyVals, isDev, isDocs } from "@/core/consts";
 import { defaultEmptyStr, defaultPopoverAttrs, defaultNoAuthPaths } from "@/core/config";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
 import type { MessageParams, TableColumnCtx } from "element-plus";
@@ -339,6 +339,7 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
  * @returns
  */
 export function getUserInfo(id = ""): CommonObj | null {
+  if (isDocs) return {};
   const info = storage.getItem("userInfo");
   const path = location.hash.slice(1);
   if (!defaultNoAuthPaths.some((it: string) => path.startsWith(it)) && !info) {

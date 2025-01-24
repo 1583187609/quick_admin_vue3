@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div>组件权限（待完善）</div>
+  <div>组件权限示例（待完善）</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

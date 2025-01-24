@@ -1,11 +1,10 @@
 <template>
   <div class="f-fs-fs">
-    <BaseVideo :src="src" />
-    <BaseVideo :src="src">自定义操作面板区域</BaseVideo>
+    <IconPicker />
   </div>
 </template>
 <script lang="ts" setup>
-const src = "https://www.runoob.com/try/demo_source/movie.mp4";
+import IconPicker from "@/core/components/IconPicker/Index.vue";
 </script>
 <style lang="scss" scoped>
 .base-video {

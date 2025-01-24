@@ -25,84 +25,6 @@ export function getAddDelItem(fields?: FormField[]) {
 }
 
 /**
- * 是否是合法的字段（同时初始化表单数据）
- * @param formData object 表单数据对象
- * @param field 字段对象属性
- * @param $emit vue $emit
- * @param model 表单初始值
- * @return boolean 这个字段属性是否合法（是否是对象）
- */
-// interface ResObj {
-//   data: CommonObj;
-//   fields: FormFieldAttrs[];
-// }
-// export function handleFields(
-//   fields: FormField[] = [],
-//   $emit: any,
-//   modelValue?: CommonObj,
-//   inheritAttrs?: CommonObj,
-//   tplType: FormTplType = "common"
-// ): ResObj {
-//   const resObj: ResObj = {
-//     data: {},
-//     fields: [],
-//   };
-//   fields.forEach((originField: FormField, ind: number) => {
-//     if (typeOf(originField) !== "Object") return null;
-//     let { tpl, ...field } = originField as FormFieldAttrs;
-//     if (tpl) {
-//       const tplData = getStandardTplInfo(tpl, defaultFormItemTplsMap[tplType]);
-//       field = merge(tplData, field);
-//     }
-//     const { type, prop = tpl, children } = field;
-//     const propType = typeOf(prop);
-//     if (propType === "String") {
-//       let defVal = modelValue?.[prop as string];
-//       //是为了处理 el-checkbox 在点击重置按钮后，选中状态不会重置的问题
-//       if (type === "checkbox" && defVal === undefined) {
-//         defVal = false;
-//       } else {
-//         const val = children?.length ? handleFields(children, $emit, defVal, undefined, tplType).data : defVal;
-//         resObj.data[prop as string] = val;
-//         val !== undefined && $emit?.("change", val, prop);
-//       }
-//     } else if (propType === "Array") {
-//       //此处不会有children
-//       const [minProp, maxProp] = prop as [string, string];
-//       const maxVal = modelValue?.[maxProp];
-//       const minVal = modelValue?.[minProp];
-//       const newProp = (prop as string[]).join(propsJoinChar);
-//       const isAllUnd = minVal === undefined && maxVal === undefined;
-//       const val = isAllUnd ? undefined : [minVal, maxVal];
-//       resObj.data[newProp] = val;
-//       (field as FormFieldAttrs).prop = newProp;
-//       val !== undefined && $emit?.("change", val, newProp);
-//     } else if (propType === "Undefined") {
-//       if (!children?.length) throw new Error("不能同时没有设置prop和children属性");
-//       const defVal: CommonObj = {};
-//       const joinProp =
-//         children
-//           ?.map((item: any) => {
-//             const { prop } = item;
-//             defVal[prop] = modelValue?.[prop];
-//             return prop;
-//           })
-//           .join(propsJoinChar) ?? "";
-//       const val = defVal;
-//       (field as FormFieldAttrs).prop = joinProp;
-//       resObj.data[joinProp as string] = val;
-//       Object.keys(val).length && $emit?.("change", val, joinProp);
-//       console.warn("children不能为空数组");
-//     } else {
-//       throw new Error(`暂未处理prop为${propType}类型的值`);
-//     }
-//     if (inheritAttrs) merge(field, inheritAttrs);
-//     resObj.fields.push(field as FormFieldAttrs);
-//   });
-//   return resObj;
-// }
-
-/**
  * 获取标准的字段
  */
 function getStandardFieldAttrs(simpleField: any, tplType: FormTplType = "common") {
@@ -210,8 +132,9 @@ export function judgeIsEnChar(str: string) {
 
 /**
  * 获取底部按钮的属性（表单底部的按钮）
+ * @param isStand 是否是标准的按钮属性对象
  */
-export function getFootBtnAttrs(btn: FootBtn, tpl: BtnName): BtnItem | undefined {
+export function getFootBtnAttrs(btn: FootBtn, tpl: BtnName, isStand = false): BtnItem | undefined {
   if (!btn) return;
   const t = typeOf(btn);
   if (t === "String") {
@@ -220,6 +143,9 @@ export function getFootBtnAttrs(btn: FootBtn, tpl: BtnName): BtnItem | undefined
     btnObj.text = btn as string;
     return btnObj;
   }
-  if (t === "Object") return btn as BtnItem;
+  if (t === "Object") {
+    if (isStand) return btn as BtnItem;
+    return btn as BtnItem;
+  }
   throw new Error(`暂未处理此类型：${t}`);
 }

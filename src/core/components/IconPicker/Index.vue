@@ -1,10 +1,10 @@
 <template>
-  <div @click="openSelectIcon" class="icon-box f-c-c">
+  <div @click="openPopup('选择图标', [SelectIcon, { onSelected: handleSelected }])" class="icon-picker f-c-c">
     <template v-if="iconName">
       <BaseIcon class="q-line-1" style="line-height: 1" size="1.4em" :name="iconName" />
       <span class="ml-h">{{ iconName }}</span>
     </template>
-    <span class="placeholder" v-else> 点击选择图标 </span>
+    <span class="placeholder" v-else>点击选择图标</span>
   </div>
 </template>
 <script lang="ts" setup>
@@ -17,37 +17,21 @@ const props = withDefaults(
   defineProps<{
     modelValue?: string;
   }>(),
-  {
-    modelValue: "",
-  }
+  {}
 );
 const $emit = defineEmits(["update:modelValue"]);
 const { formItem } = useFormItem();
-const iconName = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val: string) {
-    $emit("update:modelValue", val);
-    formItem?.validate("change");
-  },
-});
+const iconName = ref(props.modelValue);
 
-function openSelectIcon() {
-  openPopup("选择图标", [
-    SelectIcon,
-    {
-      onSelected: handleSelected,
-    },
-  ]);
-}
 function handleSelected(name: string) {
   iconName.value = name;
+  $emit("update:modelValue", name);
+  formItem?.validate("change");
   closePopup();
 }
 </script>
 <style lang="scss" scoped>
-.icon-box {
+.icon-picker {
   cursor: pointer;
   .placeholder {
     cursor: pointer;

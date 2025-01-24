@@ -80,8 +80,9 @@ import { FormStyleType } from "./_types";
 import config, { defaultCommonSize } from "@/core/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
 import { useFormAttrs } from "@/hooks";
-import _ from "lodash";
 import { isDev } from "@/core/consts";
+import { useVModel } from "@vueuse/core";
+import _ from "lodash";
 
 const { merge } = _;
 
@@ -91,7 +92,6 @@ const $slots = defineSlots<{
   "[fieldItem]": () => void; // 字段Item插槽
   footer?: () => void; // 底部插槽
 }>();
-const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
     /**
@@ -147,10 +147,11 @@ const { disabled } = useFormAttrs();
 const footerBtnsRef = ref<any>(null);
 const formRef = ref<FormInstance>();
 const newFields = ref<FormFieldAttrs[]>([]);
-const formData = computed({
-  get: () => props.modelValue,
-  set: (val: CommonObj) => $emit("update:modelValue", val),
-});
+// const formData = computed({
+//   get: () => props.modelValue,
+//   set: (val: CommonObj) => $emit("update:modelValue", val),
+// });
+const formData = useVModel(props, "modelValue", $emit);
 watch(
   () => props.fields,
   newVal => {

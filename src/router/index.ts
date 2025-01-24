@@ -6,6 +6,7 @@ import routes from "./routes";
 import NProgress from "nprogress";
 import { CommonObj } from "@/core/_types";
 import "nprogress/nprogress.css";
+import { isDocs } from "@/core/consts";
 
 NProgress.configure({
   easing: "ease", // 动画方式
@@ -24,10 +25,12 @@ const router = createRouter({
 });
 // 全局前置守卫
 router.beforeEach((to: any, from: any, next) => {
+  const isDynamicRoute = false; // 是否是动态路由
+  if (isDocs || !isDynamicRoute) return next();
   const menuStore = useMenuStore();
   const userStore = useUserStore();
   const routeStore = useRouteStore();
-  const baseStore = useBaseStore();
+  // const baseStore = useBaseStore();
   const { path, query, name, meta } = to;
   const { title, auth = true, linkType } = meta;
   document.title = title ?? VITE_APP_NAME;
