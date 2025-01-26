@@ -13,8 +13,15 @@
         </template>
         <template #default="scope">
           <template v-if="scope.col.field">
-            <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'custom'" />
-            <FieldItem style="margin-bottom: 0" v-model="scope.row[scope.col.prop]" :field="scope.col.field" v-else />
+            <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'slot'" />
+            <FieldItem
+              style="margin-bottom: 0"
+              v-model="scope.row[scope.col.prop]"
+              :field="scope.col.field"
+              :prop="scope.col.prop"
+              hideLabel
+              v-else
+            />
           </template>
           <template v-else>{{ scope.row[scope.col.prop] }}</template>
         </template>
@@ -27,7 +34,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, computed, useAttrs } from "vue";
-import { FormInstance } from "element-plus";
 import { CommonObj } from "@/core/_types";
 import { FormTableColAttrs } from "@/core/components/table/_types";
 import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
@@ -36,7 +42,6 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const $attrs = useAttrs();
 const props = withDefaults(
   defineProps<{
     cols: FormTableColAttrs[]; // 表头

@@ -1,18 +1,15 @@
-<!-- 图标 -->
+<!-- 静态组件 -->
 <template>
   <div>
-    <BaseSection title="默认">
-      <BaseIcon />
-    </BaseSection>
-    <BaseSection title="设置大小和名称">
-      <BaseIcon size="2em" name="CirclePlusFilled" />
-      <BaseIcon name="Setting" size="3em" />
-    </BaseSection>
+    <div>测试关闭弹窗</div>
+    <el-button @click="closePopup">关闭</el-button>
   </div>
 </template>
 <script lang="ts" setup>
 import { CommonObj } from "@/core/_types";
+import { usePopup } from "@/hooks";
 
+const { closePopup } = usePopup();
 const props = withDefaults(
   defineProps<{
     exampleProp?: CommonObj;

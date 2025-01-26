@@ -2,7 +2,15 @@
   继承el-tree，并扩展了叶子节点点击事件 onLeafNodeClick
 -->
 <template>
-  <el-tree @nodeClick="handleNodeClick" class="base-tree hover-show-scroll" :load="load" :data="data" :lazy="lazy" ref="treeRef">
+  <el-tree
+    class="base-tree hover-show-scroll"
+    v-bind="defineTreeAttrs"
+    :load="load"
+    :data="data"
+    :lazy="lazy"
+    @nodeClick="handleNodeClick"
+    ref="treeRef"
+  >
     <template #empty>
       <BaseEmpty />
     </template>
@@ -17,6 +25,7 @@ import { CommonObj, CommonSlots } from "@/core/_types";
 import { getSlotsMap } from "@/utils";
 import { ElTree } from "element-plus";
 
+const defineTreeAttrs = { nodeKey: "value" };
 const props = withDefaults(
   defineProps<{
     load?: (node: Node, resolve: (data: CommonObj[]) => void) => CommonObj[];

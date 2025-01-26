@@ -1,4 +1,5 @@
 <!-- summary 基础用法
+ 提供上传功能，并整合部分业务逻辑，暴露出配置项
 -->
 <template>
   <div class="f-fs-fs-w">

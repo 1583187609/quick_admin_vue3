@@ -10,7 +10,17 @@
       @operateBtns="onOperateBtns"
       v-for="(col, cInd) in newCols"
       :key="cInd"
-    />
+    >
+      <template #header="scope">
+        <slot name="header" v-bind="scope">{{ scope.column.label }}</slot>
+      </template>
+      <template #default="scope">
+        <slot v-bind="scope">{{ scope.row[scope.col.prop as string] }}</slot>
+      </template>
+      <template #custom="{ row, col: c, $index: ind }">
+        <slot :name="c.prop" v-bind="{ row, col: c, $index: ind }" />
+      </template>
+    </Column>
     <template #empty>
       <BaseEmpty />
     </template>

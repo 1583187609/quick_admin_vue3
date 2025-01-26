@@ -1,3 +1,7 @@
+<!-- summary 基础用法
+  提供音频逻辑方案，处理通用业务逻辑，并暴露相关api，支持覆盖
+  待完善
+-->
 <template>
   <div class="f-sb-fs">
     <BaseAudio class="f-1" :src="src" />

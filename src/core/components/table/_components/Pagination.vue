@@ -1,7 +1,7 @@
 <!-- 组件 - 分页 -->
 <template>
   <el-pagination
-    class="f-c-c"
+    class="pagination f-c-c"
     v-model:currentPage="newCurrPage"
     v-model:pageSize="newPageSize"
     :total="total"

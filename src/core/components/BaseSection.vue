@@ -9,7 +9,7 @@
         <QuestionPopover :popover="popover" class="ml-q f-0 mr-h" v-if="popover" />
         <el-badge class="ml-q" v-bind="{ ...defaultBadgeAttrs, ...badgeAttrs }" v-if="badgeAttrs" />
       </div>
-      <slot name="head-right" />
+      <slot name="head-right" v-if="$slots['head-right']" />
       <el-icon @click="fold = !fold" class="fold-btn f-0" :class="fold ? 'rotate-90' : ''" size="1em" v-if="foldable">
         <ArrowRight />
       </el-icon>
@@ -80,7 +80,6 @@ function toggleFold(e) {
     border-bottom: $border-main;
     background: $color-bg-lighter;
     .title {
-      margin-right: $gap-half;
       font-size: $font-size-heavy;
       font-weight: 500;
       &::before {

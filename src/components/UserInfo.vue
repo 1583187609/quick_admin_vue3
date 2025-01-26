@@ -69,10 +69,10 @@
         </div>
         <div class="f-sb-c">
           <div class="item q-line-1">
-            现居地：<b>{{ getText("C_Region", data.live_city ?? 0) || "-" }}</b>
+            现居地：<b>{{ liveCityText }}</b>
           </div>
           <div class="item q-line-1">
-            家乡：<b>{{ getText("C_Region", data.city ?? 0) || "-" }}</b>
+            家乡：<b>{{ cityText }}</b>
           </div>
         </div>
       </div>
@@ -81,11 +81,11 @@
 </template>
 <script lang="ts" setup>
 import { CommonObj } from "@/core/_types";
-import { useRouter } from "vue-router";
 import { useDict } from "@/hooks";
+import { getCascaderText } from "@/core/hooks/dict";
 
 const router = useRouter();
-const { getText } = useDict();
+const { getText, getOpts } = useDict();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;
@@ -95,6 +95,22 @@ const props = withDefaults(
     data: () => ({}),
   }
 );
+const liveCityText = ref("");
+const cityText = ref("");
+init();
+function init() {
+  const text = getText("C_Region", props.data.live_city ?? []);
+  if (text === "string") {
+    liveCityText.value = text as string;
+    cityText.value = getText("C_Region", props.data.city ?? []) as string;
+    return;
+  }
+  getOpts("C_Region").then((res: OptionItem[]) => {
+    liveCityText.value = getCascaderText(res, props.data.live_city, "-");
+    cityText.value = getCascaderText(res, props.data.city, "-");
+  });
+}
+
 function getAuthStatus(data) {
   const { company_status, school_status } = data;
   let status = 0;

@@ -126,6 +126,8 @@ function handleReset() {
 </script>
 <style lang="scss" scoped>
 .set-btns {
-  margin: var(--gap-half) 0;
+  // 不要合并写，在ExtraBtns中，有设置margin-left为auto的需求
+  margin-top: var(--gap-half);
+  margin-bottom: var(--gap-half);
 }
 </style>

@@ -157,7 +157,7 @@ export function getFilterRules(enName: string, params: CommonObj) {
       return isFind;
     });
     if (!targetRule) {
-      isDev && console.warn(`dev：不存在该字段，会导致查询该条件无效：${key}`);
+      isDev && console.warn(`mock：不存在该字段，会导致查询该条件无效：${key}`);
       return;
     }
     const [strategy, way] = getStrategyWay(targetRule.type, val);

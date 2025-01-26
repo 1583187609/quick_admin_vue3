@@ -83,8 +83,11 @@
         <slot :name="col.prop as string" v-bind="{ row, col, $index }" />
       </template>
     </QueryTable>
+    <div class="bottom" v-if="$slots.bottom">
+      <slot name="bottom" />
+    </div>
     <Pagination
-      class="mt-h f-0"
+      class="f-0"
       v-model:currPage="currPageInfo[currPageKey]"
       v-model:pageSize="currPageInfo[pageSizeKey]"
       :total="pageInfo.total"
@@ -141,8 +144,8 @@ const CommonImport = defineAsyncComponent(() => import("@/core/components/BaseBt
 
 const { merge, cloneDeep, upperFirst } = _;
 const $slots = defineSlots<{
-  default: () => void; // 默认插槽
   middle?: () => void; // 中间插槽
+  bottom?: () => void; // 底部插槽
   content?: () => void; // 内容插槽
   "[formItem]": () => void; // 表单项插槽
   "[colItem]": () => void; // 表格列插槽
@@ -496,7 +499,11 @@ defineExpose({
   width: 100%;
   .query-form,
   .middle {
-    margin-bottom: var(--gap-half);
+    margin-bottom: $gap-half;
+  }
+  .bottom,
+  .pagination {
+    margin-top: $gap-half;
   }
 }
 </style>

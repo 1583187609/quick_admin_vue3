@@ -1,9 +1,5 @@
 <!-- summary 基础用法 
- 设置 modelValue，显示初始值
- 设置 min，最小值
- 设置 max，最大值
- 设置 size，控件大小类型 
- 设置 precision，保留n位小数
+ 提供选择数字区间的表单控件
 -->
 <template>
   <BaseNumberRange v-model="modelVals1" />

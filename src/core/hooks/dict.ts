@@ -36,7 +36,7 @@ function getSelectText(map: DictObj = needParam(), code: StrNum = needParam(), e
   return map[code]?.text || emptyChar;
 }
 // 获取数组的文本，包含：select、cascader、tree
-function getCascaderText(list: OptionItem[] = needParam(), codes: StrNum[] = needParam(), emptyChar = defaultEmptyStr) {
+export function getCascaderText(list: OptionItem[] = needParam(), codes: StrNum[] = needParam(), emptyChar = defaultEmptyStr) {
   if (!list?.length) return emptyChar;
   return getTextFromOptions(list as OptionItem[], codes, undefined, emptyChar);
 }

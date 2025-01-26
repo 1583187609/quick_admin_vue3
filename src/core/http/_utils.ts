@@ -32,7 +32,7 @@ export function showLoading() {
     showLoadTimer = setTimeout(() => {
       startLoading();
       showLoadTimer = null;
-    }, 500);
+    }, 3000); // 如果超过3秒仍未请求成功，则显示全局加载弹窗
   }
   loadingCount += 1;
 }

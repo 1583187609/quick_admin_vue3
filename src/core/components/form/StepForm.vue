@@ -73,10 +73,11 @@ const sectionFormRef = ref<any>(null);
 const stepsRef = ref<any>(null);
 const steps = computed<StepItemAttrs[]>(() => {
   const sections = props.sections.filter(it => !!it);
-  return sections.map(item => {
+  const list = sections.map(item => {
     const { title, description } = item as SectionFormItemAttrs;
     return { title, description };
   });
+  return [...list, { title: "完成" }];
 });
 const currStep = ref(1); // 当前激活的步骤
 function getIsFind(item: FormField, byKey: string) {

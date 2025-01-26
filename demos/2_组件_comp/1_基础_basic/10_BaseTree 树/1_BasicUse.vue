@@ -1,4 +1,6 @@
-<!-- 基础树示例 -->
+<!-- summary 基础用法
+ 对el-tree进一步处理，方便使用。提供了基础树、过滤树。
+-->
 <template>
   <div class="f-fs-fs">
     <BaseSection :gap="false" title="空树">
@@ -19,10 +21,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { loadNode, treeData, treeProps } from "@/core/components/tree/_temp";
+import { loadNode, treeData, treeProps } from "./_temp";
 import FilterTree from "@/core/components/tree/FilterTree.vue";
-import TreeItem from "./TreeItem.vue";
-import { CommonObj } from "@/core/_types";
+import TreeItem from "./_components/TreeItem.vue";
 </script>
 <style lang="scss" scoped>
 .base-section {

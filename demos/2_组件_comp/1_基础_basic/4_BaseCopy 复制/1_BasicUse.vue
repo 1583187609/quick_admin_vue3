@@ -1,6 +1,6 @@
 <!-- summary 基础用法
   支持仅复制、to跳转和复制、自定义click事件和复制。点击区域和文本区域鼠标样式会自动变化。
-  设置maxLine，最多显示几行，默认为1。
+  设置maxLine，最多显示几行。
 -->
 <template>
   <div class="mb-h">

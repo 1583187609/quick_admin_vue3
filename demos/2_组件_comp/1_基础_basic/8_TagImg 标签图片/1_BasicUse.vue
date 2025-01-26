@@ -1,6 +1,5 @@
 <!-- summary 基础用法
-  继承 BaseImg 的属性，并额外提供了gender（性别）属性。
-  考虑扩展性（可能还有vip、状态标识），所以有必要将头像单独封装成一个组件
+  继承 BaseImg 的属性，并额外提供了标签样式属性。
 -->
 <template>
   <div class="f-fs-fs-w">

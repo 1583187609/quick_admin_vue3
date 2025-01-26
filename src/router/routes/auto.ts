@@ -91,18 +91,21 @@ function getAutoRoutesTree(comps, pages, prefix = "../../modules/", fileName = "
   sortObjArrByKey(tree, "asc", "meta.order");
   return tree;
 }
-
+const tagMap = {
+  wait: "待完善",
+};
 // 获取自动路由的菜单
 function getAutoMenus(routes: any[] = [], idStr = "", level = 0): ResponseMenuItem[] {
   if (!routes?.length) return [];
   return routes.map((item: any, ind: number) => {
     const { meta = {}, name, path, children, component } = item;
     const isMenu = component !== undefined;
-    const { id, title = name, icon = defaultIconName, type = isMenu ? 1 : 0, disabled } = meta;
+    const { id, title = name, icon = defaultIconName, type = isMenu ? 1 : 0, disabled, statusTag } = meta;
     idStr = idStr ? `${idStr}-${ind + 1}` : id;
+    const tagText = statusTag ? `【${tagMap[statusTag] ?? ""}】` : "";
     return {
       id: idStr,
-      label: title,
+      label: title + tagText,
       icon: level < 2 ? icon : undefined,
       path: `/${path}`,
       type,

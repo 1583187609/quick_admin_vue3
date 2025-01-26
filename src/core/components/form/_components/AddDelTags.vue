@@ -1,12 +1,19 @@
 <!-- 组件-可编辑的标签 -->
 <template>
   <div class="add-del-tags f-fs-fs-w">
-    <el-tag class="mr-h" @close="handleDel(item, ind)" v-for="(item, ind) in tags" :key="item" closable>{{ item }} </el-tag>
+    <el-tag
+      class="mr-h"
+      :size="tagSizeMap[formItem.size]"
+      @close="handleDel(item, ind)"
+      v-for="(item, ind) in tags"
+      :key="item"
+      closable
+      >{{ item }}
+    </el-tag>
     <template v-if="tags.length < maxNum">
       <el-input
         v-model="inpVal"
         v-focus
-        class="m-2"
         :style="{ width: maxlength + 3 + 'em' }"
         closable
         placeholder="请输入"
@@ -25,6 +32,9 @@
 import { Plus } from "@element-plus/icons-vue";
 import { useFormItem } from "element-plus";
 import { showMessage } from "@/core/utils";
+
+// 因为其他控件的size属性不是跟el-tag的保持一致的，所以此处需要特殊处理，转一下，不然会造成样式不统一
+const tagSizeMap = { small: "default", default: "large", large: "large" };
 
 const { formItem } = useFormItem();
 const props = withDefaults(

@@ -27,7 +27,7 @@ $current-color-primary: #ff8000;
     // "warning": ("base": #e6a23c),
     // "danger": ("base": #f56c6c),
     // "error": ("base": #f56c6c),
-    // "info": ("base": #909399),,
+    // "info": ("base": #909399),,,
   ),
 
   $text-color: (
@@ -53,7 +53,7 @@ $current-color-primary: #ff8000;
     // 'extra-light': #fafcff,
     // 'dark': #ebedf0,
     // 'darker': #e6e8eb,
-    // 'blank': #ffffff,,,
+    // 'blank': #ffffff,,,,
   ),
   // // Background
   // $bg-color:
@@ -68,7 +68,7 @@ $current-color-primary: #ff8000;
       "base": $radius-main,
       "small": $radius-lighter,
       // 'round': 20px,
-      // 'circle': 100%,,,,,,,,,,,,,
+      // 'circle': 100%,,,,,,,,,,,,,,
     ),
   // // Box-shadow
   $box-shadow:
@@ -105,7 +105,7 @@ $current-color-primary: #ff8000;
     (
       "bg-color": $disabled-bg,
       // "text-color": getCssVar("text-color", "placeholder"),
-      // "border-color": getCssVar("border-color", "light"),
+      // "border-color": getCssVar("border-color", "light"),,
     ),
   // $common-component-size:
   //   (
@@ -150,7 +150,7 @@ $current-color-primary: #ff8000;
       // "checked-input-border-color": getCssVar("color-primary"),
       // "checked-bg-color": getCssVar("color-primary"),
       // "checked-icon-color": getCssVar("color", "white"),
-      // "input-border-color-hover": getCssVar("color-primary"),,,,,,,,,,,,
+      // "input-border-color-hover": getCssVar("color-primary"),,,,,,,,,,,,,
     ),
   // $checkbox-button:
   //   (
@@ -183,7 +183,7 @@ $current-color-primary: #ff8000;
       // 'input-bg-color': getCssVar('fill-color', 'blank'),
       // 'input-border': getCssVar('border'),
       // 'input-border-color': getCssVar('border-color'),
-      // 'input-border-color-hover': getCssVar('color-primary'),,,,,,,,,,,,,
+      // 'input-border-color-hover': getCssVar('color-primary'),,,,,,,,,,,,,,
     ),
   // $radio-height: ($common-component-size, $radio-height);
   // $radio-button:
@@ -240,7 +240,7 @@ $current-color-primary: #ff8000;
       // 'disabled-color': getCssVar('text-color-placeholder'),
       "height": $height-light,
       // 'hover-background': getCssVar('fill-color', 'light'),
-      // 'selected-text-color': getCssVar('color-primary'),,,,,,,,,,,,
+      // 'selected-text-color': getCssVar('color-primary'),,,,,,,,,,,,,
     ),
   $select-group: (
     // 'text-color': getCssVar('color-info'),
@@ -321,7 +321,7 @@ $current-color-primary: #ff8000;
       // "padding": $gap-half-qtr $gap,
       "close-size": $font-size-heavy,
       // 'close-icon-color': getCssVar('text-color-placeholder'),
-      // 'close-hover-color': getCssVar('text-color-secondary'),,
+      // 'close-hover-color': getCssVar('text-color-secondary'),,,
     ),
   // // Notification
   // // css3 var in packages/theme-chalk/src/notification.scss
@@ -345,7 +345,7 @@ $current-color-primary: #ff8000;
       "title-font-size": $font-size-heavy,
       // 'title-color': getCssVar('text-color-primary'),
       // 'close-color': getCssVar('text-color-secondary'),
-      // 'close-hover-color': getCssVar('text-color-regular'),
+      // 'close-hover-color': getCssVar('text-color-regular'),,
     ),
   // // Input
   // // css3 var in packages/theme-chalk/src/input.scss
@@ -554,7 +554,7 @@ $current-color-primary: #ff8000;
       "font-size": $font-size-light,
       // 'color': getCssVar('text-color-secondary'),
       // 'active-color': getCssVar('color-primary'),
-      // 'marker-bg-color': getCssVar('color-primary'),
+      // 'marker-bg-color': getCssVar('color-primary'),,
     ),
   // // Segmented
   // // css3 var in packages/theme-chalk/src/segmented.scss
@@ -721,11 +721,11 @@ $current-color-primary: #ff8000;
       "border-radius": $radius-light,
       // 'border-radius-rounded': 9999px,
     ),
-  $tag-height: (
-    "large": $size-large,
-    "default": $size-default,
-    "small": $size-small,
-  ),
+  // $tag-height: (
+  //   "large": $size-large,
+  //   "default": $size-default,
+  //   "small": $size-small,
+  // ),
   // $tag-padding:
   //   (
   //     'large': 12px,
