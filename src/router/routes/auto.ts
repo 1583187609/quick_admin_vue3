@@ -2,6 +2,7 @@
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { sortObjArrByKey, toCamelCase } from "@/utils";
 import { defaultIconName } from "@/core/config";
+import { getBasePath } from "#/mock/_platform/_utils";
 
 const orderJoinChar = "_"; // order的链接符号
 
@@ -91,9 +92,7 @@ function getAutoRoutesTree(comps, pages, prefix = "../../modules/", fileName = "
   sortObjArrByKey(tree, "asc", "meta.order");
   return tree;
 }
-const tagMap = {
-  wait: "待完善",
-};
+const tagMap = { wait: "待完善" };
 // 获取自动路由的菜单
 function getAutoMenus(routes: any[] = [], idStr = "", level = 0): ResponseMenuItem[] {
   if (!routes?.length) return [];
@@ -105,14 +104,16 @@ function getAutoMenus(routes: any[] = [], idStr = "", level = 0): ResponseMenuIt
       title = name,
       icon = defaultIconName,
       type = isMenu ? 1 : 0,
+      auth_codes = null,
       disabled,
       statusTag,
       link_type = 0,
-      target,
       is_cache = 1,
       status = 1,
     } = meta;
+    let { target } = meta;
     if (link_type && !target) throw new Error(`当配置为外部连接时，必须设置target属性`);
+    if (link_type === 1 && target.startsWith("/")) target = `${getBasePath()}${target}`;
     idStr = idStr ? `${idStr}-${ind + 1}` : id;
     const tagText = statusTag ? `【${tagMap[statusTag] ?? ""}】` : "";
     return {
@@ -121,7 +122,7 @@ function getAutoMenus(routes: any[] = [], idStr = "", level = 0): ResponseMenuIt
       icon: level < 2 ? icon : undefined,
       path: link_type ? target : `/${path}`,
       type,
-      auth_codes: null,
+      auth_codes,
       status,
       is_cache,
       link_type,

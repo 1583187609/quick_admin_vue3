@@ -1,3 +1,5 @@
 {
-  "title": "打包体积分析"
+  "title": "打包体积分析",
+  "link_type": 1,
+  "target": "/stats.html"
 }

@@ -1347,7 +1347,7 @@ export default [
           },
           {
             id: "60-2-3",
-            label: "API文件生成脚本",
+            label: "API文件生成器",
             icon: `${menuIcons["60-2-3"]}`,
             path: "https://gitee.com/fanlichuan/create-apis-files",
             type: 1,

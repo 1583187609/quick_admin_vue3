@@ -3,5 +3,6 @@
   "title": "测试中心",
   "icon": "Flag",
   "description": "用作组件测试（全覆盖）",
-  "order": 100
+  "order": 100,
+  "auth_codes": [0]
 }

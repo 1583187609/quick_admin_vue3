@@ -3,5 +3,6 @@
   "title": "演示中心",
   "icon": "VideoCameraFilled",
   "description": "用作组件、功能演示",
-  "order": 0
+  "order": 0,
+  "auth_codes": [0, 1, 2, 3]
 }
