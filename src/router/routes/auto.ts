@@ -100,19 +100,31 @@ function getAutoMenus(routes: any[] = [], idStr = "", level = 0): ResponseMenuIt
   return routes.map((item: any, ind: number) => {
     const { meta = {}, name, path, children, component } = item;
     const isMenu = component !== undefined;
-    const { id, title = name, icon = defaultIconName, type = isMenu ? 1 : 0, disabled, statusTag } = meta;
+    const {
+      id,
+      title = name,
+      icon = defaultIconName,
+      type = isMenu ? 1 : 0,
+      disabled,
+      statusTag,
+      link_type = 0,
+      target,
+      is_cache = 1,
+      status = 1,
+    } = meta;
+    if (link_type && !target) throw new Error(`当配置为外部连接时，必须设置target属性`);
     idStr = idStr ? `${idStr}-${ind + 1}` : id;
     const tagText = statusTag ? `【${tagMap[statusTag] ?? ""}】` : "";
     return {
       id: idStr,
       label: title + tagText,
       icon: level < 2 ? icon : undefined,
-      path: `/${path}`,
+      path: link_type ? target : `/${path}`,
       type,
       auth_codes: null,
-      status: 1,
-      is_cache: 1,
-      link_type: 0,
+      status,
+      is_cache,
+      link_type,
       create_time: "2010-12-01 15:20:47",
       update_time: "1995-03-15 04:23:10",
       source: level === 0 ? "auto" : undefined,

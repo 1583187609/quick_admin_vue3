@@ -143,12 +143,14 @@ const finishTreeData = [
         children: [
           { value: "sysFun-14-1", label: "页面刷新" },
           { value: "sysFun-14-2", label: "关闭页签（左侧/右侧/其他/除自身外所有）" },
-          //   { value: "sysFun-14-3", label: "" },
         ],
       },
-      //   { value: "sysFun-15", label: "页面离开提醒", disabled: true },
-      //   { value: "sysFun-16", label: "扩展图标", disabled: true },
-      //   { value: "sysFun-17", label: "版本更新监视", disabled: true },
+      { value: "sysFun-15", label: "新用户引导" },
+      { value: "sysFun-16", label: "性能监控", disabled: true },
+      { value: "sysFun-17", label: "异常监控", disabled: true },
+      //   { value: "sysFun-25", label: "页面离开提醒", disabled: true },
+      //   { value: "sysFun-26", label: "扩展图标", disabled: true },
+      //   { value: "sysFun-27", label: "版本更新监视", disabled: true },
     ],
   },
   {

@@ -25,8 +25,7 @@ const router = createRouter({
 });
 // 全局前置守卫
 router.beforeEach((to: any, from: any, next) => {
-  const isDynamicRoute = false; // 是否是动态路由
-  if (isDocs || !isDynamicRoute) return next();
+  if (isDocs) return next();
   const menuStore = useMenuStore();
   const userStore = useUserStore();
   const routeStore = useRouteStore();

@@ -35,6 +35,7 @@ const props = withDefaults(
   }
 );
 const router = useRouter();
+// const openIds: string[] = [];
 function handleClick(menu: ResponseMenuItem) {
   const { id, link_type, path, label } = menu;
   if (!link_type) {
@@ -42,13 +43,16 @@ function handleClick(menu: ResponseMenuItem) {
     document.title = label;
     return;
   }
-  router.push({ name: "innerLink", query: { url: path } });
   if (link_type === 1) {
     document.title = label;
+    router.push({ name: "innerLink", query: { url: path } });
   } else if (link_type === 2) {
-    // const win =  window.open(path, "_blank"); // 空白页打开
-    const win = window.open(path, id); // 空白页打开，且保证id相同时，始终打开同一个标签页（不另开一个标签页打开）
+    const win = window.open(path, "_blank"); // 空白页打开
+    // const win = window.open(path, id); // 空白页打开，且保证id相同时，始终打开同一个标签页（不另开一个标签页打开）
 
+    // const hasOpened = openIds.includes(id);
+    // if (!hasOpened) openIds.push(id);
+    // const win = window.open(path, hasOpened ? id : "_blank"); // 空白页打开
     // console.log(win, "win---------");
     // const tagIcon = document.createElement("link");
     // tagIcon.rel = "icon";

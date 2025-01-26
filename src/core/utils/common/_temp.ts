@@ -66,12 +66,12 @@ export function getTagHtmlStr(
  * @param {any} e 事件对象
  * @link 参考：https://geek-docs.com/html/html-ask-answer/256_html_check_if_file_has_changed_using_html5_file_api.html
  */
-export function checkFileChanged(e: any) {
-  const { lastModifiedDate: lastModified } = e.target.files[0];
-  const isChanged = localStorage.getItem("lastModified") !== lastModified.toString();
-  if (isChanged) localStorage.setItem("lastModified", lastModified);
-  return isChanged;
-}
+// export function checkFileChanged(e: any) {
+//   const { lastModifiedDate: lastModified } = e.target.files[0];
+//   const isChanged = localStorage.getItem("lastModified") !== lastModified.toString();
+//   if (isChanged) localStorage.setItem("lastModified", lastModified);
+//   return isChanged;
+// }
 
 /**
  * 将浏览器路径参数转为对象

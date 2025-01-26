@@ -70,7 +70,7 @@ export const storage = {
    */
   setItem(key: string, val: any, type: StorageType = defaultStorageType, hours?: number) {
     if (typeof val === "object") val = JSON.stringify(val);
-    return storageMap[type + "Storage"].setItem(key, val, hours);
+    return storageMap[type + "Storage"]?.setItem?.(key, val, hours);
   },
   /**
    * 取数据
@@ -79,7 +79,7 @@ export const storage = {
    * @param {function} transfer 值转换处理规则
    */
   getItem(key: string, type: StorageType = defaultStorageType, transfer = getTransferVal) {
-    return transfer(storageMap[type + "Storage"].getItem(key));
+    return transfer(storageMap[type + "Storage"]?.getItem?.(key));
   },
   /**
    * 删除指定键名对应的数据
@@ -87,14 +87,14 @@ export const storage = {
    * @param {StorageType} type  删除类型：local, session, cookie
    */
   removeItem(key: string, type: StorageType = defaultStorageType) {
-    storageMap[type + "Storage"].removeItem(key);
+    storageMap[type + "Storage"]?.removeItem?.(key);
   },
   /**
    * 删除所有存储数据
    * @param {StorageType} type
    */
   clear(type: StorageType = defaultStorageType) {
-    storageMap[type + "Storage"].clear();
+    storageMap[type + "Storage"]?.clear?.();
   },
   /**
    * 获取所有存储的键名

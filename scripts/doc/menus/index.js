@@ -104,11 +104,11 @@ function getItems(paths = [], dirPath = "", file = "") {
       // if (isShortPath) {
       //   link = getShortPath(link).replace(docsPath, "");
       // }
-      const activeMatch = link.split("/")[0] + "/";
+      // const activeMatch = link.split("/")[0] + "/";
       return {
         text: getFileName(dirName),
         link,
-        // activeMatch,
+        activeMatch: isShortPath ? link : undefined,
       };
     } else {
       const { text, items } = subPaths;
@@ -174,7 +174,7 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
   const newDirPath = path.join(process.cwd(), dirPath);
   const navs = [];
   const readFiles = getSortReadFiles(newDirPath, excludeNames);
-  readFiles.forEach(file => {
+  readFiles.forEach((file, ind) => {
     const curPath = path.join(newDirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
     const cnName = getFileName(file);
@@ -190,11 +190,14 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
       } else {
         const items = getItems(paths, dirPath, file);
         const firstLink = getFirstPath(items);
-        // const activeMatch = firstLink.split("/")[0] + "/";
+        const activeMatch = "/" + firstLink.split("/")[1] + "/";
+        // console.log(firstLink, activeMatch, "firstLink-----------");
+        // if (ind === 2 && isErr) {
+        // }
         navs.push({
           text: cnName,
           link: firstLink,
-          // activeMatch,
+          activeMatch: activeMatch,
         });
       }
     } else {
@@ -202,7 +205,7 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
       navs.push({
         text: cnName,
         link: `${dirPath}/${file}`,
-        // activeMatch,
+        activeMatch: isShortPath ? `${dirPath}/${file}` : undefined,
       });
     }
   });

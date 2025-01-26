@@ -47,12 +47,24 @@ function deleteDocsAbortFileAndDir(demoDirPath = needParam(), docsDirPath = need
   }
 }
 
+// 首页（md文件）上次更新的时间距离现在是否超过了1天
+function lastUpdateTimeIsOverOneDay(writeDocPath = needParam()) {
+  const homePath = path.join(process.cwd(), writeDocPath, "index.md");
+  const time = new Date(fs.statSync(homePath).mtime).getTime();
+  return Date.now() - time > 3600 * 1000 * 24;
+}
+
 /***
  * 撰写通用组件文档
  * @param {(comp|demo|test)[]} parts 是否重写组件文档
  */
 const focusDirs = ["2_组件_comp"];
-async function writeComponentDocs(parts = [], createHome = false, readDemoPath = demosPath, writeDocPath = docsPath) {
+async function writeComponentDocs(
+  parts = [],
+  readDemoPath = demosPath,
+  writeDocPath = docsPath,
+  createHome = lastUpdateTimeIsOverOneDay(writeDocPath)
+) {
   if (createHome) writeHomMdDoc();
   const fullDemoPath = path.join(process.cwd(), readDemoPath);
   const partNames = fs.readdirSync(fullDemoPath);

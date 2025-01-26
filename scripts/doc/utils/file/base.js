@@ -78,6 +78,9 @@ export function mkdirsSync(dirname) {
  */
 export function deleteFolderSync(dirPath = "", isDelSelf = true) {
   if (fs.existsSync(dirPath)) {
+    const isDir = fs.lstatSync(dirPath).isDirectory();
+    if (!isDir) return fs.unlinkSync(dirPath); // 如果是文件则直接删除
+    // 如果是文件夹，则继续读取文件
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file);
       const isDir = fs.lstatSync(curPath).isDirectory();

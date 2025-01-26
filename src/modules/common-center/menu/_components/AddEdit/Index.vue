@@ -24,7 +24,7 @@ import IconPicker from "@/core/components/IconPicker/Index.vue";
 import { PostMockMenu, PatchMockMenu, GetMockMenu } from "@/api-mock";
 import MenuTree from "@/core/components/MenuTree.vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
-import { defaultIconName } from "@/utils";
+import { defaultIconName } from "@/core/config";
 import { useDict } from "@/hooks";
 import { MenuListType } from "../MenuList.vue";
 // import CombinationPath from "./CombinationPath.vue";
