@@ -2,7 +2,7 @@
 
 ## 基础用法
 
-
+&emsp;&emsp;提供上传功能，并整合部分业务逻辑，暴露出配置项
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/9_BaseUpload 上传/1_BasicUse.vue

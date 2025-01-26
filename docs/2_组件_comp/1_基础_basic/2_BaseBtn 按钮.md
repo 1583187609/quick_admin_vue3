@@ -3,7 +3,7 @@
 &emsp;&emsp;目标：仅传入`name`属性，即可享有对应按钮的全部功能（含颜色、文本、图标、权限、默认逻辑等），也可传入属性值进行覆盖，同时提供了快捷属性（`to`、`popoconfirm`）。
 ## 基础用法
 
-&emsp;&emsp;默认为新增按钮，继承 `el-button `属性，所以传入 `el-button `的属性都是生效的。
+&emsp;&emsp;继承 `el-button `属性，所以传入 `el-button `的属性都是生效的。
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/2_BaseBtn 按钮/1_BasicUse.vue
@@ -24,7 +24,7 @@
 :::
 ## 按钮权限
 
-&emsp;&emsp;使用 `auth `设置按钮权限。不设置、空数组视为始终有权限。无权限时，按钮会不可见。若要可见，且按钮禁用，则数组元素应为对象，设置`disabled`为`true`。
+&emsp;&emsp;使用 `auth `设置按钮权限。不设置、空数组视为始终有权限。无权限时，按钮会不可见。若要可见，且按钮禁用，则数组元素应为对象，设置`type`属性为`disabled`
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/2_BaseBtn 按钮/5_AuthAttr.vue

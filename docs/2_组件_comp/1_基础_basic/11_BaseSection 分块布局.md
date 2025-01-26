@@ -3,14 +3,10 @@
 &emsp;&emsp;目标：内容分块的布局载体。并提供了折叠等功能。
 ## 基础用法
 
-&emsp;&emsp;这是`BaseSection`的基础使用示例。  
-&emsp;&emsp;徽章属性  
-&emsp;&emsp;`popover`属性  
-&emsp;&emsp;折叠属性  
-&emsp;&emsp;设置`bodyClass`
+&emsp;&emsp;提供内容分块的布局容器。用于表单字段分块、页面内容分块等场景。
 
 ::: demo 
-/demos/2_组件_comp/9_布局_layout/1_BaseSection 分块布局/1_BasicUse.vue
+/demos/2_组件_comp/1_基础_basic/11_BaseSection 分块布局/1_BasicUse.vue
 :::
 
 

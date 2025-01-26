@@ -67,6 +67,14 @@
 |:---|:---|:---|
 |`tableRef`|-|`() => void`|
 
+### Slots
+
+|插槽名|说明|Scope|
+|:---|:---|:---|
+|`header`|-|-|
+|`default`|-|-|
+|`c.prop`|-|`row, col, $index, name`|
+
 
 ## 类型声明
 

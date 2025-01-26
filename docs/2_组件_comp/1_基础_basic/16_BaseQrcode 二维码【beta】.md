@@ -8,7 +8,7 @@
 &emsp;&emsp;注意：该功能待完善
 ## 基础用法
 
-
+&emsp;&emsp;待完善
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/16_BaseQrcode 二维码【beta】/1_BasicUse.vue

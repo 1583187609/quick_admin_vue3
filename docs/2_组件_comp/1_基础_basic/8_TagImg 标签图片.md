@@ -3,8 +3,7 @@
 &emsp;&emsp;目标：给图片提供带 `bar `提示语的功能
 ## 基础用法
 
-&emsp;&emsp;继承 `BaseImg `的属性，并额外提供了`gender`（性别）属性。  
-&emsp;&emsp;考虑扩展性（可能还有`vip`、状态标识），所以有必要将头像单独封装成一个组件
+&emsp;&emsp;继承 `BaseImg `的属性，并额外提供了标签样式属性。
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/8_TagImg 标签图片/1_BasicUse.vue

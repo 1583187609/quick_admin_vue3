@@ -1,5 +1,7 @@
-import { createProdMockServer } from "vite-plugin-mock/es/createProdMockServer";
+import * as mockServer from "vite-plugin-mock/es/createProdMockServer";
 import apis from "./apis";
+
+const { createProdMockServer } = mockServer;
 export function setupProdMockServer() {
   createProdMockServer(apis);
 }

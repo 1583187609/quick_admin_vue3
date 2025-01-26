@@ -8,7 +8,8 @@
 &emsp;&emsp;注意：该功能待完善。
 ## 基础用法
 
-
+&emsp;&emsp;提供音频逻辑方案，处理通用业务逻辑，并暴露相关`api`，支持覆盖  
+&emsp;&emsp;待完善
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/19_BaseAudio 音频【beta】/1_BasicUse.vue

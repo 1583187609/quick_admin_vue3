@@ -4,7 +4,7 @@
 ## 基础用法
 
 &emsp;&emsp;支持仅复制、`to`跳转和复制、自定义`click`事件和复制。点击区域和文本区域鼠标样式会自动变化。  
-&emsp;&emsp;设置`maxLine`，最多显示几行，默认为`1`。
+&emsp;&emsp;设置`maxLine`，最多显示几行。
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/4_BaseCopy 复制/1_BasicUse.vue

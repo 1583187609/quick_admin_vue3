@@ -3,11 +3,7 @@
 &emsp;&emsp;目标：数字区间组件。
 ## 基础用法
 
-&emsp;&emsp;设置 `modelValue`，显示初始值  
-&emsp;&emsp;设置 `min`，最小值  
-&emsp;&emsp;设置 `max`，最大值  
-&emsp;&emsp;设置 `size`，控件大小类型  
-&emsp;&emsp;设置 `precision`，保留`n`位小数
+&emsp;&emsp;提供选择数字区间的表单控件
 
 ::: demo 
 /demos/2_组件_comp/1_基础_basic/14_BaseNumberRange 数字区间/1_BasicUse.vue
