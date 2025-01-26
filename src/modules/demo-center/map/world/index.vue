@@ -1,6 +1,6 @@
 <!-- 页面-简介 -->
 <template>
-  <div>世界地图</div>
+  <div>世界地图（待完善）</div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";

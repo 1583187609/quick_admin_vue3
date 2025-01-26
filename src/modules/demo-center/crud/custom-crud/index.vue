@@ -1,18 +1,6 @@
 <!-- 自定义增删改查 -->
 <template>
-  <div class="">自定义增删改查</div>
+  <div class="">自定义增删改查（待完善）</div>
 </template>
-<script lang="ts" setup>
-import { CommonObj } from "@/core/_types";
-import { ref, reactive, watch, computed } from "vue";
-
-const props = withDefaults(
-  defineProps<{
-    data?: CommonObj;
-  }>(),
-  {
-    data: () => ({}),
-  }
-);
-</script>
+<script lang="ts" setup></script>
 <style lang="scss" scoped></style>
