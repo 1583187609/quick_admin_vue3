@@ -7,6 +7,7 @@ import { getFileNameByPath } from "./utils";
 import visualizer from "./plugins/visualizer";
 import AutoImport from "./plugins/auto-import";
 import viteMockServe from "./plugins/vite-mock-serve";
+import topLevelAwait from "./plugins/top-level-await";
 import generateComponentName from "./plugins/generate-component-name";
 
 import { cdnImport, external } from "./plugins/cdn-import";
@@ -48,6 +49,7 @@ export default ({ mode, command }) => {
       AutoImport,
       viteMockServe,
       generateComponentName,
+      // topLevelAwait,
       // imageminPlugin,
       // createHtmlPlugin,
       // viteCompression,
@@ -157,7 +159,7 @@ export default ({ mode, command }) => {
        * 默认 'modules'，指支持原生 ES 模块、原生 ESM 动态导入 和 import.meta 的浏览器，等价于：['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14']
        * 可选：'esnext'（即假设有原生动态导入支持，并只执行最低限度的转译）、'es2020', 'es2015'、一个浏览器版本（例如：chrome58）或是多个目标组成的一个数组等
        */
-      target: "es2020",
+      target: "es2020", // 顶层await 需要 es2022及以上才支持，低于这个的需要借助插件：vite-plugin-top-level-await
       // outDir: outDirPath,
       outDir: isProd ? "dist" : `dist-${mode}`,
       // assetsDir: "assets", // 指定生成静态资源的存放路径（相对于 build.outDir）。
@@ -169,12 +171,12 @@ export default ({ mode, command }) => {
       chunkSizeWarningLimit: 1000, // 默认500，打包最大体积警告
       // 压缩和混淆代码：使用 Vite 的内置压缩工具（例如 Terser）对打包后的代码进行压缩和混淆，以减小文件大小并提高加载速度。可以通过在 vite.config.js 中设置 build.minify 选项来启用压缩
       minify: "terser", // 默认：esbuild。可选：boolean | 'terser' | 'esbuild
-      terserOptions: {
-        compress: {
-          drop_console: true, // 去掉console.log
-          drop_debugger: true,
-        },
-      },
+      // terserOptions: {
+      //   compress: {
+      //     drop_console: true, // 去掉console.log
+      //     drop_debugger: true,
+      //   },
+      // },
       // https://rollupjs.org/guide/en/#big-list-of-options
       rollupOptions: {
         // 以下文件不打包

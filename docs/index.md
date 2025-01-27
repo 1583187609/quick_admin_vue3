@@ -13,12 +13,12 @@ hero:
   actions: 
     - theme: brand
       text: 指南
-      link: /guide/say
+      link: /docs/1_指南_guide/1_前言_say
       # target?: string
       # rel?: string,
     - theme: alt
       text: 组件
-      link: /comp/basic/BaseIcon
+      link: /docs/1_指南_guide/1_前言_say
       # target?: string
       # rel?: string
 features:

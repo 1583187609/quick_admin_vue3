@@ -1,5 +1,6 @@
 {
   "title": "研究中心",
   "icon": "Briefcase",
-  "order": 99
+  "order": 99,
+  "auth_codes": [0]
 }

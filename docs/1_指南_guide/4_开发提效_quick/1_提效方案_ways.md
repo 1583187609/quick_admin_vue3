@@ -30,6 +30,6 @@
 
 ## 代码复用思路清单
 
-1、 git 中使用主仓+子仓（子仓为公用代码）
-2、 基于 webpack 5 ModuleFederationPlugin 实现微前端
+1、 git 中使用主仓+子仓（子仓为公用代码）  
+2、 基于 webpack 5 ModuleFederationPlugin 实现微前端  
 3、 提取 npm 包

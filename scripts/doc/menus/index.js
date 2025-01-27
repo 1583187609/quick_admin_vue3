@@ -4,16 +4,7 @@
 
 import fs from "fs";
 import path from "path";
-import {
-  docsPath,
-  indexName,
-  splitOrderChar,
-  excludeNames,
-  isShortPath,
-  getFileName,
-  consoleLog,
-  isDev,
-} from "../utils/index.js";
+import { docsPath, indexName, splitOrderChar, excludeNames, isFullPath, getFileName, consoleLog, isDev } from "../utils/index.js";
 
 /**
  * 把字符串和对象排序，如果有数字前缀，则根据数字前缀排序
@@ -97,18 +88,15 @@ function getSubPaths(folderPath = "", urls = []) {
  * @returns
  */
 function getItems(paths = [], dirPath = "", file = "") {
-  return paths.map(subPaths => {
+  return paths.map((subPaths, ind) => {
     if (Array.isArray(subPaths)) {
       const [fileName, dirName] = subPaths;
-      let link = `${dirPath}/${file}/${fileName.slice(0, -3)}`;
-      // if (isShortPath) {
-      //   link = getShortPath(link).replace(docsPath, "");
-      // }
-      // const activeMatch = link.split("/")[0] + "/";
+      const link = `${dirPath}/${file}/${fileName.slice(0, -3)}`;
+      // const activeMatch = isFullPath ? undefined : `${getShortPath(link).replace(docsPath, "")}/`;
       return {
         text: getFileName(dirName),
         link,
-        activeMatch: isShortPath ? link : undefined,
+        // activeMatch,
       };
     } else {
       const { text, items } = subPaths;
@@ -139,7 +127,7 @@ function getFirstPath(children = []) {
     });
   }
   cycle(children);
-  if (!isShortPath) return linkStr;
+  if (isFullPath) return linkStr;
   const linkArr = linkStr.replace(docsPath, "").split("/");
   const linkJoin = linkArr
     .map(it => {
@@ -190,22 +178,18 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
       } else {
         const items = getItems(paths, dirPath, file);
         const firstLink = getFirstPath(items);
-        const activeMatch = "/" + firstLink.split("/")[1] + "/";
-        // console.log(firstLink, activeMatch, "firstLink-----------");
-        // if (ind === 2 && isErr) {
-        // }
         navs.push({
           text: cnName,
           link: firstLink,
-          activeMatch: activeMatch,
+          activeMatch: isFullPath ? `^/${firstLink.split("/").slice(1, 3).join("/")}/` : `^/${firstLink.split("/")[1]}/`,
         });
       }
     } else {
-      // const activeMatch = `${file.split("/")[0]}/`;
+      const link = `${dirPath}/${file}`;
       navs.push({
         text: cnName,
-        link: `${dirPath}/${file}`,
-        activeMatch: isShortPath ? `${dirPath}/${file}` : undefined,
+        link,
+        activeMatch: isFullPath ? `^/${link.split("/").slice(1, 3).join("/")}/` : `^/${link.split("/")[1]}/`,
       });
     }
   });
@@ -235,7 +219,7 @@ function getShortPath(pathStr = "") {
 function getSideNavs(dirPath) {
   const newDirPath = path.join(process.cwd(), dirPath);
   const readFiles = getSortReadFiles(newDirPath);
-  const navs = readFiles.map(file => {
+  const navs = readFiles.map((file, ind) => {
     const curPath = path.join(newDirPath, file);
     const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
     const fileName = getFileName(file);
@@ -246,13 +230,12 @@ function getSideNavs(dirPath) {
         items: getItems(paths, dirPath, file),
       };
     } else {
-      let link = `${dirPath}/${file.slice(0, -3)}`;
-      // if (isShortPath) {
-      //   link = getShortPath(link).replace(docsPath, "");
-      // }
+      const link = `${dirPath}/${file.slice(0, -3)}`;
+      // const activeMatch = isFullPath ? undefined : `^${getShortPath(link).replace(docsPath, "")}`;
       return {
         text: fileName,
         link,
+        // activeMatch,
       };
     }
   });
@@ -285,7 +268,7 @@ function getRewrites(sidebar) {
       if (link) {
         const sliceLink = link.slice(1);
         let reLinks = sliceLink.split("/");
-        if (isShortPath) reLinks = link.replace(docsPath, "").slice(1).split("/");
+        if (!isFullPath) reLinks = link.replace(docsPath, "").slice(1).split("/");
 
         //示例：'docs/11_示例_demo/2_文档生成_create/1_StandardDemoForm 标准示例表单.md': 'demo/create/StandardDemoForm.md',
         const reLink = reLinks
@@ -304,7 +287,6 @@ function getRewrites(sidebar) {
   for (const key in sidebar) {
     cycle(sidebar[key]);
   }
-  // console.log(rewrites, "rewrites-----------");
   return rewrites;
 }
 
@@ -318,15 +300,14 @@ export function getSidebarAndRewrites(wrapPath = docsPath) {
   const sidebar = {};
   readFiles.map(file => {
     const dirPath = `${wrapPath}/${file}`;
-    if (isShortPath) {
+    if (!isFullPath) {
       sidebar[`/${getFileName(file, "en")}/`] = getSideNavs(dirPath);
     } else {
       sidebar[dirPath + "/"] = getSideNavs(dirPath);
     }
   });
-  // consoleLog(sidebar, "sideBar------------");
   return {
     sidebar,
-    rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isShortPath ? getRewrites(sidebar) : {}),
+    rewrites: Object.assign({ [`${docsPath.slice(1)}/${indexName}`]: indexName }, isFullPath ? {} : getRewrites(sidebar)),
   };
 }

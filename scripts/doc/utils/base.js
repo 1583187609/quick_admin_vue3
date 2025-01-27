@@ -5,7 +5,7 @@
 import path from "path";
 import util from "util";
 
-import { badgeReg, isShortPath, splitOrderChar } from "./index.js";
+import { badgeReg, isFullPath, splitOrderChar } from "./index.js";
 
 /**
  * 函数未传必填参数时的校验
@@ -76,7 +76,7 @@ export function camelCase(str = "", isToBy = true) {
 export function getFileName(filePath = needParam(), type = "cn", char = splitOrderChar, removeBeta = false) {
   const ext = path.extname(filePath);
   const file = path.basename(filePath, ext);
-  if (!isShortPath) return file;
+  if (isFullPath === true) return file; // true(路由地址、导航文字都完整)，为'half'时（路由地址完整，导航文字简写）
   if (!file.includes(char)) {
     if (!removeBeta) return file;
     return file.replace(badgeReg, () => "");

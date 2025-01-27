@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import { useBaseStore, useKeepAliveStore, useMenuStore, useRouteStore, useUserStore } from "@/store";
-import { showMessage, storage } from "@/utils";
+import { getUserInfo, showMessage, storage } from "@/utils";
 import { defaultHomePath } from "@/core/config";
 import routes from "./routes";
 import NProgress from "nprogress";
@@ -30,21 +30,27 @@ router.beforeEach((to: any, from: any, next) => {
   const userStore = useUserStore();
   const routeStore = useRouteStore();
   // const baseStore = useBaseStore();
-  const { path, query, name, meta } = to;
+  const { path, query, name, meta, redirectedFrom } = to;
   const { title, auth = true, linkType } = meta;
   document.title = title ?? VITE_APP_NAME;
   NProgress.start();
   if (!auth) return next();
   if (storage.getItem("token")) {
-    // if (userStore.isLogin) {
     if (path === defaultHomePath) menuStore.changeActiveIndex(-1);
     //如果创建好了路由，则直接跳转
     if (routeStore.isCreatedRoute) {
+      const hasAuth = meta.auth_codes?.length ? meta.auth_codes.includes(getUserInfo()?.role) : true;
+      if (!hasAuth) return next({ name: "noAuth", query: { redirectTo: path } });
       // 如果已登录状态下，进入登录页会强制跳转到主页
       name === "login" ? next({ name: "home", replace: true }) : next();
     } else {
       routeStore.createRoutes();
-      next({ path, query, replace: true });
+      // 如果路由还没创建好，会跳转到404页面
+      if (name === "notFound" && redirectedFrom?.fullPath) {
+        next({ path: redirectedFrom.fullPath, replace: true });
+      } else {
+        next({ path, query, replace: true });
+      }
     }
   } else {
     userStore.handleLoginOut(false);

@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
 import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { storage } from "@/utils";
-import { defaultHomePath } from "@/core/config";
-import { autoMenus } from "@/router/routes/auto";
+import { defaultHomePath, defaultRouteType, RouteType } from "@/core/config";
+import { useRouteStore } from "@/store";
+import { getAutoMenus, getAutoRoutesFlat, getAutoRoutesTree } from "@/router/routes/auto";
+import { RouteRecordRaw } from "vue-router";
 export interface RouteItem {
   path: string;
   name: string;
@@ -19,10 +21,10 @@ export interface RouteItem {
 
 export default defineStore("menu", () => {
   const router = useRouter();
+  // const routeStore = useRouteStore();
   const activeIndex = ref<number>(0);
   const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); // 是否折叠菜单
-  // const allMenus = reactive<ResponseMenuItem[]>([...(storage.getItem("allMenus") || []), ...autoMenus]); // 完整导航数据
-  const allMenus = reactive<ResponseMenuItem[]>(autoMenus); // 完整导航数据
+  const allMenus = reactive<ResponseMenuItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
   const sideMenus = computed<ResponseMenuItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
 
   /**
@@ -32,9 +34,10 @@ export default defineStore("menu", () => {
   // watch(isCollapse, newVal => {
   //   storage.setItem("isCollapse", newVal, "session");
   // });
-  function initMenus(menus: ResponseMenuItem[] = []) {
+  function setMenus(menus: ResponseMenuItem[] = []) {
     allMenus.length = 0;
     allMenus.push(...menus);
+    storage.setItem("allMenus", menus);
   }
   //改变导航选中项时
   function changeActiveIndex(ind: number, toFirst: boolean = true, allNavs = allMenus) {
@@ -64,7 +67,8 @@ export default defineStore("menu", () => {
         if (children[0].children?.length) {
           toFirstPath(children[0]);
         } else {
-          const { path, label } = children[0];
+          const { path, label, link_type } = children[0];
+          if (link_type) return;
           router.push(path);
           document.title = label;
         }
@@ -83,9 +87,7 @@ export default defineStore("menu", () => {
       function isFind(children: ResponseMenuItem[]): boolean {
         return !!children.find((sItem, sInd) => {
           const { children = [], path, label } = sItem;
-          if (path === pathname) {
-            document.title = label;
-          }
+          if (path === pathname) document.title = label;
           return path === pathname || isFind(children);
         });
       }
@@ -110,7 +112,7 @@ export default defineStore("menu", () => {
     activeIndex,
     isCollapse,
     toFirstPath,
-    initMenus,
+    setMenus,
     initMenusActive,
     changeActiveIndex,
   };

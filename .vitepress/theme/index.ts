@@ -1,5 +1,5 @@
-import { h } from "vue";
-import DefaultTheme from "vitepress/theme";
+// import { h } from "vue";
+// import DefaultTheme from "vitepress/theme";
 import ElementPlus from "element-plus";
 import Demo from "../render/inner/_components/Demo.vue";
 import InfoList from "../render/inner/_components/info/InfoList.vue";
@@ -18,7 +18,8 @@ import "@/assets/styles/rewrite.scss";
 import "../styles/index.scss";
 
 export default {
-  extends: DefaultTheme,
+  // NotFound,
+  // extends: DefaultTheme,
   Layout: Root,
   enhanceApp({ app }) {
     app.config.globalProperties.$version = "1.0.0"; // 设置当前版本号
@@ -34,11 +35,11 @@ export default {
     setupProdMockServer();
   },
   // 覆盖默认的导航栏渲染方法
-  renderNavbar: app => {
-    const version = "v" + app.config.globalProperties.$version;
-    return [
-      DefaultTheme.renderNavbar(), // 首先渲染默认的导航栏
-      h("div", { class: "navbar-version" }, version), // 添加版本号徽章
-    ];
-  },
+  // renderNavbar: app => {
+  //   const version = "v" + app.config.globalProperties.$version;
+  //   return [
+  //     DefaultTheme.renderNavbar(), // 首先渲染默认的导航栏
+  //     h("div", { class: "navbar-version" }, version), // 添加版本号徽章
+  //   ];
+  // },
 };

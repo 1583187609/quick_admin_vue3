@@ -112,6 +112,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.2",
+    "vite-plugin-top-level-await": "^1.4.4",
     "vitepress": "^1.4.5",
     "vue-docgen-api": "^4.79.2",
     "vue-tsc": "^1.0.24"

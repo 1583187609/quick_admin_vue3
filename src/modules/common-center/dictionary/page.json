@@ -1,5 +1,6 @@
 {
   "title": "字典管理",
   "icon": "WalletFilled",
-  "order": 80
+  "order": 80,
+  "auth_codes": [0, 1, 2, 3]
 }

@@ -319,7 +319,7 @@ export function deleteListByIds(tree: CommonObj[], ids: number[], propsMap?: Com
 export function getNavsTree(navs?: CommonObj[]): CommonObj[] {
   if (!navs) return [];
   return navs.map((item: CommonObj, ind) => {
-    const { label, component = "", path, children, status, is_cache, type, ...rest } = item;
+    const { label, component = "", path, children, status, is_cache, type, name, ...rest } = item;
     return {
       name: label,
       menu_path: path,
