@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
-import { getPerformanceTiming } from "@/core/performance";
+// import { getPerformanceTiming } from "@/core/performance";
 
 const props = withDefaults(
   defineProps<{
@@ -15,7 +15,7 @@ const props = withDefaults(
     _example_prop: () => ({}),
   }
 );
-const data = getPerformanceTiming();
-console.log(data, "data--------------------");
+// const data = getPerformanceTiming();
+// console.log(data, "data--------------------");
 </script>
 <style lang="scss" scoped></style>

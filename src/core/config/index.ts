@@ -32,6 +32,9 @@ export const defaultGroupBtnsMaxNum = config.OperateBtns?.max ?? 3; // 操作按
 
 export const defaultFormItemType = "input";
 
+export type RouteType = "static" | "auto" | "dynamic";
+export const defaultRouteType: RouteType = "auto";
+
 // 默认图标
 export const defaultIconName = config.BaseIcon?.name ?? "ElemeFilled";
 

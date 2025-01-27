@@ -17,17 +17,18 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import SectionBox from "../_components/SectionBox.vue";
-import { sysGeneratorTplsNew } from "./_config";
 import { CommonObj, FinallyNext } from "@/core/_types";
 import TreeNode from "./_components/TreeNode.vue";
 import { usePopup } from "@/hooks";
 import AddFileConfig from "./_components/AddFileConfig.vue";
-import { getTreeNodeByValue, getTreeNodesByValue, deleteTreeNodeByValue, showMessage } from "@/utils";
+import { getTreeNodeByValue, deleteTreeNodeByValue, showMessage } from "@/utils";
 import FilterTree from "@/core/components/tree/FilterTree.vue";
+import useTpls from "../../_hooks/useTpls";
 
-const { openPopup } = usePopup();
 let countTotal = 0;
 
+const { openPopup } = usePopup();
+const { sysGeneratorTplsNew } = useTpls();
 const sysFileTplsTree = reactive(sysGeneratorTplsNew);
 /**
  * 过滤出只包含草稿的树节点（后续再完善）
@@ -49,13 +50,14 @@ const sysFileTplsTree = reactive(sysGeneratorTplsNew);
 //     return isFind;
 //   });
 // }
+
 const props = withDefaults(
   defineProps<{
     defaultValue?: string; // 默认选中的树id
     modelValue?: CommonObj;
   }>(),
   {
-    // defaultValue: "199-1-1-2-1-1",
+    defaultValue: "199-1-1",
     modelValue: () => reactive({}),
   }
 );
@@ -64,6 +66,7 @@ const modelVal = computed({
   get: () => props.modelValue,
   set: (val: any) => $emit("update:modelValue", val),
 });
+
 if (props.defaultValue) handleLeafNodeClick(getTreeNodeByValue(sysFileTplsTree, props.defaultValue));
 function handleLeafNodeClick(data) {
   modelVal.value = data;

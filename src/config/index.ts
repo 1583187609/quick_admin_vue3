@@ -7,6 +7,19 @@ import { isDocs } from "@/core/consts";
 // const isProd = process.env.NODE_ENV === "production";
 // const isLog = !isProd;
 
+function handleAuth(auth: any[]) {
+  const role = getUserInfo()?.role;
+  let type;
+  const isExist =
+    auth.some(it => {
+      if (typeof it === "number") return it === role;
+      const isFind = it.code === role;
+      if (isFind) type = it.type;
+      return isFind;
+    }) !== undefined;
+  return isExist ? type || true : false;
+}
+
 // 首页地址（默认）
 const config = {
   mockServer: true, // 是否启用mock服务
@@ -201,17 +214,7 @@ const config = {
       //   page_size: "pageSize",
       // },
       // handleAuth: (auth: number[]) => auth.includes(getUserInfo()?.role),
-      handleAuth: (auth: any[]) => {
-        const role = getUserInfo()?.role;
-        let type;
-        const isFind = auth.find(it => {
-          if (typeof it === "number") return it === role;
-          const isFind = it.code === role;
-          if (isFind) type = it.type;
-          return isFind;
-        });
-        return isFind ? type || true : false;
-      },
+      handleAuth,
       //跟下面的size  small 搭配使用
       // grid: () => ({
       //   xs: 12,
@@ -251,17 +254,7 @@ const config = {
   // },
   // 基础按钮组件
   BaseBtn: {
-    handleAuth: (auth: any[]) => {
-      const role = getUserInfo()?.role;
-      let type;
-      const isFind = auth.find(it => {
-        if (typeof it === "number") return it === role;
-        const isFind = it.code === role;
-        if (isFind) type = it.type;
-        return isFind;
-      });
-      return isFind ? type || true : false;
-    },
+    handleAuth,
   },
   // 基础上传组件
   // BaseUpload: {

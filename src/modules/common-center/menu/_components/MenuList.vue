@@ -27,10 +27,12 @@ import { handleBtnNext } from "@/utils";
 import { defaultEmptyStr } from "@/core/config";
 import { usePopup } from "@/hooks";
 import { getFilterList, getListTotal, getNavsTree } from "#/mock/utils";
-import { autoMenus } from "@/router/routes/auto";
 import { ExtraBtnRestArgs } from "@/core/components/crud/BaseCrud/_types";
+import { useMenuStore } from "@/store";
 
 export type MenuListType = "automate" | "dynamic";
+
+const { allMenus } = useMenuStore();
 
 const props = withDefaults(
   defineProps<{
@@ -156,7 +158,7 @@ function handleFetch(data: CommonObj) {
   const { type } = props;
   if (type === "automate") {
     return new Promise(resolve => {
-      const allRecords = getNavsTree(autoMenus) as CommonObj[];
+      const allRecords = getNavsTree(allMenus) as CommonObj[];
       menuTree.value = allRecords;
       const records = getFilterList(JSON.parse(JSON.stringify(allRecords)), data);
       resolve({ total_num: 10, records, has_next: false });

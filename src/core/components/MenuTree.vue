@@ -5,12 +5,14 @@
     check-strictly
     placeholder="请选择上级菜单"
     class="menu-tree"
-    :data="autoMenus"
+    :data="allMenus"
     :props="{ value: 'path' }"
   />
 </template>
 <script lang="ts" setup>
-import { autoMenus } from "@/router/routes/auto";
+import { useMenuStore } from "@/store";
+
+const { allMenus } = useMenuStore();
 const props = withDefaults(
   defineProps<{
     modelValue?: string;

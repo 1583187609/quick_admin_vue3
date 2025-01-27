@@ -30,7 +30,7 @@
     </slot>
     <template v-else>
       <template v-if="formItemAttrs.quickAttrs?.pureText || pureText">
-        {{ getOptionValue(formItemAttrs, modelVal).value }}
+        {{ optionVal }}
       </template>
       <template v-else>
         <FormItem
@@ -86,6 +86,7 @@ import FormItem from "../FormItem/Index.vue";
 import { typeOf } from "#/mock/utils";
 import { DictName } from "@/dict/_types";
 import _ from "lodash";
+import { asyncComputed } from "@vueuse/core";
 
 const { merge } = _;
 const props = withDefaults(
@@ -189,7 +190,7 @@ function mergeRules(rules: RuleItem[] = []) {
 //   ])
 // );
 // 获取标准下拉项
-function getStandardOptions(opts): OptionItem[] {
+async function getStandardOptions(opts): Promise<OptionItem[]> {
   if (!opts) return [];
   const t = typeOf(opts);
   if (t === "String") {
@@ -200,12 +201,14 @@ function getStandardOptions(opts): OptionItem[] {
     // return getOpts(opts);
   }
   if (t === "Array") return opts;
+  if (t === "Promise") return await opts;
   throw new Error(`暂未处理此种options的类型：${t}`);
 }
+const optionVal = asyncComputed(async () => (await getOptionValue(formItemAttrs.value, modelVal.value)).value);
 //获取表单键值对的值
-function getOptionValue(field: FormFieldAttrs, val: any) {
+async function getOptionValue(field: FormFieldAttrs, val: any) {
   const { type = defaultFormItemType, label, attrs = {}, quickAttrs = {} } = field;
-  const stanOpts = getStandardOptions(attrs.options);
+  const stanOpts = await getStandardOptions(attrs.options);
   if (["select", "radio-group"].includes(type)) {
     val = stanOpts?.find(it => it.value === val)?.label;
   } else if (type.includes("Time") || type.includes("date")) {

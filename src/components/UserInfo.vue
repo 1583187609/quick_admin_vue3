@@ -80,7 +80,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CommonObj } from "@/core/_types";
+import { CommonObj, OptionItem } from "@/core/_types";
 import { useDict } from "@/hooks";
 import { getCascaderText } from "@/core/hooks/dict";
 
@@ -100,7 +100,7 @@ const cityText = ref("");
 init();
 function init() {
   const text = getText("C_Region", props.data.live_city ?? []);
-  if (text === "string") {
+  if (typeof text === "string") {
     liveCityText.value = text as string;
     cityText.value = getText("C_Region", props.data.city ?? []) as string;
     return;

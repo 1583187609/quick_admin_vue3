@@ -1,5 +1,6 @@
 // export const isProd = import.meta.env.PROD; //是否是生产环境，此方式会有问题，故弃用
 // export const isProd = import.meta.env.MODE === "prod"; //是否是生产环境，因为import.meta.env.PROD在生产环境中不为true，所以暂时这样处理。本来应该是'production'，但是package.json中指定了 --mode prod
+
 // export const isDev = import.meta.env.MODE === "dev"; //是否是开发环境，本来应该是'development'，但是package.json中指定了 --mode dev
 export const isProd = process.env.NODE_ENV === "production"; //是否是生产环境
 export const isDev = process.env.NODE_ENV === "development"; //是否是开发环境
@@ -11,3 +12,5 @@ export const emptyVals: ["", null, undefined] = ["", null, undefined]; //空值�
 export const errorPaths = ["/403", "/404", "/500"];
 
 export const isDocs = VITE_IS_DOCS;
+
+export const isSsr = import.meta.env.SSR;

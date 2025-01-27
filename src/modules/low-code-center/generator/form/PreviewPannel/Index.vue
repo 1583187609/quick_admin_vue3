@@ -30,10 +30,11 @@ import { TableCol } from "@/core/components/table/_types";
 import { cssVars } from "@/utils";
 import { showMessage, showConfirmMessage, getTreeNodesByValue } from "@/utils";
 import { CommonObj } from "@/core/_types";
-import { sysGeneratorTplsNew } from "../FilePannel/_config";
 import IconBtns, { IconBtnTpl } from "@/core/components/IconBtns.vue";
 import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
+import useTpls from "../../_hooks/useTpls";
 
+const { sysGeneratorTplsNew } = useTpls();
 const props = withDefaults(
   defineProps<{
     menuInfo?: CommonObj; // 菜单信息，包含文件（组件）信息

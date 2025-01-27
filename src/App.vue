@@ -11,13 +11,12 @@
   </el-config-provider>
 </template>
 <script lang="ts" setup>
-import { ref, watch } from "vue";
 import BasicSkins from "@/core/components/BasicSkins/Index.vue";
 import BasicPopup from "@/core/components/BasicPopup/Index.vue";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import WaterMark from "@/core/components/WaterMark.vue";
-import { useRoute } from "vue-router";
 import { defaultCommonSize } from "@/core/config";
+// import { analyzePageLoad } from "@/core/performance";
 
 const { VITE_APP_NAME } = import.meta.env;
 const route = useRoute();
@@ -25,6 +24,7 @@ const showWaterMask = ref(false);
 watch(route, newVal => {
   showWaterMask.value = newVal.name !== "login";
 });
+// analyzePageLoad();
 </script>
 <style lang="scss">
 #app {

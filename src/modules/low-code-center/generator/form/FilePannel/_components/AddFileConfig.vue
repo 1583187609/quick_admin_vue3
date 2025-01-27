@@ -12,16 +12,16 @@
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
-import { sysGeneratorTplsNew, compTypeOptions, getSubOptions } from "../_config";
-import { deleteAttrs, getTreeNodeByValue, getTreeNodesByValue } from "@/core/utils";
+import { CommonObj, FinallyNext } from "@/core/_types";
+import { compTypeOptions, getSubOptions } from "../_config";
+import { getTreeNodesByValue } from "@/core/utils";
 import { getGroupApiOpts } from "../../_config";
 import { OptionItem } from "@/core/_types";
 import { FormFieldAttrs } from "@/core/components/form/_types";
+import useTpls from "../../../_hooks/useTpls";
 
 const apiOpts: OptionItem[] = getGroupApiOpts();
-
+const { sysGeneratorTplsNew } = useTpls();
 const props = withDefaults(
   defineProps<{
     data?: CommonObj;

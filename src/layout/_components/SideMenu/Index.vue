@@ -23,7 +23,6 @@ import { useMenuStore, useSetStore } from "@/store";
 import { useRoute } from "vue-router";
 import { cssVars } from "@/utils";
 import { ResponseMenuItem, MenuEffect } from "./_types";
-import { computed } from "vue";
 
 const { navBgDark, navTextColorLight, navBgLight } = cssVars;
 const props = withDefaults(

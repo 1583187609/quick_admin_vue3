@@ -18,7 +18,13 @@ export function getPropsMapKeys(propsMap?: CommonObj) {
  * @param level 树层级深度
  * @returns
  */
-function handleTreeNodeByValue(tree: CommonObj[], value: StrNum, propsMap?: CommonObj, isDelete = false, level = 0): CommonObj | undefined {
+function handleTreeNodeByValue(
+  tree: CommonObj[],
+  value: StrNum,
+  propsMap?: CommonObj,
+  isDelete = false,
+  level = 0
+): CommonObj | undefined {
   if (!tree?.length) return;
   const [valueKey, labelKey, childrenKey] = getPropsMapKeys(propsMap);
   let targetNode: CommonObj | undefined;
@@ -72,4 +78,24 @@ export function getTreeNodesByValue(tree: CommonObj[], value: StrNum, propsMap?:
   // return handleTreeNodeByValue(tree, value, propsMap, false, undefined);
   if (!tree?.length || !value) return [];
   return ["组件示例", "表单", "基础表单", "基础用法"];
+}
+
+/**
+ * 获取树的第一个节点
+ * @param tree 树形数据
+ * @param targetNode 目标树叶子节点
+ * @returns {object|null} 目标节点
+ */
+export function getTreeFirstLeafNode(tree: CommonObj[], targetNode: CommonObj | null = null) {
+  tree.find(item => {
+    const { children } = item;
+    if (!children?.length) {
+      targetNode = item;
+      return true;
+    }
+    const isFind = getTreeFirstLeafNode(children, targetNode);
+    if (isFind) targetNode = isFind;
+    return !!isFind;
+  });
+  return targetNode;
 }

@@ -1,4 +1,4 @@
-<!-- 其他功能清单 -->
+<!-- 功能概览 -->
 <template>
   <div class="q-page-view f-sb-s">
     <div class="f-1 f-fs-s-c">

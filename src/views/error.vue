@@ -1,11 +1,11 @@
 <template>
   <div class="error f-c-c-c">
     <template v-if="imgMap[code]">
-      <BaseImg size="400" :src="imgMap[code].img" />
+      <BaseImg size="28em" :src="imgMap[code].img" />
       <div class="tips">{{ imgMap[code].tips }}</div>
       <div class="f-c-c">
-        <el-button size="large" type="primary" @click="handleTryAgain">重试</el-button>
-        <el-button size="large" @click="router.go(-1)">返回</el-button>
+        <el-button :icon="RefreshRight" type="primary" @click="handleTryAgain">重试</el-button>
+        <el-button :icon="ArrowLeft" @click="router.go(-1)">返回</el-button>
       </div>
     </template>
     <BaseEmpty v-else />
@@ -13,42 +13,25 @@
 </template>
 
 <script lang="ts" setup>
-import { LocationQueryValue, useRoute, useRouter } from "vue-router";
-import { defineProps } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import img_403 from "@/assets/images/error/403.png";
 import img_404 from "@/assets/images/error/404.png";
 import img_500 from "@/assets/images/error/500.png";
+import { ArrowLeft, RefreshRight } from "@element-plus/icons-vue";
 
 export type StatusType = "403" | "404" | "500" | "999";
 
 type EnumStatusImg = {
   [key in StatusType]: {
     img: string;
-    title: string;
     tips: string;
   };
 };
 const imgMap: EnumStatusImg = {
-  "403": {
-    img: img_403,
-    title: "无权限",
-    tips: "抱歉！您还没权限访问该页面哦~",
-  },
-  "404": {
-    img: img_404,
-    title: "未找到地址",
-    tips: "啊哦~页面好像找不到啦……",
-  },
-  "500": {
-    img: img_500,
-    title: "服务异常",
-    tips: "嗯~这个……服务器日常抽风……",
-  },
-  "999": {
-    img: img_404,
-    title: "未找到文件",
-    tips: "嗨~没找到地址文件……",
-  },
+  "403": { img: img_403, tips: "抱歉！您还没权限访问该页面哦~" },
+  "404": { img: img_404, tips: "啊哦~页面好像找不到啦……" },
+  "500": { img: img_500, tips: "嗯~这个……服务器日常抽风……" },
+  "999": { img: img_404, tips: "嗨~没找到地址文件……" },
 };
 const props = withDefaults(
   defineProps<{
@@ -58,11 +41,13 @@ const props = withDefaults(
 );
 const router = useRouter();
 const route = useRoute();
-const { type = "404", redirectTo } = route.query;
+const type = route.path.slice(1);
+const { redirectTo } = route.query;
 const code = (props.status ?? type) as StatusType;
-document.title = imgMap[code]?.title ?? "error";
+// 再次尝试
 function handleTryAgain() {
-  if (!redirectTo) return router.go(0);
+  // if (!redirectTo) return router.go(0);
+  if (!redirectTo) throw new Error("请传入参数：redirectTo");
   return router.push(decodeURIComponent(redirectTo as string));
 }
 </script>
@@ -73,7 +58,7 @@ function handleTryAgain() {
   width: 100%;
 }
 .tips {
-  margin: $gap 0;
-  font-size: 18px;
+  margin: $gap 0 $gap-two;
+  font-size: $font-size-heavyest;
 }
 </style>

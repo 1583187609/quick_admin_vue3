@@ -1,7 +1,7 @@
 <!-- 表单配置生成文件 -->
 <template>
   <div class="f-sb-s q-page-view">
-    <FilePannel v-model="currMenuInfo" defaultValue="199-1-1-2-1-1" class="pannel f-0" style="width: 20em" />
+    <FilePannel v-model="currMenuInfo" class="pannel f-0" style="width: 20em" />
     <PreviewPannel
       class="pannel f-1"
       :activeIndex="currFieldInd"

@@ -2,7 +2,6 @@ import { CommonObj, OptionItem } from "@/core/_types";
 import { BtnItem } from "@/core/components/BaseBtn/_types";
 import { FormFieldAttrs, SectionFormItemAttrs } from "@/core/components/form/_types";
 import { TableColAttrs } from "@/core/components/table/_types";
-import { autoMenus } from "@/router/routes/auto";
 import { deleteAttrs } from "@/utils";
 
 export function getSubOptions(parOptions: OptionItem[] = [], val: number, omitChildren = true, childrenKey = "children") {
@@ -105,6 +104,7 @@ interface VueFileInfo {
   isDraft?: boolean; // 是否是草稿
   // lastTime?: // 上次修改文件时间
 }
+
 export const compTypeOptions: OptionItem[] = [
   {
     label: "表单",
@@ -201,7 +201,8 @@ export const compTypeOptions: OptionItem[] = [
     ],
   },
 ];
-function getNewTpls(arr: CommonObj[]) {
+
+export function getNewTpls(arr: CommonObj[]) {
   if (!arr?.length) return [];
   return arr.map((item, ind) => {
     const { id, children } = item;
@@ -226,80 +227,3 @@ function getNewTpls(arr: CommonObj[]) {
     return item;
   });
 }
-// 已生效的的生成文件模板
-export const sysGeneratorTplsNew = getNewTpls(JSON.parse(JSON.stringify(autoMenus)));
-// export const sysGeneratorTpls = [
-//   // 表单
-//   {
-//     value: "commonCenter",
-//     label: "通用中心",
-//     children: [
-//       {
-//         value: "tempForm1",
-//         label: "临时表单1",
-//         data: {
-//           fields: [],
-//           apiId: "1-1",
-//         },
-//       },
-//       {
-//         value: "tempForm2",
-//         label: "临时表单2",
-//         data: {
-//           fields: [],
-//           apiId: "1-1",
-//         },
-//       },
-//     ],
-//   },
-//   // 表格
-//   {
-//     value: "monitorCenter",
-//     label: "监控中心",
-//     children: [
-//       {
-//         value: "tempTable1",
-//         label: "临时表格1",
-//         data: {
-//           cols: [],
-//           operateBtns: [],
-//         },
-//       },
-//       {
-//         value: "tempTable2",
-//         label: "临时表格2",
-//         data: {
-//           cols: [],
-//           operateBtns: [],
-//         },
-//       },
-//     ],
-//   },
-//   // 增删改查
-//   {
-//     value: "projectCenter",
-//     label: "项目中心",
-//     children: [
-//       {
-//         value: "easyNote",
-//         label: "轻松笔记",
-//         data: {
-//           fields: [],
-//           cols: [],
-//           extraBtns: [],
-//           operateBtns: [],
-//         },
-//       },
-//       {
-//         value: "smartEducation",
-//         label: "智慧教育",
-//         data: {
-//           fields: [],
-//           cols: [],
-//           extraBtns: [],
-//           operateBtns: [],
-//         },
-//       },
-//     ],
-//   },
-// ];
