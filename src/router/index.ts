@@ -88,9 +88,9 @@ router.onError((err, to) => {
   const { name, path } = to;
   NProgress.done();
   if (isNotFoundFile) {
-    const query: CommonObj = { type: "999" };
+    const query: CommonObj = {};
     if (name !== "home") query.redirectTo = encodeURIComponent(path);
-    return router.push({ name: "error", query });
+    return router.push({ path: "/999", query });
   }
   console.error("路由错误", message);
   // if (message.includes("Failed to fetch dynamically imported module")) {

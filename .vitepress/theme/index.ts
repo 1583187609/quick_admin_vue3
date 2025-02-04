@@ -4,7 +4,7 @@ import ElementPlus from "element-plus";
 import Demo from "../render/inner/_components/Demo.vue";
 import InfoList from "../render/inner/_components/info/InfoList.vue";
 import Root from "./Root.vue";
-import { setupProdMockServer } from "../../mock/mockProdServer";
+// import { setupProdMockServer } from "../../mock/mockProdServer";
 import I18n from "@/langs";
 import components from "@/core/components";
 import store from "@/store";
@@ -32,7 +32,7 @@ export default {
     app.use(ElementPlus);
     app.use(store);
     app.use(router);
-    setupProdMockServer();
+    // setupProdMockServer();
   },
   // 覆盖默认的导航栏渲染方法
   // renderNavbar: app => {

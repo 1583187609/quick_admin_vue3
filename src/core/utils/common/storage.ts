@@ -56,7 +56,7 @@ function getTransferVal(val: any) {
   if (val === "undefined") return;
   if (val === "false") return false;
   if (val === "true") return true;
-  if (val.startsWith("{") || val.startsWith("[")) return JSON.parse(val);
+  if (val?.startsWith("{") || val?.startsWith("[")) return JSON.parse(val);
   return val;
 }
 

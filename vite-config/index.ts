@@ -2,12 +2,12 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import pkg from "../package.json";
-import { getFileNameByPath } from "./utils";
+import { getFileNameByPath, getBrowserObject } from "./utils";
 
 import visualizer from "./plugins/visualizer";
 import AutoImport from "./plugins/auto-import";
 import viteMockServe from "./plugins/vite-mock-serve";
-import topLevelAwait from "./plugins/top-level-await";
+// import topLevelAwait from "./plugins/top-level-await";
 import generateComponentName from "./plugins/generate-component-name";
 
 import { cdnImport, external } from "./plugins/cdn-import";
@@ -23,8 +23,8 @@ const closeWarn = true; //关闭警告
 // https://vitejs.dev/config/
 export default ({ mode, command }) => {
   // const env = loadEnv(mode, process.cwd()); // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
-  // console.log(mode, command, "ddddd---------");
   const isVitepress = process.argv[1].includes("vitepress");
+  const isBuild = process.argv[2] === "build";
   const isProd = mode === "production"; // 原来取值范围是：production, develop, 但配置了env文件后，所以改变了mode的值
   return defineConfig({
     // assetsInclude: ["**/*.gltf"],
@@ -33,6 +33,7 @@ export default ({ mode, command }) => {
       // __VUE_OPTIONS_API__: true, // 启用/禁用选项式 API 支持。禁用此功能将减小打包结果的体积，但如果第三方库依赖选项式 API，则可能影响兼容性
       // __VUE_PROD_DEVTOOLS__: !isProd, // 在生产环境中启用/禁用开发者工具支持。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
       // __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !isProd, // 启用/禁用生产环境构建下激活 (hydration) 不匹配的详细警告。启用会在打包结果中包含更多代码，因此建议仅在调试时启用此功能
+      ...(isVitepress && isBuild ? getBrowserObject() : {}),
     },
     logLevel: closeWarn ? "error" : undefined, // 默认为 'info'。调整控制台输出的级别。可选值：'info', 'warn', 'error', 'silent'
     // envPrefix: 'VITE_', // 以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。
@@ -45,7 +46,7 @@ export default ({ mode, command }) => {
     // publicDir: 'public', // 默认为/public。将 publicDir 设定为 false 可以关闭此项功能
     // cacheDir: "node_modules/.vite", // 存储缓存文件的目录。可以使用 --force 命令行选项或手动删除目录
     plugins: [
-      ...(isVitepress ? [] : [vue(), visualizer, useCdnImport ? cdnImport : undefined]),
+      ...(isVitepress ? [] : [vue(), visualizer(), useCdnImport ? cdnImport() : undefined]),
       AutoImport,
       viteMockServe,
       generateComponentName,
@@ -179,8 +180,8 @@ export default ({ mode, command }) => {
       // },
       // https://rollupjs.org/guide/en/#big-list-of-options
       rollupOptions: {
-        // 以下文件不打包
-        // external: isVitepress ? undefined : useCdnImport ? external : undefined,  // 貌似使用 vite-plugin-cdn-import 时，可以省略不写 globals
+        // // 以下文件不打包
+        // external: isVitepress ? undefined : useCdnImport ? external : undefined, // 貌似使用 vite-plugin-cdn-import 时，可以省略不写 globals
         onwarn(warning, rollupWarn) {
           if (closeWarn) return; // 关闭所有警告信息
           // // 跳过指定类型的警告
@@ -199,33 +200,39 @@ export default ({ mode, command }) => {
         output: {
           // 分文件夹进行分包优化
           // entryFileNames: "assets/js/[name]-[hash].js",
+          // 自定义分包文件命名规则
           // chunkFileNames: "assets/js/[name]-[hash].js",
-          // // assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
-          // //进行分包优化
-          // manualChunks(id) {
-          //   if (id.includes("/mock/")) return "mock";
-          //   if (id.includes("node_modules")) {
-          //     return id.split("node_modules/")[1].split("/")[0];
-          //   }
-          // },
-          // assetFileNames(info) {
-          //   const { name } = info;
-          //   const ext = path.extname(name).slice(1);
-          //   console.log(name, ext, "info-------------------------");
-          //   if (["css", "js", "vue"].includes(ext)) {
-          //     //wangEditor包的名字中带有/，所以需要处理下
-          //     const packages = Object.keys(pkg.dependencies).map(key => key.split("/")[0]);
-          //     const isNodeModule = packages.some(it => name.startsWith(it));
-          //     const subPath = isNodeModule ? "package/" : "";
-          //     const _name = getFileNameByPath(name);
-          //     return `assets/[ext]/${subPath}${_name}-[hash].[ext]`;
-          //   }
-          //   const imgExts = ["png", "jpg", "jpeg", "webp", "svg", "gif", "ico"];
-          //   if (imgExts.includes(ext)) return "assets/imgs/[ext]/[name]-[hash].[ext]";
-          //   const fontExts = ["otf", "ttf"];
-          //   if (fontExts.includes(ext)) return "assets/font/[name]-[hash].[ext]";
-          //   return "assets/[ext]/[name]-[hash].[ext]";
-          // },
+          chunkFileNames(info) {
+            return "assets/js/[name]-[hash].js";
+          },
+          // 自定义分包文件命名规则(手动拆分第三方库或特定模块)
+          manualChunks(id) {
+            if (id.includes("/mock/")) return "mock";
+            if (id.includes("node_modules")) {
+              return id.split("node_modules/")[1].split("/")[0];
+              // return 'vendor';
+            }
+          },
+          // 静态资源文件处理
+          // assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
+          assetFileNames(info) {
+            const { name } = info;
+            const ext = path.extname(name).slice(1);
+            if ("css" === ext) {
+              //wangEditor包的名字中带有/，所以需要处理下
+              const packages = Object.keys(pkg.dependencies).map(key => key.split("/")[0]);
+              const isNodeModule = packages.some(it => name.startsWith(it));
+              const subPath = isNodeModule ? "package/" : "";
+              const _name = getFileNameByPath(name);
+              return `assets/[ext]/${subPath}${_name}-[hash].[ext]`;
+            }
+            const imgExts = ["png", "jpg", "jpeg", "webp", "svg", "gif", "ico"];
+            if (imgExts.includes(ext)) return "assets/imgs/[ext]/[name]-[hash].[ext]";
+            const fontExts = ["otf", "ttf"];
+            if (fontExts.includes(ext)) return "assets/font/[name]-[hash].[ext]";
+            throw new Error(`暂未处理此文件类型：${ext}`);
+            // return "assets/[ext]/[name]-[hash].[ext]";
+          },
           // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
           // globals: { vue: "Vue" },  // 貌似使用 vite-plugin-cdn-import 时，可以省略不写 globals
         },

@@ -3,14 +3,7 @@
  */
 
 import qs from "qs";
-import axios, {
-  AxiosInstance,
-  AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-  AxiosResponse,
-  CancelTokenSource,
-} from "axios";
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
 import { typeOf, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap, goLogin } from "./_utils";
 import { GetRequired } from "@/core/_types";
@@ -32,8 +25,8 @@ export interface CustomRequestConfig {
   };
 }
 
-export interface NewAxiosRequestConfig extends AxiosRequestConfig {
-  customConfig: GetRequired<CustomRequestConfig>;
+export interface AxiosCustomConfig {
+  customConfig?: GetRequired<CustomRequestConfig>;
 }
 
 const defaultCustomCfg = {
@@ -68,8 +61,8 @@ const service: AxiosInstance = axios.create({
 });
 
 service.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const { loadEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
+  (config: InternalAxiosRequestConfig & AxiosCustomConfig) => {
+    const { loadEnable } = config?.customConfig ?? {};
     loadEnable && showLoading();
     // config.headers["Content-Type"] = "application/json;charset=utf-8";
     const token = storage.getItem("token");
@@ -86,8 +79,8 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (res: AxiosResponse) => {
-    const { data: resData, config } = res;
-    const { loadEnable, toastEnable, intercept = true, resDataMap } = config.customConfig as GetRequired<CustomRequestConfig>;
+    const { data: resData, config = {} } = res;
+    const { loadEnable, toastEnable, intercept = true, resDataMap } = config?.customConfig ?? {};
     loadEnable && hideLoading();
     if (!intercept) return resData;
     const { code, data, msg, successCode = 0 } = getResData(resData, resDataMap);
@@ -98,8 +91,8 @@ service.interceptors.response.use(
   },
   (err: AxiosError) => {
     if (axios.isCancel(err)) return Promise.reject(err);
-    const { status, config } = err;
-    const { loadEnable } = config.customConfig as GetRequired<CustomRequestConfig>;
+    const { status, config = {} } = err;
+    const { loadEnable } = config?.customConfig ?? {};
     loadEnable && hideLoading();
     // 未授权，去登录
     const errMsg = statusMap[status] || "请求失败";
@@ -132,7 +125,7 @@ function fetch<T = any>(
   othersCfg?: AxiosRequestConfig
 ): Promise<T> {
   method = method.toLowerCase();
-  const cfg: NewAxiosRequestConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
+  const cfg: AxiosRequestConfig & AxiosCustomConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
   const { isStringify } = customCfg;
   if (method === "get") {
     if (isStringify || enableMock) {

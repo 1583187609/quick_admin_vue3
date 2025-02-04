@@ -100,5 +100,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\self\quick_admin_vue3/src/core/components/form/_types.ts
+<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/form/_types.ts
 :::  

@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider :size="defaultCommonSize" :locale="zhCn">
+  <el-config-provider :size="defaultCommonSize" :locale="locale">
     <!-- :z-index="3000" -->
     <BasicSkins>
       <BasicPopup>
@@ -13,12 +13,14 @@
 <script lang="ts" setup>
 import BasicSkins from "@/core/components/BasicSkins/Index.vue";
 import BasicPopup from "@/core/components/BasicPopup/Index.vue";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+import zh from "element-plus/dist/locale/zh-cn.mjs";
+import en from "element-plus/dist/locale/en.mjs";
 import WaterMark from "@/core/components/WaterMark.vue";
 import { defaultCommonSize } from "@/core/config";
 // import { analyzePageLoad } from "@/core/performance";
 
 const { VITE_APP_NAME } = import.meta.env;
+const locale = navigator.language.split("-")[0] === "zh" ? zh : en; // 输出: "en-US" 或 "zh-CN"
 const route = useRoute();
 const showWaterMask = ref(false);
 watch(route, newVal => {

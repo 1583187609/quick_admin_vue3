@@ -58,3 +58,32 @@ export function getFileNameByPath(path: string, char = "/") {
   if (newName.startsWith("_")) newName = `0${newName}`; //GitHub Pages服务会将下划线开头的文件视为隐藏文件，不会暴露出来，故做此处理
   return newName;
 }
+
+/**
+ * 构造SSR需要的浏览器api
+ * @returns
+ */
+export function getBrowserObject() {
+  return {
+    // "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    window: {},
+    location: {
+      host: "",
+    },
+    localStorage: {
+      getItem: () => {},
+      setItem: () => {},
+      removeItem: () => {},
+    },
+    sessionStorage: {
+      getItem: () => {},
+      setItem: () => {},
+      removeItem: () => {},
+    },
+    document: {
+      cookie: "",
+      body: {},
+      querySelector: () => {},
+    },
+  };
+}

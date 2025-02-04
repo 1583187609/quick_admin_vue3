@@ -1,6 +1,6 @@
-import _ from "lodash";
 import cdnImportPlugin from "vite-plugin-cdn-import";
 import pkg from "../../package.json";
+import _ from "lodash";
 
 const { camelCase, upperFirst } = _;
 
@@ -84,12 +84,13 @@ export const external = externalList.map(it => {
  * @link npm包地址：https://www.npmjs.com/package/vite-plugin-cdn-import
  * @example prodUrl: '//unpkg.com/{name}@{version}/{path}', 'https://cdn.jsdelivr.net/npm/{name}@{version}/{path}'
  */
-export const cdnImport = cdnImportPlugin({
-  prodUrl, // 默认值为：https://cdn.jsdelivr.net/npm/{name}@{version}/{path}
-  // 类型：(Module | Module[] | GetModuleFunc | GetModuleFunc[])[]
-  // 预设默认值：react, react-dom, react-router-dom, antd, vue, vue2, vue-router, vue-router@3, moment, dayjs, axios, lodash
-  modules: externalList,
-  enableInDevMode: true, // 为true时，可以通过 CDN 导入生产环境下通常需要通过 NPM 安装的依赖
-  // generateScriptTag(){},
-  // generateCssLinkTag(){},
-});
+export const cdnImport = () =>
+  cdnImportPlugin({
+    prodUrl, // 默认值为：https://cdn.jsdelivr.net/npm/{name}@{version}/{path}
+    // 类型：(Module | Module[] | GetModuleFunc | GetModuleFunc[])[]
+    // 预设默认值：react, react-dom, react-router-dom, antd, vue, vue2, vue-router, vue-router@3, moment, dayjs, axios, lodash
+    modules: externalList,
+    enableInDevMode: true, // 为true时，可以通过 CDN 导入生产环境下通常需要通过 NPM 安装的依赖
+    // generateScriptTag(){},
+    // generateCssLinkTag(){},
+  });

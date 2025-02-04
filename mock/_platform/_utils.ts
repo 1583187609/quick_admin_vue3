@@ -9,6 +9,6 @@ import { isDev } from "../utils";
 export function getBasePath(projectName = "quick_admin", rootPath = "/vue3/preview") {
   if (isDev) return ""; //开发模式
   const { origin, host } = location;
-  const isLiveSever = host.startsWith("127");
+  const isLiveSever = host?.startsWith("127");
   return `${origin}/${isLiveSever ? "" : projectName}${isLiveSever ? "/dist" : rootPath}`;
 }
