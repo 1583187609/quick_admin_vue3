@@ -60,23 +60,23 @@ function getSortReadFiles(dirPath, excNames) {
  * @param urls 多层路径记录
  */
 function getSubPaths(folderPath = "", urls = []) {
-  const paths = fs.readdirSync(folderPath).map(file => {
-    const curPath = path.join(folderPath, file);
-    const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
-    const cloneUrls = [...urls];
-    cloneUrls.push(file);
-    if (isDir) {
-      const items = getSubPaths(curPath, cloneUrls);
-      return {
-        text: file,
-        items,
-        collapsed: false,
-      };
-    } else {
-      if (file === indexName) return "";
-      return [cloneUrls.join("/"), cloneUrls.at(-1).slice(0, -3)];
-    }
-  });
+  const paths = fs
+    .readdirSync(folderPath)
+    .map(file => {
+      if (file.startsWith("_")) return "";
+      const curPath = path.join(folderPath, file);
+      const isDir = fs.lstatSync(curPath).isDirectory(); //是否是文件夹
+      const cloneUrls = [...urls];
+      cloneUrls.push(file);
+      if (isDir) {
+        const items = getSubPaths(curPath, cloneUrls);
+        return { text: file, items, collapsed: false };
+      } else {
+        if (file === indexName) return "";
+        return [cloneUrls.join("/"), cloneUrls.at(-1).slice(0, -3)];
+      }
+    })
+    .filter(it => !!it);
   return sortPaths(paths);
 }
 
@@ -170,18 +170,27 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
       const order = Number(file.split("_")[0]) || 0; // 如果是NaN，则为0
       if (!isDev && order > 10) return; // 如果大于10，则是测试、示例、等模块，不宜呈现在非开发环境
       const paths = getSubPaths(curPath);
-      if (isDeep) {
-        navs.push({
-          text: cnName,
-          items: getItems(paths, dirPath, file),
-        });
+      if (paths?.length) {
+        if (isDeep) {
+          navs.push({
+            text: cnName,
+            items: getItems(paths, dirPath, file),
+          });
+        } else {
+          const items = getItems(paths, dirPath, file);
+          const firstLink = getFirstPath(items);
+          navs.push({
+            text: cnName,
+            link: firstLink,
+            activeMatch: isFullPath ? `^/${firstLink.split("/").slice(1, 3).join("/")}/` : `^/${firstLink.split("/")[1]}/`,
+          });
+        }
       } else {
-        const items = getItems(paths, dirPath, file);
-        const firstLink = getFirstPath(items);
+        const link = `${dirPath}/${file}`;
         navs.push({
           text: cnName,
-          link: firstLink,
-          activeMatch: isFullPath ? `^/${firstLink.split("/").slice(1, 3).join("/")}/` : `^/${firstLink.split("/")[1]}/`,
+          link,
+          activeMatch: isFullPath ? `^/${link.split("/").slice(1, 3).join("/")}/` : `^/${link.split("/")[1]}/`,
         });
       }
     } else {
