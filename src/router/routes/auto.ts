@@ -141,6 +141,7 @@ export function getAutoMenus(routes: any[] = [], role = getUserInfo()?.role, idS
       source: level === 0 ? "auto" : undefined,
       disabled,
       component: isMenu ? `/${path}/index.vue` : undefined,
+      // component,
       children: getAutoMenus(children, role, idStr, level + 1),
     });
     if (!auth_codes?.length) return true;

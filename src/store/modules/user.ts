@@ -26,6 +26,7 @@ function getInitAutoMenus(role: number) {
   const pages = import.meta.glob("../../modules/**/page.json", { eager: true, import: "default" });
   const autoRoutesTree = getAutoRoutesTree(comps, pages);
   // autoRoutes = getAutoRoutesFlat(autoRoutesTree); // 自动路由
+  console.log(autoRoutesTree, "autoRoutesTree---------");
   return getAutoMenus(autoRoutesTree, role); // 根据自动路由生成的自动菜单;
 }
 

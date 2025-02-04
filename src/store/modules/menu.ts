@@ -1,10 +1,7 @@
 import { defineStore } from "pinia";
 import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { storage } from "@/utils";
-import { defaultHomePath, defaultRouteType, RouteType } from "@/core/config";
-import { useRouteStore } from "@/store";
-import { getAutoMenus, getAutoRoutesFlat, getAutoRoutesTree } from "@/router/routes/auto";
-import { RouteRecordRaw } from "vue-router";
+import { defaultHomePath } from "@/core/config";
 export interface RouteItem {
   path: string;
   name: string;
@@ -21,7 +18,6 @@ export interface RouteItem {
 
 export default defineStore("menu", () => {
   const router = useRouter();
-  // const routeStore = useRouteStore();
   const activeIndex = ref<number>(0);
   const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); // 是否折叠菜单
   const allMenus = reactive<ResponseMenuItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
