@@ -13,4 +13,4 @@ export const errorPaths = ["/403", "/404", "/500"];
 
 export const isDocs = VITE_IS_DOCS;
 
-export const isSsr = import.meta.env.SSR;
+export const isSsr = import.meta.env?.SSR;

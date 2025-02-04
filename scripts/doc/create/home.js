@@ -55,7 +55,7 @@ function getFeaturesStr() {
     {
       icon: "🔥",
       title: "最新流行技术栈",
-      details: "基于 Vue3.3、Vite4、TS、Pinia、Element-Plus 等最新技术栈开发",
+      details: "基于 Vite5.4、Vue3.5、TS、Pinia、Element-Plus 等最新技术栈开发",
       // link: pathStr,
       // linkText: "了解更多",
     },
@@ -67,7 +67,7 @@ function getFeaturesStr() {
     {
       icon: "🚀",
       title: "显著提升开发效率",
-      details: "通过xxxx方式，极致降低开发者心智负担",
+      details: "通过渐进式的代码片段、JSON 渲染、快捷属性、模板配置、文件生成、全局配置、一站代码、AI生成方案，极致降低开发者心智负担",
     },
     {
       icon: "📔",
@@ -90,9 +90,9 @@ function getFeaturesStr() {
       details: "提供丰富的组件、常用 Hooks、Utils 封装，在一定程度上节省你造轮子的时间",
     },
     {
-      icon: "🔨",
-      title: "渐进式低代码方案",
-      details: "提供可渐进式使用的七种方案实现低码开发：代码片段、JSON渲染、快捷属性、模板配置、文件生成、工程移植性、一站代码。",
+      icon: "💡",
+      title: "创新设计",
+      details: "全局弹窗、全局按钮、全局字典、JSON模板，实现高内聚、低耦合，低码高效。",
     },
     {
       icon: "🔨",
@@ -113,10 +113,10 @@ function getFeaturesStr() {
     title: ${title}
     details: ${details}
 `;
-      if(link && linkText){
-        text+=`
+      if (link && linkText) {
+        text += `
     link: ${link}
-    linkText: ${linkText}`
+    linkText: ${linkText}`;
       }
       return text;
     })
