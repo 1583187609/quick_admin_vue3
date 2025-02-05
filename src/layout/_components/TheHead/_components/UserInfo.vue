@@ -1,36 +1,35 @@
 <template>
   <BaseForm
+    v-model="modelData"
     style="width: 400px"
     :fields="fields"
-    v-model="model"
-    :fetch="GetUserList"
+    :fetch="GetMockUser"
     :moreBtns="[editEnable ? { name: 'view', text: '查看' } : { name: 'edit', text: '修改' }]"
-    :submitText="editEnable ? undefined : ''"
-    :resetText="editEnable ? undefined : ''"
+    :submitBtn="editEnable ? undefined : ''"
+    :resetBtn="editEnable ? undefined : ''"
+    :key="editEnable"
     @moreBtns="onMoreBtns"
   >
-    <template #avatar>
-      <BaseAvatar :src="model.avatar" size="100" />
-    </template>
   </BaseForm>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed } from "vue";
 import { getUserInfo, handleBtnNext } from "@/utils";
-import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form";
-import { GetUserList } from "@/api-mock";
-import { BtnName } from "@/components/BaseBtn";
+import { CommonObj } from "@/core/_types";
+import { FormFieldAttrs } from "@/core/components/form/_types";
+import { GetMockUser } from "@/api-mock";
+import { BtnName } from "@/core/components/BaseBtn/_types";
 
 const editEnable = ref(false);
-const model = reactive<CommonObj>(getUserInfo());
+const modelData = reactive<CommonObj>(Object.assign({}, getUserInfo()));
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
       prop: "avatar",
       label: "头像",
-      type: editEnable.value ? "BaseUpload" : "custom",
+      type: editEnable.value ? "BaseUpload" : "BaseAvatar",
       attrs: {
+        size: "8.6em",
+        circle: true,
         disabled: !editEnable.value,
       },
     },
@@ -50,8 +49,8 @@ const fields = computed<FormFieldAttrs[]>(() => {
       },
     },
     {
-      prop: "type_text",
-      label: "用户类型",
+      prop: "role_text",
+      label: "角色类型",
       attrs: {
         disabled: true,
       },
@@ -60,9 +59,9 @@ const fields = computed<FormFieldAttrs[]>(() => {
       prop: "gender",
       label: "性别",
       type: "radio-group",
-      options: "Gender",
       attrs: {
         type: "button",
+        options: "D_Gender",
         disabled: true,
       },
     },
@@ -75,37 +74,31 @@ const fields = computed<FormFieldAttrs[]>(() => {
       },
     },
     {
-      prop: "phone",
-      label: "电话号码",
+      tpl: "T_Phone",
+      // prop: "phone",
+      // label: "电话号码",
       attrs: {
         disabled: !editEnable.value,
-      },
-      extraAttrs: {
-        valid: "phone",
       },
     },
     ...(editEnable.value
       ? [
           {
-            prop: "password",
-            label: "新密码",
-            attrs: {
-              type: "password",
-            },
-            extraAttrs: {
-              valid: "password",
-            },
+            tpl: "T_Password",
+            // prop: "password",
+            // label: "新密码",
+            // attrs: {
+            //   type: "password",
+            // },
           },
           {
+            tpl: "T_Password",
             prop: "rePassword",
             label: "确认密码",
             rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
-            attrs: {
-              type: "password",
-            },
-            extraAttrs: {
-              valid: "password",
-            },
+            // attrs: {
+            //   type: "password",
+            // },
           },
         ]
       : []),
@@ -113,7 +106,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
 });
 // 自定义校验：校验两次输入的密码是否一致
 function checkConfirmPsd(rule: any, value: any, callback: any) {
-  if (value !== model.password) {
+  if (value !== modelData.password) {
     callback(new Error("密码和确认密码需要保持一致"));
   } else {
     callback();

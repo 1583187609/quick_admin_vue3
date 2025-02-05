@@ -1,0 +1,6 @@
+{
+  "title": "菜单管理",
+  "icon": "Menu",
+  "order": 3,
+  "auth_codes": [0, 1, 2, 3]
+}

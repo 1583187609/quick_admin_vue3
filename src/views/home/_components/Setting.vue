@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
 import setDragImg from "@/assets/images/sys/menu-drag.png";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { showMessage } from "@/utils";
 const props = withDefaults(
   defineProps<{
@@ -47,13 +47,13 @@ function handleClick(ind: number) {
   }
 }
 </script>
-<style lang="scss" name="" scoped>
+<style lang="scss" scoped>
 .set-move {
   position: fixed;
   $size: 72px;
   right: $size * -0.45;
   // left: calc(100vw - 40px);
-  top: $header-height + $page-tags-height;
+  top: calc(var(--header-height) + var(--page-tags-height));
   z-index: 100;
   .icon {
     height: $size;

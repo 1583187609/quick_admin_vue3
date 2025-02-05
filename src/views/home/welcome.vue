@@ -2,7 +2,7 @@
 <template>
   <div class="home f-c-c-c">
     <div class="welcome">{{ timeAlias }}好，{{ userInfo?._title }}</div>
-    <BaseEmpty tips=" " :size="200"></BaseEmpty>
+    <BaseEmpty description=" " :size="200"></BaseEmpty>
     <el-button :icon="Top" type="primary" @click="router.push('/workbench')">前往工作台</el-button>
   </div>
 </template>

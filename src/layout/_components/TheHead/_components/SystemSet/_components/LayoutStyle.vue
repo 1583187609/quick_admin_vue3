@@ -32,7 +32,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { LayoutType } from "@/store/modules/set";
 import store, { useBaseStore, useSetStore } from "@/store";
 const layoutMap = {
@@ -65,14 +65,14 @@ const props = withDefaults(
     modelValue: "vertical",
   }
 );
-const emits = defineEmits(["update:modelValue"]);
+const $emit = defineEmits(["update:modelValue"]);
 const setStore = useSetStore();
 const type = computed({
   get() {
     return props.modelValue;
   },
   set(val: LayoutType) {
-    emits("update:modelValue", val);
+    $emit("update:modelValue", val);
   },
 });
 function handleSelected(val: LayoutType) {
@@ -81,11 +81,13 @@ function handleSelected(val: LayoutType) {
 }
 </script>
 <style lang="scss" scoped>
-$ratio: 0.06;
-$height: $header-height * $ratio;
-$width: $asider-width * $ratio;
-$nav-width: $main-menu-width * $ratio;
+@use "sass:color";
 .layout-style {
+  --ratio: 0.06;
+  $ratio: 0.06;
+  $height: calc(var(--header-height) * var(--ratio));
+  $width: calc(var(--asider-width) * var(--ratio));
+  $nav-width: calc(var(--main-menu-width) * var(--ratio));
   .item {
     padding: $gap-qtr;
     margin: 0 $gap-half;
@@ -104,11 +106,13 @@ $nav-width: $main-menu-width * $ratio;
         background: $color-primary;
       }
       &.side {
-        background: mix($color-primary, #ffffff, 65%);
+        background: color-mix(in srgb, var(--color-primary) 65%, #ffffff, 35%);
+        // background: color.mix($color-primary, #ffffff, 65%);
       }
       &.main {
         border-radius: 2px;
-        background: mix($color-primary, #ffffff, 15%);
+        background: color-mix(in srgb, var(--color-primary) 15%, #ffffff, 85%);
+        // background: color.mix($color-primary, #ffffff, 15%);
       }
     }
     &.columns {

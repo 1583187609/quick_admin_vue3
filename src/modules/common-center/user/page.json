@@ -1,0 +1,6 @@
+{
+  "title": "用户管理",
+  "icon": "UserFilled",
+  "order": 3,
+  "auth_codes": [0, 1, 2, 3]
+}

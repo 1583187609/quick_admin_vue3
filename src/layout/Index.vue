@@ -13,7 +13,7 @@
             v-for="(item, ind) in menuStore.allMenus"
             :key="ind"
           >
-            <BaseIcon size="20" :name="item.icon" />
+            <BaseIcon size="1.6em" :name="item.icon" />
             <TooltipLabel :label="item.label" />
           </li>
         </ul>
@@ -39,10 +39,9 @@
 // 路由动画：http://www.dearweb.cn/qianduan/dw-333.html
 import TheHead from "./_components/TheHead/Index.vue";
 import TheMenu from "./_components/TheMenu.vue";
-import { ref, reactive, nextTick, provide, computed, h } from "vue";
-import { useRouter, useRoute } from "vue-router";
 import logoImg from "@/assets/images/logo.png";
-import { storage, showMessage, getCompNameByRoute, getIsOver } from "@/utils";
+import { storage, showMessage, getCompNameByRoute } from "@/utils";
+import { defaultDictValidTime } from "@/core/config";
 import { useMenuStore, useKeepAliveStore, useSetStore } from "@/store";
 import TooltipLabel from "@/layout/_components/TooltipLabel.vue";
 
@@ -87,9 +86,18 @@ function reloadView(hint = "刷新成功") {
     });
   });
 }
+// // 刷新字典数据
+// function refreshDict() {
+//   const lastTime = storage.getItem("lastRefreshDate");
+//   if (!lastTime || new Date(lastTime).getTime() + defaultDictValidTime < Date.now()) {
+//     updateStorageDict();
+//   }
+// }
+// refreshDict();
 provide("reloadView", reloadView);
 </script>
 <style lang="scss" scoped>
+@use "sass:color";
 .layout {
   height: 100%;
   width: 100%;
@@ -98,20 +106,22 @@ provide("reloadView", reloadView);
   color: $nav-text-color-light;
   background: $nav-bg-dark-heavy;
   .logo {
-    height: $header-height;
+    height: var(--header-height);
   }
   .list {
     overflow: auto;
     padding-bottom: 4em;
     .item {
-      $bg-darker: mix($nav-bg-dark-heavy, #000000, 50%);
-      $bg-darkest: mix($nav-bg-dark-heavy, #000000, 0.01%);
+      // $bg-darker: color.mix($nav-bg-dark-heavy, #000000, 50%);
+      // $bg-darkest: color.mix($nav-bg-dark-heavy, #000000, 0.01%);
+      $bg-darker: color-mix(in srgb, var(--nav-bg-dark-heavy) 50%, #000000 50%);
+      $bg-darkest: color-mix(in srgb, var(--nav-bg-dark-heavy) 0.01%, #000000 99.99%);
       cursor: pointer;
       padding: $gap-half $gap-qtr;
-      width: $main-menu-width;
+      width: var(--main-menu-width);
       .tooltip-label {
         margin-top: $gap-qtr;
-        font-size: $font-size-lighter;
+        font-size: $font-size-light;
       }
       &:hover {
         background: $bg-darker;

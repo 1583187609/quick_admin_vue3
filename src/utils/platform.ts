@@ -2,8 +2,8 @@
  ***** 平台内部方法(仅限脱单计划平台使用的方法) *****
  ********************************************************/
 
-import { CommonObj } from "@/vite-env";
-import { typeOf, emptyTime, storage, isProd } from "@/utils";
+import { CommonObj } from "@/core/_types";
+import { typeOf } from "@/utils";
 import dayjs from "dayjs";
 
 // 获取认证方式
@@ -45,31 +45,4 @@ export function handleRegionParams(args: CommonObj, keys: string[]) {
     }
   });
   return args;
-}
-
-/**
- * 处理时间：后端的时间为 1000-01-01 00:00:00 时，实际上是空值
- * @tips 提取出来是为了方便后续集中处理，可能还有其他处理操作，或更简便的处理方式
- */
-export function handleDateTime(row: CommonObj, key: string) {
-  return row[key] === emptyTime ? "-" : row[key];
-}
-
-/**
- * 计算src/views下开发的有效页面
- * @return
- */
-export function getDevelopPages() {
-  const pages = import.meta.glob("@/views/**/*.vue");
-  const allNames = Object.keys(pages);
-  const unValidNames: string[] = []; //无效页面
-  //有效页面
-  const valideNames = allNames.filter((key: string) => {
-    if (key.includes(" ")) unValidNames.push(key);
-    return !key.includes("/_") && !key.includes(" ");
-  });
-  return {
-    valideNames,
-    unValidNames,
-  };
 }

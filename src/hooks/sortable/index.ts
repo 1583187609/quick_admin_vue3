@@ -1,7 +1,10 @@
+/**
+ * 排序逻辑
+ */
 // import { SortParams, sortByMap } from "@/hooks/sortable/types";
 import { reactive } from "vue";
 import { SortParams } from "./types";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 //keyMap示例：左侧key为表单列的prop，value为要传递给后端的排序key值
 // const keyMap: CommonObj = {
 //   exposure: "amount_attitude",

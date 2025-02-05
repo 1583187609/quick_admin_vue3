@@ -13,17 +13,17 @@ meta:
       <h1 class="head f-c-c">{{ VITE_APP_NAME }}</h1>
       <BaseForm
         class="body"
-        v-model="model"
+        v-model="modelData"
         size="large"
         :loading="loading"
         :fields="fields"
         @submit="handleSubmit"
-        submitText="登录"
+        submitBtn="登录"
         ref="formRef"
       >
-        <!-- :fetch="PostUserLogin" -->
+        <!-- :fetch="PostMockUserLogin" -->
         <template #captcha>
-          <Captcha v-model="model.captcha" prop="captcha" />
+          <Captcha v-model="modelData.captcha" prop="captcha" />
         </template>
       </BaseForm>
       <div class="foot f-sb-c">
@@ -44,31 +44,33 @@ meta:
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, computed } from "vue";
-import { GetUserLoginAccounts } from "@/api-mock";
-import { FormFieldAttrs } from "@/components/form";
+import { ref, reactive, computed } from "vue";
+import { GetMockUserLoginAccounts } from "@/api-mock";
+import { FormFieldAttrs } from "@/core/components/form/_types";
 import FindPassword from "./FindPassword.vue";
 import Register from "./Register.vue";
 import Captcha from "./_components/Captcha.vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { storage } from "@/utils";
 import { useUserStore } from "@/store";
+import { usePopup } from "@/hooks";
 
 const { VITE_APP_NAME } = import.meta.env;
-const openPopup: any = inject("openPopup");
+const { openPopup } = usePopup();
 const userStore = useUserStore();
 const loading = ref(false);
 const accountOpts = ref<CommonObj[]>([]);
 const storeAccount = storage.getItem("rememberAccount");
-const model = reactive<CommonObj>({
+const modelData = reactive<CommonObj>({
   phone: storeAccount?.phone ?? "18483221518",
-  psd: storeAccount?.psd ?? "superAdmin12345",
+  password: storeAccount?.password ?? "role0123456",
   captcha: "",
   remember: !!storeAccount,
 });
 const fields = computed<FormFieldAttrs[]>(() => {
   return [
     {
+      tpl: /^\d/.test(modelData.phone) ? "T_Phone" : undefined,
       prop: "phone",
       label: "账号",
       required: true,
@@ -79,26 +81,22 @@ const fields = computed<FormFieldAttrs[]>(() => {
         onSelect: handleSelect,
         fetchSuggestions: handleFetchSuggestions,
       },
-      extraAttrs: {
-        valid: /^\d/.test(model.phone) ? "phone" : undefined,
-      },
     },
     {
-      prop: "psd",
+      tpl: "T_Password",
+      prop: "password",
       label: "密码",
       required: true,
       attrs: {
         type: "password",
         autocomplete: "off",
       },
-      extraAttrs: {
-        valid: "password",
-      },
+      quickAttrs: {},
     },
     {
       prop: "captcha",
       label: "验证码",
-      type: "custom",
+      type: "slot",
       required: true,
     },
     {
@@ -111,7 +109,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
 });
 loadAll();
 function loadAll() {
-  GetUserLoginAccounts().then((res: CommonObj[]) => {
+  GetMockUserLoginAccounts().then((res: CommonObj[]) => {
     accountOpts.value = res.map((item: CommonObj) => {
       const { account, ...rest } = item;
       return { value: account, ...rest };
@@ -134,7 +132,7 @@ function handleFetchSuggestions(queryStr: string, cb: any) {
   cb(opts);
 }
 function handleSelect(item: CommonObj) {
-  model.psd = item.psd;
+  modelData.password = item.password;
 }
 </script>
 <style lang="scss" scoped>

@@ -1,0 +1,9 @@
+<script setup>
+import { withBase } from 'vitepress'
+</script>
+
+# 全局配置
+
+这里是全局配置文件
+
+<<< ../../../src/config/index.ts

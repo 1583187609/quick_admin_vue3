@@ -3,7 +3,7 @@
   <div class="page">
     <Setting />
     <div class="row f-sb-s">
-      <BaseSection class="section f-2" title="待办事项" badge="10">
+      <BaseSection :gap="false" class="section f-2" title="待办事项" badge="10">
         <el-tabs v-model="activeName" @tabClick="(tab:any)=>activeName=tab.paneName" type="border-card">
           <el-tab-pane :label="item.label" :name="item.value" v-for="(item, ind) in tabs" :key="ind">
             <BaseCrud
@@ -11,20 +11,21 @@
               :fetch="item.api"
               :tableAttrs="{ size: 'small', maxHeight: 200 }"
               :pageAttrs="{
-                small: true,
+                size: 'small',
                 pageSizes: [5, 10, 15, 20, 25],
               }"
+              :showSetBtn="false"
               :pagination="{ currPage: 1, pageSize: 5 }"
               v-if="activeName === item.value"
             />
           </el-tab-pane>
         </el-tabs>
       </BaseSection>
-      <BaseSection class="section f-1" title="消息通知" badge="120">
+      <BaseSection :gap="false" class="section f-1" title="消息通知" badge="120">
         <ul class="notices all-hide-scroll" v-if="20">
           <li class="item f-sb-c" v-for="(item, ind) in 20" :key="ind">
             <div class="f-1">
-              <span class="line-1">这是第{{ ind + 1 }}条消息</span>
+              <span class="q-line-1">这是第{{ ind + 1 }}条消息</span>
             </div>
             <time class="time f-0 ml-half">2023-06-19</time>
           </li>
@@ -32,52 +33,52 @@
       </BaseSection>
     </div>
     <div class="row">
-      <BaseSection class="section f-1" title="通图图表 - 折线图">
+      <BaseSection :gap="false" class="section f-1" title="通图图表 - 折线图">
         <ChartLine :data="chartData.tttb" />
       </BaseSection>
     </div>
     <div class="row f-sb-s">
-      <BaseSection class="section f-1" title="基础万能图 - Chart(带默认配置)">
+      <BaseSection :gap="false" class="section f-1" title="基础万能图 - Chart(带默认配置)">
         <Chart />
       </BaseSection>
-      <BaseSection class="section f-1" title="饼图 - ChartPie">
+      <BaseSection :gap="false" class="section f-1" title="饼图 - ChartPie">
         <ChartPie :data="chartData.bt" />
       </BaseSection>
-      <BaseSection class="section f-1" title="雷达图 - ChartRadar（后续完善）">
+      <BaseSection :gap="false" class="section f-1" title="雷达图 - ChartRadar（后续完善）">
         <ChartRadar />
       </BaseSection>
     </div>
     <div class="row f-sb-s">
-      <BaseSection class="section f-1" title="自定义option - Chart">
-        <Chart :option="chartData.zdyopt"></Chart>
+      <BaseSection :gap="false" class="section f-1" title="自定义option - Chart">
+        <Chart :option="chartData.zdyopt" />
       </BaseSection>
-      <BaseSection class="section f-1" title="折线图 - ChartLine">
+      <BaseSection :gap="false" class="section f-1" title="折线图 - ChartLine">
         <ChartLine :data="chartData.zxt" />
       </BaseSection>
-      <BaseSection class="section f-1" title="柱状图 - ChartBar（多维度）">
+      <BaseSection :gap="false" class="section f-1" title="柱状图 - ChartBar（多维度）">
         <ChartBar :data="chartData.zztdwd" />
       </BaseSection>
-      <BaseSection class="section f-1" title="柱状图 - ChartBars（多个）">
+      <BaseSection :gap="false" class="section f-1" title="柱状图 - ChartBars（多个）">
         <ChartBars :datas="chartData.zztdg" />
       </BaseSection>
     </div>
-    <BaseSection class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
-      <MultiCharts height="500px" />
+    <BaseSection :gap="false" class="section row f-1" title="单例多图 - MultiCharts（后续完善）">
+      <MultiCharts :data="chartData.dldt" layout="4x3" log="单例多图" />
     </BaseSection>
   </div>
 </template>
-<script lang="ts" name="WorkbenchStatistics" setup>
+<script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { GetMockCommonList } from "@/api-mock";
-import Chart from "@/components/chart/Chart.vue";
-import ChartLine from "@/components/chart/ChartLine.vue";
-import ChartBar from "@/components/chart/ChartBar.vue";
-import ChartPie from "@/components/chart/ChartPie.vue";
-import ChartRadar from "@/components/chart/ChartRadar.vue";
-import ChartBars from "@/components/chart/ChartBars.vue";
-import MultiCharts from "@/components/chart/MultiCharts.vue";
+import { GetMockCommon } from "@/api-mock";
+import Chart from "@/core/components/chart/Chart.vue";
+import ChartLine from "@/core/components/chart/ChartLine.vue";
+import ChartBar from "@/core/components/chart/ChartBar.vue";
+import ChartPie from "@/core/components/chart/ChartPie.vue";
+import ChartRadar from "@/core/components/chart/ChartRadar.vue";
+import ChartBars from "@/core/components/chart/ChartBars.vue";
+import MultiCharts from "@/core/components/chart/MultiCharts.vue";
 import Setting from "./_components/Setting.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 
 const customOption = {
   xAxis: {
@@ -152,6 +153,213 @@ const mockChartData = {
       // ["交通运输", 66],
     ],
   ],
+  // 单例多图
+  dldt: [
+    {
+      type: "line",
+      title: "折线图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 4, 30],
+        ["2019-01-02", 110, 21, 5, 30],
+        ["2019-01-03", 120, 22, 6, 30],
+        ["2019-01-04", 140, 23, 7, 30],
+        ["2019-01-05", 150, 24, 8, 30],
+        ["2019-01-06", 160, 25, 9, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "金额($)" },
+      series: { smooth: true },
+    },
+    {
+      type: "line",
+      title: "折线图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 44, 30],
+        ["2019-01-02", 110, 21, 55, 30],
+        ["2019-01-03", 120, 22, 66, 30],
+        ["2019-01-04", 140, 23, 72, 30],
+        ["2019-01-05", 150, 24, 180, 30],
+        ["2019-01-06", 160, 25, 92, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "%" },
+      series: { smooth: true },
+    },
+    {
+      type: "line",
+      title: "折线图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 4, 30],
+        ["2019-01-02", 110, 21, 5, 30],
+        ["2019-01-03", 120, 22, 6, 30],
+        ["2019-01-04", 140, 23, 7, 30],
+        ["2019-01-05", 150, 24, 8, 30],
+        ["2019-01-06", 160, 25, 9, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "金额($)" },
+      series: { smooth: true },
+    },
+    {
+      type: "bar",
+      title: "柱状图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 44, 30],
+        ["2019-01-02", 110, 21, 55, 30],
+        ["2019-01-03", 120, 22, 66, 30],
+        ["2019-01-04", 140, 23, 72, 30],
+        ["2019-01-05", 150, 24, 180, 30],
+        ["2019-01-06", 160, 25, 92, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "数量" },
+      series: {
+        barWidth: 5,
+        itemStyle: {
+          borderRadius: [8, 8, 0, 0],
+        },
+      },
+    },
+    {
+      type: "bar",
+      title: "柱状图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 44, 30],
+        ["2019-01-02", 110, 21, 55, 30],
+        ["2019-01-03", 120, 22, 66, 30],
+        ["2019-01-04", 140, 23, 72, 30],
+        ["2019-01-05", 150, 24, 180, 30],
+        ["2019-01-06", 160, 25, 92, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "数量" },
+      series: {
+        barWidth: 5,
+        itemStyle: {
+          borderRadius: [8, 8, 0, 0],
+        },
+      },
+    },
+    {
+      type: "bar",
+      title: "柱状图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 44, 30],
+        ["2019-01-02", 110, 21, 55, 30],
+        ["2019-01-03", 120, 22, 66, 30],
+        ["2019-01-04", 140, 23, 72, 30],
+        ["2019-01-05", 150, 24, 180, 30],
+        ["2019-01-06", 160, 25, 92, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "数量" },
+      series: {
+        barWidth: 5,
+        itemStyle: {
+          borderRadius: [8, 8, 0, 0],
+        },
+      },
+    },
+    {
+      type: "pie",
+      title: "饼状图",
+      dataset: [
+        ["type", "销售额"],
+        ["销售额", 100],
+        ["订单量", 110],
+        ["客单价", 120],
+        ["动销率", 150],
+      ],
+      xAxis: { show: false },
+      yAxis: { show: false },
+      series: [{ radius: 70 }, { radius: [45, 70] }],
+    },
+    {
+      type: "pie",
+      title: "饼状图",
+      dataset: [
+        ["type", "销售额"],
+        ["销售额", 100],
+        ["订单量", 110],
+        ["客单价", 120],
+        ["动销率", 150],
+      ],
+      xAxis: { show: false },
+      yAxis: { show: false },
+      series: [{ radius: 70 }, { radius: [45, 70] }],
+    },
+    {
+      type: "pie",
+      title: "饼状图",
+      dataset: [
+        ["type", "销售额"],
+        ["销售额", 100],
+        ["订单量", 110],
+        ["客单价", 120],
+        ["动销率", 150],
+      ],
+      xAxis: { show: false },
+      yAxis: { show: false },
+      series: [{ radius: 70 }, { radius: [45, 70] }],
+    },
+    {
+      type: "line",
+      title: "折线图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 44, 30],
+        ["2019-01-02", 110, 21, 55, 30],
+        ["2019-01-03", 120, 22, 66, 30],
+        ["2019-01-04", 140, 23, 72, 30],
+        ["2019-01-05", 150, 24, 180, 30],
+        ["2019-01-06", 160, 25, 92, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "%" },
+      series: { smooth: true },
+    },
+    {
+      type: "bar",
+      title: "柱状图",
+      dataset: [
+        ["type", "销售额", "订单量", "客单价", "动销率"],
+        ["2019-01-01", 100, 20, 44, 30],
+        ["2019-01-02", 110, 21, 55, 30],
+        ["2019-01-03", 120, 22, 66, 30],
+        ["2019-01-04", 140, 23, 72, 30],
+        ["2019-01-05", 150, 24, 180, 30],
+        ["2019-01-06", 160, 25, 92, 30],
+      ],
+      xAxis: { name: "日期" },
+      yAxis: { name: "数量" },
+      series: {
+        barWidth: 10,
+        itemStyle: {
+          borderRadius: [8, 8, 0, 0],
+        },
+      },
+    },
+    {
+      type: "pie",
+      title: "饼状图",
+      dataset: [
+        ["type", "销售额"],
+        ["销售额", 100],
+        ["订单量", 110],
+        ["客单价", 120],
+        ["动销率", 150],
+      ],
+      xAxis: { show: false },
+      yAxis: { show: false },
+      series: [{ radius: 70 }, { radius: [45, 70] }],
+    },
+  ],
 };
 const tabs = [
   {
@@ -163,7 +371,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位" },
       { prop: "accept_time", label: "接受时间" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
   {
     label: "我的待阅",
@@ -174,7 +382,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位1" },
       { prop: "accept_time", label: "接受时间1" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
   {
     label: "我的已办",
@@ -185,7 +393,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位2" },
       { prop: "accept_time", label: "接受时间2" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
   {
     label: "我发起的",
@@ -196,7 +404,7 @@ const tabs = [
       { prop: "from_unit", label: "来文单位3" },
       { prop: "accept_time", label: "接受时间3" },
     ],
-    api: GetMockCommonList,
+    api: GetMockCommon,
   },
 ];
 const activeName = ref(1);
@@ -219,19 +427,15 @@ init();
 </script>
 <style lang="scss" scoped>
 .page {
-  height: 100%;
   width: 100%;
 }
 .row {
-  &:not(:last-child) {
-    margin-bottom: $gap-half;
-  }
+  margin-bottom: $gap-half;
   &:last-child {
     padding-bottom: $gap-half;
   }
 }
 .section {
-  margin-bottom: 0 !important;
   &:not(:last-child) {
     margin-right: $gap-half;
   }

@@ -1,99 +1,99 @@
+@use "sass:color";
+
+$disabled-bg: var(--disabled-bg);
+
 // dialog 相关
-$dialog-top: 2vh;
+$dialog-top: var(--dialog-top);
 
 // layout相关
-$nav-bg-dark-heavy: #141414;
-$nav-bg-dark: #222222;
-$nav-bg-light: #ffffff;
-$nav-text-color-light: #bbb;
-$nav-text-color-dark: #222;
-$header-height: 50px;
-$asider-width: 160px;
-$main-menu-width: 60px;
-$page-tags-height: 32px;
+$nav-bg-dark-heavy: var(--nav-bg-dark-heavy);
+$nav-bg-dark: var(--nav-bg-dark);
+$nav-bg-light: var(--nav-bg-light);
+$nav-text-color-light: var(--nav-text-color-light);
+$nav-text-color-dark: var(--nav-text-color-dark);
+
+$header-height: var(--header-height); // large:60px default:56px small:52px
+$asider-width: var(--asider-width); // large:220px default:200px small:180px
+$main-menu-width: var(--main-menu-width); // large:80px default:70px small:60px
+$page-tags-height: var(--page-tags-height); // large:44px default:40px small:36px
 
 // 间距相关
-$gap-qtr: 4px;
-$gap-half: 8px;
-$gap: 16px;
-$gap-one-half: 24px;
-$gap-two: 32px;
+$gap-qtr: var(--gap-qtr);
+$gap-half: var(--gap-half);
+$gap-half-qtr: var(--gap-half-qtr);
+$gap: var(--gap);
+$gap-one-half: var(--gap-one-half);
+$gap-two: var(--gap-two);
 
 // 主题颜色
-$color-primary: #ff8000;
-$color-danger: #f56c6c;
-$color-info: #909399;
-$color-success: #67c23a;
-$color-warning: #e6a23c;
+// $color-primary: #ff8000; // 因为ElementPlus 底层用到了 color.mix 运算，所以不能够直接使用 $color-primary 变量
+$color-primary: var(--color-primary);
+$color-danger: var(--color-danger);
+$color-info: var(--color-info);
+$color-success: var(--color-success);
+$color-warning: var(--color-warning);
 
 // 文本颜色
-$color-text-heavyer: #000;
-$color-text-heavy: #333;
-$color-text-main: #666;
-$color-text-light: #999;
-$color-text-lighter: #ccc;
+$color-text-heavyer: var(--color-text-heavyer);
+$color-text-heavy: var(--color-text-heavy);
+$color-text-main: var(--color-text-main); // 最接近的网页安全色 #141414
+$color-text-light: var(--color-text-light);
+$color-text-lighter: var(--color-text-lighter);
+$color-text-lightest: var(--color-text-lightest); // 禁用、placeholder的颜色
 
 // 背景颜色
-$color-bg-heavyest: mix($color-primary, #ffffff, 30%);
-$color-bg-heavyer: mix($color-primary, #ffffff, 25%);
-$color-bg-heavy: mix($color-primary, #ffffff, 20%);
-$color-bg-main: mix($color-primary, #ffffff, 15%);
-$color-bg-light: mix($color-primary, #ffffff, 10%);
-$color-bg-lighter: mix($color-primary, #ffffff, 5%);
-$color-bg-white: #f5f5f5;
+$color-bg-heavyest: color-mix(in srgb, var(--color-primary) 30%, #ffffff 70%); // color.mix($color-primary, #ffffff, 30%);
+$color-bg-heavyer: color-mix(in srgb, var(--color-primary) 25%, #ffffff 75%); // color.mix($color-primary, #ffffff, 25%);
+$color-bg-heavy: color-mix(in srgb, var(--color-primary) 20%, #ffffff 80%); // color.mix($color-primary, #ffffff, 20%);
+$color-bg-main: color-mix(in srgb, var(--color-primary) 15%, #ffffff 85%); // color.mix($color-primary, #ffffff, 15%);
+$color-bg-light: color-mix(in srgb, var(--color-primary) 10%, #ffffff 90%); // color.mix($color-primary, #ffffff, 10%);
+$color-bg-lighter: color-mix(in srgb, var(--color-primary) 5%, #ffffff 95%); // color.mix($color-primary, #ffffff, 5%);
+$color-bg-white: var(--color-bg-white);
 
 // 边框颜色
-$color-border-heavyer: #bbbbbb;
-$color-border-heavy: #d2d2d2;
-$color-border-main: #eeeeee; // @dcdfe6
-$color-border-light: #e3e3e3;
-$color-border-lighter: #eeeeee;
+$color-border-heavyer: var(--color-border-heavyer);
+$color-border-heavy: var(--color-border-heavy);
+$color-border-main: var(--color-border-main);
+$color-border-light: var(--color-border-light);
+$color-border-lighter: var(--color-border-lighter);
 
 // 边框简写
-$border-heavyer: 1px solid $color-border-heavyer;
-$border-heavy: 1px solid $color-border-heavy;
-$border-main: 1px solid $color-border-main;
-$border-light: 1px solid $color-border-light;
-$border-lighter: 1px solid $color-border-lighter;
+$border-heavyer: 1px solid var(--color-border-heavyer);
+$border-heavy: 1px solid var(--color-border-heavy);
+$border-main: 1px solid var(--color-border-main);
+$border-light: 1px solid var(--color-border-light);
+$border-lighter: 1px solid var(--color-border-lighter);
 
 // 边框圆角
-$radius-heavyer: 12px;
-$radius-heavy: 10px;
-$radius-main: 8px;
-$radius-light: 6px;
-$radius-lighter: 4px;
+$radius-heavyer: var(--radius-heavyer);
+$radius-heavy: var(--radius-heavy);
+$radius-main: var(--radius-main);
+$radius-light: var(--radius-light);
+$radius-lighter: var(--radius-lighter);
 
 // 盒子高度
-$height-heavyester: 52px;
-$height-heavyest: 48px;
-$height-heavyer: 44px;
-$height-heavy: 40px;
-$height-main: 36px;
-$height-light: 32px;
-$height-lighter: 28px;
-$height-lightest: 24px;
-$height-lightester: 20px;
+$height-heavy: var(--height-heavy);
+$height-main: var(--height-main);
+$height-light: var(--height-light);
 
-// 文本行高
-$line-height-heavyer: 32px;
-$line-height-heavy: 28px;
-$line-height-main: 24px;
-$line-height-light: 20px;
-$line-height-lighter: 16px;
+/* 组件大小的高度 */
+$size-large: var(--size-large);
+$size-default: var(--size-default);
+$size-small: var(--size-small);
 
 //字体大小
-$font-size-heavyester: 22px;
-$font-size-heavyest: 20px;
-$font-size-heavyer: 18px;
-$font-size-heavy: 16px;
-$font-size-main: 14px;
-$font-size-light: 13px;
-$font-size-lighter: 12px;
+$font-size-heavyest: var(--font-size-heavyest);
+$font-size-heavyer: var(--font-size-heavyer);
+$font-size-heavy: var(--font-size-heavy);
+$font-size-main: var(--font-size-main);
+$font-size-light: var(--font-size-light);
+$font-size-lighter: var(--font-size-lighter);
 
 // 盒子阴影
-$shadow-heavy: 0 2px 6px rgba(0, 0, 0, 0.24), 0 0 8px rgba(0, 0, 0, 0.08);
-$shadow-main: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-$shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$shadow-heavy: var(--shadow-heavy);
+$shadow-main: var(--shadow-main);
+$shadow-light: var(--shadow-light);
+$shadow-lighter: var(--shadow-lighter);
 
 // 动画过渡
 $transition-time-main: 0.3s;

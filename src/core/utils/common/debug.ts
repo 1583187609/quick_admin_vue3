@@ -1,0 +1,59 @@
+/********************************************************************/
+/********************** 开发调试相关的系统级方法 **********************/
+/********************************************************************/
+
+import { CommonObj } from "@/core/_types";
+import { isDev } from "@/core/consts";
+import { showMessage } from "../platform";
+// import { ElNotification } from "element-plus";
+
+/**
+ * 函数未传必填参数时的校验
+ * @param {string} name 参数名称
+ */
+export function needParam(name: string = ""): any {
+  throw new Error("请传入参数：" + name);
+}
+
+/**
+ * 检查对象2的属性在对象1上是否存在，即以对象1的属性为准
+ * @param {CommonObj} obj_1 要检查的对象1
+ * @param {CommonObj} obj_2 要检查的对象2
+ */
+export function checkObjKeyError(obj_1: CommonObj = {}, obj_2: CommonObj = {}) {
+  if (!isDev) return;
+  for (const key in obj_2) {
+    if (typeof obj_1[key] === "undefined") {
+      const msg = `属性名 ${key} 不存在目标对象上`;
+      // showMessage(msg, "error");
+      console.error(msg, obj_1);
+      // throw new Error(msg);
+    }
+  }
+}
+
+/**
+ * 全局代码错误捕捉
+ * @param {any} error 错误信息
+ * */
+export function handleError(error: any) {
+  const { status, name } = error;
+  // 过滤 HTTP 请求错误
+  if (status || status === 0) return false;
+  const errorMap: CommonObj = {
+    InternalError: "Javascript引擎内部错误",
+    ReferenceError: "未找到对象",
+    TypeError: "使用了错误的类型或对象",
+    RangeError: "使用内置对象时，参数超范围",
+    SyntaxError: "语法错误",
+    EvalError: "错误的使用了Eval",
+    URIError: "URI错误",
+  };
+  // ElNotification({
+  //   title: errorMap[name] ?? "未知错误",
+  //   message: error,
+  //   type: "error",
+  //   duration: 3000,
+  // });
+  console.error(errorMap[name] ?? "未知错误", error);
+}

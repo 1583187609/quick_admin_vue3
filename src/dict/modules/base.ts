@@ -1,6 +1,6 @@
 export default {
   //启用状态
-  EnableStatus: {
+  D_EnableStatus: {
     0: {
       text: "禁用",
       attrs: {
@@ -15,7 +15,7 @@ export default {
     },
   },
   //性别：0未知 1男 2女
-  Gender: {
+  D_Gender: {
     0: {
       text: "未知",
       attrs: {
@@ -36,7 +36,7 @@ export default {
     },
   },
   // 是否状态类型
-  YesNoStatus: {
+  D_YesNoStatus: {
     0: {
       text: "否",
       attrs: {

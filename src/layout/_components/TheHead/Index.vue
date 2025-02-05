@@ -4,17 +4,19 @@
       <!-- 标题栏 -->
       <h1 class="h1 f-c-c" @click="router.push({ name: 'home' })" v-if="setStore.layout.type === 'horizontal'">
         <BaseImg :src="logoImg" size="30" :preview="false" />
-        <div class="ml-h line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
+        <div class="ml-h q-line-2">{{ menuStore.isCollapse ? VITE_APP_NAME?.slice(0, 1) : VITE_APP_NAME }}</div>
       </h1>
       <!-- 折叠按钮 -->
-      <BaseIcon
+      <el-icon
         id="collapse-icon"
-        @click="menuStore.isCollapse = !menuStore.isCollapse"
+        size="1.6em"
         class="f-0 fold-btn"
         :class="setStore.layout.type === 'vertical' ? 'dark' : 'light'"
-        size="1.5em"
-        :name="menuStore.isCollapse ? 'Expand' : 'Fold'"
-      />
+        @click="menuStore.isCollapse = !menuStore.isCollapse"
+      >
+        <Expand v-if="menuStore.isCollapse" />
+        <Fold v-else />
+      </el-icon>
       <!-- 导航菜单 -->
       <SideMenu :menus="menuStore.allMenus" mode="horizontal" class="f-1 menu-nav" v-if="setStore.layout.type === 'horizontal'" />
       <template v-else>
@@ -35,31 +37,19 @@
           </template>
           <Notices />
         </el-popover>
-        <el-tooltip
-          v-bind="tooltipAttrs"
-          :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)"
-          v-if="screenfull.isEnabled"
-        >
-          <el-button
-            id="fullscreen"
-            @click="toggleFullscreen"
-            :icon="isFull ? Aim : FullScreen"
-            type="primary"
-            class="item"
-            plain
-            circle
-          ></el-button>
+        <el-tooltip v-bind="tooltipAttrs" :content="$t(`layout.header.entryIcons.${isFull ? 'hide' : 'show'}FullScreen`)" v-if="screenfull.isEnabled">
+          <el-button id="fullscreen" @click="toggleFullscreen" :icon="isFull ? Aim : FullScreen" type="primary" class="item" plain circle></el-button>
         </el-tooltip>
       </div>
       <!-- 用户信息 -->
       <div id="user-simple-info" class="user-info f-0 f-fe-c">
         <div class="mr-h">
-          <div class="line-1 nickname">{{ user?.name }}</div>
+          <div class="nickname q-line-1">{{ user?.name }}</div>
           <div class="version">{{ pkg.version }}</div>
         </div>
         <el-dropdown ref="dropdownRef">
           <span class="el-dropdown-link">
-            <BaseAvatar :src="user?.avatar" size="40" :preview="false" round />
+            <BaseAvatar :src="user?.avatar" size="3em" :preview="false" circle />
           </span>
           <template #dropdown>
             <el-dropdown-menu>
@@ -111,7 +101,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject, onMounted, nextTick } from "vue";
+import { ref, inject, onMounted, nextTick, defineAsyncComponent } from "vue";
 import { SwitchButton, User, InfoFilled, Setting, Search, FullScreen, Aim, Bell, Refresh } from "@element-plus/icons-vue";
 import SideMenu from "@/layout/_components/SideMenu/Index.vue";
 import { useRouter } from "vue-router";
@@ -119,29 +109,31 @@ import { ElMessageBox } from "element-plus";
 import PageTags from "./_components/PageTags/Index.vue";
 import pkg from "#/package.json";
 import { getUserInfo, showMessage, storage } from "@/utils";
-import UserInfo from "./_components/UserInfo.vue";
-import Notices from "./_components/Notices.vue";
-import SystemSet from "./_components/SystemSet/index.vue";
-import SystemInfo from "./_components/SystemInfo.vue";
-import SearchMenu from "./_components/SearchMenu.vue";
 import PathBreadcrumb from "./_components/PathBreadcrumb.vue";
 import { useSetStore } from "@/store";
 import screenfull from "screenfull";
 import logoImg from "@/assets/images/logo.png";
 import { useMenuStore, useUserStore } from "@/store";
 import { driver } from "driver.js";
-import "driver.js/dist/driver.css";
-import { h } from "vue";
 import { useI18n } from "vue-i18n";
+import { OpenPopupInject } from "@/core/_types";
+import { Expand, Fold } from "@element-plus/icons-vue";
+import "driver.js/dist/driver.css";
+
+const UserInfo = defineAsyncComponent(() => import("./_components/UserInfo.vue"));
+const Notices = defineAsyncComponent(() => import("./_components/Notices.vue"));
+const SystemSet = defineAsyncComponent(() => import("./_components/SystemSet/index.vue"));
+const SystemInfo = defineAsyncComponent(() => import("./_components/SystemInfo.vue"));
+const SearchMenu = defineAsyncComponent(() => import("./_components/SearchMenu.vue"));
 
 const { tm: $t } = useI18n();
 const { VITE_APP_NAME } = import.meta.env;
+const openPopup = inject<OpenPopupInject>("openPopup");
 const menuStore = useMenuStore();
 const userStore = useUserStore();
 const setStore = useSetStore();
 const dropdownRef = ref<any>(null);
-const openPopup: any = inject("openPopup");
-const reloadView = inject<any>("reloadView");
+// const reloadView = inject<any>("reloadView");
 const user = getUserInfo();
 const router = useRouter();
 const tooltipAttrs = {
@@ -151,6 +143,7 @@ const tooltipAttrs = {
 async function handleReloadView() {
   // reloadView();
   router.go(0);
+  // updateStorageDict(); router.go()会触发layout中的updateDict执行
   showMessage("刷新系统成功");
 }
 
@@ -172,7 +165,7 @@ function toggleFullscreen() {
 }
 
 function openPersonalInfo() {
-  openPopup($t("layout.header.dropdown.myInfo"), h(UserInfo, { data: user }), "drawer");
+  openPopup($t("layout.header.dropdown.myInfo"), [UserInfo, { data: user }], "drawer");
 }
 //退出登录
 function onLoginOut() {
@@ -182,7 +175,7 @@ function onLoginOut() {
 }
 //打开搜索菜单弹窗
 function openSearchMenu() {
-  openPopup({ title: "搜索菜单", closeOnClickModal: true }, SearchMenu, "dialog", false);
+  openPopup({ title: "搜索菜单", closeOnClickModal: true }, SearchMenu);
 }
 /**
  * 开始操作引导
@@ -278,25 +271,25 @@ function startGuide() {
   border-bottom: none;
 }
 .header {
-  color: $nav-text-color-light;
+  color: var(--nav-text-color-light);
   font-size: 16px;
-  height: $header-height;
+  height: var(--header-height);
   &.dark {
-    background: $nav-bg-dark;
+    background: var(--nav-bg-dark);
   }
   &.light {
-    background: $nav-bg-light;
+    background: var(--nav-bg-light);
   }
   .fold-btn {
+    padding: 0.1em;
     cursor: pointer;
-    margin-left: $gap;
     &.dark {
-      color: $color-text-heavy;
+      color: var(--color-text-heavy);
     }
     &.light {
     }
     &:hover {
-      color: $color-primary;
+      color: var(--color-primary);
     }
   }
 }
@@ -304,7 +297,7 @@ function startGuide() {
   cursor: pointer;
   padding: 0 $gap;
   font-size: normal;
-  font-size: $font-size-heavyer;
+  font-size: var(--font-size-heavyer);
 }
 .menu-nav {
   max-width: calc(100vw - 340px);
@@ -317,16 +310,16 @@ function startGuide() {
     }
   }
   .item {
-    margin-left: $gap;
+    margin-left: $font-size-main;
   }
 }
 .user-info {
-  margin-left: $gap-two;
+  margin-left: var(--gap-two);
   margin-right: $gap;
   .nickname {
-    font-size: 14px;
+    font-size: $font-size-main;
     font-weight: 500;
-    margin-bottom: 2px;
+    margin-bottom: $gap-qtr;
   }
   .version {
     color: $color-primary;
@@ -340,7 +333,7 @@ function startGuide() {
   }
 }
 .breadcrumb-box {
-  height: $gap-two;
+  height: var(--gap-two);
   padding: 0 $gap-qtr;
 }
 </style>

@@ -1,0 +1,253 @@
+import { CommonObj, CommonSize } from "@/core/_types";
+import { typeOf, renderValue, getChinaCharLength } from "@/core/utils";
+import { propsJoinChar } from "@/core/consts";
+import {
+  defaultCommonSize,
+  defaultGroupBtnsMaxNum,
+  enableOptimize,
+  defaultEmptyStr,
+  defaultTableColDateFormat,
+  enableTpl,
+} from "@/core/config";
+import { FormatterFn, TableCol, TableColAttrs } from "@/core/components/table/_types";
+import { defaultTableColumnAttrs, specialColKeys, defaultTableColTpls } from "@/core/components/table";
+import { BtnItem } from "@/core/components/BaseBtn/_types";
+import { OperateBtnsAttrs } from "@/core/components/table/_components/OperateBtns.vue";
+import { getStandardGroupBtns } from "@/core/components/crud/BaseCrud/_utils";
+import { SpecialTableColType } from "@/core/components/table/_types";
+import { cssVars, getStandardTplInfo } from "@/utils";
+import { getHandleAuthBtns } from "@/core/components/crud/_utils";
+import dayjs from "dayjs";
+import _ from "lodash";
+
+const { merge } = _;
+
+export const operateBtnsEmitName = "operateBtns";
+
+//获取操作栏的宽度
+const { gapLarge = "8px", gapDefault = "6px", gapSmall = "4px" } = cssVars;
+const sizeMap = {
+  large: {
+    fontSize: 14,
+    btnPadding: parseInt(gapLarge),
+    btnMargin: parseInt(gapLarge),
+    cellPadding: parseInt(gapLarge) + 12,
+  },
+  default: {
+    fontSize: 14,
+    btnPadding: parseInt(gapDefault),
+    btnMargin: parseInt(gapDefault),
+    cellPadding: parseInt(gapDefault) + 12,
+  },
+  small: {
+    fontSize: 12,
+    btnPadding: parseInt(gapSmall),
+    btnMargin: parseInt(gapSmall),
+    cellPadding: parseInt(gapSmall) + 12,
+  },
+};
+/**
+ * 获取操作列的宽度
+ * @param {OperateBtnsAttrs} operateBtnsAttrs 操作栏按钮属性
+ * @param {BtnItem[]} btns 按钮数组
+ * @param {CommonSize} size 按钮大小
+ * @returns {number} 操作列宽度
+ */
+function getOperateColWidth(operateBtnsAttrs: OperateBtnsAttrs = {}, btns?: BtnItem[], size: CommonSize = "large"): number {
+  const { fontSize, btnPadding, btnMargin, cellPadding } = sizeMap[size] as CommonObj;
+  //最小宽度
+  if (!btns) return 3 * fontSize + 1 * btnPadding * 2 + cellPadding * 2;
+  let em = 0; //按钮文字字符数量
+  let width = 0;
+  const { vertical, max = defaultGroupBtnsMaxNum } = operateBtnsAttrs as OperateBtnsAttrs;
+  if (btns.length > max) {
+    btns = btns.slice(0, max - 1).concat([{ text: "更多" } as BtnItem]);
+  }
+  if (vertical) {
+    btns.forEach((item: BtnItem) => {
+      // if (!item) return; //已经过滤过了，所以无需过滤，故注释掉
+      em = getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
+      const currWidth = em * fontSize + btnPadding * 2 + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
+      if (currWidth > width) width = currWidth;
+    });
+  } else {
+    btns.forEach((item: BtnItem) => {
+      // if (!item) return; //已经过滤过了，所以无需过滤，故注释掉
+      em += getChinaCharLength(item.text) + 1; //文字加图标 (全角符算1个，半角符算0.5个字符)
+    });
+    width = em * fontSize + btns.length * btnPadding * 2 + (btns.length - 1) * btnMargin + cellPadding * 2; //字符的宽度 + 按钮左右padding值 + 各个按钮之间的margin值 + 单元格的左右padding值
+  }
+  return width;
+}
+
+//获取每一行的分组按钮
+export function getGroupBtnsOfRowSimple(row: CommonObj, $rowInd: number, props: CommonObj) {
+  const { operateBtns, handleAuth } = props;
+  const tempBtns = getStandardGroupBtns(row, $rowInd, operateBtns);
+  return getHandleAuthBtns(tempBtns, handleAuth);
+}
+
+// 获取每一行的分组按钮
+export function getOperateBtns(row: CommonObj, rowInd: number, props: CommonObj) {
+  const { operateBtns, handleAuth, disabled } = props;
+  if (!operateBtns?.length) return []; // 如果没有操作栏按钮，直接返回
+  const btnAttrs = { attrs: { disabled } };
+  const tempBtns = getStandardGroupBtns(row, rowInd, operateBtns, btnAttrs);
+  return getHandleAuthBtns?.(tempBtns, handleAuth) ?? tempBtns;
+}
+
+/**
+ * 根据带.的props读取数据值
+ * @param row 表格行数据
+ * @param prop prop值
+ * @returns any
+ */
+export function flatPropsValue(row: CommonObj, prop: string) {
+  const keys = (prop as string).split(".");
+  let data: CommonObj = row;
+  for (const key of keys) {
+    data = row[key];
+    if (typeof data === "undefined") return defaultEmptyStr;
+  }
+  return data;
+}
+
+/**
+ * 获取系统推断的表格列属性（根据label名称等标志，推断一些属性值）
+ * @param col 表格列配置属性
+ * @returns
+ */
+function getSysInferredAttrs(col: TableColAttrs) {
+  const { width, minWidth, type, prop, label, formatter } = col;
+  if (typeof label !== "string") return;
+  const colAttrs: TableColAttrs = {};
+  // 是否需要处理多级 props
+  const isMultiProps = !enableOptimize && prop?.includes(".") && !formatter;
+  if (isMultiProps) colAttrs.formatter = (row: CommonObj) => flatPropsValue(row, prop as string);
+  // 如果未设置宽度，则进行推断处理宽度
+  const noWidth = !width && !minWidth;
+  if (noWidth) {
+    if (label?.includes("时间")) {
+      colAttrs.minWidth = 164;
+      if (type !== "slot") {
+        colAttrs.formatter = (row: CommonObj) => {
+          const val = isMultiProps ? flatPropsValue(row, prop as string) : row[prop as string];
+          return renderValue(val);
+        };
+      }
+    }
+    if (!enableOptimize) {
+      if (label?.includes("备注")) Object.assign(colAttrs, defaultTableColTpls.T_Remark);
+      // label?.includes("id") && Object.assign(colAttrs, defaultTableColTpls.T_Id);
+    }
+  }
+  // 如果仍未设置宽度，则以label字符长度+1为宽度
+  // if (!colAttrs.width && !colAttrs.minWidth) {
+  //   colAttrs.minWidth = label.length + 1 + "em";
+  // }
+  return colAttrs;
+}
+
+// 获取col和level
+export function getColAndLevel(col: TableColAttrs, lev = 0, size: CommonSize = defaultCommonSize): CommonObj {
+  let newLev = lev;
+  const { getInferredAttrs, ...restCol } = col as any;
+  const { children, type, visible = true, exportable = true } = restCol;
+  // 如果是index、sort、selection、operate几个特殊列
+  const isSpecialCol = type && specialColKeys.includes(type as SpecialTableColType);
+  const sysInferredAttrs = isSpecialCol ? undefined : getSysInferredAttrs(restCol);
+  const newCol = merge({ visible, exportable }, defaultTableColumnAttrs, sysInferredAttrs, getInferredAttrs?.(restCol), restCol);
+  // newCol.width ?? newCol.minWidth ?? (newCol.minWidth = `${newCol.label.length + 1}em`);
+  if (isSpecialCol) return { col: newCol, level: 1 };
+  if (typeOf(newCol.prop) === "Array") newCol.prop = (newCol.prop as [string, string]).join(propsJoinChar);
+  //如果是大/小型的紧凑型，那么所有的宽度均要增加/减少20px
+  // const numMap = {
+  //   small: -20,
+  //   default: 0,
+  //   large: 20,
+  // };
+  // if (size !== "default") {
+  //   const { width, minWidth } = newCol;
+  //   width && (newCol.width += numMap[size]);
+  //   minWidth && (newCol.minWidth += numMap[size]);
+  // }
+  // if (minWidth) {
+  //   delete newCol.width;
+  // }
+  if (children?.length) {
+    newCol.children = children.map((item: TableCol) => {
+      if (typeOf(item) !== "Object") return 0;
+      const { col, level } = getColAndLevel(item as TableColAttrs, lev++, size);
+      if (level > newLev) newLev = level;
+      return col;
+    });
+  }
+  return { col: newCol, level: newLev };
+}
+
+/**
+ * 获取 el-table-column 的标准 formatter 函数（目前只针对日期列进行格式化处理，后续再扩展）
+ * @param {any} formatter 日期格式化(目前只处理了 true 和字符串类型)
+ */
+function getStandardFormatter(formatter: any): FormatterFn {
+  let t = typeOf(formatter);
+  if (t === "Boolean") {
+    formatter = defaultTableColDateFormat;
+    t = "String";
+  }
+  if (t === "String") return (row: CommonObj, column?: TableColumnCtx<any>) => dayjs(row[column.property]).format(formatter);
+  if (t === "Function") return formatter;
+  throw new Error(`暂未处理此类型：${t}`);
+}
+/**
+ * 获取标准的表格列数据
+ */
+export function getStandardCols(cols: TableCol[] = []): TableColAttrs[] {
+  const filterCols = cols.filter(it => !!it);
+  return filterCols.map((originCol: any) => {
+    let { tpl, ...col } = originCol;
+    if (enableTpl) {
+      const { type } = col;
+      if (!tpl && defaultTableColTpls[type]) tpl = type; // 如果type类型名称跟模板名称一致，tpl属性可以不写，会默认为type的名称
+      if (tpl) {
+        const tplData = getStandardTplInfo(tpl, defaultTableColTpls);
+        col = merge(tplData, col);
+      }
+    }
+    const { children, formatter } = col as TableColAttrs;
+    if (formatter) col.formatter = getStandardFormatter(formatter);
+    if (children?.length) (col as TableColAttrs).children = getStandardCols(children);
+    return col;
+  });
+}
+
+/**
+ * 将列处理成标准数据结构的列
+ * @param {object} props 传入的属性
+ * @returns {object[]} 返回标准数据结构的列
+ */
+export function getHandleCols(props: CommonObj, cb?: (maxLev: number, cols: TableColAttrs[]) => void, isStandCols = false) {
+  let hasOperateCol = false;
+  let maxLevel = 0;
+  const { operateBtns, currPage, pageSize, size } = props;
+  let { cols = [] } = props;
+  if (!isStandCols) cols = getStandardCols(cols);
+  const newCols = cols.map(col => {
+    // if (!col) return col;
+    let { col: newCol, level } = getColAndLevel(col, 1, size);
+    const { type } = newCol;
+    if (type === "operate") {
+      hasOperateCol = true;
+      newCol = { ...defaultTableColTpls.T_Operate, ...newCol };
+    } else if (type === "index") {
+      if (currPage && pageSize && newCol.index === undefined) {
+        newCol.index = (ind: number) => ind + 1 + (currPage - 1) * pageSize;
+      }
+    }
+    if (level > maxLevel) maxLevel = level;
+    return newCol;
+  });
+  if (!hasOperateCol && operateBtns?.length) newCols.push(getColAndLevel(defaultTableColTpls.T_Operate, 1, size).col);
+  cb?.(maxLevel, newCols);
+  return newCols.filter(col => !!col && col.visible); // 过滤掉非对象的列;
+}

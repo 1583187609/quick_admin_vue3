@@ -13,7 +13,9 @@
       {{ $t("layout.pageTags.home") }}
     </PageTagItem>
     <button @click="onArrowBtn(-1)" class="btn f-c-c f-0" :class="{ disabled: leftDisabled }" :disabled="leftDisabled">
-      <BaseIcon size="18" name="DArrowLeft"></BaseIcon>
+      <el-icon size="18">
+        <DArrowLeft />
+      </el-icon>
     </button>
     <div class="tags-box f-fs-c f-1">
       <Draggable
@@ -43,7 +45,9 @@
       <DropMenu class="f-0" :currInd="contMenuInd" :total="tags.length" :data="bcrInfo" @menuItem="onMenuItem"></DropMenu>
     </div>
     <button @click="onArrowBtn(1)" class="btn f-c-c f-0" :class="{ disabled: rightDisabled }" :disabled="rightDisabled">
-      <BaseIcon size="18" name="DArrowRight"></BaseIcon>
+      <el-icon size="18">
+        <DArrowRight />
+      </el-icon>
     </button>
   </div>
 </template>
@@ -53,17 +57,16 @@
 //获取dom（含v-for中的dom元素）元素参考：https://devpress.csdn.net/viewdesign/643fa7f8986c660f3cf94e6d.html
 //动态清除keep-alive的缓存：https://juejin.cn/post/6844903649517240328
 
-import { ref, watch, onMounted, nextTick, inject } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useEvent } from "@/hooks";
+import { CommonObj } from "@/core/_types";
+import { defaultHomePath } from "@/core/config";
+import { useKeepAliveStore, useSetStore } from "@/store";
+import { storage, copyText, showMessage } from "@/utils";
 import Draggable from "vuedraggable";
 import PageTagItem from "./PageTagItem.vue";
 import { PageTagItemType, MenuItemType } from "./DropMenu.vue";
 import DropMenu from "./DropMenu.vue";
-import { storage, copyText, showMessage } from "@/utils";
-import { CommonObj } from "@/vite-env";
-import { useEvent } from "@/hooks";
-import { defaultHomePath } from "@/utils";
-import { useKeepAliveStore, useSetStore } from "@/store";
+import { DArrowLeft, DArrowRight } from "@element-plus/icons-vue";
 
 const keepAliveStore = useKeepAliveStore();
 const setStore = useSetStore();
@@ -151,7 +154,7 @@ function onMenuItem(type: MenuItemType, ind: number) {
   getCurrTagInd(ind);
   // 关闭之后，将左右视情况按钮禁用，貌似不生效
   initDisabled();
-  //清除关掉的页签的缓存
+  // 清除关掉的页签的缓存
   const removeNames = getRemoveNames(tags.value);
   keepAliveStore.remove(removeNames);
 }
@@ -257,12 +260,12 @@ function addToRoutes(data: PageTagItemType) {
 </script>
 <style lang="scss" scoped>
 .page-tags {
-  height: $page-tags-height;
+  height: var(--page-tags-height);
   box-shadow: $shadow-main;
   background: #fff;
   .btn {
     color: $color-text-main;
-    height: $page-tags-height;
+    height: var(--page-tags-height);
     flex-basis: 30px;
     font-weight: bolder;
     &:hover {
@@ -285,7 +288,7 @@ function addToRoutes(data: PageTagItemType) {
       position: relative;
       box-sizing: border-box;
       white-space: nowrap;
-      height: 24px;
+      // height: 24px;
       overflow: scroll;
       scroll-behavior: smooth;
     }

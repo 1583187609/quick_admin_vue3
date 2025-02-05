@@ -20,9 +20,9 @@
         <h2 class="h2 f-0">{{ typeMap[type].title }}</h2>
         <BaseForm
           class="form f-0"
-          v-model="model"
+          v-model="modelData"
           :fields="fields"
-          :submitText="typeMap[type].submitText"
+          :submitBtn="typeMap[type].submitBtn"
           :loading="loading"
           :autoFixedFoot="false"
           @submit="handleSubmit"
@@ -39,45 +39,41 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, inject, computed } from "vue";
-import { PostUserLogin } from "@/api-mock";
-import { FormField } from "@/components/form";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { ref, reactive, computed } from "vue";
+import { PostMockUserLogin } from "@/api-mock";
+import { FormField } from "@/core/components/form/_types";
+import { CommonObj } from "@/core/_types";
 import CaptchaBtn from "./_components/CaptchaBtn.vue";
-import { ElMessage, ElNotification } from "element-plus";
-import BaseIcon from "@/components/BaseIcon.vue";
-import { getUserInfo } from "@/utils";
-import { useRoute, useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import BaseIcon from "@/core/components/BaseIcon.vue";
 import { useUserStore } from "@/store";
-import { h } from "vue";
+import { storage } from "@/utils";
+
 export type FormType = "login" | "register" | "forget";
 // const userStore = useUserStore();
 const typeMap: CommonObj = {
   login: {
     title: "登录",
-    api: PostUserLogin,
-    submitText: "登录",
+    api: PostMockUserLogin,
+    submitBtn: "登录",
   },
   register: {
     title: "注册",
-    api: PostUserLogin,
-    submitText: "注册",
+    api: PostMockUserLogin,
+    submitBtn: "注册",
   },
   forget: {
     title: "忘记密码",
-    api: PostUserLogin,
+    api: PostMockUserLogin,
   },
 };
 // const props = withDefaults(defineProps<{}>(), {});
 const type = ref<FormType>("login");
-const router = useRouter();
-const route = useRoute();
 const userStore = useUserStore();
 const loading = ref(false);
 const title = import.meta.env.VITE_APP_TITLE;
-const redirect = ref(route.query.redirect?.toString() ?? "/");
-const { login_account } = localStorage;
-const model = reactive<CommonObj>({
+const { login_account } = storage.getItem("login_account");
+const modelData = reactive<CommonObj>({
   account: login_account || "",
   password: "",
   remember: !!login_account,
@@ -90,12 +86,9 @@ const fields = computed<FormField[]>(() => {
       required: true,
       attrs: {
         showWordLimit: false,
-      },
-      extraAttrs: {
-        // valid: "phone",
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "User", size: "24" }),
+        slots: {
+          prefix: h(BaseIcon, { name: "User", size: "24" }),
+        },
       },
     },
     type.value !== "login" && {
@@ -106,43 +99,41 @@ const fields = computed<FormField[]>(() => {
       attrs: {
         maxlength: 4,
         showWordLimit: false,
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "Clock", size: "24" }),
-        append: CaptchaBtn,
+        slots: {
+          prefix: h(BaseIcon, { name: "Clock", size: "24" }),
+          append: CaptchaBtn,
+        },
       },
     },
     {
-      prop: "password",
-      label: "密码",
+      tpl: "T_Password",
+      // prop: "password",
+      // label: "密码",
       required: true,
-      extraAttrs: {
-        valid: "password",
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "Lock", size: "24" }),
+      attrs: {
+        slots: {
+          prefix: h(BaseIcon, { name: "Lock", size: "24" }),
+        },
       },
     },
     type.value === "register" && {
+      tpl: "T_Password",
       prop: "confirmPsd",
       label: "确认密码",
       required: true,
       rules: [{ validator: checkConfirmPsd, trigger: "blur" }],
       attrs: {
         placeholder: "请再次输入密码",
-      },
-      extraAttrs: {
-        valid: "password",
-      },
-      slots: {
-        prefix: h(BaseIcon, { name: "Unlock", size: "24" }),
+        slots: {
+          prefix: h(BaseIcon, { name: "Unlock", size: "24" }),
+        },
       },
     },
     type.value === "login" && {
       prop: "remember",
       label: "记住我",
       type: "checkbox",
-      class: "rember",
+      class: "remember",
       attrs: {
         size: "large",
         // border: true,
@@ -152,7 +143,7 @@ const fields = computed<FormField[]>(() => {
 });
 //校验两次输入的密码是否一致
 function checkConfirmPsd(rule: any, value: any, callback: any) {
-  if (value !== model.password) {
+  if (value !== modelData.password) {
     callback(new Error("确认密码和密码需要保持一致"));
   } else {
     callback();
@@ -318,7 +309,7 @@ $transition-time: 0.5s;
   :deep(.el-form-item__label) {
     padding: 0;
   }
-  :deep(.el-form-item:not(.rember)) {
+  :deep(.el-form-item:not(.remember)) {
     position: relative;
     border-radius: 30px * $ratio;
     box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.1), inset -2px -5px 10px rgba(255, 255, 255, 1),

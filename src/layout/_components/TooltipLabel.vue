@@ -3,13 +3,13 @@
   <!-- 使用 el-tooltip 会影响属性透传，暂时没想到更好的方法，故暂时不用 -->
   <!-- <el-tooltip :content="label" :show-after="200" :disabled="disabled"> -->
   <!-- v-bind="$attrs" -->
-  <span class="tooltip-label line-1" :title="disabled ? '' : label" @mouseenter="handleMouseenter" ref="spanRef">
+  <span class="tooltip-label q-line-1" :title="disabled ? '' : label" @mouseenter="handleMouseenter" ref="spanRef">
     {{ label }}
   </span>
   <!-- </el-tooltip> -->
 </template>
 <script lang="ts" setup>
-import { ref, nextTick, useAttrs } from "vue";
+import { ref, nextTick } from "vue";
 import { getIsOver } from "@/utils";
 const props = withDefaults(
   defineProps<{
@@ -26,4 +26,7 @@ function handleMouseenter() {
   });
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tooltip-label {
+}
+</style>

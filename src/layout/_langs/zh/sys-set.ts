@@ -15,9 +15,8 @@ export default {
       label: "控件大小",
       options: {
         large: "大型",
-        medium: "中等",
+        default: "中等",
         small: "小型",
-        mini: "迷你",
       },
     },
     langType: {
@@ -42,6 +41,9 @@ export default {
   },
   theme: {
     title: "主题设置",
+    themeName: {
+      label: "主题名称",
+    },
     themeColor: {
       label: "主题颜色",
     },

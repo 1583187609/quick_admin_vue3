@@ -8,27 +8,27 @@
     :default-active="route.path"
     :default-openeds="defaultOpeneds"
     :unique-opened="!!setStore.menu.uniqueOpened"
-    @click="handleClick"
     :router="false"
+    @click="handleClick"
   >
-    <SubMenu :data="props.menus ?? menuStore.allMenus" v-if="(props.menus ?? menuStore.allMenus)?.length" />
-    <BaseEmpty tips="无" size="32" v-else />
+    <SubMenu :data="menusData" v-if="menusData?.length" />
+    <BaseEmpty description="无" size="40" v-else />
   </el-menu>
 </template>
 
 <script lang="ts" setup>
 import SubMenu from "./_components/SubMenu.vue";
-import { CommonObj } from "@/vite-env";
+import { CommonObj } from "@/core/_types";
 import { useMenuStore, useSetStore } from "@/store";
 import { useRoute } from "vue-router";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { cssVars } from "@/utils";
 import { ResponseMenuItem, MenuEffect } from "./_types";
 
 const { navBgDark, navTextColorLight, navBgLight } = cssVars;
 const props = withDefaults(
   defineProps<{
-    defaultOpeneds?: string[]; //默认打开的 sub-menu 的 index 的数组
-    map?: CommonObj; //键值对映射 ResponseMenuItem
+    defaultOpeneds?: string[]; // 默认打开的 sub-menu 的 index 的数组
+    map?: CommonObj; // 键值对映射 ResponseMenuItem
     menus?: ResponseMenuItem[];
     effect?: MenuEffect;
   }>(),
@@ -39,7 +39,8 @@ const props = withDefaults(
 const route = useRoute();
 const menuStore = useMenuStore();
 const setStore = useSetStore();
-menuStore.initMenusActive(route.path); //初始菜单选中项
+const menusData = computed(() => props.menus ?? menuStore.allMenus);
+menuStore.initMenusActive(route.path); // 初始菜单选中项
 function handleClick() {
   if (setStore.layout.type === "columns") {
     menuStore.isCollapse = false;
@@ -51,5 +52,8 @@ function handleClick() {
 .side-menu {
   overflow: auto;
   border-right: none;
+  // :deep(.el-menu--collapse) {
+  //   width: 70px;
+  // }
 }
 </style>

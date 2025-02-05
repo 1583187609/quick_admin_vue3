@@ -1,71 +1,52 @@
 <template>
-  <BaseForm style="width: 500px" label-suffix="：" :fields="fields" v-model="model" :footer="false">
-    <template #version>
-      <el-tag>{{ model.version }}</el-tag>
-    </template>
-    <template #depends>
-      <BaseKeyVal style="width: 100%" :label="item[0]" v-for="(item, ind) in model.depends" :key="ind">
-        <el-tag size="small" type="info">{{ item[1] }}</el-tag>
-      </BaseKeyVal>
-    </template>
-    <template #devDepends>
-      <BaseKeyVal style="width: 100%" :label="item[0]" v-for="(item, ind) in model.devDepends" :key="ind">
-        <el-tag size="small" type="info">{{ item[1] }}</el-tag>
-      </BaseKeyVal>
-    </template>
-  </BaseForm>
+  <SectionForm style="width: 500px" v-model="modelData" labelSuffix="：" :sections="sections" pureText />
 </template>
 <script lang="ts" setup>
 import pkg from "#/package.json";
-import { CommonObj } from "@/vite-env";
-import { FormFieldAttrs } from "@/components/form";
+import { CommonObj } from "@/core/_types";
+import { SectionFormItemAttrs } from "@/core/components/form/_types";
 import { reactive } from "vue";
-const { version, dependencies, devDependencies } = pkg;
+import SectionForm from "@/core/components/form/SectionForm.vue";
+
 const { VITE_APP_NAME } = import.meta.env;
 const env = import.meta.env.MODE;
-const fields: FormFieldAttrs[] = [
+const { version, dependencies, devDependencies } = pkg;
+
+const modelData = reactive<CommonObj>({
+  name: VITE_APP_NAME,
+  description: "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
+  version: `${env} - ${version}`,
+  depends: dependencies,
+  devDepends: devDependencies,
+});
+const sections: SectionFormItemAttrs[] = [
   {
-    prop: "name",
-    label: "系统名称",
-    class: "mb-h",
-    extraAttrs: {
-      pureText: true,
-    },
+    title: "基础信息",
+    fields: [
+      {
+        prop: "name",
+        label: "系统名称",
+      },
+      {
+        prop: "version",
+        label: "版本号",
+      },
+      {
+        prop: "description",
+        label: "系统介绍",
+      },
+    ],
   },
   {
-    prop: "description",
-    label: "系统介绍",
-    class: "mb-h",
-    extraAttrs: {
-      pureText: true,
-    },
-  },
-  {
-    prop: "version",
-    label: "版本号",
-    type: "custom",
-    class: "mb-h",
-  },
-  {
+    title: "生产环境依赖",
     prop: "depends",
-    label: "生产环境依赖",
-    type: "custom",
-    class: "mb-h",
+    fields: Object.entries(dependencies).map(([label, value]) => ({ prop: label, label })),
   },
   {
+    title: "开发环境依赖",
     prop: "devDepends",
-    label: "开发环境依赖",
-    type: "custom",
-    class: "mb-h",
+    fields: Object.entries(devDependencies).map(([label, value]) => ({ prop: label, label })),
   },
 ];
-const model = reactive<CommonObj>({
-  name: VITE_APP_NAME,
-  description:
-    "这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示这是系统介绍描述相关的内容展示",
-  version: `${env} - ${version}`,
-  depends: Object.entries(dependencies),
-  devDepends: Object.entries(devDependencies),
-});
 </script>
 <style lang="scss" scoped></style>

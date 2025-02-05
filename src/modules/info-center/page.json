@@ -1,0 +1,6 @@
+{
+  "title": "资料中心",
+  "icon": "Stamp",
+  "order": 99,
+  "auth_codes": [0, 1, 2, 3]
+}

@@ -12,15 +12,14 @@
   <el-tree ref="treeRef" :data="treeData" :filter-node-method="filterNode" @node-click="handleNodeClick" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, watch, computed, inject } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ElTree } from "element-plus";
 import type { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { useRouter } from "vue-router";
 import { useMenuStore } from "@/store";
-import { CommonObj, OptionItem } from "@/vite-env";
+import { ClosePopupInject, CommonObj, OptionItem } from "@/core/_types";
 const router = useRouter();
-const closePopup: any = inject("closePopup");
+const closePopup = inject<ClosePopupInject>("closePopup");
 const props = withDefaults(
   defineProps<{
     defaultKey?: string;
@@ -31,7 +30,7 @@ const props = withDefaults(
 );
 const menuStore = useMenuStore();
 const opts = reactive<OptionItem[]>([{ label: "全部", value: "all" }]);
-menuStore.allMenus.map((group: ResponseMenuItem, ind: number) => {
+menuStore.allMenus.map((group: ResponseMenuItem) => {
   const { label, path } = group;
   opts.push({ label, value: path });
 });

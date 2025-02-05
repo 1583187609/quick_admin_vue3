@@ -2,7 +2,7 @@
   <template v-for="(item, ind) in data" :key="ind">
     <el-sub-menu :index="item.path" v-if="item.children?.length">
       <template #title>
-        <BaseIcon size="1.4em" :name="item.icon" v-if="item.icon" />
+        <BaseIcon size="1.2em" :name="item.icon" v-if="item.icon" />
         <TooltipLabel :label="item.label" />
       </template>
       <SubMenu :data="item.children" v-if="item.children?.length" />
@@ -10,7 +10,7 @@
     <template v-else>
       <el-menu-item @click="handleClick(item)" :index="item.path" :disabled="item.disabled" v-if="item.type !== 2">
         <template #title>
-          <BaseIcon size="1.4em" :name="item.icon" v-if="item.icon" />
+          <BaseIcon size="1.2em" :name="item.icon" v-if="item.icon" />
           <TooltipLabel :label="item.label" />
         </template>
       </el-menu-item>
@@ -35,6 +35,7 @@ const props = withDefaults(
   }
 );
 const router = useRouter();
+// const openIds: string[] = [];
 function handleClick(menu: ResponseMenuItem) {
   const { id, link_type, path, label } = menu;
   if (!link_type) {
@@ -42,13 +43,16 @@ function handleClick(menu: ResponseMenuItem) {
     document.title = label;
     return;
   }
-  router.push({ name: "innerLink", query: { url: path } });
   if (link_type === 1) {
     document.title = label;
+    router.push({ name: "innerLink", query: { url: path } });
   } else if (link_type === 2) {
-    // const win =  window.open(path, "_blank"); // 空白页打开
-    const win = window.open(path, id); // 空白页打开，且保证id相同时，始终打开同一个标签页（不另开一个标签页打开）
+    const win = window.open(path, "_blank"); // 空白页打开
+    // const win = window.open(path, id); // 空白页打开，且保证id相同时，始终打开同一个标签页（不另开一个标签页打开）
 
+    // const hasOpened = openIds.includes(id);
+    // if (!hasOpened) openIds.push(id);
+    // const win = window.open(path, hasOpened ? id : "_blank"); // 空白页打开
     // console.log(win, "win---------");
     // const tagIcon = document.createElement("link");
     // tagIcon.rel = "icon";
@@ -56,7 +60,7 @@ function handleClick(menu: ResponseMenuItem) {
     // tagIcon.href = "/ico.svg";
     // win?.document.head.appendChild(tagIcon);
   } else {
-    throw new Error(`暂不支持code为${link_type}的外链类型`);
+    throw new Error(`暂未处理外链类型：${link_type}`);
   }
 }
 </script>

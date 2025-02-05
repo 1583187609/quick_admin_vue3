@@ -1,68 +1,107 @@
-import allAddress from "../data/address";
-import { CommonObj } from "@/vite-env";
-// export type DictNames =
-//   | "EnableStatus"
-//   | "YesNoStatus"
-//   | "Gender"
-//   | "RoleType"
-//   | "MenuType";
-// const dictMap: { [key in DictNames]: CommonObj } = {
+import allRegions from "../data/regions";
+import { CommonObj, OptionItem } from "@/core/_types";
+import baseDict from "./modules/base";
+import otherDict from "./modules/other";
+import { needParam } from "@/utils";
+
 export type DictNames = keyof typeof dictMap;
 const dictMap: CommonObj = {
-  //启用禁用状态（通用）
-  EnableStatus: {
-    0: "禁用",
-    1: "启用",
-  },
-  //启用禁用状态（通用）
-  YesNoStatus: {
-    0: "否",
-    1: "是",
-  },
-  //性别
-  Gender: {
-    0: "未知",
-    1: "男",
-    2: "女",
-  },
-  //用户类型
-  RoleType: {
-    0: "超级管理员",
-    1: "普通管理员",
-    2: "特殊用户",
-    3: "普通用户",
-    4: "游客用户",
-    5: "开发人员",
-  },
-  //权限菜单类型
-  MenuType: {
-    0: "目录",
-    1: "菜单",
-    2: "按钮",
-    3: "外链",
-  },
+  ...baseDict,
+  ...otherDict,
 };
-//获取字典文本
-export function getDictText(name: DictNames, val: string | number) {
-  return dictMap[name][val] || "";
-}
-//获取字典码值
-export function getDictCodes(name: DictNames) {
-  return Object.keys(dictMap[name]).map(it => Number(it));
-}
-export default dictMap as CommonObj;
 
-export type CascaderType = keyof typeof cascaderMap;
+export default dictMap;
+
+// 获取字典映射
+export function getDictMap(name: DictNames) {
+  const map = dictMap[name];
+  if (!map) throw new Error(`不存在该字典：${map}`);
+  return map;
+}
+// // 获取字典文本
+// export function getDictLabel(name: DictNames | CommonObj, val: string | number) {
+//   const map = typeof name === "string" ? getDictMap(name) : name;
+//   return map[val] ?? "";
+// }
+// 获取字典文本
+export function getDictLabel(name: DictNames, val: string | number) {
+  return getDictMap(name)[val] ?? "";
+}
+// 获取字典文本集合
+export function getDictLables(name: DictNames) {
+  return Object.values(getDictMap(name));
+}
+// 获取字典码值
+export function getDictValues(name: DictNames) {
+  return Object.keys(getDictMap(name)).map(it => {
+    const num = Number(it);
+    return isNaN(num) ? it : num;
+  });
+}
+/**
+ * 根据字典获取下拉选项数据
+ * @param {string} name  字典名
+ */
+export function getDictOptions(name: string) {
+  const map = getDictMap(name);
+  const opts: OptionItem[] = [];
+  for (const key in map) {
+    opts.push({ label: map[key], value: Number(key) });
+  }
+  return opts;
+}
+
+/******************************************************************/
+/************************** 级联相关 ******************************/
+/*****************************************************************/
+export type CascaderName = keyof typeof cascaderMap;
 const cascaderMap = {
-  Region: allAddress,
+  C_Region: allRegions,
 };
-//获取级联地址文本
-export function getCascadeText(type: CascaderType, ids: [number, number, number] = [0, 0, 0], byKey = "id") {
-  const mapOpts = cascaderMap[type];
-  if (!mapOpts) return "-";
-  const [pId, cId, aId] = ids;
-  const pItem = mapOpts.find((it: CommonObj) => it[byKey] === pId);
-  const cItem = pItem?.city.find((it: CommonObj) => it[byKey] === cId);
-  const aItem = cItem?.area.find((it: CommonObj) => it[byKey] === aId);
-  return `${pItem?.name}${cItem?.name}${aItem?.name || ""}`;
+
+/***
+ * 获取级联文本（仅支持标准的OptionItem类型级联结构）
+ */
+export function getCascadeLabels(list: OptionItem[] = needParam(), vals: number[] = []) {
+  if (!list?.length || !vals?.length) return [];
+  function cycle(arr: OptionItem[], level = 0, texts: string[] = []) {
+    if (!arr?.length) return [];
+    const target = arr.find(it => it.value === vals[level]);
+    if (!target) throw new Error(`未找到层级：${level}`);
+    const { label, children } = target as CommonObj;
+    texts.push(label);
+    level++;
+    if (level >= vals.length) return texts;
+    return cycle(children, level, texts);
+  }
+  return cycle(list);
+}
+
+/***
+ * 获取级联文本（仅支持标准的OptionItem类型级联结构）
+ */
+export function getCascadeLabel(cascader: OptionItem[] | string = needParam(), vals: number[] = [], joinChar = "") {
+  const list = typeof cascader === "string" ? cascaderMap[cascader] : cascader;
+  return getCascadeLabels(list).join(joinChar);
+}
+
+/**
+ * 获取级联的随机 values （仅支持标准的OptionItem类型级联结构）
+ * @param name 级联名称
+ * @returns
+ */
+export function getCascaderRandomValues(cascader: OptionItem[] | string = needParam()) {
+  const list: OptionItem[] = typeof cascader === "string" ? cascaderMap[cascader] : cascader;
+  if (!list?.length) return [];
+  function cycle(arr: OptionItem[], vals: number[] = []) {
+    if (!arr?.length) return [];
+    const ind = Math.floor(Math.random() * arr.length);
+    const target = arr[ind];
+    if (!target) return vals;
+    const { value, children } = target as CommonObj;
+    vals.push(value);
+    if (!children?.length) return vals;
+    return cycle(children, vals);
+  }
+  return cycle(list);
 }

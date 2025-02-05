@@ -4,13 +4,13 @@
 - 全局字典写法示例：两种方案
 - @notice 字典名采用大驼峰，是为了方便改动时方便全局搜索
 
-# 方案一：此方案适合后端字典 code 值不统一时使用，本质是前端强行拦截一层，将不统一变得统一。
+## 方案一：此方案适合后端字典 code 值不统一时使用，本质是前端强行拦截一层，将不统一变得统一。
 
 - @description 不统一的含义是指：当中文含义一样时，code 值却不一样。例：关于你（0 待审核，1 已通过，2 已驳回）、关于我（3 待审核，2 已通过，1 已驳回），导致前端组件复用时，会因为这种不统一，会做好些额外的逻辑处理，一旦后续需求迭代更改，内部的额外逻辑会变得愈加复杂，使得开发更费神
 - @notice 下面的 key 属性保持命名统一是必要的。例：所有的未知都用 unknown，待审核都用 wait，已通过都用 pass，已驳回都用 reject。否则，前端强行拦截一层则没有意义
 - @notice 优点：强行统一后端未做到统一的 code 值，减少后续逻辑复杂度，提升开发效率；缺点：定义这套字典需要写额外多的字符，显得有点繁琐。但对于【代码是写给人看的，只是恰好机器能够执行】而言，提升开发效率、可维护性，显得更为重要。
 
-# 常用单词推荐（目的是做到单词统一）
+### 常用单词推荐（目的是做到单词统一）
 
 - @param 状态类（审核）：pass(通过)、reject(驳回)；enable(启用)、forbid(禁用)；
 - @param 枚举类（性别）：unknown(未知)、
@@ -19,7 +19,7 @@
 ```js
 export default {
   // 性别
-  Gender: {
+  D_Gender: {
     unknown: {
       label: "未知",
       value: 0,
@@ -52,14 +52,14 @@ export default {
 };
 ```
 
-# 方案二：此方案适合后端字典 code 值能保证统一或几乎绝大多数能够保证统一的情况
+## 方案二：此方案适合后端字典 code 值能保证统一或几乎绝大多数能够保证统一的情况
 
 - @description 此方案比方案一看着会清爽很多，能够少些好些字符，但很依赖后端 code 值的统一性
 
 ```js
 export default {
   // 性别
-  Gender: {
+  D_Gender: {
     0: {
       text: "未知",
       // attrs:{} , //其他自定义属性，比如根据字典映射，有时候有标签展示的需求，对应的标签颜色风格，可在此处定义
@@ -74,4 +74,61 @@ export default {
     3: { text: "已驳回" },
   },
 };
+```
+
+## 写法示例
+
+注： 函数异步函数等，一律要返回`[{label:'',value: ''}]`形式，保持统一，`src/hooks/useDict.ts` 中的`getOpts`、`getText`才能正常解析。
+
+```js
+  // 文本类型：值-字符串
+  D_TestText: {
+    1: '文本1',
+    2: '文本2',
+  },
+  //启用状态：值-对象（可带el-tag或其他状态组件属性）
+  TestStatus: {
+    0: {
+      text: '禁用',
+      attrs: {
+        type: 'info',
+      },
+    },
+    1: {
+      text: '启用',
+      attrs: {
+        type: 'primary',
+      },
+    },
+  },
+  // 函数类型：值-函数
+  D_TestFunction() {
+    return {
+      1: '函数1',
+      2: '函数2',
+    };
+  },
+  // 按需（懒）加载请求（不带attrs）
+  D_TestFetch: lazyFetch(
+    () =>
+      new Promise((resolve) => {
+        resolve(
+          Array(12)
+            .fill('')
+            .map((item, ind) => ({ label: '拒绝原因' + ind, value: ind })),
+        );
+      }),
+  ),
+  // 按需（懒）加载请求（带attrs）
+  D_TestFetchLazy: lazyFetch(() =>
+    GetMockCommon().then((res: CommonObj) => {
+      const list = res.records.slice(0, 3);
+      const obj: CommonObj = {};
+      const typeMap = { 0: "primary", 1: "danger", 2: "info" };
+      list.forEach((item: string, ind: number) => {
+        obj[ind] = { text: `按需请求${ind + 1}`, attrs: { type: typeMap[ind] } };
+      });
+      return obj;
+    })
+  ),
 ```

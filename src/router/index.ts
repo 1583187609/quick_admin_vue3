@@ -1,10 +1,21 @@
 import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import { useBaseStore, useKeepAliveStore, useMenuStore, useRouteStore, useUserStore } from "@/store";
-import { defaultHomePath, showMessage, storage } from "@/utils";
+import { getUserInfo, showMessage, storage } from "@/utils";
+import { defaultHomePath } from "@/core/config";
 import routes from "./routes";
-import { useNProgress } from "@/hooks";
+import NProgress from "nprogress";
+import { CommonObj } from "@/core/_types";
+import "nprogress/nprogress.css";
+import { isDocs } from "@/core/consts";
 
-const NProgress = useNProgress();
+NProgress.configure({
+  easing: "ease", // 动画方式
+  speed: 500, // 递增进度条的速度
+  showSpinner: false, // 是否显示加载ico（位于右上角的加载图标）
+  trickleSpeed: 200, // 自动递增间隔
+  minimum: 0.3, // 初始化时的最小百分比
+});
+
 const { VITE_APP_NAME } = import.meta.env;
 
 const router = createRouter({
@@ -14,32 +25,39 @@ const router = createRouter({
 });
 // 全局前置守卫
 router.beforeEach((to: any, from: any, next) => {
+  if (isDocs) return next();
   const menuStore = useMenuStore();
   const userStore = useUserStore();
   const routeStore = useRouteStore();
-  const baseStore = useBaseStore();
-  const { path, query, name, meta } = to;
+  // const baseStore = useBaseStore();
+  const { path, query, name, meta, redirectedFrom } = to;
   const { title, auth = true, linkType } = meta;
   document.title = title ?? VITE_APP_NAME;
   NProgress.start();
   if (!auth) return next();
   if (storage.getItem("token")) {
-    // if (userStore.isLogin) {
     if (path === defaultHomePath) menuStore.changeActiveIndex(-1);
     //如果创建好了路由，则直接跳转
     if (routeStore.isCreatedRoute) {
+      const hasAuth = meta.auth_codes?.length ? meta.auth_codes.includes(getUserInfo()?.role) : true;
+      if (!hasAuth) return next({ name: "noAuth", query: { redirectTo: path } });
       // 如果已登录状态下，进入登录页会强制跳转到主页
       name === "login" ? next({ name: "home", replace: true }) : next();
     } else {
       routeStore.createRoutes();
-      next({ path, query, replace: true });
+      // 如果路由还没创建好，会跳转到404页面
+      if (name === "notFound" && redirectedFrom?.fullPath) {
+        next({ path: redirectedFrom.fullPath, replace: true });
+      } else {
+        next({ path, query, replace: true });
+      }
     }
   } else {
     userStore.handleLoginOut(false);
     showMessage(`未登录，请先登录！`, "warning");
     // 跳转时传递参数到登录页面，以便登录后可以跳转到对应页面
     next({
-      path: "/login?redirect=" + path,
+      path: `/login?redirectTo=${encodeURIComponent(path)}`,
       replace: true,
     });
   }
@@ -62,11 +80,22 @@ router.afterEach((to, from) => {
 });
 
 /**
- * @description 路由跳转错误
+ * 路由跳转错误
  * */
-router.onError(error => {
-  console.error("路由错误", error.message);
+router.onError((err, to) => {
+  const { message } = err;
+  const isNotFoundFile = message.includes("Failed to fetch dynamically imported module");
+  const { name, path } = to;
   NProgress.done();
+  if (isNotFoundFile) {
+    const query: CommonObj = {};
+    if (name !== "home") query.redirectTo = encodeURIComponent(path);
+    return router.push({ path: "/999", query });
+  }
+  console.error("路由错误", message);
+  // if (message.includes("Failed to fetch dynamically imported module")) {
+  //   window.location = to.fullPath;
+  // }
 });
 
 export default router;

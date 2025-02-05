@@ -1,0 +1,109 @@
+<!-- summary
+  目标：定位为表单表格。继承自BaseForm和BaseTable，兼顾了表单编辑校验，并且样式以表格呈现。
+-->
+<template>
+  <BaseForm v-bind="formAttrs" v-model="modelData" :fields="fields" class="form-table" ref="baseFormRef">
+    <template #header="scope">
+      <slot name="header" v-bind="scope" />
+    </template>
+    <template #content>
+      <BaseTable v-bind="$attrs" :cols="cols" :data="modelValue" class="table" ref="baseTableRef">
+        <template #header="{ column, col }">
+          <span :class="{ required: !!col?.field?.required }">{{ column.label }}</span>
+        </template>
+        <template #default="scope">
+          <template v-if="scope.col.field">
+            <slot :name="scope.col.prop" v-bind="scope" v-if="scope.col.field.type === 'slot'" />
+            <FieldItem
+              style="margin-bottom: 0"
+              v-model="scope.row[scope.col.prop]"
+              :field="scope.col.field"
+              :prop="scope.col.prop"
+              hideLabel
+              v-else
+            />
+          </template>
+          <template v-else>{{ scope.row[scope.col.prop] }}</template>
+        </template>
+      </BaseTable>
+    </template>
+    <template #footer="scope">
+      <slot name="footer" v-bind="scope" />
+    </template>
+  </BaseForm>
+</template>
+<script lang="ts" setup>
+import { ref, reactive, computed, useAttrs } from "vue";
+import { CommonObj } from "@/core/_types";
+import { FormTableColAttrs } from "@/core/components/table/_types";
+import FieldItem from "@/core/components/form/_components/FieldItem/Index.vue";
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const props = withDefaults(
+  defineProps<{
+    cols: FormTableColAttrs[]; // 表头
+    modelValue?: CommonObj[]; // 表格行数据
+    formAttrs?: CommonObj; // 表单属性
+  }>(),
+  {
+    modelValue: () => reactive([]),
+  }
+);
+const $emit = defineEmits(["update:modelValue"]);
+const baseFormRef = ref<FormInstance | null>(null);
+const baseTableRef = ref<FormInstance | null>(null);
+const modelData = computed({
+  get: () => props.modelValue,
+  set: (val: any) => $emit("update:modelValue", val),
+});
+// function getVals() {
+//   const { cols, modelValue } = props;
+//   const keys = cols.map(col => col.prop);
+//   const vals = modelValue.map(row => {
+//     const obj = {};
+//     keys.forEach(key => {
+//       obj[key] = row[key];
+//     });
+//     return obj;
+//   });
+//   console.log(vals, "vals-------------");
+// }
+// getVals();
+const fields = computed(() => {
+  const { cols } = props;
+  return cols
+    .filter(it => !!it)
+    .map(it => {
+      const { prop, label, field, ...rest } = it;
+      return { prop, label, ...rest, ...field };
+    });
+});
+
+// 暴露属性方法
+defineExpose({
+  formRef: baseFormRef,
+  tableRef: baseTableRef,
+});
+</script>
+<style lang="scss" scoped>
+.form-table {
+  max-height: 100%;
+  width: 100%;
+  overflow: auto;
+  .table {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    overflow: auto;
+  }
+}
+.required {
+  &::before {
+    color: red;
+    content: "*";
+  }
+}
+</style>

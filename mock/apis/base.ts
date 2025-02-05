@@ -1,56 +1,34 @@
-import { getRequestParams, resData, deleteAttrs, filterByConditions, toViteMockApi } from "../utils";
-import allUsers from "../data/user";
-import allNavs from "../data/navs";
-import roleRows from "../data/roles";
-import testFields from "../data/test";
-import dictMap, { getDictText } from "../dict";
-import allAddress from "../data/address";
-import allSchool from "../data/school";
-import allCompany from "../data/company";
-import { CommonObj } from "@/vite-env";
+import { getRequestParams, responseData, toViteMockApi } from "../utils";
+import { CommonObj } from "@/core/_types";
+import allData from "../data";
 
+const nameKeyMap = {
+  school: "name",
+  company: "full_name",
+};
 export default toViteMockApi({
-  /**
-   * 获取学校列表
-   */
-  "GET /options/school": (req: CommonObj) => {
-    const { name } = getRequestParams(req);
-    const list = allSchool.filter((it: CommonObj) => it.name.includes(name));
-    return resData({ data: list });
-  },
-  /**
-   * 获取公司列表
-   */
-  "GET /options/company": (req: CommonObj) => {
-    const { name } = getRequestParams(req);
-    const list = allCompany.filter((it: CommonObj) => it.fullName.includes(name));
-    return resData({ data: list });
-  },
-  /**
-   * 获取地区省市区县
-   */
-  "GET /cascader/region": (req: CommonObj) => {
-    // const { name } = getRequestParams(req);
-    const cloneAddress = allAddress.map((pItem, pInd) => {
-      const { id, name, city } = pItem;
-      const cloneCity = city.map((cItem, cInd) => {
-        const { id, name, area } = cItem;
-        const cloenArea = area.map((aItem, aInd) => {
-          const { id, name } = aItem;
-          return { value: id, label: name };
-        });
-        return {
-          value: id,
-          label: name,
-          children: cloenArea,
-        };
-      });
-      return {
-        value: id,
-        label: name,
-        children: cloneCity,
-      };
+  // 获取下拉项：目前只支持学校(school)、公司(company)
+  "GET /mock/options": (req: CommonObj) => {
+    const params = getRequestParams(req);
+    const { type = "school", name } = params;
+    const target = allData[type];
+    if (!target) return responseData({ code: -1, msg: `不存在该下拉项：${type}` });
+    if (!name) return responseData({ data: target.list });
+    const list = target.list.filter((it: CommonObj) => {
+      const isId = !isNaN(Number(name));
+      if (isId) return it.id == name;
+      const nameKey = nameKeyMap[type] ?? "name";
+      return it[nameKey]?.includes(name) ?? true;
     });
-    return resData({ data: cloneAddress });
+    return responseData({ data: list });
+  },
+  // 获取级联
+  "GET /mock/cascader": (req: CommonObj) => {
+    const params = getRequestParams(req);
+    const { name = "region" } = params;
+    const target = allData[name];
+    if (!target) return responseData({ code: -1, msg: `不存在该级联：${name}` });
+    const list = target.list;
+    return responseData({ data: list });
   },
 });

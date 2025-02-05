@@ -1,0 +1,6 @@
+{
+  "title": "监控中心",
+  "icon": "Platform",
+  "order": 2,
+  "auth_codes": [0, 1, 2, 3]
+}

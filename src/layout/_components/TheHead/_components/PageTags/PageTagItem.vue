@@ -1,8 +1,8 @@
 <template>
   <el-tag class="route-tag" :effect="active ? 'dark' : 'light'" @contextmenu.prevent="onContextmenu" :closable="closable">
     <div class="f-c-c">
-      <BaseIcon class="mr-4" size="1.2em" :name="icon" v-if="icon"></BaseIcon>
-      <span class="text line-1"><slot></slot></span>
+      <BaseIcon class="mr-4" size="1.2em" :name="icon" v-if="icon" />
+      <span class="q-line-1"><slot /></span>
     </div>
   </el-tag>
 </template>
@@ -19,20 +19,18 @@ const props = withDefaults(
     active: false,
   }
 );
-const emits = defineEmits(["contextmenu"]);
+const $emit = defineEmits(["contextmenu"]);
 function onContextmenu(e: Event) {
-  emits("contextmenu", e);
+  $emit("contextmenu", e);
 }
 </script>
 <style lang="scss" scoped>
 .route-tag {
   position: relative;
   cursor: pointer;
+  line-height: 1.4;
   &:not(:last-child) {
     margin-right: $gap-qtr;
-  }
-  .text {
-    // max-width: 8em;
   }
 }
 </style>

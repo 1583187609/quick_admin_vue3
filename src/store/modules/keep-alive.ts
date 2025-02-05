@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { typeOf } from "#/mock/utils";
+import { typeOf } from "@/utils";
 
 export default defineStore("keep-alive", () => {
   const list = ref<string[]>([]);

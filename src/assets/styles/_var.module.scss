@@ -1,5 +1,5 @@
 // 供 css 中使用
-@import "./var";
+@use "./var";
 
 :export {
   // dialog 相关
@@ -30,20 +30,16 @@
   // colorBgHeavyer: $color-bg-heavyest;
   // colorBgHeavy: $color-bg-heavyer;
   // colorBgMain: $color-bg-heavy;
-  // colorBgLight: $color-bg-light;
+  colorBgLight: $color-bg-light;
   // colorBgLighter: $color-bg-lighter;
   colorBgWhite: $color-bg-white;
 
   // //边框圆角
   // radiusHeavyer: $radius-heavyer;
   // radiusHeavy: $radius-heavy;
-  // radiusMain: $radius-main;
+  radiusMain: $radius-main;
   // radiusLight: $radius-light;
   // radiusLighter: $radius-lighter;
   // //高度
-  // heightHeavyer: $height-heavyer;
-  // heightHeavy: $height-heavy;
   // heightMain: $height-main;
-  // heightLight: $height-light;
-  // heightLighter: $height-lighter;
 }

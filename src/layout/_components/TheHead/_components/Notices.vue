@@ -41,9 +41,9 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, computed } from "vue";
-import { CommonObj, FinallyNext, StrNum } from "@/vite-env";
+import { CommonObj, FinallyNext, StrNum } from "@/core/_types";
 import { Search } from "@element-plus/icons-vue";
-import BaseEmpty from "@/components/BaseEmpty.vue";
+import BaseEmpty from "@/core/components/BaseEmpty.vue";
 // const props = withDefaults(
 //   defineProps<{
 //     exampleProp?: CommonObj;

@@ -1,12 +1,17 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { camelCase } from "lodash";
 import { useRouter } from "vue-router";
 import { useMenuStore } from "@/store";
 import { RouteItem } from "./menu";
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
+import _ from "lodash";
+import { CommonObj } from "@/core/_types";
 
-const modules = import.meta.glob("../../views/**/*.vue");
+const { camelCase } = _;
+const modules1 = import.meta.glob("../../views/**/*.vue");
+const modules2 = import.meta.glob("../../modules/**/*.vue");
+const allModules = { ...modules1, ...modules2 };
+
 export default defineStore("route", () => {
   const menuStore = useMenuStore();
   const router = useRouter();
@@ -47,7 +52,7 @@ export default defineStore("route", () => {
       path,
       name: camelCase(path), //小驼峰路由名，大驼峰组件名
       // component: () => import(`@/views${item.path}.vue`); //webpack用这种方式
-      component: modules[`../../views${component}`], //vite用这种方式
+      component: allModules[`../../views${component}`] || allModules[`../../modules${component}`], // vite用这种方式
       meta: {
         title: label,
         cache: !!is_cache,
@@ -60,17 +65,25 @@ export default defineStore("route", () => {
   /**
    * 创建路由
    */
-  function createRoutes(menus = menuStore.allMenus) {
-    const routes = getFlatMenus(menus).map((it: ResponseMenuItem) => getRoute(it));
-    routes.forEach((item: any) => {
-      router.addRoute("layout", item);
-    });
+  function createRoutes() {
+    const routes: RouteItem[] = getFlatMenus(menuStore.allMenus).map(it => getRoute(it));
+    routes.forEach((item: any) => router.addRoute("layout", item));
     isCreatedRoute.value = true;
+  }
+
+  /**
+   * 删除路由
+   */
+  function removeRoutes() {
+    const routes: CommonObj[] = getFlatMenus(menuStore.allMenus);
+    routes.forEach((item: any) => router.removeRoute(item.name));
+    isCreatedRoute.value = false;
   }
 
   return {
     isCreatedRoute,
     createRoutes,
+    removeRoutes,
     // currRoutes,
     // currentRoutes,
   };

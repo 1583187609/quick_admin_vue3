@@ -1,16 +1,15 @@
-import { computed, reactive, ref, watch } from "vue";
+import { reactive } from "vue";
 import { defineStore } from "pinia";
-import { CommonObj, ShowCodes } from "@/vite-env";
-import { checkObjKeyError, defaultWidgetSize, showMessage, storage } from "@/utils";
-import cssVars from "@/assets/styles/_var.module.scss";
+import { CommonObj, CommonSize, ShowCodes, ThemeName } from "@/core/_types";
+import { checkObjKeyError, showMessage, storage } from "@/utils";
+import { defaultCommonSize, defaultLanguage, defaultLayouType, defaultThemeName } from "@/core/config";
 
 export type LayoutType = "vertical" | "classics" | "horizontal" | "columns";
-export type LayoutSize = "large" | "medium" | "small" | "mini";
 export type SetName = keyof typeof defaultSet;
 export type LanguageTypes = "zh" | "en";
 export interface LayoutAttrs {
   type: LayoutType;
-  size: LayoutSize;
+  size: CommonSize;
 }
 interface DefaultSet {
   layout: LayoutAttrs;
@@ -32,7 +31,8 @@ interface DefaultSet {
     show: ShowCodes;
   };
   theme: {
-    color: string;
+    name: ThemeName; // 主题名称
+    // color?: string; // 主题颜色
     darkMode: ShowCodes;
   };
 }
@@ -40,12 +40,12 @@ interface DefaultSet {
 export const defaultSet: DefaultSet = {
   //布局
   layout: {
-    type: "columns",
-    size: defaultWidgetSize,
+    type: defaultLayouType,
+    size: defaultCommonSize,
   },
   //语言
   language: {
-    type: "zh",
+    type: defaultLanguage,
   },
   //菜单设置
   menu: {
@@ -59,7 +59,8 @@ export const defaultSet: DefaultSet = {
   footer: { show: 0 },
   //主题
   theme: {
-    color: cssVars.colorPrimary,
+    name: defaultThemeName,
+    // color: cssVars.colorPrimary,
     darkMode: 0,
   },
 };
