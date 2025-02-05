@@ -14,7 +14,7 @@
       :key="ind"
     >
       <div class="f-c-c">
-        <BaseIcon size="1.2em" class="mr-q" :name="item.icon" v-if="setStore.breadcrumb.showIcon" />
+        <BaseIcon size="1.1em" class="mr-q" :name="item.icon" v-if="setStore.breadcrumb.showIcon" />
         <span>{{ item.label }}</span>
       </div>
     </el-breadcrumb-item>
@@ -69,6 +69,7 @@ function getAllBreadcrumbs(menus: ResponseMenuItem[], parent = [], result: Commo
 </script>
 <style lang="scss" scoped>
 .path-breadcrumb {
+  font-size: $font-size-main;
   &.dark {
     :deep(.el-breadcrumb__inner) {
       &.is-link {

@@ -4,7 +4,7 @@
 
 import fs from "fs";
 import path from "path";
-import { docsPath, indexName, splitOrderChar, excludeNames, isFullPath, getFileName, consoleLog, isDev } from "../utils/index.js";
+import { docsPath, indexName, splitOrderChar, excludeNames, isFullPath, getFileName, showDevModule, isDev } from "../utils/index.js";
 
 /**
  * 把字符串和对象排序，如果有数字前缀，则根据数字前缀排序
@@ -168,7 +168,12 @@ export function getNavs(dirPath = docsPath, isDeep = false) {
     const cnName = getFileName(file);
     if (isDir) {
       const order = Number(file.split("_")[0]) || 0; // 如果是NaN，则为0
-      if (!isDev && order > 10) return; // 如果大于10，则是测试、示例、等模块，不宜呈现在非开发环境
+      // 如果大于10，则是测试、示例、等模块，不宜呈现在非开发环境
+      // if (!isDev && order > 10) return;
+      if (order > 10) {
+        if (!showDevModule) return;
+        return !isDev;
+      }
       const paths = getSubPaths(curPath);
       if (paths?.length) {
         if (isDeep) {

@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-1. 技术栈：Vite5 + Vue3 + Pinia + TypeScript + ElementPlus + Eslint + Prettier + LsLint + Husky + Echarts + WangEditor
+1. 采用最新技术栈：Vite5.4 + Vue3.5 + Pinia + TypeScript + ElementPlus + Eslint + Prettier + LsLint + Husky + Echarts + WangEditor
 
 2. 是一款集**效率、创新、颜值、实力**于一身的中后台管理系统模板，提供了：
 
@@ -18,21 +18,19 @@
 
 ## 地址链接
 
-### Vue3 版（已经过一个完整企业级项目验证）
+### Vue3 版（初版已经过一个完整企业级项目验证，升级版已改造完成）
 
-在线预览：[Github](https://1583187609.github.io/quick_admin/vue3/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/preview/#/login)（暂不可用，服务维护升级）~~
+在线预览：[自用站点](https://quickadmin.kongjz.com/#/login)（推荐）、[Github](https://1583187609.github.io/quick_admin/vue3/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/preview/#/login)（暂不可用，服务维护升级）~~
 
-说明文档：[Github](https://1583187609.github.io/quick_admin/vue3/docs)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/docs)（暂不可用，服务维护升级）~~
+说明文档：[自用站点](https://quickadmin.kongjz.com/quick_admin/vue3/docs)（推荐）、[Github](https://1583187609.github.io/quick_admin/vue3/docs)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/docs)（暂不可用，服务维护升级）~~
 
 仓库地址：[Github](https://github.com/1583187609/quick_admin_vue3)、[Gitee](https://gitee.com/fanlichuan/quick_admin_vue3)
 
-最新代码：[Gitee docs 分支](https://gitee.com/fanlichuan/quick_admin_vue3/tree/docs/)，含 vitepress 生成的说明文档
+### React 版（初版完善度约 80%）
 
-### React 版（完善度约 80%）
+在线预览：[Github](https://1583187609.github.io/quick_admin/react/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/react/preview/#/login)（暂不可用，服务维护升级）~~
 
-在线预览：[Github 地址](https://1583187609.github.io/quick_admin/react/preview/#/login)（国外服务，初次加载较慢）、~~[Gitee 地址](https://fanlichuan.gitee.io/quick_admin/react/preview/#/login)（暂不可用，服务维护升级）~~
-
-说明文档：[Github 地址](https://1583187609.github.io/quick_admin/react/docs)（国外服务，初次加载较慢）、~~[Gitee 地址](https://fanlichuan.gitee.io/quick_admin/react/docs)（暂不可用，服务维护升级）~~
+说明文档：[Github](https://1583187609.github.io/quick_admin/react/docs)（国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/react/docs)（暂不可用，服务维护升级）~~
 
 仓库地址：[Github](https://github.com/1583187609/quick_admin_react)、[Gitee](https://gitee.com/fanlichuan/quick_admin_react)
 
@@ -100,37 +98,37 @@
 
 1. 增删改查：表格列 + 表格列渲染 + 额外按钮组 + 操作栏按钮组
 
-![功能图示-1](./public/produce-1.png)
+![功能图示-1](./public/static/imgs/produce/produce-1.png)
 
 2. 增删改查：表单字段 + 表单校验 + 弹出层（dialog、drawer、popover、popconfirm）
 
-![功能图示-2](./public/produce-2.png)
+![功能图示-2](./public/static/imgs/produce/produce-2.png)
 
 3. 表单类型：基础表单 + 分块表单 + 单元格格表单 + 纯文本表单
 
-![功能图示-3](./public/produce-3.png)
+![功能图示-3](./public/static/imgs/produce/produce-3.png)
 
 4. 表格类型：基础表格 + 可编辑表格 + 增删改查表格（全局统一字典/标签）
 
-![功能图示-4](./public/produce-4.png)
+![功能图示-4](./public/static/imgs/produce/produce-4.png)
 
-~~5. 树：基础树 + 过滤树（待完善）~~
+<!-- ~~5. 树：基础树 + 过滤树（待完善）~~ -->
 
-![功能图示-5 待完善](./public/produce-5.png)
+<!-- ![功能图示-5 待完善](./public/static/imgs/produce/produce-5.png) -->
 
-6. 工程移植性：Echarts 图表（全局/页面/组件分层级默认配置、轻松渲染） + 全局默认配置（可覆盖） + 主题换肤 + 按钮角色权限控制
+5. 工程移植性：Echarts 图表（全局/页面/组件分层级默认配置、轻松渲染） + 全局默认配置（可覆盖） + 主题换肤 + 按钮角色权限控制
 
-![功能图示-6](./public/produce-6.png)
+![功能图示-6](./public/static/imgs/produce/produce-6.png)
 
-7. 后续低码计划：一站式前后端低码设计方案
+6. 后续低码计划：一站式前后端低码设计方案
 
 建立模板（mysql 字段、表单项、表格列）-> 设计方案（简版 JSON：含数据库表、查询表单项、查询表格列、新增/编辑表单列设计）-> 解析成标准 JSON -> 前端解析 JSON，页面渲染
 
-![功能图示-7](./public/produce-7.png)
+![功能图示-7](./public/static/imgs/produce/produce-7.png)
 
 ## 安装步骤
 
-- Clone
+- 克隆
 
 ```
 # Gitee
@@ -139,49 +137,60 @@ git clone https://gitee.com/fanlichuan/quick_admin_vue3
 git clone https://github.com/1583187609/quick_admin_vue3
 ```
 
-- Install
+- 安装 & 启动
 
 ```
-pnpm install
+# 安装包
+npm run install
+# 启动项目
+npm run dev
+# 启动文档
+npm run docs:dev
 ```
 
-- Run
+- 打包
 
 ```
-pnpm dev
+# 打包项目
+npm run build:simple
+# 打包文档
+npm run docs:dev
 ```
 
-- Build
-
-```
-pnpm build:simple
-```
-
-- Lint
+- 代码格式化
 
 ```
 # eslint 检测代码
-pnpm lint:eslint
+npm run lint:eslint
 
 # prettier 格式化代码
-pnpm lint:prettier
+npm run lint:prettier
 
 # stylelint 格式化样式
-pnpm lint:stylelint
+npm run lint:stylelint
 ```
 
 ## 项目截图
 
 1. 登录页  
-   ~~待上传~~
+   ![登录页](./public/static/imgs/example/login.png)
 2. 首页  
-   ~~待上传~~
+   ![首页](./public/static/imgs/example/home.png)
 3. 列表页  
-   ~~待上传~~
+   ![列表页](./public/static/imgs/example/list.png)
 4. 图表页  
-   ~~待上传~~
+   ![图表页](./public/static/imgs/example/chart.png)
 5. 大屏页  
-   ~~待上传~~
+   ![大屏页](./public/static/imgs/example/big-screen.png)
+
+## 文档截图
+
+1. 首页简介  
+   ![首页](./public/static/imgs/example/doc-home.png)
+2. 组件说明  
+   ![组件](./public/static/imgs/example/doc-comp.png)
+3. 全局配置  
+   ![配置](./public/static/imgs/example/doc-cfg.png)
 
 ## 文件目录
 
@@ -199,13 +208,15 @@ pnpm lint:stylelint
   ├── scripts                     # 工程脚本相关（提效）
   │   ├── api
   │   ├── add-version             # 版本号自动增加0.1（后面可能会移除）
+  │   ├── doc                     # 生成vitePress文档的处理逻辑脚本
   │   └── images.js
   ├── src                         # 项目主要逻辑代码均在里面
   │   ├── apis                    # 当前工程真实的API
   │   ├── api-mock                # MOCK的API
   │   ├── assets                  # 静态资源 css 图片等
-  │   ├── components              # 全局基础组件（任意工程适用）
+  │   ├── components              # 全局基础组件（只用于当前工程）
   │   ├── config                  # 针对于全局基础组件（src/components）的配置
+  │   ├── core                    # Quick Admin的核心代码（适用于任意工程）
   │   ├── dict                    # 全局字典管理
   │   ├── enums                   # 全局Ts枚举管理（可能会移除）
   │   ├── hooks                   # 全局hooks

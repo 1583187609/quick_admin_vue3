@@ -9,6 +9,7 @@ export const badgeReg = /【\w*】/s;
 
 // export const isDev = process.env.NODE_ENV === "development"; //process.env.NODE_ENV 会先为undefined值，后为development导致取出的值不对
 // export const isDev = import.meta.env.MODE === "dev"; //是否是开发环境，本来应该是'development'，但是package.json中指定了 --mode dev
+export const showDevModule = false;
 export const isDev = import.meta.url.startsWith("file://");
 export const splitOrderChar = "_"; //用于标记序号跟文件名称，作为分隔的符号
 export const unknownChar = "-"; // 未知时的占位符
