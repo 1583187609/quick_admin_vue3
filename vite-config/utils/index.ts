@@ -27,8 +27,6 @@ export function getApiProxy(apiMap): any {
     return {
       [key]: {
         target: apiMap[key], //http://127.0.0.1:5500
-        // target: "http://127.0.0.1:5180",
-        // target: "https://fanlichuan.gitee.io",
         changeOrigin: true, //是否跨域
         ws: true, //是否代理 websockets
         secure: false, //是否https接口

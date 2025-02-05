@@ -1,7 +1,7 @@
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import Mock from "mockjs";
 import platformCfg from "../_platform";
-import { getBasePath } from "../_platform/_utils";
+import { getBasePath, getWorksDomain } from "../_platform/_utils";
 
 const { fileSuffix, menuIcons } = platformCfg;
 const { Random } = Mock;
@@ -1278,7 +1278,7 @@ export default [
             id: "60-1-1",
             label: "爬虫文档集",
             icon: `${menuIcons["60-1-1"]}`,
-            path: "https://flc.nsusn.com/tutorial",
+            path: `${getWorksDomain()}/tutorial`,
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1292,7 +1292,7 @@ export default [
             id: "60-1-2",
             label: "弹性布局基础类",
             icon: `${menuIcons["60-1-2"]}`,
-            path: "http://fanlichuan.gitee.io/produce/flex-layout/index.html",
+            path: `${getWorksDomain()}/produce/flex-layout/index.html`,
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1321,7 +1321,7 @@ export default [
             id: "60-2-1",
             label: "Quick-Admin-Vue3",
             icon: `${menuIcons["60-2-1"]}`,
-            path: "https://gitee.com/fanlichuan/management/tree/master/quick-admin-vue3",
+            path: "https://gitee.com/fanlichuan/quick_admin_vue3",
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1335,7 +1335,7 @@ export default [
             id: "60-2-2",
             label: "Quick-Admin-React18",
             icon: `${menuIcons["60-2-2"]}`,
-            path: "https://gitee.com/fanlichuan/management/tree/master/quick-admin-react18",
+            path: "https://gitee.com/fanlichuan/quick_admin_react",
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1464,7 +1464,7 @@ export default [
             id: "60-4-1",
             label: "多功能表格（复杂）",
             icon: `${menuIcons["60-4-1"]}`,
-            path: "https://fanlichuan.gitee.io/works/dragable-table/index.html",
+            path: `${getWorksDomain()}/works/dragable-table/index.html`,
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1478,7 +1478,7 @@ export default [
             id: "60-4-2",
             label: "恐龙沙漠逃亡小游戏",
             icon: `${menuIcons["60-4-2"]}`,
-            path: "https://fanlichuan.gitee.io/works/dinosaur_game/index.html",
+            path: `${getWorksDomain()}/works/dinosaur_game/index.html`,
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1492,7 +1492,7 @@ export default [
             id: "60-4-3",
             label: "中国象棋游戏",
             icon: `${menuIcons["60-4-3"]}`,
-            path: "https://fanlichuan.gitee.io/works/chinese_chess/index.html",
+            path: `${getWorksDomain()}/works/chinese_chess/index.html`,
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1506,7 +1506,7 @@ export default [
             id: "60-4-4",
             label: "唯美音乐播放器",
             icon: `${menuIcons["60-4-4"]}`,
-            path: "https://fanlichuan.gitee.io/works/pc_music_player/index.html",
+            path: `${getWorksDomain()}/works/pc_music_player/index.html`,
             type: 1,
             auth_codes: null,
             status: 1,
@@ -1520,7 +1520,7 @@ export default [
             id: "60-4-5",
             label: "五子棋游戏",
             icon: `${menuIcons["60-4-5"]}`,
-            path: "https://fanlichuan.gitee.io/works/five_in_a_row_game/index.html",
+            path: `${getWorksDomain()}/works/five_in_a_row_game/index.html`,
             type: 1,
             auth_codes: null,
             status: 1,

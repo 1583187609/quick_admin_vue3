@@ -2,7 +2,7 @@
 import { ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
 import { getUserInfo, sortObjArrByKey, toCamelCase } from "@/utils";
 import { defaultIconName } from "@/core/config";
-import { getBasePath } from "#/mock/_platform/_utils";
+import { getBasePath, getWorksDomain } from "#/mock/_platform/_utils";
 import { RouteRecordRaw } from "vue-router";
 
 const orderJoinChar = "_"; // order的链接符号
@@ -124,6 +124,7 @@ export function getAutoMenus(routes: any[] = [], role = getUserInfo()?.role, idS
     let { target } = meta;
     if (link_type && !target) throw new Error(`当配置为外部连接时，必须设置target属性`);
     if (link_type === 1 && target.startsWith("/")) target = `${getBasePath()}${target}`;
+    if (link_type === 2 && target.startsWith("/")) target = `${getWorksDomain()}${target}`;
     idStr = idStr ? `${idStr}-${ind + 1}` : id;
     const tagText = statusTag ? `【${tagMap[statusTag] ?? ""}】` : "";
     Object.assign(item, {
