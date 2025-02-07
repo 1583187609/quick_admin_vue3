@@ -213,45 +213,45 @@
 
 ~~18、重新确定下 handleRequest、handleResponse 的名称（换个 api 名字，考虑要不要移除）~~
 ~~22、table 的 cols、rows 属性考虑要不要改名称~~
-
 ~~1、BaseIcon 的默认值~~
-2、BaseBtn 的默认值（用新增按钮），验证继承的`el-button`属性是否生效（重点关注 icon 传入字符串或组件时是否渲染正常，不考虑支持直接传入字符串（考虑性能，跟 el-button 保持一致就好））  
-3、验证按钮权限的 auth 功能是否正常，重点关注 auth 为函数状态时的表现  
+~~2、BaseBtn 的默认值（用新增按钮），验证继承的`el-button`属性是否生效（重点关注 icon 传入字符串或组件时是否渲染正常，不考虑支持直接传入字符串（考虑性能，跟 el-button 保持一致就好））~~  
+~~3、验证按钮权限的 auth 功能是否正常，重点关注 auth 为函数状态时的表现~~  
 ~~4、移除 BaseCopy、BaseText 的 text 属性，采用直接传入 slot 的方式~~  
 ~~5、注意验证 BaeCopy 传入 html 字符串时候的表现情况~~  
-6、完善所有基础组件的描述类信息  
-7、验证 BaseImg 的 iconSize 属性大小是否满足 UI 美观要求  
-8、验证 BaseNumberRange 在 BaseCrud 的传参情况，和默认值情况  
-9、验证数字上升、数字过渡组件功能是否完善
-10、写一个新的工作台页面
-11、完善 BaseNumber.vue 后去掉 BaseNum.vue 组件
-12、当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示
-13、BaseImg 的图片大小属性是否正常
+~~7、验证 BaseImg 的 iconSize 属性大小是否满足 UI 美观要求~~  
+~~8、验证 BaseNumberRange 在 BaseCrud 的传参情况，和默认值情况~~  
+~~9、验证数字上升、数字过渡组件功能是否完善~~
+~~10、写一个新的工作台页面~~
+~~12、当某个类型的表单项不存在时，应该直接抛出错误，而不是继续标红展示~~
+~~13、BaseImg 的图片大小属性是否正常~~
 ~~14、级联`C_Region`不生效~~
-15、验证 BaseEditor 是否能在表单中正常展示
+~~15、验证 BaseEditor 是否能在表单中正常展示~~
 ~~16、将 childrenFields、addDel 抽离出去~~
-17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常
-19、BaseForm 的 pureText 属性未生效
-20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本
-21、清除 Demo 的 vue 文件中的 scss 变量写法（待定，也可能不用删除）
-22、docs 脚本中删除因改动文件或文件夹名称，而导致旧的 md 文件成为多余文件的问题
-23、SectionForm 按下 enter 键是否触发提交
-24、验证嵌套的各个插槽是否生效
+~~17、BaseForm、SectionForm 的 FootBtns 的 MoreBtns、插槽功能是否正常~~
+~~19、BaseForm 的 pureText 属性未生效~~
+~~20、BaseForm debug、log 属性是否生效，log 为字符串时，改变标头文本~~
+~~22、docs 脚本中删除因改动文件或文件夹名称，而导致旧的 md 文件成为多余文件的问题~~
+~~24、验证嵌套的各个插槽是否生效~~
 ~~24、增加判断是否是初始化数据时触发的表单 change 事件~~
-25、验证 BaseForm、SectionForm 的 onBlur、onChange、onFocus 事件是否生效
-26、处理每个页面中的...配置，应该提取到某个全局公共处（考虑性能，用户体验，采用懒加载，少混合处理的模式实现）
-27、考虑合并 StepForm 中 formAttrs 属性和 stepAttrs 属性
-28、处理字段类型为 custom 的情况（不被包裹在 el-form-item 中）。并考虑传入字段的方式，对象 OR 可被 BaseRender 渲染的数据信息或者`{type: 'custom',renderData:''}`更倾向于最后一种
-29、统一 SectionForm 的 title 为 label 属性名称（待确定）
-30、验证有 props、无 props、整体插槽内容是否生效
-31、BaseTable 提供 fetch、params 等参数，不分页(待确定)
-32、将各个 Demo 示例用空文件占好位置（罗列好组件要包含的内容，方便随时查漏补缺），用`待完善示意`
+~~25、验证 BaseForm、SectionForm 的 onBlur、onChange、onFocus 事件是否生效~~
+~~26、处理每个页面中的...配置，应该提取到某个全局公共处（考虑性能，用户体验，采用懒加载，少混合处理的模式实现）~~
+~~28、处理字段类型为 custom 的情况（不被包裹在 el-form-item 中）。并考虑传入字段的方式，对象 OR 可被 BaseRender 渲染的数据信息或者`{type: 'custom',renderData:''}`更倾向于最后一种~~
+~~32、将各个 Demo 示例用空文件占好位置（罗列好组件要包含的内容，方便随时查漏补缺），用`待完善示意`~~
 ~~34、处理 BaseCrud 中的表单的创建时间区间的 props，考虑要不要用 quickAttrs 来传递属性 rangeProps: [minProp, maxProp]（待确定）~~
 ~~33、将 BaseCrud 中的表格的创建、更新时间，用组件来展示（有利于扩展性和消除 prop 的字符串和数组的二义性）~~
 ~~34、SectionForm 换用 BaseSection 验证功能~~
 ~~35、完善 AddDelList、AnyEleList、AddDelTags 组件功能~~
-36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证
+~~36、表格列支持下 el-input、BaseEditor、BaseImg 等功能验证~~
 ~~37、完善`InnerExtendTableColComps`组件~~
+
+6、完善所有基础组件的描述类信息
+11、完善 BaseNumber.vue 后去掉 BaseNum.vue 组件
+21、清除 Demo 的 vue 文件中的 scss 变量写法（待定，也可能不用删除）
+23、SectionForm 按下 enter 键是否触发提交
+27、考虑合并 StepForm 中 formAttrs 属性和 stepAttrs 属性
+29、统一 SectionForm 的 title 为 label 属性名称（待确定）
+30、验证 SectionForm 有 props、无 props、整体插槽内容是否生效
+31、BaseTable 提供 fetch、params 等参数，不分页(待确定)
 38、表单全局禁用，但允许底部某个按钮不禁用
 39、BaseRender 的 h 函数渲染，和 html 字符串渲染未按预期
 40、BaseForm 表单的 JSON 插槽规则，未按预期
@@ -260,11 +260,12 @@
 
 ## Demo 功能 Bug 清单
 
-1、前一个按钮设置了 icon 会影响后一个按钮的 icon，还有其他的 auth 属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`
+~~1、前一个按钮设置了 icon 会影响后一个按钮的 icon，还有其他的 auth 属性也会影响到，复现页面：`http://localhost:5090/comp/basic/BaseBtn#/login`~~
+~~3、处理 SectionForm 中，带嵌套属性时，重置不生效的 bug，复现页面：`test-center/test-2`~~
+~~4、处理打包后顶层不能使用 await 的 bug，参考：`https://www.jianshu.com/p/fb1ad30fd743`~~
+~~5、自动路由组件缓存失效~~
+
 2、BaseForm pureText 为 true 时，未解析出字典名称对应的文本值
-3、处理 SectionForm 中，带嵌套属性时，重置不生效的 bug，复现页面：`test-center/test-2`
-4、处理打包后顶层不能使用 await 的 bug，参考：`https://www.jianshu.com/p/fb1ad30fd743`
-5、自动路由组件缓存失效
 
 ## 待定事项
 
@@ -510,23 +511,26 @@
 ~~30、图片上传组件处理（并实现默认本地上传并展示出来）~~  
 ~~75、处理 BaseForm `type='cell' pureText` 时，custom 列未靠上对齐，tabs 的头部应该固定，底部自适应高度滚动，还有疑问气泡未跟 label 文字水平对齐，复现页面：/common-center/user/detail~~
 ~~71、BaseForm 上设置 `label-suffix="："` 不生效~~
+~~34、vue 动态与非动态路由加载优化；~~
+~~61、BaseForm 的 @change 事件对 input 未生效，上级菜单选中后，也未触发 change 事件（系统管理 -> 菜单管理）；顺便让初始时候不要触发 change 事件~~  
+~~65、处理 BaseCrud 中，刚初始加载页面时： 当 BaseNumberRange 设有默认值时，会触发两次搜索（在测试 3 页面复现）~~  
+~~66、点击学校公司下拉项获取焦点时，会触发 crud 列表的请求 && 同时刚加载页面时，会连续触发两次请求（在测试 3 页面复现）~~  
+~~73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现~~
+~~74、处理 tpl 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）~~
+~~76、优化 BaseNumberRange 嵌套层级~~
+~~77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）~~
+~~78、用 BaseConfig 的 provide、inject 方式提供配置（待定）~~
+~~81、动态菜单全选后，删除按钮仍是禁用状态：`/common-center/menu/dynamic`~~
+~~82、`T_Phone`的电话号码，正则校验无效 bug 处理~~
 
-34、vue 动态与非动态路由加载优化；
 47、FormItem 为 date-picker，type 为 dateRange 时，设置默认值 value: ["2023-02-08", "2023-02-09"], 会引发报错
-61、BaseForm 的 @change 事件对 input 未生效，上级菜单选中后，也未触发 change 事件（系统管理 -> 菜单管理）；顺便让初始时候不要触发 change 事件  
-65、处理 BaseCrud 中，刚初始加载页面时： 当 BaseNumberRange 设有默认值时，会触发两次搜索（在测试 3 页面复现）  
-66、点击学校公司下拉项获取焦点时，会触发 crud 列表的请求 && 同时刚加载页面时，会连续触发两次请求（在测试 3 页面复现）  
 67、处理 AddDelList 中，初始为一行，然后新增了 n 项后，然后点击重置按钮，并没有回到最初一行的状态的 bug  
 68、处理系统设置-> 选择非默认的布局风格 -> 点击恢复默认设置按钮 -> 布局风格选中为默认值了，但是左侧的页面并没有恢复到默认布局的 bug  
-73、通过请求获取到的下拉项，放到 BaseCrud 中的 BaseTag 时，获取不到 currMap，导致获取不到文本（/test/3）中可复现
-74、处理 tpl 为 phone 时，校验不生效的问题（复现页面：/system/user/account 中的编辑弹窗）
-76、优化 BaseNumberRange 嵌套层级
-77、处理操作栏宽度有误的 bug。复现页面（`/system/user/account`）
-~~78、用 BaseConfig 的 provide、inject 方式提供配置（待定）~~
 79、处理菜单管理页（`system/menu`）栈溢出问题：`Maximum call stack size exceeded`
 80、刷新页面，菜单未展开对应的菜单项，`common-center/menu/automate` 可复现
-81、动态菜单全选后，删除按钮仍是禁用状态：`/common-center/menu/dynamic`
-82、`T_Phone`的电话号码，正则校验无效 bug 处理
+83、当初次加载进入，路径为根路径时，不会自动跳转到登录页
+84、演示中心中的，图例图片路径不正确
+85、完善下 ReadMe 中的图例图片（重新截图）
 
 ## 四、Vue 极致优化清单
 
