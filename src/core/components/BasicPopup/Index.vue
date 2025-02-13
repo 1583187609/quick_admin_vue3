@@ -65,7 +65,8 @@ function getPopupAttrs(head: any, popupId: DrawerId | DialogId, defAttrs?: Commo
  * 对话框 dialog
  */
 function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData) {
-  if (dialogTimer) return showMessage("您的操作太频繁了", "warning");
+  // if (dialogTimer) return showMessage("弹窗操作太频繁了", "warning");
+  if (dialogTimer) closeDialog(undefined, true); // 为了处理关闭弹窗，然后马上打开弹窗会提示操作频繁的问题
   const t = typeOf(head);
   if (t === "String") {
     if (head.startsWith("dialog-") && !body) {
@@ -88,7 +89,7 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData) {
   );
 }
 
-function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}`) {
+function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}`, immediate = false) {
   if (popup === "all") {
     dialogs.length = 0;
     return;
@@ -101,17 +102,26 @@ function closeDialog(popup: CloseDialogType = `dialog-${dialogs.at(-1)?.id ?? 0}
   dialogs[ind].show = false;
   const { destroyOnClose } = dialogs[ind].attrs;
   if (!destroyOnClose) return;
-  dialogTimer = setTimeout(() => {
-    dialogs.splice(ind, 1);
+  if (!immediate) {
+    dialogTimer = setTimeout(() => {
+      dialogs.splice(ind, 1);
+      dialogTimer = null;
+    }, closeDelay);
+    return;
+  }
+  dialogs.splice(ind, 1);
+  if (dialogTimer) {
+    clearTimeout(dialogTimer);
     dialogTimer = null;
-  }, closeDelay);
+  }
 }
 
 /**
  * 抽屉 drawer
  */
 function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
-  if (drawerTimer) return showMessage("您的操作太频繁了", "warning");
+  // if (drawerTimer) return showMessage("弹窗操作太频繁了", "warning");
+  if (drawerTimer) closeDrawer(undefined, true); // 为了处理关闭弹窗，然后马上打开弹窗会提示操作频繁的问题
   const t = typeOf(head);
   if (t === "String") {
     if (head.startsWith("drawer-") && !body) {
@@ -134,7 +144,7 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
   );
 }
 
-function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}`) {
+function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}`, immediate = false) {
   if (popup === "all") {
     drawers.length = 0;
     return;
@@ -147,10 +157,18 @@ function closeDrawer(popup: CloseDrawerType = `drawer-${drawers.at(-1)?.id ?? 0}
   drawers[ind].show = false;
   const { destroyOnClose } = drawers[ind].attrs;
   if (!destroyOnClose) return;
-  drawerTimer = setTimeout(() => {
-    drawers.splice(ind, 1);
+  if (!immediate) {
+    drawerTimer = setTimeout(() => {
+      drawers.splice(ind, 1);
+      drawerTimer = null;
+    }, closeDelay);
+    return;
+  }
+  drawers.splice(ind, 1);
+  if (drawerTimer) {
+    clearTimeout(drawerTimer);
     drawerTimer = null;
-  }, closeDelay);
+  }
 }
 
 /**
@@ -181,10 +199,10 @@ function getTopPopupIds(num = 1): (DrawerId | DialogId)[] {
   const topPops = popups.slice(0, num);
   return topPops?.map(it => `${it.name}-${it.id}` as DrawerId | DialogId);
 }
-function closePopup(popup: ClosePopupType = 1): void {
+function closePopup(popup: ClosePopupType = 1, immediate = false): void {
   if (popup === "all") {
-    closeDialog(popup);
-    closeDrawer(popup);
+    closeDialog(popup, immediate);
+    closeDrawer(popup, immediate);
     return;
   }
   const t = typeOf(popup);
@@ -193,12 +211,12 @@ function closePopup(popup: ClosePopupType = 1): void {
     if (popup.startsWith("dialog")) {
       const isAll = popup === "dialog";
       const dia = isId ? (popup as CloseDialogType) : isAll ? "all" : undefined;
-      return closeDialog(dia);
+      return closeDialog(dia, immediate);
     }
     if (popup.startsWith("drawer")) {
       const isAll = popup === "drawer";
       const dra = isId ? (popup as CloseDrawerType) : isAll ? "all" : undefined;
-      return closeDrawer(dra);
+      return closeDrawer(dra, immediate);
     }
     throw new Error(`暂未处理此种弹窗类型：${popup}`);
   }
@@ -212,7 +230,7 @@ function closePopup(popup: ClosePopupType = 1): void {
   if (t === "Object") {
     if (!getIsPopupObj(popup)) return closePopup();
     const isDialog = popup.name === "dialog";
-    return isDialog ? closeDialog(popup) : closeDrawer(popup);
+    return isDialog ? closeDialog(popup, immediate) : closeDrawer(popup, immediate);
   }
   throw new Error(`暂未处理此类型：${t}`);
 }
