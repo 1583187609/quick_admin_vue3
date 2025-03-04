@@ -117,7 +117,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.appearance.footer.label"),
           type: "switch",
           quickAttrs: {
-            popover: $t("sysSet.appearance.footer.popover"),
+            explain: $t("sysSet.appearance.footer.explain"),
           },
           attrs: { ...showHideSwitchAttrs, disabled: true },
         },
@@ -177,7 +177,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: $t("sysSet.menu.accordion.label"),
           type: "switch",
           quickAttrs: {
-            popover: $t("sysSet.menu.accordion.popover"),
+            explain: $t("sysSet.menu.accordion.explain"),
           },
         },
       ],

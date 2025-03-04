@@ -1,5 +1,5 @@
 <!-- summary
-  目标：定位为基础表格。继承el-table属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性quickAttrs: popover。
+  目标：定位为基础表格。继承el-table属性，并扩展功能：内嵌组件(系统内置、业务需求内嵌)、默认列宽度和属性、快捷属性quickAttrs: explain。
 -->
 <template>
   <el-table class="base-table" v-bind="defaultTableAttrs" v-loading="loading" :data="data" ref="tableRef">

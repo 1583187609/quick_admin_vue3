@@ -114,7 +114,7 @@ export interface TableColAttrs {
   attrs?: CommonObj; // 该列组件所用的属性(attrs)
   /** 下面是针对业务需求而新添加的快捷属性 **/
   quickAttrs?: {
-    popover?: PopoverType;
+    explain?: PopoverType;
     handleChange?: (val: any, row: CommonObj, next: FinallyNext) => void;
     handleInput?: (val: any, row: CommonObj, next: FinallyNext) => void;
     handleBlur?: (val: any, row: CommonObj, next: FinallyNext) => void;

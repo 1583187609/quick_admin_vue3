@@ -54,7 +54,7 @@ export interface FormFieldAttrs {
   // quickAttrs?: {
   //   span?: number; //占位栅栏的宽度，同ElementPlus 的 span 1~24
   //   example?: string; //示例，写在placeholder中的示例文本
-  //   popover?: string | PopoverAttrs; //ElementPlus 的 popover组件
+  //   explain?: string | PopoverAttrs; //ElementPlus 的 explain组件
   //   tips?: string; //注意提示语，位于字段的下方
   //   pureText?: boolean; //是否纯文本展示
   //   before?: any; //字段前面拼接的内容，可以是文本、组件等

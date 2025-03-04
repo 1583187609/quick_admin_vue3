@@ -2,21 +2,14 @@
   将字段分区块展示。继承并扩展了基础表单（BaseForm），提供了展开/折叠，多级属性设置覆盖等功能。
 -->
 <template>
-  <el-form
-    class="section-form f-fs-s-c"
-    v-bind="defaultFormAttrs"
-    :class="styleType"
-    :model="formData"
-    @keyup.enter="handleEnter"
-    ref="formRef"
-  >
+  <el-form class="section-form f-fs-s-c" v-bind="defaultFormAttrs" :class="styleType" :model="formData" @keyup.enter="handleEnter" ref="formRef">
     <div class="all-hide-scroll f-fs-s-w" :class="{ 'auto-fixed-foot': autoFixedFoot }">
       <template v-if="newSections.length">
         <!-- <section class="section" v-for="(sItem, sInd) in newSections" :key="sInd">
           <div @click="toggleFold($event, sInd)" class="head f-sb-c">
             <div class="title f-0 f-fs-c">
               <span class="f-0">{{ sItem.title }}</span>
-              <QuestionPopover :popover="sItem.popover" class="ml-q f-0 mr-h" v-if="sItem.popover" />
+              <ExplainPopover :explain="sItem.explain" class="ml-q f-0 mr-h" v-if="sItem.explain" />
             </div>
             <slot name="head-right" :section="sItem" :index="sInd">
               <slot :name="'head-right-' + (sItem.prop ?? sInd + 1)" />
@@ -76,7 +69,7 @@
         <BaseSection
           class="section"
           :title="sItem.title"
-          :popover="sItem.popover"
+          :explain="sItem.explain"
           :badgeAttrs="sItem.badgeAttrs"
           :border="styleType === 'cell'"
           foldable
@@ -161,7 +154,7 @@ import { BaseDataType, CommonObj, CommonSize, FinallyNext, UniteFetchType } from
 import FieldItemCol from "@/core/components/form/_components/FieldItemCol/Index.vue";
 import { FormStyleType } from "./_types";
 import { Grid } from "./_components/FieldItem/_types";
-import QuestionPopover from "@/core/components/QuestionPopover.vue";
+import ExplainPopover from "@/core/components/ExplainPopover.vue";
 import { ArrowRight } from "@element-plus/icons-vue";
 import config, { defaultCommonSize } from "@/core/config";
 import { BaseRenderComponentType } from "../BaseRender.vue";
@@ -280,12 +273,7 @@ function toggleFold(e: any, ind: number) {
 function getLevelsAttrs(field) {
   const { attrs = {}, quickAttrs = {} } = field;
   const { size = attrs?.size, labelWidth = field?.labelWidth ?? props.labelWidth } = attrs;
-  const {
-    grid = quickAttrs?.grid ?? props.grid,
-    readonly = props.readonly,
-    pureText = props.pureText,
-    disabled = attrs.disabled,
-  } = quickAttrs;
+  const { grid = quickAttrs?.grid ?? props.grid, readonly = props.readonly, pureText = props.pureText, disabled = attrs.disabled } = quickAttrs;
   return { size, labelWidth, grid, readonly, pureText, disabled };
 }
 //处理表单的enter时间

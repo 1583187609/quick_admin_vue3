@@ -3,8 +3,7 @@
   <el-tabs tab-position="left" class="q-page-view">
     <el-tab-pane v-for="(item, key) in baseComps" :key="key">
       <template #label
-        >{{ item.label
-        }}<span class="color-danger" v-if="statusTextMap[item.status]">{{ statusTextMap[item.status] }}</span></template
+        >{{ item.label }}<span class="color-danger" v-if="statusTextMap[item.status]">{{ statusTextMap[item.status] }}</span></template
       >
       <div class="name mb-o" v-if="item.name">
         {{ item.name }}<span class="color-danger" v-if="statusTextMap[item.status]">{{ statusTextMap[item.status] }}</span>
@@ -43,7 +42,7 @@ const baseComps: CommonObj[] = [
           children: [
             "属性全继承：继承 el-button 属性，所以可直接传入 el-button 的属性",
             "模板写法：传入tpl属性（非必须），例：tpl='add'，即可呈现新增按钮应该具备的属性（图标、样式等）",
-            "危险按钮，二次确认：点击某些危险按钮（例：删除按钮）自带popconfirm确认提示框。popover 可为布尔值、字符串、对象（同el-popconfirm的属性）",
+            "危险按钮，二次确认：点击某些危险按钮（例：删除按钮）自带popconfirm确认提示框。popconfirm 可为布尔值、字符串、对象（同el-popconfirm的属性）",
             "权限处理：使用 auth 设置按钮权限。不设置、空数组视为始终有权限。无权限时，按钮会不可见。若要可见，且按钮禁用，则数组元素应为对象，设置type属性为disabled。",
             "排序属性：使用 order 设置多个按钮存在时的排列顺序值，数值越小越靠前。这在一组按钮中（查询列表的额外按钮组、表格的操作栏按钮组）会非常有用，避免开发时需要记忆按钮顺序。",
           ],
@@ -61,11 +60,7 @@ const baseComps: CommonObj[] = [
       funcs: [
         {
           text: "功能特性",
-          children: [
-            "支持仅复制、to跳转和复制、自定义click事件和复制。",
-            "点击区域和文本区域鼠标样式会自动变化。",
-            "设置maxLine，最多显示几行。",
-          ],
+          children: ["支持仅复制、to跳转和复制、自定义click事件和复制。", "点击区域和文本区域鼠标样式会自动变化。", "设置maxLine，最多显示几行。"],
         },
       ],
       link: "www.baidu.com",
@@ -97,8 +92,7 @@ const baseComps: CommonObj[] = [
   {
     label: "头像",
     name: "BaseAvatar",
-    summary:
-      "继承 BaseImg 的属性，并额外提供了gender（性别）属性。考虑扩展性（可能还有vip、状态标识），所以有必要将头像单独封装成一个组件",
+    summary: "继承 BaseImg 的属性，并额外提供了gender（性别）属性。考虑扩展性（可能还有vip、状态标识），所以有必要将头像单独封装成一个组件",
     content: { funcs: [], link: "www.baidu.com" },
   },
   {

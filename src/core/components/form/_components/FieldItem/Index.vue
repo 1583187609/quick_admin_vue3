@@ -6,7 +6,7 @@
   <el-form-item
     class="field-item"
     :class="{
-      'label-h-center': formItemAttrs.quickAttrs?.popover,
+      'label-h-center': formItemAttrs.quickAttrs?.explain,
       [`value-v-${formItemAttrs.quickAttrs?.valueAlignContent ?? ''}`]: true,
     }"
     v-bind="deleteAttrs(formItemAttrs, ['attrs', 'quickAttrs', 'slots', 'tpl'])"
@@ -16,7 +16,7 @@
     <!-- el-form-item 的插槽(label、error等) -->
     <template #[key]="scope" v-for="(val, key) in getFormItemSlots(formItemAttrs)" :key="key">
       <BaseRender :renderData="val" :scope="scope" />
-      <QuestionPopover :popover="formItemAttrs.quickAttrs?.popover" v-if="formItemAttrs.quickAttrs?.popover" />
+      <ExplainPopover :explain="formItemAttrs.quickAttrs?.explain" v-if="formItemAttrs.quickAttrs?.explain" />
       <template v-if="labelSuffix">{{ labelSuffix }}</template>
     </template>
     <template v-if="formItemAttrs.quickAttrs?.before">
@@ -62,11 +62,7 @@
       <BaseRender :renderData="formItemAttrs.quickAttrs.after" v-else />
     </template>
     <template v-if="formItemAttrs.quickAttrs?.tips">
-      <div
-        class="notice"
-        v-html="'注：' + formItemAttrs.quickAttrs.tips"
-        v-if="typeof formItemAttrs.quickAttrs.tips === 'string'"
-      />
+      <div class="notice" v-html="'注：' + formItemAttrs.quickAttrs.tips" v-if="typeof formItemAttrs.quickAttrs.tips === 'string'" />
       <BaseRender :renderData="formItemAttrs.quickAttrs.tips" v-else />
     </template>
   </el-form-item>
@@ -81,7 +77,7 @@ import { FormFieldAttrs } from "@/core/components/form/_types";
 import { defaultFieldAttrs, defaultFormItemTplsMap } from "./_config";
 import { useDict } from "@/hooks";
 import { FormItemType, FormTplType, RuleItem } from "./_types";
-import QuestionPopover from "@/core/components/QuestionPopover.vue";
+import ExplainPopover from "@/core/components/ExplainPopover.vue";
 import FormItem from "../FormItem/Index.vue";
 import { typeOf } from "#/mock/utils";
 import { DictName } from "@/dict/_types";

@@ -1,5 +1,5 @@
 <!-- summary 快捷属性
-  扩展的快捷属性，放置在 quickAttrs 中。例：pureText、grid、example、tips、popover、before、after
+  扩展的快捷属性，放置在 quickAttrs 中。例：pureText、grid、example、tips、explain、before、after
 -->
 <template>
   <BaseForm v-model="modelData" :fields="fields" :fetch="PostMockCommon"></BaseForm>
@@ -65,7 +65,7 @@ const fields: FormFieldAttrs[] = [
     prop: "legal_name",
     label: "法人姓名",
     quickAttrs: {
-      popover:
+      explain:
         "‌法人是具有民事权利能力和民事行为能力，依法独立享有民事权利和承担民事义务的组织‌。法人是社会组织在法律上的人格化，能够作为民事主体参与民事法律关系",
     },
   },

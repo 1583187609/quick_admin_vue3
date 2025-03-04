@@ -3,10 +3,7 @@
   <!-- 图片审核 -->
   <BaseSection class="imgs" title="图片审核" bodyClass="f-fs-s p-o">
     <template #head-right>
-      <el-button
-        @click="openPopup({ title: '处理用户', footer: 'confirm' }, '这是处理用户弹窗中的内容')"
-        type="primary"
-        style="margin-left: auto"
+      <el-button @click="openPopup({ title: '处理用户', footer: 'confirm' }, '这是处理用户弹窗中的内容')" type="primary" style="margin-left: auto"
         >处理用户</el-button
       >
       <el-popconfirm title="确定注销当前用户吗？" width="220" @confirm="showMessage('注销成功')">
@@ -23,12 +20,7 @@
       <strong class="title">学历头像</strong>
       <div class="img-item f-c-c-c">
         <BaseImg class="mb-q" />
-        <el-button
-          type="success"
-          style="width: 5em"
-          size="small"
-          @click="openPopup({ footer: 'confirm' }, '是否要重新比对人脸？')"
-        >
+        <el-button type="success" style="width: 5em" size="small" @click="openPopup({ footer: 'confirm' }, '是否要重新比对人脸？')">
           比对人脸
         </el-button>
       </div>
@@ -51,12 +43,8 @@
           <el-tag class="tag" effect="dark">新人曝光期</el-tag>
         </div>
         <div class="comment mr-a f-fs-c">
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive">
-            正面评价({{ 3 }})
-          </el-button>
-          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative">
-            负面评价({{ 3 }})
-          </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(1)" class="f-c-c item positive"> 正面评价({{ 3 }}) </el-button>
+          <el-button type="danger" size="small" text @click="openEvaluateListPopup(2)" class="f-c-c item negative"> 负面评价({{ 3 }}) </el-button>
         </div>
         <div class="attitude f-fs-c">
           <el-button type="warning" size="small" text @click="openReportListPopup(1)" class="item">举报({{ 3 }})</el-button>
@@ -72,14 +60,7 @@
   <BaseSection class="business-info" title="商业化信息">
     <BaseForm v-model="businessInfoModelData" styleType="cell" pureText :fields="businessInfoFormFields">
       <template #jbye>
-        <el-button
-          @click="openCoinListPopup"
-          :disabled="!businessInfoModelData.jbye"
-          type="primary"
-          size="small"
-          style="min-width: 2em"
-          text
-        >
+        <el-button @click="openCoinListPopup" :disabled="!businessInfoModelData.jbye" type="primary" size="small" style="min-width: 2em" text>
           {{ businessInfoModelData.jbye || 0 }}
         </el-button>
       </template>
@@ -310,7 +291,7 @@ const baseInfoFormFields: FormFieldAttrs[] = [
     label: "最近登录时间",
     required: true,
     quickAttrs: {
-      popover: "最近登录时间",
+      explain: "最近登录时间",
     },
   },
 ];

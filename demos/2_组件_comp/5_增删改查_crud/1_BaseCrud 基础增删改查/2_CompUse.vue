@@ -181,14 +181,14 @@ const fields: FormFieldAttrs[] = [
     prop: "schoolId",
     label: "学校",
     quickAttrs: {
-      popover: "采用hooks封装复杂逻辑",
+      explain: "采用hooks封装复杂逻辑",
     },
   }),
   getSearchOpts("company", {
     prop: "companyId",
     label: "公司",
     quickAttrs: {
-      popover: "hooks封装且自定义选择下拉项",
+      explain: "hooks封装且自定义选择下拉项",
     },
   }),
   {
@@ -226,7 +226,7 @@ const fields: FormFieldAttrs[] = [
     label: "自定义",
     type: "slot",
     quickAttrs: {
-      popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
+      explain: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
   },
 ];
@@ -237,7 +237,7 @@ const cols: TableCol[] = [
     label: "自定义组件列-内置 [UserInfo]",
     type: "UserInfo",
     quickAttrs: {
-      popover: `传递popover属性增加疑问小提示；可以自定义表格列并内嵌到系统中，设置 {type: "UserInfo"} 即可`,
+      explain: `传递explain属性增加疑问小提示；可以自定义表格列并内嵌到系统中，设置 {type: "UserInfo"} 即可`,
     },
     attrs: {
       simple: isSimple,
@@ -250,7 +250,7 @@ const cols: TableCol[] = [
     width: 170,
     type: "slot",
     quickAttrs: {
-      popover: `需设置 {type: "slot"}`,
+      explain: `需设置 {type: "slot"}`,
     },
   },
   // {
@@ -259,9 +259,9 @@ const cols: TableCol[] = [
   //   label: h(CustomHead),
   //   minWidth: 210,
   //   quickAttrs: {
-  //     // popover: "这是自定义popover示例",
-  //     // popover: CustomHead,
-  //     popover: h(CustomHead, { isPopover: true }),
+  //     // explain: "这是自定义explain示例",
+  //     // explain: CustomHead,
+  //     explain: h(CustomHead, { isPopover: true }),
   //   },
   // },
   {
@@ -270,7 +270,7 @@ const cols: TableCol[] = [
     type: "BaseImg",
     minWidth: 160,
     quickAttrs: {
-      popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
+      explain: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
     },
   },
   {
@@ -278,7 +278,7 @@ const cols: TableCol[] = [
     label: "自我介绍 [BaseText]",
     type: "BaseText",
     quickAttrs: {
-      popover: "内置文本组件 [BaseText]，内置列宽；超出文本后自动省略，且可点击后弹出弹窗查看完整内容",
+      explain: "内置文本组件 [BaseText]，内置列宽；超出文本后自动省略，且可点击后弹出弹窗查看完整内容",
     },
   },
   {
@@ -291,7 +291,7 @@ const cols: TableCol[] = [
     label: "formatter列",
     minWidth: 140,
     quickAttrs: {
-      popover: `继承自ElementPlus的 formatter 方法`,
+      explain: `继承自ElementPlus的 formatter 方法`,
     },
     formatter(row: CommonObj, column: TableColumnAttrs, cellValue: any, ind: number = 0) {
       return `formatter格式化示例-第${ind + 1}行`;
@@ -310,21 +310,21 @@ const cols: TableCol[] = [
         width: 220,
         type: "BaseTag",
         quickAttrs: {
-          popover: `非simple可见`,
+          explain: `非simple可见`,
         },
       },
   !isSimple && {
     prop: "sj",
     label: "时间（内置宽度）",
     quickAttrs: {
-      popover: `只设置 {prop: "sj"}，不设置 {type: "create"}。会根据 label 中带时间二字，自动确定该列的宽度`,
+      explain: `只设置 {prop: "sj"}，不设置 {type: "create"}。会根据 label 中带时间二字，自动确定该列的宽度`,
     },
   },
   {
     type: "create",
     label: "创建时间 [create]",
     quickAttrs: {
-      popover: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
+      explain: `只设置 {type: "create"}，便会默认区创建时间、创建人两个字段的 prop `,
     },
   } as TableColAttrs,
   {
@@ -332,7 +332,7 @@ const cols: TableCol[] = [
     prop: "update_time",
     label: "修改时间 [update]",
     quickAttrs: {
-      popover: `设置 {type: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
+      explain: `设置 {type: "update", prop: "update_time"}，只会显示 update_time 属性的值`,
     },
   } as TableColAttrs,
   {
@@ -341,7 +341,7 @@ const cols: TableCol[] = [
     type: "switch",
     minWidth: 100,
     quickAttrs: {
-      popover: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
+      explain: `设置{type: "switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
     },
     attrs: {
       // fetch: PostEnable,
@@ -351,7 +351,7 @@ const cols: TableCol[] = [
     type: "remark",
     label: "备注 [remark]",
     quickAttrs: {
-      popover: `设置{type: "remark"}，内置列宽度、label文案`,
+      explain: `设置{type: "remark"}，内置列宽度、label文案`,
     },
   },
   {
@@ -359,7 +359,7 @@ const cols: TableCol[] = [
     label: "未联调列",
     minWidth: 100,
     quickAttrs: {
-      popover: "未联调的列，表格头文字会被标红",
+      explain: "未联调的列，表格头文字会被标红",
     },
   },
 ];

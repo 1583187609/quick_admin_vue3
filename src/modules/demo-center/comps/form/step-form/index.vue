@@ -37,16 +37,16 @@ const sections: SectionFormItemAttrs[] = [
   },
   {
     title: "第二部分",
-    popover: "块级设置 {readonly: true}",
+    explain: "块级设置 {readonly: true}",
     fields: [
-      { prop: "xm", label: "姓名", quickAttrs: { pureText: true, popover: "字段级设置 {pureText: true}" } },
+      { prop: "xm", label: "姓名", quickAttrs: { pureText: true, explain: "字段级设置 {pureText: true}" } },
       { prop: "xb", label: "性别", required: true },
       { prop: "nl", label: "年龄" },
     ],
   },
   {
     title: "第三部分",
-    popover: "块级设置 prop 属性",
+    explain: "块级设置 prop 属性",
     prop: "partThree",
     fields: [
       { prop: "xjd", label: "现居地", quickAttrs: { tips: "字段级的size【el-form-item】" } },
@@ -59,7 +59,7 @@ const sections: SectionFormItemAttrs[] = [
   },
   {
     title: "第四部分",
-    popover: "块级设置 {disabled: true}",
+    explain: "块级设置 {disabled: true}",
     fields: [
       { prop: "dh", label: "电话" },
       { prop: "ma", label: "密码" },
@@ -67,7 +67,7 @@ const sections: SectionFormItemAttrs[] = [
         prop: "sfzh",
         label: "身份证号",
         attrs: { disabled: false },
-        quickAttrs: { popover: "设置{disabled: false}" },
+        quickAttrs: { explain: "设置{disabled: false}" },
       },
       { prop: "zdy", label: "自定义", type: "slot" },
     ],

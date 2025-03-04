@@ -103,7 +103,7 @@ export interface FormFieldAttrs {
     grid?: Grid; // 占位栅格子的宽度，同ElementPlus 的 el-col 的属性，可以是数字：1~24
     tips?: string; // 注意提示语，位于字段的下方
     example?: string; // 示例，写在placeholder中的示例文本
-    popover?: PopoverType; // ElementPlus 的 popover组件
+    explain?: PopoverType; // 解释内容。会以el-popover组件进行展示
     pureText?: boolean; // 是否纯文本展示
     before?: BaseRenderData; // 字段前面拼接的内容，可以是文本、组件等
     after?: BaseRenderData; // 字段后面拼接的内容，可以是文本、组件等

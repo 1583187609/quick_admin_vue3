@@ -15,7 +15,7 @@ const fields: FormFieldAttrs[] = [
     label: "电话",
     required: true,
     quickAttrs: {
-      popover: `required: true属性，需要另外设置，不在valid: "phone" 规则内`,
+      explain: `required: true属性，需要另外设置，不在valid: "phone" 规则内`,
       tips: '通过设置valid:"phone"，则获得了电话号码正则长度等校验规则',
     },
   },
@@ -24,7 +24,7 @@ const fields: FormFieldAttrs[] = [
     prop: "password",
     label: "密码",
     quickAttrs: {
-      popover: "设置tips，在底部获得注：的能力",
+      explain: "设置tips，在底部获得注：的能力",
       example: "abc123456",
       tips: "设置example属性，则自动拼接到placeholder后面",
     },
@@ -34,7 +34,7 @@ const fields: FormFieldAttrs[] = [
     prop: "age",
     label: "年龄",
     quickAttrs: {
-      popover: "设置popover属性，获得popover弹出层能力",
+      explain: "设置explain属性，获得explain弹出层能力",
     },
   },
 ];

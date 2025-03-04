@@ -245,7 +245,7 @@ const fields: FormFieldAttrs[] = [
       options: "D_TestPromiseArray",
     },
     quickAttrs: {
-      popover: "Promise返回一个数组",
+      explain: "Promise返回一个数组",
     },
   },
   {
@@ -256,7 +256,7 @@ const fields: FormFieldAttrs[] = [
       options: "D_TestPromiseObject",
     },
     quickAttrs: {
-      popover: "Promise返回一个对象",
+      explain: "Promise返回一个对象",
     },
   },
   {
@@ -267,7 +267,7 @@ const fields: FormFieldAttrs[] = [
       options: "D_TestFetch",
     },
     quickAttrs: {
-      popover: "系统刚初始化时，就会发送请求",
+      explain: "系统刚初始化时，就会发送请求",
     },
   },
   {
@@ -278,7 +278,7 @@ const fields: FormFieldAttrs[] = [
       options: "D_TestFetchLazy",
     },
     quickAttrs: {
-      popover: "当用到字典数据时才会发送请求",
+      explain: "当用到字典数据时才会发送请求",
     },
   },
   {
@@ -289,7 +289,7 @@ const fields: FormFieldAttrs[] = [
       options: "D_BatchInsert_1",
     },
     quickAttrs: {
-      popover: "通过接口一次性请求很多下拉项",
+      explain: "通过接口一次性请求很多下拉项",
     },
   },
   {
@@ -304,14 +304,14 @@ const fields: FormFieldAttrs[] = [
     prop: "schoolId",
     label: "学校",
     quickAttrs: {
-      popover: "hooks远程搜索下拉",
+      explain: "hooks远程搜索下拉",
     },
   }),
   getSearchOpts("company", {
     prop: "companyId",
     label: "公司",
     quickAttrs: {
-      popover: "hooks远程搜索下拉，并自定义el-option样式",
+      explain: "hooks远程搜索下拉，并自定义el-option样式",
     },
   }),
   {
@@ -374,7 +374,7 @@ const fields: FormFieldAttrs[] = [
     label: "自定义",
     type: "slot",
     quickAttrs: {
-      popover: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
+      explain: "在搜索表单中一般几乎用不到自定义特性，此处用作示例",
     },
   },
 ];
@@ -391,7 +391,7 @@ const cols: TableCol[] = [
     label: "外部插入列",
     fixed: "left",
     quickAttrs: {
-      popover: "外部插入列实例：内嵌、custom自定义",
+      explain: "外部插入列实例：内嵌、custom自定义",
     },
     children: [
       {
@@ -399,18 +399,14 @@ const cols: TableCol[] = [
         // prop: "user_data", //T_UserInfo 中的默认值为 user_data
         label: "用户信息",
         quickAttrs: {
-          popover: {
+          explain: {
             title: "业务内嵌组件 - UserInfo",
             slots: {
               default: h(CustomPopover, {
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "单个项目的常用组件，采用内嵌至系统的方式。",
-                      "预设了列宽，prop等属性",
-                      "可通过attrs传入UserInfo组件的props属性",
-                    ],
+                    desc: ["单个项目的常用组件，采用内嵌至系统的方式。", "预设了列宽，prop等属性", "可通过attrs传入UserInfo组件的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_UserInfo"}` },
                 ],
@@ -429,8 +425,8 @@ const cols: TableCol[] = [
         width: 170,
         type: "slot",
         quickAttrs: {
-          // popover: `需设置 {type: "slot"}`,
-          popover: {
+          // explain: `需设置 {type: "slot"}`,
+          explain: {
             title: "自定义组件 - InfoSteps",
             slots: {
               default: h(CustomPopover, {
@@ -451,7 +447,7 @@ const cols: TableCol[] = [
     width: 170,
     type: "slot",
     quickAttrs: {
-      popover: `不放在children中进行展示`,
+      explain: `不放在children中进行展示`,
     },
   },
   {
@@ -463,8 +459,8 @@ const cols: TableCol[] = [
         label: "头像",
         tpl: "T_BaseImg",
         quickAttrs: {
-          // popover: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
-          popover: {
+          // explain: "内置图片组件 [BaseImg]，含列宽、图片大小、圆角样式、预览等功能；设置{minWidth: 160} 覆盖默认宽度",
+          explain: {
             title: "系统内置组件 - BaseImg",
             slots: {
               default: h(CustomPopover, {
@@ -492,7 +488,7 @@ const cols: TableCol[] = [
           maxLine: 3,
         },
         quickAttrs: {
-          popover: {
+          explain: {
             title: "系统内置组件 - BaseText",
             slots: {
               default: h(CustomPopover, {
@@ -517,18 +513,14 @@ const cols: TableCol[] = [
         label: "头像路径",
         tpl: "T_BaseCopy",
         quickAttrs: {
-          popover: {
+          explain: {
             title: "系统内置组件 - BaseCopy",
             slots: {
               default: h(CustomPopover, {
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击整个文本域进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击整个文本域进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -550,19 +542,15 @@ const cols: TableCol[] = [
           },
         },
         quickAttrs: {
-          // popover: `文本复制，支持跳转`,
-          popover: {
+          // explain: `文本复制，支持跳转`,
+          explain: {
             title: "系统内置组件 - BaseCopy",
             slots: {
               default: h(CustomPopover, {
                 sections: [
                   {
                     name: "描述",
-                    desc: [
-                      "任意项目的常用组件，采用内置至系统的方式。",
-                      "点击文本跳转页面，点击图标进行复制",
-                      "可通过attrs传入BaseCopy的props属性",
-                    ],
+                    desc: ["任意项目的常用组件，采用内置至系统的方式。", "点击文本跳转页面，点击图标进行复制", "可通过attrs传入BaseCopy的props属性"],
                   },
                   { name: "设置", desc: `{tpl: "T_BaseCopy"}` },
                 ],
@@ -577,18 +565,18 @@ const cols: TableCol[] = [
         // label: h(CustomColHead),
         minWidth: 210,
         quickAttrs: {
-          // popover: "这是自定义popover示例（传入字符串）",
-          // popover: { title: "这是标题", width: 320, content: "这是自定义popover示例（传入属性对象）" },
-          // popover: h(CustomColHead, { type: "popover" }),
-          // popover: [CustomColHead],
-          popover: {
-            title: "自定义【格头 + popover + formatter】",
+          // explain: "这是自定义explain示例（传入字符串）",
+          // explain: { title: "这是标题", width: 320, content: "这是自定义explain示例（传入属性对象）" },
+          // explain: h(CustomColHead, { type: "explain" }),
+          // explain: [CustomColHead],
+          explain: {
+            title: "自定义【格头 + explain + formatter】",
             width: 400,
             slots: {
               default: h(CustomPopover, {
                 sections: [
                   { name: "自定义表格头", desc: "展示如何自定义表格头" },
-                  { name: "自定义popover", desc: "展示如何自定义popover" },
+                  { name: "自定义explain", desc: "展示如何自定义explain" },
                   { name: "formatter", desc: "展示如何用继承自ElementPlus的formatter方法处理数据" },
                 ],
               }),
@@ -596,7 +584,7 @@ const cols: TableCol[] = [
           },
         },
         formatter(row: CommonObj, column: any, cellValue: any, ind: number = 0) {
-          return `自定义第${ind}行：表格头 + popover + formatter`;
+          return `自定义第${ind}行：表格头 + explain + formatter`;
         },
         slots: {
           header: h(CustomColHead),
@@ -618,7 +606,7 @@ const cols: TableCol[] = [
               name: "D_EnableStatus",
             },
             quickAttrs: {
-              popover: {
+              explain: {
                 title: "系统内置组件 - BaseTag",
                 slots: {
                   default: h(CustomPopover, {
@@ -643,7 +631,7 @@ const cols: TableCol[] = [
           name: "D_TestFetchLazy",
         },
         quickAttrs: {
-          popover: {
+          explain: {
             title: "系统内置组件 - BaseTag",
             slots: {
               default: h(CustomPopover, {
@@ -674,7 +662,7 @@ const cols: TableCol[] = [
           onChange: (val: any, row: CommonObj, next: FinallyNext) => PatchMockCommon().then((res: any) => next()),
         },
         quickAttrs: {
-          popover: `设置{tpl: "T_Switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
+          explain: `设置{tpl: "T_Switch"}，此列可防止在右侧操作栏的按钮组中，后续可能考虑移除`,
         },
       },
       {
@@ -717,7 +705,7 @@ const cols: TableCol[] = [
         // formatter: true,
         formatter: "YYYY/MM/DD HH:mm:ss",
         quickAttrs: {
-          popover: {
+          explain: {
             title: "时间处理",
             slots: {
               default: h(CustomPopover, {
@@ -739,7 +727,7 @@ const cols: TableCol[] = [
         tpl: "T_Create",
         label: "创建时间",
         quickAttrs: {
-          popover: `只设置 {tpl: "T_Create"}，便会默认区创建时间、创建人两个字段的 prop `,
+          explain: `只设置 {tpl: "T_Create"}，便会默认区创建时间、创建人两个字段的 prop `,
         },
       } as TableColAttrs,
       {
@@ -747,7 +735,7 @@ const cols: TableCol[] = [
         prop: "update_time",
         label: "修改时间",
         quickAttrs: {
-          popover: `设置 {tpl: "T_Update", prop: "update_time"}，只会显示 update_time 属性的值`,
+          explain: `设置 {tpl: "T_Update", prop: "update_time"}，只会显示 update_time 属性的值`,
         },
       } as TableColAttrs,
     ],
@@ -758,7 +746,7 @@ const cols: TableCol[] = [
     // tpl: "T_Remark",
     // label: "备注",
     quickAttrs: {
-      popover: `设置{tpl: "T_Remark"}，内置列宽度、label文案`,
+      explain: `设置{tpl: "T_Remark"}，内置列宽度、label文案`,
     },
   },
   // 未设置tpl时，因label中含有备注字样，就被推断为type为remark类型，故也可以获得跟上面写法一样的配置
@@ -766,7 +754,7 @@ const cols: TableCol[] = [
   //   prop: "remark",
   //   label: "备注",
   //   quickAttrs: {
-  //     popover: `设置{tpl: "T_Remark"}，内置列宽度、label文案`,
+  //     explain: `设置{tpl: "T_Remark"}，内置列宽度、label文案`,
   //   },
   // },
   {
@@ -774,7 +762,7 @@ const cols: TableCol[] = [
     label: "多级prop",
     minWidth: 100,
     quickAttrs: {
-      popover: "可传入任意多级的prop，例：user.data.info.age",
+      explain: "可传入任意多级的prop，例：user.data.info.age",
     },
   },
   {
@@ -782,7 +770,7 @@ const cols: TableCol[] = [
     label: "未联调列",
     minWidth: 120,
     quickAttrs: {
-      popover: "未联调的列，表格头右侧会新增一个标红的感叹号图标",
+      explain: "未联调的列，表格头右侧会新增一个标红的感叹号图标",
     },
   },
 ];

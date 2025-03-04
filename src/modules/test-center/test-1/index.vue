@@ -243,13 +243,13 @@ const fields = computed<FormField[]>(() => {
         ],
       },
       quickAttrs: {
-        // popover: h("div", { style: "color:red" }, "这是内容"), // 暂时不要用h函数写，会报错
-        // popover: ["div", { style: "color:red" }, "这是内容"],
-        popover: CustomPopover, // [CustomPopover],
+        // explain: h("div", { style: "color:red" }, "这是内容"), // 暂时不要用h函数写，会报错
+        // explain: ["div", { style: "color:red" }, "这是内容"],
+        explain: CustomPopover, // [CustomPopover],
         tips: [
           "div",
           { style: "color:red;line-height:1.4;margin-top:0.5em;" },
-          "自定义popover（鼠标放在左侧的问号图标上可查看自定义popover的效果）；传入自定义tips，通过BaseRender渲染",
+          "自定义explain（鼠标放在左侧的问号图标上可查看自定义explain的效果）；传入自定义tips，通过BaseRender渲染",
         ],
       },
     },
@@ -275,8 +275,8 @@ const fields = computed<FormField[]>(() => {
       prop: "identity",
       label: "身份证号",
       quickAttrs: {
-        tips: "popover设置弹出层提示；设置valid，内置身份证、密码等校验；添加example属性，拼接在placeholder后面，作为输入示例",
-        popover: "这是popover提示",
+        tips: "explain设置弹出层提示；设置valid，内置身份证、密码等校验；添加example属性，拼接在placeholder后面，作为输入示例",
+        explain: "这是explain提示",
         example: "这是拼接在placeholder后面的输入示例",
       },
     },
@@ -460,7 +460,7 @@ const fields = computed<FormField[]>(() => {
       label: "内置常用组件",
       type: "BaseNumberRange",
       quickAttrs: {
-        popover: "内置常用组件BaseNumberRange",
+        explain: "内置常用组件BaseNumberRange",
       },
     },
     {
@@ -502,7 +502,7 @@ const fields = computed<FormField[]>(() => {
       },
       quickAttrs: {
         tips: "radio-group控件，默认为button样式",
-        popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
+        explain: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
       },
     },
     {

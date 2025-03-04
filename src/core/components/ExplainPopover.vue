@@ -1,10 +1,7 @@
-<!-- 疑问浮框 -->
+<!-- 解释(疑问)浮框 -->
 <template>
   <el-popover v-bind="popoverAttrs" v-if="popoverAttrs">
-    <BaseRender
-      :renderData="(popoverAttrs as PopoverSlots).slots?.default"
-      v-if="(popoverAttrs as PopoverSlots).slots?.default"
-    />
+    <BaseRender :renderData="(popoverAttrs as PopoverSlots).slots?.default" v-if="(popoverAttrs as PopoverSlots).slots?.default" />
     <template #reference>
       <el-icon :color="cssVars[`color${upperFirst(type)}`]" class="icon f-0" :class="[size]" v-bind="$attrs">
         <QuestionFilled />
@@ -30,14 +27,14 @@ const $attrs = useAttrs();
 const { size } = useFormAttrs();
 const props = withDefaults(
   defineProps<{
-    popover?: PopoverAttrs | PopoverSlots | string;
+    explain?: PopoverAttrs | PopoverSlots | string;
     type?: ThemeColorType;
   }>(),
   {
     type: "info",
   }
 );
-const popoverAttrs = computed(() => getPopoverAttrs(props.popover));
+const popoverAttrs = computed(() => getPopoverAttrs(props.explain));
 </script>
 <style lang="scss" scoped>
 .icon {

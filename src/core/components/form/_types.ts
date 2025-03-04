@@ -20,6 +20,6 @@ export interface SectionFormItemAttrs {
   fold?: boolean; // 是否折叠
   fields?: FormField[];
   description?: string; // 步骤条的描述文字
-  popover?: string | PopoverAttrs; // popover气泡
+  explain?: string | PopoverAttrs; // popover气泡
 }
 export type SectionFormItem = BaseDataType | SectionFormItemAttrs;

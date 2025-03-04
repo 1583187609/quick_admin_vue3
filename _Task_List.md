@@ -373,7 +373,7 @@
 ~~12、解决 开发环境中 mock 下的图片警告路径的问题~~  
 ~~13、统一 package.name 和 全局变量 VITE_APP_NAME，都统一使用 VITE_APP_NAME~~  
 ~~14、优化水印会加深的问题~~  
-~~19、popover 自定义~~  
+~~19、explain 自定义~~  
 ~~20、popconfirm 自定义（貌似不能自定义 title 的内容，因为没提供这个插槽）~~  
 ~~21、24 小时不登录，则强制重新登录~~  
 ~~22、登录进去后会出现两个首页 Tag 标签。~~  
@@ -415,7 +415,7 @@
 ~~69、将 FieldItem 组件中的 AddDelList、AnyEleList 组件用插槽的方式载入~~
 
 34、通过外链打开新标签页面时，没有页签图标显示  
-37、（处理/test/1 页面中的 slots 和 popover 不能用 h 函数写的问题）、
+37、（处理/test/1 页面中的 slots 和 explain 不能用 h 函数写的问题）、
 38、全局 Loading 中增加取消请求按钮，并实现取消请求逻辑  
 41、layout 系统设置的国际化语言的 bug 处理  
 42、研究能被 img 标签 src 属性识别的 svg 配置(参见：https://blog.51cto.com/jackiehao/10750501)  

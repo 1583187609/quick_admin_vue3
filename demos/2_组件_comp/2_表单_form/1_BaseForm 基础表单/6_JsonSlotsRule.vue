@@ -29,7 +29,7 @@ const modelData = reactive<CommonObj>({ type: 0 });
 
 const fields = computed<FormField[]>(() => {
   const { type } = modelData;
-  const { popover, label } = slotTypeOpts[type];
+  const { explain, label } = slotTypeOpts[type];
   return [
     // {
     //   prop: "type",
@@ -43,7 +43,7 @@ const fields = computed<FormField[]>(() => {
     //         prop: "label",
     //         label,
     //         quickAttrs: {
-    //           popover,
+    //           explain,
     //         },
     //       },
     //     ]
@@ -52,7 +52,7 @@ const fields = computed<FormField[]>(() => {
     //         prop: "custom_label",
     //         label: "标签",
     //         quickAttrs: {
-    //           popover,
+    //           explain,
     //         },
     //         slots: {
     //           label,
@@ -64,7 +64,7 @@ const fields = computed<FormField[]>(() => {
     //   label: "内容",
     //   slots: "自定义内容", // 本质等同于 el-form-item 的 default 插槽
     //   quickAttrs: {
-    //     popover: "slots 接收字符串",
+    //     explain: "slots 接收字符串",
     //   },
     // },
     // {
@@ -77,7 +77,7 @@ const fields = computed<FormField[]>(() => {
     //     },
     //   },
     //   quickAttrs: {
-    //     popover: "prepend、append插槽，插槽值为纯字符串",
+    //     explain: "prepend、append插槽，插槽值为纯字符串",
     //   },
     // },
     // {
@@ -90,7 +90,7 @@ const fields = computed<FormField[]>(() => {
     //     },
     //   },
     //   quickAttrs: {
-    //     popover: "prefix、suffix插槽，插槽值为h函数和数组",
+    //     explain: "prefix、suffix插槽，插槽值为h函数和数组",
     //   },
     // },
     { type: "custom", renderData: ["div", { style: "color:red" }, "这是不被el-form-item包裹的元素内容"] },
