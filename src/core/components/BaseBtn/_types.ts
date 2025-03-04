@@ -39,6 +39,7 @@ export interface BtnItem {
   to?: string | CommonObj | ((row: CommonObj) => string | CommonObj); //点击按钮时要跳转的页面地址
   auth?: number[]; //权限
   order?: number; //按钮顺序
+  batchAble?: boolean; // 是否可作为批量按钮
   handleClickType?: BtnHandleClickType; // 点击按钮后，执行的逻辑类型。可选值：common（通用）
   validateForm?: boolean; //是否需要进行表单校验（仅当出现在表单项的底部更多按钮中时才生效）
   popconfirm?: boolean | string | PopconfirmAttrs;

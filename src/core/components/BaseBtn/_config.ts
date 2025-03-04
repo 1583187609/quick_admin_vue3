@@ -34,6 +34,7 @@ export default {
     // auth: [0, 1, 2],
     // to: undefined,
     order: 2,
+    batchAble: true,
     attrs: {
       type: "danger",
       icon: "Delete",
@@ -50,6 +51,7 @@ export default {
     // auth: [0,1,2],
     // to: undefined,
     order: 3,
+    batchAble: true,
     validateForm: true,
     attrs: {
       type: "success",
@@ -67,6 +69,7 @@ export default {
     // auth: [0,1,2],
     // to: undefined,
     order: 4,
+    batchAble: true,
     validateForm: true,
     attrs: {
       type: "danger",
@@ -84,6 +87,7 @@ export default {
     // auth: [0, 1, 2],
     // to: undefined,
     order: 5,
+    batchAble: true,
     attrs: {
       type: "warning",
       icon: "TopLeft",
@@ -107,6 +111,7 @@ export default {
     // auth: [],
     // to: undefined,
     order: 7,
+    batchAble: true,
     handleClickType: "common",
     attrs: {
       type: "primary",
@@ -131,6 +136,7 @@ export default {
     // auth: [],
     // to: undefined,
     order: 9,
+    batchAble: true,
     attrs: {
       type: "primary",
       icon: "Download",
@@ -142,6 +148,7 @@ export default {
     // auth: [0, 1, 2],
     // to: undefined,
     order: 10,
+    batchAble: true,
     attrs: {
       type: "success",
       icon: "CircleCheck",
@@ -157,6 +164,7 @@ export default {
     // auth: [0, 1, 2],
     // to: undefined,
     order: 11,
+    batchAble: true,
     attrs: {
       type: "warning",
       icon: "Remove",

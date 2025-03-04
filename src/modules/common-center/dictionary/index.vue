@@ -4,7 +4,11 @@
     :cols="cols"
     :fields="fields"
     :fetch="GetMockCommon"
-    :extraBtns="['add']"
+    :extraBtns="[
+      'add',
+      { name: 'onShelf', text: '上架', batchAble: true, attrs: { type: 'primary' } },
+      { name: 'offShelf', text: '下架', batchAble: true, attrs: { type: 'danger' } },
+    ]"
     :operateBtns="['edit', 'delete']"
     @extraBtns="onExtraBtns"
     @operateBtns="onOperateBtns"
@@ -24,7 +28,13 @@ import { usePopup } from "@/hooks";
 
 const { openPopup } = usePopup();
 const fields: FormField[] = [{ prop: "zdmc", label: "字典名称" }];
-const cols: TableCol[] = [{ prop: "zdlx", label: "字典类型", minWidth: 210 }, { tpl: "T_Remark" }, { tpl: "T_Create" }, { tpl: "T_Update" }];
+const cols: TableCol[] = [
+  { type: "selection" },
+  { prop: "zdlx", label: "字典类型", minWidth: 210 },
+  { tpl: "T_Remark" },
+  { tpl: "T_Create" },
+  { tpl: "T_Update" },
+];
 function onExtraBtns(name: BtnName, next: FinallyNext) {
   handleBtnNext(
     {

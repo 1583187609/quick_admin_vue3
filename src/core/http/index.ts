@@ -1,5 +1,6 @@
 /**
  * @link 取消请求参考链接：https://blog.csdn.net/lu2925028830/article/details/126296846
+ * @function 功能点：异常消息提示、统一get和post参数写法、失败后尝试重新请求（有最大次数限制）、取消请求、全局Loading兜底、默认配置（支持配置扩展）
  */
 
 import qs from "qs";

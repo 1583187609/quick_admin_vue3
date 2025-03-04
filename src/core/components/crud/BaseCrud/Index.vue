@@ -106,23 +106,13 @@ import QueryTable from "@/core/components/crud/BaseCrud/_components/QueryTable.v
 import QueryForm from "@/core/components/crud/BaseCrud/_components/QueryForm/Index.vue";
 import { BaseBtnType, BtnItem, BtnName, EndBtnItem, HandleAuthFn } from "@/core/components/BaseBtn/_types";
 import { getBtnObj } from "@/core/components/BaseBtn";
-import {
-  omitAttrs,
-  printLog,
-  showMessage,
-  typeOf,
-  showConfirmMessage,
-  exportExcel,
-  judgeIsInDialog,
-  splitPropsParams,
-} from "@/core/utils";
+import { omitAttrs, printLog, showMessage, typeOf, showConfirmMessage, exportExcel, judgeIsInDialog, splitPropsParams } from "@/core/utils";
 import { emptyVals, isDev, propsJoinChar } from "@/core/consts";
 import config, { defaultRangeJoinChar, defaultReqResMap, defaultCommonSize } from "@/core/config";
 import Sortable from "sortablejs";
 import Pagination from "@/core/components/table/_components/Pagination.vue";
 import { getQueryFieldValue } from "./_utils";
 import { ExportCfg } from "./_types";
-import { batchBtnNames } from "@/core/components/crud/BaseCrud/_config";
 import { getExportRows } from "@/core/components/crud/BaseCrud/_utils";
 import { OperateBtnsAttrs, OperateBtnsType } from "@/core/components/table/_components/OperateBtns.vue";
 import { CommonObj, UniteFetchType, FinallyNext, StrNum, CommonSize, GetRequired, BaseDataType } from "@/core/_types";
@@ -245,8 +235,8 @@ const newExtraBtns = computed<BtnItem[]>(() => {
       }
       return btnObj;
     }
-    const { name, attrs, handleClickType } = btnObj;
-    if (batchBtnNames?.includes(name as string)) {
+    const { name, attrs, batchAble, handleClickType } = btnObj;
+    if (batchAble) {
       btnObj.popconfirm = false;
       if (attrs) {
         const byTotalDisabled = !handleClickType || name === "export";
@@ -370,14 +360,14 @@ function getRefreshNext(next: FinallyNext) {
 // 点击额外的按钮
 function onExtraBtns(tpl: BtnName, btnObj: EndBtnItem, next: FinallyNext, e: Event) {
   const newNext = getRefreshNext(next);
-  const { name = "", text, handleClickType, attrs } = btnObj;
+  const { name = "", text, batchAble, handleClickType, attrs } = btnObj;
   // 默认的导入文件
   if (name === "import" && handleClickType) {
     if (handleClickType !== "common") throw new Error(`暂未提供其他导入组件模板`);
     return openPopup("导入文件", [CommonImport, props.importCfg]);
   }
   // 如果是自定义逻辑或者不是批量处理的按钮
-  if (!handleClickType || !batchBtnNames.includes(name)) {
+  if (!handleClickType || !batchAble) {
     return $emit("extraBtns", name, newNext, { selectedKeys: [], selectedRows: [] }, e);
   }
 
