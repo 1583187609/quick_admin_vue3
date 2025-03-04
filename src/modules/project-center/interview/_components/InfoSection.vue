@@ -1,6 +1,6 @@
 <!-- 面试题内容面板 -->
 <template>
-  <BaseSection :title="question" class="info-section" foldable>
+  <BaseSection :title="index + 1 + '、' + question" class="info-section" foldable>
     <template #head-right>
       <div class="items ml-a f-fs-c">
         <el-popover width="fit-content" :title="opt.label" placement="top" v-for="(opt, ind) in typeOpts" :key="ind">
@@ -19,30 +19,30 @@
       </div>
     </template>
     <div class="answer" v-if="answer">
-      <template v-if="typeOf(answer) === 'String'">{{ answer }}</template>
-      <template v-else-if="typeOf(answer) === 'Array'">
-        <template v-if="answer.length === 1">{{ answer[0] }}</template>
-        <ul v-else>
-          <li v-for="(it, i) in answer" :key="i">{{ i + 1 }}. {{ it }}</li>
-        </ul>
-      </template>
+      <Answer :data="answer" />
     </div>
     <div class="content" v-if="content">内容：{{ content }}</div>
     <div class="parsing" v-if="parsing">解析：{{ parsing }}</div>
+    <div class="notice" v-if="notice">注意：{{ notice }}</div>
+    <div class="summary" v-if="summary">摘要：{{ summary }}</div>
   </BaseSection>
 </template>
 <script lang="ts" setup>
 import { cssVars } from "@/utils";
-import { typeOf } from "@/core/utils";
+import Answer from "./Answers.vue";
+import { CommonObj } from "@/core/_types";
 
 const deepColors = { 1: cssVars.color1, 2: cssVars.color2, 3: cssVars.color3, 4: cssVars.color4, 5: cssVars.color5 };
 
 const props = withDefaults(
   defineProps<{
+    index: number; // 问题所在数组的下标
     question?: string; // 问题
     answer?: string | string[]; // 回答
     content?: string; // 描述
     parsing?: string; // 接卸
+    notice?: string; // 注意
+    summary?: string; // 摘要
   }>(),
   {
     question: "无",
