@@ -11,7 +11,7 @@
         <template #[key]="scope" v-for="(val, key) in getTableColSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
-            <QuestionPopover :popover="quickAttrs?.popover" v-if="quickAttrs?.popover" />
+            <ExplainPopover :explain="quickAttrs?.explain" v-if="quickAttrs?.explain" />
           </template>
         </template>
         <Column
@@ -32,7 +32,7 @@
         <template #[key]="scope" v-for="(val, key) in getTableColSlots(col)" :key="key">
           <BaseRender :renderData="val" :scope="scope" />
           <template v-if="key === 'header'">
-            <QuestionPopover :popover="quickAttrs?.popover" v-if="quickAttrs?.popover" />
+            <ExplainPopover :explain="quickAttrs?.explain" v-if="quickAttrs?.explain" />
             <MarkIcon v-if="getShowMark(scope)" />
           </template>
         </template>
@@ -66,19 +66,9 @@
               v-else-if="type === 'operate'"
             />
             <!-- 内嵌自定义表单列，例：UserInfo -->
-            <InsertCustomTableColComps
-              :col="col"
-              :row="{ ...row, $index }"
-              v-else-if="getIsInnerComponent(type as InsertTableColCompsType)"
-            />
+            <InsertCustomTableColComps :col="col" :row="{ ...row, $index }" v-else-if="getIsInnerComponent(type as InsertTableColCompsType)" />
             <!-- 内嵌表单控件列，例：input -->
-            <InnerExtendTableColComps
-              :col="col"
-              :row="{ ...row, $index }"
-              :refreshList="refreshList"
-              v-model="row[col.prop as string]"
-              v-else
-            />
+            <InnerExtendTableColComps :col="col" :row="{ ...row, $index }" :refreshList="refreshList" v-model="row[col.prop as string]" v-else />
           </template>
         </template>
       </el-table-column>
@@ -98,7 +88,7 @@ import { CommonObj, NextArgs } from "@/core/_types";
 import { operateBtnsEmitName } from "..";
 import UserTime from "./UserTime.vue";
 import { Sort } from "@element-plus/icons-vue";
-import QuestionPopover from "@/core/components/QuestionPopover.vue";
+import ExplainPopover from "@/core/components/ExplainPopover.vue";
 import MarkIcon from "@/core/components/MarkIcon.vue";
 export type RefreshListFn = (cb?: () => void) => void;
 export interface RowBtnInfo {

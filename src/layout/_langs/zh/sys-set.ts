@@ -36,7 +36,7 @@ export default {
     },
     footer: {
       label: "页脚",
-      popover: "页面底部的专利许可",
+      explain: "页面底部的专利许可",
     },
   },
   theme: {
@@ -55,7 +55,7 @@ export default {
     title: "菜单设置",
     accordion: {
       label: "手风琴",
-      popover: "启用后，只保持一个子菜单的展开",
+      explain: "启用后，只保持一个子菜单的展开",
     },
   },
   reset: "恢复默认设置",

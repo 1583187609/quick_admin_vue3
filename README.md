@@ -112,7 +112,7 @@
 
 ![功能图示-1](./public/static/imgs/produce/produce-1.png)
 
-2. 增删改查：表单字段 + 表单校验 + 弹出层（dialog、drawer、popover、popconfirm）
+2. 增删改查：表单字段 + 表单校验 + 弹出层（dialog、drawer、explain、popconfirm）
 
 ![功能图示-2](./public/static/imgs/produce/produce-2.png)
 

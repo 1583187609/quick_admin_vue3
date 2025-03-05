@@ -13,9 +13,9 @@ import { BtnName } from "@/core/components/BaseBtn/_types";
 import { CommonObj, FinallyNext } from "@/core/_types";
 
 const cols = [
-  { tpl: "T_UserInfo", quickAttrs: { popover: "这是内嵌的组件" } },
+  { tpl: "T_UserInfo", quickAttrs: { explain: "这是内嵌的组件" } },
   { tpl: "T_Id" },
-  { tpl: "T_Avatar", quickAttrs: { popover: "BaseImg类型是系统内置的组件" } },
+  { tpl: "T_Avatar", quickAttrs: { explain: "BaseImg类型是系统内置的组件" } },
   { prop: "nam", label: "姓名", width: 100 },
   { prop: "gender", label: "性别", width: 100 },
   { prop: "age", label: "年龄", width: 100 },

@@ -73,7 +73,7 @@ const sections = computed<SectionFormItem[]>(() => {
     {
       // prop: "jcxx",
       title: "基础信息",
-      popover: "纯文本展示和禁用展示",
+      explain: "纯文本展示和禁用展示",
       fields: [
         {
           prop: "user_name",
@@ -135,7 +135,7 @@ const sections = computed<SectionFormItem[]>(() => {
     {
       prop: "debf",
       title: "第二部分",
-      popover: "属性嵌套，数据会挂载在debf属性下",
+      explain: "属性嵌套，数据会挂载在debf属性下",
       fields: [
         {
           tpl: "T_Identity",
@@ -198,7 +198,7 @@ const sections = computed<SectionFormItem[]>(() => {
     {
       // prop: "dsbf",
       title: "第三部分",
-      popover: "正常表单配置",
+      explain: "正常表单配置",
       fields: [
         {
           prop: "zdy",
@@ -238,7 +238,7 @@ const sections = computed<SectionFormItem[]>(() => {
           },
           quickAttrs: {
             tips: "radio-group控件，默认为button样式",
-            popover: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
+            explain: "点击提交按钮时，有prop，可看到提交参数多嵌套了一层并包裹在prop中，无prop，子级children散开在外层",
           },
         },
         {
@@ -255,7 +255,7 @@ const sections = computed<SectionFormItem[]>(() => {
           type: "slot",
           rules: [{ maxlength: 10, message: "不能超过10个字符", trigger: "change" }],
           quickAttrs: {
-            popover: "不能超过最大字符数校验",
+            explain: "不能超过最大字符数校验",
           },
         },
         {

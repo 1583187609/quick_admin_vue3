@@ -18,12 +18,12 @@ const simpleFormFields = [
   { tpl: "T_Remark" },
 ];
 const complexFormFields = [
-  { tpl: "T_UserName", quickAttrs: { popover: "popover示例" } },
+  { tpl: "T_UserName", quickAttrs: { explain: "explain示例" } },
   { tpl: "T_Gender", quickAttrs: { tips: "这是注意事项提示文字" } },
-  { tpl: "T_Age", quickAttrs: { popover: "popover示例" } },
-  { prop: "type", label: "类型", type: "select", quickAttrs: { popover: "popover示例" } },
-  { tpl: "T_EnableStatus", quickAttrs: { popover: "popover示例" } },
-  { tpl: "T_Remark", quickAttrs: { popover: "popover示例" } },
+  { tpl: "T_Age", quickAttrs: { explain: "explain示例" } },
+  { prop: "type", label: "类型", type: "select", quickAttrs: { explain: "explain示例" } },
+  { tpl: "T_EnableStatus", quickAttrs: { explain: "explain示例" } },
+  { tpl: "T_Remark", quickAttrs: { explain: "explain示例" } },
 ];
 
 // 草稿生成文件模板

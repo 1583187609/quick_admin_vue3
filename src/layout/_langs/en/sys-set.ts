@@ -36,7 +36,7 @@ export default {
     },
     footer: {
       label: "Footer",
-      popover: "The bottom footer",
+      explain: "The bottom footer",
     },
   },
   theme: {
@@ -55,7 +55,7 @@ export default {
     title: "Menu Setting",
     accordion: {
       label: "Accordion",
-      popover: "After used, only keep one submenu is expand",
+      explain: "After used, only keep one submenu is expand",
     },
   },
   reset: "Restore default Settings",

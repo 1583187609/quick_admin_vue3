@@ -48,7 +48,7 @@ const sections = computed<SectionFormItem[]>(() => {
   return [
     {
       title: "模板信息",
-      popover: "通过选取模板，可以快速填写下列信息",
+      explain: "通过选取模板，可以快速填写下列信息",
       fields: [
         {
           prop: "tpl",
@@ -93,7 +93,7 @@ const sections = computed<SectionFormItem[]>(() => {
     },
     {
       title: "容器信息",
-      popover: "会绑定在表单项容器上的属性，例：在ElementPlus中，是el-form-item",
+      explain: "会绑定在表单项容器上的属性，例：在ElementPlus中，是el-form-item",
       fields: [
         {
           prop: "prop",
@@ -125,7 +125,7 @@ const sections = computed<SectionFormItem[]>(() => {
     },
     {
       title: "基础属性",
-      popover: "会绑定在表单控件上的属性",
+      explain: "会绑定在表单控件上的属性",
       grid: 8,
       fields: [
         {
@@ -145,7 +145,7 @@ const sections = computed<SectionFormItem[]>(() => {
     {
       title: "快捷属性",
       // grid: 8,
-      popover: "基于Quick Admin实现的快捷属性",
+      explain: "基于Quick Admin实现的快捷属性",
       fields: [
         {
           prop: "grid",
@@ -156,21 +156,21 @@ const sections = computed<SectionFormItem[]>(() => {
             max: 24,
           },
           quickAttrs: {
-            popover: "每一列所占的宽度，取值范围为0~24",
+            explain: "每一列所占的宽度，取值范围为0~24",
           },
         },
-        { prop: "tips", label: "提示文字", quickAttrs: { popover: "在表单项下方的注意事项提示信息" } },
+        { prop: "tips", label: "提示文字", quickAttrs: { explain: "在表单项下方的注意事项提示信息" } },
         {
           prop: "example",
           label: "示例文字",
-          quickAttrs: { popover: "会拼接在placeholder后面，作为填写示例文案", example: "这是拼接在后面的示例文案" },
+          quickAttrs: { explain: "会拼接在placeholder后面，作为填写示例文案", example: "这是拼接在后面的示例文案" },
         },
         {
-          prop: "popover",
+          prop: "explain",
           label: "气泡文案",
           attrs: yesNoSwitchAttrs,
           quickAttrs: {
-            popover: "鼠标放在问号上时，出现的文案提示",
+            explain: "鼠标放在问号上时，出现的文案提示",
           },
         },
         {
@@ -178,7 +178,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "是否禁用",
           attrs: yesNoSwitchAttrs,
           quickAttrs: {
-            popover: "启用后，该表单项将被禁用",
+            explain: "启用后，该表单项将被禁用",
           },
         },
         {
@@ -186,7 +186,7 @@ const sections = computed<SectionFormItem[]>(() => {
           label: "是否纯文本",
           attrs: yesNoSwitchAttrs,
           quickAttrs: {
-            popover: "该表单项将以纯文本样式展现",
+            explain: "该表单项将以纯文本样式展现",
           },
         },
         { prop: "other_attrs", label: "其他属性", attrs: { type: "textarea" } },

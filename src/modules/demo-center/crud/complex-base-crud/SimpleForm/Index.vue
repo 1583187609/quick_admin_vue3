@@ -40,7 +40,7 @@ const fields: FormField[] = [
     prop: "xm",
     label: "姓名",
     quickAttrs: {
-      popover: "请注意输入真实姓名",
+      explain: "请注意输入真实姓名",
     },
     attrs: {
       maxlength: 6,

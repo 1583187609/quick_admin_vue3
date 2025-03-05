@@ -62,7 +62,7 @@ const fields = computed(() => {
         type: "button",
       },
       quickAttrs: {
-        popover: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
+        explain: "目录：XXXX；菜单：XXXX；按钮：XXXXX",
       },
     },
     menuType === 1 && {
@@ -70,7 +70,7 @@ const fields = computed(() => {
       label: "上级菜单",
       type: "slot",
       quickAttrs: {
-        popover: "上级菜单",
+        explain: "上级菜单",
       },
     },
     {
@@ -104,7 +104,7 @@ const fields = computed(() => {
       required: true,
       type: "input-number",
       quickAttrs: {
-        popover: "数值越大越靠后",
+        explain: "数值越大越靠后",
       },
       attrs: {
         style: "width: 205px",
@@ -119,7 +119,7 @@ const fields = computed(() => {
             label: "组件路径",
             required: true,
             quickAttrs: {
-              popover: "仅输入src/views后面的路径即可",
+              explain: "仅输入src/views后面的路径即可",
               example: "/common-center/menu/index.vue",
             },
           },
@@ -142,7 +142,7 @@ const fields = computed(() => {
             },
             quickAttrs: {
               grid: 12,
-              popover: "是否缓存该页面",
+              explain: "是否缓存该页面",
             },
           },
           {
@@ -155,7 +155,7 @@ const fields = computed(() => {
             },
             quickAttrs: {
               grid: 12,
-              popover: "在菜单目录中是否可见",
+              explain: "在菜单目录中是否可见",
             },
           },
           {
@@ -194,7 +194,7 @@ const fields = computed(() => {
       },
       quickAttrs: {
         grid: 12,
-        popover: "启用后，在菜单中可见，否则不可见",
+        explain: "启用后，在菜单中可见，否则不可见",
       },
     },
   ];

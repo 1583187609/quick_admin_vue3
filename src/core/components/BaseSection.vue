@@ -6,7 +6,7 @@
     <div class="head f-sb-c" @click="toggleFold">
       <div class="title f-fs-c f-0">
         <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
-        <QuestionPopover :popover="popover" class="ml-q f-0 mr-h" v-if="popover" />
+        <ExplainPopover :explain="explain" class="ml-q f-0 mr-h" v-if="explain" />
         <el-badge class="ml-q" v-bind="{ ...defaultBadgeAttrs, ...badgeAttrs }" v-if="badgeAttrs" />
       </div>
       <slot name="head-right" v-if="$slots['head-right']" />
@@ -21,14 +21,14 @@
 </template>
 <script lang="ts" setup>
 import { ArrowRight } from "@element-plus/icons-vue";
-import QuestionPopover from "@/core/components/QuestionPopover.vue";
+import ExplainPopover from "@/core/components/ExplainPopover.vue";
 import { CommonObj, PopoverType } from "@/core/_types";
 
 const defaultBadgeAttrs = { max: 99 };
 const props = withDefaults(
   defineProps<{
     title?: string;
-    popover?: PopoverType;
+    explain?: PopoverType;
     badgeAttrs?: CommonObj;
     foldable?: boolean;
     border?: boolean;

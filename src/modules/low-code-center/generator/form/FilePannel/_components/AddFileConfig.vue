@@ -79,7 +79,7 @@ const fields = computed<FormFieldAttrs[]>(() => {
         filterable: true,
       },
       quickAttrs: {
-        popover: "调用的接口",
+        explain: "调用的接口",
         example: "/mock/user",
       },
     },

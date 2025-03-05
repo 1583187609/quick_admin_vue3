@@ -63,12 +63,7 @@ export function showMessage(hint: string | MessageParams, type: TostMessageType 
  * @param lightWords 高亮文字
  * @returns {Promise}
  */
-export function showConfirmMessage(
-  htmlStr: string,
-  type: ThemeColorType = "warning",
-  title = "温馨提示",
-  lightWords: string[] = []
-) {
+export function showConfirmMessage(htmlStr: string, type: ThemeColorType = "warning", title = "温馨提示", lightWords: string[] = []) {
   const typeMap = { danger: "error" };
   const colorType = type;
   // const colorKey = `color${upperFirst(colorType)}`;
@@ -250,17 +245,13 @@ export function getScreenSizeType(w = document.body.offsetWidth): ScreenSizeType
  * @param popover
  * @returns
  */
-export function getPopoverAttrs(
-  popover?: PopoverAttrs | PopoverSlots | string | HArgs,
-  width = "200px"
-): PopoverAttrs | PopoverSlots | undefined {
+export function getPopoverAttrs(popover?: PopoverAttrs | PopoverSlots | string | HArgs, width = "200px"): PopoverAttrs | PopoverSlots | undefined {
   if (!popover) return;
   const t = typeOf(popover);
   if (t === "String") return { ...defaultPopoverAttrs, width, content: popover } as PopoverAttrs;
   if (t === "Object") {
     // 如果是虚拟dom或者是引入的vue组件
-    if ((popover as RenderVue).setup || isVNode(popover))
-      return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
+    if ((popover as RenderVue).setup || isVNode(popover)) return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
     return { ...defaultPopoverAttrs, ...popover } as PopoverAttrs;
   }
   if (t === "Array") return { ...defaultPopoverAttrs, slots: { default: popover } } as PopoverAttrs;
@@ -287,12 +278,12 @@ export function getSlotsMap(slots: any) {
 // export function getFormItemSlots(field: any): CommonObj {
 //   const { label, slots, quickAttrs } = field;
 //   if (!slots) return { label };
-//   if (!quickAttrs.popover) return slots;
+//   if (!quickAttrs.explain) return slots;
 //   return slots;
 // }
 export function getFormItemSlots(field: any): CommonObj {
   const { label, slots, quickAttrs } = field;
-  if (quickAttrs?.popover) return { label, ...slots };
+  if (quickAttrs?.explain) return { label, ...slots };
   return slots;
 }
 
@@ -302,13 +293,13 @@ export function getFormItemSlots(field: any): CommonObj {
  */
 // export function getTableColSlots(col: any): CommonObj {
 //   const { label, slots, quickAttrs } = col;
-//   if (!quickAttrs?.popover) return slots;
+//   if (!quickAttrs?.explain) return slots;
 //   if (!slots) return { header: label };
 //   return slots;
 // }
 export function getTableColSlots(col: any): CommonObj {
   const { label, slots, quickAttrs } = col;
-  if (quickAttrs?.popover) return { header: label };
+  if (quickAttrs?.explain) return { header: label };
   return slots;
 }
 
@@ -322,7 +313,7 @@ export function getMaxLength(fields: FormField[] = [], num = 2): number {
   fields.forEach(item => {
     if (typeOf(item) !== "Object") return;
     const { label, children, quickAttrs } = item as FormFieldAttrs;
-    const popNum = quickAttrs?.popover ? 1 : 0;
+    const popNum = quickAttrs?.explain ? 1 : 0;
     if (label?.length + popNum > max) {
       max = getChinaCharLength(label) + popNum; //全角符算1个，半角符算0.5个字符
     }

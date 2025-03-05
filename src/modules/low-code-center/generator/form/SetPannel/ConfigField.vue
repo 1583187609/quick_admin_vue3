@@ -83,7 +83,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
             options: validOpts,
           },
           quickAttrs: {
-            popover: "内置的几种常用规则类型，含表单校验规则、属性等",
+            explain: "内置的几种常用规则类型，含表单校验规则、属性等",
           },
         },
         {
@@ -95,7 +95,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
             options: widgetTypeOpts,
           },
           quickAttrs: {
-            popover: "表单控件类型",
+            explain: "表单控件类型",
           },
         },
         {
@@ -104,7 +104,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           type: defaultValueWidgetAttrs.value.type,
           attrs: defaultValueWidgetAttrs.value.attrs,
           quickAttrs: {
-            popover: "默认值",
+            explain: "默认值",
             grid: 24,
           },
         },
@@ -147,7 +147,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
             },
           },
           quickAttrs: {
-            popover: "手动指定标签宽度",
+            explain: "手动指定标签宽度",
             example: exampleMap.labelWidth,
           },
         },
@@ -160,7 +160,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         //     onClick: () => openConfigPopup("children"),
         //   },
         //   quickAttrs: {
-        //     popover: "表单项后面的子元素",
+        //     explain: "表单项后面的子元素",
         //   },
         // },
       ],
@@ -183,7 +183,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
         //   prop: `${propPrefix}example`,
         //   label: "示例文案",
         //   quickAttrs: {
-        //     popover: "placeholder中的文字，会直接拼在placeholder文字后面",
+        //     explain: "placeholder中的文字，会直接拼在placeholder文字后面",
         //   },
         // },
       ],
@@ -192,17 +192,17 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
       title: "快捷属性",
       fields: [
         {
-          prop: `${propPrefix}popover`,
+          prop: `${propPrefix}explain`,
           label: "气泡文案",
           quickAttrs: {
-            popover: "鼠标放到标签文字右侧问号图标上时，出现的提示性文字",
+            explain: "鼠标放到标签文字右侧问号图标上时，出现的提示性文字",
           },
         },
         {
           prop: `${propPrefix}tips`,
           label: "提示文案",
           quickAttrs: {
-            popover: "控件下方的提示性文字",
+            explain: "控件下方的提示性文字",
           },
         },
         {
@@ -215,7 +215,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
             max: 24,
           },
           quickAttrs: {
-            popover: "每个表单项占位宽度，最小为1，最大,为24",
+            explain: "每个表单项占位宽度，最小为1，最大,为24",
           },
         },
         {
@@ -226,7 +226,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
             ...switchYewNoAttrs,
           },
           quickAttrs: {
-            popover: "展示时，将不会看到输入框等边框，而是以纯文本展示",
+            explain: "展示时，将不会看到输入框等边框，而是以纯文本展示",
           },
         },
         {
@@ -234,7 +234,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: "前置元素",
           attrs: {},
           quickAttrs: {
-            popover: "每个表单项前面的元素，可以是文本或自定义组件",
+            explain: "每个表单项前面的元素，可以是文本或自定义组件",
           },
         },
         {
@@ -242,7 +242,7 @@ const sections = computed<SectionFormItemAttrs[]>(() => {
           label: "后置元素",
           attrs: {},
           quickAttrs: {
-            popover: "每个表单项后面的元素，可以是文本或自定义组件",
+            explain: "每个表单项后面的元素，可以是文本或自定义组件",
           },
         },
       ],

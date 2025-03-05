@@ -70,7 +70,7 @@ const fields = computed<FormField[]>(() => {
       label: "是否启用",
       type: "switch",
       quickAttrs: {
-        popover: "这是popover示例",
+        explain: "这是explain示例",
       },
     },
     {
