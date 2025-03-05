@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { LinkType, ResponseMenuItem } from "@/layout/_components/SideMenu/_types";
-import { storage } from "@/utils";
-import { defaultHomePath } from "@/core/config";
+import { getUserInfo, storage } from "@/utils";
+import { defaultHomePath, defaultRouteType } from "@/core/config";
+import { getInitAutoMenus } from "./user";
 export interface RouteItem {
   path: string;
   name: string;
@@ -20,7 +21,9 @@ export default defineStore("menu", () => {
   const router = useRouter();
   const activeIndex = ref<number>(0);
   const isCollapse = ref<boolean>(storage.getItem("isCollapse", "session") ?? false); // 是否折叠菜单
-  const allMenus = reactive<ResponseMenuItem[]>(storage.getItem("allMenus") || []); // 完整导航数据
+  const allMenus = reactive<ResponseMenuItem[]>(
+    defaultRouteType === "auto" ? getInitAutoMenus(getUserInfo()?.role) : storage.getItem("allMenus") || []
+  ); // 完整导航数据
   const sideMenus = computed<ResponseMenuItem[]>(() => allMenus[activeIndex.value]?.children ?? []);
 
   /**
@@ -33,6 +36,7 @@ export default defineStore("menu", () => {
   function setMenus(menus: ResponseMenuItem[] = []) {
     allMenus.length = 0;
     allMenus.push(...menus);
+    if (defaultRouteType === "auto") return;
     storage.setItem("allMenus", menus);
   }
   //改变导航选中项时

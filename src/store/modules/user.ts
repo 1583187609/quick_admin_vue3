@@ -21,7 +21,7 @@ export type VipLevelKey = keyof typeof VipLevel; // "none" | "common" | "super";
 export type VipLevelValue = 0 | 1 | 2; // 0 | 1 | 2
 
 // 初始化自动路由菜单
-function getInitAutoMenus(role: number) {
+export function getInitAutoMenus(role: number) {
   const comps = import.meta.glob("../../modules/**/index.vue");
   const pages = import.meta.glob("../../modules/**/page.json", { eager: true, import: "default" });
   const autoRoutesTree = getAutoRoutesTree(comps, pages);
