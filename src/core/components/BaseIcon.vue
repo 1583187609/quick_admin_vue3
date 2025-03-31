@@ -2,7 +2,7 @@
 目标：占位，方便快速开发。
 -->
 <template>
-  <el-icon class="base-icon" @click="handleClick" :class="{ pointer: !!to || !!$attrs.onClick }" :size="size">
+  <el-icon class="base-icon" @click="handleClick" :data-pointer="!!to" :size="size">
     <component :is="Icons[name] ?? Icons[defaultIconName]" />
   </el-icon>
 </template>
@@ -21,23 +21,25 @@ const props = withDefaults(
     name?: IconNames;
     size?: StrNum;
     to?: RouteTo;
+    disabled?: boolean;
   }>(),
   {
     name: defaultIconName,
     size: "1em",
   }
 );
-const $attrs = useAttrs();
+const $emit = defineEmits(["click"]);
 // 跳转页面或触发点击事件
-function handleClick(e) {
-  const { to } = props;
-  if (!to) return;
-  return router.push(to as RouteTo);
+function handleClick(e: Event) {
+  const { to, disabled } = props;
+  if (disabled) return;
+  if (to) return router.push(to as RouteTo);
+  $emit("click", e);
 }
 </script>
 <style lang="scss" scope>
 .base-icon {
-  &.pointer {
+  &[data-pointer="true"] {
     cursor: pointer;
     &:hover {
       color: $color-primary;

@@ -2,7 +2,15 @@
 目标：定位为头像。用作占位，实现快速开发，兼顾细节处理，性别默认头像等，同时考虑扩展性，可能会增加会员标识、用户类型标识等。 
 -->
 <template>
-  <BaseImg class="base-avatar" loadTips="加载中…" :src="src || (avatarMap[gender] ?? avatarImg)" :preview="!!src" />
+  <BaseImg
+    class="base-avatar"
+    loadTips="加载中…"
+    :data-circle="circle"
+    :src="src || (avatarMap[gender] ?? avatarImg)"
+    :preview="!!src"
+    :size="size"
+    :circle="circle"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -12,7 +20,7 @@ import avatarWomanImg from "@/assets/images/default/avatar-woman.png";
 
 export type GenderType = 0 | 1;
 
-const avatarMap = {
+const avatarMap: Record<number, string> = {
   1: avatarManImg,
   2: avatarWomanImg,
 };
@@ -20,8 +28,11 @@ const props = withDefaults(
   defineProps<{
     src?: string;
     gender?: GenderType; // 性别
+    circle?: boolean; // 是否圆形
+    size?: string | number;
   }>(),
   {
+    size: 60,
     gender: 0, // 0未知 1男 2女
   }
 );
@@ -29,8 +40,6 @@ const props = withDefaults(
 
 <style lang="scss" scoped>
 .base-avatar {
-  height: 60px;
-  width: 60px;
   border-radius: $radius-main;
 }
 </style>

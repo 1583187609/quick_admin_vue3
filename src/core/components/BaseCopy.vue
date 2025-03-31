@@ -5,11 +5,7 @@
   <el-tooltip v-bind="tooltipAttrs" :disabled="isClickIconCopy || !textStr">
     <div @click="handleCopy" class="base-copy" :class="{ 'f-fs-c': +maxLine > 0, hover: textStr && !isClickIconCopy }">
       <el-tooltip v-bind="tooltipAttrs" :content="toTooltip" :disabled="!textStr || !to">
-        <span
-          @click="handleClick"
-          class="f-1"
-          :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }"
-        >
+        <span @click="handleClick" class="f-1" :class="{ [`q-line-${maxLine}`]: true, link: !!to && textStr, click: textStr && !!$attrs.onClick }">
           <slot v-if="textStr">{{ textStr }}</slot>
           <template v-else>{{ defaultEmptyStr }}</template>
         </span>

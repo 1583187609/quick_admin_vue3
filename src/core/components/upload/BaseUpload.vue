@@ -1,10 +1,10 @@
 <template>
   <el-upload
     class="base-upload"
-    :class="{ circle }"
+    :data-circle="circle"
     v-model:file-list="fileList"
     :accept="accept"
-    :before-upload="beforeUpload"
+    :before-upload="handleBeforeUpload"
     :on-progress="handleProgress"
     :on-success="handleSuccess"
     :on-error="handleError"
@@ -47,7 +47,7 @@ const props = withDefaults(
     fit?: ImgFitType; //EpPropMergeType<StringConstructor>
     drag?: boolean; //是否可拖动上传
     circle?: boolean; //是否圆形展示
-    accept?: string; //image/png, image/jpeg
+    accept?: string; //image/png, image/jpeg, .png, .doc, .pdf 等
     limitSize?: number; //上传文件的大小限制
     action?: string;
     listType?: any; // EpPropMergeType<StringConstructor, "picture-card" | "picture" | "text", unknown> | undefined;
@@ -55,6 +55,7 @@ const props = withDefaults(
     tips?: string; //文件大小、支持类型提示文案
     disabled?: boolean; //是否禁用上传功能
     showFileList?: boolean;
+    allowEmpty?: boolean; // 是否允许传入空文件（文件大小为0）
     handleSuccessResponse?: (res: CommonObj, upFile: CommonObj) => Promise<any>;
   }>(),
   {
@@ -65,12 +66,13 @@ const props = withDefaults(
     limit: 1,
     limitSize: 1024 * 1024 * 10, //10M
     tips: _props => getFileTips(_props),
-    showFileList: _props => _props.limit > 1,
+    showFileList: _props => _props.limit! > 1,
     // drag: true,
+    allowEmpty: true,
     ...config?.BaseUpload,
   }
 );
-const $emit = defineEmits(["update:modelValue", "change"]);
+const $emit = defineEmits(["update:modelValue", "success", "error"]);
 const openPopup = inject<any>("openPopup");
 const percentage = ref(0);
 const { formItem } = useFormItem();
@@ -93,7 +95,7 @@ const src = computed({
 // );
 
 //上传前处理
-const beforeUpload: UploadProps["beforeUpload"] = file => {
+const handleBeforeUpload: UploadProps["beforeUpload"] = file => {
   const errTips = getErrorTips(props, file);
   if (!errTips) return true;
   showMessage(errTips, "error");
@@ -112,7 +114,7 @@ const handleSuccess: UploadProps["onSuccess"] = (res, upFile) => {
   handleSuccessResponse?.(res, upFile)
     .then((url: string) => {
       src.value = url;
-      $emit("change", url);
+      $emit("success", url);
     })
     .catch((msg: string) => {
       showMessage(msg, "error");
@@ -121,6 +123,7 @@ const handleSuccess: UploadProps["onSuccess"] = (res, upFile) => {
 //上传失败
 const handleError: UploadProps["onError"] = (err, upFile, upFiles) => {
   showMessage("文件上传失败", "error");
+  $emit("error", err);
   errSrc.value = URL.createObjectURL(upFile.raw);
 };
 
@@ -137,7 +140,7 @@ const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
 
 <style lang="scss" scoped>
 .base-upload {
-  &.circle {
+  &[data-circle="true"] {
     :deep(.el-upload--picture-card) {
       border-radius: 50%;
     }

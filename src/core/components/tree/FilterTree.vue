@@ -58,7 +58,7 @@ defineExpose({
 .filter-tree {
   height: 100%;
   .el-input {
-    padding: $gap-half;
+    margin-bottom: $gap-half;
   }
 }
 </style>

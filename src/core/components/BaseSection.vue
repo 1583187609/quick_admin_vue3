@@ -2,7 +2,7 @@
 目标：内容分块的布局载体。并提供了折叠等功能。
 -->
 <template>
-  <div class="base-section" :class="{ border, gap }">
+  <div class="base-section" :data-border="border" :data-gap="gap">
     <div class="head f-sb-c" @click="toggleFold">
       <div class="title f-fs-c f-0">
         <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
@@ -14,7 +14,7 @@
         <ArrowRight />
       </el-icon>
     </div>
-    <div class="body hover-show-scroll" :class="{ [bodyClass]: true, fold, foldable }">
+    <div class="body hover-show-scroll" @dbclick="$emit('dbclick')" :class="{ [bodyClass]: true, fold, foldable }">
       <slot><BaseEmpty /></slot>
     </div>
   </div>
@@ -31,23 +31,23 @@ const props = withDefaults(
     explain?: PopoverType;
     badgeAttrs?: CommonObj;
     foldable?: boolean;
-    border?: boolean;
     bodyClass?: string;
     bodyMaxHeight?: string;
     defaultFold?: boolean;
+    border?: boolean;
     gap?: boolean;
   }>(),
   {
     title: "未命名标题",
-    border: true,
-    gap: true,
     bodyClass: "",
     // foldable: false,
     // defaultFold: false,
     bodyMaxHeight: "90vh",
+    border: true,
+    gap: true,
   }
 );
-const $emit = defineEmits(["toggle"]);
+const $emit = defineEmits(["toggle", "dbclick"]);
 const fold = ref(props.defaultFold);
 function toggleFold(e) {
   if (!props.foldable || !e.target?.classList?.contains("head")) return;
@@ -59,12 +59,12 @@ function toggleFold(e) {
 .base-section {
   width: 100%;
   background: #fff;
-  &.gap {
+  &[data-gap="true"] {
     &:not(:last-child) {
       margin-bottom: $gap-half;
     }
   }
-  &.border {
+  &[data-border="true"] {
     border: $border-main;
     border-radius: $radius-main;
     @include shadow-main();
