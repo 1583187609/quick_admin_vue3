@@ -2,8 +2,8 @@
 目标：内容分块的布局载体。并提供了折叠等功能。
 -->
 <template>
-  <div class="base-section" :data-border="border" :data-gap="gap">
-    <div class="head f-sb-c" @click="toggleFold">
+  <div class="base-section f-fs-s-c" :data-border="border" :data-gap="gap">
+    <div class="head f-sb-c f-0" @click="toggleFold">
       <div class="title f-fs-c f-0">
         <BaseText maxLine="1" :popupAttrs="{ title: '问题' }">{{ title }}</BaseText>
         <ExplainPopover :explain="explain" class="ml-q f-0 mr-h" v-if="explain" />

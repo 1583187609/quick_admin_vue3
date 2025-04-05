@@ -11,7 +11,7 @@
       :suffix-icon="Search"
       v-focus
     />
-    <LoadMore :loading="msgsInfo.loading" class="list" @reachBottom="handleReachBottom" max-height="calc(100vh - 200px)">
+    <BaseScroll :loading="msgsInfo.loading" class="list" @reachBottom="handleReachBottom" max-height="calc(100vh - 200px)">
       <div @click="handleClick(item)" class="item" v-for="(item, ind) in msgsInfo.list" :key="ind">
         <div class="f-fs-c">
           <b class="nickname mr-o">{{ item.user.nickname }}</b>
@@ -19,7 +19,7 @@
         </div>
         <div class="q-line-1" v-html="getHtml(item)"></div>
       </div>
-    </LoadMore>
+    </BaseScroll>
   </div>
 </template>
 <script lang="ts" setup>
@@ -27,7 +27,6 @@ import { ref, reactive, inject, watchEffect } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { ClosePopupInject, CommonObj } from "@/core/_types";
 import { GetImSearchP2pChatList } from "@/api-mock";
-import LoadMore from "@/core/components/LoadMore.vue";
 import { cssVars } from "@/utils";
 import { ElMessage } from "element-plus";
 

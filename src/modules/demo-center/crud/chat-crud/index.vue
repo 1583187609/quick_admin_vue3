@@ -16,7 +16,7 @@
           <header class="header f-c-c f-0">
             <b>搜索结果 ({{ fromUserInfo.list.length }}/{{ fromUserInfo.total }})</b>
           </header>
-          <LoadMore
+          <BaseScroll
             class="f-1"
             @reachBottom="handleReachBottom('from')"
             :paddingBottom="fromUserInfo.hasMore ? 0 : paddingBottom"
@@ -32,13 +32,13 @@
               v-for="(row, ind) in fromUserInfo.list"
               :key="ind"
             />
-          </LoadMore>
+          </BaseScroll>
         </section>
         <section class="section f-1 f-fs-s-c">
           <header class="header f-c-c f-0">
             <b>TA的好友 ({{ toUserInfo.list.length }}/{{ toUserInfo.total }})</b>
           </header>
-          <LoadMore
+          <BaseScroll
             class="f-1"
             @reachBottom="handleReachBottom('to')"
             :paddingBottom="toUserInfo.hasMore ? 0 : paddingBottom"
@@ -53,7 +53,7 @@
               v-for="(row, ind) in toUserInfo.list"
               :key="ind"
             />
-          </LoadMore>
+          </BaseScroll>
         </section>
         <section class="section f-2 f-fs-s-c">
           <header class="header f-sb-fe f-0">
@@ -92,7 +92,7 @@
               >搜索</el-button
             >
           </header>
-          <LoadMore
+          <BaseScroll
             class="f-1"
             padding-top="16"
             :paddingBottom="chatInfo.hasMore ? 16 : paddingBottom"
@@ -118,7 +118,7 @@
                 "
               />
             </template>
-          </LoadMore>
+          </BaseScroll>
         </section>
       </div>
     </template>
@@ -134,7 +134,6 @@ import UserItem from "./_components/UserItem.vue";
 import MsgItem from "./_components/MsgItem/Index.vue";
 import { usePopup, useSelectOpts } from "@/hooks";
 import { CommonObj, StrNum } from "@/core/_types";
-import LoadMore from "@/core/components/LoadMore.vue";
 import SearchMsg from "./_components/SearchMsg.vue";
 import dayjs from "dayjs";
 
@@ -358,11 +357,7 @@ function getChatList(fromUserId: number, toUserId: number, direction: ChatListQu
  * 是否要自动打开消息搜索弹窗
  * @return 返回类型 null | { fromUser: CommonObj; toUser: CommonObj }
  */
-async function isOpenSearchMsgPopup(
-  fromUserId: StrNum,
-  toUserId: StrNum,
-  keyWord: string
-): null | { fromUser: CommonObj; toUser: CommonObj } {
+async function isOpenSearchMsgPopup(fromUserId: StrNum, toUserId: StrNum, keyWord: string): null | { fromUser: CommonObj; toUser: CommonObj } {
   if (keyWord) {
     return await GetImSearchP2pChatList({
       fromUserId,

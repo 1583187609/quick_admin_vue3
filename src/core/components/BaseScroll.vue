@@ -2,7 +2,7 @@
 目标：定位触底分页加载、虚拟列表
 -->
 <template>
-  <el-scrollbar @mousewheel.passive="handleMousewheel" class="load-more" ref="boxRef">
+  <el-scrollbar @mousewheel.passive="handleMousewheel" class="base-scroll" ref="baseScrollRef">
     <div class="no-more-tips top f-c-c" :class="{ show: !topHasMore && isReachTop }">
       {{ noMoreTips }}
     </div>
@@ -59,17 +59,17 @@ const props = withDefaults(
 const $emit = defineEmits(["reachTop", "reachBottom"]);
 const isToBottom = ref(false);
 const hasScroll = ref(false); //是否出现了滚动条
-const boxRef = ref<any>(null);
+const baseScrollRef = ref<any>(null);
 const isReachTop = ref(false);
 const isReachBottom = ref(false);
 onMounted(() => {
-  if (!boxRef?.value?.wrapRef) return;
-  const { scrollHeight, clientHeight } = boxRef.value.wrapRef;
+  if (!baseScrollRef?.value?.wrapRef) return;
+  const { scrollHeight, clientHeight } = baseScrollRef.value.wrapRef;
   hasScroll.value = scrollHeight > clientHeight;
 });
 function handleMousewheel(e: any) {
-  if (!boxRef?.value?.wrapRef) return;
-  const { scrollTop, scrollHeight, clientHeight } = boxRef.value.wrapRef;
+  if (!baseScrollRef?.value?.wrapRef) return;
+  const { scrollTop, scrollHeight, clientHeight } = baseScrollRef.value.wrapRef;
   if (scrollHeight <= clientHeight) return; //未出现滚动条
   const { deltaY } = e;
   isToBottom.value = deltaY > 0; // 是否是向下滚动
@@ -112,14 +112,14 @@ function handleMousewheel(e: any) {
 defineExpose<any>({
   //滚动到底部
   scrollToBottom() {
-    const { scrollTop, scrollHeight, clientHeight } = boxRef.value.wrapRef;
+    const { scrollTop, scrollHeight, clientHeight } = baseScrollRef.value.wrapRef;
     if (scrollHeight <= clientHeight) return; //未出现滚动条
-    boxRef.value.wrapRef.scrollTo(0, scrollHeight);
+    baseScrollRef.value.wrapRef.scrollTo(0, scrollHeight);
   },
 });
 </script>
 <style lang="scss" scoped>
-.load-more {
+.base-scroll {
   position: relative;
   // scroll-behavior: smooth;
 }

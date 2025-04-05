@@ -51,12 +51,7 @@ export function importExcel(
  * @param {Function} callback 回调函数
  * @link 参考链接 https://www.jianshu.com/p/f9ba3dd3cd4f
  */
-export function exportExcel(
-  data: string[][] = [],
-  fileName = dayjs().format("YYYYMMDD"),
-  sheetName = "表1",
-  callback?: () => void
-) {
+export function exportExcel(data: string[][] = [], fileName = dayjs().format("YYYYMMDD"), sheetName = "表1", callback?: () => void) {
   const wb = xlsx.utils.book_new(); // 创建workbook
   // 创建sheet
   // const ws = xlsx.utils.aoa_to_sheet(data);
@@ -105,6 +100,19 @@ export function getTimeAgo(time: any = needParam()) {
 }
 
 /**
+ * 获取数量文本
+ * @param {string | number}  num 要处理的数字
+ * @returns {string}
+ */
+export function getAmountText(num: number | string, n = 1) {
+  if (typeof num === "string") num = parseInt(num);
+  if (num < 10000) return num.toString();
+  num = num / 10000;
+  if (num < 1000) return num.toFixed(n) + "w";
+  return (num / 1000).toFixed(n) + "kw";
+}
+
+/**
  * 计算弹性布局时，末尾需要的空盒子个数
  * @param {number} total  总共多少个元素
  * @param {number} cols   多少列布局
@@ -146,12 +154,7 @@ export const getImgUrl = (path: string): string => {
  * @param {OptionPropsMap} propsMap props映射
  * @param {string} emptyChar 空字符串
  */
-export function getLabelFromOptionsByLastValue(
-  options: CommonObj[],
-  val: StrNum,
-  propsMap?: OptionPropsMap,
-  emptyChar = defaultEmptyStr
-) {
+export function getLabelFromOptionsByLastValue(options: CommonObj[], val: StrNum, propsMap?: OptionPropsMap, emptyChar = defaultEmptyStr) {
   const { label: labelKey, value: valueKey, children: childrenKey } = { ...defaultOptionPropsMap, ...propsMap };
   let target: CommonObj | undefined;
   function getLabel(opts: CommonObj[]): boolean {
@@ -208,12 +211,7 @@ export function getLabelFromOptionsByAllValues(
  * 获取select、cascader、tree下拉项中的文本
  * @param {OptionPropsMap} propsMap 属性名映射
  */
-export function getTextFromOptions(
-  options: CommonObj[],
-  val: StrNum | StrNum[],
-  propsMap?: OptionPropsMap,
-  char = defaultEmptyStr
-) {
+export function getTextFromOptions(options: CommonObj[], val: StrNum | StrNum[], propsMap?: OptionPropsMap, char = defaultEmptyStr) {
   if (emptyVals.includes(val as any)) return char;
   const t = typeOf(val);
   if (t === "Array") return getLabelFromOptionsByAllValues(options, val as StrNum[], propsMap, char, "");
