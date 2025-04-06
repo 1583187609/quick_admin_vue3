@@ -130,7 +130,7 @@ export function urlParamsToSearch(params?: CommonObj) {
 /**
  * 获取html文本
  * @param {string} str 要高亮的文本
- * @param {stirng} words 关键词
+ * @param {string} words 关键词
  * @returns {string} html字符串
  */
 export const getHtmlStr = (str: string, words: string): string => {

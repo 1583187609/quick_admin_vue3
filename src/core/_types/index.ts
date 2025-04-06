@@ -53,79 +53,6 @@ export interface TabItem {
   name: EpPropMergeType<readonly [StringConstructor, NumberConstructor], unknown, unknown> | undefined;
 }
 
-// 以下是测试部分，待验证
-// export interface ComplexObject {
-//   mandatory: string;
-//   option1?: number;
-//   option2?: boolean;
-// }
-
-// export type GetRequired<T> = {
-//   [P in keyof T as T[P] extends Required<T>[P] ? P : never]: T[P];
-// };
-
-// export type GetOptional<T> = {
-//   [P in keyof T as T[P] extends Required<T>[P] ? never : P]: T[P];
-// };
-
-// export type GetAllKeys<T> = {
-//   [P in keyof T]: T[P];
-// };
-
-// let keys: GetOptional<ComplexObject>;
-
-//其他参考
-// export type BtnAllNames = keyof typeof defaultBtns;
-// export type BtnAllNames = keyof InstanceType<typeof defaultBtns>;
-// function handler<T extends object, K extends keyof T>(obj: T, propName: K) {}
-
-export interface User {
-  address: string;
-  name: string;
-  age: number;
-}
-//全部属性
-export type GetKeys<T> = {
-  [P in keyof T]: T[P];
-};
-//可选参数
-export type GetPartial<T> = {
-  [P in keyof T]?: T[P];
-};
-//必选参数
-export type GetRequired<T> = {
-  [P in keyof T]-?: T[P];
-};
-//提取部分属性
-export type GetPick<T, K extends keyof T> = {
-  [P in K]: T[P];
-};
-//排除部分属性(排除type中的，即联合类型中的)
-export type GetExclude<T, K> = T extends K ? never : T;
-
-// 排除部分属性(排除interface中的，即接口类型中的)
-export type GetOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
-//使用示例
-export type PartialUser = GetPartial<User>;
-export type RequiredUser = GetRequired<User>;
-export type PickUser = GetPick<User, "age" | "name">;
-export type ExcludeUser = GetExclude<"a" | "b" | "c", "a" | "c">;
-export type OmitUser = GetOmit<User, "age">;
-
-// 临时记录，后续整理
-
-// export type CommonButtonSize = "large" | "default" | "small";
-// export type CommonFormSize = "large" | "default" | "small";
-// export type CommonTableSize = "large" | "default" | "small";
-
-// export enum OrderDropKeyEnum {
-//   OrderType = '订单类型'
-// }
-// export type OrderDropListRes = {
-//   [k in keyof typeof OrderDropKeyEnum]: OrderDropItem[];
-// };
-
 export interface PopconfirmAttrs {
   title?: string;
   icon?: any;
@@ -175,3 +102,76 @@ export interface PopoverSlots {
 export type PopoverType = string | undefined | PopoverAttrs | PopoverSlots;
 
 export type HorizontalAlign = "left" | "center" | "right";
+
+// 以下是测试部分，待验证
+// export interface ComplexObject {
+//   mandatory: string;
+//   option1?: number;
+//   option2?: boolean;
+// }
+
+// export type GetRequired<T> = {
+//   [P in keyof T as T[P] extends Required<T>[P] ? P : never]: T[P];
+// };
+
+// export type GetOptional<T> = {
+//   [P in keyof T as T[P] extends Required<T>[P] ? never : P]: T[P];
+// };
+
+// export type GetAllKeys<T> = {
+//   [P in keyof T]: T[P];
+// };
+
+// let keys: GetOptional<ComplexObject>;
+
+//其他参考
+// export type BtnAllNames = keyof typeof defaultBtns;
+// export type BtnAllNames = keyof InstanceType<typeof defaultBtns>;
+// function handler<T extends object, K extends keyof T>(obj: T, propName: K) {}
+
+// export interface User {
+//   address: string;
+//   name: string;
+//   age: number;
+// }
+// //全部属性
+// export type GetKeys<T> = {
+//   [P in keyof T]: T[P];
+// };
+// //可选参数
+// export type GetPartial<T> = {
+//   [P in keyof T]?: T[P];
+// };
+// //必选参数
+// export type GetRequired<T> = {
+//   [P in keyof T]-?: T[P];
+// };
+// //提取部分属性
+// export type GetPick<T, K extends keyof T> = {
+//   [P in K]: T[P];
+// };
+// //排除部分属性(排除type中的，即联合类型中的)
+// export type GetExclude<T, K> = T extends K ? never : T;
+
+// // 排除部分属性(排除interface中的，即接口类型中的)
+// export type GetOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+// //使用示例
+// export type PartialUser = GetPartial<User>;
+// export type RequiredUser = GetRequired<User>;
+// export type PickUser = GetPick<User, "age" | "name">;
+// export type ExcludeUser = GetExclude<"a" | "b" | "c", "a" | "c">;
+// export type OmitUser = GetOmit<User, "age">;
+
+// 临时记录，后续整理
+
+// export type CommonButtonSize = "large" | "default" | "small";
+// export type CommonFormSize = "large" | "default" | "small";
+// export type CommonTableSize = "large" | "default" | "small";
+
+// export enum OrderDropKeyEnum {
+//   OrderType = '订单类型'
+// }
+// export type OrderDropListRes = {
+//   [k in keyof typeof OrderDropKeyEnum]: OrderDropItem[];
+// };
