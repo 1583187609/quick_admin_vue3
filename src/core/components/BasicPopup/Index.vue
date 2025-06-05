@@ -18,11 +18,11 @@ import { reactive, shallowReactive, provide, toRaw } from "vue";
 import { isRenderData, showMessage, sortObjArrByKey, typeOf } from "@/utils";
 import { defaultPopupType, defaultDialogAttrs, defaultDrawerAttrs } from "@/core/config";
 import { popupCloseAnimationDuration } from "@/core/consts";
-import { CommonObj, SetTimeout } from "@/core/_types";
+import type { CommonObj, SetTimeout } from "@/core/_types";
 //不取名为BaseDialog和BaseDrawer的原因是，这两个名字会被自动注册为全局组件，但是却用的很少，影响一定的性能，但又是极低频率会导入引用的组件，所以以Basic开头
 import BasicDialog from "./_components/BasicDialog.vue";
 import BasicDrawer from "./_components/BasicDrawer.vue";
-import { BaseRenderData } from "@/core/components/BaseRender.vue";
+import type { BaseRenderData } from "@/core/components/BaseRender.vue";
 import type {
   PopupType,
   DialogId,
@@ -41,8 +41,8 @@ let dialogTimer: SetTimeout = null;
 let drawerTimer: SetTimeout = null;
 
 const closeDelay = popupCloseAnimationDuration; //延迟一点置为空（为了配合动画效果）
-const dialogs = reactive<DialogPopup[]>([]);
-const drawers = reactive<DrawerPopup[]>([]);
+const dialogs = shallowReactive<DialogPopup[]>([]);
+const drawers = shallowReactive<DrawerPopup[]>([]);
 
 /**
  * 判断是否是弹窗对象
@@ -69,8 +69,8 @@ function openDialog(head: DialogHeadTypes | DialogId, body?: BaseRenderData) {
   if (dialogTimer) closeDialog(undefined, true); // 为了处理关闭弹窗，然后马上打开弹窗会提示操作频繁的问题
   const t = typeOf(head);
   if (t === "String") {
-    if (head.startsWith("dialog-") && !body) {
-      const id = Number(head.split("-")[1]);
+    if ((head as string).startsWith("dialog-") && !body) {
+      const id = Number((head as string).split("-")[1]);
       const target = dialogs.find(it => it.id === id);
       if (target) return (target.show = true);
       return showMessage(`不存在对话框【dialog-${id}】`, "error");
@@ -124,8 +124,8 @@ function openDrawer(head: DrawerHeadTypes | DrawerId, body?: BaseRenderData) {
   if (drawerTimer) closeDrawer(undefined, true); // 为了处理关闭弹窗，然后马上打开弹窗会提示操作频繁的问题
   const t = typeOf(head);
   if (t === "String") {
-    if (head.startsWith("drawer-") && !body) {
-      const id = Number(head.split("-")[1]);
+    if ((head as string).startsWith("drawer-") && !body) {
+      const id = Number((head as string).split("-")[1]);
       const target = drawers.find(it => it.id === id);
       if (target) return (target.show = true);
       return showMessage(`不存在抽屉【drawer-${id}】`, "error");
@@ -207,13 +207,13 @@ function closePopup(popup: ClosePopupType = 1, immediate = false): void {
   }
   const t = typeOf(popup);
   if (t === "String") {
-    const isId = popup.includes("-");
-    if (popup.startsWith("dialog")) {
+    const isId = (popup as string).includes("-");
+    if ((popup as string).startsWith("dialog")) {
       const isAll = popup === "dialog";
       const dia = isId ? (popup as CloseDialogType) : isAll ? "all" : undefined;
       return closeDialog(dia, immediate);
     }
-    if (popup.startsWith("drawer")) {
+    if ((popup as string).startsWith("drawer")) {
       const isAll = popup === "drawer";
       const dra = isId ? (popup as CloseDrawerType) : isAll ? "all" : undefined;
       return closeDrawer(dra, immediate);
@@ -221,16 +221,16 @@ function closePopup(popup: ClosePopupType = 1, immediate = false): void {
     throw new Error(`暂未处理此种弹窗类型：${popup}`);
   }
   if (t === "Number") {
-    const ids = getTopPopupIds(popup);
+    const ids = getTopPopupIds(popup as number);
     ids.forEach((id: DrawerId | DialogId) => closePopup(id));
     return;
   }
   if (popup === null || t === "PointerEvent") return closePopup();
   // 排除null、事件对象
   if (t === "Object") {
-    if (!getIsPopupObj(popup)) return closePopup();
-    const isDialog = popup.name === "dialog";
-    return isDialog ? closeDialog(popup, immediate) : closeDrawer(popup, immediate);
+    if (!getIsPopupObj(popup as  DialogPopup | DrawerPopup)) return closePopup();
+    const isDialog = (popup as DialogPopup | DrawerPopup).name === "dialog";
+    return isDialog ? closeDialog(popup as DialogPopup, immediate) : closeDrawer(popup as DrawerPopup, immediate);
   }
   throw new Error(`暂未处理此类型：${t}`);
 }

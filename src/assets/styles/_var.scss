@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:string";
 
 $disabled-bg: var(--disabled-bg);
 
@@ -150,9 +151,9 @@ $color-bg-gradient-dark: linear-gradient(-30deg, $color-gradient-dark-light 0%, 
 * @param bgColor 箭头的背景色
 */
 @mixin triangle($position: top-right, $distance: 16px, $width: 14px, $height: 16px, $bgColor: #3b3b3b, $pseudoPosition: before) {
-  $ind: str-index($position, "-");
-  $at: str-slice($position, 1, $ind - 1);
-  $near: str-slice($position, $ind + 1);
+  $ind: string.index($position, "-");
+  $at: string.slice($position, 1, $ind - 1);
+  $near: string.slice($position, $ind + 1);
   &::#{$pseudoPosition} {
     position: absolute;
     #{$near}: $distance;

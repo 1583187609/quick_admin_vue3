@@ -5,8 +5,8 @@
 import { BtnItem, BtnName } from "@/core/components/BaseBtn/_types";
 import { BaseRenderData } from "@/core/components/BaseRender.vue";
 import type { MessageParams, messageType } from "element-plus";
-import { EpPropMergeType } from "element-plus/es/utils";
-import { AxiosResponse } from "axios";
+import type { EpPropMergeType } from "element-plus/es/utils";
+import type { AxiosResponse } from "axios";
 import { ClosePopupType } from "@/core/components/BasicPopup/_types";
 import { BaseRenderComponentType } from "@/core/components/BaseRender.vue";
 import { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from "vue-router";

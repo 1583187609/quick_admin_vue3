@@ -35,7 +35,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
     title?: BaseRenderData;
-    footer?: FootBtnsType | BaseRenderData;
+    footer?: FootBtnsType;
     onCancel?: () => void; // 点击取消按钮
     onConfirm?: () => void; // 点击确认按钮
   }>(),

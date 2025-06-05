@@ -18,14 +18,14 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { BaseRenderData } from "@/core/components/BaseRender.vue";
-import { popupCloseAnimationDuration, showMessage, typeOf } from "@/core/utils";
+import { showMessage, typeOf } from "@/core/utils";
 import FootBtns, { FootBtnsType } from "./FootBtns.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;
     title?: BaseRenderData;
-    footer?: FootBtnsType | BaseRenderData;
+    footer?: FootBtnsType;
     onCancel?: () => void; // 点击取消按钮
     onConfirm?: () => void; // 点击确认按钮
   }>(),
