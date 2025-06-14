@@ -1,0 +1,478 @@
+@charset "UTF-8";
+.h1 {
+  margin: 10px 0;
+}
+
+.perspective-box {
+  width: 650px;
+  height: 500px;
+  position: relative;
+  perspective: 1200px;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-15deg) rotateY(0deg) translateZ(100px);
+  animation: rotate 20s infinite linear;
+}
+
+.cube:hover {
+  animation-play-state: paused;
+}
+
+.cube .hole {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  width: 10.5px;
+  /* 1.5cm scaled */
+  height: 10.5px;
+}
+
+.cube .lab-top {
+  position: absolute;
+  top: -10.5px;
+  left: 5.11px;
+  color: red;
+  font-size: 12px;
+}
+
+.cube .lab-top::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 16.8px;
+  margin-right: 0.5em;
+  background: red;
+}
+
+.cube .lab-bot {
+  position: absolute;
+  bottom: -31.5px;
+  left: 5.25px;
+  color: red;
+  font-size: 12px;
+}
+
+.cube .lab-bot::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 37.1px;
+  margin-right: 0.5em;
+  background: red;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateX(-15deg) rotateY(0deg) translateZ(100px);
+  }
+  100% {
+    transform: rotateX(-15deg) rotateY(360deg) translateZ(100px);
+  }
+}
+
+.face {
+  position: absolute;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: all 1s ease-in-out;
+}
+
+.face .lab-h {
+  position: absolute;
+  top: -2em;
+  width: 100%;
+  color: #000;
+}
+
+.face .lab-h::before, .face .lab-h::after {
+  content: "";
+  display: block;
+  height: 1px;
+  flex: 1;
+  background: red;
+}
+
+.face .lab-h::before {
+  margin-right: 0.3em;
+}
+
+.face .lab-h::after {
+  margin-left: 0.3em;
+}
+
+.face .lab-v {
+  position: absolute;
+  top: 0;
+  left: -4em;
+  height: 100%;
+  color: #000;
+}
+
+.face .lab-v::before, .face .lab-v::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 50%;
+  flex: 1;
+  background: red;
+}
+
+.face .lab-v::before {
+  margin-bottom: 0.3em;
+}
+
+.face .lab-v::after {
+  margin-top: 0.3em;
+}
+
+/* 前后面 - 66x19 cm */
+.front,
+.back {
+  width: 462px;
+  /* 66cm scaled */
+  height: 133px;
+  /* 19cm scaled */
+}
+
+.front {
+  transform: translateZ(66.5px);
+  background-color: rgba(173, 216, 230, 0.8);
+  left: 100px;
+  top: 183px;
+}
+
+.back {
+  transform: translateZ(-66.5px) rotateY(180deg);
+  background-color: rgba(173, 216, 230, 0.6);
+  left: 100px;
+  top: 183px;
+}
+
+/* 左右面 - 19x19 cm - 调整间距 */
+.right,
+.left {
+  width: 133px;
+  /* 19cm scaled */
+  height: 133px;
+  /* 19cm scaled */
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(297.5px) translateX(0);
+  left: 198px;
+  /* 398px */
+  top: 183px;
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(231px) translateX(0);
+  left: 264px;
+  /*64px*/
+  top: 183px;
+}
+
+/* 顶部 - 调整间距 */
+.top {
+  width: 462px;
+  /* 66cm scaled */
+  height: 133px;
+  /* 19cm scaled */
+  transform: rotateX(-90deg) translateZ(66.5px);
+  left: 100px;
+}
+
+.top.one {
+  top: 56px;
+  /*282px*/
+}
+
+.top.two {
+  top: 119px;
+  /*282px*/
+}
+
+/* 底面 - 调整间距 */
+.bottom {
+  width: 462px;
+  /* 66cm scaled */
+  height: 133px;
+  /* 19cm scaled */
+  transform: rotateX(-90deg) translateZ(66.5px);
+  background-color: rgba(255, 182, 193, 0.5);
+  left: 100px;
+  top: 182px;
+  /*282px*/
+}
+
+/* 内部结构 */
+.inner-element {
+  position: absolute;
+  background-color: #aaa;
+  /* 横条 */
+}
+
+.inner-element.horizontal-bar {
+  height: 7px;
+  /* 0.5cm scaled */
+  width: 455px;
+  /* 66cm scaled */
+  left: 3.5px;
+}
+
+.inner-element.horizontal-bar.bar-1 {
+  top: 7px;
+  /* 17.5cm from bottom scaled */
+}
+
+.inner-element.horizontal-bar.bar-2 {
+  bottom: 56px;
+  /* 9cm from bottom scaled */
+}
+
+/* 圆孔 */
+.left-hole {
+  left: 50%;
+  /* 水平居中 */
+  transform: translateX(-50%);
+  top: 10.5px;
+  /* 3cm from top scaled */
+}
+
+.right-hole-top {
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10.5px;
+}
+
+.right-hole-bottom {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 31.5px;
+  /* 6cm from bottom scaled */
+}
+
+/* 标注 */
+.dimension-label {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.front-label {
+  bottom: 5px;
+  right: 5px;
+}
+
+.right-label {
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+}
+
+/* 横板示意图 - 5-4-5-4-5排列 */
+.panel-container {
+  width: 400px;
+  max-height: 100vh;
+  overflow: auto;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.water-panel {
+  position: relative;
+  width: 455px;
+  /* 66cm scaled */
+  height: 126px;
+  /* 18cm scaled */
+  border: 1px solid #ccc;
+  background: #ccc;
+}
+
+.water-panel .lab-h {
+  position: absolute;
+  top: -1.6em;
+  width: 100%;
+  color: #000;
+}
+
+.water-panel .lab-h::before, .water-panel .lab-h::after {
+  content: "";
+  display: block;
+  height: 1px;
+  flex: 1;
+  background: red;
+}
+
+.water-panel .lab-h::before {
+  margin-right: 0.3em;
+}
+
+.water-panel .lab-h::after {
+  margin-left: 0.3em;
+}
+
+.water-panel .lab-v {
+  position: absolute;
+  top: 0;
+  left: -6.9em;
+  height: 100%;
+  color: #000;
+}
+
+.water-panel .lab-v::before, .water-panel .lab-v::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 50%;
+  flex: 1;
+  background: red;
+}
+
+.water-panel .lab-v::before {
+  margin-bottom: 0.3em;
+}
+
+.water-panel .lab-v::after {
+  margin-top: 0.3em;
+}
+
+.water-panel .hole {
+  border-radius: 50%;
+  width: 16.8px;
+  /* 1.2cm scaled */
+  height: 16.8px;
+  background-color: #fff;
+}
+
+.water-panel .section {
+  position: relative;
+  height: 100%;
+  padding: 14px;
+}
+
+.water-panel .section:not(:last-child) {
+  border-right: 1px dashed #fff;
+}
+
+.water-panel .section .slot {
+  position: absolute;
+  width: 7px;
+  height: 42px;
+  background: #fff;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.water-panel .section .slot:nth-child(1) {
+  left: -1px;
+  border-radius: 0 7px 7px 0;
+}
+
+.water-panel .section .slot:nth-last-child(1) {
+  right: -1px;
+  border-radius: 7px 0 0 7px;
+}
+
+.water-panel .section .mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 14px 7px;
+  width: 100%;
+  height: 126px;
+  background: #ccc;
+}
+
+.water-panel .section .mask > .row:nth-child(2n + 1) {
+  padding: 0 7px;
+}
+
+.water-panel .section .mask > .row:nth-child(2n) {
+  padding: 0 21px;
+}
+
+.water-panel .section > .row:nth-child(2n + 1) {
+  padding: 0 14px;
+}
+
+.panel-title {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* 尺寸标注 */
+.panel-dimension {
+  text-align: center;
+  font-size: 12px;
+  margin: 5px 0;
+  color: #555;
+}
+
+/* 水箱配置 */
+.water-tank {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #f0f8ff;
+  border-radius: 5px;
+}
+
+.water-tank h3 {
+  margin-top: 0;
+  color: #2a5885;
+}
+
+.water-tank p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+/* 说明部分 */
+.notes {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fffaf0;
+  border-radius: 5px;
+  border: 1px solid #eee8aa;
+}
+
+.notes h3 {
+  margin-top: 0;
+  color: #8b4513;
+}
+
+.notes ul {
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.notes li {
+  margin-bottom: 8px;
+}
+
+.highlight {
+  background-color: #fffacd;
+  padding: 2px 4px;
+  border-radius: 3px;
+}

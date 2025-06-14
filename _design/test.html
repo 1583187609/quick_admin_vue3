@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>长方体透视图</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/test.min.css" />
+  </head>
+  <body>
+    <div class="container f-sa-s">
+      <div class="f-2 f-fs-c-c">
+        <h1 class="h1 f-c-c">长方体透视图 (66×19×19 cm)</h1>
+        <div class="perspective-box">
+          <div class="cube">
+            <!-- 五个面 (顶部已移除) -->
+            <div class="face front">
+              <div class="lab-h f-c-c">长 66cm</div>
+              <div class="lab-v f-fs-fe-c">高 19cm</div>
+              <!-- <div class="dimension-label front-label">正面 66×19cm</div> -->
+              <!-- 内部横条 -->
+              <div class="inner-element horizontal-bar bar-1" title="横条 - 距底部17.5cm"></div>
+              <div class="inner-element horizontal-bar bar-2" title="横条 - 距底部9cm"></div>
+            </div>
+
+            <div class="face back">
+              <div class="lab-h f-c-c">长 66cm</div>
+              <div class="lab-v f-fs-fe-c">高 19cm</div>
+              <!-- <div class="dimension-label front-label">背面 66×19cm</div> -->
+              <!-- 内部横条 -->
+              <div class="inner-element horizontal-bar bar-1" title="横条 - 距底部17.5cm"></div>
+              <div class="inner-element horizontal-bar bar-2" title="横条 - 距底部9cm"></div>
+            </div>
+
+            <div class="face right">
+              <div class="lab-h f-c-c">宽 19cm</div>
+              <div class="lab-v f-fs-fe-c">高 19cm</div>
+              <div class="dimension-label right-label">右侧 19×19cm</div>
+              <!-- 右侧圆孔 -->
+              <div class="hole right-hole-top" title="右侧顶部圆孔 - 半径1.5cm, 距顶部3cm">
+                <div class="lab-top f-fs-c">3cm</div>
+              </div>
+              <div class="hole right-hole-bottom" title="右侧底部圆孔 - 半径1.5cm, 距底部6cm">
+                <div class="lab-bot f-fs-c">6cm</div>
+              </div>
+            </div>
+
+            <div class="face left">
+              <div class="lab-h f-c-c">宽 19cm</div>
+              <div class="lab-v f-fs-fe-c">高 19cm</div>
+              <div class="dimension-label right-label">左侧 19×19cm</div>
+              <!-- 左侧圆孔 -->
+              <div class="hole left-hole" title="左侧圆孔 - 半径1.5cm, 距顶部3cm">
+                <div class="lab-top f-fs-c">3cm</div>
+              </div>
+            </div>
+
+            <div class="face bottom"></div>
+
+            <!-- 横版 -->
+            <div class="face top one">
+              <div class="water-panel f-sb-s">
+                <section class="section f-1 f-sb-s-c">
+                  <div class="slot"></div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="slot"></div>
+                </section>
+                <section class="section f-1 f-sb-s-c">
+                  <div class="slot"></div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="slot"></div>
+                </section>
+                <section class="section f-1 f-sb-s-c">
+                  <div class="slot"></div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="slot"></div>
+                </section>
+              </div>
+            </div>
+            <!-- 横版 -->
+            <div class="face top two">
+              <div class="water-panel f-sb-s">
+                <section class="section f-1 f-sb-s-c">
+                  <div class="slot"></div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="slot"></div>
+                </section>
+                <section class="section f-1 f-sb-s-c">
+                  <div class="slot"></div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="slot"></div>
+                </section>
+                <section class="section f-1 f-sb-s-c">
+                  <div class="slot"></div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="row f-sb-c">
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                    <div class="hole col"></div>
+                  </div>
+                  <div class="slot"></div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="water-panel f-sb-s" style="margin-top: 100px">
+          <div class="lab-h f-c-c">长 65(66-1)cm</div>
+          <div class="lab-v f-fs-fe-c">宽 18(19-1)cm</div>
+          <section class="section f-1">
+            <div class="slot"></div>
+            <div class="mask f-sb-s-c">
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+            </div>
+            <div class="slot"></div>
+          </section>
+          <section class="section f-1">
+            <div class="slot"></div>
+            <div class="mask f-sb-s-c">
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+            </div>
+            <div class="slot"></div>
+          </section>
+          <section class="section f-1">
+            <div class="slot"></div>
+            <div class="mask f-sb-s-c">
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+              <div class="row f-sb-c">
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+                <div class="hole col"></div>
+              </div>
+            </div>
+            <div class="slot"></div>
+          </section>
+        </div>
+      </div>
+      <div class="panel-container f-1">
+        <h1 class="f-c-c mb-16">说明</h1>
+        <ul>
+          <li>1、灰色横版要么放上层，要么放中层（故只需一层横版就够了）</li>
+          <li>2、灰色横版放置处，依托水箱内部粘贴长65cm，宽1cm，厚1cm的长条</li>
+          <li>3、第一个长条顶部预留1cm（板材厚度），第二个横条底部距离水箱底部8cm（包含底部板材厚度）</li>
+          <li>4、左右水箱的圆孔半径均为1.5cm，均水平均居中。高圆孔距离顶部3厘米为圆心，低圆孔距离底部6cm处为圆心（包含底板厚度）</li>
+          <li>5、一共三层水箱，各打三个孔，顶层水箱高进，高、低出；中层和低层水箱均为低进，高、低出；（进口为左侧，出口为右侧）</li>
+          <li>6、横版长度按三等分切割，每一等分左右侧开凹槽，长6cm，宽1cm，注意切割圆角。</li>
+          <li>7、灰色横版65*18cm，厚1cm，距离四周边缘2cm内，贴边均匀交叉打孔，半径为1.2cm</li>
+          <!-- <li>7、灰色横版的浅灰色区域65*18cm，厚0.5cm，深灰色区域65*16cm（上下各预留1cm间距）,厚0.5cm，粘贴在浅灰色区域上</li>
+          <li>8、在深灰色区域内，距离上下边缘1cm、左右边缘2cm内，贴边均匀交叉打孔，半径为1.2cm</li> -->
+        </ul>
+      </div>
+
+      <!-- <div class="panel-container f-1">
+        <h3 class="panel-title">横板加工示意图 (66×19x19 cm)</h3>
+
+        <div class="panel-dimension">
+          <p>
+            <span class="highlight">孔径: 1.2cm</span> | <span class="highlight">边缘间距: ≥2cm</span> | <span class="highlight">行间距: 1.6cm</span>
+          </p>
+          <p><span class="highlight">内凹: 深度1cm, 长度6cm</span> | <span class="highlight">板材厚度: 0.5cm</span></p>
+        </div>
+
+        <div class="water-tank">
+          <h3>水箱进出水口配置</h3>
+          <p><strong>中部水箱</strong>: 低进，高/低出</p>
+          <p><strong>底部水箱</strong>: 低进，高/低出</p>
+        </div>
+
+        <div class="notes">
+          <h3>加工说明 (供淘宝卖家参考)</h3>
+          <ul>
+            <li>
+              <strong>横板规格</strong>:
+              <ul>
+                <li>整体尺寸: 66cm(长) × 18cm(宽) × 0.5cm(厚)</li>
+                <li>三等分切割，每部分22cm长</li>
+              </ul>
+            </li>
+            <li>
+              <strong>打孔要求</strong>:
+              <ul>
+                <li>孔径: <span class="highlight">1.2cm</span> (所有孔统一尺寸)</li>
+                <li>孔边缘距板边距离: <span class="highlight">≥2cm</span></li>
+                <li>孔排列: <span class="highlight">5-4-5-4-5</span> 交叉排列</li>
+                <li>行间距: <span class="highlight">1.6cm</span></li>
+                <li>列间距: <span class="highlight">2.1cm</span></li>
+                <li>所有三部分打孔模式完全相同</li>
+              </ul>
+            </li>
+            <li>
+              <strong>内凹加工</strong>:
+              <ul>
+                <li>位置: 两端各一个</li>
+                <li>内凹长度: <span class="highlight">6cm</span></li>
+                <li>内凹深度: <span class="highlight">1cm</span></li>
+                <li>弧度: 平滑过渡，无尖锐角</li>
+              </ul>
+            </li>
+            <li><strong>材料</strong>: 使用5mm厚亚克力板，切割后打磨边缘</li>
+            <li><strong>特别提示</strong>: 所有尺寸均为含材料厚度的净尺寸，加工时请精确控制公差</li>
+          </ul>
+        </div>
+      </div> -->
+    </div>
+  </body>
+</html>
