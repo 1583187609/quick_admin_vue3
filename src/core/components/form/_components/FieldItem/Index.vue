@@ -79,7 +79,7 @@ import { useDict } from "@/hooks";
 import { FormItemType, FormTplType, RuleItem } from "./_types";
 import ExplainPopover from "@/core/components/ExplainPopover.vue";
 import FormItem from "../FormItem/Index.vue";
-import { typeOf } from "#/mock/utils";
+import { typeOf } from "@/utils";
 import { DictName } from "@/dict/_types";
 import _ from "lodash";
 import { asyncComputed } from "@vueuse/core";

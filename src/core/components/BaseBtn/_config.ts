@@ -142,6 +142,38 @@ export default {
       icon: "Download",
     },
   },
+  onShelf: {
+    name: "onShelf",
+    text: "上架",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 10,
+    batchAble: true,
+    attrs: {
+      type: "primary",
+      icon: "Plus",
+    },
+    popconfirm: {
+      iconColor: colorSuccess,
+      confirmButtonType: "primary",
+    },
+  },
+  offShelf: {
+    name: "offShelf",
+    text: "下架",
+    // auth: [0, 1, 2],
+    // to: undefined,
+    order: 10,
+    batchAble: true,
+    attrs: {
+      type: "danger",
+      icon: "Minus",
+    },
+    popconfirm: {
+      iconColor: colorSuccess,
+      confirmButtonType: "danger",
+    },
+  },
   enable: {
     name: "enable",
     text: "启用",

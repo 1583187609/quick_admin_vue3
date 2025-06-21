@@ -3,7 +3,7 @@
 注意：该功能待完善。
 -->
 <template>
-  <div class="base-audio f-sb-c" :class="{ default: !controls && !$slots.default }">
+  <div class="base-audio f-sb-c" :data-default="!controls && !$slots.default">
     <slot
       name="content"
       :playing="playing"
@@ -164,7 +164,7 @@ defineExpose<any>({
 </script>
 <style lang="scss" scoped>
 .base-audio {
-  &.default {
+  &[data-default="true"] {
     width: 100%;
     border-radius: 40px;
     height: 28px;

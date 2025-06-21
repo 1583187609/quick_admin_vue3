@@ -5,11 +5,11 @@
 import { cssVars } from "@/utils";
 import { RendererElement, RendererNode, VNode, h, isVNode, markRaw } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+import type { MessageParams, TableColumnCtx } from "element-plus";
 import { getChinaCharLength, storage, typeOf } from "@/core/utils";
 import { emptyVals, isDev, isDocs } from "@/core/consts";
 import { defaultEmptyStr, defaultPopoverAttrs, defaultNoAuthPaths } from "@/core/config";
 import { FormField, FormFieldAttrs } from "@/core/components/form/_types";
-import type { MessageParams, TableColumnCtx } from "element-plus";
 import { CommonObj, TostMessageType } from "@/core/_types";
 import { PopoverAttrs, PopoverSlots } from "@/core/_types";
 import { HArgs, RenderVue } from "@/core/components/BaseRender.vue";

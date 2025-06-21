@@ -390,19 +390,20 @@ export default {
       2: "对象Promise2",
     });
   }),
-  // 直接请求（不带attrs）
+  // 直接请求
   D_TestFetch: GetMockCommon().then((res: CommonObj) => {
     const list = res.records.slice(0, 5);
     return list.map((item: string, ind: number) => {
       return { label: "直接请求_" + ind, value: ind };
     });
   }),
-  // 按需（懒）加载请求（带attrs）
+  // 按需请求：返回的attrs 是 <a-tag></a-tag>的属性
   D_TestFetchLazy() {
     return GetMockCommon().then((res: CommonObj) => {
       const list = res.records.slice(0, 10);
+      const typeMap = { 1: "primary", 2: "danger", 3: "info", 4: "warning" };
       return list.map((item: string, ind: number) => {
-        return { label: "按需请求_" + ind, value: ind };
+        return { label: "按需请求_" + ind, value: ind, attrs: { type: typeMap[ind] } };
       });
     });
   },

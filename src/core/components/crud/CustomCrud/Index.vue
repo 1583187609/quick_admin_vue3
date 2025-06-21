@@ -4,15 +4,9 @@
 <template>
   <BaseCrud class="custom-crud" :summaryList="summaryList" :pagination="!summaryList" ref="crudRef">
     <template #content="{ loading, params, rows, total, hasMore }">
-      <LoadMore
-        class="f-1"
-        @reachBottom="handleReachBottom(params)"
-        :paddingBottom="hasMore ? 0 : 250"
-        :loading="loading"
-        v-if="summaryList"
-      >
+      <BaseScroll class="f-1" @reachBottom="handleReachBottom(params)" :paddingBottom="hasMore ? 0 : 250" :loading="loading" v-if="summaryList">
         <slot name="list" :list="rows" :total="total" :hasMore="hasMore" />
-      </LoadMore>
+      </BaseScroll>
       <div class="list-box f-1" v-loading="loading" v-else>
         <slot name="list" :list="rows" :total="total" :hasMore="hasMore" />
       </div>
@@ -21,7 +15,6 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import LoadMore from "@/core/components/LoadMore.vue";
 import { SummaryListType } from "@/core/components/table/_types";
 import { CommonObj } from "@/core/_types";
 import { HandleButtonAuth } from "@/core/components/crud/BaseCrud/_types";

@@ -4,12 +4,20 @@
  */
 
 import qs from "qs";
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenSource,
+  Method,
+  AxiosPromise,
+} from "axios";
 import { typeOf, storage } from "@/utils";
 import { showLoading, hideLoading, showToast, getResData, defaultResDataMap, goLogin } from "./_utils";
 import { GetRequired } from "@/core/_types";
 
-let source: CancelTokenSource = axios.CancelToken.source();
 const enableMock = true; // 是否启用mock
 
 // 可选的自定义请求配置
@@ -51,6 +59,7 @@ const statusMap: Record<number, string> = {
   504: "网关超时",
 };
 
+let controller: any = null;
 const service: AxiosInstance = axios.create({
   withCredentials: true,
   // baseURL: 'https://some-domain.com/api/',
@@ -92,11 +101,11 @@ service.interceptors.response.use(
   },
   (err: AxiosError) => {
     if (axios.isCancel(err)) return Promise.reject(err);
-    const { status, config = {} } = err;
+    const { status, config = {}, code } = err;
     const { loadEnable } = config?.customConfig ?? {};
     loadEnable && hideLoading();
     // 未授权，去登录
-    const errMsg = statusMap[status] || "请求失败";
+    const errMsg = code === "ECONNABORTED" ? "请求超时，请重试" : statusMap[status] ?? "请求失败";
     console.error(`${errMsg}：${config.url}`, err);
     showToast(errMsg);
     if (status === 401) goLogin();
@@ -119,14 +128,15 @@ service.interceptors.response.use(
  * @returns
  */
 function fetch<T = any>(
-  method = "get",
+  method: Method = "get",
   url = "",
   data: any,
   customCfg: GetRequired<CustomRequestConfig>,
   othersCfg?: AxiosRequestConfig
-): Promise<T> {
-  method = method.toLowerCase();
-  const cfg: AxiosRequestConfig & AxiosCustomConfig = { url, method, customConfig: customCfg, cancelToken: source.token, ...othersCfg };
+): AxiosPromise<T> {
+  method = method.toLowerCase() as Method;
+  controller = new AbortController();
+  const cfg: AxiosRequestConfig & AxiosCustomConfig = { url, method, customConfig: customCfg, signal: controller.signal, ...othersCfg };
   const { isStringify } = customCfg;
   if (method === "get") {
     if (isStringify || enableMock) {
@@ -162,13 +172,13 @@ function fetch<T = any>(
  * @returns
  */
 function http<T = any>(
-  method: string,
+  method: Method,
   url: string,
   data: any,
   customCfg?: CustomRequestConfig,
   othersCfg?: AxiosRequestConfig,
   max = customCfg?.reconnectMax ?? defaultCustomCfg.reconnectMax
-): Promise<T> {
+): Promise<AxiosResponse<any, any> | T> {
   customCfg = customCfg ? Object.assign({}, defaultCustomCfg, customCfg) : defaultCustomCfg;
   const reconnectMax = customCfg.reconnectMax!;
   return fetch(method, url, data, customCfg as GetRequired<CustomRequestConfig>, othersCfg).catch(err => {
@@ -204,9 +214,5 @@ export default http;
  * @returns
  */
 export function cancelHttp() {
-  if (!source.token._listeners?.length) return;
-  // source.cancel("请求已被取消"); // 会取消请求栈内的所有请求
-  source.cancel(); // 会取消请求栈内的所有请求
-  source = axios.CancelToken.source();
-  showToast("请求已被取消");
+  controller.abort();
 }

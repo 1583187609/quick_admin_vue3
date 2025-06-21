@@ -204,34 +204,34 @@ input:-webkit-autofill {
 //滚动条里面小方块
 ::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: #ddd;
+  // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #cfcbcb;
 }
 //滚动条里面轨道
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  background: #f8f8f8;
+  background: #ededed;
 }
 //当鼠标放上去时才显示滚动条，否则隐藏滚动条
 .hover-show-scroll {
   overflow: auto;
   &::-webkit-scrollbar-thumb {
-    box-shadow: none;
+    // box-shadow: none;
     background: transparent;
   }
   &::-webkit-scrollbar-track {
-    box-shadow: none;
+    // box-shadow: none;
     background: transparent;
   }
   &:hover {
     &::-webkit-scrollbar-thumb {
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-      background: #ddd;
+      // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #cfcbcb;
     }
     &::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-      background: #eee;
+      // box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #ededed;
     }
   }
 }
@@ -325,12 +325,12 @@ $flexDirection: (
   c: column,
   // r: row,
   // rr: row-reverse,
-  // cr: column-reverse,,,,,,,,
+  // cr: column-reverse,,,,,,,,,,,,,,,
 );
 $flexWrap: (
   w: wrap,
   // n: nowrap,
-  // wr: wrap-reverse,,,,,,,,
+  // wr: wrap-reverse,,,,,,,,,,,,,,,
 );
 //下面的太多了，且用的少，故不生成
 // $alignContent: (

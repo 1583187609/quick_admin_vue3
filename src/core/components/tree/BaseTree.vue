@@ -52,6 +52,5 @@ defineExpose({
 <style lang="scss" scoped>
 .base-tree {
   overflow: auto;
-  padding-bottom: 100px;
 }
 </style>

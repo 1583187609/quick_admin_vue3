@@ -3,37 +3,38 @@
  */
 import { ref } from "vue";
 
-export default (total = 3, cb: () => void, isAdd = false) => {
-  if (!cb) throw new Error("必须传入回调函数");
+export default (total = 3, cb?: () => void, isAdd = false) => {
+  const timer = ref<any>(null);
   const seconds = ref(isAdd ? 0 : total);
-  let timer: any = null;
   function start() {
     if (isAdd) {
-      timer = setInterval(() => {
+      timer.value = setInterval(() => {
         if (seconds.value < total) {
           seconds.value++;
         } else {
-          cb();
-          clearInterval(timer);
+          clear();
         }
       }, 1000);
     } else {
-      timer = setInterval(() => {
+      timer.value = setInterval(() => {
         if (seconds.value > 1) {
           seconds.value--;
         } else {
-          cb();
-          clearInterval(timer);
+          clear();
         }
       }, 1000);
     }
   }
   function pause() {
-    clearInterval(timer);
-    cb();
+    clear();
     setTimeout(() => {
       seconds.value = isAdd ? 0 : total;
     }, 1000);
+  }
+  function clear() {
+    clearInterval(timer.value);
+    timer.value = null;
+    cb?.();
   }
   return {
     timer,

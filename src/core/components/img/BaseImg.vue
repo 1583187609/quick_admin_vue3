@@ -5,7 +5,9 @@
   <el-image
     @click="handleClick"
     class="base-img"
-    :class="{ circle, to: !!to, empty: !src }"
+    :data-circle="circle"
+    :data-to="!!to"
+    :data-empty="!src"
     :src="src || emptyImg"
     :style="{ height: toCssVal(size || height), width: toCssVal(size || width) }"
     v-bind="newAttrs"
@@ -64,6 +66,7 @@ const props = withDefaults(
     circle?: boolean;
     stop?: boolean; // 点击图片时，是否阻止冒泡
     preview?: boolean;
+    disabled?: boolean;
     loadTips?: string;
     errTips?: string;
     errImgSrc?: string;
@@ -88,25 +91,26 @@ const newAttrs = computed<CommonObj>(() => {
 
 // 处理点击图片
 function handleClick(e: any) {
-  const { to, stop } = props;
-  to && router.push(to);
+  const { to, stop, disabled } = props;
+  if (disabled) return;
+  if (to) return router.push(to);
   if (stop) e.stopImmediatePropagation();
 }
 </script>
 
 <style lang="scss" scoped>
 .base-img {
-  display: block; //去除inline-block的间隙
+  display: block; // 去除inline-block的间隙
   height: 120px;
   width: 120px;
   border-radius: $radius-main;
-  &.circle {
+  &[data-circle="true"] {
     border-radius: 50%;
   }
-  &.to {
+  &[data-to="true"] {
     cursor: pointer;
   }
-  &.empty {
+  &[data-empty="true"] {
     color: $color-text-light;
     font-size: 12px;
     background: $color-bg-lighter;
