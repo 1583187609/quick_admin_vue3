@@ -10,7 +10,7 @@ hero:
     src: /logo.svg
     alt: logo
     width: 160px
-  actions:
+  actions: 
     - theme: brand
       text: 指南
       link: /docs/1_指南_guide/1_前言_say
@@ -49,4 +49,5 @@ features:
   - icon: 🔨
     title: 工程移植性强
     details: 高度统一灵活的配置，支持扩展、覆盖
+
 ---

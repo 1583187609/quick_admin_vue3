@@ -19,14 +19,15 @@
 |`fit`|`EpPropMergeType<StringConstructor`>|`ImgFitType`|-|
 |`drag`|是否可拖动上传|`boolean`|-|
 |`circle`|是否圆形展示|`boolean`|-|
-|`accept`|`image/png, image/jpeg`|`string`|`image/png,image/jpg,image/jpeg`|
+|`accept`|`image/png, image/jpeg, .png, .doc, .pdf `等|`string`|`image/png,image/jpg,image/jpeg`|
 |`limitSize`|上传文件的大小限制|`number`|`1024 * 1024 * 10`|
 |`action`|-|`string`|#|
 |`listType`|`EpPropMergeType<StringConstructor, "picture-card" | "picture" | "text", unknown> | undefined`;|`any`|`picture-card`|
 |`limit`|文件列表可上传几张|`number`|`1`|
 |`tips`|文件大小、支持类型提示文案|`string`|`getFileTips(_props)`|
 |`disabled`|是否禁用上传功能|`boolean`|-|
-|`showFileList`|-|`boolean`|`_props.limit > 1`|
+|`showFileList`|-|`boolean`|`_props.limit! > 1`|
+|`allowEmpty`|是否允许传入空文件（文件大小为`0`）|`boolean`|`true`|
 |`handleSuccessResponse`|-|`() => void`|-|
 
 ### $emit
@@ -34,7 +35,8 @@
 |事件名称|说明|回调参数|
 |:---|:---|:---|
 |`update:modelValue`|-|-|
-|`change`|-|-|
+|`success`|-|-|
+|`error`|-|-|
 
 
 ## 类型声明

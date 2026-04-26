@@ -19,6 +19,8 @@
 |:---|:---|:---|:---|
 |`src`|-|`string`|-|
 |`gender`|性别|`GenderType`|`0`|
+|`circle`|是否圆形|`boolean`|-|
+|`size`|-|`string \| number`|`60`|
 
 
 ## 类型声明

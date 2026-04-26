@@ -17,19 +17,20 @@
 |属性|说明|类型|默认值|
 |:---|:---|:---|:---|
 |`title`|-|`string`|未命名标题|
-|`popover`|-|`PopoverType`|-|
+|`explain`|-|`PopoverType`|-|
 |`badgeAttrs`|-|`CommonObj`|-|
 |`foldable`|-|`boolean`|-|
-|`border`|-|`boolean`|`true`|
 |`bodyClass`|-|`string`||
 |`bodyMaxHeight`|-|`string`|`90vh`|
 |`defaultFold`|-|`boolean`|-|
+|`border`|-|`boolean`|`true`|
 |`gap`|-|`boolean`|`true`|
 
 ### $emit
 
 |事件名称|说明|回调参数|
 |:---|:---|:---|
+|`dbclick`|-|-|
 |`toggle`|-|-|
 
 ### Slots

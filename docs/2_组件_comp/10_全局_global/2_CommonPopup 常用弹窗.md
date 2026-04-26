@@ -41,6 +41,8 @@
 
 
 ``` ts
+import type { CommonObj, SetTimeout } from "@/core/_types";
+import type { BaseRenderData } from "@/core/components/BaseRender.vue";
 import type {  PopupType,  DialogId,  DrawerId,  FootRenderData,  DialogPopup,  DrawerPopup,  ClosePopupType,  CloseDialogType,  CloseDrawerType,  DialogHeadTypes,  DrawerHeadTypes,} from "./_types";
 ```
 

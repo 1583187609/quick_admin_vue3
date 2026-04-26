@@ -12,7 +12,7 @@ import tooltip from "./modules/tooltip";
 import tag from "./modules/tag";
 import { ApiTableContainer } from "./modules/api-table";
 
-import { demosPath, getFileStrWithoutDocAnno } from "../../../scripts/doc/utils";
+import { demosPath, getFileStrWithoutDocAnno } from "../../../scripts/doc/utils/index.js";
 // import { docRoot } from "@element-plus/build-utils";
 
 interface ContainerOpts {

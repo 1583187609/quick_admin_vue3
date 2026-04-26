@@ -3,7 +3,7 @@
  ********************************************/
 import fs from "fs";
 import path from "path";
-import { getFullPath } from "./doc/utils";
+import { getFullPath } from "./doc/utils/index.js";
 
 /**
  * 判断是否是绝对路径

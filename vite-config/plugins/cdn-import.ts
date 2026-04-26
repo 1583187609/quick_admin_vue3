@@ -1,5 +1,5 @@
 import cdnImportPlugin from "vite-plugin-cdn-import";
-import pkg from "../../package.json";
+// import pkg from "../../package.json";
 import _ from "lodash";
 
 const { camelCase, upperFirst } = _;
@@ -10,7 +10,8 @@ function getCamelCaseName(name: string) {
   return upperFirst(camelCase(name));
 }
 function getVersion(name: string) {
-  return pkg.dependencies[name].replace("^", "");
+  // return pkg.dependencies[name].replace("^", "");
+  return require("../../package.json").dependencies[name].replace("^", "");
 }
 function getPath(name: string, path: string = "") {
   let str = prodUrl.replace("{name}", name).replace("{version}", getVersion(name)).replace("{path}", path);

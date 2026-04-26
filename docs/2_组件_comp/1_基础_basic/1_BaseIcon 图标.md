@@ -19,6 +19,13 @@
 |`name`|-|`IconNames`|`defaultIconName`|
 |`size`|-|`StrNum`|`1em`|
 |`to`|-|`RouteTo`|-|
+|`disabled`|-|`boolean`|-|
+
+### $emit
+
+|事件名称|说明|回调参数|
+|:---|:---|:---|
+|`click`|-|-|
 
 
 ## 类型声明

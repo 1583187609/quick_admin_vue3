@@ -26,6 +26,7 @@
 |`circle`|-|`boolean`|-|
 |`stop`|点击图片时，是否阻止冒泡|`boolean`|-|
 |`preview`|-|`boolean`|`true`|
+|`disabled`|-|`boolean`|-|
 |`loadTips`|-|`string`|玩命加载中…|
 |`errTips`|-|`string`|加载失败|
 |`errImgSrc`|-|`string`|-|

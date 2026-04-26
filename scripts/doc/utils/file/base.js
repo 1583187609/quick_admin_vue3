@@ -3,7 +3,7 @@
  ********************************************/
 import fs from "fs";
 import path from "path";
-import pkg from "../../../../package.json";
+// import pkg from "../../../../package.json";
 
 /**
  * 判断是否是绝对路径
@@ -142,7 +142,8 @@ export function addToFileLineSync(file = "", aimStr = "", addLines = [], isFile 
  * @param {number} level 版本号深度
  */
 export function getPackageVersion(name = needParam(), level = 2) {
-  const { dependencies, devDependencies } = pkg;
+  // const { dependencies, devDependencies } = pkg;
+  const { dependencies, devDependencies } = require("../../../../package.json");
   const depObj = { ...dependencies, ...devDependencies };
   const keys = Object.keys(depObj);
   let version = "";

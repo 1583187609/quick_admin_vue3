@@ -1,7 +1,7 @@
 # BaseForm 基础表单
 
 &emsp;&emsp;目标：定位为基础（通用）表单，继承并扩展 `el-form `的功能，提供快捷属性，实现快速开发。  
-&emsp;&emsp;快捷属性：在 `quickAttrs `中，例：`grid`、`example`、`popover`、`tips`、`pureText`、`before`、`after`、……  
+&emsp;&emsp;快捷属性：在 `quickAttrs `中，例：`grid`、`example`、`explain`、`tips`、`pureText`、`before`、`after`、……  
 &emsp;&emsp;表单样式风格：通用表单、单元格表单、纯文本表单
 ## 基础用法
 
@@ -23,7 +23,7 @@
 :::
 ## 快捷属性
 
-&emsp;&emsp;扩展的快捷属性，放置在 `quickAttrs `中。例：`pureText`、`grid`、`example`、`tips`、`popover`、`before`、`after`
+&emsp;&emsp;扩展的快捷属性，放置在 `quickAttrs `中。例：`pureText`、`grid`、`example`、`tips`、`explain`、`before`、`after`
 
 ::: demo 
 /demos/2_组件_comp/2_表单_form/1_BaseForm 基础表单/3_QuickAttrs.vue
