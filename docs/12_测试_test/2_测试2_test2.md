@@ -102,5 +102,5 @@
 ## 类型声明
 
 ::: details
-<<< E:\Quick-Admin\quick_admin_vue3/src/core/components/crud/BaseCrud/_types.ts
+<<< C:\项目\quick_admin_vue3/src/core/components/crud/BaseCrud/_types.ts
 :::  
