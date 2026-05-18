@@ -13,7 +13,7 @@
 
 1. 是一款对**开发体验、用户体验、扩展维护、工程移植、程序性能、开发效率**不断**追求极致**的中后台管理系统框架。
 2. 采用最新技术栈：Vite5.4 + Vue3.5 + Pinia + TypeScript + ElementPlus + Eslint + Prettier + LsLint + Husky。
-3. <span style="color:red">最新代码仓库地址</span>：[https://gitee.com/fanlichuan/quick-admin-vue3-core](https://gitee.com/fanlichuan/quick-admin-vue3-core)
+3. **最新代码仓库地址**：[https://gitee.com/fanlichuan/quick-admin-vue3-core](https://gitee.com/fanlichuan/quick-admin-vue3-core)
 
 ### 亮点
 
