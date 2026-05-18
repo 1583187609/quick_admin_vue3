@@ -146,19 +146,19 @@
 
 <!-- ![功能图示-7-4](./public/static/imgs/produce/produce-7-4.png) -->
 
-7. 全栈低码计划：
+7. 全栈低码开发：
 
-（1）一站式前后端低码设计方案：Node + MySql
+（1）一站式前后端低码设计方案示例：Node + MySql
 
-[点击查看仓库](https://gitee.com/fanlichuan/easy-note)
+仓库地址：[https://gitee.com/fanlichuan/easy-note](https://gitee.com/fanlichuan/easy-note)
 
 建立模板（mysql 字段、表单项、表格列）-> 设计方案（简版 JSON：含数据库表、查询表单项、查询表格列、新增/编辑表单列设计）-> 解析成标准 JSON -> 前端解析 JSON，页面渲染
 
 ![功能图示-8](./public/static/imgs/produce/produce-8.png)
 
-（2）go 后端快速开发框架：Go + Gin + PostgresSql/MySql + 内存/Redis 缓存 + 插拔式设计，延续 Quick Admin 风格
+（2）go 后端快速开发框架（延续 Quick Admin 风格）：Go + Gin + PostgresSql/MySql + 内存/Redis 缓存 + 插拔式设计
 
-[点击查看仓库](https://gitee.com/fanlichuan/quick-driver)
+仓库地址：[https://gitee.com/fanlichuan/quick-driver](https://gitee.com/fanlichuan/quick-driver)
 
 ## 安装步骤
 
