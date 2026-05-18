@@ -34,7 +34,7 @@
 
 ## 地址链接
 
-### Vue3 版（初版已经过一个完整企业级项目验证，升级版已改造完成）
+### Vue3 版（已经历两次重大升级改造、三个完整企业级项目验证）
 
 在线预览：[自用站点](https://quickadmin.kongjz.com/#/login)（最新，推荐）、[Github](https://1583187609.github.io/quick_admin/vue3/preview/#/login)（旧版，国外服务，初次加载较慢）、~~[Gitee](https://fanlichuan.gitee.io/quick_admin/vue3/preview/#/login)（暂不可用，服务维护升级）~~
 
@@ -52,7 +52,7 @@
 
 ## 快速了解
 
-### 特性：全继承 + 易使用 + 高内聚 + 低耦合 + 活配置 + 强扩展 + 低代码 + 高效率 + 严统一
+### 全继承 + 易使用 + 高内聚 + 低耦合 + 活配置 + 强扩展 + 低代码 + 高效率 + 严统一
 
 - **全继承 + 易使用**：完全继承 ElementPlus 组件属性；命名语义清晰；免写基础逻辑；逻辑解耦……
 - **高内聚 + 低耦合**：单一原则、细粒度化、灵活组合、可配置性。
@@ -107,8 +107,10 @@
 
 8. **低码方案**：
 
-- 可视化配置 JSON 数据，通过 Node 生成 vue 文件
-- 通过配置好页面模板、模块模板，则可批量生成文件、文件夹
+- 预设代码片段：Vs Code 编辑器内置代码片段，输入关键词即可快速生成代码模板
+- 可视化低码平台：配置极简 JSON ，通过本地 Node 服务生成 .vue, .ts 文件
+- Node 脚本命令：通过配置好页面模板、模块模板，输入 npm 命令即可批量生成文件
+- AI 生成：待完善
 
 ## 功能图例
 
@@ -144,11 +146,19 @@
 
 <!-- ![功能图示-7-4](./public/static/imgs/produce/produce-7-4.png) -->
 
-7. 后续低码计划：一站式前后端低码设计方案（[点击查看仓库](https://gitee.com/fanlichuan/easy-note)）
+7. 全栈低码计划：
+
+（1）一站式前后端低码设计方案：Node + MySql
+
+[点击查看仓库](https://gitee.com/fanlichuan/easy-note)
 
 建立模板（mysql 字段、表单项、表格列）-> 设计方案（简版 JSON：含数据库表、查询表单项、查询表格列、新增/编辑表单列设计）-> 解析成标准 JSON -> 前端解析 JSON，页面渲染
 
 ![功能图示-8](./public/static/imgs/produce/produce-8.png)
+
+（2）go 后端快速开发框架：Go + Gin + PostgresSql/MySql + 内存/Redis 缓存 + 插拔式设计，延续 Quick Admin 风格
+
+[点击查看仓库](https://gitee.com/fanlichuan/quick-driver)
 
 ## 安装步骤
 
